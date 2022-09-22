@@ -16,7 +16,7 @@ import { useAuditQuery } from "../../utils/query";
 import AuditContextProvider, { useAuditContext } from "../../hooks/context";
 import { PublishedRoots, getArweavePublishedRoots } from "../../utils/arweave";
 
-interface ViewerProps {
+export interface ViewerProps {
   logs: Audit.AuditRecords;
   root?: Audit.Root;
   loading: boolean;
@@ -85,7 +85,7 @@ const AuditLogViewer: FC<ViewerProps> = ({
   );
 };
 
-interface Props {
+export interface AuditLogViewerProps {
   search: (body: Audit.SearchRequest) => Promise<Audit.SearchResponse>;
   fetchResults: (body: Audit.ResultRequest) => Promise<Audit.ResultResponse>;
   fetchRoot: (body: Audit.RootRequest) => Promise<Audit.RootResponse>;
@@ -97,7 +97,7 @@ interface Props {
   visibilityModel?: Partial<Record<keyof Audit.AuditRecord, boolean>>;
 }
 
-const AuditLogViewerWithProvider: FC<Props> = ({
+const AuditLogViewerWithProvider: FC<AuditLogViewerProps> = ({
   search,
   fetchResults,
   fetchRoot,

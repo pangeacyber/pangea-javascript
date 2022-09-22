@@ -1,4 +1,5 @@
 import { FC, useState, useRef, CSSProperties, useEffect } from "react";
+import { useTheme } from "@mui/material/styles";
 import {
   DragDropContext,
   Droppable,
@@ -59,6 +60,7 @@ const getDraggingStyle = (
 };
 
 const AuditColumnsSettingButton = () => {
+  const theme = useTheme();
   const [open, setOpen] = useState(false);
   const buttonRef = useRef(null);
   const { visibility, setVisibility, order, setOrder } = useAuditContext();
@@ -143,8 +145,7 @@ const AuditColumnsSettingButton = () => {
                                       sx={{
                                         padding: "8px",
                                         "&.MuiCheckbox-root": {
-                                          // FIXME: Color ActionActive
-                                          color: "blue"
+                                          color: theme.palette.action.active
                                         },
                                       }}
                                       checked={get(vis_, auditField, false)}

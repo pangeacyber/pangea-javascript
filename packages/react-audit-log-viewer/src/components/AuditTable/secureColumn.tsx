@@ -1,5 +1,6 @@
 import React, { FC, useState, useRef } from "react";
 import pick from "lodash/pick";
+import { useTheme } from "@mui/material/styles";
 
 import CancelOutlinedIcon from "@mui/icons-material/CancelOutlined";
 import CheckCircleOutlinedIcon from "@mui/icons-material/CheckCircleOutlined";
@@ -240,6 +241,7 @@ export const AuditSecureColumn: GridColDef = {
     );
   },
   renderCell: (params) => {
+    const theme = useTheme()
     const {
       isMembershipValid,
       root,
@@ -262,7 +264,7 @@ export const AuditSecureColumn: GridColDef = {
         <Box
           sx={{
             backgroundColor: isConsistentWithPrevious
-              ? "green" // FIXME: Custom success color
+              ? theme.palette.success.main
               : "transparent",
             width: "1px",
             display: "flex",
@@ -281,7 +283,7 @@ export const AuditSecureColumn: GridColDef = {
         <Box
           sx={{
             backgroundColor: isConsistentWithNext
-              ? "green" // FIXME: Custom success color
+              ? theme.palette.success.main
               : "transparent",
             width: "1px",
             display: "flex",

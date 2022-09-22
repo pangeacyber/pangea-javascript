@@ -1,5 +1,6 @@
 import { FC } from "react";
 import { Stack, Box } from "@mui/material";
+import { useTheme } from "@mui/material/styles";
 
 import { Audit } from "../../types";
 
@@ -12,6 +13,7 @@ interface Props {
 }
 
 const AuditPreviewRow: FC<Props> = ({ record }) => {
+  const theme = useTheme()
   const { visibilityModel } = useAuditContext();
   const { isConsistentWithNext } = useVerification(record);
 
@@ -23,8 +25,8 @@ const AuditPreviewRow: FC<Props> = ({ record }) => {
       padding={1}
       pl="19.5px"
       mb={0.5}
+      className="PangeaDataGrid-ExpansionRow"
       sx={{
-        backgroundColor: "black", // FIXME Colors TableHeader
         display: "grid",
         borderBottomLeftRadius: "4px",
         borderBottomRightRadius: "4px",
@@ -34,7 +36,7 @@ const AuditPreviewRow: FC<Props> = ({ record }) => {
         <Box
           sx={{
             backgroundColor: isConsistentWithNext
-              ? "green" // FIXME: Colors SuccessGreen
+              ? theme.palette.success.main
               : "transparent",
             width: "1px!important",
             display: "flex",
