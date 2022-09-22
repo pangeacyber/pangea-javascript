@@ -148,7 +148,6 @@ const PangeaDataGrid: PangeaDataGridPropsTyped = ({
               border: "none",
               color: theme.palette.text.secondary,
               ".MuiDataGrid-columnHeaders": {
-                backgroundColor: "#000", // FIXME: Shared color
                 color: theme.palette.text.secondary,
                 textTransform: "uppercase",
                 fontFamily: "Kanit",
@@ -171,7 +170,6 @@ const PangeaDataGrid: PangeaDataGridPropsTyped = ({
                 borderRadius: "4px",
               },
               ".MuiDataGrid-row.Mui-selected": {
-                backgroundColor: "#000", // FIXME: Shared color
                 borderTopLeftRadius: "4px",
                 borderTopRightRadius: "4px",
                 borderBottomLeftRadius: 0,
@@ -196,7 +194,6 @@ const PangeaDataGrid: PangeaDataGridPropsTyped = ({
               ".MuiDataGrid-row,.MuiDataGrid-row.Mui-selected": {
                 ":hover": {
                   cursor: "default",
-                  backgroundColor: "#000", // FIXME: Shared color
                 },
               },
               ...(isRowClickable

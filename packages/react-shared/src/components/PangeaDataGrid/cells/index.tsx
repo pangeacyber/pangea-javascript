@@ -72,10 +72,9 @@ export const MultiSelectCell: FC<CellProps> = ({ params }) => {
             <Chip
               size="small"
               key={`${params.id}-chip-${v}-${i}`}
+              className={"PangeaDataGrid-Chip"}
               sx={{
                 color: "text.secondary",
-                // FIXME: Shared-color
-                backgroundColor: "#000",
               }}
               label={v}
             />

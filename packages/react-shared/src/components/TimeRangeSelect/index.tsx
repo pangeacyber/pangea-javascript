@@ -123,8 +123,7 @@ const TimeRangeSelect: FC<Props> = ({
           ...buttonProps.sx,
           ...(open
             ? {
-                // FIXME: Border color needs to come from theme
-                borderColor: "blue",
+                borderColor: theme.palette.divider,
                 borderLeft: "solid",
                 marginLeft: "-1px",
               }
