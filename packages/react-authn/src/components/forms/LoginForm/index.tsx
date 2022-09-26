@@ -4,6 +4,7 @@ import { FC, MouseEventHandler, useState } from "react";
 import {
   Box,
   Button,
+  Divider,
   FormControl,
   FormHelperText,
   Grid,
@@ -74,7 +75,7 @@ const LoginForm: FC<LoginFormProps> = ({
   return (
     <Grid container direction="column" justifyContent="right">
       <Grid item alignItems="center" justifyContent="left">
-        <Typography variant="h6" sx={{ textAlign: "center" }}>
+        <Typography variant="h4" sx={{ textAlign: "center" }}>
           {formTitle}
         </Typography>
       </Grid>
@@ -110,7 +111,6 @@ const LoginForm: FC<LoginFormProps> = ({
                 onBlur={handleBlur}
                 onChange={handleChange}
                 inputProps={{}}
-                size="small"
                 label="Email"
               />
               {touched.username && errors.username && (
@@ -123,9 +123,10 @@ const LoginForm: FC<LoginFormProps> = ({
               )}
             </FormControl>
             <FormControl
-              sx={{ m: 1 }} 
-              variant="outlined"
+              fullWidth
               error={Boolean(touched.password && errors.password)}
+              variant="outlined"
+              sx={{ mt: 2 }} 
             >
               <InputLabel htmlFor="outlined-adornment-password">Password</InputLabel>
               <OutlinedInput
@@ -182,9 +183,11 @@ const LoginForm: FC<LoginFormProps> = ({
       </Formik>
 
       <Stack spacing={1.5} sx={{ textAlign: "center" }} mt={2} mb={2}>
-        <Typography variant="overline">
-          {socialTitle}          
-        </Typography>
+        <Stack direction="row" spacing={1} alignItems="center">
+          <Divider sx={{ flexGrow: 1 }} />
+          <Typography variant="overline">{socialTitle}</Typography>
+          <Divider sx={{ flexGrow: 1 }} />
+        </Stack>
         <Button variant="outlined" color="secondary" fullWidth>
           Sign in with Google
         </Button>

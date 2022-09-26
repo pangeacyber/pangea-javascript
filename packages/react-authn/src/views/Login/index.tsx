@@ -3,8 +3,8 @@ import { FC } from "react";
 import { SxProps } from "@mui/system";
 import { ThemeOptions } from "@mui/material/styles";
 
-import AuthNLayout from "../../components/Layout";
-import LoginForm from "../../forms/LoginForm";
+import AuthNLayout from "@src/components/core/Layout";
+import LoginForm from "@src/components/forms/LoginForm";
 
 interface LoginViewProps {
   config: any;  // TODO: add shared interface

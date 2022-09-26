@@ -3,8 +3,8 @@ import { FC } from "react";
 import { SxProps } from "@mui/system";
 import { ThemeOptions } from "@mui/material/styles";
 
-import AuthNLayout from "../../components/Layout";
-import CodeForm from "../../forms/CodeForm";
+import AuthNLayout from "@src/components/core/Layout";
+import CodeForm from "@src/components/forms/CodeForm";
 
 interface OtpViewProps {
   config: any;  // TODO: add shared interface
@@ -18,6 +18,9 @@ const OtpView: FC<OtpViewProps> = ({
   sx, 
   ...props
 }) => {
+  const formTitle = "Let's verify it's you";
+  const bodyContent = "A six digit code was sent to *******5309. Enter the code below.";
+
   return (
     <AuthNLayout
     logoUrl={config?.logoUrl}
@@ -25,9 +28,11 @@ const OtpView: FC<OtpViewProps> = ({
     themeOptions={themeOptions}
     sx={sx}
     >
-      <CodeForm
-       {...props} 
-      />
+      <CodeForm    
+        formTitle={formTitle}
+        bodyContent={bodyContent} 
+        {...props} 
+      />      
     </AuthNLayout>
   );
 }

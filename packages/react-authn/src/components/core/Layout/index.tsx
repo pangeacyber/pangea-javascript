@@ -30,7 +30,7 @@ const AuthNLayout: FC<LayoutProps> = ({ companyName, logoUrl, children }) => {
       }}
     >
       <Stack spacing={2}>
-        {logoUrl && <LogoBox url={logoUrl} maxHeight="60px" />}
+        {logoUrl && <LogoBox url={logoUrl} />}
         {companyName && <Typography variant="h3">{companyName}</Typography>}
         {children}
       </Stack>

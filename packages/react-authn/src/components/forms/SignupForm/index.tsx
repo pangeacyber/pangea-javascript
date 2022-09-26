@@ -3,6 +3,7 @@ import { FC, MouseEventHandler, useState } from "react";
 import {
   Box,
   Button,
+  Divider,
   FormControl,
   FormHelperText,
   Grid,
@@ -80,7 +81,7 @@ const SignupForm: FC<SignupFormProps> = ({
   return (
     <Grid container direction="column">
       <Grid item mb={2}>
-        <Typography variant="h6" sx={{ textAlign: "center" }}>
+        <Typography variant="h4" sx={{ textAlign: "center" }}>
           {formTitle}
         </Typography>
       </Grid>
@@ -113,7 +114,6 @@ const SignupForm: FC<SignupFormProps> = ({
                   onBlur={handleBlur}
                   onChange={handleChange}
                   inputProps={{}}
-                  size="small"
                   variant="outlined"
                 />
                 {touched.first_name && errors.first_name && (
@@ -136,7 +136,6 @@ const SignupForm: FC<SignupFormProps> = ({
                   onBlur={handleBlur}
                   onChange={handleChange}
                   inputProps={{}}
-                  size="small"
                   variant="outlined"
                 />
                 {touched.last_name && errors.last_name && (
@@ -153,9 +152,10 @@ const SignupForm: FC<SignupFormProps> = ({
               fullWidth
               error={Boolean(touched.email && errors.email)}
               variant="outlined"
+              sx={{ mt: 2 }}
             >
               <InputLabel htmlFor="outlined-adornment-email-register">
-                Email Address
+                Email
               </InputLabel>
               <OutlinedInput
                 id="outlined-adornment-email-register"
@@ -165,8 +165,8 @@ const SignupForm: FC<SignupFormProps> = ({
                 onBlur={handleBlur}
                 onChange={handleChange}
                 inputProps={{}}
-                placeholder="Email Address"
-                size="small"
+                placeholder="Email"
+                label="Email"
               />
               {touched.email && errors.email && (
                 <FormHelperText
@@ -182,9 +182,10 @@ const SignupForm: FC<SignupFormProps> = ({
               fullWidth
               error={Boolean(touched.password && errors.password)}
               variant="outlined"
+              sx={{ mt: 2 }}
             >
               <InputLabel htmlFor="outlined-adornment-password-register">
-                Password"
+                Password
               </InputLabel>
               <OutlinedInput
                 id="outlined-adornment-password-register"
@@ -203,14 +204,13 @@ const SignupForm: FC<SignupFormProps> = ({
                       onClick={handleClickShowPassword}
                       onMouseDown={handleMouseDownPassword}
                       edge="end"
-                      size="small"
                     >
                       {showPassword ? <Visibility /> : <VisibilityOff />}
                     </IconButton>
                   </InputAdornment>
                 }
                 inputProps={{}}
-                size="small"
+                label="Password"
               />
               {touched.password && errors.password && (
                 <FormHelperText
@@ -230,27 +230,29 @@ const SignupForm: FC<SignupFormProps> = ({
             )}
 
             <Box sx={{ mt: 2 }}>
-                <Button
-                  disableElevation
-                  disableRipple
-                  disabled={isSubmitting}
-                  fullWidth
-                  size="medium"
-                  type="submit"
-                  variant={buttonVariant}
-                  color="primary"
-                >
-                  {submitLabel}
-                </Button>
+              <Button
+                disableElevation
+                disableRipple
+                disabled={isSubmitting}
+                fullWidth
+                size="medium"
+                type="submit"
+                variant={buttonVariant}
+                color="primary"
+              >
+                {submitLabel}
+              </Button>
             </Box>
           </form>
         )}
       </Formik>
 
       <Stack spacing={1.5} sx={{ textAlign: "center" }} mt={2} mb={2}>
-        <Typography variant="overline">
-          {socialTitle}          
-        </Typography>
+        <Stack direction="row" spacing={1} alignItems="center">
+          <Divider sx={{ flexGrow: 1 }} />
+          <Typography variant="overline">{socialTitle}</Typography>
+          <Divider sx={{ flexGrow: 1 }} />
+        </Stack>
         <Button variant="outlined" color="secondary" fullWidth>
           Sign up with Google
         </Button>

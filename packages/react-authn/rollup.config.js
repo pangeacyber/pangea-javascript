@@ -1,6 +1,5 @@
 // /rollup.config.js
 import resolve from "@rollup/plugin-node-resolve";
-import { babel } from "@rollup/plugin-babel";
 import external from "rollup-plugin-peer-deps-external";
 import { terser } from "rollup-plugin-terser";
 import postcss from "rollup-plugin-postcss";
