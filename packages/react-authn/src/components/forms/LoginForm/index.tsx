@@ -26,17 +26,15 @@ import {
 } from "@mui/icons-material";
 
 interface LoginFormProps {
-  formTitle?: string;
-  socialTitle?: string;
+  formHeading?: string;
+  socialHeading?: string;
   submitLabel?: string;
-  buttonVariant?: "contained" | "outlined" | "text",
 }
 
 const LoginForm: FC<LoginFormProps> = ({
-  formTitle = "Sign in",
-  socialTitle = "Other ways to Sign in",
-  submitLabel = "Create account",
-  buttonVariant = "contained"
+  formHeading = "Sign in",
+  socialHeading = "Other ways to Sign in",
+  submitLabel = "Create account"
 }) => {
   const [showPassword, setShowPassword] = useState(false);
 
@@ -73,10 +71,10 @@ const LoginForm: FC<LoginFormProps> = ({
   };
 
   return (
-    <Grid container direction="column" justifyContent="right">
-      <Grid item alignItems="center" justifyContent="left">
-        <Typography variant="h4" sx={{ textAlign: "center" }}>
-          {formTitle}
+    <Grid container direction="column">
+      <Grid item mb={2}>
+        <Typography variant="h5" sx={{ textAlign: "center" }}>
+          {formHeading}
         </Typography>
       </Grid>
 
@@ -172,7 +170,6 @@ const LoginForm: FC<LoginFormProps> = ({
                 fullWidth
                 size="medium"
                 type="submit"
-                variant={buttonVariant}
                 color="primary"
               >
                 {submitLabel}
@@ -185,7 +182,7 @@ const LoginForm: FC<LoginFormProps> = ({
       <Stack spacing={1.5} sx={{ textAlign: "center" }} mt={2} mb={2}>
         <Stack direction="row" spacing={1} alignItems="center">
           <Divider sx={{ flexGrow: 1 }} />
-          <Typography variant="overline">{socialTitle}</Typography>
+          <Typography variant="overline">{socialHeading}</Typography>
           <Divider sx={{ flexGrow: 1 }} />
         </Stack>
         <Button variant="outlined" color="secondary" fullWidth>

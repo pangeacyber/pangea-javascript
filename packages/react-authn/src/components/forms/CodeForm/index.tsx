@@ -15,9 +15,14 @@ import CodeField from "@src/components/fields/CodeField";
 interface CodeProps {
   formTitle?: string;
   bodyContent?: string;
+  submitLabel?: string;
 };
 
-const CodeForm: FC<CodeProps> = ({ formTitle = "", bodyContent = "" }) => {
+const CodeForm: FC<CodeProps> = ({ 
+  formTitle = "",
+  bodyContent = "",
+  submitLabel = ""
+}) => {
   const [submitting, setSubmitting] = useState(false);
   const formik = useFormik({
     initialValues: {
@@ -53,7 +58,6 @@ const CodeForm: FC<CodeProps> = ({ formTitle = "", bodyContent = "" }) => {
       </form>
       <Button
         id="confirm-modal-btn"
-        variant="contained"
         color="primary"
         type="submit"
         disableRipple
@@ -64,7 +68,7 @@ const CodeForm: FC<CodeProps> = ({ formTitle = "", bodyContent = "" }) => {
         {submitting ? (
           "Sending..."
         ) : (
-          "Submit"
+          submitLabel
         )}
       </Button>
       <Stack spacing={1} sx={{ mt: 4 }}>

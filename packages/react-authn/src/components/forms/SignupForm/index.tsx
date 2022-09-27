@@ -26,17 +26,15 @@ import {
 } from "@mui/icons-material";
 
 interface SignupFormProps {
-  formTitle?: string;
-  socialTitle?: string;
+  formHeading?: string;
+  socialHeading?: string;
   submitLabel?: string;
-  buttonVariant?: "contained" | "outlined",
 };
 
 const SignupForm: FC<SignupFormProps> = ({
-  formTitle = "Create your account",
-  socialTitle = "Other Sign Up Options",
-  submitLabel = "Create account",
-  buttonVariant = "contained"
+  formHeading = "Create your account",
+  socialHeading = "Other Sign Up Options",
+  submitLabel = "Create account"
 }) => {
   const [showPassword, setShowPassword] = useState<boolean>(false);
 
@@ -81,8 +79,8 @@ const SignupForm: FC<SignupFormProps> = ({
   return (
     <Grid container direction="column">
       <Grid item mb={2}>
-        <Typography variant="h4" sx={{ textAlign: "center" }}>
-          {formTitle}
+        <Typography variant="h5" sx={{ textAlign: "center" }}>
+          {formHeading}
         </Typography>
       </Grid>
 
@@ -237,7 +235,6 @@ const SignupForm: FC<SignupFormProps> = ({
                 fullWidth
                 size="medium"
                 type="submit"
-                variant={buttonVariant}
                 color="primary"
               >
                 {submitLabel}
@@ -250,7 +247,7 @@ const SignupForm: FC<SignupFormProps> = ({
       <Stack spacing={1.5} sx={{ textAlign: "center" }} mt={2} mb={2}>
         <Stack direction="row" spacing={1} alignItems="center">
           <Divider sx={{ flexGrow: 1 }} />
-          <Typography variant="overline">{socialTitle}</Typography>
+          <Typography variant="overline">{socialHeading}</Typography>
           <Divider sx={{ flexGrow: 1 }} />
         </Stack>
         <Button variant="outlined" color="secondary" fullWidth>

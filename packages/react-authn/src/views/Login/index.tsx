@@ -3,7 +3,7 @@ import { FC } from "react";
 import { SxProps } from "@mui/system";
 import { ThemeOptions } from "@mui/material/styles";
 
-import AuthNLayout from "@src/components/core/Layout";
+import AuthNPanel from "@src/components/core/Panel";
 import LoginForm from "@src/components/forms/LoginForm";
 
 interface LoginViewProps {
@@ -19,16 +19,19 @@ const LoginView: FC<LoginViewProps> = ({
   ...props 
 }) => {
   return (
-    <AuthNLayout
+    <AuthNPanel
       logoUrl={config?.logoUrl}
       companyName={config?.orgName}
+      backgroundImage={config?.backgroundImage}
       themeOptions={themeOptions}
       sx={sx}
     >
       <LoginForm
-        {...props}
+        formHeading={config?.loginFormHeading}
+        submitLabel={config?.loginSubmitButtonLabel}
+        socialHeading={config?.loginFormSocialHeading}
       />
-    </AuthNLayout>
+    </AuthNPanel>
   );
 }
 

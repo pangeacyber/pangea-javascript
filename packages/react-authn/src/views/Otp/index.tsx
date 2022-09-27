@@ -3,7 +3,7 @@ import { FC } from "react";
 import { SxProps } from "@mui/system";
 import { ThemeOptions } from "@mui/material/styles";
 
-import AuthNLayout from "@src/components/core/Layout";
+import AuthNPanel from "@src/components/core/Panel";
 import CodeForm from "@src/components/forms/CodeForm";
 
 interface OtpViewProps {
@@ -22,18 +22,19 @@ const OtpView: FC<OtpViewProps> = ({
   const bodyContent = "A six digit code was sent to *******5309. Enter the code below.";
 
   return (
-    <AuthNLayout
-    logoUrl={config?.logoUrl}
-    companyName={config?.orgName}
-    themeOptions={themeOptions}
-    sx={sx}
+    <AuthNPanel
+      logoUrl={config?.logoUrl}
+      companyName={config?.orgName}
+      backgroundImage={config?.backgroundImage}
+      themeOptions={themeOptions}
+      sx={sx}
     >
       <CodeForm    
         formTitle={formTitle}
-        bodyContent={bodyContent} 
-        {...props} 
+        bodyContent={bodyContent}
+        submitLabel={config?.otpFormSubmitLabel}
       />      
-    </AuthNLayout>
+    </AuthNPanel>
   );
 }
 
