@@ -12,7 +12,12 @@ import {
 } from "@mui/material";
 import FilterAltOutlinedIcon from "@mui/icons-material/FilterAltOutlined";
 
-import { PopoutCard, ConditionalAutocomplete, TimeRangeSelect, useInternalState } from "@pangeacyber/react-shared";
+import {
+  PopoutCard,
+  ConditionalAutocomplete,
+  TimeRangeSelect,
+  useInternalState,
+} from "@pangeacyber/react-shared";
 
 import AuditColumnsSettingButton from "../AuditColumnsPanel";
 import { AuditQuery } from "../../utils/query";

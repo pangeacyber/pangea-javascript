@@ -14,7 +14,7 @@ import { useAuditContext, usePagination } from "../../hooks/context";
 import { Sort } from "../../utils/query";
 
 import { useFormSchemaColumns } from "../../hooks";
-import { PangeaDataGrid } from "@pangeacyber/react-shared"
+import { PangeaDataGrid } from "@pangeacyber/react-shared";
 
 enum AuditTableView {
   Preview = "preview",

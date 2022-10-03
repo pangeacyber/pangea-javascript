@@ -1,11 +1,6 @@
 import { FC, useState } from "react";
 
-import {
-  Button,
-  Link,
-  Stack,
-  Typography,
-} from "@mui/material";
+import { Button, Link, Stack, Typography } from "@mui/material";
 
 import * as yup from "yup";
 import { useFormik } from "formik";
@@ -16,12 +11,12 @@ interface CodeProps {
   formTitle?: string;
   bodyContent?: string;
   submitLabel?: string;
-};
+}
 
-const CodeForm: FC<CodeProps> = ({ 
+const CodeForm: FC<CodeProps> = ({
   formTitle = "",
   bodyContent = "",
-  submitLabel = "Submit"
+  submitLabel = "Submit",
 }) => {
   const [submitting, setSubmitting] = useState(false);
   const formik = useFormik({
@@ -44,8 +39,16 @@ const CodeForm: FC<CodeProps> = ({
 
   return (
     <Stack>
-      {formTitle && <Typography variant="h5" sx={{ mb: 4, fontWeight: "600" }}>{formTitle}</Typography>}
-      {bodyContent && <Typography variant="body2" sx={{ mb: 2 }}>{bodyContent}</Typography>}
+      {formTitle && (
+        <Typography variant="h5" sx={{ mb: 4, fontWeight: "600" }}>
+          {formTitle}
+        </Typography>
+      )}
+      {bodyContent && (
+        <Typography variant="body2" sx={{ mb: 2 }}>
+          {bodyContent}
+        </Typography>
+      )}
 
       <form onSubmit={formik.handleSubmit}>
         <CodeField
@@ -65,33 +68,22 @@ const CodeForm: FC<CodeProps> = ({
         disabled={!isPotentialValidCode || submitting}
         sx={{ mt: 2 }}
       >
-        {submitting ? (
-          "Sending..."
-        ) : (
-          submitLabel
-        )}
+        {submitting ? "Sending..." : submitLabel}
       </Button>
       <Stack spacing={1} sx={{ mt: 4 }}>
         <Typography variant="caption">
-          <Link
-            underline="none"
-            href="#"
-          >
+          <Link underline="none" href="#">
             Send me a new code
           </Link>
         </Typography>
         <Typography variant="caption">
-          <Link
-            underline="none"
-            href="#"
-          >
+          <Link underline="none" href="#">
             Choose another way
           </Link>
         </Typography>
       </Stack>
     </Stack>
-  )
+  );
 };
-
 
 export default CodeForm;

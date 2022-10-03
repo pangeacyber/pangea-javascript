@@ -145,7 +145,7 @@ const AuditColumnsSettingButton = () => {
                                       sx={{
                                         padding: "8px",
                                         "&.MuiCheckbox-root": {
-                                          color: theme.palette.action.active
+                                          color: theme.palette.action.active,
                                         },
                                       }}
                                       checked={get(vis_, auditField, false)}

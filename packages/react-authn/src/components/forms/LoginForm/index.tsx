@@ -20,10 +20,7 @@ import {
 import * as Yup from "yup";
 import { Formik, FormikHelpers } from "formik";
 
-import {
-  Visibility,
-  VisibilityOff
-} from "@mui/icons-material";
+import { Visibility, VisibilityOff } from "@mui/icons-material";
 
 interface LoginFormProps {
   formHeading?: string;
@@ -34,7 +31,7 @@ interface LoginFormProps {
 const LoginForm: FC<LoginFormProps> = ({
   formHeading = "Sign in",
   socialHeading = "Other ways to Sign in",
-  submitLabel = "Sign in"
+  submitLabel = "Sign in",
 }) => {
   const [showPassword, setShowPassword] = useState(false);
 
@@ -57,9 +54,7 @@ const LoginForm: FC<LoginFormProps> = ({
       .email("Must be a valid email")
       .max(255)
       .required("Email is required"),
-    password: Yup.string()
-      .max(255)
-      .required("Password is required"),
+    password: Yup.string().max(255).required("Password is required"),
   });
 
   const handleSubmit = (values: any, actions: FormikHelpers<any>) => {
@@ -73,7 +68,10 @@ const LoginForm: FC<LoginFormProps> = ({
   return (
     <Grid container direction="column">
       <Grid item mb={4}>
-        <Typography variant="h5" sx={{ textAlign: "center", fontWeight: "600" }}>
+        <Typography
+          variant="h5"
+          sx={{ textAlign: "center", fontWeight: "600" }}
+        >
           {formHeading}
         </Typography>
       </Grid>
@@ -124,14 +122,16 @@ const LoginForm: FC<LoginFormProps> = ({
               fullWidth
               error={Boolean(touched.password && errors.password)}
               variant="outlined"
-              sx={{ mt: 2 }} 
+              sx={{ mt: 2 }}
             >
-              <InputLabel htmlFor="outlined-adornment-password">Password</InputLabel>
+              <InputLabel htmlFor="outlined-adornment-password">
+                Password
+              </InputLabel>
               <OutlinedInput
                 id="outlined-adornment-password"
-                type={showPassword ? 'text' : 'password'}
+                type={showPassword ? "text" : "password"}
                 value={values.password}
-                onChange={handleChange('password')}
+                onChange={handleChange("password")}
                 endAdornment={
                   <InputAdornment position="end">
                     <IconButton

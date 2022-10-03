@@ -13,7 +13,7 @@ interface Props {
 }
 
 const AuditPreviewRow: FC<Props> = ({ record }) => {
-  const theme = useTheme()
+  const theme = useTheme();
   const { visibilityModel } = useAuditContext();
   const { isConsistentWithNext } = useVerification(record);
 

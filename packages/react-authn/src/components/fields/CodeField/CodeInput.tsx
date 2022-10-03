@@ -18,7 +18,7 @@ const CodeInput: FC<CodeInputProps> = ({
   const theme = useTheme();
   const [values, setValues] = useState<Record<number, string>>({});
   const inputRefs = useRef<Record<number, HTMLDivElement | null>>({});
-  const inputs = Array(0,1,2,3,4,5);
+  const inputs = Array(0, 1, 2, 3, 4, 5);
 
   useEffect(() => {
     const newValue = Object.keys(values)

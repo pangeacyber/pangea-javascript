@@ -20,21 +20,18 @@ import {
 import * as Yup from "yup";
 import { Formik, FormikHelpers } from "formik";
 
-import {
-  Visibility,
-  VisibilityOff
-} from "@mui/icons-material";
+import { Visibility, VisibilityOff } from "@mui/icons-material";
 
 interface SignupFormProps {
   formHeading?: string;
   socialHeading?: string;
   submitLabel?: string;
-};
+}
 
 const SignupForm: FC<SignupFormProps> = ({
   formHeading = "Create your account",
   socialHeading = "Other Sign Up Options",
-  submitLabel = "Create account"
+  submitLabel = "Create account",
 }) => {
   const [showPassword, setShowPassword] = useState<boolean>(false);
 
@@ -79,7 +76,10 @@ const SignupForm: FC<SignupFormProps> = ({
   return (
     <Grid container direction="column">
       <Grid item mb={3}>
-        <Typography variant="h5" sx={{ textAlign: "center", fontWeight: "600" }}>
+        <Typography
+          variant="h5"
+          sx={{ textAlign: "center", fontWeight: "600" }}
+        >
           {formHeading}
         </Typography>
       </Grid>
@@ -267,8 +267,7 @@ const SignupForm: FC<SignupFormProps> = ({
         xs={12}
       >
         <Typography variant="caption">
-          Already have an account?
-          {" "}
+          Already have an account?{" "}
           <Link href="#" underline="none">
             Sign in here
           </Link>

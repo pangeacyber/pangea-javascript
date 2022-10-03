@@ -81,7 +81,9 @@ const BasicTabs: FC<BasicTabsProps> = ({
         id: child.props.id,
         label: child.props.label,
       });
-      return React.cloneElement<any>(child, { currentId: currentId || tabs[0].id });
+      return React.cloneElement<any>(child, {
+        currentId: currentId || tabs[0].id,
+      });
     }
     return child;
   });

@@ -1,0 +1,22 @@
+stages:
+  - Lint
+  - Unit Test
+  - Integration Test
+  - Publish
+  - Test Public
+
+.packages_base:
+  image: node
+  before_script:
+    - yarn install
+  cache:
+    - key:
+        files:
+          - yarn.lock
+      paths:
+        - node_modules
+
+lint_packages:
+  extend: .packages_base
+  stage: Lint
+  script: yarn lint

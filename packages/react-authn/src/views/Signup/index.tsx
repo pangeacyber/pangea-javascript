@@ -7,16 +7,16 @@ import AuthNPanel from "@src/components/core/Panel";
 import SignupForm from "@src/components/forms/SignupForm";
 
 interface SignupViewProps {
-  config: any;  // TODO: add shared interface
+  config: any; // TODO: add shared interface
   themeOptions?: ThemeOptions;
   sx?: SxProps;
 }
 
-const SignupView: FC<SignupViewProps> = ({ 
-  config, 
-  themeOptions, 
-  sx, 
-  ...props 
+const SignupView: FC<SignupViewProps> = ({
+  config,
+  themeOptions,
+  sx,
+  ...props
 }) => {
   return (
     <AuthNPanel
@@ -26,13 +26,13 @@ const SignupView: FC<SignupViewProps> = ({
       themeOptions={themeOptions}
       sx={sx}
     >
-      <SignupForm 
+      <SignupForm
         formHeading={config?.signup_heading}
         submitLabel={config?.signup_button_label}
         socialHeading={config?.signup_social_heading}
       />
     </AuthNPanel>
   );
-}
+};
 
 export default SignupView;

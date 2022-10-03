@@ -1,12 +1,9 @@
 import { FC } from "react";
 
-import { 
-  Box,
-  Typography,
-} from "@mui/material";
+import { Box, Typography } from "@mui/material";
 
 interface LogoProps {
-  url?: string,
+  url?: string;
 }
 
 const LogoBox: FC<LogoProps> = ({ url = "" }) => {
@@ -36,7 +33,7 @@ const LogoBox: FC<LogoProps> = ({ url = "" }) => {
         </Box>
       )}
     </>
-  )
+  );
 };
 
 export default LogoBox;
