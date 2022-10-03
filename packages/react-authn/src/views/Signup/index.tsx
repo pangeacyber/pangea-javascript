@@ -20,16 +20,16 @@ const SignupView: FC<SignupViewProps> = ({
 }) => {
   return (
     <AuthNPanel
-      logoUrl={config?.logoUrl}
-      companyName={config?.orgName}
-      backgroundImage={config?.backgroundImage}
+      logoUrl={config?.org_page_logo}
+      companyName={config?.org_name}
+      backgroundImage={config?.bg_image}
       themeOptions={themeOptions}
       sx={sx}
     >
       <SignupForm
-        formHeading={config?.signupFormHeading}
-        submitLabel={config?.signupSubmitButtonLabel}
-        socialHeading={config?.signupFormSocialHeading}
+        formHeading={config?.signup_heading}
+        submitLabel={config?.signup_button_label}
+        socialHeading={config?.signup_social_heading}
       />
     </AuthNPanel>
   );

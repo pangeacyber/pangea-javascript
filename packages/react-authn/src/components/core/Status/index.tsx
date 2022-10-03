@@ -28,7 +28,7 @@ const StatusBox: FC<StatusProps> = ({
   return (
     <Stack>
       {title && (
-        <Typography variant="h5" mb={4}>
+        <Typography variant="h5" mb={4} sx={{ fontWeight: "600" }}>
           {title}
         </Typography>
       )}

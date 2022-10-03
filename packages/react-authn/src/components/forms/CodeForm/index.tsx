@@ -16,7 +16,7 @@ interface CodeProps {
 const CodeForm: FC<CodeProps> = ({
   formTitle = "",
   bodyContent = "",
-  submitLabel = "",
+  submitLabel = "Submit",
 }) => {
   const [submitting, setSubmitting] = useState(false);
   const formik = useFormik({
@@ -40,12 +40,12 @@ const CodeForm: FC<CodeProps> = ({
   return (
     <Stack>
       {formTitle && (
-        <Typography variant="h5" sx={{ mt: 1, mb: 3 }}>
+        <Typography variant="h5" sx={{ mb: 4, fontWeight: "600" }}>
           {formTitle}
         </Typography>
       )}
       {bodyContent && (
-        <Typography variant="body2" sx={{ mb: 3 }}>
+        <Typography variant="body2" sx={{ mb: 2 }}>
           {bodyContent}
         </Typography>
       )}

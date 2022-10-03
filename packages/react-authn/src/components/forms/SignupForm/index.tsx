@@ -75,8 +75,11 @@ const SignupForm: FC<SignupFormProps> = ({
 
   return (
     <Grid container direction="column">
-      <Grid item mb={2}>
-        <Typography variant="h5" sx={{ textAlign: "center" }}>
+      <Grid item mb={3}>
+        <Typography
+          variant="h5"
+          sx={{ textAlign: "center", fontWeight: "600" }}
+        >
           {formHeading}
         </Typography>
       </Grid>
@@ -147,7 +150,7 @@ const SignupForm: FC<SignupFormProps> = ({
               fullWidth
               error={Boolean(touched.email && errors.email)}
               variant="outlined"
-              sx={{ mt: 2 }}
+              sx={{ mt: 1 }}
             >
               <InputLabel htmlFor="outlined-adornment-email-register">
                 Email
@@ -219,7 +222,7 @@ const SignupForm: FC<SignupFormProps> = ({
 
             <Grid item></Grid>
             {errors.submit && (
-              <Box sx={{ mt: 3 }}>
+              <Box sx={{ mt: 2 }}>
                 <FormHelperText error>{errors.submit}</FormHelperText>
               </Box>
             )}

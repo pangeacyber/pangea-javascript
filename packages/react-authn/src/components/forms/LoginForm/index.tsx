@@ -31,7 +31,7 @@ interface LoginFormProps {
 const LoginForm: FC<LoginFormProps> = ({
   formHeading = "Sign in",
   socialHeading = "Other ways to Sign in",
-  submitLabel = "Create account",
+  submitLabel = "Sign in",
 }) => {
   const [showPassword, setShowPassword] = useState(false);
 
@@ -67,8 +67,11 @@ const LoginForm: FC<LoginFormProps> = ({
 
   return (
     <Grid container direction="column">
-      <Grid item mb={2}>
-        <Typography variant="h5" sx={{ textAlign: "center" }}>
+      <Grid item mb={4}>
+        <Typography
+          variant="h5"
+          sx={{ textAlign: "center", fontWeight: "600" }}
+        >
           {formHeading}
         </Typography>
       </Grid>
