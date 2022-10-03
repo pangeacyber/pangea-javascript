@@ -29,9 +29,9 @@ const MessageView: FC<MessageViewProps> = ({
 
   return (
     <AuthNPanel
-      logoUrl={config?.logoUrl}
-      companyName={config?.orgName}
-      backgroundImage={config?.backgroundImage}
+      logoUrl={config?.org_page_logo}
+      companyName={config?.org_name}
+      backgroundImage={config?.bg_image}
       themeOptions={themeOptions}
       sx={sx}
     >

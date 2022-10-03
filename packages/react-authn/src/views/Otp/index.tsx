@@ -23,16 +23,16 @@ const OtpView: FC<OtpViewProps> = ({
 
   return (
     <AuthNPanel
-      logoUrl={config?.logoUrl}
-      companyName={config?.orgName}
-      backgroundImage={config?.backgroundImage}
+      logoUrl={config?.org_page_logo}
+      companyName={config?.org_name}
+      backgroundImage={config?.bg_image}
       themeOptions={themeOptions}
       sx={sx}
     >
       <CodeForm    
         formTitle={formTitle}
         bodyContent={bodyContent}
-        submitLabel={config?.otpFormSubmitLabel}
+        submitLabel={config?.otp_button_label}
       />      
     </AuthNPanel>
   );

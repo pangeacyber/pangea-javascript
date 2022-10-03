@@ -32,7 +32,7 @@ const StatusBox: FC<StatusProps> = ({
 }) => {
   return (
     <Stack>
-      {title && <Typography variant="h5" mb={4}>{title}</Typography>}
+      {title && <Typography variant="h5" mb={4} sx={{ fontWeight: "600" }}>{title}</Typography>}
       {message && <Typography variant="body2" mb={4}>{message}</Typography>}
       {buttonLabel && buttonUrl && 
         <Button color="primary" sx={{ mb: 4 }}>{buttonLabel}</Button>

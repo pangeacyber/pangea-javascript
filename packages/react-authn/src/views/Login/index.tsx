@@ -20,16 +20,16 @@ const LoginView: FC<LoginViewProps> = ({
 }) => {
   return (
     <AuthNPanel
-      logoUrl={config?.logoUrl}
-      companyName={config?.orgName}
-      backgroundImage={config?.backgroundImage}
+      logoUrl={config?.org_page_logo}
+      companyName={config?.org_name}
+      backgroundImage={config?.bg_image}
       themeOptions={themeOptions}
       sx={sx}
     >
       <LoginForm
-        formHeading={config?.loginFormHeading}
-        submitLabel={config?.loginSubmitButtonLabel}
-        socialHeading={config?.loginFormSocialHeading}
+        formHeading={config?.login_heading}
+        submitLabel={config?.login_button_label}
+        socialHeading={config?.login_social_heading}
       />
     </AuthNPanel>
   );
