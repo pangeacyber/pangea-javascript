@@ -21,7 +21,10 @@ import { Audit } from "../../types";
 import { PopoutCard } from "@pangeacyber/react-shared";
 import { arweaveViewTransactionUrl } from "../../utils/arweave";
 
-const VerificationRow: FC<{ label: string, children?: React.ReactNode }> = ({ label, children }) => {
+const VerificationRow: FC<{ label: string; children?: React.ReactNode }> = ({
+  label,
+  children,
+}) => {
   return (
     <Stack
       direction="row"
@@ -241,7 +244,7 @@ export const AuditSecureColumn: GridColDef = {
     );
   },
   renderCell: (params) => {
-    const theme = useTheme()
+    const theme = useTheme();
     const {
       isMembershipValid,
       root,

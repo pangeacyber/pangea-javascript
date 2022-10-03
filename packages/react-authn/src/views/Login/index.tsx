@@ -7,16 +7,16 @@ import AuthNPanel from "@src/components/core/Panel";
 import LoginForm from "@src/components/forms/LoginForm";
 
 interface LoginViewProps {
-  config: any;  // TODO: add shared interface
+  config: any; // TODO: add shared interface
   themeOptions?: ThemeOptions;
   sx?: SxProps;
 }
 
 const LoginView: FC<LoginViewProps> = ({
   config,
-  themeOptions, 
-  sx, 
-  ...props 
+  themeOptions,
+  sx,
+  ...props
 }) => {
   return (
     <AuthNPanel
@@ -33,6 +33,6 @@ const LoginView: FC<LoginViewProps> = ({
       />
     </AuthNPanel>
   );
-}
+};
 
 export default LoginView;

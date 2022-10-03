@@ -14,7 +14,7 @@ const PageIconButton: FC<{
   title: string;
   disabled: boolean;
   onClick: () => void;
-  children?: React.ReactNode
+  children?: React.ReactNode;
 }> = ({ title, disabled, onClick, children }) => {
   return (
     <Tooltip title={title}>

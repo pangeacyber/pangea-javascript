@@ -10,7 +10,6 @@ import { ThemeProvider, createTheme, ThemeOptions } from "@mui/material/styles";
 import AuditSearch from "../AuditSearch";
 import AuditTable from "../AuditTable";
 
-
 import { Audit } from "../../types";
 import { useAuditQuery } from "../../utils/query";
 import AuditContextProvider, { useAuditContext } from "../../hooks/context";
@@ -28,7 +27,6 @@ export interface ViewerProps {
   fields?: Partial<Record<keyof Audit.AuditRecord, Partial<GridColDef>>>;
   visibilityModel?: Partial<Record<keyof Audit.AuditRecord, boolean>>;
 }
-
 
 /*
     FIXME: Add feature to audit-log-viewer to support reading query from query parameters
@@ -67,20 +65,20 @@ const AuditLogViewer: FC<ViewerProps> = ({
 
   return (
     <Box sx={{ width: "100%", ...sx }}>
-        <AuditSearch
-            query={query}
-            queryObj={queryObj}
-            setQuery={setQuery}
-            setQueryObj={setQueryObj}
-            refresh={handleSearch}
-            loading={loading}
-        />
-        <AuditTable
-            logs={logs}
-            dataGridProps={dataGridProps}
-            fields={fields}
-            setSort={setSort}
-        />
+      <AuditSearch
+        query={query}
+        queryObj={queryObj}
+        setQuery={setQuery}
+        setQueryObj={setQueryObj}
+        refresh={handleSearch}
+        loading={loading}
+      />
+      <AuditTable
+        logs={logs}
+        dataGridProps={dataGridProps}
+        fields={fields}
+        setSort={setSort}
+      />
     </Box>
   );
 };
@@ -123,7 +121,7 @@ const AuditLogViewerWithProvider: FC<AuditLogViewerProps> = ({
       })
       .catch((err) => {
         setLoading(false);
-        
+
         // FIXME: Can we assume how to show erros?
         // FIXME: onError, default way to display search errors
         // showNotification(parseError(err));

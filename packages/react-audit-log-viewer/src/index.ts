@@ -1,1 +1,4 @@
-export { default as AuditLogViewer, AuditLogViewerProps } from "./components/AuditLogViewer";
+export {
+  default as AuditLogViewer,
+  AuditLogViewerProps,
+} from "./components/AuditLogViewer";

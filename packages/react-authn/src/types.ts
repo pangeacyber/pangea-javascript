@@ -1,10 +1,5 @@
 import { InputProps } from "@mui/material";
-import {
-  FormikErrors,
-  FormikTouched,
-  FormikValues,
-  FormikState
-} from "formik";
+import { FormikErrors, FormikTouched, FormikValues, FormikState } from "formik";
 
 export interface FormField {
   label: string;
@@ -26,7 +21,7 @@ export interface FormikObject<Values extends FormikValues = FormikValues> {
   initialTouched: FormikTouched<unknown>;
   initialStatus: any;
   handleReset: (e: any) => void;
-  handleSubmit: (e?: React.FormEvent<HTMLFormElement> | undefined) => void; 
+  handleSubmit: (e?: React.FormEvent<HTMLFormElement> | undefined) => void;
   setErrors: (errors: FormikErrors<FormikValues>) => void;
   setFieldTouched: (
     field: string,

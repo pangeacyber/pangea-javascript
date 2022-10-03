@@ -5,7 +5,6 @@ import { useReactJsonViewHighlight, Highlight } from "./utils";
 
 import ReactJson from "react-json-view";
 
-
 interface Props {
   src: object;
   highlights?: Highlight[];

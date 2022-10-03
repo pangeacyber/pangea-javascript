@@ -1,8 +1,5 @@
 import { FC, useState, useRef, useEffect } from "react";
-import {
-  Button,
-  Stack,
-} from "@mui/material";
+import { Button, Stack } from "@mui/material";
 import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
 import { useTheme } from "@mui/material/styles";
 
