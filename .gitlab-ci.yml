@@ -23,13 +23,3 @@ lint_packages:
 
 include:
   - /packages/react-shared/gitlab-ci.yml
-
-
-
-
-
-
-
-
-
-  
