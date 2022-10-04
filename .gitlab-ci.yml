@@ -20,3 +20,6 @@ lint_packages:
   extends: .packages_base
   stage: Lint
   script: yarn lint
+
+include:
+  - /packages/react-shared/gitlab-ci.yml

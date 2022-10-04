@@ -1,0 +1,4 @@
+test_react_shared:
+  extends: .packages_base
+  stage: Unit Test
+  script: yarn test
