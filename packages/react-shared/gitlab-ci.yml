@@ -1,4 +1,16 @@
+.react_shared_base:
+  image: node
+  before_script:
+    - cd packages/react-shared
+    - yarn install
+  cache:
+    - key:
+        files:
+          - yarn.lock
+      paths:
+        - node_modules
+
 test_react_shared:
-  extends: .packages_base
+  extends: .react_shared_base
   stage: Unit Test
   script: yarn test
