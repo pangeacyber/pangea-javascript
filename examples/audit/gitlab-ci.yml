@@ -12,7 +12,14 @@
 
 test_example_audit_app:
   extends: .example_audit_base
+  image: cypress/browsers:node12.14.1-chrome85-ff81
   stage: Integration Test
   script:
     - npm run start &
     - npm run cypress:run
+  artifacts:
+    when: always
+    paths:
+      - cypress/videos/**/*.mp4
+      - cypress/screenshots/**/*.png
+    expire_in: 1 day
