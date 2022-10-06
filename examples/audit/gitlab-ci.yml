@@ -1,0 +1,18 @@
+.example_audit_base:
+  image: node
+  before_script:
+    - cd examples/audit
+    - yarn install
+  cache:
+    - key:
+        files:
+          - yarn.lock
+      paths:
+        - node_modules
+
+test_example_audit_app:
+  extends: .example_audit_base
+  stage: Integration Test
+  script:
+    - npm run start &
+    - npm run cypress:run
