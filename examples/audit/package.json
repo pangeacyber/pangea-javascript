@@ -21,10 +21,11 @@
   },
   "scripts": {
     "start": "react-scripts start",
+    "start:ci": "PORT=8080 react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "cypress:ci": "start-server-and-test \"npm run start\" http://localhost:3000 \"npm run cypress:run\"",
+    "cypress:ci": "start-server-and-test \"npm run start:ci\" http://localhost:8080 \"npm run cypress:run\"",
     "cypress:run": "cypress run",
     "cypress:open": "cypress open"
   },
