@@ -1,9 +1,10 @@
-import React, { FC } from "react";
+import { FC } from "react";
 import { Box } from "@mui/material";
 import { useTheme } from "@mui/material/styles";
 import { useReactJsonViewHighlight, Highlight } from "./utils";
 
-import ReactJson from "react-json-view";
+import loadable from "@loadable/component";
+const ReactJson = loadable(() => import("react-json-view"));
 
 interface Props {
   src: object;
@@ -45,14 +46,14 @@ const JsonViewer: FC<Props> = ({
           marginTop: "-2px",
           color: `${theme.palette.info.main}!important`,
         },
-        ".variable-value.highlighted": {
+        ".variable-value.Pangea-Highlight": {
           div: {
             backgroundColor: colors.highlightBackground,
             padding: "0 2px",
             color: `${colors.highlightColor}!important`,
           },
         },
-        ".string-value.highlighted": {
+        ".string-value.Pangea-Highlight": {
           backgroundColor: colors.highlightBackground,
           color: `${colors.highlightColor}!important`,
         },

@@ -1,7 +1,6 @@
 import { FC } from "react";
 import isEmpty from "lodash/isEmpty";
 
-import { useTheme } from "@mui/material/styles";
 import { Container, Typography, Stack, Box } from "@mui/material";
 
 import { JsonViewer } from "@pangeacyber/react-shared";
@@ -11,7 +10,7 @@ import { Change } from "../../hooks/diff";
 export const StringField: FC<{
   inRow?: boolean;
   title: string;
-  value: string;
+  value: string | undefined;
   changes?: Change[];
   uniqueId: string;
 }> = ({ title, inRow, value, changes = [], uniqueId }) => {
@@ -23,19 +22,28 @@ export const StringField: FC<{
         {title}
       </Typography>
       <Container sx={{ padding: "4px!important" }}>
-        <Typography color="textPrimary" variant="body2">
+        <Typography
+          color="textPrimary"
+          variant="body2"
+          sx={{
+            ".Pangea-Highlight": {
+              backgroundColor: "#FFFF0B",
+              color: "#000",
+            },
+          }}
+        >
           {!isEmpty(changes)
             ? changes.map((change, idx) => {
                 return (
                   <span
                     key={`change-found-${idx}-${uniqueId}`}
-                    style={{
-                      backgroundColor:
-                        // FIXME: Change color needs to be controlled through a prop
-                        change.added || change.removed ? "#FFFF0B" : "inherit",
-                      color:
-                        change.added || change.removed ? "#000" : "inherit",
-                    }}
+                    className={
+                      change.added
+                        ? "Pangea-Highlight Pangea-HighlightNew"
+                        : change.removed
+                        ? "Pangea-Highlight Pangea-HighlightRemoved"
+                        : ""
+                    }
                   >
                     {change.value}
                   </span>
@@ -71,7 +79,6 @@ const StringJsonField: FC<{
   uniqueId,
   shouldHighlight = () => true,
 }) => {
-  const theme = useTheme();
   const jsonValue = parseJson(value);
 
   if (jsonValue && typeof jsonValue === "object")

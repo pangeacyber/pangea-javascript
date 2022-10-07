@@ -12,8 +12,12 @@ export interface Change {
   removed?: boolean;
 }
 
-export const useDiffWords = (oldValue: string, newValue: string): Change[] => {
+export const useDiffWords = (
+  oldValue: string | undefined,
+  newValue: string | undefined
+): Change[] => {
   const changes = useMemo(() => {
+    if (!oldValue || !newValue) return [];
     try {
       const oldJson = JSON.parse(oldValue);
       const newJson = JSON.parse(newValue);

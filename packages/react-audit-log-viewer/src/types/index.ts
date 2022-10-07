@@ -9,24 +9,37 @@ export namespace Audit {
     hotstorage: string;
   }
 
-  export interface AuditRecord {
-    // Only used in the model data grid
-    id: number;
-    actor: string;
-    action: string;
-    message: string;
-    new: string;
-    old: string;
-    status: string;
-    target: string;
+  export interface Event {
+    action?: string;
+    actor?: string;
+    message?: string;
+    status?: string;
+    source?: string;
+    new?: string;
+    old?: string;
+    target?: string;
+
+    // FIXME: This is part of Envelope
     received_at?: string;
-    source: string;
-    leaf_index?: string;
-    membership_proof?: string;
+  }
+
+  export interface Envelope {
+    event: Event;
+    received_at?: string;
     public_key?: string;
     signature?: string;
-    envelope?: any;
+  }
+
+  export interface AuditRecord {
+    envelope: Envelope;
+    leaf_index?: string;
+    membership_proof?: string;
     hash?: string;
+  }
+
+  export interface FlattenedAuditRecord extends AuditRecord, Envelope, Event {
+    // Added to the component for PangeaDataGrid
+    id: number;
   }
 
   export interface VerificationArtifact {

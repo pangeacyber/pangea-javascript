@@ -23,7 +23,7 @@ export interface Pagination {
   history: string[];
 }
 
-const DefaultVisibility: Partial<Record<keyof Audit.AuditRecord, boolean>> = {
+const DefaultVisibility: Partial<Record<keyof Audit.Event, boolean>> = {
   received_at: true,
   message: true,
   actor: false,
@@ -47,13 +47,11 @@ const DefaultOrder = [
 
 interface AuditContextShape {
   root?: Audit.Root;
-  visibilityModel?: Partial<Record<keyof Audit.AuditRecord, boolean>>;
-  visibility: Partial<Record<keyof Audit.AuditRecord, boolean>>;
+  visibilityModel?: Partial<Record<keyof Audit.Event, boolean>>;
+  visibility: Partial<Record<keyof Audit.Event, boolean>>;
   order: string[];
   setOrder: Dispatch<SetStateAction<string[]>>;
-  setVisibility: (
-    update: Partial<Record<keyof Audit.AuditRecord, boolean>>
-  ) => void;
+  setVisibility: (update: Partial<Record<keyof Audit.Event, boolean>>) => void;
   proofs?: Record<string, boolean>;
   setProofs: Dispatch<SetStateAction<Record<string, boolean>>>;
   consistency?: Record<string, boolean>;
@@ -70,6 +68,7 @@ interface AuditContextShape {
   total: number;
   fetchResults: (body: Audit.ResultRequest) => Promise<void>;
   consistencyRef?: any;
+  isVerificationCheckEnabled?: boolean;
 }
 
 const AuditContext = createContext<AuditContextShape>({
@@ -90,6 +89,7 @@ const AuditContext = createContext<AuditContextShape>({
   consistency: undefined,
   setConsistency: () => {},
   publishedRoots: undefined,
+  isVerificationCheckEnabled: true,
 });
 
 const AuditContextProvider: FC<{
@@ -101,8 +101,9 @@ const AuditContextProvider: FC<{
   root?: Audit.Root;
   publishedRoots?: PublishedRoots;
   rowToLeafIndex?: Record<string, { leaf_index?: string }>;
-  visibilityModel?: Partial<Record<keyof Audit.AuditRecord, boolean>>;
+  visibilityModel?: Partial<Record<keyof Audit.Event, boolean>>;
   children?: React.ReactNode;
+  isVerificationCheckEnabled?: boolean;
 }> = ({
   children,
   total,
@@ -113,6 +114,7 @@ const AuditContextProvider: FC<{
   root,
   visibilityModel = {},
   publishedRoots,
+  isVerificationCheckEnabled = true,
   rowToLeafIndex,
 }) => {
   const [visibility, setVisibility_] = useState(
@@ -130,9 +132,7 @@ const AuditContextProvider: FC<{
   const [consistency, setConsistency] = useState<Record<string, boolean>>({});
   const consistencyRef = useRef({});
 
-  const setVisibility = (
-    vis: Partial<Record<keyof Audit.AuditRecord, boolean>>
-  ) => {
+  const setVisibility = (vis: Partial<Record<keyof Audit.Event, boolean>>) => {
     setVisibility_({
       ...vis,
       ...visibilityModel,
@@ -155,6 +155,8 @@ const AuditContextProvider: FC<{
         limit,
         limitOptions,
         setLimit,
+
+        // Verification props. FIXME: Split into separate provider
         root,
         proofs,
         setProofs,
@@ -163,6 +165,7 @@ const AuditContextProvider: FC<{
         publishedRoots,
         rowToLeafIndex,
         consistencyRef,
+        isVerificationCheckEnabled,
       }}
     >
       {children}
@@ -264,7 +267,7 @@ export const usePagination = (): {
 };
 
 export const useConsitency = (
-  record: Audit.AuditRecord,
+  record: Audit.FlattenedAuditRecord,
   idx?: number
 ): {
   isConsistent: boolean;
@@ -325,7 +328,7 @@ export const useConsitency = (
 };
 
 export const useVerification = (
-  record: Audit.AuditRecord,
+  record: Audit.FlattenedAuditRecord,
   idx?: number
 ): {
   isMembershipValid: boolean;

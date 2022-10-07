@@ -1,21 +1,25 @@
 import { FC } from "react";
-import { Stack, Box } from "@mui/material";
-import { useTheme } from "@mui/material/styles";
+import { Stack } from "@mui/material";
+import { useTheme, lighten } from "@mui/material/styles";
 
 import { Audit } from "../../types";
 
 import StringJsonField, { StringField } from "../AuditStringJsonField";
 import OldNewFields from "../AuditOldNewFields";
-import { useAuditContext, useVerification } from "../../hooks/context";
+import { useAuditContext } from "../../hooks/context";
+import VerificationLine from "./VerificationLine";
 
 interface Props {
-  record: Audit.AuditRecord;
+  record: Audit.FlattenedAuditRecord;
+  isVerificationCheckEnabled?: boolean;
 }
 
-const AuditPreviewRow: FC<Props> = ({ record }) => {
+const AuditPreviewRow: FC<Props> = ({
+  record,
+  isVerificationCheckEnabled = true,
+}) => {
   const theme = useTheme();
   const { visibilityModel } = useAuditContext();
-  const { isConsistentWithNext } = useVerification(record);
 
   // @ts-ignore - An id is needed for mui data grid so one is added.
   const rowId: string = record.id;
@@ -30,22 +34,11 @@ const AuditPreviewRow: FC<Props> = ({ record }) => {
         display: "grid",
         borderBottomLeftRadius: "4px",
         borderBottomRightRadius: "4px",
+        backgroundColor: lighten(theme.palette.secondary.main, 0.9),
       }}
     >
       <Stack pl={"0px"} direction="row" sx={{ width: "100%" }}>
-        <Box
-          sx={{
-            backgroundColor: isConsistentWithNext
-              ? theme.palette.success.main
-              : "transparent",
-            width: "1px!important",
-            display: "flex",
-            margin: -1,
-            marginRight: 2,
-            marginLeft: 0,
-            marginBottom: -1.5,
-          }}
-        />
+        {isVerificationCheckEnabled && <VerificationLine record={record} />}
         <Stack
           sx={{ display: "grid", width: "100%", pl: 3, pb: 1 }}
           spacing={-1}
