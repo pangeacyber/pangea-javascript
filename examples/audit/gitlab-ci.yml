@@ -16,7 +16,7 @@ test_example_audit_app:
   stage: Integration Test
   script:
     - npm run start &
-    - npm run cypress:run
+    - npm run cypress:ci
   artifacts:
     when: always
     paths:
