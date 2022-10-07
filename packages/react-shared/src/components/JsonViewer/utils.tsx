@@ -12,7 +12,7 @@ enum ReactJsonView {
   VariableEl = ".variable-value",
 }
 
-export const HIGHLIGHTED_CLASS = "highlighted";
+export const HIGHLIGHTED_CLASS = "Pangea-Highlight";
 
 export interface Highlight {
   value: string;

@@ -9,7 +9,7 @@ import { useDiffWords } from "../../hooks/diff";
 import StringJsonField from "../AuditStringJsonField";
 
 interface Props {
-  record: Audit.AuditRecord;
+  record: Audit.FlattenedAuditRecord;
   direction: "row" | "column";
   uniqueId: string;
 }

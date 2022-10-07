@@ -2,6 +2,7 @@ import { GridRenderCellParams } from "@mui/x-data-grid";
 import { FC } from "react";
 
 import { Tooltip, Typography, Chip, Stack } from "@mui/material";
+import { lighten, useTheme } from "@mui/material/styles";
 
 export interface CellProps {
   params: GridRenderCellParams;
@@ -56,6 +57,7 @@ export const SingleSelectCell: FC<CellProps> = ({ params }) => {
 
 export const MultiSelectCell: FC<CellProps> = ({ params }) => {
   const { value } = params;
+  const theme = useTheme();
 
   if (Array.isArray(value)) {
     return (
@@ -75,6 +77,7 @@ export const MultiSelectCell: FC<CellProps> = ({ params }) => {
               className={"PangeaDataGrid-Chip"}
               sx={{
                 color: "text.secondary",
+                backgroundColor: lighten(theme.palette.primary.main, 0.2),
               }}
               label={v}
             />

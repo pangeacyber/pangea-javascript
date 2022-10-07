@@ -21,18 +21,20 @@ enum AuditTableView {
   Detail = "detail",
 }
 
-interface Props {
-  logs: Audit.AuditRecords;
+interface AuditTableProps {
+  isVerificationCheckEnabled?: boolean;
+  logs: Audit.FlattenedAuditRecord[];
   dataGridProps?: Partial<DataGridProps>;
-  fields?: Partial<Record<keyof Audit.AuditRecord, Partial<GridColDef>>>;
+  fields?: Partial<Record<keyof Audit.Event, Partial<GridColDef>>>;
   options?: {
     view: AuditTableView;
   };
   setSort: (sort?: Sort) => void;
 }
 
-const AuditTable: FC<Props> = ({
+const AuditTable: FC<AuditTableProps> = ({
   logs,
+  isVerificationCheckEnabled,
   dataGridProps = {},
   fields,
   setSort,
@@ -70,16 +72,21 @@ const AuditTable: FC<Props> = ({
       }}
     >
       <PangeaDataGrid
-        data={logs.map((log, idx) => ({ ...log, id: idx }))}
+        data={logs}
         columns={columns}
         ExpansionRow={{
           render: (object: any, open: boolean) => {
             if (!open) return null;
 
-            return <AuditPreviewRow record={object} />;
+            return (
+              <AuditPreviewRow
+                record={object}
+                isVerificationCheckEnabled={isVerificationCheckEnabled}
+              />
+            );
           },
           GridColDef: {
-            ...AuditSecureColumn,
+            ...(isVerificationCheckEnabled ? AuditSecureColumn : {}),
             field: "__expand__",
           },
         }}

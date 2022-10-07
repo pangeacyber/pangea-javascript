@@ -9,7 +9,7 @@ import {
   GridRowParams,
   MuiEvent,
 } from "@mui/x-data-grid";
-import { useTheme } from "@mui/material/styles";
+import { useTheme, lighten } from "@mui/material/styles";
 
 import { Typography, Stack } from "@mui/material";
 
@@ -21,7 +21,7 @@ import SearchBar from "./components/Search";
 
 import { ConditionalOption } from "../ConditionalAutocomplete";
 
-interface PangeaDataGridProps<Model> {
+export interface PangeaDataGridProps<Model> {
   name?: string;
   header?: ReactNode;
   columns: GridColDef[];
@@ -149,6 +149,7 @@ const PangeaDataGrid: PangeaDataGridPropsTyped = ({
               color: theme.palette.text.secondary,
               ".MuiDataGrid-columnHeaders": {
                 color: theme.palette.text.secondary,
+                backgroundColor: lighten(theme.palette.secondary.main, 0.9),
                 textTransform: "uppercase",
                 fontFamily: "Kanit",
                 fontSize: "12px",
@@ -174,6 +175,10 @@ const PangeaDataGrid: PangeaDataGridPropsTyped = ({
                 borderTopRightRadius: "4px",
                 borderBottomLeftRadius: 0,
                 borderBottomRightRadius: 0,
+                backgroundColor: lighten(theme.palette.secondary.main, 0.9),
+                ":hover": {
+                  backgroundColor: lighten(theme.palette.secondary.main, 0.9),
+                },
               },
               ".MuiDataGrid-overlay": {
                 top: "56px!important",
@@ -201,7 +206,10 @@ const PangeaDataGrid: PangeaDataGridPropsTyped = ({
                     ".MuiDataGrid-row,.MuiDataGrid-row.Mui-selected": {
                       ":hover": {
                         cursor: "pointer",
-                        backgroundColor: "#d4dce5",
+                        backgroundColor: lighten(
+                          theme.palette.secondary.main,
+                          0.85
+                        ),
                       },
                     },
                   }

@@ -52,7 +52,7 @@
     "typescript": "^4.7.4"
   },
   "dependencies": {
-    "@pangeacyber/react-shared": "^0.0.4",
+    "@pangeacyber/react-shared": "./pangeacyber-react-shared-v0.0.7.tgz",
     "axios": "^0.27.2",
     "crypto-js": "^4.1.1",
     "diff": "^5.1.0",

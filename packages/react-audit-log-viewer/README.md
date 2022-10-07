@@ -15,6 +15,13 @@
 <br />
 </p>
 
-## Welcome
+## Getting Started
 
-This is the Pangea javascript repository.
+First, run the development server:
+
+```bash
+yarn install
+yarn storybook
+```
+
+Open [http://localhost:6060](http://localhost:6060) with your browser to view the component storybook
