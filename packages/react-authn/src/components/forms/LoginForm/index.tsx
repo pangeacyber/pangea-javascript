@@ -110,10 +110,7 @@ const LoginForm: FC<LoginFormProps> = ({
                 label="Email"
               />
               {touched.username && errors.username && (
-                <FormHelperText
-                  error
-                  id="standard-weight-helper-text-username-login"
-                >
+                <FormHelperText error>
                   {errors.username}
                 </FormHelperText>
               )}
@@ -147,17 +144,14 @@ const LoginForm: FC<LoginFormProps> = ({
                 label="Password"
               />
               {touched.password && errors.password && (
-                <FormHelperText
-                  error
-                  id="standard-weight-helper-text-password-login"
-                >
+                <FormHelperText error>
                   {errors.password}
                 </FormHelperText>
               )}
             </FormControl>
 
             {errors.submit && (
-              <Box sx={{ mt: 3 }}>
+              <Box sx={{ mt: 2 }}>
                 <FormHelperText error>{errors.submit}</FormHelperText>
               </Box>
             )}
@@ -168,7 +162,6 @@ const LoginForm: FC<LoginFormProps> = ({
                 disableRipple
                 disabled={isSubmitting}
                 fullWidth
-                size="medium"
                 type="submit"
                 color="primary"
               >
@@ -180,15 +173,15 @@ const LoginForm: FC<LoginFormProps> = ({
       </Formik>
 
       <Stack spacing={1.5} sx={{ textAlign: "center" }} mt={2} mb={2}>
-        <Stack direction="row" spacing={1} alignItems="center">
+        <Stack direction="row" spacing={1} mb={1} alignItems="center">
           <Divider sx={{ flexGrow: 1 }} />
           <Typography variant="overline">{socialHeading}</Typography>
           <Divider sx={{ flexGrow: 1 }} />
         </Stack>
-        <Button variant="outlined" color="secondary" fullWidth>
+        <Button color="secondary" fullWidth>
           Sign in with Google
         </Button>
-        <Button variant="outlined" color="secondary" fullWidth>
+        <Button color="secondary" fullWidth>
           Sign in with Github
         </Button>
       </Stack>

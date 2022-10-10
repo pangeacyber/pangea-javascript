@@ -145,6 +145,7 @@ const CodeInput: FC<CodeInputProps> = ({
                 fontWeight: 600,
                 fontSize: "42px",
                 textAlign: "center",
+                padding: 0,
                 color: theme.palette.info.main,
               },
             }}

@@ -4,29 +4,30 @@ import { Box, Typography } from "@mui/material";
 
 interface LogoProps {
   url?: string;
+  height?: string;
 }
 
-const LogoBox: FC<LogoProps> = ({ url = "" }) => {
+const LogoBox: FC<LogoProps> = ({ url = "", height = "40px" }) => {
   return (
     <>
       {url ? (
         <Box
           sx={{
-            height: "40px",
+            height: height,
             backgroundColor: "transparent",
             margin: "auto",
           }}
         >
           <img
             style={{ minWidth: "40px", maxWidth: "300px" }}
-            height={"40px"}
+            height={height}
             src={url}
           />
         </Box>
       ) : (
         <Box
           sx={{
-            backgroundColor: "#F6F9FC",
+            backgroundColor: "transparent",
           }}
         >
           <Typography>Logo</Typography>

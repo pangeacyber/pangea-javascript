@@ -6,24 +6,28 @@ import { Box, Stack, Typography } from "@mui/material";
 import LogoBox from "../LogoBox";
 
 interface PanelProps {
-  companyName?: string;
+  brandName?: string;
   logoUrl?: string;
-  backgroundImage?: string;
+  logoHeight?: string;
+  bgImage?: string;
   themeOptions?: ThemeOptions;
   sx?: SxProps;
   children: React.ReactNode;
 }
 
 const AuthNPanel: FC<PanelProps> = ({
-  companyName,
+  brandName,
   logoUrl,
-  backgroundImage,
+  logoHeight,
+  bgImage,
   children,
 }) => {
-  const backgroundStyles = backgroundImage
+  const backgroundStyles = bgImage
     ? {
-        backgroundImage: `url(${backgroundImage})`,
+        backgroundImage: `url(${bgImage})`,
         backgroundPosition: "center",
+        backgroundSize: "cover",
+        backgroundRepeat: "no-repeat",
       }
     : {};
 
@@ -49,10 +53,10 @@ const AuthNPanel: FC<PanelProps> = ({
         }}
       >
         <Stack spacing={2}>
-          {logoUrl && <LogoBox url={logoUrl} />}
-          {companyName && (
+          <LogoBox url={logoUrl} height={logoHeight}/>
+          {brandName && (
             <Typography variant="h5" mb={4}>
-              {companyName}
+              {brandName}
             </Typography>
           )}
           {children}

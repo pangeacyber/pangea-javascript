@@ -14,6 +14,7 @@ import {
   OutlinedInput,
   Stack,
   TextField,
+  ThemeProvider,
   Typography,
 } from "@mui/material";
 
@@ -115,10 +116,7 @@ const SignupForm: FC<SignupFormProps> = ({
                   variant="outlined"
                 />
                 {touched.first_name && errors.first_name && (
-                  <FormHelperText
-                    error
-                    id="standard-weight-helper-text-first_name-register"
-                  >
+                  <FormHelperText error>
                     {errors.first_name}
                   </FormHelperText>
                 )}
@@ -137,10 +135,7 @@ const SignupForm: FC<SignupFormProps> = ({
                   variant="outlined"
                 />
                 {touched.last_name && errors.last_name && (
-                  <FormHelperText
-                    error
-                    id="standard-weight-helper-text-last_name-register"
-                  >
+                  <FormHelperText error>
                     {errors.last_name}
                   </FormHelperText>
                 )}
@@ -167,10 +162,7 @@ const SignupForm: FC<SignupFormProps> = ({
                 label="Email"
               />
               {touched.email && errors.email && (
-                <FormHelperText
-                  error
-                  id="standard-weight-helper-text-email-register"
-                >
+                <FormHelperText error>
                   {errors.email}
                 </FormHelperText>
               )}
@@ -211,16 +203,12 @@ const SignupForm: FC<SignupFormProps> = ({
                 label="Password"
               />
               {touched.password && errors.password && (
-                <FormHelperText
-                  error
-                  id="standard-weight-helper-text-password-register"
-                >
+                <FormHelperText error>
                   {errors.password}
                 </FormHelperText>
               )}
             </FormControl>
 
-            <Grid item></Grid>
             {errors.submit && (
               <Box sx={{ mt: 2 }}>
                 <FormHelperText error>{errors.submit}</FormHelperText>
@@ -233,7 +221,6 @@ const SignupForm: FC<SignupFormProps> = ({
                 disableRipple
                 disabled={isSubmitting}
                 fullWidth
-                size="medium"
                 type="submit"
                 color="primary"
               >
@@ -245,15 +232,15 @@ const SignupForm: FC<SignupFormProps> = ({
       </Formik>
 
       <Stack spacing={1.5} sx={{ textAlign: "center" }} mt={2} mb={2}>
-        <Stack direction="row" spacing={1} alignItems="center">
+        <Stack direction="row" spacing={1} mb={1} alignItems="center">
           <Divider sx={{ flexGrow: 1 }} />
           <Typography variant="overline">{socialHeading}</Typography>
           <Divider sx={{ flexGrow: 1 }} />
         </Stack>
-        <Button variant="outlined" color="secondary" fullWidth>
+        <Button color="secondary" fullWidth>
           Sign up with Google
         </Button>
-        <Button variant="outlined" color="secondary" fullWidth>
+        <Button color="secondary" fullWidth>
           Sign up with Github
         </Button>
       </Stack>

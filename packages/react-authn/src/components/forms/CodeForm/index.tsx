@@ -60,7 +60,6 @@ const CodeForm: FC<CodeProps> = ({
         />
       </form>
       <Button
-        id="confirm-modal-btn"
         color="primary"
         type="submit"
         disableRipple

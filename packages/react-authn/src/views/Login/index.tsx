@@ -20,9 +20,10 @@ const LoginView: FC<LoginViewProps> = ({
 }) => {
   return (
     <AuthNPanel
-      logoUrl={config?.org_page_logo}
-      companyName={config?.org_name}
-      backgroundImage={config?.bg_image}
+      logoUrl={config?.brand_page_logo}
+      logoHeight={config?.brand_logo_height}
+      brandName={config?.authn_show_name ? config?.brand_name : ""}
+      bgImage={config?.bg_image}
       themeOptions={themeOptions}
       sx={sx}
     >
