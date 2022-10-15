@@ -9,8 +9,10 @@ interface PanelProps {
   brandName?: string;
   logoUrl?: string;
   logoHeight?: string;
+  bgColor?: string;
   bgImage?: string;
-  themeOptions?: ThemeOptions;
+  density?: string;
+  themeOptions?: ThemeOptions;  
   sx?: SxProps;
   children: React.ReactNode;
 }
@@ -19,9 +21,14 @@ const AuthNPanel: FC<PanelProps> = ({
   brandName,
   logoUrl,
   logoHeight,
+  bgColor = "transparent",
   bgImage,
+  density = "normal",
   children,
 }) => {
+  const panelStyles = density === "comfortable" 
+    ? { width: "448px", padding: "56px" }
+    : { width: "400px", padding: "32px" };
   const backgroundStyles = bgImage
     ? {
         backgroundImage: `url(${bgImage})`,
@@ -39,23 +46,23 @@ const AuthNPanel: FC<PanelProps> = ({
         height: "100%",
         alignItems: "center",
         justifyContent: "center",
+        backgroundColor: bgColor,
         ...backgroundStyles,
       }}
     >
       <Box
         className="widget"
         sx={{
-          width: "400px",
           alignItems: "center",
           justifyContent: "center",
           textAlign: "center",
-          padding: 5,
+          ...panelStyles
         }}
       >
-        <Stack spacing={2}>
+        <Stack spacing={2} mb={2}>
           <LogoBox url={logoUrl} height={logoHeight}/>
           {brandName && (
-            <Typography variant="h5" mb={4}>
+            <Typography variant="h6">
               {brandName}
             </Typography>
           )}

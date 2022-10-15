@@ -146,7 +146,6 @@ const CodeInput: FC<CodeInputProps> = ({
                 fontSize: "42px",
                 textAlign: "center",
                 padding: 0,
-                color: theme.palette.info.main,
               },
             }}
             autoFocus={inputId === 0}
