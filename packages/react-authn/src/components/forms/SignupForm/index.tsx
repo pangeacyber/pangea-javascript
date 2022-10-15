@@ -114,9 +114,7 @@ const SignupForm: FC<SignupFormProps> = ({
                   sx={{ margin: 0 }}
                 />
                 {touched.first_name && errors.first_name && (
-                  <FormHelperText error>
-                    {errors.first_name}
-                  </FormHelperText>
+                  <FormHelperText error>{errors.first_name}</FormHelperText>
                 )}
               </Stack>
               <Stack direction="column">
@@ -134,9 +132,7 @@ const SignupForm: FC<SignupFormProps> = ({
                   sx={{ margin: 0 }}
                 />
                 {touched.last_name && errors.last_name && (
-                  <FormHelperText error>
-                    {errors.last_name}
-                  </FormHelperText>
+                  <FormHelperText error>{errors.last_name}</FormHelperText>
                 )}
               </Stack>
             </Stack>
@@ -161,9 +157,7 @@ const SignupForm: FC<SignupFormProps> = ({
                 label="Email"
               />
               {touched.email && errors.email && (
-                <FormHelperText error>
-                  {errors.email}
-                </FormHelperText>
+                <FormHelperText error>{errors.email}</FormHelperText>
               )}
             </FormControl>
 
@@ -202,9 +196,7 @@ const SignupForm: FC<SignupFormProps> = ({
                 label="Password"
               />
               {touched.password && errors.password && (
-                <FormHelperText error>
-                  {errors.password}
-                </FormHelperText>
+                <FormHelperText error>{errors.password}</FormHelperText>
               )}
             </FormControl>
 
@@ -231,26 +223,21 @@ const SignupForm: FC<SignupFormProps> = ({
       </Formik>
 
       <Stack sx={{ marginTop: "24px", textAlign: "center" }}>
-        <Stack direction="row" spacing={1} sx={{ marginBottom: "24px" }} alignItems="center">
+        <Stack
+          direction="row"
+          spacing={1}
+          sx={{ marginBottom: "24px" }}
+          alignItems="center"
+        >
           <Divider sx={{ flexGrow: 1 }} />
           <Typography variant="overline">{socialHeading}</Typography>
           <Divider sx={{ flexGrow: 1 }} />
         </Stack>
         <Stack spacing={1}>
-          <Button
-            disableElevation
-            disableRipple
-            fullWidth
-            color="secondary"
-          >
+          <Button disableElevation disableRipple fullWidth color="secondary">
             Sign up with Google
           </Button>
-          <Button
-            disableElevation
-            disableRipple
-            fullWidth
-            color="secondary"
-          >
+          <Button disableElevation disableRipple fullWidth color="secondary">
             Sign up with Github
           </Button>
         </Stack>

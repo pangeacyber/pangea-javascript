@@ -35,7 +35,7 @@ const MessageView: FC<MessageViewProps> = ({
       bgColor={config?.bg_color}
       bgImage={config?.bg_image}
       density={config?.density}
-      themeOptions={themeOptions}      
+      themeOptions={themeOptions}
       sx={sx}
     >
       <StatusBox

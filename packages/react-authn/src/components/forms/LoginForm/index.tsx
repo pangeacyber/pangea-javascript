@@ -73,8 +73,7 @@ const LoginForm: FC<LoginFormProps> = ({
         >
           {formHeading}
         </Typography>
-      </Stack
-
+      </Stack>
       <Formik
         onSubmit={handleSubmit}
         initialValues={initialValues}
@@ -109,9 +108,7 @@ const LoginForm: FC<LoginFormProps> = ({
                 label="Email"
               />
               {touched.username && errors.username && (
-                <FormHelperText error>
-                  {errors.username}
-                </FormHelperText>
+                <FormHelperText error>{errors.username}</FormHelperText>
               )}
             </FormControl>
             <FormControl
@@ -143,9 +140,7 @@ const LoginForm: FC<LoginFormProps> = ({
                 label="Password"
               />
               {touched.password && errors.password && (
-                <FormHelperText error>
-                  {errors.password}
-                </FormHelperText>
+                <FormHelperText error>{errors.password}</FormHelperText>
               )}
             </FormControl>
 
@@ -172,26 +167,21 @@ const LoginForm: FC<LoginFormProps> = ({
       </Formik>
 
       <Stack sx={{ marginTop: "24px", textAlign: "center" }}>
-        <Stack direction="row" spacing={1} sx={{ marginBottom: "24px" }} alignItems="center">
+        <Stack
+          direction="row"
+          spacing={1}
+          sx={{ marginBottom: "24px" }}
+          alignItems="center"
+        >
           <Divider sx={{ flexGrow: 1 }} />
           <Typography variant="overline">{socialHeading}</Typography>
           <Divider sx={{ flexGrow: 1 }} />
         </Stack>
         <Stack spacing={1}>
-          <Button 
-            disableElevation
-            disableRipple
-            fullWidth
-            color="secondary"            
-          >
+          <Button disableElevation disableRipple fullWidth color="secondary">
             Sign in with Google
           </Button>
-          <Button 
-            disableElevation
-            disableRipple
-            fullWidth
-            color="secondary"
-          >
+          <Button disableElevation disableRipple fullWidth color="secondary">
             Sign in with Github
           </Button>
         </Stack>
