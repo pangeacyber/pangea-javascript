@@ -6,7 +6,6 @@ import {
   Divider,
   FormControl,
   FormHelperText,
-  Grid,
   IconButton,
   InputAdornment,
   InputLabel,
@@ -14,7 +13,6 @@ import {
   OutlinedInput,
   Stack,
   TextField,
-  ThemeProvider,
   Typography,
 } from "@mui/material";
 
@@ -75,15 +73,15 @@ const SignupForm: FC<SignupFormProps> = ({
   };
 
   return (
-    <Grid container direction="column">
-      <Grid item mb={3}>
+    <Stack direction="column">
+      <Stack mb={3}>
         <Typography
-          variant="h5"
+          variant="h6"
           sx={{ textAlign: "center", fontWeight: "600" }}
         >
           {formHeading}
         </Typography>
-      </Grid>
+      </Stack>
 
       <Formik
         initialValues={initialValues}
@@ -101,12 +99,11 @@ const SignupForm: FC<SignupFormProps> = ({
           values,
         }) => (
           <form noValidate onSubmit={handleSubmit}>
-            <Grid container spacing={1}>
-              <Grid item xs={12} sm={6}>
+            <Stack direction={{ xs: "column", md: "row" }} spacing={1}>
+              <Stack direction="column">
                 <TextField
                   fullWidth
                   label="First Name"
-                  margin="normal"
                   name="first_name"
                   type="text"
                   value={values.first_name}
@@ -114,14 +111,15 @@ const SignupForm: FC<SignupFormProps> = ({
                   onChange={handleChange}
                   inputProps={{}}
                   variant="outlined"
+                  sx={{ margin: 0 }}
                 />
                 {touched.first_name && errors.first_name && (
                   <FormHelperText error>
                     {errors.first_name}
                   </FormHelperText>
                 )}
-              </Grid>
-              <Grid item xs={12} sm={6}>
+              </Stack>
+              <Stack direction="column">
                 <TextField
                   fullWidth
                   label="Last Name"
@@ -133,14 +131,15 @@ const SignupForm: FC<SignupFormProps> = ({
                   onChange={handleChange}
                   inputProps={{}}
                   variant="outlined"
+                  sx={{ margin: 0 }}
                 />
                 {touched.last_name && errors.last_name && (
                   <FormHelperText error>
                     {errors.last_name}
                   </FormHelperText>
                 )}
-              </Grid>
-            </Grid>
+              </Stack>
+            </Stack>
             <FormControl
               fullWidth
               error={Boolean(touched.email && errors.email)}
@@ -172,7 +171,7 @@ const SignupForm: FC<SignupFormProps> = ({
               fullWidth
               error={Boolean(touched.password && errors.password)}
               variant="outlined"
-              sx={{ mt: 2 }}
+              sx={{ mt: 1 }}
             >
               <InputLabel htmlFor="outlined-adornment-password-register">
                 Password
@@ -210,12 +209,12 @@ const SignupForm: FC<SignupFormProps> = ({
             </FormControl>
 
             {errors.submit && (
-              <Box sx={{ mt: 2 }}>
+              <Box sx={{ mt: 1 }}>
                 <FormHelperText error>{errors.submit}</FormHelperText>
               </Box>
             )}
 
-            <Box sx={{ mt: 2 }}>
+            <Box sx={{ mt: 1 }}>
               <Button
                 disableElevation
                 disableRipple
@@ -231,36 +230,47 @@ const SignupForm: FC<SignupFormProps> = ({
         )}
       </Formik>
 
-      <Stack spacing={1.5} sx={{ textAlign: "center" }} mt={2} mb={2}>
-        <Stack direction="row" spacing={1} mb={1} alignItems="center">
+      <Stack sx={{ marginTop: "24px", textAlign: "center" }}>
+        <Stack direction="row" spacing={1} sx={{ marginBottom: "24px" }} alignItems="center">
           <Divider sx={{ flexGrow: 1 }} />
           <Typography variant="overline">{socialHeading}</Typography>
           <Divider sx={{ flexGrow: 1 }} />
         </Stack>
-        <Button color="secondary" fullWidth>
-          Sign up with Google
-        </Button>
-        <Button color="secondary" fullWidth>
-          Sign up with Github
-        </Button>
+        <Stack spacing={1}>
+          <Button
+            disableElevation
+            disableRipple
+            fullWidth
+            color="secondary"
+          >
+            Sign up with Google
+          </Button>
+          <Button
+            disableElevation
+            disableRipple
+            fullWidth
+            color="secondary"
+          >
+            Sign up with Github
+          </Button>
+        </Stack>
       </Stack>
 
-      <Grid
-        container
-        item
+      <Stack
         direction="row"
         alignItems="center"
         justifyContent="center"
-        xs={12}
+        spacing={1}
+        sx={{ marginTop: "24px" }}
       >
-        <Typography variant="caption">
+        <Typography variant="body2">
           Already have an account?{" "}
           <Link href="#" underline="none">
             Sign in here
           </Link>
         </Typography>
-      </Grid>
-    </Grid>
+      </Stack>
+    </Stack>
   );
 };
 

@@ -7,7 +7,6 @@ import {
   Divider,
   FormControl,
   FormHelperText,
-  Grid,
   IconButton,
   InputAdornment,
   InputLabel,
@@ -66,15 +65,15 @@ const LoginForm: FC<LoginFormProps> = ({
   };
 
   return (
-    <Grid container direction="column">
-      <Grid item mb={4}>
+    <Stack direction="column">
+      <Stack mb={3}>
         <Typography
-          variant="h5"
+          variant="h6"
           sx={{ textAlign: "center", fontWeight: "600" }}
         >
           {formHeading}
         </Typography>
-      </Grid>
+      </Stack
 
       <Formik
         onSubmit={handleSubmit}
@@ -119,7 +118,7 @@ const LoginForm: FC<LoginFormProps> = ({
               fullWidth
               error={Boolean(touched.password && errors.password)}
               variant="outlined"
-              sx={{ mt: 2 }}
+              sx={{ mt: 1 }}
             >
               <InputLabel htmlFor="outlined-adornment-password">
                 Password
@@ -151,12 +150,12 @@ const LoginForm: FC<LoginFormProps> = ({
             </FormControl>
 
             {errors.submit && (
-              <Box sx={{ mt: 2 }}>
+              <Box sx={{ mt: 1 }}>
                 <FormHelperText error>{errors.submit}</FormHelperText>
               </Box>
             )}
 
-            <Box sx={{ mt: 2 }}>
+            <Box sx={{ mt: 1 }}>
               <Button
                 disableElevation
                 disableRipple
@@ -172,29 +171,40 @@ const LoginForm: FC<LoginFormProps> = ({
         )}
       </Formik>
 
-      <Stack spacing={1.5} sx={{ textAlign: "center" }} mt={2} mb={2}>
-        <Stack direction="row" spacing={1} mb={1} alignItems="center">
+      <Stack sx={{ marginTop: "24px", textAlign: "center" }}>
+        <Stack direction="row" spacing={1} sx={{ marginBottom: "24px" }} alignItems="center">
           <Divider sx={{ flexGrow: 1 }} />
           <Typography variant="overline">{socialHeading}</Typography>
           <Divider sx={{ flexGrow: 1 }} />
         </Stack>
-        <Button color="secondary" fullWidth>
-          Sign in with Google
-        </Button>
-        <Button color="secondary" fullWidth>
-          Sign in with Github
-        </Button>
+        <Stack spacing={1}>
+          <Button 
+            disableElevation
+            disableRipple
+            fullWidth
+            color="secondary"            
+          >
+            Sign in with Google
+          </Button>
+          <Button 
+            disableElevation
+            disableRipple
+            fullWidth
+            color="secondary"
+          >
+            Sign in with Github
+          </Button>
+        </Stack>
       </Stack>
 
-      <Grid
-        item
-        container
+      <Stack
         direction="row"
         alignItems="center"
         justifyContent="center"
         spacing={1}
+        sx={{ marginTop: "24px" }}
       >
-        <Grid item>
+        <Stack direction="row" spacing={1}>
           <Typography
             variant="caption"
             sx={{ textDecoration: "none", cursor: "pointer" }}
@@ -203,16 +213,14 @@ const LoginForm: FC<LoginFormProps> = ({
               Forgot password?
             </Link>
           </Typography>
-        </Grid>
-        <Grid item>
-          <Typography variant="caption">
+          <Typography variant="body2">
             <Link href="#" underline="none">
               Sign up for an account
             </Link>
           </Typography>
-        </Grid>
-      </Grid>
-    </Grid>
+        </Stack>
+      </Stack>
+    </Stack>
   );
 };
 

@@ -40,7 +40,7 @@ const CodeForm: FC<CodeProps> = ({
   return (
     <Stack>
       {formTitle && (
-        <Typography variant="h5" sx={{ mb: 4, fontWeight: "600" }}>
+        <Typography variant="h6" sx={{ mb: 2, fontWeight: "600" }}>
           {formTitle}
         </Typography>
       )}
@@ -65,17 +65,17 @@ const CodeForm: FC<CodeProps> = ({
         disableRipple
         disableElevation
         disabled={!isPotentialValidCode || submitting}
-        sx={{ mt: 2 }}
+        sx={{ mt: 1 }}
       >
         {submitting ? "Sending..." : submitLabel}
       </Button>
-      <Stack spacing={1} sx={{ mt: 4 }}>
-        <Typography variant="caption">
+      <Stack spacing={1} sx={{ mt: 2 }}>
+        <Typography variant="body2">
           <Link underline="none" href="#">
             Send me a new code
           </Link>
         </Typography>
-        <Typography variant="caption">
+        <Typography variant="body2">
           <Link underline="none" href="#">
             Choose another way
           </Link>

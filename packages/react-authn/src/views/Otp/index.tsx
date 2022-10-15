@@ -22,7 +22,9 @@ const OtpView: FC<OtpViewProps> = ({ config, themeOptions, sx, ...props }) => {
       logoUrl={config?.brand_page_logo}
       logoHeight={config?.brand_logo_height}
       brandName={config?.authn_show_name ? config?.brand_name : ""}
+      bgColor={config?.bg_color}
       bgImage={config?.bg_image}
+      density={config?.density}
       themeOptions={themeOptions}
       sx={sx}
     >

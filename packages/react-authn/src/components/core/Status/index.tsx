@@ -1,9 +1,6 @@
-import React, { FC } from "react";
-import { SxProps } from "@mui/system";
-import { ThemeOptions } from "@mui/material/styles";
+import { FC } from "react";
 
 import { Button, Link, Stack, Typography } from "@mui/material";
-import LogoBox from "../LogoBox";
 
 interface LinkProps {
   url: string;
@@ -28,17 +25,17 @@ const StatusBox: FC<StatusProps> = ({
   return (
     <Stack>
       {title && (
-        <Typography variant="h5" mb={4} sx={{ fontWeight: "600" }}>
+        <Typography variant="h6" mb={2}>
           {title}
         </Typography>
       )}
       {message && (
-        <Typography variant="body2" mb={4}>
+        <Typography variant="body2" mb={2}>
           {message}
         </Typography>
       )}
       {buttonLabel && buttonUrl && (
-        <Button color="primary" sx={{ mb: 4 }}>
+        <Button color="primary" sx={{ mb: 2 }}>
           {buttonLabel}
         </Button>
       )}
@@ -46,9 +43,11 @@ const StatusBox: FC<StatusProps> = ({
         <Stack spacing={1}>
           {links.map((item, idx) => {
             return (
-              <Link key={`link-${idx}`} underline="none" href={item.url}>
-                {item.label}
-              </Link>
+              <Typography variant="body2">
+                <Link key={`link-${idx}`} underline="none" href={item.url}>
+                  {item.label}
+                </Link>
+              </Typography>
             );
           })}
         </Stack>
