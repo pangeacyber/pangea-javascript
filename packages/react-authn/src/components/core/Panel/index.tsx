@@ -12,7 +12,7 @@ interface PanelProps {
   bgColor?: string;
   bgImage?: string;
   density?: string;
-  themeOptions?: ThemeOptions;  
+  themeOptions?: ThemeOptions;
   sx?: SxProps;
   children: React.ReactNode;
 }
@@ -26,9 +26,10 @@ const AuthNPanel: FC<PanelProps> = ({
   density = "normal",
   children,
 }) => {
-  const panelStyles = density === "comfortable" 
-    ? { width: "448px", padding: "56px" }
-    : { width: "400px", padding: "32px" };
+  const panelStyles =
+    density === "comfortable"
+      ? { width: "448px", padding: "56px" }
+      : { width: "400px", padding: "32px" };
   const backgroundStyles = bgImage
     ? {
         backgroundImage: `url(${bgImage})`,
@@ -56,16 +57,12 @@ const AuthNPanel: FC<PanelProps> = ({
           alignItems: "center",
           justifyContent: "center",
           textAlign: "center",
-          ...panelStyles
+          ...panelStyles,
         }}
       >
         <Stack spacing={2} mb={2}>
-          <LogoBox url={logoUrl} height={logoHeight}/>
-          {brandName && (
-            <Typography variant="h6">
-              {brandName}
-            </Typography>
-          )}
+          <LogoBox url={logoUrl} height={logoHeight} />
+          {brandName && <Typography variant="h6">{brandName}</Typography>}
           {children}
         </Stack>
       </Box>
