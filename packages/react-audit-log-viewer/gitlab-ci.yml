@@ -1,7 +1,7 @@
 .react_audit_log_viewer_base:
   image: node
   before_script:
-    - cd packages/react-shared
+    - cd packages/react-audit-log-viewer
     - yarn install
     - apt-get -qq update
     - apt-get install -y jq
@@ -12,7 +12,7 @@
       paths:
         - node_modules
 
-publish_react_audit_log_viewer_base:
+publish_react_audit_log_viewer:
   extends: .react_audit_log_viewer_base
   stage: Publish
   script:
