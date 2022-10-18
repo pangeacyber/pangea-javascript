@@ -10,3 +10,4 @@ rollup.config.js
 tsconfig.json
 src/
 .storybook/
+*.tgz

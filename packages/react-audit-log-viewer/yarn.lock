@@ -1956,18 +1956,10 @@
     mkdirp "^1.0.4"
     rimraf "^3.0.2"
 
-"@pangeacyber/react-shared@./pangeacyber-react-shared-v0.0.6.tgz":
-  version "0.0.6"
-  resolved "./pangeacyber-react-shared-v0.0.6.tgz#635f7dd42d29ce90a6502f13894a92a6e171cbcb"
-  dependencies:
-    "@loadable/component" "^5.15.2"
-    "@mui/x-data-grid" "^5.17.2"
-    "@mui/x-date-pickers" "^5.0.2"
-    react-json-view "^1.21.3"
-
-"@pangeacyber/react-shared@./pangeacyber-react-shared-v0.0.7.tgz":
-  version "0.0.7"
-  resolved "./pangeacyber-react-shared-v0.0.7.tgz#083ffdef3b3faa7c1e40113419e23dde8974ac1f"
+"@pangeacyber/react-shared@0.0.5":
+  version "0.0.5"
+  resolved "https://registry.yarnpkg.com/@pangeacyber/react-shared/-/react-shared-0.0.5.tgz#0aec400ed306fd496cdeccdfef3234be6bb2fdff"
+  integrity sha512-7rOTiwcYTcJJrUvUi594Nbc597Wvd8MbDKSe1CgtunkO0CJXjXsGT45h3Fg363X2TPtQtbGOBjGTDQ/BKPYdDw==
   dependencies:
     "@loadable/component" "^5.15.2"
     "@mui/x-data-grid" "^5.17.2"

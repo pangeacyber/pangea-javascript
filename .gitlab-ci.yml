@@ -23,4 +23,5 @@ lint_packages:
 
 include:
   - /packages/react-shared/gitlab-ci.yml
+  - /packages/react-audit-log-viewer/gitlab-ci.yml
   - /examples/audit/gitlab-ci.yml
