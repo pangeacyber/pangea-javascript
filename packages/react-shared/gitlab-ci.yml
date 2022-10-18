@@ -3,6 +3,8 @@
   before_script:
     - cd packages/react-shared
     - yarn install
+    - apt-get -qq update
+    - apt-get install -y jq
   cache:
     - key:
         files:

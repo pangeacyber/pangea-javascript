@@ -1,6 +1,4 @@
 #!/bin/sh
-npm install -g node-jq
-
 PACKAGE_NAME=$(jq .name package.json)
 
 PACKAGE_VERSION=$(jq .version package.json)
