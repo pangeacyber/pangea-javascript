@@ -14,3 +14,11 @@ test_react_shared:
   extends: .react_shared_base
   stage: Unit Test
   script: yarn test
+
+publish_react_shared:
+  extends: .react_shared_base
+  stage: Publish
+  script:
+    - cp ../../scripts/publish.sh .
+    - cat ${NPMRC} > .npmrc && ./publish.sh && rm .npmrc
+    - rm publish.sh
