@@ -33,6 +33,7 @@ const SignupView: FC<SignupViewProps> = ({
         formHeading={config?.signup_heading}
         submitLabel={config?.signup_button_label}
         socialHeading={config?.signup_social_heading}
+        showSocialIcons={config?.authn_show_social_icons}
       />
     </AuthNPanel>
   );

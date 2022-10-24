@@ -21,16 +21,21 @@ import { Formik, FormikHelpers } from "formik";
 
 import { Visibility, VisibilityOff } from "@mui/icons-material";
 
+import GoogleIcon from "@src/components/Icons/google";
+import GitHubIcon from "@src/components/Icons/github";
+
 interface LoginFormProps {
   formHeading?: string;
   socialHeading?: string;
   submitLabel?: string;
+  showSocialIcons?: boolean;
 }
 
 const LoginForm: FC<LoginFormProps> = ({
   formHeading = "Sign in",
   socialHeading = "Other ways to Sign in",
   submitLabel = "Sign in",
+  showSocialIcons = true,
 }) => {
   const [showPassword, setShowPassword] = useState(false);
 
@@ -62,6 +67,12 @@ const LoginForm: FC<LoginFormProps> = ({
     setTimeout(() => {
       actions.setSubmitting(false);
     }, 1000);
+  };
+
+  const socialButtonStyle = {
+    display: "flex",
+    marginRight: "4px",
+    marginTop: "-2px",
   };
 
   return (
@@ -179,9 +190,19 @@ const LoginForm: FC<LoginFormProps> = ({
         </Stack>
         <Stack spacing={1}>
           <Button disableElevation disableRipple fullWidth color="secondary">
+            {showSocialIcons && (
+              <Box sx={socialButtonStyle}>
+                <GoogleIcon />
+              </Box>
+            )}
             Sign in with Google
           </Button>
           <Button disableElevation disableRipple fullWidth color="secondary">
+            {showSocialIcons && (
+              <Box sx={socialButtonStyle}>
+                <GitHubIcon />
+              </Box>
+            )}
             Sign in with Github
           </Button>
         </Stack>
