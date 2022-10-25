@@ -1,6 +1,6 @@
 {
   "name": "@pangeacyber/react-authn",
-  "version": "0.0.6",
+  "version": "0.0.7",
   "description": "Components for integration with Pangea AuthN Service",
   "main": "dist/cjs/index.js",
   "module": "dist/esm/index.js",
@@ -11,7 +11,9 @@
   "scripts": {
     "storybook": "start-storybook -p 6006",
     "build-storybook": "build-storybook",
-    "build": "rollup -c"
+    "build": "rollup -c",
+    "lint": "npx prettier --check .",
+    "prettier:fix": "npx prettier . -w"
   },
   "devDependencies": {
     "@babel/core": "^7.19.1",

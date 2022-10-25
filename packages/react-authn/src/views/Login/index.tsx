@@ -33,6 +33,7 @@ const LoginView: FC<LoginViewProps> = ({
         formHeading={config?.login_heading}
         submitLabel={config?.login_button_label}
         socialHeading={config?.login_social_heading}
+        showSocialIcons={config?.authn_show_social_icons}
       />
     </AuthNPanel>
   );
