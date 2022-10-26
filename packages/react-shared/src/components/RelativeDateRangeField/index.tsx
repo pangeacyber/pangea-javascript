@@ -13,11 +13,12 @@ import startCase from "lodash/startCase";
 
 export enum RelativeRange {
   Year = "y",
-  Month = "m",
+  Month = "M",
   Week = "w",
   Day = "d",
   Hour = "h",
-  Minute = "tm",
+  // This matches to Pangea search duration, diverages from iso8601 duration
+  Minute = "m",
   Second = "s",
 }
 
