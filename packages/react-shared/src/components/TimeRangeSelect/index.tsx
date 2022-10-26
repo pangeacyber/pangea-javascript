@@ -1,5 +1,5 @@
 import { FC, useState, useRef, useEffect } from "react";
-import { Button, Stack } from "@mui/material";
+import { Button, ButtonProps, Stack } from "@mui/material";
 import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
 import { useTheme } from "@mui/material/styles";
 
@@ -79,13 +79,13 @@ export interface TimeRangeObject {
 interface Props {
   value: TimeRangeObject;
   setValue: (value: TimeRangeObject) => void;
-  buttonProps: any;
+  ButtonProps?: Partial<ButtonProps>;
 }
 
 const TimeRangeSelect: FC<Props> = ({
   value: parentValue,
   setValue,
-  buttonProps,
+  ButtonProps = {},
 }) => {
   const theme = useTheme();
   const [open, setOpen] = useState(false);
@@ -114,10 +114,10 @@ const TimeRangeSelect: FC<Props> = ({
         color="inherit"
         onClick={() => setOpen(() => !open)}
         endIcon={<ArrowDropDownIcon />}
-        {...buttonProps}
+        {...ButtonProps}
         sx={{
           borderColor: theme.palette.divider,
-          ...buttonProps.sx,
+          ...ButtonProps.sx,
           ...(open
             ? {
                 borderColor: theme.palette.divider,
