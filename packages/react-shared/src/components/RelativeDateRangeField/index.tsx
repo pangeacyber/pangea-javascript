@@ -60,7 +60,7 @@ export const getRelativeDateRange = (
   const prefix = range.startsWith("t") ? "t" : "";
   const range_ = !!prefix ? range.substring(1) : range;
 
-  const spanMatch = range_.match(/[a-z]*$/g)?.filter((m) => !!m);
+  const spanMatch = range_.match(/[A-Za-z]*$/g)?.filter((m) => !!m);
   if (
     spanMatch?.length !== 1 ||
     !Object.values(RelativeRange).includes(spanMatch[0] as RelativeRange)
