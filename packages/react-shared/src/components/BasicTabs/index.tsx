@@ -1,13 +1,6 @@
-import React, {
-  useState,
-  FC,
-  SyntheticEvent,
-  CSSProperties,
-  useEffect,
-} from "react";
+import React, { useState, FC, SyntheticEvent, useEffect } from "react";
 import Tabs from "@mui/material/Tabs";
 import Tab from "@mui/material/Tab";
-import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
 import { SxProps } from "@mui/system";
 

@@ -11,7 +11,7 @@ echo "Current package version: $PACKAGE_VERSION"
 LATEST_PACKAGE_VERSION=$(npm show $PACKAGE_NAME version)
 echo "Published packaged version $LATEST_PACKAGE_VERSION"
 
-if [ $PACKAGE_VERSION != $LATEST_PACKAGE_VERSION ] ; then
+if [ "$PACKAGE_VERSION" != "$LATEST_PACKAGE_VERSION" ] ; then
     yarn build
 	yarn publish --new-version $PACKAGE_VERSION
 else
