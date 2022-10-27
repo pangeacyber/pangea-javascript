@@ -9,6 +9,7 @@ import {
   LinearProgress,
   IconButton,
   Box,
+  InputBase,
 } from "@mui/material";
 import FilterAltOutlinedIcon from "@mui/icons-material/FilterAltOutlined";
 
@@ -86,28 +87,34 @@ const AuditSearch: FC<Props> = ({
             onChange={setQuery_}
             InputProps={{
               endAdornment: (
-                <IconButton
-                  onClick={(event) => {
-                    setOpen(true);
-                    event.stopPropagation();
-                  }}
-                  size="small"
-                >
-                  <FilterAltOutlinedIcon color="action" fontSize="small" />
-                </IconButton>
+                <>
+                  <IconButton
+                    onClick={(event) => {
+                      setOpen(true);
+                      event.stopPropagation();
+                    }}
+                    size="small"
+                  >
+                    <FilterAltOutlinedIcon color="action" fontSize="small" />
+                  </IconButton>
+                </>
               ),
               size: "small",
               sx: {
                 flexGrow: 1,
                 borderBottomRightRadius: "0!important",
                 borderTopRightRadius: "0!important",
+                "&.MuiInputBase-root": {
+                  padding: "8px!important",
+                },
               },
             }}
           />
           <TimeRangeSelect
             value={pick(queryObj, ["after", "before", "since", "active"]) ?? {}}
             setValue={(rangeObj) => setQueryObj({ ...queryObj, ...rangeObj })}
-            buttonProps={{
+            ButtonProps={{
+              className: "PangeaInput-root",
               sx: {
                 borderLeft: "none",
                 borderBottomLeftRadius: "0!important",
