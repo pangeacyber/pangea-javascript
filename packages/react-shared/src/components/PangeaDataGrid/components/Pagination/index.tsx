@@ -1,6 +1,5 @@
 import { FC } from "react";
-import { GridRenderPaginationProps } from "@mui/x-data-grid";
-import { Button, IconButton, Stack, Tooltip, Typography } from "@mui/material";
+import { Stack } from "@mui/material";
 import PageSelector from "./PageSelector";
 import PageInputSelector from "./PageInputSelector";
 
