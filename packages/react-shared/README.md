@@ -24,4 +24,4 @@ yarn install
 yarn storybook
 ```
 
-Open [http://localhost:6060](http://localhost:6060) with your browser to view the component storybook
+Open [http://localhost:6060](http://localhost:6060) with your browser to view the component storybook.
