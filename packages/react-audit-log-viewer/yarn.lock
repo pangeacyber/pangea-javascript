@@ -1956,10 +1956,10 @@
     mkdirp "^1.0.4"
     rimraf "^3.0.2"
 
-"@pangeacyber/react-shared@0.0.5":
-  version "0.0.5"
-  resolved "https://registry.yarnpkg.com/@pangeacyber/react-shared/-/react-shared-0.0.5.tgz#0aec400ed306fd496cdeccdfef3234be6bb2fdff"
-  integrity sha512-7rOTiwcYTcJJrUvUi594Nbc597Wvd8MbDKSe1CgtunkO0CJXjXsGT45h3Fg363X2TPtQtbGOBjGTDQ/BKPYdDw==
+"@pangeacyber/react-shared@0.0.6":
+  version "0.0.6"
+  resolved "https://registry.yarnpkg.com/@pangeacyber/react-shared/-/react-shared-0.0.6.tgz#52454372ea7e14ea1adb2478fc85d2e1bbff33e8"
+  integrity sha512-4xo52KzYllO8HpKPnI+13RfaSOZbcz1VFJPn2zL8giS9fWQ4zc3fiBN3GpfMZRQeMVtSFkMVfFQHNG54q0tZ8w==
   dependencies:
     "@loadable/component" "^5.15.2"
     "@mui/x-data-grid" "^5.17.2"
