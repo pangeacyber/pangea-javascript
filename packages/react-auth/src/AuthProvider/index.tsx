@@ -45,18 +45,18 @@ export interface CookieOptions {
 
 export interface AuthProviderProps {
   /**
-   * providerUI: string
+   * loginUrl: string
    *
-   * The UI url for authn
+   * The url for the authn hosted UI
    */
-  providerUI: string;
+  loginUrl: string;
 
   /**
-   * providerAPI: string
+   * domain: string
    *
-   * The API url for authn
+   * The domain for the authn API
    */
-  providerAPI: string;
+  domain: string;
 
   /**
    * onLogin: (appState: AppState) => void
@@ -114,8 +114,8 @@ export const hasAuthParams = (searchParams = window.location.search): boolean =>
 const AuthContext = createContext<AuthContextType>({} as AuthContextType);
 
 export const AuthProvider: FC<AuthProviderProps> = ({
-  providerUI,
-  providerAPI,
+  loginUrl,
+  domain,
   onLogin,
   useCookie = false,
   cookieOptions = {},
@@ -128,11 +128,11 @@ export const AuthProvider: FC<AuthProviderProps> = ({
 
   // For local development, use port 4000 for API and 4001 for hosted UI
   const slashRe = /\/$/;
-  const checkURL = `${providerAPI.replace(slashRe, "")}/v1/token/check`;
-  const loginURL = `${providerUI.replace(slashRe, "")}/authorize`;
-  const signupURL = `${providerUI.replace(slashRe, "")}/signup`;
-  const infoURL = `${providerAPI.replace(slashRe, "")}/v1/userinfo`;
-  const logoutURL = `${providerUI.replace(slashRe, "")}/logout`;
+  const checkURL = `${domain.replace(slashRe, "")}/v1/token/check`;
+  const loginURL = `${loginUrl.replace(slashRe, "")}/authorize`;
+  const signupURL = `${loginUrl.replace(slashRe, "")}/signup`;
+  const infoURL = `${domain.replace(slashRe, "")}/v1/userinfo`;
+  const logoutURL = `${loginUrl.replace(slashRe, "")}/logout`;
 
   const combinedCookieOptions: CookieOptions = {
     ...DEFAULT_COOKIE_OPTIONS,
