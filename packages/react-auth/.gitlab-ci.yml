@@ -1,0 +1,26 @@
+.react_auth_base:
+  image: node
+  before_script:
+    - cd packages/react-auth
+    - yarn install --frozen-lockfile
+    - apt-get -qq update
+    - apt-get install -y jq
+  cache:
+    - key:
+        files:
+          - yarn.lock
+      paths:
+        - node_modules
+
+publish_react_auth:
+  extends: .react_auth_base
+  stage: Publish
+  script:
+    - cp ../../scripts/publish.sh .
+    - echo "${NPMRC}" > .npmrc && ./publish.sh && rm .npmrc
+    - rm publish.sh
+  rules:
+    - if: $CI_COMMIT_BRANCH == "main"
+      changes:
+        - packages/react-auth/**/*
+      when: always
