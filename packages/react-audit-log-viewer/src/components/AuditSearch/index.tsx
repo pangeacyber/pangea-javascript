@@ -22,6 +22,7 @@ import {
 
 import AuditColumnsSettingButton from "../AuditColumnsPanel";
 import { AuditQuery } from "../../utils/query";
+import AuditFieldForm from "../AuditFieldForm";
 
 interface Props {
   query: string;
@@ -144,22 +145,13 @@ const AuditSearch: FC<Props> = ({
       )}
       <PopoutCard anchorRef={searchRef} open={open} setOpen={setOpen} flatTop>
         <div style={{ width: (searchRef.current?.clientWidth ?? 0) - 36 }}>
-          {/*
-            <FieldsForm
-              object={queryObj}
-              fields={AuditRecordFields}
-              onSubmit={async (values) => {
-                setQueryObj({ ...queryObj, ...values });
-                setOpen(false);
-              }}
-              SaveButton={(props) => (
-                <Button {...props}>
-                  <FormattedMessage defaultMessage="Search" />
-                </Button>
-              )}
-              multiColumn
-            />
-          */}
+          <AuditFieldForm
+            queryObj={queryObj}
+            onSearch={async (values) => {
+              setQueryObj({ ...queryObj, ...values });
+              setOpen(false);
+            }}
+          />
         </div>
       </PopoutCard>
     </>
