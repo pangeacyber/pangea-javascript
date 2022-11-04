@@ -128,18 +128,24 @@ const AuditColumnsSettingButton = () => {
                                   spacing={0.5}
                                   alignItems="center"
                                 >
-                                  <ListItemIcon className="drag-handle">
+                                  <ListItemIcon
+                                    className="drag-handle"
+                                    sx={{ width: "24px", minWidth: "24px" }}
+                                  >
                                     <div
                                       {...provided.dragHandleProps}
                                       style={{
                                         ...provided.dragHandleProps,
                                         height: "24px",
+                                        width: "24px",
                                       }}
                                     >
                                       <DragIndicatorIcon />
                                     </div>
                                   </ListItemIcon>
-                                  <ListItemIcon>
+                                  <ListItemIcon
+                                    sx={{ width: "40px", minWidth: "40px" }}
+                                  >
                                     <Checkbox
                                       size="small"
                                       sx={{
