@@ -100,15 +100,13 @@ export const useAuditQuery = (limit: number): UseAuditQuery => {
     active: "since",
   });
 
-  const body = useMemo(() => {
+  const body = useMemo<Audit.SearchRequest>(() => {
     return {
       query: query,
       ...getTimeFilterKwargs(queryObj),
       ...(sort ?? {}),
       limit,
-      include_membership_proof: true,
-      include_hash: true,
-      include_root: true,
+      verbose: true,
     };
   }, [query, queryObj, sort]);
 
