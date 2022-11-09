@@ -4,11 +4,12 @@ import { ThemeProviderProps } from "@mui/material/styles/ThemeProvider";
 import { ThemeProvider, ThemeOptions, createTheme } from "@mui/material/styles";
 import ScopedCssBaseline from "@mui/material/ScopedCssBaseline";
 import { useBranding } from "../../hooks";
-import { PangeaAuth } from "@src/types";
+import { Branding, PangeaAuth } from "@src/types";
 import { getBrandingThemeOptions } from "@src/utils";
 
 export interface BrandingThemeProviderProps {
   auth: PangeaAuth;
+  config?: Branding.Config;
   themeOptions?: Partial<ThemeOptions>;
   ThemeProviderProps?: Partial<ThemeProviderProps>;
   children?: ReactNode;
@@ -16,6 +17,7 @@ export interface BrandingThemeProviderProps {
 
 const BrandingThemeProvider: FC<BrandingThemeProviderProps> = ({
   auth,
+  config: configProp,
   themeOptions = {},
   ThemeProviderProps = {},
   children,
@@ -24,7 +26,7 @@ const BrandingThemeProvider: FC<BrandingThemeProviderProps> = ({
 
   const customTheme = useMemo(() => {
     try {
-      const themeOptions_ = getBrandingThemeOptions(config);
+      const themeOptions_ = getBrandingThemeOptions(configProp ?? config);
       return createTheme({ ...themeOptions_, ...themeOptions });
     } catch {
       // FIXME: Argument of type '{ components: AllComponents; }' is not assignable to parameter of type 'ThemeOptions'.
