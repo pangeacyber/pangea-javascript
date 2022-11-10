@@ -2,40 +2,40 @@ import React from "react";
 import logo from "./logo.svg";
 import "./App.css";
 import { AuditLogViewer } from "@pangeacyber/react-audit-log-viewer";
+import { BrandingThemeProvider } from "@pangeacyber/react-branding";
 import { Container, Button } from "@mui/material";
-import { ThemeProvider, createTheme } from "@mui/material/styles";
+import { ThemeProvider, createTheme, useTheme } from "@mui/material/styles";
+
+const TestTheme = () => {
+  const theme = useTheme();
+  console.log(theme.palette);
+  return null;
+};
 
 function App() {
   return (
     <div className="App">
-      <ThemeProvider theme={createTheme()}>
+      <BrandingThemeProvider
+        brandingId={process.env.REACT_APP_PANGEA_BRANDING_ID}
+        auth={{
+          clientToken: process.env.REACT_APP_PANGEA_CLIENT_TOKEN,
+          domain: process.env.REACT_APP_PANGEA_SERVICE_DOMAIN,
+        }}
+      >
         <Container sx={{ paddingTop: 4 }}>
+          <TestTheme />
           <AuditLogViewer
-            search={async () => {
-              const response: any = {
-                id: "mock",
-                events: [
-                  {
-                    id: "mock",
-                    actor: "Pepe Silvia",
-                    action: "Delivery",
-                    message:
-                      "Failed to deliver mail to Pepe, unable to find him.",
-                  },
-                ],
-              };
-
-              return response;
-            }}
-            fetchRoot={async () => {
-              const response: any = {
-                id: "mock",
+            // @ts-ignore
+            onSearch={async () => {
+              return {
+                id: "none",
+                count: 0,
                 events: [],
+                expires_at: "none",
+                root: undefined,
               };
-
-              return response;
             }}
-            fetchResults={async () => {
+            onPageChange={async () => {
               const response: any = {
                 id: "mock",
                 events: [],
@@ -45,7 +45,7 @@ function App() {
             }}
           />
         </Container>
-      </ThemeProvider>
+      </BrandingThemeProvider>
     </div>
   );
 }

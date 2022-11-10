@@ -162,7 +162,7 @@ export const getBrandingThemeOptions = (
       MuiCssBaseline: {
         styleOverrides: {
           root: {
-            ".MuiBox-root.widget": {
+            ".MuiBox-root.widget, .PangeaPanel-root": {
               backgroundColor: config?.panel_bg_color ?? "#fff",
               borderRadius: config?.panel_border_radius ?? "8px",
             },
@@ -176,7 +176,7 @@ export const getBrandingThemeOptions = (
       MuiScopedCssBaseline: {
         styleOverrides: {
           root: {
-            ".MuiBox-root.widget": {
+            ".MuiBox-root.widget, .PangeaPanel-root": {
               backgroundColor: config?.panel_bg_color ?? "#fff",
               borderRadius: config?.panel_border_radius ?? "8px",
             },
