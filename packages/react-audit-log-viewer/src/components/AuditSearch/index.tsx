@@ -105,8 +105,8 @@ const AuditSearch: FC<Props> = ({
                 flexGrow: 1,
                 borderBottomRightRadius: "0!important",
                 borderTopRightRadius: "0!important",
-                "&.MuiInputBase-root": {
-                  padding: "8px!important",
+                "&.MuiInputBase-root.MuiOutlinedInput-root": {
+                  paddingRight: "8px",
                 },
               },
             }}
