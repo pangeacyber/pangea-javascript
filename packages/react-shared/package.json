@@ -4,7 +4,7 @@
   "description": "Pangea shared React library",
   "main": "dist/cjs/index.js",
   "module": "dist/esm/index.js",
-  "repository": "https://github.com/pangeacyber/javascript.git",
+  "repository": "https://github.com/pangeacyber/pangea-javascript.git",
   "author": "Pangea (https://pangea.cloud)",
   "license": "MIT",
   "types": "dist/index.d.ts",

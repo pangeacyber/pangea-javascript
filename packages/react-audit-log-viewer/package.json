@@ -5,7 +5,7 @@
   "main": "dist/cjs/index.js",
   "module": "dist/esm/index.js",
   "types": "dist/index.d.ts",
-  "repository": "https://github.com/pangeacyber/javascript.git",
+  "repository": "https://github.com/pangeacyber/pangea-javascript.git",
   "author": "Pangea (https://pangea.cloud)",
   "license": "MIT",
   "scripts": {
