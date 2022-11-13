@@ -1,0 +1,14 @@
+{
+  "name": "domain_lookup",
+  "version": "1.0.0",
+  "description": "Pangea Intel domain example",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Pangea",
+  "license": "ISC",
+  "dependencies": {
+    "node-pangea": "^0.3.5"
+  }
+}

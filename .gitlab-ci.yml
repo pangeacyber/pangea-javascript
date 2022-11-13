@@ -1,3 +1,8 @@
+default:
+  image: node
+  tags:
+    - pangea-internal
+
 stages:
   - Lint
   - Unit Test
@@ -25,4 +30,5 @@ include:
   - /packages/react-shared/.gitlab-ci.yml
   - /packages/react-audit-log-viewer/.gitlab-ci.yml
   - /packages/react-auth/.gitlab-ci.yml
+  - /packages/pangea-node-sdk/.gitlab-ci.yml
   - /examples/audit/gitlab-ci.yml

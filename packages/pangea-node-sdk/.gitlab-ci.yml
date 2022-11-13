@@ -1,0 +1,48 @@
+.pangea_node_sdk_base:
+  before_script:
+    - cd packages/pangea-node-sdk
+    - yarn install
+    # - apt-get -qq update
+    # - apt-get install -y jq
+  cache:
+    - key:
+        files:
+          - yarn.lock
+      paths:
+        - node_modules
+  rules:
+    - if: $CI_PIPELINE_SOURCE == "merge_request_event"
+      changes:
+        - packages/pangea-node-sdk/**/*
+      when: on_success
+
+lint_pangea_node_sdk:
+  extends: .pangea_node_sdk_base
+  stage: Lint
+  script:
+    - yarn lint
+
+test_pangea_node_sdk:
+  extends: .pangea_node_sdk_base
+  stage: Unit Test
+  script:
+    - yarn test:unit
+
+integration_pangea_node_sdk:
+  extends: .pangea_node_sdk_base
+  stage: Integration Test
+  script:
+    - yarn test:integration
+
+# publish_pangea_node_sdk_base:
+#   extends: .pangea_node_sdk_base
+#   stage: Publish
+#   script:
+#     - cp ../../scripts/publish.sh .
+#     - echo "${NPMRC}" > .npmrc && ./publish.sh && rm .npmrc
+#     - rm publish.sh
+#   rules:
+#     - if: $CI_COMMIT_BRANCH == "main"
+#       changes:
+#         - packages/pangea-node-sdk/**/*
+#       when: always
