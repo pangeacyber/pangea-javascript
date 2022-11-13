@@ -1,0 +1,19 @@
+{
+  "env": {
+    "node": true
+  },
+  "parser": "@typescript-eslint/parser",
+  "plugins": ["@typescript-eslint"],
+  "extends": ["prettier", "@gitlab"],
+  "ignorePatterns": ["/coverage/**", "/dev/**", "/dist/**"],
+  "rules": {
+    "semi": ["error", "always"],
+    "quotes": ["error", "double"],
+    "node/no-unsupported-features/es-syntax": [
+      "error",
+      {
+        "ignores": ["dynamicImport", "modules"]
+      }
+    ]
+  }
+}
