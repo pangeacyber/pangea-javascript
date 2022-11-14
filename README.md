@@ -17,4 +17,9 @@
 
 ## Welcome
 
-This is the Pangea javascript repository.
+This is the Pangea JavaScript repository.
+
+
+### Pangea Node SDK
+
+[Pangea Node SDK](/packages/pangea-node-sdk)
