@@ -20,6 +20,4 @@
 This is the Pangea JavaScript repository.
 
 
-### Pangea Node SDK
-
 [Pangea Node SDK](/packages/pangea-node-sdk)
