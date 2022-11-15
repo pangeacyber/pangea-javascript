@@ -33,7 +33,6 @@ integration_pangea_node_sdk:
   stage: Integration Test
   script:
     - yarn test:integration
-
 # publish_pangea_node_sdk_base:
 #   extends: .pangea_node_sdk_base
 #   stage: Publish
