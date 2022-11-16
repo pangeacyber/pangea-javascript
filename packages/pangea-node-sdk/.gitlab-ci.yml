@@ -11,7 +11,7 @@
       paths:
         - node_modules
   rules:
-    - if: $CI_PIPELINE_SOURCE == "merge_request_event"
+    - if: $CI_PIPELINE_SOURCE == "push"
       changes:
         - packages/pangea-node-sdk/**/*
       when: on_success
@@ -33,7 +33,6 @@ integration_pangea_node_sdk:
   stage: Integration Test
   script:
     - yarn test:integration
-
 # publish_pangea_node_sdk_base:
 #   extends: .pangea_node_sdk_base
 #   stage: Publish
