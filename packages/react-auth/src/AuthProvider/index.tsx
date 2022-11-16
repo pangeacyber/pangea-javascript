@@ -11,7 +11,7 @@ import axios from "axios";
 import { randomBytes } from "crypto";
 
 import { toUrlEncoded, encode58 } from "./utils";
-import { AuthUser, AppState } from "../types";
+import { AuthUser, AppState, ClientConfig } from "../types";
 
 export interface AuthContextType {
   loading: boolean;
@@ -52,11 +52,14 @@ export interface AuthProviderProps {
   loginUrl: string;
 
   /**
-   * domain: string
+   * config: {
+   *  domain: string
+   *  clientToken: string
+   * }
    *
-   * The domain for the authn API
+   * The client config for the authn API
    */
-  domain: string;
+  config: ClientConfig;
 
   /**
    * onLogin: (appState: AppState) => void
@@ -126,7 +129,7 @@ const AuthContext = createContext<AuthContextType>({} as AuthContextType);
 
 export const AuthProvider: FC<AuthProviderProps> = ({
   loginUrl,
-  domain,
+  config,
   onLogin,
   useCookie = false,
   cookieOptions = {},
@@ -140,10 +143,10 @@ export const AuthProvider: FC<AuthProviderProps> = ({
 
   // For local development, use port 4000 for API and 4001 for hosted UI
   const slashRe = /\/$/;
-  const checkURL = `${domain.replace(slashRe, "")}/v1/token/check`;
+  const checkURL = `${config.domain.replace(slashRe, "")}/v1/token/check`;
   const loginURL = `${loginUrl.replace(slashRe, "")}/authorize`;
   const signupURL = `${loginUrl.replace(slashRe, "")}/signup`;
-  const infoURL = `${domain.replace(slashRe, "")}/v1/userinfo`;
+  const infoURL = `${config.domain.replace(slashRe, "")}/v1/userinfo`;
   const logoutURL = `${loginUrl.replace(slashRe, "")}/logout`;
 
   const combinedCookieOptions: CookieOptions = {
@@ -169,13 +172,15 @@ export const AuthProvider: FC<AuthProviderProps> = ({
     }
   }, []);
 
-  const validate = (token: string) => {
-    const headers = {
-      Authorization: `Bearer ${token}`,
+  const clientHeaders = () => {
+    return {
+      Authorization: `Bearer ${config.clientToken}`,
     };
+  };
 
+  const validate = (token: string) => {
     axios
-      .post(checkURL, { token }, { headers: headers })
+      .post(checkURL, { token }, { headers: clientHeaders() })
       .then((resp) => {
         setAuthenticated(true);
       })
@@ -216,7 +221,7 @@ export const AuthProvider: FC<AuthProviderProps> = ({
       setLoading(false);
     } else {
       axios
-        .post(infoURL, { code: code })
+        .post(infoURL, { code: code }, { headers: clientHeaders() })
         .then((resp) => {
           const result = resp?.data?.result;
           if (result?.token) {
