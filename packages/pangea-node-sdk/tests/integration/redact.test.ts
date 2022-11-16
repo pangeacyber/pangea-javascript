@@ -1,6 +1,7 @@
 import PangeaConfig from "../../src/config";
 import { PangeaErrors } from "../../src/errors";
 import RedactService from "../../src/services/redact";
+import { it, expect } from "@jest/globals";
 
 const token = process.env.PANGEA_INTEGRATION_REDACT_TOKEN || "";
 const testHost = process.env.PANGEA_INTEGRATION_DOMAIN || "";

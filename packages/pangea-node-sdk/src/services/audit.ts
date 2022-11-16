@@ -94,7 +94,7 @@ class AuditService extends BaseService {
 
     const data: Audit.LogData = { event: event };
 
-    if (options.signer) {
+    if (options.signer && options.signMode == Audit.SignOptions.Local) {
       const signer = options.signer;
       const eventJson = canonicalize(event);
       const signature = signer.sign(eventJson);

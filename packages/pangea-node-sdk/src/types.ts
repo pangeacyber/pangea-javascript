@@ -18,17 +18,24 @@ export interface ConfigOptions {
 export namespace Audit {
   export interface LogOptions {
     verbose?: boolean;
+    signMode?: SignOptions
     signer?: Signer;
     skipEventVerification?: boolean;
     verify?: boolean;
   }
 
-  export interface LogData extends Audit.LogOptions {
+  export interface LogData {
     event: Audit.Event;
+    verbose?: boolean;
     signature?: string;
     public_key?: string;
     prev_root?: string;
   }
+
+  export enum SignOptions {
+      Unsign,
+      Local,
+  };
 
   export interface Event {
     message: Object | string;
