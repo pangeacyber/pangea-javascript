@@ -1,5 +1,5 @@
 .example_audit_base:
-  image: node
+  image: cypress/browsers:node16.14.2-slim-chrome100-ff99-edge
   before_script:
     - cd examples/audit
     - npm ci
@@ -12,7 +12,6 @@
 
 test_example_audit_app:
   extends: .example_audit_base
-  image: cypress/browsers:node16.14.2-slim-chrome100-ff99-edge
   stage: Integration Test
   script:
     - npm run cypress:ci
