@@ -18,7 +18,7 @@ export interface ConfigOptions {
 export namespace Audit {
   export interface LogOptions {
     verbose?: boolean;
-    signMode?: SignOptions
+    signMode?: SignOptions;
     signer?: Signer;
     skipEventVerification?: boolean;
     verify?: boolean;
@@ -33,9 +33,9 @@ export namespace Audit {
   }
 
   export enum SignOptions {
-      Unsign,
-      Local,
-  };
+    Unsign,
+    Local,
+  }
 
   export interface Event {
     message: Object | string;

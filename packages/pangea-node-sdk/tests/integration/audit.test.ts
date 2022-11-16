@@ -155,7 +155,11 @@ it("log an event, local sign and verify", async () => {
     old: "Old",
   };
 
-  const respLog = await audit.log(event, { verbose: true, signer: signer, signMode: Audit.SignOptions.Local});
+  const respLog = await audit.log(event, {
+    verbose: true,
+    signer: signer,
+    signMode: Audit.SignOptions.Local,
+  });
   expect(respLog.status).toBe("Success");
   expect(typeof respLog.result.hash).toBe("string");
 
@@ -185,7 +189,7 @@ it("log JSON event, sign and verify", async () => {
   const respLog = await audit.log(event, {
     verbose: true,
     signer: signer,
-    signMode: Audit.SignOptions.Local
+    signMode: Audit.SignOptions.Local,
   });
   expect(respLog.status).toBe("Success");
   expect(typeof respLog.result.hash).toBe("string");
