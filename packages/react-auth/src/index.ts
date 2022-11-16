@@ -4,6 +4,6 @@ export {
   useAuth,
   getToken,
   getSessionData,
-} from "./AuthProvider";
+} from "./AuthProvider/index";
 export { encode58, toUrlEncoded } from "./AuthProvider/utils";
 export { Profile, AuthUser, AppState } from "./types";

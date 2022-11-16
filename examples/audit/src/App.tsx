@@ -6,12 +6,6 @@ import { BrandingThemeProvider } from "@pangeacyber/react-branding";
 import { Container, Button } from "@mui/material";
 import { ThemeProvider, createTheme, useTheme } from "@mui/material/styles";
 
-const TestTheme = () => {
-  const theme = useTheme();
-  console.log(theme.palette);
-  return null;
-};
-
 function App() {
   return (
     <div className="App">
@@ -23,7 +17,6 @@ function App() {
         }}
       >
         <Container sx={{ paddingTop: 4 }}>
-          <TestTheme />
           <AuditLogViewer
             // @ts-ignore
             onSearch={async () => {

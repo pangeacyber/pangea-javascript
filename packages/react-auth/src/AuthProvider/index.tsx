@@ -94,6 +94,17 @@ export interface AuthProviderProps {
   redirectPathname?: string;
 
   children: any;
+
+  /**
+   * useStrictStateCheck: optional boolean
+   *
+   * When set to true AuthProvider will only accept state values generate by your application.
+   *
+   * Not allowing authentication flows starting from outside your application.
+   *
+   * Default is false
+   */
+  useStrictStateCheck?: boolean;
 }
 
 const SESSION_DATA_KEY = "pangea-authn";
@@ -121,6 +132,7 @@ export const AuthProvider: FC<AuthProviderProps> = ({
   cookieOptions = {},
   redirectPathname,
   children,
+  useStrictStateCheck = false,
 }) => {
   const [authenticated, setAuthenticated] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(true);
@@ -194,14 +206,11 @@ export const AuthProvider: FC<AuthProviderProps> = ({
     const state = urlParams.get("state");
     const code = urlParams.get("code");
 
-    debugger;
     if (!state || !code) {
-      debugger;
       const msg = "Missing required parameters";
       setError(msg);
       setLoading(false);
-    } else if (state !== savedState) {
-      debugger;
+    } else if (state !== savedState && useStrictStateCheck) {
       const msg = "Invalid session state";
       setError(msg);
       setLoading(false);
