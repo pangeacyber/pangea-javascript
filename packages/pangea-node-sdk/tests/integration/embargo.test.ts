@@ -1,6 +1,7 @@
 import PangeaConfig from "../../src/config";
 import EmbargoService from "../../src/services/embargo";
 import { PangeaErrors } from "../../src/errors";
+import {it, expect } from "@jest/globals";
 
 const token = process.env.PANGEA_INTEGRATION_EMBARGO_TOKEN || "";
 const testHost = process.env.PANGEA_INTEGRATION_DOMAIN || "";

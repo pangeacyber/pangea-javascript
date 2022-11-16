@@ -2,13 +2,14 @@ import PangeaConfig from "../../src/config";
 import AuditService from "../../src/services/audit";
 import { Audit } from "../../src/types";
 import { Signer } from "../../src/utils/signer";
-import { jest } from "@jest/globals";
+import { jest, it, expect } from "@jest/globals";
 import { PangeaErrors } from "../../src/errors";
 
 const ACTOR = "node-sdk";
 const MSG_NO_SIGNED = "test-message";
 const MSG_JSON = "JSON-message";
-const MSG_SIGNED = "sign-test";
+const MSG_SIGNED_LOCAL = "sign-test-local";
+const MSG_SIGNED_VAULT = "sign-test-vault";
 const STATUS_NO_SIGNED = "no-signed";
 const STATUS_SIGNED = "signed";
 const signer = new Signer("./tests/testdata/privkey");
@@ -143,9 +144,9 @@ it("log an audit event in JSON format", async () => {
   });
 });
 
-it("log an event, sign and verify", async () => {
+it("log an event, local sign and verify", async () => {
   const event: Audit.Event = {
-    message: MSG_SIGNED,
+    message: MSG_SIGNED_LOCAL,
     source: "Source",
     status: "Status",
     target: "Target",
@@ -155,11 +156,11 @@ it("log an event, sign and verify", async () => {
     old: "Old",
   };
 
-  const respLog = await audit.log(event, { verbose: true, signer: signer });
+  const respLog = await audit.log(event, { verbose: true, signer: signer, signMode: Audit.SignOptions.Local});
   expect(respLog.status).toBe("Success");
   expect(typeof respLog.result.hash).toBe("string");
 
-  const query = "message:" + MSG_SIGNED + " actor:" + ACTOR;
+  const query = "message:" + MSG_SIGNED_LOCAL + " actor:" + ACTOR;
   const queryOptions: Audit.SearchParamsOptions = {
     limit: 1,
   };
@@ -170,9 +171,34 @@ it("log an event, sign and verify", async () => {
   expect(searchEvent.envelope.public_key).toBe("lvOyDMpK2DQ16NI8G41yINl01wMHzINBahtDPoh4+mE=");
 });
 
+
+it("log an event, vault sign", async () => {
+  const event: Audit.Event = {
+    message: MSG_SIGNED_VAULT,
+    source: "Source",
+    status: "Status",
+    target: "Target",
+    actor: ACTOR,
+    action: "Action",
+    new: "New",
+    old: "Old",
+  };
+
+  const respLog = await audit.log(event, { verbose: true, signMode: Audit.SignOptions.Vault});
+  expect(respLog.status).toBe("Success");
+  expect(typeof respLog.result.hash).toBe("string");
+  expect(respLog.result.envelope).toBeDefined();
+  expect(respLog.result.envelope.public_key).toBeDefined();
+  expect(respLog.result.envelope.signature).toBeDefined();
+  expect(respLog.result.envelope.signature_key_id).toBeDefined();
+  expect(respLog.result.envelope.signature_key_version).toBeDefined();
+  expect(respLog.result.signature_verification).toBe("none");
+});
+
+
 it("log JSON event, sign and verify", async () => {
   const event: Audit.Event = {
-    message: MSG_SIGNED,
+    message: MSG_SIGNED_LOCAL,
     source: "Source",
     status: STATUS_SIGNED,
     target: "Target",
@@ -185,12 +211,13 @@ it("log JSON event, sign and verify", async () => {
   const respLog = await audit.log(event, {
     verbose: true,
     signer: signer,
+    signMode: Audit.SignOptions.Local
   });
   expect(respLog.status).toBe("Success");
   expect(typeof respLog.result.hash).toBe("string");
   expect(respLog.result.signature_verification).toBe("pass");
 
-  const query = "message:" + MSG_SIGNED + " actor:" + ACTOR + " status:" + STATUS_SIGNED;
+  const query = "message:" + MSG_SIGNED_LOCAL + " actor:" + ACTOR + " status:" + STATUS_SIGNED;
   const queryOptions: Audit.SearchParamsOptions = {
     limit: 1,
   };
@@ -203,8 +230,8 @@ it("log JSON event, sign and verify", async () => {
 
 jest.setTimeout(20000);
 it("search audit log and verify signature", async () => {
-  const query = "message:" + MSG_SIGNED + " status:" + STATUS_SIGNED;
-  const limit = 5;
+  const query = "message:" + MSG_SIGNED_LOCAL + " status:" + STATUS_SIGNED;
+  const limit = 2;
 
   const queryOptions: Audit.SearchParamsOptions = {
     limit: limit,
@@ -256,8 +283,8 @@ it("search audit log and verify consistency", async () => {
 
 jest.setTimeout(20000);
 it("search audit log and skip consistency verification", async () => {
-  const query = "message:" + MSG_SIGNED;
-  const limit = 4;
+  const query = "message:" + MSG_SIGNED_LOCAL;
+  const limit = 2;
 
   const queryOptions: Audit.SearchParamsOptions = {
     limit: limit,
