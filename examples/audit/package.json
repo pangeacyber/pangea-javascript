@@ -27,7 +27,7 @@
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "cypress:ci": "start-server-and-test \"npm run start:ci\" http://localhost:8080 \"npm run cypress:run\"",
-    "cypress:run": "cypress run --browser chrome",
+    "cypress:run": "cypress run",
     "cypress:open": "cypress open"
   },
   "eslintConfig": {
