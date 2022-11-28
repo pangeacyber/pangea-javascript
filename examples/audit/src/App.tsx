@@ -1,10 +1,10 @@
 import React from "react";
 import logo from "./logo.svg";
 import "./App.css";
+
 import { AuditLogViewer } from "@pangeacyber/react-audit-log-viewer";
 import { BrandingThemeProvider } from "@pangeacyber/react-branding";
-import { Container, Button } from "@mui/material";
-import { ThemeProvider, createTheme, useTheme } from "@mui/material/styles";
+import { Container } from "@mui/material";
 
 function App() {
   return (
@@ -22,10 +22,18 @@ function App() {
             onSearch={async () => {
               return {
                 id: "none",
-                count: 0,
-                events: [],
+                count: 1,
+                events: [
+                  {
+                    envelope: {
+                      event: {
+                        message: "Pepe Silvia",
+                      },
+                    },
+                    received_at: "2022-08-09T23:30:01.313785+00:00",
+                  },
+                ],
                 expires_at: "none",
-                root: undefined,
               };
             }}
             onPageChange={async () => {
