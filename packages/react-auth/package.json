@@ -1,11 +1,11 @@
 {
   "name": "@pangeacyber/react-auth",
-  "version": "0.0.1",
+  "version": "0.0.1-beta.1",
   "description": "Pangea auth provider React component",
   "main": "dist/cjs/index.js",
   "module": "dist/esm/index.js",
   "types": "dist/index.d.ts",
-  "repository": "https://github.com/pangeacyber/javascript.git",
+  "repository": "https://github.com/pangeacyber/pangea-javascript.git",
   "author": "Pangea (https://pangea.cloud)",
   "license": "MIT",
   "scripts": {

@@ -1,7 +1,7 @@
 node_modules/
 /yarn-error.log
 .babelrc
-gitlab-ci.yml
+.gitlab-ci.yml
 jest.config.js
 package.json
 rollup.config.js
