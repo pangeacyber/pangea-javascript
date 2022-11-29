@@ -53,4 +53,4 @@ publish_pangea_node_sdk_base:
   stage: Publish
   script:
     - yarn build
-    - cat ${NPMRC} > .npmrc && npm publish && rm -rf .npmrc
+    - echo ${NPMRC} > .npmrc && npm publish && rm -rf .npmrc
