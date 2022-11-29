@@ -1,5 +1,5 @@
 .example_audit_base:
-  image: cypress/browsers:node18.12.0-chrome106-ff106
+  image: node
   before_script:
     - cd examples/audit
     - npm ci --legacy-peer-deps
@@ -12,9 +12,10 @@
 
 test_example_audit_app:
   extends: .example_audit_base
-  image: cypress/browsers:node18.12.0-chrome106-ff106
+  image: cypress/browsers:node17.8.0-chrome99-ff97-slim
   stage: Integration Test
   script:
+    - npm run cypress:info
     - npm run cypress:ci
   artifacts:
     when: always

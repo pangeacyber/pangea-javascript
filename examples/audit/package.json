@@ -29,8 +29,9 @@
     "test": "react-app-rewired test",
     "eject": "react-app-rewired eject",
     "cypress:ci": "start-server-and-test \"npm run start:ci\" http://127.0.0.1:8080 \"npm run cypress:run\"",
-    "cypress:run": "cypress run --browser firefox",
+    "cypress:run": "cypress run --headless --browser chrome",
     "cypress:open": "cypress open",
+    "cypress:info": "cypress info",
     "lint": "npx prettier --check .",
     "prettier:fix": "npx prettier . -w"
   },
