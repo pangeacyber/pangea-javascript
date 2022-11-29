@@ -24,9 +24,9 @@ This package is provided with support for ESM and CommonJS.
 ## Installation
 
 ```sh
-yarn add node-pangea
+yarn add @pangeacyber/pangea-node-sdk
 # or
-npm install node-pangea
+npm install @pangeacyber/pangea-node-sdk
 ```
 
 ## Usage
@@ -34,7 +34,7 @@ npm install node-pangea
 Check our interactive guide on https://pangea.cloud/docs/admin-guide/getting-started/integrate/
 
 ```js
-import { PangeaConfig, AuditService } from "node-pangea";
+import { PangeaConfig, AuditService } from "@pangeacyber/pangea-node-sdk";
 
 const domain = process.env.PANGEA_DOMAIN;
 const token = process.env.PANGEA_TOKEN;
