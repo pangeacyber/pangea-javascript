@@ -18,8 +18,6 @@
   before_script:
     - cd packages/pangea-node-sdk
     - yarn install
-    - apt-get -qq update
-    - apt-get install -y jq
   cache:
     - key:
         files:
@@ -54,6 +52,5 @@ publish_pangea_node_sdk_base:
   extends: .pangea_node_sdk_publish
   stage: Publish
   script:
-    - cp ../../scripts/publish.sh .
-    - echo "${NPMRC}" > .npmrc && ./publish.sh && rm .npmrc
-    - rm publish.sh
+    - yarn build
+    - cat ${NPMRC} > .npmrc && npm publish && rm -rf .npmrc
