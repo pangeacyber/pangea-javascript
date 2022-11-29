@@ -2,7 +2,7 @@
   image: node
   before_script:
     - cd examples/audit
-    - npm ci
+    - npm ci --legacy-peer-deps
   cache:
     - key:
         files:
