@@ -28,7 +28,6 @@ class AuditService extends BaseService {
   constructor(token: string, config: PangeaConfig) {
     super("audit", token, config);
     this.publishedRoots = {};
-    this.configIdHeaderName = "X-Pangea-Audit-Config-ID";
     this.publishedRoots = {};
     this.apiVersion = "v1";
     this.prevUnpublishedRootHash = undefined;

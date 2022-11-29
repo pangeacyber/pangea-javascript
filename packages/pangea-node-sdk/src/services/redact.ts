@@ -10,7 +10,6 @@ import { Redact } from "../types.js";
 class RedactService extends BaseService {
   constructor(token: string, config: PangeaConfig) {
     super("redact", token, config);
-    this.configIdHeaderName = "X-Pangea-Redact-Config-ID";
     this.apiVersion = "v1";
   }
 

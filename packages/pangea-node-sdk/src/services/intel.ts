@@ -8,12 +8,11 @@ import { Intel } from "../types.js";
  * @extends BaseService
  *
  * Documentation
- *   https://docs.pangea.cloud/docs/api/file-intel
+ *   https://pangea.cloud/docs/api/file-intel
  *
  * The following information is needed:
  *   PANGEA_TOKEN - service token which can be found on the Pangea User
  *     Console at [https://console.pangea.cloud/project/tokens](https://console.pangea.cloud/project/tokens)
- *   FILE_INTEL_CONFIG_ID - Configuration ID which can be found on the Pangea
  *     User Console at [https://console.pangea.cloud/service/file-intel](https://console.pangea.cloud/service/file-intel)
  *
  * Examples:
@@ -31,7 +30,6 @@ import { Intel } from "../types.js";
 export class FileIntelService extends BaseService {
   constructor(token: string, config: PangeaConfig) {
     super("file-intel", token, config);
-    this.configIdHeaderName = "X-Pangea-File-Intel-Config-ID";
     this.apiVersion = "v1";
   }
 
@@ -73,12 +71,11 @@ export class FileIntelService extends BaseService {
  * @extends BaseService
  *
  * Documentation
- *   https://docs.pangea.cloud/docs/api/domain-intel
+ *   https://pangea.cloud/docs/api/domain-intel
  *
  * The following information is needed:
  *   PANGEA_TOKEN - service token which can be found on the Pangea User
  *     Console at [https://console.pangea.cloud/project/tokens](https://console.pangea.cloud/project/tokens)
- *   DOMAIN_INTEL_CONFIG_ID - Configuration ID which can be found on the Pangea
  *     User Console at [https://console.pangea.cloud/service/domain-intel](https://console.pangea.cloud/service/domain-intel)
  *
  * Examples:
@@ -96,7 +93,6 @@ export class FileIntelService extends BaseService {
 export class DomainIntelService extends BaseService {
   constructor(token: string, config: PangeaConfig) {
     super("domain-intel", token, config);
-    this.configIdHeaderName = "X-Pangea-Domain-Intel-Config-ID";
     this.apiVersion = "v1";
   }
 
