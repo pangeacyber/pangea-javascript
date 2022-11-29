@@ -1,12 +1,12 @@
 .example_audit_base:
-  image: node
+  image: cypress/browsers:node18.12.0-chrome106-ff106
   before_script:
     - cd examples/audit
     - npm ci --legacy-peer-deps
   cache:
     - key:
         files:
-          - yarn.lock
+          - package-lock.json
       paths:
         - node_modules
 
