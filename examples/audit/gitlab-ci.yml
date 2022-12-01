@@ -15,11 +15,6 @@ test_example_audit_app:
   image: cypress/browsers:node18.12.0-chrome103-ff107
   stage: Integration Test
   script:
-    - wget -qO - https://dl.google.com/linux/linux_signing_key.pub | gpg --dearmor -o /usr/share/keyrings/googlechrome-linux-keyring.gpg
-    - echo "deb [arch=amd64 signed-by=/usr/share/keyrings/googlechrome-linux-keyring.gpg] http://dl.google.com/linux/chrome/deb/ stable main" | tee /etc/apt/sources.list.d/google-chrome.list
-    - apt update
-    - apt install -y google-chrome-stable
-    - npm run cypress:info
     - npm run cypress:ci
   artifacts:
     when: always
