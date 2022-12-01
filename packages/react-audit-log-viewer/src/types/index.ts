@@ -5,7 +5,6 @@ export namespace Audit {
   export interface Config {
     id: string;
     retention: string;
-    redact_service_config_id: string;
     hotstorage: string;
   }
 

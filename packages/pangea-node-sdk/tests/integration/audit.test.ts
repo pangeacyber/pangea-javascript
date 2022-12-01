@@ -436,7 +436,7 @@ it("fail if empty message", async () => {
       expect(e.pangeaResponse.status).toBe("ValidationError");
       expect(e.errors.length).toBe(1);
       expect(e.summary).toBe(
-        "There was 1 error(s) in the given payload. Please visit https://dev.pangea.cloud/docs/api/audit#log-an-entry for more information."
+        "There was 1 error(s) in the given payload. Please visit https://pangea.cloud/docs/api/audit#log-an-entry for more information."
       );
     }
   }
