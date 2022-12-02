@@ -1,6 +1,7 @@
 import PangeaConfig from "../../src/config";
 import { PangeaErrors } from "../../src/errors";
 import RedactService from "../../src/services/redact";
+import { it, expect } from "@jest/globals";
 
 const token = process.env.PANGEA_INTEGRATION_REDACT_TOKEN || "";
 const testHost = process.env.PANGEA_INTEGRATION_DOMAIN || "";
@@ -36,7 +37,7 @@ it("plain redact with object should fail", async () => {
     if (e instanceof PangeaErrors.ValidationError) {
       expect(e.errors.length).toBe(1);
       expect(e.summary).toBe(
-        "There was 1 error(s) in the given payload. Please visit https://dev.pangea.cloud/docs/api/redact#redact for more information."
+        "There was 1 error(s) in the given payload. Please visit https://pangea.cloud/docs/api/redact#redact for more information."
       );
     }
   }

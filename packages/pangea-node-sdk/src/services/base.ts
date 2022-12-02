@@ -6,7 +6,6 @@ import { PangeaErrors } from "../errors.js";
 class BaseService {
   serviceName: string;
   token: string;
-  configIdHeaderName: string;
   apiVersion: string;
   config: PangeaConfig;
   request: PangeaRequest;
@@ -22,8 +21,6 @@ class BaseService {
   constructor(serviceName: string, token: string, config: PangeaConfig) {
     if (!serviceName) throw new Error("A serviceName is required");
     if (!token) throw new Error("A token is required");
-
-    this.configIdHeaderName = "";
 
     this.serviceName = serviceName;
     this.apiVersion = "v1";

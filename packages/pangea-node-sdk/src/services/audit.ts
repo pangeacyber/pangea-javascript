@@ -28,7 +28,6 @@ class AuditService extends BaseService {
   constructor(token: string, config: PangeaConfig) {
     super("audit", token, config);
     this.publishedRoots = {};
-    this.configIdHeaderName = "X-Pangea-Audit-Config-ID";
     this.publishedRoots = {};
     this.apiVersion = "v1";
     this.prevUnpublishedRootHash = undefined;
@@ -94,7 +93,7 @@ class AuditService extends BaseService {
 
     const data: Audit.LogData = { event: event };
 
-    if (options.signer) {
+    if (options.signer && options.signMode == Audit.SignOptions.Local) {
       const signer = options.signer;
       const eventJson = canonicalize(event);
       const signature = signer.sign(eventJson);

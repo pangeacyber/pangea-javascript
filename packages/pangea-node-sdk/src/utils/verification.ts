@@ -250,7 +250,11 @@ export const verifyRecordConsistencyProof = ({
 
 export const verifySignature = (envelope: Audit.EventEnvelope | undefined): string => {
   const v = new Verifier();
-  if (envelope?.signature !== undefined && envelope?.public_key !== undefined) {
+  if (
+    envelope?.signature !== undefined &&
+    envelope?.public_key !== undefined &&
+    !envelope.public_key.startsWith("-----")
+  ) {
     var data = canonicalize(envelope.event);
     return v.verify(data, envelope.signature, envelope.public_key) ? "pass" : "fail";
   }

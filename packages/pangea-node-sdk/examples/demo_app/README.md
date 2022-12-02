@@ -24,9 +24,6 @@ The App simulates an HR application that allows a user to upload resumes, retrie
 Set the following environment variables:
 
 - `PANGEA_TOKEN`
-- `EMBARGO_CONFIG_ID`
-- `REDACT_CONFIG_ID`
-- `AUDIT_CONFIG_ID`
 - `PANGEA_CSP` (ex: "aws" for AWS)
 
 ### Main App Startup
@@ -122,4 +119,4 @@ sqlite3 demo-app.db
 
 ## References
 
-Viewing Audit Logs: https://console.dev.pangea.cloud/service/audit/logs
+Viewing Audit Logs: https://console.pangea.cloud/service/audit/logs

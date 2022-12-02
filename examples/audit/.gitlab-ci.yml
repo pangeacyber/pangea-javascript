@@ -2,11 +2,11 @@
   image: cypress/browsers:node16.14.2-slim-chrome100-ff99-edge
   before_script:
     - cd examples/audit
-    - npm ci
+    - npm ci --legacy-peer-deps
   cache:
     - key:
         files:
-          - yarn.lock
+          - package-lock.json
       paths:
         - node_modules
 

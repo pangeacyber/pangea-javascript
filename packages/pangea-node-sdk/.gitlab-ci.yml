@@ -2,8 +2,6 @@
   before_script:
     - cd packages/pangea-node-sdk
     - yarn install
-    # - apt-get -qq update
-    # - apt-get install -y jq
   cache:
     - key:
         files:
@@ -12,6 +10,24 @@
         - node_modules
   rules:
     - if: $CI_PIPELINE_SOURCE == "push"
+      changes:
+        - packages/pangea-node-sdk/**/*
+      when: on_success
+
+.pangea_node_sdk_publish:
+  before_script:
+    - cd packages/pangea-node-sdk
+    - yarn install
+    - apt-get -qq update
+    - apt-get install -y jq
+  cache:
+    - key:
+        files:
+          - yarn.lock
+      paths:
+        - node_modules
+  rules:
+    - if: $CI_PIPELINE_SOURCE == "release"
       changes:
         - packages/pangea-node-sdk/**/*
       when: on_success
@@ -33,15 +49,11 @@ integration_pangea_node_sdk:
   stage: Integration Test
   script:
     - yarn test:integration
-# publish_pangea_node_sdk_base:
-#   extends: .pangea_node_sdk_base
-#   stage: Publish
-#   script:
-#     - cp ../../scripts/publish.sh .
-#     - echo "${NPMRC}" > .npmrc && ./publish.sh && rm .npmrc
-#     - rm publish.sh
-#   rules:
-#     - if: $CI_COMMIT_BRANCH == "main"
-#       changes:
-#         - packages/pangea-node-sdk/**/*
-#       when: always
+
+publish_pangea_node_sdk_base:
+  extends: .pangea_node_sdk_publish
+  stage: Publish
+  script:
+    - cp ../../scripts/publish.sh .
+    - echo "${NPMRC}" > .npmrc && ./publish.sh && rm .npmrc
+    - rm publish.sh

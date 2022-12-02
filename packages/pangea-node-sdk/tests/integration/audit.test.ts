@@ -2,13 +2,13 @@ import PangeaConfig from "../../src/config";
 import AuditService from "../../src/services/audit";
 import { Audit } from "../../src/types";
 import { Signer } from "../../src/utils/signer";
-import { jest } from "@jest/globals";
+import { jest, it, expect } from "@jest/globals";
 import { PangeaErrors } from "../../src/errors";
 
 const ACTOR = "node-sdk";
 const MSG_NO_SIGNED = "test-message";
 const MSG_JSON = "JSON-message";
-const MSG_SIGNED = "sign-test";
+const MSG_SIGNED_LOCAL = "sign-test-local";
 const STATUS_NO_SIGNED = "no-signed";
 const STATUS_SIGNED = "signed";
 const signer = new Signer("./tests/testdata/privkey");
@@ -143,9 +143,9 @@ it("log an audit event in JSON format", async () => {
   });
 });
 
-it("log an event, sign and verify", async () => {
+it("log an event, local sign and verify", async () => {
   const event: Audit.Event = {
-    message: MSG_SIGNED,
+    message: MSG_SIGNED_LOCAL,
     source: "Source",
     status: "Status",
     target: "Target",
@@ -155,11 +155,15 @@ it("log an event, sign and verify", async () => {
     old: "Old",
   };
 
-  const respLog = await audit.log(event, { verbose: true, signer: signer });
+  const respLog = await audit.log(event, {
+    verbose: true,
+    signer: signer,
+    signMode: Audit.SignOptions.Local,
+  });
   expect(respLog.status).toBe("Success");
   expect(typeof respLog.result.hash).toBe("string");
 
-  const query = "message:" + MSG_SIGNED + " actor:" + ACTOR;
+  const query = "message:" + MSG_SIGNED_LOCAL + " actor:" + ACTOR;
   const queryOptions: Audit.SearchParamsOptions = {
     limit: 1,
   };
@@ -172,7 +176,7 @@ it("log an event, sign and verify", async () => {
 
 it("log JSON event, sign and verify", async () => {
   const event: Audit.Event = {
-    message: MSG_SIGNED,
+    message: MSG_SIGNED_LOCAL,
     source: "Source",
     status: STATUS_SIGNED,
     target: "Target",
@@ -185,12 +189,13 @@ it("log JSON event, sign and verify", async () => {
   const respLog = await audit.log(event, {
     verbose: true,
     signer: signer,
+    signMode: Audit.SignOptions.Local,
   });
   expect(respLog.status).toBe("Success");
   expect(typeof respLog.result.hash).toBe("string");
   expect(respLog.result.signature_verification).toBe("pass");
 
-  const query = "message:" + MSG_SIGNED + " actor:" + ACTOR + " status:" + STATUS_SIGNED;
+  const query = "message:" + MSG_SIGNED_LOCAL + " actor:" + ACTOR + " status:" + STATUS_SIGNED;
   const queryOptions: Audit.SearchParamsOptions = {
     limit: 1,
   };
@@ -203,8 +208,8 @@ it("log JSON event, sign and verify", async () => {
 
 jest.setTimeout(20000);
 it("search audit log and verify signature", async () => {
-  const query = "message:" + MSG_SIGNED + " status:" + STATUS_SIGNED;
-  const limit = 5;
+  const query = "message:" + MSG_SIGNED_LOCAL + " status:" + STATUS_SIGNED;
+  const limit = 2;
 
   const queryOptions: Audit.SearchParamsOptions = {
     limit: limit,
@@ -256,8 +261,8 @@ it("search audit log and verify consistency", async () => {
 
 jest.setTimeout(20000);
 it("search audit log and skip consistency verification", async () => {
-  const query = "message:" + MSG_SIGNED;
-  const limit = 4;
+  const query = "message:" + MSG_SIGNED_LOCAL;
+  const limit = 2;
 
   const queryOptions: Audit.SearchParamsOptions = {
     limit: limit,
@@ -394,7 +399,8 @@ it("get audit root", async () => {
   expect(response.status).toBe("Success");
   expect(response.result.data).toEqual(
     expect.objectContaining({
-      consistency_proof: expect.any(Object),
+      published_at: expect.any(String),
+      tree_name: expect.any(String),
       root_hash: expect.any(String),
       size: expect.any(Number),
       url: expect.any(String),
@@ -403,12 +409,13 @@ it("get audit root", async () => {
 });
 
 it("get audit root with tree size", async () => {
-  const treeSize = 3;
+  const treeSize = 1;
   const response = await audit.root(treeSize);
   expect(response.status).toBe("Success");
   expect(response.result.data).toEqual(
     expect.objectContaining({
-      consistency_proof: expect.any(Object),
+      published_at: expect.any(String),
+      tree_name: expect.any(String),
       root_hash: expect.any(String),
       size: expect.any(Number),
       url: expect.any(String),
@@ -429,7 +436,7 @@ it("fail if empty message", async () => {
       expect(e.pangeaResponse.status).toBe("ValidationError");
       expect(e.errors.length).toBe(1);
       expect(e.summary).toBe(
-        "There was 1 error(s) in the given payload. Please visit https://dev.pangea.cloud/docs/api/audit#log-an-entry for more information."
+        "There was 1 error(s) in the given payload. Please visit https://pangea.cloud/docs/api/audit#log-an-entry for more information."
       );
     }
   }
