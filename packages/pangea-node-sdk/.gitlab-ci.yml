@@ -55,5 +55,5 @@ publish_pangea_node_sdk_base:
   stage: Publish
   script:
     - cp ../../scripts/publish.sh .
-    - echo "${NPMRC}" > .npmrc && ./publish.sh && rm .npmrc
+    - cat "${NPMRC}" > .npmrc && ./publish.sh && rm .npmrc
     - rm publish.sh
