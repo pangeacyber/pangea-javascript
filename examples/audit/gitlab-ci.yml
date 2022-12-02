@@ -2,17 +2,17 @@
   image: node
   before_script:
     - cd examples/audit
-    - npm ci
+    - npm ci --legacy-peer-deps
   cache:
     - key:
         files:
-          - yarn.lock
+          - package-lock.json
       paths:
         - node_modules
 
 test_example_audit_app:
   extends: .example_audit_base
-  image: cypress/browsers:node16.14.2-slim-chrome100-ff99-edge
+  image: cypress/browsers:node18.12.0-chrome103-ff107
   stage: Integration Test
   script:
     - npm run cypress:ci
