@@ -91,6 +91,8 @@ const AuditLogViewerWithProvider: FC<AuditLogViewerProps> = ({
   );
 
   const root = resultsResponse?.root || searchResponse?.root;
+  const unpublishedRoot =
+    resultsResponse?.unpublished_root || searchResponse?.unpublished_root;
   const count = searchResponse?.count || 0;
   const limit = props.pageSize;
 
@@ -122,6 +124,7 @@ const AuditLogViewerWithProvider: FC<AuditLogViewerProps> = ({
       // Props required for calculating verification
       isVerificationCheckEnabled={isVerificationCheckEnabled}
       root={root}
+      unpublishedRoot={unpublishedRoot}
       publishedRoots={publishedRoots}
       rowToLeafIndex={rowToLeafIndex}
     >

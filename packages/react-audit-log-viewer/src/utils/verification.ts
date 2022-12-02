@@ -51,6 +51,7 @@ const decodeProof = (data: string): ProofItem[] => {
 };
 
 const constructProof = (data: string): (LeftProof | RightProof)[] => {
+  if (!data) return [];
   // @ts-ignore
   const proofs: (LeftProof | RightProof)[] = data.split(",").map((item) => {
     const parts = item.split(":");
@@ -107,7 +108,7 @@ export const verifyMembershipProof = async ({
   record: Audit.AuditRecord;
   root: Audit.Root;
 }): Promise<boolean> => {
-  if (!record.membership_proof) return false;
+  if (record.membership_proof === undefined) return false;
   if (!record.hash) return false;
 
   const proofs = constructProof(record.membership_proof);

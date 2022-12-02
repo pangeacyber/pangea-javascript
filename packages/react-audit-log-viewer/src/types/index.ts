@@ -34,6 +34,7 @@ export namespace Audit {
     leaf_index?: string;
     membership_proof?: string;
     hash?: string;
+    published?: boolean;
   }
 
   export interface FlattenedAuditRecord extends AuditRecord, Envelope, Event {
@@ -59,6 +60,7 @@ export namespace Audit {
     hash?: string;
     leaf_index?: string;
     root?: Root;
+    unpublished_root?: Root;
   }
 
   export interface Root {
@@ -94,20 +96,13 @@ export namespace Audit {
     // Result fields
     limit?: number;
     // Optional include params
-    include_membership_proof?: boolean;
-    include_root?: boolean;
-    include_hash?: boolean;
+    verbose?: boolean;
   }
 
   export interface ResultRequest {
     id: string; // FIXME: This field name is probably changing
     offset?: number;
     limit?: number;
-
-    // Optional include params
-    include_membership_proof?: boolean;
-    include_root?: boolean;
-    include_hash?: boolean;
   }
 
   export interface RootRequest {
@@ -119,13 +114,15 @@ export namespace Audit {
     count: number;
     events: AuditRecord[];
     expires_at: string;
-    root: Root;
+    root?: Root;
+    unpublished_root?: Root;
   }
 
   export interface ResultResponse {
     events: AuditRecord[];
     count: number;
-    root: Root;
+    root?: Root;
+    unpublished_root?: Root;
   }
 
   export interface RootResponse extends Root {}

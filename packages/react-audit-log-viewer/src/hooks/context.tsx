@@ -47,6 +47,7 @@ const DefaultOrder = [
 
 interface AuditContextShape {
   root?: Audit.Root;
+  unpublishedRoot?: Audit.Root;
   visibilityModel?: Partial<Record<keyof Audit.Event, boolean>>;
   visibility: Partial<Record<keyof Audit.Event, boolean>>;
   order: string[];
@@ -99,6 +100,7 @@ const AuditContextProvider: FC<{
   limit?: number;
   limitOptions?: number[];
   root?: Audit.Root;
+  unpublishedRoot?: Audit.Root;
   publishedRoots?: PublishedRoots;
   rowToLeafIndex?: Record<string, { leaf_index?: string }>;
   visibilityModel?: Partial<Record<keyof Audit.Event, boolean>>;
@@ -112,6 +114,7 @@ const AuditContextProvider: FC<{
   limit: propLimit,
   limitOptions = [10, 20, 30, 40, 50],
   root,
+  unpublishedRoot,
   visibilityModel = {},
   publishedRoots,
   isVerificationCheckEnabled = true,
@@ -158,6 +161,7 @@ const AuditContextProvider: FC<{
 
         // Verification props. FIXME: Split into separate provider
         root,
+        unpublishedRoot,
         proofs,
         setProofs,
         setConsistency,
@@ -219,9 +223,6 @@ export const usePagination = (): {
       id: resultsId,
       offset: newOffset,
       limit,
-      include_membership_proof: true,
-      include_root: true,
-      include_hash: true,
     });
   };
 
@@ -241,9 +242,6 @@ export const usePagination = (): {
       id: resultsId,
       offset: 0,
       limit: newLimit,
-      include_membership_proof: true,
-      include_root: true,
-      include_hash: true,
     });
   };
 
@@ -339,7 +337,8 @@ export const useVerification = (
   isConsistent: boolean;
   root?: Audit.Root;
 } => {
-  const { root, proofs, setProofs, consistencyRef } = useAuditContext();
+  const { root, unpublishedRoot, proofs, setProofs, consistencyRef } =
+    useAuditContext();
   const {
     isConsistent,
     transactionId,
@@ -357,10 +356,11 @@ export const useVerification = (
   };
 
   useEffect(() => {
+    const root_ = record?.published ? root : unpublishedRoot;
     if (
       !record ||
-      !root ||
-      !record?.membership_proof ||
+      !root_ ||
+      record?.membership_proof === undefined ||
       idx === undefined ||
       proofKey in (proofs ?? {}) ||
       proofKey in (consistencyRef?.current ?? {})
@@ -369,14 +369,14 @@ export const useVerification = (
     // @ts-ignore
     (consistencyRef?.current ?? {})[proofKey] = false;
 
-    verifyMembershipProof({ record, root }).then((isValid) => {
+    verifyMembershipProof({ record, root: root_ }).then((isValid) => {
       setTimeout(() => {
         setIsMembershipValid(isValid);
       }, 10);
     });
   }, [record, root]);
 
-  if (!root) {
+  if (!root && !unpublishedRoot) {
     return {
       isMembershipValid: false,
       isPendingVerification: true,
