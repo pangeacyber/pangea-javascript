@@ -360,7 +360,7 @@ export const useVerification = (
     if (
       !record ||
       !root_ ||
-      !record?.membership_proof ||
+      record?.membership_proof === undefined ||
       idx === undefined ||
       proofKey in (proofs ?? {}) ||
       proofKey in (consistencyRef?.current ?? {})
@@ -376,7 +376,7 @@ export const useVerification = (
     });
   }, [record, root]);
 
-  if (!root) {
+  if (!root && !unpublishedRoot) {
     return {
       isMembershipValid: false,
       isPendingVerification: true,

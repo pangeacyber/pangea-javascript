@@ -1,6 +1,6 @@
 {
   "name": "@pangeacyber/react-audit-log-viewer",
-  "version": "0.1.0-beta.1",
+  "version": "0.1.0",
   "description": "An extension of material ui data-grid for Pangea audit log records",
   "main": "dist/cjs/index.js",
   "module": "dist/esm/index.js",
