@@ -46,7 +46,7 @@ generate_docs:
   artifacts:
     expire_in: 1 month
     expose_as: js_sdk
-    paths: ['packages/pangea-node-sdk/docs.json']
+    paths: ["packages/pangea-node-sdk/docs.json"]
     when: on_success
 
 test_pangea_node_sdk:
