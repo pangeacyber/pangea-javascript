@@ -31,7 +31,7 @@ npm install @pangeacyber/pangea-node-sdk
 
 ## Usage
 
-Check our interactive guide on https://pangea.cloud/docs/admin-guide/getting-started/integrate/
+Check our interactive guide on https://pangea.cloud/docs/getting-started/integrate/
 
 ```js
 import { PangeaConfig, AuditService } from "@pangeacyber/pangea-node-sdk";
