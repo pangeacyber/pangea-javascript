@@ -106,7 +106,7 @@ export class DomainIntelService extends BaseService {
    * @param {Boolean} options.raw - Return additional details from the provider. Default: raw=false.
    * @returns {Promise} - A promise representing an async call to the check endpoint.
    * @example
-   * const response = await domainIntel.loookup("google.com")
+   * const response = await domainIntel.lookup("google.com")
    */
   lookup(domain: string, options: Intel.Options = {}): Promise<PangeaResponse<Intel.Response>> {
     const data: Intel.DomainParams = {
