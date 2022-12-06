@@ -75,6 +75,7 @@ const CopyButton: FC<CopyProps> = ({ label, value, ...props }) => {
 interface VerificationModalProps {
   record: Audit.AuditRecord;
   root?: Audit.Root;
+  unpublishedRoot?: Audit.Root;
   isPendingVerification: boolean;
   isMembershipValid: boolean;
   transactionId?: string;
@@ -83,6 +84,7 @@ interface VerificationModalProps {
 const VerificationModal: FC<VerificationModalProps> = ({
   record,
   root,
+  unpublishedRoot,
   isPendingVerification,
   isMembershipValid,
   transactionId,
@@ -93,7 +95,14 @@ const VerificationModal: FC<VerificationModalProps> = ({
   const artifacts: Audit.VerificationArtifact = {
     envelope: record?.envelope ?? {},
     root,
-    ...pick({ ...record }, ["root", "leaf_index", "membership_proof", "hash"]),
+    unpublished_root: unpublishedRoot,
+    ...pick({ ...record }, [
+      "root",
+      "leaf_index",
+      "membership_proof",
+      "hash",
+      "published",
+    ]),
   };
 
   const verificationCmd = () => {
@@ -248,6 +257,7 @@ export const AuditSecureColumn: GridColDef = {
     const {
       isMembershipValid,
       root,
+      unpublishedRoot,
       isPendingVerification,
       transactionId,
       isConsistentWithPrevious,
@@ -281,6 +291,7 @@ export const AuditSecureColumn: GridColDef = {
           isPendingVerification={isPendingVerification}
           transactionId={transactionId}
           root={root}
+          unpublishedRoot={unpublishedRoot}
           record={params.row}
         />
         <Box
