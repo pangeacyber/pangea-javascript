@@ -336,6 +336,7 @@ export const useVerification = (
   transactionId?: string;
   isConsistent: boolean;
   root?: Audit.Root;
+  unpublishedRoot?: Audit.Root;
 } => {
   const { root, unpublishedRoot, proofs, setProofs, consistencyRef } =
     useAuditContext();
@@ -385,6 +386,7 @@ export const useVerification = (
       transactionId,
       isConsistent,
       root,
+      unpublishedRoot,
     };
   }
 
@@ -396,6 +398,7 @@ export const useVerification = (
     transactionId,
     isConsistent,
     root,
+    unpublishedRoot,
   };
 };
 
