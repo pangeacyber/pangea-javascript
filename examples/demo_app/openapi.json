@@ -52,7 +52,14 @@
             "application/json": {
               "schema": {
                 "type": "object",
-                "required": ["first_name", "last_name", "email", "phone", "dob", "ssn"],
+                "required": [
+                  "first_name",
+                  "last_name",
+                  "email",
+                  "phone",
+                  "dob",
+                  "ssn"
+                ],
                 "properties": {
                   "first_name": {
                     "type": "string",

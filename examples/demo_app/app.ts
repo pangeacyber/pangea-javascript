@@ -44,12 +44,21 @@ class App {
   }
 
   async uploadResume(user, clientIp, data) {
-    console.log("[App.uploadResume] processing request from: ", user, clientIp, data);
+    console.log(
+      "[App.uploadResume] processing request from: ",
+      user,
+      clientIp,
+      data
+    );
 
     // Embargo check on submission client IP address, disallow sanctioned countries
     const response = await embargo.ipCheck(clientIp);
 
-    console.log("[App.uploadResume] Embargo response: ", response?.code, response?.result);
+    console.log(
+      "[App.uploadResume] Embargo response: ",
+      response?.code,
+      response?.result
+    );
 
     if (response?.result.count > 0) {
       // Audit log
@@ -65,9 +74,16 @@ class App {
       const logResponse = await audit.log(auditData);
 
       if (logResponse.success) {
-        console.log("[App.uploadResume] Audit log success:", logResponse.result);
+        console.log(
+          "[App.uploadResume] Audit log success:",
+          logResponse.result
+        );
       } else {
-        console.log("[App.uploadResume] Audit log Error:", logResponse.code, logResponse.result);
+        console.log(
+          "[App.uploadResume] Audit log Error:",
+          logResponse.code,
+          logResponse.result
+        );
       }
       return [403, "Submission from sanctioned country not allowed"];
     }
@@ -106,12 +122,23 @@ class App {
       const logResponse = await audit.log(auditData);
 
       if (logResponse.code === 200) {
-        console.log("[App.uploadResume] Audit log success:", logResponse.result);
+        console.log(
+          "[App.uploadResume] Audit log success:",
+          logResponse.result
+        );
       } else {
-        console.log("[App.uploadResume] Audit log Error:", logResponse.code, logResponse.result);
+        console.log(
+          "[App.uploadResume] Audit log Error:",
+          logResponse.code,
+          logResponse.result
+        );
       }
     } else {
-      console.log("[App.uploadResume] Redact Error:", redactResponse.code, redactResponse.result);
+      console.log(
+        "[App.uploadResume] Redact Error:",
+        redactResponse.code,
+        redactResponse.result
+      );
 
       // Audit log
       const auditData = {
@@ -120,16 +147,25 @@ class App {
         target: data.email,
         status: ret ? "success" : "error",
         // eslint-disable-next-line no-constant-condition
-        message: "resume accepted - redaction failed" ? ret : "resume denied - redaction failed",
+        message: "resume accepted - redaction failed"
+          ? ret
+          : "resume denied - redaction failed",
         source: "web",
       };
 
       const logResponse = await audit.log(auditData);
 
       if (logResponse.code === 200) {
-        console.log("[App.uploadResume] Audit log success:", logResponse.result);
+        console.log(
+          "[App.uploadResume] Audit log success:",
+          logResponse.result
+        );
       } else {
-        console.log("[App.uploadResume] Audit log Error:", logResponse.code, logResponse.result);
+        console.log(
+          "[App.uploadResume] Audit log Error:",
+          logResponse.code,
+          logResponse.result
+        );
       }
     }
 
@@ -157,7 +193,10 @@ class App {
     const logResponse = await audit.log(auditData);
 
     if (logResponse.code === 200) {
-      console.log("[App.fetchEmployeeRecord] Audit log success:", logResponse.result);
+      console.log(
+        "[App.fetchEmployeeRecord] Audit log success:",
+        logResponse.result
+      );
     } else {
       console.log(
         "[App.fetchEmployeeRecord] Audit log error: ",
@@ -202,9 +241,16 @@ class App {
       const logResponse = await audit.log(auditData);
 
       if (logResponse.code === 200) {
-        console.log("[App.updateEmployee] Audit log success:", logResponse.result);
+        console.log(
+          "[App.updateEmployee] Audit log success:",
+          logResponse.result
+        );
       } else {
-        console.log("[App.updateEmployee] Audit log error: ", logResponse.code, logResponse.result);
+        console.log(
+          "[App.updateEmployee] Audit log error: ",
+          logResponse.code,
+          logResponse.result
+        );
       }
 
       return [

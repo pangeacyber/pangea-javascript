@@ -1,6 +1,10 @@
 /* eslint-disable no-console */
 
-import { PangeaConfig, DomainIntelService, PangeaErrors } from "pangea-node-sdk";
+import {
+  PangeaConfig,
+  DomainIntelService,
+  PangeaErrors,
+} from "pangea-node-sdk";
 
 const domain = process.env.PANGEA_DOMAIN;
 const token = process.env.PANGEA_DOMAIN_INTEL_TOKEN;
