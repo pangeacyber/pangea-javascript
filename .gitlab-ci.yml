@@ -31,4 +31,4 @@ include:
   - /packages/react-audit-log-viewer/.gitlab-ci.yml
   - /packages/react-auth/.gitlab-ci.yml
   - /packages/pangea-node-sdk/.gitlab-ci.yml
-  - /examples/audit/.gitlab-ci.yml
+  - /examples/react-audit-log-viewer/.gitlab-ci.yml
