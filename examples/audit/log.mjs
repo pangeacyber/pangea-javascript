@@ -1,4 +1,6 @@
-import { PangeaConfig, AuditService } from "node-pangea";
+/* eslint-disable no-console */
+
+import { PangeaConfig, AuditService, PangeaErrors } from "pangea-node-sdk";
 
 const token = process.env.PANGEA_AUDIT_TOKEN;
 const config = new PangeaConfig({ domain: process.env.PANGEA_DOMAIN });

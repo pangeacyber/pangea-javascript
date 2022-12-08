@@ -1,6 +1,6 @@
 /* eslint-disable no-console */
 
-import { PangeaConfig, EmbargoService } from "node-pangea";
+import { PangeaConfig, EmbargoService, PangeaErrors } from "pangea-node-sdk";
 
 const token = process.env.PANGEA_EMBARGO_TOKEN;
 const config = new PangeaConfig({ domain: process.env.PANGEA_DOMAIN });
