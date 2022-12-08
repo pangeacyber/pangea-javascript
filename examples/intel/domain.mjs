@@ -1,13 +1,6 @@
 /* eslint-disable no-console */
 
-/*
- This example code is intended to be run directly
- from the source code with `ts-node-esm`.
-
- % ts-node-esm intel.ts
-*/
-
-import { PangeaConfig, DomainIntelService, PangeaErrors } from "node-pangea";
+import { PangeaConfig, DomainIntelService, PangeaErrors } from "pangea-node-sdk";
 
 const domain = process.env.PANGEA_DOMAIN;
 const token = process.env.PANGEA_DOMAIN_INTEL_TOKEN;

@@ -1,6 +1,6 @@
 /* eslint-disable no-console */
 
-import { PangeaConfig, RedactService } from "node-pangea";
+import { PangeaConfig, RedactService } from "pangea-node-sdk";
 
 const token = process.env.PANGEA_REDACT_TOKEN;
 const config = new PangeaConfig({ domain: process.env.PANGEA_DOMAIN });
