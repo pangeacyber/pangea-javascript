@@ -6,6 +6,7 @@ import typescript from "@rollup/plugin-typescript";
 import commonjs from "@rollup/plugin-commonjs";
 import dts from "rollup-plugin-dts";
 import json from "@rollup/plugin-json";
+import nodePolyfills from 'rollup-plugin-polyfill-node';
 
 import pkg from "./package.json" assert { type: "json" };
 
@@ -29,9 +30,10 @@ export default [
       external(),
       resolve(),
       commonjs(),
-      typescript({ tsconfig: "./tsconfig.json" }),
+      typescript({ tsconfig: "./tsconfig.json", sourceMap: false }),
       json(),
       terser(),
+      nodePolyfills()
     ],
     // external: Object.keys(pkg.dependencies),
     external: Object.keys(pkg.peerDependencies || {}),
