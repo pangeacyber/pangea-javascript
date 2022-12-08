@@ -8,7 +8,7 @@ import React, {
 } from "react";
 
 import axios from "axios";
-import { randomBytes } from "crypto";
+import randomBytes from "randombytes";
 
 import { toUrlEncoded, encode58 } from "./utils";
 import { AuthUser, AppState, ClientConfig } from "../types";
