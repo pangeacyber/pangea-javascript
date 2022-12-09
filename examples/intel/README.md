@@ -1,6 +1,7 @@
 # Pangea Intel Services Examples
 
 Setup
+
 ```
 % npm install
 % export PANGEA_DOMAIN_INTEL_TOKEN=<PANGEA-DOMAIN-INTEL-TOKEN>
@@ -8,6 +9,7 @@ Setup
 ```
 
 Run examples
+
 ```
 % node domain.mjs
 % node file.mjs

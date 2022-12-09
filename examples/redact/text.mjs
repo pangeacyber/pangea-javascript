@@ -12,7 +12,7 @@ const redact = new RedactService(token, config);
   const response = await redact.redact(text);
 
   if (response.success) {
-    console.log("Success:", response.result);
+    console.log("Response:", response.result);
   } else {
     console.log("Error", response.code, response.result);
   }
