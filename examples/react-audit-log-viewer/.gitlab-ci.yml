@@ -1,4 +1,4 @@
-.example_audit_log_viewer_example_base:
+.example_audit_log_viewer_base:
   image: cypress/browsers:node18.12.0-chrome103-ff107
   before_script:
     - cd examples/react-audit-log-viewer
@@ -16,7 +16,7 @@
       when: on_success
 
 .validate_example_audit_is_latest:
-  extends: .example_audit_base
+  extends: .example_audit_log_viewer_base
   stage: Lint
   script:
     - cp ../../scripts/validate_latest_installed.sh .
@@ -30,7 +30,7 @@
       when: on_success
 
 test_example_audit_app:
-  extends: .example_audit_log_viewer_example_base
+  extends: .example_audit_log_viewer_base
   stage: Integration Test
   script:
     - yarn cypress:ci
