@@ -8,7 +8,7 @@ const audit = new AuditService(token, config);
 
 (async () => {
   const data = {
-    message: "Hello, World!"
+    message: "Hello, World!",
   };
 
   try {
