@@ -8,13 +8,13 @@ const audit = new AuditService(token, config);
 
 (async () => {
   const data = {
-    message: "Hello, World!",
+    message: "Hello, World!"
   };
 
   try {
-    console.log("Logging audit data...");
+    console.log("Logging: %s", data.message);
     const logResponse = await audit.log(data);
-    console.log(logResponse.status, logResponse.result);
+    console.log("Response: %s", logResponse.result);
   } catch (err) {
     if (err instanceof PangeaErrors.APIError) {
       console.log(err.summary, err.pangeaResponse);
