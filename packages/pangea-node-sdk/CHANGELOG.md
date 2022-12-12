@@ -21,9 +21,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Removed
 
-- Remove older headers 
+- Remove older headers
 - References to config id
-
 
 ## [1.0.0] - 2022-11-29
 
@@ -34,7 +33,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - File Intel client
 - Domain Intel client
 - Redact client
-
 
 [unreleased]: https://github.com/pangeacyber/pangea-javascript/compare/v1.0.0...main
 [1.0.0]: https://github.com/pangeacyber/pangea-javascript/releases/tag/v1.0.0
