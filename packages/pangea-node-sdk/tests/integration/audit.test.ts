@@ -23,7 +23,7 @@ const JSON_OLD_DATA = {
   ct6: "cm6",
 };
 
-const token = process.env.PANGEA_INTEGRATION_AUDIT_TOKEN || "";
+const token = process.env.PANGEA_INTEGRATION_TOKEN || "";
 const testHost = process.env.PANGEA_INTEGRATION_DOMAIN || "";
 const config = new PangeaConfig({ domain: testHost });
 const audit = new AuditService(token, config);
