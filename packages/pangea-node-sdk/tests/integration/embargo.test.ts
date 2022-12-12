@@ -3,7 +3,7 @@ import EmbargoService from "../../src/services/embargo";
 import { PangeaErrors } from "../../src/errors";
 import { it, expect } from "@jest/globals";
 
-const token = process.env.PANGEA_INTEGRATION_EMBARGO_TOKEN || "";
+const token = process.env.PANGEA_INTEGRATION_TOKEN || "";
 const testHost = process.env.PANGEA_INTEGRATION_DOMAIN || "";
 const config = new PangeaConfig({ domain: testHost });
 const embargo = new EmbargoService(token, config);
