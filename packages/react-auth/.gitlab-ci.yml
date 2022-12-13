@@ -34,8 +34,8 @@ tag_react_auth:
     - pip3 install PyGithub
     - VERSION=$(node -p "require('./package.json').version")
     - cp ../../scripts/tag_release.py .
-    - ./tag_release.sh ${GITHUB_TOKEN} ${VERSION} "react-auth" "React Auth" ${CI_COMMIT_SHA}
-    - rm tag_release.sh
+    - python3 tag_release.py ${GITHUB_TOKEN} ${VERSION} "react-auth" "React Auth" ${CI_COMMIT_SHA}
+    - rm tag_release.py
   # rules:
   #   - if: $CI_COMMIT_BRANCH == "main"
   #     changes:
