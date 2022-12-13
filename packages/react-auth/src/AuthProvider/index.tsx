@@ -8,9 +8,8 @@ import React, {
 } from "react";
 
 import axios from "axios";
-import randomBytes from "randombytes";
 
-import { toUrlEncoded, encode58 } from "./utils";
+import { toUrlEncoded, encode58, generateBase58 } from "./utils";
 import { AuthUser, AppState, ClientConfig } from "../types";
 
 export interface AuthContextType {
@@ -233,11 +232,13 @@ export const AuthProvider: FC<AuthProviderProps> = ({
         })
         .catch((error) => {
           const data = error?.response?.data;
+          const status = error?.response?.status || "Error";
+
           if (data) {
-            const msg = `${data.status_code} ${data.result}: ${data.message}`;
+            const msg = `${status} ${data.status}: ${data.summary}`;
             setError(msg);
           } else {
-            const msg = `Unexpected Error ${error}`;
+            const msg = `${status}: ${error}`;
             setError(msg);
           }
         })
@@ -252,7 +253,7 @@ export const AuthProvider: FC<AuthProviderProps> = ({
     const location = window.location;
     const queryString = window.location.search;
     const urlParams = new URLSearchParams(queryString);
-    const stateCode = encode58(randomBytes(32));
+    const stateCode = generateBase58(32);
     const storageAPI = getStorageAPI(useCookie);
     storageAPI.setItem(STATE_DATA_KEY, stateCode);
     storageAPI.setItem(LAST_PATH_KEY, location.href);
@@ -273,7 +274,7 @@ export const AuthProvider: FC<AuthProviderProps> = ({
   };
 
   const logout = (redirect: boolean = true) => {
-    const stateCode = encode58(randomBytes(32));
+    const stateCode = generateBase58(32);
 
     let redirectUri = location.origin;
     if (typeof redirectPathname === "string") {
