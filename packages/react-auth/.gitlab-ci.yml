@@ -30,7 +30,7 @@ tag_react_auth:
   stage: Tag Release
   script:
     - apt-get install python3 -y
-    - apt-get inastall python3-pip -y
+    - apt-get install python3-pip -y
     - pip3 install PyGithub
     - VERSION=$(node -p "require('./package.json').version")
     - cp ../../scripts/tag_release.sh .
