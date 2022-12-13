@@ -17,6 +17,7 @@ import PopoutCard from "../../../PopoutCard";
 import { useInternalState } from "../../../../utils/hooks";
 import FiltersForm, { FilterFormProps } from "./FiltersForm";
 import FiltersBar from "./FiltersBar";
+import ColumnsPopout, { ColumnsPopoutProps } from "./ColumnsPopout";
 
 interface SearchProps<FiltersObj> {
   query?: string;
@@ -24,6 +25,7 @@ interface SearchProps<FiltersObj> {
   conditionalOptions?: ConditionalOption[];
   loading?: boolean;
   Filters?: FilterFormProps<FiltersObj>;
+  ColumnsPopoutProps?: ColumnsPopoutProps;
 }
 
 const Search = <
@@ -34,6 +36,7 @@ const Search = <
   conditionalOptions = [],
   loading = false,
   Filters,
+  ColumnsPopoutProps,
 }: SearchProps<FiltersObj>): JSX.Element => {
   const [query_, setQuery_] = useInternalState(query, onChange);
   const searchRef = useRef<HTMLDivElement | null>(null);
@@ -89,6 +92,7 @@ const Search = <
         >
           Search
         </Button>
+        {!!ColumnsPopoutProps && <ColumnsPopout {...ColumnsPopoutProps} />}
       </Stack>
       {!!Filters && Filters.showFilterChips && (
         <FiltersBar<FiltersObj> {...Filters} />

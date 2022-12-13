@@ -14,7 +14,7 @@ const FiltersBar = <FiltersObj extends { [key: string]: string }>({
   filters,
   options,
   onFilterChange,
-}: FiltersBarProps<FiltersObj>): JSX.Element => {
+}: FiltersBarProps<FiltersObj>): JSX.Element | null => {
   if (!filters.length) return null;
 
   return (

@@ -1,4 +1,7 @@
 import React, { useState } from "react";
+import keyBy from "lodash/keyBy";
+import mapValues from "lodash/mapValues";
+
 import { IconButton, Stack, Typography } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
 import { ComponentStory, ComponentMeta } from "@storybook/react";
@@ -52,6 +55,12 @@ const Template: ComponentStory<typeof PangeaDataGrid> = (args) => {
     <PangeaDataGrid
       {...args}
       data={data}
+      ColumnCustomization={{
+        visibilityModel: mapValues(
+          keyBy(args.columns ?? [], "field"),
+          () => true
+        ),
+      }}
       Search={{
         query,
         onChange: setQuery,
