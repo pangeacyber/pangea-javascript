@@ -29,9 +29,15 @@ tag_react_auth:
   extends: .react_auth_base
   stage: Tag Release
   script:
-    - apt-get install python -y
-    - pip install PyGithub
+    - apt-get install python3 -y
+    - apt-get inastall python3-pip -y
+    - pip3 install PyGithub
     - VERSION=$(node -p "require('./package.json').version")
     - cp ../../scripts/tag_release.sh .
     - ./tag_release.sh ${GITHUB_TOKEN} ${VERSION} "react-auth" "React Auth" ${CI_COMMIT_SHA}
     - rm tag_release.sh
+  # rules:
+  #   - if: $CI_COMMIT_BRANCH == "main"
+  #     changes:
+  #       - packages/react-auth/**/*
+  #     when: always
