@@ -33,7 +33,7 @@ tag_react_auth:
     - apt-get install python3-pip -y
     - pip3 install PyGithub
     - VERSION=$(node -p "require('./package.json').version")
-    - cp ../../scripts/tag_release.sh .
+    - cp ../../scripts/tag_release.py .
     - ./tag_release.sh ${GITHUB_TOKEN} ${VERSION} "react-auth" "React Auth" ${CI_COMMIT_SHA}
     - rm tag_release.sh
   # rules:
