@@ -7,14 +7,14 @@ const BASE58_ALPHABET =
   "123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz";
 
 export const generateBase58 = (length: number) => {
-  let result = ' ';
+  let result = " ";
   const setLength = BASE58_ALPHABET.length;
-  for ( let i = 0; i < length; i++ ) {
-      result += BASE58_ALPHABET.charAt(Math.floor(Math.random() * setLength));
+  for (let i = 0; i < length; i++) {
+    result += BASE58_ALPHABET.charAt(Math.floor(Math.random() * setLength));
   }
 
   return result;
-}
+};
 
 const bytesToHex = (uint8a: any) => {
   let hex = "";
