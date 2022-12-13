@@ -1,6 +1,6 @@
 import { FC, useState, useEffect } from "react";
 import get from "lodash/get";
-import { Grid, TextField, Button, Stack } from "@mui/material";
+import { Grid, TextField, Button, Stack, ChipProps } from "@mui/material";
 
 interface FilterOption {
   label: string;
@@ -17,6 +17,7 @@ export interface FilterFormProps<FiltersObj> {
   options: FilterOptions<FiltersObj>;
   onFilterChange: (filter: FiltersObj) => void;
   showFilterChips?: boolean;
+  ChipProps?: ChipProps;
 }
 
 const FiltersForm = <FiltersObj extends { [key: string]: string }>({
