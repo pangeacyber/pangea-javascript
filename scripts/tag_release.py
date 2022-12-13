@@ -32,9 +32,7 @@ def main():
         release,
         release_message,
         object,
-        type,
-        tagger=Github.GithubObject.NotSet,
-        draft=False
+        type
     )
 
 if __name__ == "__main__":
