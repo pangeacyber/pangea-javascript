@@ -1,5 +1,8 @@
-import { FC, ReactNode, useMemo, useState, MouseEvent } from "react";
+import { FC, ReactNode, useMemo, useEffect, useState, MouseEvent } from "react";
 import clone from "lodash/clone";
+import keyBy from "lodash/keyBy";
+import mapValues from "lodash/mapValues";
+import get from "lodash/get";
 
 import Grid from "@mui/material/Grid";
 import {
@@ -12,7 +15,7 @@ import {
 } from "@mui/x-data-grid";
 import { useTheme, lighten } from "@mui/material/styles";
 
-import { Typography, Stack } from "@mui/material";
+import { Stack } from "@mui/material";
 
 import { constructActionColumn } from "./action";
 import { constructExpandColumn, ExpandableRow } from "./expansion";
@@ -23,6 +26,7 @@ import SearchBar from "./components/Search";
 import { ConditionalOption } from "../ConditionalAutocomplete";
 import { PreviewPanel } from "./components/PreviewPanel";
 import { FilterFormProps } from "./components/Search/FiltersForm";
+import { Visibility } from "./components/Search/ColumnsPopout";
 
 export interface PangeaDataGridProps<
   DataType extends GridValidRowModel,
@@ -32,6 +36,9 @@ export interface PangeaDataGridProps<
   columns: GridColDef[];
   data: DataType[];
   loading?: boolean;
+  ColumnCustomization?: {
+    visibilityModel: Record<string, boolean>;
+  };
   ServerPagination?: {
     page: number;
     pageSize: number;
@@ -63,7 +70,7 @@ export interface PangeaDataGridProps<
   onRowClick?: (
     param: GridRowParams<DataType>,
     event: MuiEvent<MouseEvent>
-  ) => void;
+  ) => boolean | void;
   DataGridProps?: Partial<DataGridProps>;
 }
 
@@ -82,6 +89,7 @@ const PangeaDataGrid = <
   DataGridProps = {},
   PreviewPanel,
   onRowClick,
+  ColumnCustomization,
 }: PangeaDataGridProps<DataType, FiltersObj>): JSX.Element => {
   const theme = useTheme();
 
@@ -89,6 +97,9 @@ const PangeaDataGrid = <
 
   const isRowClickable = !!ExpansionRow?.render || !!onRowClick;
   const pageSize = DataGridProps?.pageSize || ServerPagination?.pageSize || 20;
+
+  const [visibility, setVisibility] = useState<Visibility>({});
+  const [order, setOrder] = useState<string[]>([]);
 
   const columns = useMemo(() => {
     let columns = clone(columnsProp);
@@ -104,14 +115,47 @@ const PangeaDataGrid = <
       );
     }
 
-    return columns;
-  }, [columnsProp]);
+    return columns.sort((a, b) => {
+      return order.indexOf(a.field) - order.indexOf(b.field);
+    });
+  }, [columnsProp, order]);
+
+  const columnsMap = useMemo(() => keyBy(columns, "field"), [columns]);
+
+  useEffect(() => {
+    if (!ColumnCustomization?.visibilityModel) return;
+
+    const vis = mapValues(ColumnCustomization?.visibilityModel, (val, key) => ({
+      isVisible: val,
+      label: get(columnsMap, key, { headerName: key }).headerName ?? key,
+    }));
+
+    const order = Object.keys(columnsMap).filter((field) => !!vis[field]);
+
+    setOrder(order);
+    setVisibility(vis);
+  }, [ColumnCustomization?.visibilityModel]);
+
+  const columnsPopoutProps = !!ColumnCustomization
+    ? {
+        order,
+        setOrder,
+        visibility,
+        setVisibility,
+      }
+    : undefined;
 
   return (
     <div>
       <>
         <Grid item sx={{ width: "100%" }} data-testid={`model-data-grid`}>
-          {!!Search && <SearchBar<FiltersObj> loading={loading} {...Search} />}
+          {!!Search && (
+            <SearchBar<FiltersObj>
+              loading={loading}
+              {...Search}
+              ColumnsPopoutProps={columnsPopoutProps}
+            />
+          )}
           {!!ServerPagination && <ResultsBar {...ServerPagination} />}
           {!!header && (
             <Stack
@@ -131,6 +175,10 @@ const PangeaDataGrid = <
               rowHeight={44}
               rows={data}
               columns={columns}
+              columnVisibilityModel={mapValues(
+                visibility,
+                (val) => val.isVisible
+              )}
               hideFooterSelectedRowCount
               hideFooterPagination={
                 !ServerPagination && data?.length < pageSize
@@ -139,7 +187,10 @@ const PangeaDataGrid = <
               onRowClick={(params, event) => {
                 if (!isRowClickable || event.defaultPrevented) return;
                 if (!!onRowClick) {
-                  onRowClick(params, event);
+                  const res = onRowClick(params, event);
+                  if (res === false) {
+                    return;
+                  }
                 }
 
                 if (PreviewPanel !== undefined) {
