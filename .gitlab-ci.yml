@@ -9,6 +9,7 @@ stages:
   - Integration Test
   - Publish
   - Test Public
+  - Tag Release
 
 .packages_base:
   image: node
