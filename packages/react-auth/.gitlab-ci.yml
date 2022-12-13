@@ -24,3 +24,20 @@ publish_react_auth:
       changes:
         - packages/react-auth/**/*
       when: always
+
+tag_react_auth:
+  extends: .react_auth_base
+  stage: Tag Release
+  script:
+    - apt-get install python3 -y
+    - apt-get install python3-pip -y
+    - pip3 install PyGithub
+    - VERSION=$(node -p "require('./package.json').version")
+    - cp ../../scripts/tag_release.py .
+    - python3 tag_release.py ${GITHUB_TOKEN} ${VERSION} ${CI_COMMIT_SHA} "react-auth" "React Auth"
+    - rm tag_release.py
+  # rules:
+  #   - if: $CI_COMMIT_BRANCH == "main"
+  #     changes:
+  #       - packages/react-auth/**/*
+  #     when: always
