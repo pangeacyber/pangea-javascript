@@ -297,6 +297,8 @@ export const AuthProvider: FC<AuthProviderProps> = ({
     const storageAPI = getStorageAPI(useCookie);
     storageAPI.removeItem(SESSION_DATA_KEY);
 
+    setAuthenticated(false);
+
     if (redirect) {
       window.location.replace(url);
     }
