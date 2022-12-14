@@ -81,7 +81,7 @@ export class FileIntelService extends BaseService {
    * @returns {Promise} - A promise representing an async call to the lookup endpoint.
    * @example
    * const options = { provider: "reversinglabs" };
-   * const response = await fileIntel.lookup("142b638c6a60b60c7f9928da4fb85a5a8e1422a9ffdc9ee49e17e56ccca9cf6e", "sha256", options);
+   * const response = await fileIntel.lookupFilepath("./myfile.exe", options);
    */
    lookupFilepath(
     filepath: string,
