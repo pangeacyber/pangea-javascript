@@ -5,6 +5,8 @@ import { Intel } from "../types.js";
 import { createHash } from 'node:crypto'
 import { readFileSync } from 'node:fs'
 
+const hashType = 'sha256';
+
 /**
  * FileIntelService class provides methods for interacting with the File Intel Service
  * @extends BaseService
@@ -71,7 +73,6 @@ export class FileIntelService extends BaseService {
    * @summary Look up a file, from file path
    * @description Retrieve file reputation from a provider, using the file's hash.
    * @param {String} fileHash - Hash of the file to be looked up
-   * @param {String} hashType - Type of hash, can be "sha256", "sha" or "md5"
    * @param {Object} options - An object of optional parameters
    * @param {String} options.provider - Provider of the reputation information. ("reversinglabs"). Default provider defined by the configuration.
    * @param {Boolean} options.verbose - Echo back the parameters of the API in the response. Default: verbose=false.
@@ -87,11 +88,11 @@ export class FileIntelService extends BaseService {
     options: Intel.Options = {}
   ): Promise<PangeaResponse<Intel.Response>> {
     const content = readFileSync(filepath);
-    const fileHash = createHash('sha256').update(content).digest('hex')
+    const fileHash = createHash(hashType).update(content).digest('hex')
 
     const data: Intel.FileParams = {
       hash: fileHash,
-      hash_type: "sha256",
+      hash_type: hashType,
     };
 
     if (options?.provider) data.provider = options.provider;
