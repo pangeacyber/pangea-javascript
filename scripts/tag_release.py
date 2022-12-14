@@ -15,27 +15,36 @@ def parse_args():
 
 def main():
     args = parse_args()
-    print(f"token: {args.token}")
-    print(f"version: {args.token}")
-    print(f"commit: {args.commit}")
     g = Github(args.token)
-    repo = g.get_repo("pangeacyber/pangea-java")
+    repo = g.get_repo("pangeacyber/pangea-javascript")
 
-    tag = f"{args.tag_slug}-${args.version}"
-    tag_message = f"${args.tag_name} Release ${args.version}"
+    tag = f"{args.tag_slug}-v{args.version}"
+    tag_message = f"{args.tag_name} v{args.version}"
     release = tag
     release_message = tag_message
     object = args.commit
     type = "commit"
 
-    repo.create_git_tag_and_release(
-        tag,
-        tag_message,
-        release,
-        release_message,
-        object,
-        type
-    )
+    print(f"Tag version: {tag}")
+    if args.version.find('beta'):
+        
+        repo.create_git_tag(
+            tag,
+            tag_message,
+            object,
+            type
+        )
+    else:
+        print(f"Create release: {tag_message}")
+        repo.create_git_tag_and_release(
+            tag,
+            tag_message,
+            release,
+            release_message,
+            object,
+            type
+        )
+    
 
 if __name__ == "__main__":
     main()
