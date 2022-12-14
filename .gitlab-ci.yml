@@ -8,6 +8,7 @@ stages:
   - Unit Test
   - Integration Test
   - Publish
+  - Tag Release
   - Test Public
 
 .packages_base:
