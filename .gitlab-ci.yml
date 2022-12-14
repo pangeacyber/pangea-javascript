@@ -8,8 +8,8 @@ stages:
   - Unit Test
   - Integration Test
   - Publish
-  - Test Public
   - Tag Release
+  - Test Public
 
 .packages_base:
   image: node

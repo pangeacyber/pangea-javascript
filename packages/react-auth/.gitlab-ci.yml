@@ -36,8 +36,8 @@ tag_react_auth:
     - cp ../../scripts/tag_release.py .
     - python3 tag_release.py ${GITHUB_TOKEN} ${VERSION} ${CI_COMMIT_SHA} "react-auth" "React Auth"
     - rm tag_release.py
-  # rules:
-  #   - if: $CI_COMMIT_BRANCH == "main"
-  #     changes:
-  #       - packages/react-auth/**/*
-  #     when: always
+  rules:
+    - if: $CI_COMMIT_BRANCH == "main"
+      changes:
+        - packages/react-auth/**/*
+      when: always
