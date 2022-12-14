@@ -225,7 +225,7 @@ it("search audit log and verify signature", async () => {
   });
 });
 
-jest.setTimeout(20000);
+jest.setTimeout(60000);
 it("search audit log and verify consistency", async () => {
   const query = "message:";
   const limit = 2;
@@ -435,9 +435,6 @@ it("fail if empty message", async () => {
     if (e instanceof PangeaErrors.ValidationError) {
       expect(e.pangeaResponse.status).toBe("ValidationError");
       expect(e.errors.length).toBe(1);
-      expect(e.summary).toBe(
-        "There was 1 error(s) in the given payload. Please visit https://pangea.cloud/docs/api/audit#log-an-entry for more information."
-      );
     }
   }
 });

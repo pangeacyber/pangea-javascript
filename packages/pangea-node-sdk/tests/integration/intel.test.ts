@@ -21,6 +21,28 @@ it("file lookup should succeed", async () => {
   expect(response.result.data.verdict).toBe("malicious");
 });
 
+it("file lookup with filepath should succeed", async () => {
+  const options = { provider: "reversinglabs", verbose: true, raw: true };
+  const response = await fileIntel.lookupFilepath("./README.md", options);
+  expect(response.status).toBe("Success");
+  expect(response.result.data).toBeDefined();
+  expect(response.result.data.verdict).toBe("unknown");
+});
+
+it("file lookup with filepath should faild", async () => {
+  const options = { provider: "reversinglabs", verbose: true, raw: true };
+
+  try {
+    const response = await fileIntel.lookupFilepath(
+      "./not/a/real/path/file.txt",
+      options
+    );
+  } catch (e: unknown) {
+    // @ts-ignore
+    expect(e.code).toBe('ENOENT');
+  }
+});
+
 it("Domain lookup should succeed", async () => {
   const options = { provider: "domaintools", verbose: true, raw: true };
   const response = await domainIntel.lookup("737updatesboeing.com", options);

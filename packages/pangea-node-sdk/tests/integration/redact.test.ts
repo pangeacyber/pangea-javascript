@@ -36,9 +36,6 @@ it("plain redact with object should fail", async () => {
     expect(e).toBeInstanceOf(PangeaErrors.ValidationError);
     if (e instanceof PangeaErrors.ValidationError) {
       expect(e.errors.length).toBe(1);
-      expect(e.summary).toBe(
-        "There was 1 error(s) in the given payload. Please visit https://pangea.cloud/docs/api/redact#redact for more information."
-      );
     }
   }
 });

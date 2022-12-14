@@ -2,6 +2,8 @@ import PangeaResponse from "../response.js";
 import BaseService from "./base.js";
 import PangeaConfig from "../config.js";
 import { Intel } from "../types.js";
+import { createHash } from 'node:crypto'
+import { readFileSync } from 'node:fs'
 
 /**
  * FileIntelService class provides methods for interacting with the File Intel Service
@@ -56,6 +58,40 @@ export class FileIntelService extends BaseService {
     const data: Intel.FileParams = {
       hash: fileHash,
       hash_type: hashType,
+    };
+
+    if (options?.provider) data.provider = options.provider;
+    if (options?.verbose) data.verbose = options.verbose;
+    if (options?.raw) data.raw = options.raw;
+
+    return this.post("lookup", data);
+  }
+
+  /**
+   * @summary Look up a file, from file path
+   * @description Retrieve file reputation from a provider, using the file's hash.
+   * @param {String} fileHash - Hash of the file to be looked up
+   * @param {String} hashType - Type of hash, can be "sha256", "sha" or "md5"
+   * @param {Object} options - An object of optional parameters
+   * @param {String} options.provider - Provider of the reputation information. ("reversinglabs"). Default provider defined by the configuration.
+   * @param {Boolean} options.verbose - Echo back the parameters of the API in the response. Default: verbose=false.
+   * @param {Boolean} options.raw - Return additional details from the provider. Default: raw=false.
+   * @returns {Promise} - A promise representing an async call to the check endpoint
+   * @returns {Promise} - A promise representing an async call to the lookup endpoint.
+   * @example
+   * const options = { provider: "reversinglabs" };
+   * const response = await fileIntel.lookup("142b638c6a60b60c7f9928da4fb85a5a8e1422a9ffdc9ee49e17e56ccca9cf6e", "sha256", options);
+   */
+   lookupFilepath(
+    filepath: string,
+    options: Intel.Options = {}
+  ): Promise<PangeaResponse<Intel.Response>> {
+    const content = readFileSync(filepath);
+    const fileHash = createHash('sha256').update(content).digest('hex')
+
+    const data: Intel.FileParams = {
+      hash: fileHash,
+      hash_type: "sha256",
     };
 
     if (options?.provider) data.provider = options.provider;
