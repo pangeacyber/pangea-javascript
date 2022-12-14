@@ -15,7 +15,9 @@ def parse_args():
 
 def main():
     args = parse_args()
-
+    print(f"token: {args.token}")
+    print(f"version: {args.token}")
+    print(f"commit: {args.commit}")
     g = Github(args.token)
     repo = g.get_repo("pangeacyber/pangea-java")
 
