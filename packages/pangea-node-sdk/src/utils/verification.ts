@@ -60,13 +60,19 @@ const decodeProof = (data: string): ProofItem[] => {
 };
 
 const constructProof = (data: string): (LeftProof | RightProof)[] => {
+  if(data === ""){
+    return [];
+  }
+
   // @ts-ignore
   const proofs: (LeftProof | RightProof)[] = data.split(",").map((item) => {
     const parts = item.split(":");
-    const side = parts[0] == "l" ? "left" : "right";
-    return {
-      [side]: parts[1],
-    };
+    if (parts.length >= 2){
+      const side = parts[0] == "l" ? "left" : "right";
+      return {
+        [side]: parts[1],
+      };
+    }
   });
 
   return proofs;
