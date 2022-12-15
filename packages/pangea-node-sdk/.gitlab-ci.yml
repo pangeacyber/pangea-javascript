@@ -2,8 +2,6 @@
   before_script:
     - cd packages/pangea-node-sdk
     - yarn install
-    # - apt-get -qq update
-    # - apt-get install -y jq
   cache:
     - key:
         files:
@@ -11,7 +9,25 @@
       paths:
         - node_modules
   rules:
-    - if: $CI_PIPELINE_SOURCE == "merge_request_event"
+    - if: $CI_PIPELINE_SOURCE == "push"
+      changes:
+        - packages/pangea-node-sdk/**/*
+      when: on_success
+
+.pangea_node_sdk_publish:
+  before_script:
+    - cd packages/pangea-node-sdk
+    - yarn install
+    - apt-get -qq update
+    - apt-get install -y jq
+  cache:
+    - key:
+        files:
+          - yarn.lock
+      paths:
+        - node_modules
+  rules:
+    - if: $CI_PIPELINE_SOURCE == "release"
       changes:
         - packages/pangea-node-sdk/**/*
       when: on_success
@@ -21,6 +37,17 @@ lint_pangea_node_sdk:
   stage: Lint
   script:
     - yarn lint
+
+generate_docs:
+  extends: .pangea_node_sdk_base
+  stage: Lint
+  script:
+    - yarn generate:docs
+  artifacts:
+    expire_in: 1 month
+    expose_as: js_sdk
+    paths: ["packages/pangea-node-sdk/docs.json"]
+    when: on_success
 
 test_pangea_node_sdk:
   extends: .pangea_node_sdk_base
@@ -34,15 +61,27 @@ integration_pangea_node_sdk:
   script:
     - yarn test:integration
 
-# publish_pangea_node_sdk_base:
-#   extends: .pangea_node_sdk_base
-#   stage: Publish
-#   script:
-#     - cp ../../scripts/publish.sh .
-#     - echo "${NPMRC}" > .npmrc && ./publish.sh && rm .npmrc
-#     - rm publish.sh
-#   rules:
-#     - if: $CI_COMMIT_BRANCH == "main"
-#       changes:
-#         - packages/pangea-node-sdk/**/*
-#       when: always
+publish_pangea_node_sdk:
+  extends: .pangea_node_sdk_publish
+  stage: Publish
+  script:
+    - cp ../../scripts/publish.sh .
+    - echo "${NPMRC}" > .npmrc && ./publish.sh && rm .npmrc
+    - rm publish.sh
+
+tag_pangea_node_sdk:
+  extends: .pangea_node_sdk_publish
+  stage: Tag Release
+  script:
+    - apt-get install python3 -y
+    - apt-get install python3-pip -y
+    - pip3 install PyGithub
+    - VERSION=$(node -p "require('./package.json').version")
+    - cp ../../scripts/tag_release.py .
+    - python3 tag_release.py ${GITHUB_TOKEN} ${VERSION} ${CI_COMMIT_SHA} "pangea-node-sdk" "Pangea Node SDK"
+    - rm tag_release.py
+  rules:
+    - if: $CI_COMMIT_BRANCH == "main"
+      changes:
+        - packages/pangea-node-sdk/**/*
+      when: always

@@ -8,10 +8,9 @@ import React, {
 } from "react";
 
 import axios from "axios";
-import { randomBytes } from "crypto";
 
-import { toUrlEncoded, encode58 } from "./utils";
-import { AuthUser, AppState } from "../types";
+import { toUrlEncoded, encode58, generateBase58 } from "./utils";
+import { AuthUser, AppState, ClientConfig } from "../types";
 
 export interface AuthContextType {
   loading: boolean;
@@ -52,11 +51,14 @@ export interface AuthProviderProps {
   loginUrl: string;
 
   /**
-   * domain: string
+   * config: {
+   *  domain: string
+   *  clientToken: string
+   * }
    *
-   * The domain for the authn API
+   * The client config for the authn API
    */
-  domain: string;
+  config: ClientConfig;
 
   /**
    * onLogin: (appState: AppState) => void
@@ -94,6 +96,17 @@ export interface AuthProviderProps {
   redirectPathname?: string;
 
   children: any;
+
+  /**
+   * useStrictStateCheck: optional boolean
+   *
+   * When set to true AuthProvider will only accept state values generate by your application.
+   *
+   * Not allowing authentication flows starting from outside your application.
+   *
+   * Default is false
+   */
+  useStrictStateCheck?: boolean;
 }
 
 const SESSION_DATA_KEY = "pangea-authn";
@@ -115,12 +128,13 @@ const AuthContext = createContext<AuthContextType>({} as AuthContextType);
 
 export const AuthProvider: FC<AuthProviderProps> = ({
   loginUrl,
-  domain,
+  config,
   onLogin,
   useCookie = false,
   cookieOptions = {},
   redirectPathname,
   children,
+  useStrictStateCheck = false,
 }) => {
   const [authenticated, setAuthenticated] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(true);
@@ -128,10 +142,10 @@ export const AuthProvider: FC<AuthProviderProps> = ({
 
   // For local development, use port 4000 for API and 4001 for hosted UI
   const slashRe = /\/$/;
-  const checkURL = `${domain.replace(slashRe, "")}/v1/token/check`;
+  const checkURL = `${config.domain.replace(slashRe, "")}/v1/token/check`;
   const loginURL = `${loginUrl.replace(slashRe, "")}/authorize`;
   const signupURL = `${loginUrl.replace(slashRe, "")}/signup`;
-  const infoURL = `${domain.replace(slashRe, "")}/v1/userinfo`;
+  const infoURL = `${config.domain.replace(slashRe, "")}/v1/userinfo`;
   const logoutURL = `${loginUrl.replace(slashRe, "")}/logout`;
 
   const combinedCookieOptions: CookieOptions = {
@@ -157,13 +171,15 @@ export const AuthProvider: FC<AuthProviderProps> = ({
     }
   }, []);
 
-  const validate = (token: string) => {
-    const headers = {
-      Authorization: `Bearer ${token}`,
+  const clientHeaders = () => {
+    return {
+      Authorization: `Bearer ${config.clientToken}`,
     };
+  };
 
+  const validate = (token: string) => {
     axios
-      .post(checkURL, { token }, { headers: headers })
+      .post(checkURL, { token }, { headers: clientHeaders() })
       .then((resp) => {
         setAuthenticated(true);
       })
@@ -194,20 +210,17 @@ export const AuthProvider: FC<AuthProviderProps> = ({
     const state = urlParams.get("state");
     const code = urlParams.get("code");
 
-    debugger;
     if (!state || !code) {
-      debugger;
       const msg = "Missing required parameters";
       setError(msg);
       setLoading(false);
-    } else if (state !== savedState) {
-      debugger;
+    } else if (state !== savedState && useStrictStateCheck) {
       const msg = "Invalid session state";
       setError(msg);
       setLoading(false);
     } else {
       axios
-        .post(infoURL, { code: code })
+        .post(infoURL, { code: code }, { headers: clientHeaders() })
         .then((resp) => {
           const result = resp?.data?.result;
           if (result?.token) {
@@ -219,11 +232,13 @@ export const AuthProvider: FC<AuthProviderProps> = ({
         })
         .catch((error) => {
           const data = error?.response?.data;
+          const status = error?.response?.status || "Error";
+
           if (data) {
-            const msg = `${data.status_code} ${data.result}: ${data.message}`;
+            const msg = `${status} ${data.status}: ${data.summary}`;
             setError(msg);
           } else {
-            const msg = `Unexpected Error ${error}`;
+            const msg = `${status}: ${error}`;
             setError(msg);
           }
         })
@@ -238,7 +253,7 @@ export const AuthProvider: FC<AuthProviderProps> = ({
     const location = window.location;
     const queryString = window.location.search;
     const urlParams = new URLSearchParams(queryString);
-    const stateCode = encode58(randomBytes(32));
+    const stateCode = generateBase58(32);
     const storageAPI = getStorageAPI(useCookie);
     storageAPI.setItem(STATE_DATA_KEY, stateCode);
     storageAPI.setItem(LAST_PATH_KEY, location.href);
@@ -259,7 +274,7 @@ export const AuthProvider: FC<AuthProviderProps> = ({
   };
 
   const logout = (redirect: boolean = true) => {
-    const stateCode = encode58(randomBytes(32));
+    const stateCode = generateBase58(32);
 
     let redirectUri = location.origin;
     if (typeof redirectPathname === "string") {
@@ -281,6 +296,8 @@ export const AuthProvider: FC<AuthProviderProps> = ({
 
     const storageAPI = getStorageAPI(useCookie);
     storageAPI.removeItem(SESSION_DATA_KEY);
+
+    setAuthenticated(false);
 
     if (redirect) {
       window.location.replace(url);

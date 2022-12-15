@@ -1,7 +1,8 @@
 import React from "react";
 import { ComponentStory, ComponentMeta } from "@storybook/react";
 
-import PangeaDataGrid from "./index";
+import PangeaDataGrid, { PangeaDataGridProps } from "./index";
+import { Show, SHOWS } from "../../stories/data/television";
 
 export default {
   title: "PangeaDataGrid",
@@ -17,23 +18,36 @@ const Template: ComponentStory<typeof PangeaDataGrid> = (args) => (
   <PangeaDataGrid {...args} />
 );
 
-export const SimpleDataGrid = Template.bind({});
+export const SimpleDataGrid: {
+  args: PangeaDataGridProps<Show>;
+} = Template.bind({});
 // More on args: https://storybook.js.org/docs/react/writing-stories/args
+
 SimpleDataGrid.args = {
-  name: "Sitcoms",
   columns: [
     {
       field: "title",
     },
-  ],
-  data: [
     {
-      id: 1,
-      title: "The Office",
-    },
-    {
-      id: 2,
-      title: "It's Always Sunny in Philadelphia",
+      field: "description",
     },
   ],
+  data: SHOWS,
+};
+
+export const FilterableDataGrid: {
+  args: PangeaDataGridProps<Show>;
+} = Template.bind({});
+// More on args: https://storybook.js.org/docs/react/writing-stories/args
+
+FilterableDataGrid.args = {
+  columns: [
+    {
+      field: "title",
+    },
+    {
+      field: "description",
+    },
+  ],
+  data: SHOWS,
 };

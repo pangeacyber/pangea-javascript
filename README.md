@@ -17,4 +17,15 @@
 
 ## Welcome
 
-This is the Pangea javascript repository.
+This is the Pangea JavaScript repository.
+
+[Pangea Node SDK](/packages/pangea-node-sdk)
+
+## Development Setup
+
+When contributing to this repository, run the following commands to enable git pre-commit linting
+
+```
+% yarn install
+% yarn prepare
+```

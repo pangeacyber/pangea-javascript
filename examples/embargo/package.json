@@ -1,0 +1,14 @@
+{
+  "name": "embargo_examples",
+  "version": "1.0.0",
+  "description": "Pangea Embargo iso check example",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Pangea",
+  "license": "MIT",
+  "dependencies": {
+    "pangea-node-sdk": "^1.0.0"
+  }
+}

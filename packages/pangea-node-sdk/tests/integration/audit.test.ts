@@ -24,7 +24,7 @@ const JSON_OLD_DATA = {
   ct6: "cm6",
 };
 
-const token = process.env.PANGEA_INTEGRATION_AUDIT_TOKEN || "";
+const token = process.env.PANGEA_INTEGRATION_TOKEN || "";
 const testHost = process.env.PANGEA_INTEGRATION_DOMAIN || "";
 const config = new PangeaConfig({ domain: testHost });
 const audit = new AuditService(token, config);
@@ -156,7 +156,11 @@ it("log an event, local sign and verify", async () => {
     old: "Old",
   };
 
-  const respLog = await audit.log(event, { verbose: true, signer: signer, signMode: Audit.SignOptions.Local});
+  const respLog = await audit.log(event, {
+    verbose: true,
+    signer: signer,
+    signMode: Audit.SignOptions.Local,
+  });
   expect(respLog.status).toBe("Success");
   expect(typeof respLog.result.hash).toBe("string");
 
@@ -211,7 +215,7 @@ it("log JSON event, sign and verify", async () => {
   const respLog = await audit.log(event, {
     verbose: true,
     signer: signer,
-    signMode: Audit.SignOptions.Local
+    signMode: Audit.SignOptions.Local,
   });
   expect(respLog.status).toBe("Success");
   expect(typeof respLog.result.hash).toBe("string");
@@ -421,7 +425,8 @@ it("get audit root", async () => {
   expect(response.status).toBe("Success");
   expect(response.result.data).toEqual(
     expect.objectContaining({
-      consistency_proof: expect.any(Object),
+      published_at: expect.any(String),
+      tree_name: expect.any(String),
       root_hash: expect.any(String),
       size: expect.any(Number),
       url: expect.any(String),
@@ -430,12 +435,13 @@ it("get audit root", async () => {
 });
 
 it("get audit root with tree size", async () => {
-  const treeSize = 3;
+  const treeSize = 1;
   const response = await audit.root(treeSize);
   expect(response.status).toBe("Success");
   expect(response.result.data).toEqual(
     expect.objectContaining({
-      consistency_proof: expect.any(Object),
+      published_at: expect.any(String),
+      tree_name: expect.any(String),
       root_hash: expect.any(String),
       size: expect.any(Number),
       url: expect.any(String),
@@ -456,7 +462,7 @@ it("fail if empty message", async () => {
       expect(e.pangeaResponse.status).toBe("ValidationError");
       expect(e.errors.length).toBe(1);
       expect(e.summary).toBe(
-        "There was 1 error(s) in the given payload. Please visit https://dev.pangea.cloud/docs/api/audit#log-an-entry for more information."
+        "There was 1 error(s) in the given payload. Please visit https://pangea.cloud/docs/api/audit#log-an-entry for more information."
       );
     }
   }

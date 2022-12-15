@@ -1,17 +1,21 @@
-import { FC, ReactNode, useMemo, MouseEvent } from "react";
+import { FC, ReactNode, useMemo, useEffect, useState, MouseEvent } from "react";
 import clone from "lodash/clone";
+import keyBy from "lodash/keyBy";
+import mapValues from "lodash/mapValues";
+import get from "lodash/get";
 
 import Grid from "@mui/material/Grid";
 import {
   DataGrid,
   GridColDef,
+  GridValidRowModel,
   DataGridProps,
   GridRowParams,
   MuiEvent,
 } from "@mui/x-data-grid";
 import { useTheme, lighten } from "@mui/material/styles";
 
-import { Typography, Stack } from "@mui/material";
+import { Stack } from "@mui/material";
 
 import { constructActionColumn } from "./action";
 import { constructExpandColumn, ExpandableRow } from "./expansion";
@@ -20,13 +24,21 @@ import ResultsBar from "./components/Results";
 import SearchBar from "./components/Search";
 
 import { ConditionalOption } from "../ConditionalAutocomplete";
+import { PreviewPanel } from "./components/PreviewPanel";
+import { FilterFormProps } from "./components/Search/FiltersForm";
+import { Visibility } from "./components/Search/ColumnsPopout";
 
-export interface PangeaDataGridProps<Model> {
-  name?: string;
+export interface PangeaDataGridProps<
+  DataType extends GridValidRowModel,
+  FiltersObj = Record<string, string>
+> {
   header?: ReactNode;
   columns: GridColDef[];
-  data: Model[];
+  data: DataType[];
   loading?: boolean;
+  ColumnCustomization?: {
+    visibilityModel: Record<string, boolean>;
+  };
   ServerPagination?: {
     page: number;
     pageSize: number;
@@ -42,25 +54,30 @@ export interface PangeaDataGridProps<Model> {
     query?: string;
     onChange: (query: string) => void;
     conditionalOptions?: ConditionalOption[];
+    Filters?: FilterFormProps<FiltersObj>;
   };
   // Optional easy to add action column. Always inserted after all columns
   //    Action column could also always
   ActionColumn?: {
-    render: (object: Model) => ReactNode;
+    render: (object: DataType) => ReactNode;
     GridColDef?: Partial<GridColDef>;
   };
   ExpansionRow?: {
-    render: (object: Model, open: boolean) => ReactNode;
+    render: (object: DataType, open: boolean) => ReactNode;
     GridColDef?: Partial<GridColDef>;
   };
-  onRowClick?: (param: GridRowParams, event: MuiEvent<MouseEvent>) => void;
+  PreviewPanel?: PreviewPanel<DataType>;
+  onRowClick?: (
+    param: GridRowParams<DataType>,
+    event: MuiEvent<MouseEvent>
+  ) => boolean | void;
   DataGridProps?: Partial<DataGridProps>;
-  palette?: {};
 }
 
-type PangeaDataGridPropsTyped<Model = any> = FC<PangeaDataGridProps<Model>>;
-const PangeaDataGrid: PangeaDataGridPropsTyped = ({
-  name,
+const PangeaDataGrid = <
+  DataType extends GridValidRowModel = { id: string },
+  FiltersObj extends { [key: string]: string } = Record<string, string>
+>({
   header = null,
   columns: columnsProp,
   data,
@@ -70,11 +87,19 @@ const PangeaDataGrid: PangeaDataGridPropsTyped = ({
   ActionColumn,
   ExpansionRow,
   DataGridProps = {},
+  PreviewPanel,
   onRowClick,
-}) => {
+  ColumnCustomization,
+}: PangeaDataGridProps<DataType, FiltersObj>): JSX.Element => {
   const theme = useTheme();
+
+  const [preview, setPreview] = useState<GridRowParams<DataType> | null>(null);
+
   const isRowClickable = !!ExpansionRow?.render || !!onRowClick;
   const pageSize = DataGridProps?.pageSize || ServerPagination?.pageSize || 20;
+
+  const [visibility, setVisibility] = useState<Visibility>({});
+  const [order, setOrder] = useState<string[]>([]);
 
   const columns = useMemo(() => {
     let columns = clone(columnsProp);
@@ -90,140 +115,195 @@ const PangeaDataGrid: PangeaDataGridPropsTyped = ({
       );
     }
 
-    return columns;
-  }, [columnsProp]);
+    return columns.sort((a, b) => {
+      return order.indexOf(a.field) - order.indexOf(b.field);
+    });
+  }, [columnsProp, order]);
 
-  const borderTopRadius = !!name ? "0px" : "4px";
+  const columnsMap = useMemo(() => keyBy(columns, "field"), [columns]);
+
+  useEffect(() => {
+    if (!ColumnCustomization?.visibilityModel) return;
+
+    const vis = mapValues(ColumnCustomization?.visibilityModel, (val, key) => ({
+      isVisible: val,
+      label: get(columnsMap, key, { headerName: key }).headerName ?? key,
+    }));
+
+    const order = Object.keys(columnsMap).filter((field) => !!vis[field]);
+
+    setOrder(order);
+    setVisibility(vis);
+  }, [ColumnCustomization?.visibilityModel]);
+
+  const columnsPopoutProps = !!ColumnCustomization
+    ? {
+        order,
+        setOrder,
+        visibility,
+        setVisibility,
+      }
+    : undefined;
+
   return (
     <div>
       <>
         <Grid item sx={{ width: "100%" }} data-testid={`model-data-grid`}>
-          {!!name && (
+          {!!Search && (
+            <SearchBar<FiltersObj>
+              loading={loading}
+              {...Search}
+              ColumnsPopoutProps={columnsPopoutProps}
+            />
+          )}
+          {!!ServerPagination && <ResultsBar {...ServerPagination} />}
+          {!!header && (
             <Stack
               direction="row"
               width="100%"
-              sx={{ marginBottom: 2, alignItems: "center" }}
+              sx={{ p: 0.5, pt: 0, alignItems: "center" }}
             >
-              <Typography variant="h6">{name}</Typography>
               {header}
             </Stack>
           )}
-          {!!Search && <SearchBar loading={loading} {...Search} />}
-          {!!ServerPagination && <ResultsBar {...ServerPagination} />}
-          <DataGrid
-            autoHeight
-            headerHeight={44}
-            disableVirtualization
-            disableColumnMenu
-            rowHeight={44}
-            rows={data}
-            columns={columns}
-            hideFooterSelectedRowCount
-            hideFooterPagination={!ServerPagination && data?.length < pageSize}
-            onRowClick={(params, event) => {
-              if (!isRowClickable || event.defaultPrevented) return;
-              if (!!onRowClick) {
-                onRowClick(params, event);
+          <Stack direction="row">
+            <DataGrid
+              autoHeight
+              headerHeight={44}
+              disableVirtualization
+              disableColumnMenu
+              rowHeight={44}
+              rows={data}
+              columns={columns}
+              columnVisibilityModel={mapValues(
+                visibility,
+                (val) => val.isVisible
+              )}
+              hideFooterSelectedRowCount
+              hideFooterPagination={
+                !ServerPagination && data?.length < pageSize
               }
-
-              if (!ExpansionRow?.render) return;
-              const open = params.row?._state?.rowOpen ?? false;
-              params.row?._state?.setRowOpen(!open);
-            }}
-            paginationMode={!!ServerPagination ? "server" : undefined}
-            {...(DataGridProps ?? {})}
-            pageSize={pageSize}
-            rowCount={
-              !!ServerPagination ? ServerPagination.rowCount : undefined
-            }
-            sx={{
-              borderTopRightRadius: borderTopRadius,
-              borderTopLeftRadius: borderTopRadius,
-              fontFamily: "Kanit",
-              fontSize: "14px",
-              fontStyle: "normal",
-              fontWeight: "400",
-              lineHeight: "22px",
-              letterSpacing: "0.1px",
-              border: "none",
-              color: theme.palette.text.secondary,
-              ".MuiDataGrid-columnHeaders": {
-                color: theme.palette.text.secondary,
-                backgroundColor: lighten(theme.palette.secondary.main, 0.9),
-                textTransform: "uppercase",
-                fontFamily: "Kanit",
-                fontSize: "12px",
-                fontStyle: "normal",
-                fontWeight: 500,
-                lineHeight: "32px",
-                letterSpacing: "1.5px",
-                textAlign: "left",
-                borderRadius: "4px",
-              },
-              ".MuiDataGrid-columnHeader:focus-within, .MuiDataGrid-cell:focus-within":
-                {
-                  outline: "none",
-                },
-              ".MuiDataGrid-cell": {
-                border: "none",
-              },
-              ".MuiDataGrid-row": {
-                borderRadius: "4px",
-              },
-              ".MuiDataGrid-row.Mui-selected": {
-                borderTopLeftRadius: "4px",
-                borderTopRightRadius: "4px",
-                borderBottomLeftRadius: 0,
-                borderBottomRightRadius: 0,
-                backgroundColor: lighten(theme.palette.secondary.main, 0.9),
-                ":hover": {
-                  backgroundColor: lighten(theme.palette.secondary.main, 0.9),
-                },
-              },
-              ".MuiDataGrid-overlay": {
-                top: "56px!important",
-                bottom: "auto",
-              },
-              ".MuiDataGrid-footerContainer": {
-                borderTop: "none",
-                minHeight: "8px",
-              },
-              ".columnPrimary": {
-                color: theme.palette.text.primary,
-              },
-              ".MuiDataGrid-virtualScrollerRenderZone, .MuiDataGrid-virtualScrollerContent":
-                {
-                  position: "relative",
-                  height: "fit-content!important",
-                },
-              ".MuiDataGrid-row,.MuiDataGrid-row.Mui-selected": {
-                ":hover": {
-                  cursor: "default",
-                },
-              },
-              ...(isRowClickable
-                ? {
-                    ".MuiDataGrid-row,.MuiDataGrid-row.Mui-selected": {
-                      ":hover": {
-                        cursor: "pointer",
-                        backgroundColor: lighten(
-                          theme.palette.secondary.main,
-                          0.85
-                        ),
-                      },
-                    },
+              selectionModel={preview?.row?.id}
+              onRowClick={(params, event) => {
+                if (!isRowClickable || event.defaultPrevented) return;
+                if (!!onRowClick) {
+                  const res = onRowClick(params, event);
+                  if (res === false) {
+                    return;
                   }
-                : {}),
-              ...(DataGridProps.sx ?? {}),
-            }}
-            components={{
-              Row: ExpandableRow,
-              Pagination: !!ServerPagination
-                ? () => <Pagination {...ServerPagination} />
-                : undefined,
-              ...(DataGridProps.components ?? {}),
-            }}
-          />
+                }
+
+                if (PreviewPanel !== undefined) {
+                  setPreview(params);
+                }
+
+                if (!ExpansionRow?.render) return;
+                const open = params.row?._state?.rowOpen ?? false;
+                params.row?._state?.setRowOpen(!open);
+              }}
+              paginationMode={!!ServerPagination ? "server" : undefined}
+              pageSize={pageSize}
+              rowCount={
+                !!ServerPagination ? ServerPagination.rowCount : undefined
+              }
+              {...(DataGridProps ?? {})}
+              sx={{
+                borderTopRightRadius: "4px",
+                borderTopLeftRadius: "4px",
+                fontFamily: "Kanit",
+                fontSize: "14px",
+                fontStyle: "normal",
+                fontWeight: "400",
+                lineHeight: "22px",
+                letterSpacing: "0.1px",
+                border: "none",
+                color: theme.palette.text.secondary,
+                ".MuiDataGrid-columnHeaders": {
+                  color: theme.palette.text.secondary,
+                  backgroundColor: lighten(theme.palette.secondary.main, 0.9),
+                  textTransform: "uppercase",
+                  fontFamily: "Kanit",
+                  fontSize: "12px",
+                  fontStyle: "normal",
+                  fontWeight: 500,
+                  lineHeight: "32px",
+                  letterSpacing: "1.5px",
+                  textAlign: "left",
+                  borderRadius: "4px",
+                },
+                ".MuiDataGrid-columnHeader:focus-within, .MuiDataGrid-cell:focus-within":
+                  {
+                    outline: "none",
+                  },
+                ".MuiDataGrid-cell": {
+                  border: "none",
+                },
+                ".MuiDataGrid-row": {
+                  borderRadius: "4px",
+                },
+                ".MuiDataGrid-row.Mui-selected": {
+                  borderTopLeftRadius: "4px",
+                  borderTopRightRadius: "4px",
+                  borderBottomLeftRadius: 0,
+                  borderBottomRightRadius: 0,
+                  backgroundColor: lighten(theme.palette.secondary.main, 0.9),
+                  ":hover": {
+                    backgroundColor: lighten(theme.palette.secondary.main, 0.9),
+                  },
+                },
+                ".MuiDataGrid-overlay": {
+                  top: "56px!important",
+                  bottom: "auto",
+                },
+                ".MuiDataGrid-footerContainer": {
+                  borderTop: "none",
+                  minHeight: "8px",
+                },
+                ".columnPrimary": {
+                  color: theme.palette.text.primary,
+                },
+                ".MuiDataGrid-virtualScrollerRenderZone, .MuiDataGrid-virtualScrollerContent":
+                  {
+                    position: "relative",
+                    height: "fit-content!important",
+                  },
+                ".MuiDataGrid-row,.MuiDataGrid-row.Mui-selected": {
+                  ":hover": {
+                    cursor: "default",
+                  },
+                },
+                ...(isRowClickable
+                  ? {
+                      ".MuiDataGrid-row,.MuiDataGrid-row.Mui-selected": {
+                        ":hover": {
+                          cursor: "pointer",
+                          backgroundColor: lighten(
+                            theme.palette.secondary.main,
+                            0.85
+                          ),
+                        },
+                      },
+                    }
+                  : {}),
+                ...(DataGridProps.sx ?? {}),
+              }}
+              components={{
+                Row: ExpandableRow,
+                Pagination: !!ServerPagination
+                  ? () => <Pagination {...ServerPagination} />
+                  : undefined,
+                ...(DataGridProps.components ?? {}),
+              }}
+            />
+            {!!PreviewPanel && !!preview && (
+              <PreviewPanel
+                onClose={() => {
+                  setPreview(null);
+                }}
+                data={preview?.row}
+              />
+            )}
+          </Stack>
         </Grid>
       </>
     </div>

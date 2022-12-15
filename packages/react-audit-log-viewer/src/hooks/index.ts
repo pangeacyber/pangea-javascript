@@ -11,7 +11,7 @@ const constructGridColumnsFromFields = (
 
   (order || Object.keys(fields)).forEach((fieldName) => {
     const fieldObj = fields[fieldName];
-    const col = {
+    const col: GridColDef = {
       ...fieldObj,
       field: fieldName,
       width:
@@ -20,6 +20,10 @@ const constructGridColumnsFromFields = (
           : 180,
       type: fieldObj?.type ?? typeof fieldObj?.default ?? "string",
       headerName: startCase(fieldObj?.label || fieldName),
+      valueGetter: (params) => {
+        const value = params.row[params.field];
+        return typeof value === "string" ? value : JSON.stringify(value);
+      },
     };
 
     columns.push(col);

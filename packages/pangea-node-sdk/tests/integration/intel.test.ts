@@ -2,7 +2,7 @@ import PangeaConfig from "../../src/config";
 import { FileIntelService, DomainIntelService } from "../../src/services/intel";
 import { it, expect } from "@jest/globals";
 
-const token = process.env.PANGEA_INTEGRATION_FILE_INTEL_TOKEN || "";
+const token = process.env.PANGEA_INTEGRATION_TOKEN || "";
 const testHost = process.env.PANGEA_INTEGRATION_DOMAIN || "";
 const config = new PangeaConfig({ domain: testHost });
 const fileIntel = new FileIntelService(token, config);

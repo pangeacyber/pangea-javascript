@@ -18,7 +18,7 @@ export interface ConfigOptions {
 export namespace Audit {
   export interface LogOptions {
     verbose?: boolean;
-    signMode?: SignOptions
+    signMode?: SignOptions;
     signer?: Signer;
     skipEventVerification?: boolean;
     verify?: boolean;
