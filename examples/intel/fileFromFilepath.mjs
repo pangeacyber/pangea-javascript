@@ -12,10 +12,7 @@ const fileIntel = new FileIntelService(String(token), config);
 
   const options = { provider: "reversinglabs", verbose: true, raw: true };
   try {
-    const response = await fileIntel.lookupFilepath(
-      "./README.md",
-      options
-    );
+    const response = await fileIntel.lookupFilepath("./README.md", options);
     console.log(response.result);
   } catch (e) {
     if (e instanceof PangeaErrors.APIError) {
