@@ -229,6 +229,7 @@ jest.setTimeout(60000);
 it("search audit log and verify consistency", async () => {
   const query = "message:";
   const limit = 2;
+  const maxResults = 4;
   const options: Audit.SearchOptions = {
     verifyConsistency: true,
   };
@@ -236,10 +237,10 @@ it("search audit log and verify consistency", async () => {
   let queryOptions: Audit.SearchParamsOptions = {
     limit: limit,
     order: "asc", // Oldest events should have consistency proofs
+    max_results: maxResults,
   };
 
   let response = await audit.search(query, queryOptions, options);
-
   expect(response.status).toBe("Success");
   expect(response.result.events.length).toBeLessThanOrEqual(limit);
   response.result.events.forEach((record, index) => {
@@ -284,7 +285,7 @@ jest.setTimeout(20000);
 it("results audit log with search verbose", async () => {
   const query = "message:";
   const searchLimit = 2;
-  const searchMaxResults = 20;
+  const searchMaxResults = 4;
 
   const queryOptions: Audit.SearchParamsOptions = {
     limit: searchLimit,
