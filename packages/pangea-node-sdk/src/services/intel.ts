@@ -2,10 +2,10 @@ import PangeaResponse from "../response.js";
 import BaseService from "./base.js";
 import PangeaConfig from "../config.js";
 import { Intel } from "../types.js";
-import { createHash } from 'node:crypto'
-import { readFileSync } from 'node:fs'
+import { createHash } from "node:crypto";
+import { readFileSync } from "node:fs";
 
-const hashType = 'sha256';
+const hashType = "sha256";
 
 /**
  * FileIntelService class provides methods for interacting with the File Intel Service
@@ -83,12 +83,12 @@ export class FileIntelService extends BaseService {
    * const options = { provider: "reversinglabs" };
    * const response = await fileIntel.lookupFilepath("./myfile.exe", options);
    */
-   lookupFilepath(
+  lookupFilepath(
     filepath: string,
     options: Intel.Options = {}
   ): Promise<PangeaResponse<Intel.Response>> {
     const content = readFileSync(filepath);
-    const fileHash = createHash(hashType).update(content).digest('hex')
+    const fileHash = createHash(hashType).update(content).digest("hex");
 
     const data: Intel.FileParams = {
       hash: fileHash,

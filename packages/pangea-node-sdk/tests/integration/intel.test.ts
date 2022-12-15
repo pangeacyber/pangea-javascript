@@ -33,13 +33,10 @@ it("file lookup with filepath should faild", async () => {
   const options = { provider: "reversinglabs", verbose: true, raw: true };
 
   try {
-    const response = await fileIntel.lookupFilepath(
-      "./not/a/real/path/file.txt",
-      options
-    );
+    const response = await fileIntel.lookupFilepath("./not/a/real/path/file.txt", options);
   } catch (e: unknown) {
     // @ts-ignore
-    expect(e.code).toBe('ENOENT');
+    expect(e.code).toBe("ENOENT");
   }
 });
 
