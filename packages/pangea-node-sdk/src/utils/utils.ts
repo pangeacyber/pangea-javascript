@@ -19,3 +19,19 @@ export function canonicalize(obj: Object) {
   const ordererObj = _orderKeys(obj, true);
   return JSON.stringify(ordererObj);
 }
+
+export const TestEnvironment = {
+  DEVELOP: "DEV",
+  PRODUCTION: "PROD",
+  STAGING: "STG",
+};
+
+export function getTestDomain(environment: string) {
+  const name = "PANGEA_INTEGRATION_DOMAIN_" + environment;
+  return process.env[name] || "";
+}
+
+export function getTestToken(environment: string) {
+  const name = "PANGEA_INTEGRATION_TOKEN_" + environment;
+  return process.env[name] || "";
+}
