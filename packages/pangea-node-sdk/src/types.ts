@@ -5,11 +5,16 @@ import { Signer } from "utils/signer";
  */
 export interface ConfigOptions {
   domain?: string;
-  environment?: string;
+  environment?: ConfigEnv;
   requestRetries?: number;
   requestTimeout?: number;
   queuedRetryEnabled?: boolean;
   aqueuedRetries?: number;
+}
+
+export enum ConfigEnv {
+  "local" = "local",
+  "production" = "production",
 }
 
 /**
@@ -200,5 +205,13 @@ export namespace Intel {
       score: number;
       verdict: string;
     };
+  }
+}
+
+export namespace AuthN {
+  export interface PasswordUpdateRequest {
+    email: string;
+    old_secret: string;
+    new_secret: string;
   }
 }
