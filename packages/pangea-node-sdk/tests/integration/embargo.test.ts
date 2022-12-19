@@ -2,9 +2,10 @@ import PangeaConfig from "../../src/config";
 import EmbargoService from "../../src/services/embargo";
 import { PangeaErrors } from "../../src/errors";
 import { it, expect } from "@jest/globals";
+import { TestEnvironment, getTestDomain, getTestToken } from "../../src/utils/utils";
 
-const token = process.env.PANGEA_INTEGRATION_TOKEN || "";
-const testHost = process.env.PANGEA_INTEGRATION_DOMAIN || "";
+const token = getTestToken(TestEnvironment.PRODUCTION);
+const testHost = getTestDomain(TestEnvironment.PRODUCTION);
 const config = new PangeaConfig({ domain: testHost });
 const embargo = new EmbargoService(token, config);
 
