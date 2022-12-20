@@ -1,5 +1,5 @@
 import PangeaConfig from "../../src/config";
-import { FileIntelService, DomainIntelService } from "../../src/services/intel";
+import { FileIntelService, DomainIntelService, URLIntelService } from "../../src/services/intel";
 import { it, expect } from "@jest/globals";
 import { TestEnvironment, getTestDomain, getTestToken } from "../../src/utils/utils";
 
@@ -8,6 +8,7 @@ const testHost = getTestDomain(TestEnvironment.PRODUCTION);
 const config = new PangeaConfig({ domain: testHost });
 const fileIntel = new FileIntelService(token, config);
 const domainIntel = new DomainIntelService(token, config);
+const urlIntel = new URLIntelService(token, config);
 
 it("file lookup should succeed", async () => {
   const options = { provider: "reversinglabs", verbose: true, raw: true };
@@ -44,6 +45,15 @@ it("file lookup with filepath should faild", async () => {
 it("Domain lookup should succeed", async () => {
   const options = { provider: "domaintools", verbose: true, raw: true };
   const response = await domainIntel.lookup("737updatesboeing.com", options);
+
+  expect(response.status).toBe("Success");
+  expect(response.result.data).toBeDefined();
+  expect(response.result.data.verdict).toBe("malicious");
+});
+
+it("URL lookup should succeed", async () => {
+  const options = { provider: "crowdstrike", verbose: true, raw: true };
+  const response = await urlIntel.lookup("http://113.235.101.11:54384", options);
 
   expect(response.status).toBe("Success");
   expect(response.result.data).toBeDefined();
