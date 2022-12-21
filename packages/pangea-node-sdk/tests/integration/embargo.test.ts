@@ -11,7 +11,7 @@ const embargo = new EmbargoService(token, config);
 
 it("check IP in Russia", async () => {
   const expected = {
-    list_name: "ITAR",
+    list_name: "US - ITAR",
     embargoed_country_name: "Russia",
     embargoed_country_iso_code: "RU",
     issuing_country: "US",
@@ -27,7 +27,7 @@ it("check IP in Russia", async () => {
 
 it("check ISO for Cuba", async () => {
   const expected = {
-    list_name: "ITAR",
+    list_name: "US - ITAR",
     embargoed_country_name: "Cuba",
     embargoed_country_iso_code: "CU",
     issuing_country: "US",
