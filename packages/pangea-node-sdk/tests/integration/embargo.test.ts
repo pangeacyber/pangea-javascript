@@ -4,14 +4,14 @@ import { PangeaErrors } from "../../src/errors";
 import { it, expect } from "@jest/globals";
 import { TestEnvironment, getTestDomain, getTestToken } from "../../src/utils/utils";
 
-const token = getTestToken(TestEnvironment.PRODUCTION);
-const testHost = getTestDomain(TestEnvironment.PRODUCTION);
+const token = getTestToken(TestEnvironment.LIVE);
+const testHost = getTestDomain(TestEnvironment.LIVE);
 const config = new PangeaConfig({ domain: testHost });
 const embargo = new EmbargoService(token, config);
 
 it("check IP in Russia", async () => {
   const expected = {
-    list_name: "ITAR",
+    list_name: "US - ITAR",
     embargoed_country_name: "Russia",
     embargoed_country_iso_code: "RU",
     issuing_country: "US",
@@ -27,7 +27,7 @@ it("check IP in Russia", async () => {
 
 it("check ISO for Cuba", async () => {
   const expected = {
-    list_name: "ITAR",
+    list_name: "US - ITAR",
     embargoed_country_name: "Cuba",
     embargoed_country_iso_code: "CU",
     issuing_country: "US",
