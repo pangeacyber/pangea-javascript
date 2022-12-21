@@ -4,8 +4,8 @@ import { PangeaErrors } from "../../src/errors";
 import { it, expect } from "@jest/globals";
 import { TestEnvironment, getTestDomain, getTestToken } from "../../src/utils/utils";
 
-const token = getTestToken(TestEnvironment.PRODUCTION);
-const testHost = getTestDomain(TestEnvironment.PRODUCTION);
+const token = getTestToken(TestEnvironment.LIVE);
+const testHost = getTestDomain(TestEnvironment.LIVE);
 const config = new PangeaConfig({ domain: testHost });
 const embargo = new EmbargoService(token, config);
 
