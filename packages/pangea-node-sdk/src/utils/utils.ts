@@ -22,7 +22,7 @@ export function canonicalize(obj: Object) {
 
 export const TestEnvironment = {
   DEVELOP: "DEV",
-  PRODUCTION: "PROD",
+  LIVE: "LVE",
   STAGING: "STG",
 };
 

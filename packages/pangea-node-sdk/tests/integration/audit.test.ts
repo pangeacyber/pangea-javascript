@@ -24,8 +24,8 @@ const JSON_OLD_DATA = {
   ct6: "cm6",
 };
 
-const token = getTestToken(TestEnvironment.PRODUCTION);
-const testHost = getTestDomain(TestEnvironment.PRODUCTION);
+const token = getTestToken(TestEnvironment.LIVE);
+const testHost = getTestDomain(TestEnvironment.LIVE);
 const config = new PangeaConfig({ domain: testHost });
 const audit = new AuditService(token, config);
 
