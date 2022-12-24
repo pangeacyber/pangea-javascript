@@ -4,6 +4,7 @@ import { Audit } from "../../src/types";
 import { Signer } from "../../src/utils/signer";
 import { jest, it, expect } from "@jest/globals";
 import { PangeaErrors } from "../../src/errors";
+import { TestEnvironment, getTestDomain, getTestToken } from "../../src/utils/utils";
 
 const ACTOR = "node-sdk";
 const MSG_NO_SIGNED = "test-message";
@@ -23,8 +24,8 @@ const JSON_OLD_DATA = {
   ct6: "cm6",
 };
 
-const token = process.env.PANGEA_INTEGRATION_TOKEN || "";
-const testHost = process.env.PANGEA_INTEGRATION_DOMAIN || "";
+const token = getTestToken(TestEnvironment.LIVE);
+const testHost = getTestDomain(TestEnvironment.LIVE);
 const config = new PangeaConfig({ domain: testHost });
 const audit = new AuditService(token, config);
 

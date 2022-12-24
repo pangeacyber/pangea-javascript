@@ -1,9 +1,10 @@
 import PangeaConfig from "../../src/config";
 import { FileIntelService, DomainIntelService } from "../../src/services/intel";
 import { it, expect } from "@jest/globals";
+import { TestEnvironment, getTestDomain, getTestToken } from "../../src/utils/utils";
 
-const token = process.env.PANGEA_INTEGRATION_TOKEN || "";
-const testHost = process.env.PANGEA_INTEGRATION_DOMAIN || "";
+const token = getTestToken(TestEnvironment.LIVE);
+const testHost = getTestDomain(TestEnvironment.LIVE);
 const config = new PangeaConfig({ domain: testHost });
 const fileIntel = new FileIntelService(token, config);
 const domainIntel = new DomainIntelService(token, config);

@@ -10,6 +10,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 
 - This CHANGELOG
+- Functions to get token and domain according to test environment (PROD/DEV/STG)
 
 ### Fixed
 
