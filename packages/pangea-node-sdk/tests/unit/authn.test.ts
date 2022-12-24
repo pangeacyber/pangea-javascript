@@ -11,6 +11,58 @@ it("is really a test", async () => {
   expect(authn).toBeDefined();
 });
 
+describe("authn::/v1/user/login", () => {
+  const config = new PangeaConfig({
+    domain: "dev.aws.us.pangea.cloud",
+    environment: ConfigEnv["local"],
+  });
+
+  const authn = new AuthnService("TEST_TOKEN", config);
+
+  // @ts-ignore we don't care... we're mocking it
+  authn.post = jest.fn();
+
+  it("should sanity check: email is required", () => {
+    const argumentsToTest = [
+      {},
+      { email: "" },
+      { email: " " },
+      { email: undefined },
+      { email: null },
+      { email: 0 },
+      { email: true },
+      { email: false },
+    ];
+
+    argumentsToTest.forEach((params) => {
+      expect(() => {
+        // @ts-expect-error testing param validation
+        authn.userLogin(params);
+      }).toThrow("userLogin was called without supplying an email");
+    });
+  });
+
+  it("should sanity check: secret is required", () => {
+    const argumentsToTest = [
+      { email: "e@ex.co" },
+      { email: "e@ex.co", secret: "" },
+      { email: "e@ex.co", secret: " " },
+      { email: "e@ex.co", secret: undefined },
+      { email: "e@ex.co", secret: null },
+      { email: "e@ex.co", secret: 0 },
+      { email: "e@ex.co", secret: true },
+      { email: "e@ex.co", secret: false },
+    ];
+
+    argumentsToTest.forEach((params) => {
+      expect(() => {
+        // @ts-expect-error testing param validation
+        authn.userLogin(params);
+      }).toThrow("userLogin was called without supplying a secret");
+    });
+  });
+});
+
 describe("authn::/v1/password/update", () => {
   const config = new PangeaConfig({
     domain: "dev.aws.us.pangea.cloud",
@@ -23,68 +75,55 @@ describe("authn::/v1/password/update", () => {
 
   it("should sanity check: email is required", () => {
     const argumentsToTest = [
-      [],
-      [null, null, null],
-      [undefined, undefined, undefined],
-      [0],
-      [""],
-      [" ", " ", " "],
+      {},
+      { email: null, old_secret: null, new_secret: null },
+      { email: undefined, old_secret: undefined, new_secret: undefined },
+      { email: 0 },
+      { email: "" },
+      { email: " ", old_secret: " ", new_secret: " " },
     ];
 
-    argumentsToTest.forEach((testCaseArgs) => {
+    argumentsToTest.forEach((params) => {
       expect(() => {
-        // @ts-ignore testing passing no params that are required
-        authn.passwordUpdate(...testCaseArgs);
+        // @ts-expect-error testing param validation
+        authn.passwordUpdate(params);
       }).toThrow("passwordUpdate was called without supplying an email");
     });
   });
 
   it("should sanity check: oldSecret is required", () => {
     const argumentsToTest = [
-      ["e@example.com"],
-      ["e@example.com", null, null],
-      ["e@example.com", undefined, undefined],
-      ["e@example.com", 0],
-      ["e@example.com", ""],
-      ["e@example.com", " ", " "],
+      { email: "e@example.com" },
+      { email: "e@example.com", old_secret: null, new_secret: null },
+      { email: "e@example.com", old_secret: undefined, new_secret: undefined },
+      { email: "e@example.com", old_secret: 0 },
+      { email: "e@example.com", old_secret: "" },
+      { email: "e@example.com", old_secret: " ", new_secret: " " },
     ];
 
-    argumentsToTest.forEach((testCaseArgs) => {
+    argumentsToTest.forEach((params) => {
       expect(() => {
-        // @ts-ignore testing passing no params that are required
-        authn.passwordUpdate(...testCaseArgs);
+        // @ts-expect-error testing param validation
+        authn.passwordUpdate(params);
       }).toThrow("passwordUpdate was called without supplying an oldSecret");
     });
   });
 
   it("should sanity check: newSecret is required", () => {
     const argumentsToTest = [
-      ["e@example.com", "hunter2"],
-      ["e@example.com", "hunter2", null],
-      ["e@example.com", "hunter2", undefined],
-      ["e@example.com", "hunter2", 0],
-      ["e@example.com", "hunter2", ""],
-      ["e@example.com", "hunter2", " "],
+      { email: "e@example.com", old_secret: "hunter2" },
+      { email: "e@example.com", old_secret: "hunter2", new_secret: null },
+      { email: "e@example.com", old_secret: "hunter2", new_secret: undefined },
+      { email: "e@example.com", old_secret: "hunter2", new_secret: 0 },
+      { email: "e@example.com", old_secret: "hunter2", new_secret: "" },
+      { email: "e@example.com", old_secret: "hunter2", new_secret: " " },
     ];
 
-    argumentsToTest.forEach((testCaseArgs) => {
+    argumentsToTest.forEach((params) => {
       expect(() => {
-        // @ts-ignore testing passing no params that are required
-        authn.passwordUpdate(...testCaseArgs);
+        // @ts-expect-error testing param validation
+        authn.passwordUpdate(params);
       }).toThrow("passwordUpdate was called without supplying an newSecret");
     });
-  });
-
-  it("passes the boundary test", () => {
-    authn.passwordUpdate("hey", "hunter2", "My2n+Password");
-
-    const dataBoundary: AuthN.PasswordUpdateRequest = {
-      email: "hey",
-      old_secret: "hunter2",
-      new_secret: "My2n+Password",
-    };
-
-    expect(authn.post).toHaveBeenCalledTimes(1);
-    expect(authn.post).toHaveBeenCalledWith("password/update", dataBoundary);
   });
 });

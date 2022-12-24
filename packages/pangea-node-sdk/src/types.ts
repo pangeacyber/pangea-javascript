@@ -214,4 +214,133 @@ export namespace AuthN {
     old_secret: string;
     new_secret: string;
   }
+
+  export enum IDProvider {
+    FACEBOOK = "facebook",
+    GITHUB = "github",
+    GOOGLE = "google",
+    MICROSOFT_ONLINE = "microsoftonline",
+    PASSWORD = "password",
+  }
+
+  export type Scopes = string[];
+  export interface Profile {
+    [key: string]: any;
+  }
+
+  export interface UserCreateRequest {
+    email: string;
+    authenticator: string;
+    id_provider: IDProvider;
+    verified?: boolean;
+    require_mfa?: boolean;
+    profile?: Profile;
+    scopes?: Scopes;
+  }
+
+  export interface UserCreateResult {
+    identity: string;
+    email: string;
+    profile: Profile;
+    id_provider: string;
+    require_mfa: boolean;
+    verified: boolean;
+    last_login_at: string;
+    disable?: boolean;
+    mfa_provider?: string[];
+  }
+
+  export interface UserDeleteRequest {
+    email: string;
+  }
+
+  export interface UserInviteRequest {
+    inviter: string;
+    email: string;
+    callback: string;
+    state: string;
+    invite_ord?: string;
+    require_mfa?: boolean;
+  }
+
+  export interface UserInvite {
+    id: string;
+    inviter: string;
+    invite_org: string;
+    email: string;
+    callback: string;
+    state: string;
+    require_mfa: boolean;
+    created_at: string;
+    expire: string;
+  }
+
+  export interface UserInviteListResult {
+    invites: UserInvite[];
+  }
+
+  export interface UserInviteDeleteRequest {
+    id: string;
+  }
+
+  export interface UserListRequest {
+    scopes: Scopes;
+    glob_scopes: Scopes;
+  }
+
+  export interface User {
+    profile: Profile;
+    identity: string;
+    email: string;
+    scopes: Scopes;
+  }
+
+  export interface UserListResult {
+    users: User[];
+  }
+
+  export interface UserLoginRequest {
+    email: string;
+    secret: string;
+    scopes?: Scopes;
+  }
+
+  export interface UserLoginResult {
+    id: string;
+    token: string;
+    type: string;
+    life: number;
+    expire: string;
+    identity: string;
+    email: string;
+    created_at: string;
+    scopes?: Scopes;
+    profile: Profile;
+  }
+
+  export interface UserProfileGetRequest {
+    identity?: string;
+    email?: string;
+  }
+
+  export interface UserProfile {
+    identity: string;
+    email: string;
+    profile: Profile;
+    id_provider: string;
+    mfa_providers: string[];
+    require_mfa: boolean;
+    verified: boolean;
+    last_login_at: string;
+    disable?: boolean;
+  }
+
+  export interface UserProfileUpdateRequest {
+    profile: Profile;
+    identity?: string;
+    email?: string;
+    require_mfa?: boolean;
+    mfa_value?: string;
+    mfa_provider?: string;
+  }
 }
