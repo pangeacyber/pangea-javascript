@@ -1,6 +1,8 @@
 export {
   default as PangeaDataGrid,
   PangeaDataGridProps,
+  FilterFormProps,
+  FilterOptions,
 } from "./components/PangeaDataGrid";
 export { default as JsonViewer } from "./components/JsonViewer";
 export { default as ConditionalAutocomplete } from "./components/ConditionalAutocomplete";

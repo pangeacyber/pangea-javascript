@@ -5,16 +5,22 @@ import { Grid, TextField, Button, Stack, ChipProps } from "@mui/material";
 interface FilterOption {
   label: string;
   type?: "string";
-  includeInQuery?: boolean;
 }
 
 export interface FilterOptions<FiltersObj> {
   [key: string]: FilterOption;
 }
 
+export interface FilterFormComponentProps<FiltersObj> {
+  filters: FiltersObj;
+  options: FilterOptions<FiltersObj>;
+  onFilterChange: (filter: FiltersObj) => void;
+}
+
 export interface FilterFormProps<FiltersObj> {
   filters: FiltersObj;
   options: FilterOptions<FiltersObj>;
+  FiltersFormComponent?: FC<FilterFormComponentProps<FiltersObj>>;
   onFilterChange: (filter: FiltersObj) => void;
   showFilterChips?: boolean;
   ChipProps?: ChipProps;
