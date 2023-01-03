@@ -22,6 +22,7 @@ import ColumnsPopout, { ColumnsPopoutProps } from "./ColumnsPopout";
 interface SearchProps<FiltersObj> {
   query?: string;
   onChange: (query: string) => void;
+  placeholder?: string;
   conditionalOptions?: ConditionalOption[];
   loading?: boolean;
   Filters?: FilterFormProps<FiltersObj>;
@@ -32,6 +33,7 @@ const Search = <
   FiltersObj extends { [key: string]: string } = Record<string, string>
 >({
   query,
+  placeholder,
   onChange,
   conditionalOptions = [],
   loading = false,
@@ -49,7 +51,7 @@ const Search = <
         <ButtonGroup sx={{ flexGrow: 1 }}>
           <ConditionalAutocomplete
             ref={searchRef}
-            placeholder={"Search..."}
+            placeholder={placeholder ?? "Search..."}
             value={query_}
             options={conditionalOptions}
             onChange={setQuery_}
@@ -105,13 +107,24 @@ const Search = <
           flatTop
         >
           <div style={{ width: (searchRef.current?.clientWidth ?? 0) - 36 }}>
-            <FiltersForm<FiltersObj>
-              {...Filters}
-              onFilterChange={(filters) => {
-                Filters.onFilterChange(filters);
-                setFilterMenuOpen(false);
-              }}
-            />
+            {!!Filters?.FiltersFormComponent ? (
+              <Filters.FiltersFormComponent
+                filters={Filters.filters}
+                options={Filters.options}
+                onFilterChange={(filters) => {
+                  Filters.onFilterChange(filters);
+                  setFilterMenuOpen(false);
+                }}
+              />
+            ) : (
+              <FiltersForm<FiltersObj>
+                {...Filters}
+                onFilterChange={(filters) => {
+                  Filters.onFilterChange(filters);
+                  setFilterMenuOpen(false);
+                }}
+              />
+            )}
           </div>
         </PopoutCard>
       )}

@@ -20,23 +20,25 @@ const FiltersBar = <FiltersObj extends { [key: string]: string }>({
 
   return (
     <Stack direction="row" spacing={1}>
-      {Object.keys(filters).map((filterKey) => {
-        return (
-          <Chip
-            key={`fitler-chip-${filterKey}`}
-            label={`${get(options, filterKey, { label: filterKey }).label}: ${
-              filters[filterKey]
-            }`}
-            size="small"
-            onDelete={() => {
-              const filters_ = { ...filters };
-              delete filters_[filterKey];
-              onFilterChange(filters_);
-            }}
-            {...ChipProps}
-          />
-        );
-      })}
+      {Object.keys(filters)
+        .filter((fk) => !!options[fk])
+        .map((filterKey) => {
+          return (
+            <Chip
+              key={`fitler-chip-${filterKey}`}
+              label={`${get(options, filterKey, { label: filterKey }).label}: ${
+                filters[filterKey]
+              }`}
+              size="small"
+              onDelete={() => {
+                const filters_ = { ...filters };
+                delete filters_[filterKey];
+                onFilterChange(filters_);
+              }}
+              {...ChipProps}
+            />
+          );
+        })}
     </Stack>
   );
 };
