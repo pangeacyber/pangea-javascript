@@ -63,6 +63,7 @@ const Template: ComponentStory<typeof PangeaDataGrid> = (args) => {
       }}
       Search={{
         query,
+        placeholder: "Search here...",
         onChange: setQuery,
         Filters: {
           filters,

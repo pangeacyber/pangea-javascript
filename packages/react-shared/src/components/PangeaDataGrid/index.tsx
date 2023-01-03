@@ -25,7 +25,10 @@ import SearchBar from "./components/Search";
 
 import { ConditionalOption } from "../ConditionalAutocomplete";
 import { PreviewPanel } from "./components/PreviewPanel";
-import { FilterFormProps } from "./components/Search/FiltersForm";
+import {
+  FilterFormProps,
+  FilterOptions,
+} from "./components/Search/FiltersForm";
 import { Visibility } from "./components/Search/ColumnsPopout";
 
 export interface PangeaDataGridProps<
@@ -52,6 +55,7 @@ export interface PangeaDataGridProps<
   };
   Search?: {
     query?: string;
+    placeholder?: string;
     onChange: (query: string) => void;
     conditionalOptions?: ConditionalOption[];
     Filters?: FilterFormProps<FiltersObj>;
@@ -309,5 +313,7 @@ const PangeaDataGrid = <
     </div>
   );
 };
+
+export type { FilterOptions, FilterFormProps };
 
 export default PangeaDataGrid;
