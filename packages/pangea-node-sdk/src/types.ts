@@ -231,7 +231,7 @@ export namespace AuthN {
   export interface UserCreateRequest {
     email: string;
     authenticator: string;
-    id_provider: IDProvider;
+    id_provider?: IDProvider;
     verified?: boolean;
     require_mfa?: boolean;
     profile?: Profile;
@@ -259,7 +259,7 @@ export namespace AuthN {
     email: string;
     callback: string;
     state: string;
-    invite_ord?: string;
+    invite_org?: string;
     require_mfa?: boolean;
   }
 
@@ -338,9 +338,43 @@ export namespace AuthN {
   export interface UserProfileUpdateRequest {
     profile: Profile;
     identity?: string;
-    email?: string;
-    require_mfa?: boolean;
+    email?: string | null;
+    require_mfa?: boolean | null;
     mfa_value?: string;
     mfa_provider?: string;
+  }
+
+  export interface UserUpdateRequest {
+    identity?: string | null;
+    email?: string | null;
+    authenticator?: string | null;
+    disabled?: boolean | null;
+    require_mfa?: boolean | null;
+  }
+
+  export interface UserUpdateResult {
+    identity: string;
+    email: string;
+    profile: Profile;
+    require_mfa: boolean;
+    verified: boolean;
+    disabled: boolean;
+    last_login_at: string;
+    id_provider: IDProvider;
+    scopes?: Scopes;
+    mfa_providers?: string[];
+  }
+
+  export interface UserInfoResult {
+    token: string;
+    id: string;
+    type: string;
+    life: number;
+    expire: string;
+    identity: string;
+    email: string;
+    scopes: Scopes;
+    profile: Profile;
+    created_at: string;
   }
 }
