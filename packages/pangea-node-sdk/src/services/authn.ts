@@ -19,8 +19,8 @@ class AuthnService extends BaseService {
    * @summary Change a user's password
    * @description Change a user's password given the current password
    * @param {String} o.email - An email address
-   * @param {String} o.oldSecret - The old password
-   * @param {String} o.newSecret - The new password
+   * @param {String} o.old_secret - The old password
+   * @param {String} o.new_secret - The new password
    * @returns {Promise<PangeaResponse<{}>>} - A promise representing an async call to the endpoint
    * @example
    * const response = await authn.passwordUpdate(
@@ -34,10 +34,10 @@ class AuthnService extends BaseService {
       throw "passwordUpdate was called without supplying an email";
     }
     if (!schema.string(o.old_secret)) {
-      throw "passwordUpdate was called without supplying an oldSecret";
+      throw "passwordUpdate was called without supplying an old_secret";
     }
     if (!schema.string(o.new_secret)) {
-      throw "passwordUpdate was called without supplying an newSecret";
+      throw "passwordUpdate was called without supplying an new_secret";
     }
 
     return this.post("password/update", o);
