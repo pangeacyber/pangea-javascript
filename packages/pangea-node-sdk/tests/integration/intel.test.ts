@@ -1,12 +1,7 @@
 import PangeaConfig from "../../src/config";
 import { it, expect } from "@jest/globals";
 import { TestEnvironment, getTestDomain, getTestToken } from "../../src/utils/utils";
-import {
-  FileIntelService,
-  DomainIntelService,
-  IPIntelService,
-  URLIntelService,
-} from "../../src/services/intel";
+import { FileIntelService, DomainIntelService, IPIntelService, URLIntelService } from "../../src";
 
 const token = getTestToken(TestEnvironment.LIVE);
 const testHost = getTestDomain(TestEnvironment.LIVE);
