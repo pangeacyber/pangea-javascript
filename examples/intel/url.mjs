@@ -12,7 +12,10 @@ const urlIntel = new URLIntelService(String(token), config);
 
   const options = { provider: "domaintools", verbose: true, raw: true };
   try {
-    const response = await urlIntel.lookup("http://113.235.101.11:54384", options);
+    const response = await urlIntel.lookup(
+      "http://113.235.101.11:54384",
+      options
+    );
     console.log(response.result);
   } catch (e) {
     if (e instanceof PangeaErrors.APIError) {
