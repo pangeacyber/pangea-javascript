@@ -35,6 +35,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Domain Intel client
 - Redact client
 
-[unreleased]: https://github.com/pangeacyber/pangea-javascript/compare/v1.0.1...main
-[1.0.1]: https://github.com/pangeacyber/pangea-javascript/compare/v1.0.0...v1.0.1
+[unreleased]: https://github.com/pangeacyber/pangea-javascript/compare/v1.1.0...main
+[1.1.0]: https://github.com/pangeacyber/pangea-javascript/compare/v1.0.0...v1.1.0
 [1.0.0]: https://github.com/pangeacyber/pangea-javascript/releases/tag/v1.0.0
