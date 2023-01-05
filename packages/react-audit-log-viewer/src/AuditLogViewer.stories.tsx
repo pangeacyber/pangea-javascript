@@ -298,6 +298,28 @@ ThemedAuditLogViewer.args = {
           received_at: new Date().toISOString(),
           message: "Failed to deliver mail to Pepe Silvia, unable to find",
         },
+        {
+          envelope: {
+            event: {
+              message: {
+                action: "Charlie viewed Pennsylvania state details.",
+              },
+              actor: "Charlie",
+              action: "Viewed state records",
+              new: {
+                name: "Pennsylvania",
+                title: "State",
+                twitter: "",
+                quote: ["Who"],
+              },
+            },
+            received_at: "2022-12-06T16:10:45.057825Z",
+          },
+          hash: "36c5131d2509a74a0b4bb96ad78b90149c5cbb17251ba0db6cdebd476fe7423e",
+          published: false,
+          membership_proof: "",
+          signature_verification: "none",
+        },
       ],
       expires_at: new Date().toISOString(),
       root: null,

@@ -36,6 +36,17 @@ lint_pangea_node_sdk:
   script:
     - yarn lint
 
+generate_docs:
+  extends: .pangea_node_sdk_base
+  stage: Lint
+  script:
+    - yarn generate:docs
+  artifacts:
+    expire_in: 1 month
+    expose_as: js_sdk
+    paths: ["packages/pangea-node-sdk/docs.json"]
+    when: on_success
+
 test_pangea_node_sdk:
   extends: .pangea_node_sdk_base
   stage: Unit Test
@@ -48,9 +59,27 @@ integration_pangea_node_sdk:
   script:
     - yarn test:integration
 
-publish_pangea_node_sdk_base:
+publish_pangea_node_sdk:
   extends: .pangea_node_sdk_publish
   stage: Publish
   script:
-    - yarn build
-    - echo ${NPMRC} > .npmrc && npm publish && rm -rf .npmrc
+    - cp ../../scripts/publish.sh .
+    - echo "${NPMRC}" > .npmrc && ./publish.sh && rm .npmrc
+    - rm publish.sh
+
+tag_pangea_node_sdk:
+  extends: .pangea_node_sdk_publish
+  stage: Tag Release
+  script:
+    - apt-get install python3 -y
+    - apt-get install python3-pip -y
+    - pip3 install PyGithub
+    - VERSION=$(node -p "require('./package.json').version")
+    - cp ../../scripts/tag_release.py .
+    - python3 tag_release.py ${GITHUB_TOKEN} ${VERSION} ${CI_COMMIT_SHA} "pangea-node-sdk" "Pangea Node SDK"
+    - rm tag_release.py
+  rules:
+    - if: $CI_COMMIT_BRANCH == "main"
+      changes:
+        - packages/pangea-node-sdk/**/*
+      when: always

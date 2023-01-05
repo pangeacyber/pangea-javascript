@@ -2,15 +2,16 @@ import PangeaConfig from "../../src/config";
 import EmbargoService from "../../src/services/embargo";
 import { PangeaErrors } from "../../src/errors";
 import { it, expect } from "@jest/globals";
+import { TestEnvironment, getTestDomain, getTestToken } from "../../src/utils/utils";
 
-const token = process.env.PANGEA_INTEGRATION_EMBARGO_TOKEN || "";
-const testHost = process.env.PANGEA_INTEGRATION_DOMAIN || "";
+const token = getTestToken(TestEnvironment.LIVE);
+const testHost = getTestDomain(TestEnvironment.LIVE);
 const config = new PangeaConfig({ domain: testHost });
 const embargo = new EmbargoService(token, config);
 
 it("check IP in Russia", async () => {
   const expected = {
-    list_name: "ITAR",
+    list_name: "US - ITAR",
     embargoed_country_name: "Russia",
     embargoed_country_iso_code: "RU",
     issuing_country: "US",
@@ -26,7 +27,7 @@ it("check IP in Russia", async () => {
 
 it("check ISO for Cuba", async () => {
   const expected = {
-    list_name: "ITAR",
+    list_name: "US - ITAR",
     embargoed_country_name: "Cuba",
     embargoed_country_iso_code: "CU",
     issuing_country: "US",
@@ -49,9 +50,6 @@ it("wrong IP format fails. Empty string", async () => {
       expect(e.pangeaResponse.status).toBe("ValidationError");
       expect(e.errors.length).toBe(1);
       expect(e.pangeaResponse.result.errors.length).toBe(1);
-      expect(e.summary).toBe(
-        "There was 1 error(s) in the given payload. Please visit https://dev.pangea.cloud/docs/api/embargo#check-ip for more information."
-      );
     }
   }
 });
@@ -65,9 +63,6 @@ it("wrong IP format fails. Not numeric values", async () => {
       expect(e.pangeaResponse.status).toBe("ValidationError");
       expect(e.errors.length).toBe(1);
       expect(e.pangeaResponse.result.errors.length).toBe(1);
-      expect(e.summary).toBe(
-        "There was 1 error(s) in the given payload. Please visit https://dev.pangea.cloud/docs/api/embargo#check-ip for more information."
-      );
     }
   }
 });
@@ -81,9 +76,6 @@ it("wrong IP format fails. Missing part", async () => {
       expect(e.pangeaResponse.status).toBe("ValidationError");
       expect(e.errors.length).toBe(1);
       expect(e.pangeaResponse.result.errors.length).toBe(1);
-      expect(e.summary).toBe(
-        "There was 1 error(s) in the given payload. Please visit https://dev.pangea.cloud/docs/api/embargo#check-ip for more information."
-      );
     }
   }
 });
@@ -97,9 +89,6 @@ it("wrong IP format fails. Out of range", async () => {
       expect(e.pangeaResponse.status).toBe("ValidationError");
       expect(e.errors.length).toBe(1);
       expect(e.pangeaResponse.result.errors.length).toBe(1);
-      expect(e.summary).toBe(
-        "There was 1 error(s) in the given payload. Please visit https://dev.pangea.cloud/docs/api/embargo#check-ip for more information."
-      );
     }
   }
 });

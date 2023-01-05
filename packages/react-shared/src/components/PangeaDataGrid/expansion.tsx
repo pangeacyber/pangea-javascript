@@ -59,13 +59,14 @@ export const ExpandableRow: FC<GridRowProps> = (props) => {
       rowOpen: open,
       setRowOpen: (open: boolean) => setOpen(open),
     };
+    props.selected = open;
   }
 
   // @ts-ignore
   const getExpandedRow = !!expansionColumn && expansionColumn.renderExpandedRow;
   return (
     <>
-      <GridRow {...props} selected={open} />
+      <GridRow {...props} />
 
       {!!getExpandedRow && (
         <Collapse in={open} timeout={0}>

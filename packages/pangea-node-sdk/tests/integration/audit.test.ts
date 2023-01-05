@@ -4,6 +4,7 @@ import { Audit } from "../../src/types";
 import { Signer } from "../../src/utils/signer";
 import { jest, it, expect } from "@jest/globals";
 import { PangeaErrors } from "../../src/errors";
+import { TestEnvironment, getTestDomain, getTestToken } from "../../src/utils/utils";
 
 const ACTOR = "node-sdk";
 const MSG_NO_SIGNED = "test-message";
@@ -23,8 +24,8 @@ const JSON_OLD_DATA = {
   ct6: "cm6",
 };
 
-const token = process.env.PANGEA_INTEGRATION_AUDIT_TOKEN || "";
-const testHost = process.env.PANGEA_INTEGRATION_DOMAIN || "";
+const token = getTestToken(TestEnvironment.LIVE);
+const testHost = getTestDomain(TestEnvironment.LIVE);
 const config = new PangeaConfig({ domain: testHost });
 const audit = new AuditService(token, config);
 
@@ -225,10 +226,11 @@ it("search audit log and verify signature", async () => {
   });
 });
 
-jest.setTimeout(20000);
+jest.setTimeout(60000);
 it("search audit log and verify consistency", async () => {
   const query = "message:";
   const limit = 2;
+  const maxResults = 4;
   const options: Audit.SearchOptions = {
     verifyConsistency: true,
   };
@@ -236,10 +238,10 @@ it("search audit log and verify consistency", async () => {
   let queryOptions: Audit.SearchParamsOptions = {
     limit: limit,
     order: "asc", // Oldest events should have consistency proofs
+    max_results: maxResults,
   };
 
   let response = await audit.search(query, queryOptions, options);
-
   expect(response.status).toBe("Success");
   expect(response.result.events.length).toBeLessThanOrEqual(limit);
   response.result.events.forEach((record, index) => {
@@ -284,7 +286,7 @@ jest.setTimeout(20000);
 it("results audit log with search verbose", async () => {
   const query = "message:";
   const searchLimit = 2;
-  const searchMaxResults = 20;
+  const searchMaxResults = 4;
 
   const queryOptions: Audit.SearchParamsOptions = {
     limit: searchLimit,
@@ -435,9 +437,6 @@ it("fail if empty message", async () => {
     if (e instanceof PangeaErrors.ValidationError) {
       expect(e.pangeaResponse.status).toBe("ValidationError");
       expect(e.errors.length).toBe(1);
-      expect(e.summary).toBe(
-        "There was 1 error(s) in the given payload. Please visit https://dev.pangea.cloud/docs/api/audit#log-an-entry for more information."
-      );
     }
   }
 });

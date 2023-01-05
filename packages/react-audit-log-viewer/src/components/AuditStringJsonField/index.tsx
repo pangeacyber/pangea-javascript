@@ -13,9 +13,10 @@ export const StringField: FC<{
   value: string | undefined;
   changes?: Change[];
   uniqueId: string;
-}> = ({ title, inRow, value, changes = [], uniqueId }) => {
+}> = ({ title, inRow, value: value_, changes = [], uniqueId }) => {
   const direction = inRow ? "column" : "row";
 
+  const value = typeof value_ === "string" ? value_ : JSON.stringify(value_);
   return (
     <Stack spacing={1} direction={direction} alignItems="start">
       <Typography variant="body2" sx={{ width: "120px", paddingTop: "4px" }}>
@@ -57,6 +58,8 @@ export const StringField: FC<{
 };
 
 const parseJson = (value: any): object | null => {
+  if (typeof value === "object") return value;
+
   try {
     return JSON.parse(value);
   } catch {
