@@ -18,6 +18,8 @@
   before_script:
     - cd packages/pangea-node-sdk
     - yarn install
+    - apt-get -qq update
+    - apt-get install -y jq
   cache:
     - key:
         files:
