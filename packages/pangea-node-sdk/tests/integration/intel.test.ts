@@ -1,12 +1,7 @@
 import PangeaConfig from "../../src/config";
 import { it, expect } from "@jest/globals";
 import { TestEnvironment, getTestDomain, getTestToken } from "../../src/utils/utils";
-import {
-  FileIntelService,
-  DomainIntelService,
-  IPIntelService,
-  URLIntelService,
-} from "../../src/services/intel";
+import { FileIntelService, DomainIntelService, IPIntelService, URLIntelService } from "../../src";
 
 const token = getTestToken(TestEnvironment.LIVE);
 const testHost = getTestDomain(TestEnvironment.LIVE);
@@ -34,7 +29,7 @@ it("file lookup with filepath should succeed", async () => {
   const response = await fileIntel.lookupFilepath("./README.md", options);
   expect(response.status).toBe("Success");
   expect(response.result.data).toBeDefined();
-  expect(response.result.data.verdict).toBe("unknown");
+  expect(response.result.data.verdict).toBe("benign");
 });
 
 it("file lookup with filepath should faild", async () => {
