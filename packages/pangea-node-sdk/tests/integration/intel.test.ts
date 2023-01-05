@@ -29,7 +29,7 @@ it("file lookup with filepath should succeed", async () => {
   const response = await fileIntel.lookupFilepath("./README.md", options);
   expect(response.status).toBe("Success");
   expect(response.result.data).toBeDefined();
-  expect(response.result.data.verdict).toBe("unknown");
+  expect(response.result.data.verdict).toBe("benign");
 });
 
 it("file lookup with filepath should faild", async () => {
