@@ -192,7 +192,7 @@ export class IPIntelService extends BaseService {
    * @description Retrieve a reputation score for an IP address from a provider, including an optional detailed report.
    * @param {String} ip - Geolocate this IP and check the corresponding country against
    * @param {Object} options - An object of optional parameters. Parameters supported:
-   *   - provider {String} - Use reputation data from these providers: "reversinglabs" or "crowdstrike".
+   *   - provider {String} - Use reputation data from this provider: "crowdstrike".
    *   Default provider defined by the configuration.
    *   - verbose {Boolean} - Echo the API parameters in the response. Default: verbose=false.
    *   - raw {Boolean} - Include raw data from this provider. Default: raw=false.
@@ -254,7 +254,7 @@ export class URLIntelService extends BaseService {
    * @description Retrieve a reputation score for a URL from a provider, including an optional detailed report.
    * @param {String} url - The URL to be looked up
    * @param {Object} options - An object of optional parameters. Parameters supported:
-   *   - provider {String} - Use reputation data from these providers: "reversinglabs" or "crowdstrike".
+   *   - provider {String} - Use reputation data from this provider: "crowdstrike".
    *   Default provider defined by the configuration.
    *   - verbose {Boolean} - Echo the API parameters in the response. Default: verbose=false.
    *   - raw {Boolean} - Include raw data from this provider. Default: raw=false.
