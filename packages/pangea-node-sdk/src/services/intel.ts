@@ -220,7 +220,7 @@ export class IPIntelService extends BaseService {
   }
 
   /**
-   * @summary Geolocate and IP
+   * @summary Geolocate an IP
    * @description Retrieve geolocation information for an IP address from a provider, including an optional detailed report.
    * @param {String} ip - Geolocate this IP and check the corresponding country against
    * @param {Object} options - An object of optional parameters. Parameters supported:
