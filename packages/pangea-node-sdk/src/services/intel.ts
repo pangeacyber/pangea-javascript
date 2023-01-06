@@ -221,7 +221,7 @@ export class IPIntelService extends BaseService {
 
   /**
    * @summary Geolocate and IP
-   * @description Retrieve a geolocation information for an IP address from a provider, including an optional detailed report.
+   * @description Retrieve geolocation information for an IP address from a provider, including an optional detailed report.
    * @param {String} ip - Geolocate this IP and check the corresponding country against
    * @param {Object} options - An object of optional parameters. Parameters supported:
    *   - provider {String} - Use geolocation data from this provider: "digitalenvoy".
