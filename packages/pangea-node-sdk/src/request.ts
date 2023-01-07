@@ -1,9 +1,10 @@
 import got, { Options, HTTPError } from "got";
 import type { Headers, Response } from "got";
 
-import PangeaConfig, { version } from "./config.js";
-import { PangeaErrors } from "./errors.js";
-import { PangeaResponse, ResponseObject } from "./response.js";
+import PangeaConfig, { version } from "./config";
+import { ConfigEnv } from "./types";
+import { PangeaErrors } from "./errors";
+import { PangeaResponse, ResponseObject } from "./response";
 
 const delay = async (ms: number) =>
   new Promise((resolve) => {
@@ -106,7 +107,7 @@ class PangeaRequest {
 
   getUrl(path: string): string {
     let url;
-    if (this.config?.environment == "local") {
+    if (this.config?.environment == ConfigEnv.local) {
       url = `https://${this.config.domain}/${path}`;
     } else {
       url = `https://${this.serviceName}.${this.config.domain}/${path}`;
