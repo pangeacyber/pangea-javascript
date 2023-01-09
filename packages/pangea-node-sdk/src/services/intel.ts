@@ -250,7 +250,6 @@ export class IPIntelService extends BaseService {
 
     return this.post("geolocate", data);
   }
-
 }
 
 /**

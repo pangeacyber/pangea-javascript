@@ -30,7 +30,7 @@ it("file lookup should succeed", async () => {
 it("file lookup with default provider should succeed", async () => {
   const response = await fileIntel.lookup(
     "142b638c6a60b60c7f9928da4fb85a5a8e1422a9ffdc9ee49e17e56ccca9cf6e",
-    "sha256",
+    "sha256"
   );
   expect(response.status).toBe("Success");
   expect(response.result.data).toBeDefined();
@@ -101,7 +101,6 @@ it("IP geolocate with default provider should succeed", async () => {
   expect(response.status).toBe("Success");
   expect(response.result.data).toBeDefined();
 });
-
 
 it("URL lookup should succeed", async () => {
   const options = { provider: "crowdstrike", verbose: true, raw: true };
