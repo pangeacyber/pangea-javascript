@@ -199,7 +199,7 @@ export class IPIntelService extends BaseService {
    * @returns {Promise} - A promise representing an async call to the lookup endpoint.
    * @example
    * const options = {
-   *   provider: "reversinglabs"
+   *   provider: "crowdstrike"
    * };
    *
    * const response = await ipIntel.lookup(
@@ -217,6 +217,38 @@ export class IPIntelService extends BaseService {
     if (options?.raw) data.raw = options.raw;
 
     return this.post("lookup", data);
+  }
+
+  /**
+   * @summary Geolocate an IP
+   * @description Retrieve geolocation information for an IP address from a provider, including an optional detailed report.
+   * @param {String} ip - The IP to be looked up
+   * @param {Object} options - An object of optional parameters. Parameters supported:
+   *   - provider {String} - Use geolocation data from this provider: "digitalenvoy".
+   *   Default provider defined by the configuration.
+   *   - verbose {Boolean} - Echo the API parameters in the response. Default: verbose=false.
+   *   - raw {Boolean} - Include raw data from this provider. Default: raw=false.
+   * @returns {Promise} - A promise representing an async call to the geolocate endpoint.
+   * @example
+   * const options = {
+   *   provider: "digitalenvoy"
+   * };
+   *
+   * const response = await ipIntel.geolocate(
+   *   "1.1.1.1",
+   *   options
+   * );
+   */
+  geolocate(ip: string, options?: Intel.Options): Promise<PangeaResponse<Intel.GeolocateResult>> {
+    const data: Intel.IPParams = {
+      ip,
+    };
+
+    if (options?.provider) data.provider = options.provider;
+    if (options?.verbose) data.verbose = options.verbose;
+    if (options?.raw) data.raw = options.raw;
+
+    return this.post("geolocate", data);
   }
 }
 
