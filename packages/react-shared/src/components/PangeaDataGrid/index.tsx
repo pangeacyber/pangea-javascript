@@ -45,6 +45,7 @@ export interface PangeaDataGridProps<
   ServerPagination?: {
     page: number;
     pageSize: number;
+    paginationRowCount?: number;
     rowCount: number;
     onPageChange: (page: number) => void;
     onPageSizeChange?: (pageSize: number) => void;
