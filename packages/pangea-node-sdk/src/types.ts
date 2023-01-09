@@ -213,7 +213,7 @@ export namespace Intel {
       postal_code: string;
       country_code: string;
     };
-    parameter?: Object;
+    parameters?: Object;
     raw_data?: Object;
   }
 }
