@@ -5,6 +5,7 @@ import { useTotalPages } from "./hooks";
 
 interface PaginationProps {
   rowCount: number;
+  paginationRowCount?: number;
   page: number;
   pageSize: number;
   onPageChange: (page: number) => void;
@@ -12,6 +13,7 @@ interface PaginationProps {
 
 const PageInputSelector: FC<PaginationProps> = ({
   rowCount,
+  paginationRowCount,
   page,
   pageSize,
   onPageChange,
@@ -31,6 +33,10 @@ const PageInputSelector: FC<PaginationProps> = ({
       onPageChange(p);
     }
   };
+
+  // If only a limit number of pages are known
+  // Use case: Pagination using "last". The UI cannot just jump to any page.
+  if (paginationRowCount !== undefined) return null;
 
   return (
     <Stack direction="row" spacing={0.5} alignItems="center">
