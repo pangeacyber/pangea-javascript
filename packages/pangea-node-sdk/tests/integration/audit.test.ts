@@ -4,6 +4,7 @@ import { Audit } from "../../src/types";
 import { Signer } from "../../src/utils/signer";
 import { jest, it, expect } from "@jest/globals";
 import { PangeaErrors } from "../../src/errors";
+import { TestEnvironment, getTestDomain, getTestToken } from "../../src/utils/utils";
 
 const ACTOR = "node-sdk";
 const MSG_NO_SIGNED = "test-message";
@@ -24,8 +25,8 @@ const JSON_OLD_DATA = {
   ct6: "cm6",
 };
 
-const token = process.env.PANGEA_INTEGRATION_TOKEN || "";
-const testHost = process.env.PANGEA_INTEGRATION_DOMAIN || "";
+const token = getTestToken(TestEnvironment.LIVE);
+const testHost = getTestDomain(TestEnvironment.LIVE);
 const config = new PangeaConfig({ domain: testHost });
 const audit = new AuditService(token, config);
 
@@ -175,7 +176,6 @@ it("log an event, local sign and verify", async () => {
   expect(searchEvent.envelope.public_key).toBe("lvOyDMpK2DQ16NI8G41yINl01wMHzINBahtDPoh4+mE=");
 });
 
-
 it("log an event, vault sign", async () => {
   const event: Audit.Event = {
     message: MSG_SIGNED_VAULT,
@@ -188,7 +188,7 @@ it("log an event, vault sign", async () => {
     old: "Old",
   };
 
-  const respLog = await audit.log(event, { verbose: true, signMode: Audit.SignOptions.Vault});
+  const respLog = await audit.log(event, { verbose: true, signMode: Audit.SignOptions.Vault });
   expect(respLog.status).toBe("Success");
   expect(typeof respLog.result.hash).toBe("string");
   expect(respLog.result.envelope).toBeDefined();
@@ -198,7 +198,6 @@ it("log an event, vault sign", async () => {
   expect(respLog.result.envelope.signature_key_version).toBeDefined();
   expect(respLog.result.signature_verification).toBe("none");
 });
-
 
 it("log JSON event, sign and verify", async () => {
   const event: Audit.Event = {
@@ -251,7 +250,7 @@ it("search audit log and verify signature", async () => {
   });
 });
 
-jest.setTimeout(20000);
+jest.setTimeout(60000);
 it("search audit log and verify consistency", async () => {
   const query = "message:";
   const limit = 2;

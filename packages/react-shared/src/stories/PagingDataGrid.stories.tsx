@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import keyBy from "lodash/keyBy";
 import mapValues from "lodash/mapValues";
 
@@ -21,35 +21,33 @@ export default {
   },
 } as ComponentMeta<typeof PangeaDataGrid>;
 
-const PreviewPanel = ({ data, onClose }) => {
-  return (
-    <Stack width="350px" padding={1} spacing={1}>
-      <Stack direction="row">
-        <Typography variant="h5">{data.title}</Typography>
-        <IconButton onClick={onClose} sx={{ marginLeft: "auto!important" }}>
-          <CloseIcon fontSize="small" />
-        </IconButton>
-      </Stack>
-      <Stack>
-        <Stack direction="row" spacing={1}>
-          <Typography variant="subtitle1" width="130px">
-            Description
-          </Typography>
-          <Typography variant="body1" color="textSecondary">
-            {data.description}
-          </Typography>
-        </Stack>
-      </Stack>
-    </Stack>
-  );
-};
-
 const Template: ComponentStory<typeof PangeaDataGrid> = (args) => {
   const [query, setQuery] = useState("");
   const [filters, setFilters] = useState({});
 
+  const [page, setPage] = useState(1);
+  const [trackedPages, setTrackedPages] = useState({
+    [page]: {
+      last: 0,
+    },
+  });
+  const lastKnownPage = Math.max(
+    ...Object.keys(trackedPages).map((k) => Number(k))
+  );
+
   // @ts-ignore
   const [data, setData] = useState<Show[]>(args.data);
+
+  useEffect(() => {
+    const last = (page - 1) * 10;
+    setTrackedPages((state) => ({
+      ...state,
+      [page]: {
+        last,
+      },
+    }));
+    setData(SHOWS.slice(last, last + 10));
+  }, [page]);
 
   return (
     <PangeaDataGrid
@@ -76,17 +74,23 @@ const Template: ComponentStory<typeof PangeaDataGrid> = (args) => {
           showFilterChips: true,
         },
       }}
-      PreviewPanel={PreviewPanel}
+      ServerPagination={{
+        page: page,
+        onPageChange: (page) => setPage(page),
+        pageSize: 10,
+        paginationRowCount: Math.min(lastKnownPage * 10, SHOWS.length),
+        rowCount: SHOWS.length,
+      }}
     />
   );
 };
 
-export const FilterableDataGrid: {
+export const PagingDataGrid: {
   args: PangeaDataGridProps<Show>;
 } = Template.bind({});
 // More on args: https://storybook.js.org/docs/react/writing-stories/args
 
-FilterableDataGrid.args = {
+PagingDataGrid.args = {
   columns: [
     {
       field: "title",
@@ -97,5 +101,5 @@ FilterableDataGrid.args = {
       flex: 10,
     },
   ],
-  data: SHOWS,
+  data: SHOWS.slice(0, 10),
 };
