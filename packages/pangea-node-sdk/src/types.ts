@@ -30,16 +30,12 @@ export namespace Audit {
     signature?: string;
     public_key?: string;
     prev_root?: string;
-    sign?: boolean;
-    signature_key_id?: string;
-    signature_key_version?: string;
   }
 
   export enum SignOptions {
-      Unsign,
-      Local,
-      Vault,
-  };
+    Unsign,
+    Local,
+  }
 
   export interface Event {
     message: Object | string;

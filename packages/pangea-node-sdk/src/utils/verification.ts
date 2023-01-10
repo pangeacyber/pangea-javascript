@@ -7,14 +7,14 @@ import MerkleTools from "merkle-tools";
 import { Audit } from "../types.js";
 import { PublishedRoots } from "./arweave.js";
 import { Verifier } from "../utils/signer.js";
-import { canonicalize } from "./utils.js";
+import { canonicalizeEvent, canonicalizeEnvelope } from "./utils.js";
 
 // @ts-ignore
 const merkleTools = new MerkleTools();
 
 export function verifyLogHash(envelope: Audit.EventEnvelope, hash: string): boolean {
   var sha256 = CryptoJS.algo.SHA256.create();
-  sha256.update(canonicalize(envelope));
+  sha256.update(canonicalizeEnvelope(envelope));
   const calcHash = sha256.finalize().toString();
   return calcHash == hash;
 }
@@ -256,12 +256,8 @@ export const verifyRecordConsistencyProof = ({
 
 export const verifySignature = (envelope: Audit.EventEnvelope | undefined): string => {
   const v = new Verifier();
-  if (
-    envelope?.signature !== undefined &&
-    envelope?.public_key !== undefined &&
-    !envelope.public_key.startsWith("-----")
-  ) {
-    var data = canonicalize(envelope.event);
+  if (envelope?.signature !== undefined && envelope?.public_key !== undefined) {
+    var data = canonicalizeEvent(envelope.event);
     return v.verify(data, envelope.signature, envelope.public_key) ? "pass" : "fail";
   }
 
