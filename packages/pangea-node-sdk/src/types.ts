@@ -200,5 +200,20 @@ export namespace Intel {
       score: number;
       verdict: string;
     };
+    parameter?: Object;
+    raw_data?: Object;
+  }
+
+  export interface GeolocateResult {
+    data: {
+      country: string;
+      city: string;
+      latitude: number;
+      longitude: number;
+      postal_code: string;
+      country_code: string;
+    };
+    parameters?: Object;
+    raw_data?: Object;
   }
 }
