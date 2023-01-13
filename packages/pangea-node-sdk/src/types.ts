@@ -145,11 +145,13 @@ export namespace Audit {
 
 export namespace Redact {
   export interface BaseResponse {
-    redacted_data: string;
+    redacted_text: string;
+    count: number;
   }
 
   export interface StructuredResponse {
     redacted_data: object;
+    count: number;
   }
 }
 
