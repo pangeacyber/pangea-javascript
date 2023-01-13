@@ -20,6 +20,14 @@ export function canonicalize(obj: Object) {
   return JSON.stringify(ordererObj);
 }
 
+export function strToB64(data: string) {
+  return Buffer.from(data, "utf8").toString("base64");
+}
+
+export function b64toStr(data: string) {
+  return Buffer.from(data, "base64").toString("utf8");
+}
+
 export const TestEnvironment = {
   DEVELOP: "DEV",
   LIVE: "LVE",

@@ -58,6 +58,15 @@ export namespace PangeaErrors {
     get errors(): ErrorField[] {
       return this.response.result?.errors || ([] as ErrorField[]);
     }
+
+    toString(): string {
+      let ret = "";
+      ret += this.response.summary + "\n";
+      (this.response.result?.errors || []).forEach((ef) => {
+        ret += ef.detail + "\n";
+      });
+      return ret;
+    }
   }
 
   //Pangea Validation Errors denoting issues with an API request
@@ -144,6 +153,13 @@ export namespace PangeaErrors {
     constructor(message: string, response: PangeaResponse<any>) {
       super(message, response);
       this.name = "InvalidPayloadReceived";
+    }
+  }
+
+  export class ForbiddenVaultOperation extends APIError {
+    constructor(message: string, response: PangeaResponse<any>) {
+      super(message, response);
+      this.name = "ForbiddenVaultOperation";
     }
   }
 }
