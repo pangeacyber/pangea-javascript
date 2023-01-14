@@ -1,11 +1,11 @@
 import PangeaConfig from "../../src/config";
-import AuthnService from "../../src/services/authn";
+import AuthNService from "../../src/services/authn";
 import { jest, it, expect, describe } from "@jest/globals";
-import { AuthN, ConfigEnv } from "../../src/types";
+import { ConfigEnv } from "../../src/types";
 
 it("is really a test", async () => {
   const config = new PangeaConfig({});
-  const authn = new AuthnService("TEST_TOKEN", config);
+  const authn = new AuthNService("TEST_TOKEN", config);
 
   expect(config).toBeDefined();
   expect(authn).toBeDefined();
@@ -17,7 +17,7 @@ describe("authn::/v1/user/login", () => {
     environment: ConfigEnv["local"],
   });
 
-  const authn = new AuthnService("TEST_TOKEN", config);
+  const authn = new AuthNService("TEST_TOKEN", config);
 
   // @ts-ignore we don't care... we're mocking it
   authn.post = jest.fn();
@@ -68,7 +68,7 @@ describe("authn::/v1/password/update", () => {
     domain: "dev.aws.us.pangea.cloud",
     environment: ConfigEnv["local"],
   });
-  const authn = new AuthnService("TEST_TOKEN", config);
+  const authn = new AuthNService("TEST_TOKEN", config);
 
   // @ts-ignore we don't care... we're mocking it
   authn.post = jest.fn();
