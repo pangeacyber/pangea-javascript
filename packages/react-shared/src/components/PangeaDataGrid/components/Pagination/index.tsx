@@ -5,6 +5,7 @@ import PageInputSelector from "./PageInputSelector";
 
 interface PaginationProps {
   rowCount: number;
+  paginationRowCount?: number;
   page: number;
   pageSize: number;
   onPageChange: (page: number) => void;

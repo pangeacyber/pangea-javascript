@@ -23,3 +23,5 @@ export const EmbargoService = services.EmbargoService;
 export const RedactService = services.RedactService;
 export const FileIntelService = services.FileIntelService;
 export const DomainIntelService = services.DomainIntelService;
+export const IPIntelService = services.IPIntelService;
+export const URLIntelService = services.URLIntelService;

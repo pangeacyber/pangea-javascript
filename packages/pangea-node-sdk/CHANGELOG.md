@@ -5,6 +5,17 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.1.1] - 2023-01-05
+
+### Fixed
+
+- Exported IP and URL intel service clients
+
+### Changed
+
+- Updated doc strings for intel services
+- Made the `options` parameter in intel services an optional parameter
+
 ## [1.1.0] - 2023-01-05
 
 ### Added

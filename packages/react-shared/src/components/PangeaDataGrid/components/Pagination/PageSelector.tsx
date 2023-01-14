@@ -72,6 +72,7 @@ const GapButton: FC = () => {
 
 interface PaginationProps {
   rowCount: number;
+  paginationRowCount?: number;
   page: number;
   pageSize: number;
   onPageChange: (page: number) => void;
@@ -79,14 +80,16 @@ interface PaginationProps {
 
 const PageSelector: FC<PaginationProps> = ({
   rowCount,
+  paginationRowCount,
   page,
   pageSize,
   onPageChange,
 }) => {
-  const totalPages = useTotalPages(rowCount, pageSize);
+  const unrestrictedTotalPages = useTotalPages(rowCount, pageSize);
+  const totalPages = useTotalPages(paginationRowCount ?? rowCount, pageSize);
 
   const hasPrevious = page > 1;
-  const hasNext = page < totalPages;
+  const hasNext = page < unrestrictedTotalPages;
 
   const iconProps: any = { fontSize: "xs" };
 
@@ -137,6 +140,7 @@ const PageSelector: FC<PaginationProps> = ({
           onClick={onPageChange}
         />
       )}
+      {(paginationRowCount ?? rowCount) < rowCount && <GapButton />}
       <PageIconButton
         title="Next page"
         disabled={!hasNext}
@@ -144,13 +148,15 @@ const PageSelector: FC<PaginationProps> = ({
       >
         <NavigateNextOutlinedIcon {...iconProps} />
       </PageIconButton>
-      <PageIconButton
-        title="Last page"
-        disabled={!hasNext}
-        onClick={() => onPageChange(totalPages)}
-      >
-        <LastPageOutlinedIcon {...iconProps} />
-      </PageIconButton>
+      {paginationRowCount === undefined && (
+        <PageIconButton
+          title="Last page"
+          disabled={!hasNext}
+          onClick={() => onPageChange(totalPages)}
+        >
+          <LastPageOutlinedIcon {...iconProps} />
+        </PageIconButton>
+      )}
     </Stack>
   );
 };
