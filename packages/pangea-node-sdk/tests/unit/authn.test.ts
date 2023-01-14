@@ -1,6 +1,6 @@
 import PangeaConfig from "../../src/config";
 import AuthnService from "../../src/services/authn";
-import { jest } from "@jest/globals";
+import { jest, it, expect, describe } from "@jest/globals";
 import { AuthN, ConfigEnv } from "../../src/types";
 
 it("is really a test", async () => {
@@ -37,7 +37,7 @@ describe("authn::/v1/user/login", () => {
     argumentsToTest.forEach((params) => {
       expect(() => {
         // @ts-expect-error testing param validation
-        authn.userLogin(params);
+        authn.user.login(params);
       }).toThrow("userLogin was called without supplying an email");
     });
   });
@@ -57,7 +57,7 @@ describe("authn::/v1/user/login", () => {
     argumentsToTest.forEach((params) => {
       expect(() => {
         // @ts-expect-error testing param validation
-        authn.userLogin(params);
+        authn.user.login(params);
       }).toThrow("userLogin was called without supplying a secret");
     });
   });
@@ -105,7 +105,7 @@ describe("authn::/v1/password/update", () => {
       expect(() => {
         // @ts-expect-error testing param validation
         authn.passwordUpdate(params);
-      }).toThrow("passwordUpdate was called without supplying an oldSecret");
+      }).toThrow("passwordUpdate was called without supplying an old_secret");
     });
   });
 
@@ -123,7 +123,7 @@ describe("authn::/v1/password/update", () => {
       expect(() => {
         // @ts-expect-error testing param validation
         authn.passwordUpdate(params);
-      }).toThrow("passwordUpdate was called without supplying an newSecret");
+      }).toThrow("passwordUpdate was called without supplying a new_secret");
     });
   });
 });
