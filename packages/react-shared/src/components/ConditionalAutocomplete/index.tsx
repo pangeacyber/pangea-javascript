@@ -50,13 +50,16 @@ const ConditionalAutocomplete = forwardRef<any, ConditionalAutocompleteProps>(
   ) => {
     const inputRef = useRef(null);
     const [cursor, setCursor] = useState(0);
-    const [open_, setOpen_] = useState(false);
+    const [open, setOpen_] = useState(false);
 
-    const open = !hideMenu && open_;
     const setOpen = (open: boolean) => {
       if (!!onOpen) onOpen(open);
       setOpen_(open);
     };
+
+    useEffect(() => {
+      if (hideMenu) setOpen_(false);
+    }, [hideMenu]);
 
     const { options: autocompleteOptions, currentPosition } = useMemo(() => {
       const { current, previous, currentPosition } =
