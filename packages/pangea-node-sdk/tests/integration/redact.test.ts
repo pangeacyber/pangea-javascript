@@ -11,7 +11,7 @@ const redact = new RedactService(token, config);
 
 it("redact a data string", async () => {
   const data = "Jenny Jenny... 415-867-5309";
-  const expected = { redacted_text: "<PERSON>... <PHONE_NUMBER>" };
+  const expected = { redacted_text: "<PERSON>... <PHONE_NUMBER>", count: 2 };
 
   const response = await redact.redact(data);
   expect(response.status).toBe("Success");
@@ -20,7 +20,7 @@ it("redact a data string", async () => {
 
 it("redact a data object", async () => {
   const data = { phone: "415-867-5309" };
-  const expected = { redacted_data: { phone: "<PHONE_NUMBER>" } };
+  const expected = { redacted_data: { phone: "<PHONE_NUMBER>" }, count: 1 };
 
   const response = await redact.redactStructured(data);
   expect(response.status).toBe("Success");

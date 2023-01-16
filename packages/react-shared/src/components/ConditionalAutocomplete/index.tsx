@@ -23,6 +23,8 @@ interface ConditionalAutocompleteProps {
   size?: "small" | "medium";
   InputProps?: InputProps;
   placeholder?: string;
+  hideMenu?: boolean;
+  onOpen?: (open: boolean) => void;
 }
 
 /**
@@ -34,12 +36,30 @@ interface ConditionalAutocompleteProps {
  */
 const ConditionalAutocomplete = forwardRef<any, ConditionalAutocompleteProps>(
   (
-    { value, onChange, size = "small", InputProps = {}, options, placeholder },
+    {
+      value,
+      onChange,
+      size = "small",
+      InputProps = {},
+      options,
+      placeholder,
+      onOpen,
+      hideMenu,
+    },
     ref
   ) => {
     const inputRef = useRef(null);
     const [cursor, setCursor] = useState(0);
-    const [open, setOpen] = useState(false);
+    const [open, setOpen_] = useState(false);
+
+    const setOpen = (open: boolean) => {
+      if (!!onOpen) onOpen(open);
+      setOpen_(open);
+    };
+
+    useEffect(() => {
+      if (hideMenu) setOpen_(false);
+    }, [hideMenu]);
 
     const { options: autocompleteOptions, currentPosition } = useMemo(() => {
       const { current, previous, currentPosition } =
