@@ -255,11 +255,31 @@ export const verifyRecordConsistencyProof = ({
 };
 
 export const verifySignature = (envelope: Audit.EventEnvelope | undefined): string => {
-  const v = new Verifier();
-  if (envelope?.signature !== undefined && envelope?.public_key !== undefined) {
-    var data = canonicalizeEvent(envelope.event);
-    return v.verify(data, envelope.signature, envelope.public_key) ? "pass" : "fail";
+  // both undefined so "none" verification
+  if (envelope?.signature === undefined && envelope?.public_key === undefined) {
+    return "none";
   }
 
-  return "none";
+  // Just one undefined it's an error, so "fail"
+  if (envelope?.signature === undefined || envelope?.public_key === undefined) {
+    return "fail";
+  }
+
+  let pubKey = "";
+  try {
+    // Try to parse json for new public_key struct
+    // @ts-ignore
+    const obj = JSON.parse(value);
+    pubKey = obj["key"];
+    if (pubKey === undefined) {
+      return "fail";
+    }
+  } catch (e) {
+    // If fails to parse, it's old format (just public key as string)
+    pubKey = envelope.public_key;
+  }
+
+  const v = new Verifier();
+  var data = canonicalizeEvent(envelope.event);
+  return v.verify(data, envelope.signature, pubKey) ? "pass" : "fail";
 };
