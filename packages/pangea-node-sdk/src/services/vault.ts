@@ -137,25 +137,14 @@ class VaultService extends BaseService {
     return this.post("key/store", data);
   }
 
-  async symmetricRotate(
+  async keyRotate(
     id: string,
-    options: Vault.Symmetric.RotateOptions = {}
-  ): Promise<PangeaResponse<Vault.Symmetric.RotateResult>> {
-    let data: Vault.Symmetric.RotateRequest = {
+    options: Vault.Key.RotateOptions = {}
+  ): Promise<PangeaResponse<Vault.Key.RotateResult>> {
+    let data: Vault.Key.RotateRequest = {
       id: id,
     };
 
-    Object.assign(data, options);
-    return this.post("key/rotate", data);
-  }
-
-  async asymmetricRotate(
-    id: string,
-    options: Vault.Asymmetric.RotateOptions = {}
-  ): Promise<PangeaResponse<Vault.Asymmetric.RotateResult>> {
-    let data: Vault.Asymmetric.RotateRequest = {
-      id: id,
-    };
     Object.assign(data, options);
     return this.post("key/rotate", data);
   }

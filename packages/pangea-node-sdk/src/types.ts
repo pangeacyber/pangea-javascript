@@ -207,17 +207,17 @@ export namespace Intel {
  * Vault services interface definitions
  */
 export namespace Vault {
-  export const KeyPairPurpose = {
+  export const AsymmetricPurpose = {
     SIGNING: "signing",
     ENCRYPTION: "encryption",
   };
 
-  export const KeyPairAlgorithm = {
+  export const AsymmetricAlgorithm = {
     Ed25519: "ed25519",
     RSA: "rsa",
   };
 
-  export const KeyAlgorithm = {
+  export const SymmetricAlgorithm = {
     AES: "aes",
   };
 
@@ -451,6 +451,23 @@ export namespace Vault {
     }
   }
 
+  export namespace Key {
+    export interface RotateOptions {
+      key?: EncodedSymmetricKey;
+      public_key?: EncodedPublicKey;
+      private_key?: EncodedPrivateKey;
+    }
+
+    export interface RotateRequest extends Common.RotateRequest, RotateOptions {}
+
+    export interface RotateResult extends Common.RotateResult {
+      algorithm: string;
+      key?: EncodedSymmetricKey;
+      public_key?: EncodedPublicKey;
+      private_key?: EncodedPrivateKey;
+    }
+  }
+
   export namespace Asymmetric {
     export interface GenerateOptions extends Common.GenerateOptions {
       algorithm?: string; // Should be KeyPairAlgorithm
@@ -479,19 +496,6 @@ export namespace Vault {
       public_key: EncodedPublicKey;
       private_key?: EncodedPrivateKey;
       algorithm: string;
-    }
-
-    export interface RotateOptions {
-      public_key?: EncodedPublicKey;
-      private_key?: EncodedPrivateKey;
-    }
-
-    export interface RotateRequest extends RotateOptions, Common.RotateRequest {}
-
-    export interface RotateResult extends Common.RotateResult {
-      public_key: EncodedPublicKey;
-      private_key?: EncodedPrivateKey;
-      algorithm?: string;
     }
 
     export interface SignRequest {
@@ -578,17 +582,6 @@ export namespace Vault {
       version?: number;
       algorithm: string; // Should be KeyAlgorithm
       plain_text: string;
-    }
-
-    export interface RotateOptions {
-      key?: string;
-    }
-
-    export interface RotateRequest extends Common.RotateRequest, RotateOptions {}
-
-    export interface RotateResult extends Common.RotateResult {
-      key?: string;
-      algorithm: string;
     }
   }
 }

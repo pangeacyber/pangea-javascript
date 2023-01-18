@@ -53,7 +53,7 @@ async function signingCycle(id: string) {
   expect(respSign1.result.signature).toBeDefined();
 
   // Rotate
-  const respRotate = await vault.asymmetricRotate(id);
+  const respRotate = await vault.keyRotate(id);
   expect(respRotate.result.version).toBe(2);
   expect(respRotate.result.id).toBe(id);
 
@@ -119,7 +119,7 @@ async function encryptingCycle(id: string) {
   expect(respEnc1.result.cipher_text).toBeDefined();
 
   // Rotate
-  const respRotate = await vault.symmetricRotate(id);
+  const respRotate = await vault.keyRotate(id);
   expect(respRotate.result.id).toBe(id);
   expect(respRotate.result.version).toBe(2);
 
@@ -168,8 +168,8 @@ async function encryptingCycle(id: string) {
 
 jest.setTimeout(60000);
 it("ed25519 generate, store and signing life cycle", async () => {
-  const algorithm = Vault.KeyPairAlgorithm.Ed25519;
-  const purpose = Vault.KeyPairPurpose.SIGNING;
+  const algorithm = Vault.AsymmetricAlgorithm.Ed25519;
+  const purpose = Vault.AsymmetricPurpose.SIGNING;
 
   const respGen = await vault.asymmetricGenerate({
     algorithm: algorithm,
@@ -199,7 +199,7 @@ it("ed25519 generate, store and signing life cycle", async () => {
 
 jest.setTimeout(60000);
 it("AES generate, store and encrypting life cycle", async () => {
-  const algorithm = Vault.KeyAlgorithm.AES;
+  const algorithm = Vault.SymmetricAlgorithm.AES;
 
   const respGen = await vault.symmetricGenerate({
     algorithm: algorithm,
