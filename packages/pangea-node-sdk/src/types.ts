@@ -411,9 +411,9 @@ export namespace Vault {
       key?: EncodedSymmetricKey;
     }
 
-    export interface RotateGenericKeyRequest extends RotateRequest, RotateGenericKeyOptions {}
+    export interface RotateKeyGenericRequest extends RotateRequest, RotateGenericKeyOptions {}
 
-    export interface RotateGenericKeyResult {
+    export interface RotateKeyGenericResult {
       public_key?: EncodedPublicKey;
       private_key?: EncodedPrivateKey;
       key?: EncodedSymmetricKey;
