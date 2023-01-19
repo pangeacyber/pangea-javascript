@@ -181,7 +181,18 @@ export const AuthProvider: FC<AuthProviderProps> = ({
     axios
       .post(checkURL, { token }, { headers: clientHeaders() })
       .then((resp) => {
-        setAuthenticated(true);
+        /**
+         * Only set authenticated to true if we return a successful status
+         *
+         * It's entirely possible to get a status back: "InvalidToken"
+         * when that happens we want to throw an error and stop
+         * the login flow
+         */
+        if (resp.data.status === "Success") {
+          setAuthenticated(true);
+        } else {
+          throw resp.data?.status;
+        }
       })
       .catch((error) => {
         let msg = "Token validation error";
