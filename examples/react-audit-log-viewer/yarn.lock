@@ -1891,10 +1891,10 @@
     merkle-tools "^1.4.1"
     react-beautiful-dnd "^13.1.0"
 
-"@pangeacyber/react-branding@^0.0.6":
-  version "0.0.6"
-  resolved "https://registry.yarnpkg.com/@pangeacyber/react-branding/-/react-branding-0.0.6.tgz#056134fbd84d741f14e020dc45775bfa5285d176"
-  integrity sha512-Z9Qmm+BOwSssLnT5/tuV0Ib9dUMXqmGjR3K3GGd3sCtFAvGs2r8QlJQrWJQvgtpiTS4MH3qIMkiX/EgkC+SweQ==
+"@pangeacyber/react-mui-branding@^0.0.2":
+  version "0.0.2"
+  resolved "https://registry.yarnpkg.com/@pangeacyber/react-mui-branding/-/react-mui-branding-0.0.2.tgz#de61a45d72d0cac06d82c36150e44bc68a8502ad"
+  integrity sha512-B/aHvN0n69rR8Rvk4IsGSLG1JIHaRRUHltWawpPpheGLd+Ex/SRzyxtAMZGgCU17nrSdCReIJfAdaCUR3aohYw==
   dependencies:
     "@mui/icons-material" "^5.8.4"
     "@mui/material" "^5.0.0"

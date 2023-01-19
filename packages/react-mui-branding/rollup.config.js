@@ -5,6 +5,7 @@ import { terser } from "rollup-plugin-terser";
 import postcss from "rollup-plugin-postcss";
 import typescript from "@rollup/plugin-typescript";
 import commonjs from "@rollup/plugin-commonjs";
+import nodePolyfills from "rollup-plugin-polyfill-node";
 import dts from "rollup-plugin-dts";
 import json from "@rollup/plugin-json";
 
@@ -34,6 +35,7 @@ export default [
       json(),
       postcss(),
       terser(),
+      nodePolyfills(),
     ],
     external: Object.keys(pkg.peerDependencies || {}),
   },
