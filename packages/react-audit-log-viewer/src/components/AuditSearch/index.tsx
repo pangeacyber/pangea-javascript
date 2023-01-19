@@ -86,6 +86,8 @@ const AuditSearch: FC<Props> = ({
             value={query_}
             options={auditOptions}
             onChange={setQuery_}
+            hideMenu={open}
+            onOpen={() => setOpen(false)}
             InputProps={{
               endAdornment: (
                 <>
