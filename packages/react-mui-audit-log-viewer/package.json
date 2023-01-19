@@ -1,6 +1,6 @@
 {
-  "name": "@pangeacyber/react-audit-log-viewer",
-  "version": "0.1.5",
+  "name": "@pangeacyber/react-mui-audit-log-viewer",
+  "version": "0.0.2",
   "description": "An extension of material ui data-grid for Pangea audit log records",
   "main": "dist/cjs/index.js",
   "module": "dist/esm/index.js",
@@ -53,7 +53,7 @@
     "typescript": "^4.7.4"
   },
   "dependencies": {
-    "@pangeacyber/react-shared": "0.0.13",
+    "@pangeacyber/react-mui-shared": "^0.0.1",
     "axios": "^0.27.2",
     "crypto-js": "^4.1.1",
     "diff": "^5.1.0",

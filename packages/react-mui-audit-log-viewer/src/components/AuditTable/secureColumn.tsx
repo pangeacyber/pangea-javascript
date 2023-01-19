@@ -18,7 +18,7 @@ import {
 import { GridColDef } from "@mui/x-data-grid";
 import { useVerification } from "../../hooks/context";
 import { Audit } from "../../types";
-import { PopoutCard } from "@pangeacyber/react-shared";
+import { PopoutCard } from "@pangeacyber/react-mui-shared";
 import { arweaveViewTransactionUrl } from "../../utils/arweave";
 
 const VerificationRow: FC<{ label: string; children?: React.ReactNode }> = ({

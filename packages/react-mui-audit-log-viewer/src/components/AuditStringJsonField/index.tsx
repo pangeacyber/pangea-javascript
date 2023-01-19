@@ -3,8 +3,8 @@ import isEmpty from "lodash/isEmpty";
 
 import { Container, Typography, Stack, Box } from "@mui/material";
 
-import { JsonViewer } from "@pangeacyber/react-shared";
-// FIXME: Diff needs to be split out to react-shared
+import { JsonViewer } from "@pangeacyber/react-mui-shared";
+// FIXME: Diff needs to be split out to react-mui-shared
 import { Change } from "../../hooks/diff";
 
 export const StringField: FC<{

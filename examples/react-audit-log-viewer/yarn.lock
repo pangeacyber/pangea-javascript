@@ -1878,12 +1878,12 @@
     "@nodelib/fs.scandir" "2.1.5"
     fastq "^1.6.0"
 
-"@pangeacyber/react-audit-log-viewer@^0.1.0-beta.1":
-  version "0.1.0"
-  resolved "https://registry.yarnpkg.com/@pangeacyber/react-audit-log-viewer/-/react-audit-log-viewer-0.1.0.tgz#0ce421820290ee80d96413b0067456d99aaaf3fd"
-  integrity sha512-5rUuHIvUMbM8/ZAj+M0W8g4k5yk0OTIo2zpnLjghTh7jV0WicuwMwRilrjAADV9Kfk/I1Nn3louQlrdxl7SPnA==
+"@pangeacyber/react-mui-audit-log-viewer@^0.0.2":
+  version "0.0.2"
+  resolved "https://registry.yarnpkg.com/@pangeacyber/react-mui-audit-log-viewer/-/react-mui-audit-log-viewer-0.0.2.tgz#a36b10abc63f6538332027aa4db8b71a6bd44ce7"
+  integrity sha512-FLLkACodJEQco2/++Kr8iWyOHB2eAeTXSWEpXy2rhFVrlFM8wRMa91QvhKKbKmAGk64p9KRURBqXD1C2rFoRBQ==
   dependencies:
-    "@pangeacyber/react-shared" "0.0.6"
+    "@pangeacyber/react-mui-shared" "^0.0.1"
     axios "^0.27.2"
     crypto-js "^4.1.1"
     diff "^5.1.0"
@@ -1899,15 +1899,16 @@
     "@mui/icons-material" "^5.8.4"
     "@mui/material" "^5.0.0"
 
-"@pangeacyber/react-shared@0.0.6":
-  version "0.0.6"
-  resolved "https://registry.yarnpkg.com/@pangeacyber/react-shared/-/react-shared-0.0.6.tgz#52454372ea7e14ea1adb2478fc85d2e1bbff33e8"
-  integrity sha512-4xo52KzYllO8HpKPnI+13RfaSOZbcz1VFJPn2zL8giS9fWQ4zc3fiBN3GpfMZRQeMVtSFkMVfFQHNG54q0tZ8w==
+"@pangeacyber/react-mui-shared@^0.0.1":
+  version "0.0.1"
+  resolved "https://registry.yarnpkg.com/@pangeacyber/react-mui-shared/-/react-mui-shared-0.0.1.tgz#cd418b8857b586c956a030c99c5aae65f9236caf"
+  integrity sha512-z6jf/LJJOwljoGl3jvmQreIR05WnrsSRhY4x2g18TIzECSP1QLJcVJjlrz4LE+7krlIkKO/OYhpvzzg6U6aZvg==
   dependencies:
     "@loadable/component" "^5.15.2"
     "@mui/x-data-grid" "^5.17.2"
     "@mui/x-date-pickers" "^5.0.2"
     moment "^2.29.4"
+    react-beautiful-dnd "^13.1.1"
     react-json-view "^1.21.3"
 
 "@pmmmwh/react-refresh-webpack-plugin@^0.5.3":
@@ -8540,7 +8541,7 @@ react-base16-styling@^0.6.0:
     lodash.flow "^3.3.0"
     pure-color "^1.2.0"
 
-react-beautiful-dnd@^13.1.0:
+react-beautiful-dnd@^13.1.0, react-beautiful-dnd@^13.1.1:
   version "13.1.1"
   resolved "https://registry.yarnpkg.com/react-beautiful-dnd/-/react-beautiful-dnd-13.1.1.tgz#b0f3087a5840920abf8bb2325f1ffa46d8c4d0a2"
   integrity sha512-0Lvs4tq2VcrEjEgDXHjT98r+63drkKEgqyxdA7qD3mvKwga6a5SscbdLPO2IExotU1jW8L0Ksdl0Cj2AF67nPQ==

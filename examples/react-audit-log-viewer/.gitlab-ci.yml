@@ -20,12 +20,12 @@
   stage: Lint
   script:
     - cp ../../scripts/validate_latest_installed.sh .
-    - ./validate_latest_installed.sh @pangeacyber/react-audit-log-viewer
+    - ./validate_latest_installed.sh @pangeacyber/react-mui-audit-log-viewer
     - ./validate_latest_installed.sh @pangeacyber/react-mui-branding
   rules:
     - if: $CI_PIPELINE_SOURCE == "merge_request_event"
       changes:
-        - packages/react-audit-log-viewer/**/*
+        - packages/react-mui-audit-log-viewer/**/*
         - packages/react-mui-branding/**/*
       when: on_success
 

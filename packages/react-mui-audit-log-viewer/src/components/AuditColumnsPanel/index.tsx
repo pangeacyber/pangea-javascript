@@ -24,7 +24,7 @@ import {
 import SettingsOutlinedIcon from "@mui/icons-material/SettingsOutlined";
 import DragIndicatorIcon from "@mui/icons-material/DragIndicator";
 
-import { PopoutCard } from "@pangeacyber/react-shared";
+import { PopoutCard } from "@pangeacyber/react-mui-shared";
 import { useAuditContext } from "../../hooks/context";
 
 // FIXME: Audit-log-viewer needs to expose its own types
