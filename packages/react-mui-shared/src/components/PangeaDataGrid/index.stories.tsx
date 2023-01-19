@@ -15,7 +15,20 @@ export default {
 } as ComponentMeta<typeof PangeaDataGrid>;
 
 const Template: ComponentStory<typeof PangeaDataGrid> = (args) => (
-  <PangeaDataGrid {...args} />
+  <PangeaDataGrid
+    {...args}
+    ExpansionRow={{
+      render: (object: any, open: boolean) => {
+        if (!open) return null;
+
+        return (
+          <div style={{ padding: "16px" }}>
+            {object.description || "No description"}
+          </div>
+        );
+      },
+    }}
+  />
 );
 
 export const SimpleDataGrid: {
@@ -30,6 +43,7 @@ SimpleDataGrid.args = {
     },
     {
       field: "description",
+      flex: 10,
     },
   ],
   data: SHOWS,
