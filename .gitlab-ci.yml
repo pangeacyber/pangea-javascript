@@ -28,7 +28,7 @@ lint_packages:
   script: yarn lint
 
 include:
-  - /packages/react-shared/.gitlab-ci.yml
+  - /packages/react-mui-shared/.gitlab-ci.yml
   - /packages/react-audit-log-viewer/.gitlab-ci.yml
   - /packages/react-auth/.gitlab-ci.yml
   - /packages/pangea-node-sdk/.gitlab-ci.yml
