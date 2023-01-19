@@ -30,7 +30,7 @@ lint_packages:
 include:
   - /packages/react-mui-shared/.gitlab-ci.yml
   - /packages/react-mui-branding/.gitlab-ci.yml
-  - /packages/react-audit-log-viewer/.gitlab-ci.yml
+  - /packages/react-mui-audit-log-viewer/.gitlab-ci.yml
   - /packages/react-auth/.gitlab-ci.yml
   - /packages/pangea-node-sdk/.gitlab-ci.yml
   - /examples/react-audit-log-viewer/.gitlab-ci.yml

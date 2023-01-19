@@ -2,7 +2,7 @@ import React from "react";
 import logo from "./logo.svg";
 import "./App.css";
 
-import { AuditLogViewer } from "@pangeacyber/react-audit-log-viewer";
+import { AuditLogViewer } from "@pangeacyber/react-mui-audit-log-viewer";
 import { BrandingThemeProvider } from "@pangeacyber/react-mui-branding";
 import { Container } from "@mui/material";
 
