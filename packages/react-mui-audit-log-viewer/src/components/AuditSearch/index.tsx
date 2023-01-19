@@ -18,7 +18,7 @@ import {
   ConditionalAutocomplete,
   TimeRangeSelect,
   useInternalState,
-} from "@pangeacyber/react-shared";
+} from "@pangeacyber/react-mui-shared";
 
 import AuditColumnsSettingButton from "../AuditColumnsPanel";
 import { AuditQuery } from "../../utils/query";

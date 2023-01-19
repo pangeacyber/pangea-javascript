@@ -1878,10 +1878,10 @@
     "@nodelib/fs.scandir" "2.1.5"
     fastq "^1.6.0"
 
-"@pangeacyber/react-mui-audit-log-viewer@^0.0.1":
-  version "0.0.1"
-  resolved "https://registry.yarnpkg.com/@pangeacyber/react-mui-audit-log-viewer/-/react-mui-audit-log-viewer-0.0.1.tgz#fcbfe575aad0ad6065620ea8c1af583f48a955fc"
-  integrity sha512-JG/uHhTt5Z9aZKhvHTQq7jOst0WMXYHezFcE0XVpLLyNGZb2sh1e84/dZTGud7zoEFKHR9yajupZyfleuQ3Mzw==
+"@pangeacyber/react-mui-audit-log-viewer@^0.0.2":
+  version "0.0.2"
+  resolved "https://registry.yarnpkg.com/@pangeacyber/react-mui-audit-log-viewer/-/react-mui-audit-log-viewer-0.0.2.tgz#a36b10abc63f6538332027aa4db8b71a6bd44ce7"
+  integrity sha512-FLLkACodJEQco2/++Kr8iWyOHB2eAeTXSWEpXy2rhFVrlFM8wRMa91QvhKKbKmAGk64p9KRURBqXD1C2rFoRBQ==
   dependencies:
     "@pangeacyber/react-mui-shared" "^0.0.1"
     axios "^0.27.2"
