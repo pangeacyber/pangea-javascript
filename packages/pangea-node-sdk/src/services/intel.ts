@@ -190,6 +190,7 @@ export class IPIntelService extends BaseService {
   /**
    * @summary Look up an IP
    * @description Retrieve a reputation score for an IP address from a provider, including an optional detailed report.
+   * @deprecated Since version 1.2.0. Use reputation instead.
    * @param {String} ip - Geolocate this IP and check the corresponding country against
    * @param {Object} options - An object of optional parameters. Parameters supported:
    *   - provider {String} - Use reputation data from this provider: "crowdstrike".
@@ -216,7 +217,39 @@ export class IPIntelService extends BaseService {
     if (options?.verbose) data.verbose = options.verbose;
     if (options?.raw) data.raw = options.raw;
 
-    return this.post("lookup", data);
+    return this.post("reputation", data);
+  }
+
+  /**
+   * @summary Look up an IP reputation
+   * @description Retrieve a reputation score for an IP address from a provider, including an optional detailed report.
+   * @param {String} ip - Geolocate this IP and check the corresponding country against
+   * @param {Object} options - An object of optional parameters. Parameters supported:
+   *   - provider {String} - Use reputation data from this provider: "crowdstrike".
+   *   Default provider defined by the configuration.
+   *   - verbose {Boolean} - Echo the API parameters in the response. Default: verbose=false.
+   *   - raw {Boolean} - Include raw data from this provider. Default: raw=false.
+   * @returns {Promise} - A promise representing an async call to the lookup endpoint.
+   * @example
+   * const options = {
+   *   provider: "reversinglabs"
+   * };
+   *
+   * const response = await ipIntel.reputation(
+   *   "1.1.1.1",
+   *   options
+   * );
+   */
+  reputation(ip: string, options?: Intel.Options): Promise<PangeaResponse<Intel.Response>> {
+    const data: Intel.IPParams = {
+      ip,
+    };
+
+    if (options?.provider) data.provider = options.provider;
+    if (options?.verbose) data.verbose = options.verbose;
+    if (options?.raw) data.raw = options.raw;
+
+    return this.post("reputation", data);
   }
 }
 

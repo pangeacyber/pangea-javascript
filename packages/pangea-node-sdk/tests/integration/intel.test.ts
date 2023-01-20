@@ -61,6 +61,15 @@ it("IP lookup should succeed", async () => {
   expect(response.result.data.verdict).toBe("malicious");
 });
 
+it("IP reputation should succeed", async () => {
+  const options = { provider: "crowdstrike", verbose: true, raw: true };
+  const response = await ipIntel.reputation("93.231.182.110", options);
+
+  expect(response.status).toBe("Success");
+  expect(response.result.data).toBeDefined();
+  expect(response.result.data.verdict).toBe("malicious");
+});
+
 it("URL lookup should succeed", async () => {
   const options = { provider: "crowdstrike", verbose: true, raw: true };
   const response = await urlIntel.lookup("http://113.235.101.11:54384", options);
