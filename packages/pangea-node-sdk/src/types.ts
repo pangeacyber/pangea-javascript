@@ -196,17 +196,20 @@ export namespace Intel {
     domain: string;
   }
 
-  export interface Response {
+  export interface CommonResponse {
+    parameter?: Object;
+    raw_data?: Object;
+  }
+
+  export interface Response extends CommonResponse {
     data: {
       category: string[];
       score: number;
       verdict: string;
     };
-    parameter?: Object;
-    raw_data?: Object;
   }
 
-  export interface GeolocateResult {
+  export interface GeolocateResult extends CommonResponse {
     data: {
       country: string;
       city: string;
@@ -215,7 +218,24 @@ export namespace Intel {
       postal_code: string;
       country_code: string;
     };
-    parameters?: Object;
-    raw_data?: Object;
+  }
+
+  export interface IPDomainResult extends CommonResponse {
+    data: {
+      domain_found: boolean;
+      domain?: string;
+    };
+  }
+
+  export interface IPVPNResult extends CommonResponse {
+    data: {
+      is_vpn: boolean;
+    };
+  }
+
+  export interface IPProxyResult extends CommonResponse {
+    data: {
+      is_proxy: boolean;
+    };
   }
 }
