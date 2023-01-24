@@ -197,7 +197,7 @@ export class IPIntelService extends BaseService {
    *   Default provider defined by the configuration.
    *   - verbose {Boolean} - Echo the API parameters in the response. Default: verbose=false.
    *   - raw {Boolean} - Include raw data from this provider. Default: raw=false.
-   * @returns {Promise} - A promise representing an async call to the lookup endpoint.
+   * @returns {Promise} - A promise representing an async call to the /reputation endpoint.
    * @example
    * const options = {
    *   provider: "reversinglabs"
@@ -229,7 +229,7 @@ export class IPIntelService extends BaseService {
    *   Default provider defined by the configuration.
    *   - verbose {Boolean} - Echo the API parameters in the response. Default: verbose=false.
    *   - raw {Boolean} - Include raw data from this provider. Default: raw=false.
-   * @returns {Promise} - A promise representing an async call to the lookup endpoint.
+   * @returns {Promise} - A promise representing an async call to the /reputation endpoint.
    * @example
    * const options = {
    *   provider: "reversinglabs"
