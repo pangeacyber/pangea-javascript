@@ -16,7 +16,10 @@ const domainIntel = new DomainIntelService(String(token), config);
 
   const options = { provider: "domaintools", verbose: true, raw: true };
   try {
-    const response = await domainIntel.reputation("737updatesboeing.com", options);
+    const response = await domainIntel.reputation(
+      "737updatesboeing.com",
+      options
+    );
     console.log(response.result);
   } catch (e) {
     if (e instanceof PangeaErrors.APIError) {
