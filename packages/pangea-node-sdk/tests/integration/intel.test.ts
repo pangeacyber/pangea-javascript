@@ -24,6 +24,19 @@ it("file lookup should succeed", async () => {
   expect(response.result.data.verdict).toBe("malicious");
 });
 
+it("file hash reputation should succeed", async () => {
+  const options = { provider: "reversinglabs", verbose: true, raw: true };
+  const response = await fileIntel.hashReputation(
+    "142b638c6a60b60c7f9928da4fb85a5a8e1422a9ffdc9ee49e17e56ccca9cf6e",
+    "sha256",
+    options
+  );
+
+  expect(response.status).toBe("Success");
+  expect(response.result.data).toBeDefined();
+  expect(response.result.data.verdict).toBe("malicious");
+});
+
 it("file lookup with filepath should succeed", async () => {
   const options = { provider: "reversinglabs", verbose: true, raw: true };
   const response = await fileIntel.lookupFilepath("./README.md", options);
@@ -32,11 +45,19 @@ it("file lookup with filepath should succeed", async () => {
   expect(response.result.data.verdict).toBe("benign");
 });
 
-it("file lookup with filepath should faild", async () => {
+it("file filepathReputation with filepath should succeed", async () => {
+  const options = { provider: "reversinglabs", verbose: true, raw: true };
+  const response = await fileIntel.filepathReputation("./README.md", options);
+  expect(response.status).toBe("Success");
+  expect(response.result.data).toBeDefined();
+  expect(response.result.data.verdict).toBe("benign");
+});
+
+it("file reputation with filepath should faild", async () => {
   const options = { provider: "reversinglabs", verbose: true, raw: true };
 
   try {
-    const response = await fileIntel.lookupFilepath("./not/a/real/path/file.txt", options);
+    const response = await fileIntel.filepathReputation("./not/a/real/path/file.txt", options);
   } catch (e: unknown) {
     // @ts-ignore
     expect(e.code).toBe("ENOENT");
@@ -46,6 +67,15 @@ it("file lookup with filepath should faild", async () => {
 it("Domain lookup should succeed", async () => {
   const options = { provider: "domaintools", verbose: true, raw: true };
   const response = await domainIntel.lookup("737updatesboeing.com", options);
+
+  expect(response.status).toBe("Success");
+  expect(response.result.data).toBeDefined();
+  expect(response.result.data.verdict).toBe("malicious");
+});
+
+it("Domain reputation should succeed", async () => {
+  const options = { provider: "domaintools", verbose: true, raw: true };
+  const response = await domainIntel.reputation("737updatesboeing.com", options);
 
   expect(response.status).toBe("Success");
   expect(response.result.data).toBeDefined();
