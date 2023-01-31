@@ -288,7 +288,7 @@ export const AuthProvider: FC<AuthProviderProps> = ({
     }
 
     const query = new URLSearchParams("");
-    query.append("redirectUri", redirectUri);
+    query.append("redirect_uri", redirectUri);
     query.append("state", stateCode);
 
     const queryParams = query.toString();
