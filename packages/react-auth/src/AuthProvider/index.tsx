@@ -16,6 +16,7 @@ export interface AuthContextType {
   loading: boolean;
   authenticated: boolean;
   error: string;
+  user: AuthUser | undefined;
   login: () => void;
   logout: (redirect?: boolean) => void;
 }
@@ -139,6 +140,7 @@ export const AuthProvider: FC<AuthProviderProps> = ({
   const [authenticated, setAuthenticated] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string>("");
+  const [user, setUser] = useState<AuthUser>();
 
   // For local development, use port 4000 for API and 4001 for hosted UI
   const slashRe = /\/$/;
@@ -166,7 +168,7 @@ export const AuthProvider: FC<AuthProviderProps> = ({
       // if token exists, check if it's valid
       validate(token);
     } else {
-      // redirect to authn login page
+      // show unauthenticated state
       setLoading(false);
     }
   }, []);
@@ -189,6 +191,7 @@ export const AuthProvider: FC<AuthProviderProps> = ({
          * the login flow
          */
         if (resp.data.status === "Success") {
+          setUser(resp.data.result);
           setAuthenticated(true);
         } else {
           throw resp.data?.status;
@@ -202,6 +205,7 @@ export const AuthProvider: FC<AuthProviderProps> = ({
         if (onLogin) {
           const storageAPI = getStorageAPI(useCookie);
           const sessionData = getSessionData(storageAPI);
+
           const appState = {
             userData: sessionData,
             returnPath: window.location.pathname,
@@ -220,6 +224,15 @@ export const AuthProvider: FC<AuthProviderProps> = ({
 
     const state = urlParams.get("state");
     const code = urlParams.get("code");
+
+    // remove state and code params from the URL
+    urlParams.delete("state");
+    urlParams.delete("code");
+    const newSearch = urlParams.toString();
+    const newPath = newSearch
+      ? `${window.location.pathname}?${newSearch}`
+      : window.location.pathname;
+    history.pushState({}, document.title, newPath);
 
     if (!state || !code) {
       const msg = "Missing required parameters";
@@ -267,7 +280,7 @@ export const AuthProvider: FC<AuthProviderProps> = ({
     const stateCode = generateBase58(32);
     const storageAPI = getStorageAPI(useCookie);
     storageAPI.setItem(STATE_DATA_KEY, stateCode);
-    storageAPI.setItem(LAST_PATH_KEY, location.href);
+    storageAPI.setItem(LAST_PATH_KEY, `${location.pathname}${location.search}`);
 
     let redirectUri = location.origin;
     if (typeof redirectPathname === "string") {
@@ -278,9 +291,9 @@ export const AuthProvider: FC<AuthProviderProps> = ({
       redirectUri,
       state: stateCode,
     };
-
     const redirectTo = urlParams.get("signup") ? signupURL : loginURL;
     const url = `${redirectTo}?${toUrlEncoded(query)}`;
+
     window.location.replace(url);
   };
 
@@ -318,6 +331,7 @@ export const AuthProvider: FC<AuthProviderProps> = ({
   const processLogin = (data: AuthUser) => {
     const storageAPI = getStorageAPI(useCookie);
     const returnURL = storageAPI.getItem(LAST_PATH_KEY) || "/";
+
     const appState = {
       userData: data,
       returnPath: returnURL,
@@ -335,6 +349,7 @@ export const AuthProvider: FC<AuthProviderProps> = ({
       );
     }
 
+    setUser(data);
     setAuthenticated(true);
 
     if (onLogin) {
@@ -347,10 +362,11 @@ export const AuthProvider: FC<AuthProviderProps> = ({
       authenticated,
       loading,
       error,
+      user,
       login,
       logout,
     }),
-    [authenticated, loading, error, login, logout]
+    [authenticated, loading, error, user, login, logout]
   );
 
   return (
