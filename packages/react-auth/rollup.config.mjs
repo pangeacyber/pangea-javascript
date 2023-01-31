@@ -35,8 +35,8 @@ export default [
       terser(),
       nodePolyfills(),
     ],
-    // external: Object.keys(pkg.dependencies),
-    external: Object.keys(pkg.peerDependencies || {}),
+    external: Object.keys(pkg.dependencies),
+    //external: Object.keys(pkg.peerDependencies || {}),
   },
   {
     input: "dist/esm/index.d.ts",

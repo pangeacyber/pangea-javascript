@@ -9,7 +9,7 @@ import React, {
 
 import axios from "axios";
 
-import { toUrlEncoded, encode58, generateBase58 } from "./utils";
+import { toUrlEncoded, generateBase58 } from "./utils";
 import { AuthUser, AppState, ClientConfig } from "../types";
 
 export interface AuthContextType {
@@ -182,7 +182,7 @@ export const AuthProvider: FC<AuthProviderProps> = ({
   const validate = (token: string) => {
     axios
       .post(checkURL, { token }, { headers: clientHeaders() })
-      .then((resp) => {
+      .then((resp: any) => {
         /**
          * Only set authenticated to true if we return a successful status
          *
@@ -197,7 +197,7 @@ export const AuthProvider: FC<AuthProviderProps> = ({
           throw resp.data?.status;
         }
       })
-      .catch((error) => {
+      .catch((error: any) => {
         let msg = "Token validation error";
         setError(msg);
       })
@@ -245,7 +245,7 @@ export const AuthProvider: FC<AuthProviderProps> = ({
     } else {
       axios
         .post(infoURL, { code: code }, { headers: clientHeaders() })
-        .then((resp) => {
+        .then((resp: any) => {
           const result = resp?.data?.result;
           if (result?.token) {
             processLogin(result);
@@ -254,7 +254,7 @@ export const AuthProvider: FC<AuthProviderProps> = ({
             setError(msg);
           }
         })
-        .catch((error) => {
+        .catch((error: any) => {
           const data = error?.response?.data;
           const status = error?.response?.status || "Error";
 
@@ -287,12 +287,13 @@ export const AuthProvider: FC<AuthProviderProps> = ({
       redirectUri += redirectPathname;
     }
 
-    const query = {
-      redirectUri,
-      state: stateCode,
-    };
+    const query = new URLSearchParams("");
+    query.append("redirectUri", redirectUri);
+    query.append("state", stateCode);
+
+    const queryParams = query.toString();
     const redirectTo = urlParams.get("signup") ? signupURL : loginURL;
-    const url = `${redirectTo}?${toUrlEncoded(query)}`;
+    const url = queryParams ? `${redirectTo}?${queryParams}` : redirectTo;
 
     window.location.replace(url);
   };
