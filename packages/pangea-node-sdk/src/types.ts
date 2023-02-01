@@ -232,6 +232,35 @@ export namespace Intel {
     export interface ReputationOptions extends Options {}
     export interface ReputationResult extends Intel.ReputationResult {}
     export interface ReputationParams extends Params, ReputationOptions {}
+    export interface GeolocateResult extends CommonResponse {
+      data: {
+        country: string;
+        city: string;
+        latitude: number;
+        longitude: number;
+        postal_code: string;
+        country_code: string;
+      };
+    }
+
+    export interface DomainResult extends CommonResponse {
+      data: {
+        domain_found: boolean;
+        domain?: string;
+      };
+    }
+
+    export interface VPNResult extends CommonResponse {
+      data: {
+        is_vpn: boolean;
+      };
+    }
+
+    export interface ProxyResult extends CommonResponse {
+      data: {
+        is_proxy: boolean;
+      };
+    }
   }
 
   export interface FileParams extends Intel.Options {
@@ -261,36 +290,6 @@ export namespace Intel {
       category: string[];
       score: number;
       verdict: string;
-    };
-  }
-
-  export interface GeolocateResult extends CommonResponse {
-    data: {
-      country: string;
-      city: string;
-      latitude: number;
-      longitude: number;
-      postal_code: string;
-      country_code: string;
-    };
-  }
-
-  export interface IPDomainResult extends CommonResponse {
-    data: {
-      domain_found: boolean;
-      domain?: string;
-    };
-  }
-
-  export interface IPVPNResult extends CommonResponse {
-    data: {
-      is_vpn: boolean;
-    };
-  }
-
-  export interface IPProxyResult extends CommonResponse {
-    data: {
-      is_proxy: boolean;
     };
   }
 }

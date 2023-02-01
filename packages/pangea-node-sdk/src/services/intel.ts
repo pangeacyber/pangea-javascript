@@ -370,7 +370,10 @@ export class IPIntelService extends BaseService {
    *   options
    * );
    */
-  geolocate(ip: string, options?: Intel.Options): Promise<PangeaResponse<Intel.GeolocateResult>> {
+  geolocate(
+    ip: string,
+    options?: Intel.Options
+  ): Promise<PangeaResponse<Intel.IP.GeolocateResult>> {
     const data: Intel.IPParams = {
       ip,
     };
@@ -402,7 +405,7 @@ export class IPIntelService extends BaseService {
    *   options
    * );
    */
-  getDomain(ip: string, options?: Intel.Options): Promise<PangeaResponse<Intel.IPDomainResult>> {
+  getDomain(ip: string, options?: Intel.Options): Promise<PangeaResponse<Intel.IP.DomainResult>> {
     const data: Intel.IPParams = {
       ip,
     };
@@ -434,7 +437,7 @@ export class IPIntelService extends BaseService {
    *   options
    * );
    */
-  isVPN(ip: string, options?: Intel.Options): Promise<PangeaResponse<Intel.IPVPNResult>> {
+  isVPN(ip: string, options?: Intel.Options): Promise<PangeaResponse<Intel.IP.VPNResult>> {
     const data: Intel.IPParams = {
       ip,
     };
@@ -466,7 +469,7 @@ export class IPIntelService extends BaseService {
    *   options
    * );
    */
-  isProxy(ip: string, options?: Intel.Options): Promise<PangeaResponse<Intel.IPProxyResult>> {
+  isProxy(ip: string, options?: Intel.Options): Promise<PangeaResponse<Intel.IP.ProxyResult>> {
     const data: Intel.IPParams = {
       ip,
     };
