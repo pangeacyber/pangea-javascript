@@ -118,7 +118,7 @@ class PangeaRequest {
   getHeaders(): Headers {
     const headers = {
       "Content-Type": "application/json",
-      "User-Agent": `Pangea Node ${version}`,
+      "User-Agent": `pangea-node/${version}`,
       Authorization: `Bearer ${this.token}`,
     };
 
