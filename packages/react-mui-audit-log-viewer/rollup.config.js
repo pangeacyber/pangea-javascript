@@ -1,14 +1,15 @@
 // /rollup.config.js
 import resolve from "@rollup/plugin-node-resolve";
 import external from "rollup-plugin-peer-deps-external";
-import terser from "@rollup/plugin-terser";
+import { terser } from "rollup-plugin-terser";
+import postcss from "rollup-plugin-postcss";
 import typescript from "@rollup/plugin-typescript";
 import commonjs from "@rollup/plugin-commonjs";
 import dts from "rollup-plugin-dts";
 import json from "@rollup/plugin-json";
 import nodePolyfills from "rollup-plugin-polyfill-node";
 
-import pkg from "./package.json" assert { type: "json" };
+import pkg from "./package.json";
 
 export default [
   {
@@ -30,13 +31,13 @@ export default [
       external(),
       resolve(),
       commonjs(),
-      typescript({ tsconfig: "./tsconfig.json", sourceMap: false }),
+      typescript({ tsconfig: "./tsconfig.json" }),
       json(),
+      postcss(),
       terser(),
       nodePolyfills(),
     ],
-    external: Object.keys(pkg.dependencies),
-    //external: Object.keys(pkg.peerDependencies || {}),
+    external: Object.keys(pkg.peerDependencies || {}),
   },
   {
     input: "dist/esm/index.d.ts",
