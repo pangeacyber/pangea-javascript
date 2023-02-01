@@ -15,7 +15,7 @@ export default class AuthNInvites extends BaseService {
    * @description Lookup active invites for the userpool
    * @returns {Promise<PangeaResponse<AuthN.UserInviteListResult>>} - A list of pending user invitations
    * @example
-   * const response = await authn.userInviteList();
+   * const response = await authn.user.invites.list();
    */
   list(): Promise<PangeaResponse<AuthN.UserInviteListResult>> {
     return this.post("user/invite/list", {});
@@ -28,7 +28,7 @@ export default class AuthNInvites extends BaseService {
    * @param {String} id - A one-time ticket
    * @returns {Promise<PangeaResponse<{}>>} - A promise representing an async call to the endpoint
    * @example
-   * await authn.userInviteDelete("pmc_wuk7tvtpswyjtlsx52b7yyi2l7zotv4a");
+   * await authn.user.invites.delete("pmc_wuk7tvtpswyjtlsx52b7yyi2l7zotv4a");
    */
   delete(id: string): Promise<PangeaResponse<{}>> {
     const data: AuthN.UserInviteDeleteRequest = {

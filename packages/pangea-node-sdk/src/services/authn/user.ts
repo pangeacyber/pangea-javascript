@@ -24,7 +24,7 @@ export default class AuthNUser extends BaseService {
    * @param {String} email - An email address
    * @returns {Promise<PangeaResponse<{}>>} - A promise representing an async call to the endpoint
    * @example
-   * await authn.userDelete("example@example.com");
+   * await authn.user.delete("example@example.com");
    */
   delete(email: string): Promise<PangeaResponse<{}>> {
     const data: AuthN.UserDeleteRequest = {
@@ -47,7 +47,7 @@ export default class AuthNUser extends BaseService {
    * @param {Array<String>} user.scopes - A list of scopes
    * @returns {Promise<PangeaResponse<{}>>} - A promise representing an async call to the endpoint
    * @example
-   * const response = await authn.userCreate({
+   * const response = await authn.user.create({
    *   email: "example@example.com",
    *   authenticator: "My1s+Password",
    *   id_provider: "password",
@@ -76,7 +76,7 @@ export default class AuthNUser extends BaseService {
    * @param {String} userInvite.require_mfa - Optional boolean setting for requiring mfa
    * @returns {Promise<PangeaResponse<AuthN.UserInvite>>} - A promise representing an async call to the endpoint
    * @example
-   * const response = await authn.userInvite({
+   * const response = await authn.user.invite({
    *   inviter: "kat.user@email.com",
    *   email: "joe.user@email.com",
    *   callback: "https://www.myserver.com/callback",
@@ -95,7 +95,7 @@ export default class AuthNUser extends BaseService {
    * @param {Array<String>} o.glob_scopes - A list of scopes
    * @returns {Promise<PangeaResponse<AuthN.UserListResult>>} - A promise representing an async call to the endpoint
    * @example
-   * const response = await authn.userList({
+   * const response = await authn.user.list({
    *   scopes: ["scope1", "scope2"],
    *   glob_scopes: ["scope1", "scope2"],
    * });
@@ -113,7 +113,7 @@ export default class AuthNUser extends BaseService {
    * @param {Array<String>} o.scopes - An optional list of scopes
    * @returns {Promise<PangeaResponse<AuthN.UserLoginResult>>} - A promise representing an async call to the endpoint
    * @example
-   * const response = await authn.userLogin({
+   * const response = await authn.user.login({
    *   email: "joe.user@email.com",
    *   secret: "My1s+Password",
    *   scopes: ["scope1", "scope2"],
@@ -121,6 +121,25 @@ export default class AuthNUser extends BaseService {
    */
   login(o: AuthN.UserLoginRequest): Promise<PangeaResponse<AuthN.UserLoginResult>> {
     return this.post("user/login", o);
+  }
+
+  // authn::/v1/user/verify
+  /**
+   * @summary Verify a user
+   * @description Verify a user's primary authentication
+   * @param {String} o.id_provider - Mechanism for authenticating a user's identity
+   * @param {String} o.email - An email address
+   * @param {String} o.authenticator - A provider-specific authenticator, such as a password or a social identity.
+   * @returns {Promise<PangeaResponse<AuthN.UserVerifyResult>>} - A promise representing an async call to the endpoint
+   * @example
+   * const response = await authn.user.verify({
+   *   id_provider: "password",
+   *   email: "joe.user@email.com",
+   *   authenticator: "My1s+Password",
+   * });
+   */
+  verify(o: AuthN.UserVerifyRequest): Promise<PangeaResponse<AuthN.UserVerifyResult>> {
+    return this.post("user/verify", o);
   }
 
   // authn::/v1/user/update
@@ -134,7 +153,7 @@ export default class AuthNUser extends BaseService {
    * @param {Boolean | null} o.require_mfa - New require_mfa value
    * @returns {Promise<PangeaResponse<AuthN.UserUpdateResult>>} - A promise representing an async call to the endpoint
    * @example
-   * const response = await authn.userUpdate({
+   * const response = await authn.user.update({
    *   email: "joe.user@email.com",
    *   require_mfa: true,
    * });

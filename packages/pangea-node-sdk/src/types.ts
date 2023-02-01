@@ -277,6 +277,17 @@ export namespace AuthN {
     [key: string]: any;
   }
 
+  export enum MFAProvider {
+    TOTP = "totp",
+    EMAIL_OTP = "email_otp",
+    SMS_OTP = "sms_otp",
+  }
+
+  export enum FlowType {
+    SIGNIN = "signin",
+    SIGNUP = "signup",
+  }
+
   export interface UserCreateRequest {
     email: string;
     authenticator: string;
@@ -296,7 +307,7 @@ export namespace AuthN {
     verified: boolean;
     last_login_at: string;
     disable?: boolean;
-    mfa_provider?: string[];
+    mfa_provider?: MFAProvider[];
   }
 
   export interface UserDeleteRequest {
@@ -377,7 +388,7 @@ export namespace AuthN {
     email: string;
     profile: Profile;
     id_provider: string;
-    mfa_providers: string[];
+    mfa_providers: MFAProvider[];
     require_mfa: boolean;
     verified: boolean;
     last_login_at: string;
@@ -390,7 +401,7 @@ export namespace AuthN {
     email?: string | null;
     require_mfa?: boolean | null;
     mfa_value?: string;
-    mfa_provider?: string;
+    mfa_provider?: MFAProvider;
   }
 
   export interface UserUpdateRequest {
@@ -411,7 +422,7 @@ export namespace AuthN {
     last_login_at: string;
     id_provider: IDProvider;
     scopes?: Scopes;
-    mfa_providers?: string[];
+    mfa_providers?: MFAProvider[];
   }
 
   export interface UserInfoResult {
@@ -425,5 +436,23 @@ export namespace AuthN {
     scopes: Scopes;
     profile: Profile;
     created_at: string;
+  }
+
+  export interface UserVerifyRequest {
+    id_provider: IDProvider;
+    email: string;
+    authenticator: string;
+  }
+
+  export interface UserVerifyResult {
+    identity: string;
+    email: string;
+    profile: Profile;
+    scopes: Scopes;
+    id_provider: IDProvider;
+    require_mfa: boolean;
+    verified: boolean;
+    disabled: boolean;
+    last_login_at: string;
   }
 }

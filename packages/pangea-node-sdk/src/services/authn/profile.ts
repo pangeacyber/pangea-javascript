@@ -17,7 +17,7 @@ export default class AuthNProfile extends BaseService {
    * @param {String} o.email - An email address
    * @returns {Promise<PangeaResponse<AuthN.UserProfile>>} - A promise representing an async call to the endpoint
    * @example
-   * const response = await authn.userProfileGet({
+   * const response = await authn.user.profile.get({
    *   email: "joe.user@email.com",
    * });
    */ // @ts-ignore we're extending BaseService which already has a get method defined
@@ -37,7 +37,7 @@ export default class AuthNProfile extends BaseService {
    * @param {Object} o.profile - Updates to a user profile
    * @returns {Promise<PangeaResponse<AuthN.UserProfile>>} - A promise representing an async call to the endpoint
    * @example
-   * const response = await authn.userProfileUpdate({
+   * const response = await authn.user.profile.update({
    *   email: "joe.user@email.com",
    *   profile: {
    *     "phone": "18085967873",
