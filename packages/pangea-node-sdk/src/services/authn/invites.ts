@@ -2,7 +2,6 @@ import PangeaResponse from "../../response";
 import BaseService from "../base";
 import PangeaConfig from "../../config";
 import { AuthN } from "../../types";
-import { schema } from "../../utils/validation";
 
 export default class AuthNInvites extends BaseService {
   constructor(token: string, config: PangeaConfig) {
@@ -32,10 +31,6 @@ export default class AuthNInvites extends BaseService {
    * await authn.userInviteDelete("pmc_wuk7tvtpswyjtlsx52b7yyi2l7zotv4a");
    */
   delete(id: string): Promise<PangeaResponse<{}>> {
-    if (!schema.string(id)) {
-      throw "userInviteDelete was called without supplying an id";
-    }
-
     const data: AuthN.UserInviteDeleteRequest = {
       id,
     };

@@ -2,7 +2,6 @@ import PangeaResponse from "../../response";
 import BaseService from "../base";
 import PangeaConfig from "../../config";
 import { AuthN } from "../../types";
-import { schema } from "../../utils/validation";
 import AuthNProfile from "./profile";
 import AuthNInvites from "./invites";
 
@@ -28,10 +27,6 @@ export default class AuthNUser extends BaseService {
    * await authn.userDelete("example@example.com");
    */
   delete(email: string): Promise<PangeaResponse<{}>> {
-    if (!schema.string(email)) {
-      throw "userDelete was called without supplying an email";
-    }
-
     const data: AuthN.UserDeleteRequest = {
       email,
     };
@@ -66,36 +61,6 @@ export default class AuthNUser extends BaseService {
    * });
    */
   create(user: AuthN.UserCreateRequest): Promise<PangeaResponse<AuthN.UserCreateResult>> {
-    const valid = schema.object().shape({
-      email: schema.string(user.email),
-      authenticator: schema.string(user.authenticator),
-      id_provider: schema.optional().string(user.id_provider),
-      verified: schema.optional().boolean(user.verified),
-      require_mfa: schema.optional().boolean(user.require_mfa),
-      scopes: schema.optional().array().string(user.scopes),
-      // No need to validate user.profile since it's an
-      // object with any key value pair
-    });
-
-    if (!valid.email) {
-      throw "userCreate was called without supplying an email";
-    }
-    if (!valid.authenticator) {
-      throw "userCreate was called without supplying an authenticator";
-    }
-    if (!valid.id_provider) {
-      throw "userCreate was called without supplying a valid id_provider";
-    }
-    if (!valid.verified) {
-      throw "userCreate was called without supplying a valid verified boolean";
-    }
-    if (!valid.require_mfa) {
-      throw "userCreate was called without supplying a valid require_mfa boolean";
-    }
-    if (!valid.scopes) {
-      throw "userCreate was called without supplying a valid array of scopes";
-    }
-
     return this.post("user/create", user);
   }
 
@@ -119,34 +84,6 @@ export default class AuthNUser extends BaseService {
    * });
    */
   invite(userInvite: AuthN.UserInviteRequest): Promise<PangeaResponse<AuthN.UserInvite>> {
-    const valid = schema.object().shape({
-      inviter: schema.string(userInvite.inviter),
-      email: schema.string(userInvite.email),
-      callback: schema.string(userInvite.callback),
-      state: schema.string(userInvite.state),
-      invite_org: schema.optional().string(userInvite.invite_org),
-      require_mfa: schema.optional().boolean(userInvite.require_mfa),
-    });
-
-    if (!valid.inviter) {
-      throw "userInvite was called without supplying an inviter";
-    }
-    if (!valid.email) {
-      throw "userInvite was called without supplying an email";
-    }
-    if (!valid.callback) {
-      throw "userInvite was called without supplying a callback";
-    }
-    if (!valid.state) {
-      throw "userInvite was called without supplying a state";
-    }
-    if (!valid.invite_org) {
-      throw "userInvite was called without supplying a valid invite_org";
-    }
-    if (!valid.require_mfa) {
-      throw "userInvite was called without supplying a valid require_mfa";
-    }
-
     return this.post("user/invite", userInvite);
   }
 
@@ -164,18 +101,6 @@ export default class AuthNUser extends BaseService {
    * });
    */
   list(o: AuthN.UserListRequest): Promise<PangeaResponse<AuthN.UserListResult>> {
-    const valid = schema.object().shape({
-      scopes: schema.optional().array().string(o.scopes),
-      glob_scopes: schema.optional().array().string(o.glob_scopes),
-    });
-
-    if (!valid.scopes) {
-      throw "userList was called without supplying a valid array of scopes";
-    }
-    if (!valid.secret) {
-      throw "userList was called without supplying a valid array of glob_scopes";
-    }
-
     return this.post("user/list", o);
   }
 
@@ -195,22 +120,6 @@ export default class AuthNUser extends BaseService {
    * });
    */
   login(o: AuthN.UserLoginRequest): Promise<PangeaResponse<AuthN.UserLoginResult>> {
-    const valid = schema.object().shape({
-      email: schema.string(o.email),
-      secret: schema.string(o.secret),
-      scopes: schema.optional().array().string(o.scopes),
-    });
-
-    if (!valid.email) {
-      throw "userLogin was called without supplying an email";
-    }
-    if (!valid.secret) {
-      throw "userLogin was called without supplying a secret";
-    }
-    if (!valid.scopes) {
-      throw "userLogin was called without supplying valid scopes";
-    }
-
     return this.post("user/login", o);
   }
 
@@ -231,32 +140,6 @@ export default class AuthNUser extends BaseService {
    * });
    */
   update(o: AuthN.UserUpdateRequest): Promise<PangeaResponse<AuthN.UserUpdateResult>> {
-    const valid = schema.object().shape({
-      identity: schema.optional().string(o.identity) || schema.optional().null(o.identity),
-      email: schema.optional().string(o.email) || schema.optional().null(o.email),
-      authenticator:
-        schema.optional().string(o.authenticator) || schema.optional().null(o.authenticator),
-      disabled: schema.optional().boolean(o.disabled) || schema.optional().null(o.disabled),
-      require_mfa:
-        schema.optional().boolean(o.require_mfa) || schema.optional().null(o.require_mfa),
-    });
-
-    if (!valid.identity) {
-      throw "userUpdate was called without supplying a valid identity";
-    }
-    if (!valid.email) {
-      throw "userUpdate was called without supplying a valid email";
-    }
-    if (!valid.authenticator) {
-      throw "userUpdate was called without supplying a valid authenticator";
-    }
-    if (!valid.disabled) {
-      throw "userUpdate was called without supplying a valid disabled boolean";
-    }
-    if (!valid.require_mfa) {
-      throw "userUpdate was called without supplying a valid require_mfa boolean";
-    }
-
     return this.post("user/update", o);
   }
 }

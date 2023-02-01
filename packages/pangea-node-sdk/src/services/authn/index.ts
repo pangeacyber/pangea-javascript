@@ -4,7 +4,6 @@ import PangeaConfig from "../../config";
 import { AuthN } from "../../types";
 import AuthNUser from "./user";
 
-import { schema } from "../../utils/validation";
 /**
  * AuthnService class provides methods for interacting with the AuthN Service
  * @extends BaseService
@@ -36,16 +35,6 @@ export default class AuthNService extends BaseService {
    * );
    */
   passwordUpdate(o: AuthN.PasswordUpdateRequest): Promise<PangeaResponse<{}>> {
-    if (!schema.string(o.email)) {
-      throw "passwordUpdate was called without supplying an email";
-    }
-    if (!schema.string(o.old_secret)) {
-      throw "passwordUpdate was called without supplying an old_secret";
-    }
-    if (!schema.string(o.new_secret)) {
-      throw "passwordUpdate was called without supplying a new_secret";
-    }
-
     return this.post("password/update", o);
   }
 
@@ -61,10 +50,6 @@ export default class AuthNService extends BaseService {
    * );
    */
   userinfo(code: string): Promise<PangeaResponse<AuthN.UserInfoResult>> {
-    if (!schema.string(code)) {
-      throw "userinfo was called without supplying a code";
-    }
-
     return this.post("userinfo", { code });
   }
 }
