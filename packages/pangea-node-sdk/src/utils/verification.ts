@@ -265,11 +265,11 @@ export const verifySignature = (envelope: Audit.EventEnvelope | undefined): stri
     return "fail";
   }
 
-  let pubKey = "";
+  let pubKey = envelope.public_key;
   try {
     // Try to parse json for new public_key struct
     // @ts-ignore
-    const obj = JSON.parse(value);
+    const obj = JSON.parse(pubKey);
     pubKey = obj["key"];
     if (pubKey === undefined) {
       return "fail";

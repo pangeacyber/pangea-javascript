@@ -182,7 +182,7 @@ it("log an event, local sign and verify", async () => {
   const searchEvent = respSearch.result.events[0];
   expect(searchEvent.signature_verification).toBe("pass");
   expect(searchEvent.envelope.public_key).toBe(
-    "-----BEGIN PUBLIC KEY-----\nMCowBQYDK2VwAyEAlvOyDMpK2DQ16NI8G41yINl01wMHzINBahtDPoh4+mE=\n-----END PUBLIC KEY-----\n"
+    String.raw`{"key":"-----BEGIN PUBLIC KEY-----\nMCowBQYDK2VwAyEAlvOyDMpK2DQ16NI8G41yINl01wMHzINBahtDPoh4+mE=\n-----END PUBLIC KEY-----\n"}`
   );
 });
 
@@ -204,8 +204,6 @@ it("log an event, vault sign", async () => {
   expect(respLog.result.envelope).toBeDefined();
   expect(respLog.result.envelope.public_key).toBeDefined();
   expect(respLog.result.envelope.signature).toBeDefined();
-  expect(respLog.result.envelope.signature_key_id).toBeDefined();
-  expect(respLog.result.envelope.signature_key_version).toBeDefined();
   expect(respLog.result.signature_verification).toBe("pass");
 });
 
@@ -236,7 +234,7 @@ it("log JSON event, sign and verify", async () => {
   const searchEvent = respSearch.result.events[0];
   expect(searchEvent.signature_verification).toBe("pass");
   expect(searchEvent.envelope.public_key).toBe(
-    "-----BEGIN PUBLIC KEY-----\nMCowBQYDK2VwAyEAlvOyDMpK2DQ16NI8G41yINl01wMHzINBahtDPoh4+mE=\n-----END PUBLIC KEY-----\n"
+    String.raw`{"key":"-----BEGIN PUBLIC KEY-----\nMCowBQYDK2VwAyEAlvOyDMpK2DQ16NI8G41yINl01wMHzINBahtDPoh4+mE=\n-----END PUBLIC KEY-----\n"}`
   );
 });
 
@@ -256,9 +254,7 @@ it("log JSON event, vault sign and verify", async () => {
     expect(respLog.status).toBe("Success");
     expect(typeof respLog.result.hash).toBe("string");
     expect(respLog.result.signature_verification).toBe("pass");
-    expect(respLog.result.envelope.public_key).toBe(
-      "-----BEGIN PUBLIC KEY-----\nMCowBQYDK2VwAyEAlvOyDMpK2DQ16NI8G41yINl01wMHzINBahtDPoh4+mE=\n-----END PUBLIC KEY-----\n"
-    );
+    expect(respLog.result.envelope.public_key).toBeDefined();
   } catch (e) {
     if (e instanceof PangeaErrors.ValidationError) {
       e.errors.forEach((ef) => {

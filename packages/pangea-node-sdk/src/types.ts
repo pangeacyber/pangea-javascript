@@ -55,8 +55,6 @@ export namespace Audit {
     signature?: string;
     public_key?: string;
     received_at: string;
-    signature_key_id?: string;
-    signature_key_version?: number;
   }
 
   export interface AuditRecord {
