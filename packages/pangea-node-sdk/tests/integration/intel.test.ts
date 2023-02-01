@@ -27,13 +27,17 @@ it("file lookup should succeed", async () => {
   expect(response.result.data.verdict).toBe("malicious");
 });
 
-it("file lookup with default provider should succeed", async () => {
-  const response = await fileIntel.lookup(
+it("file hash reputation should succeed", async () => {
+  const options = { provider: "reversinglabs", verbose: true, raw: true };
+  const response = await fileIntel.hashReputation(
     "142b638c6a60b60c7f9928da4fb85a5a8e1422a9ffdc9ee49e17e56ccca9cf6e",
-    "sha256"
+    "sha256",
+    options
   );
+
   expect(response.status).toBe("Success");
   expect(response.result.data).toBeDefined();
+  expect(response.result.data.verdict).toBe("malicious");
 });
 
 it("file lookup with filepath should succeed", async () => {
@@ -44,11 +48,19 @@ it("file lookup with filepath should succeed", async () => {
   expect(response.result.data.verdict).toBe("benign");
 });
 
-it("file lookup with filepath should fail", async () => {
+it("file filepathReputation with filepath should succeed", async () => {
+  const options = { provider: "reversinglabs", verbose: true, raw: true };
+  const response = await fileIntel.filepathReputation("./README.md", options);
+  expect(response.status).toBe("Success");
+  expect(response.result.data).toBeDefined();
+  expect(response.result.data.verdict).toBe("benign");
+});
+
+it("file reputation with filepath should faild", async () => {
   const options = { provider: "reversinglabs", verbose: true, raw: true };
 
   try {
-    const response = await fileIntel.lookupFilepath("./not/a/real/path/file.txt", options);
+    const response = await fileIntel.filepathReputation("./not/a/real/path/file.txt", options);
   } catch (e: unknown) {
     // @ts-ignore
     expect(e.code).toBe("ENOENT");
@@ -64,10 +76,13 @@ it("Domain lookup should succeed", async () => {
   expect(response.result.data.verdict).toBe("malicious");
 });
 
-it("Domain lookup with default should succeed", async () => {
-  const response = await domainIntel.lookup("737updatesboeing.com");
+it("Domain reputation should succeed", async () => {
+  const options = { provider: "domaintools", verbose: true, raw: true };
+  const response = await domainIntel.reputation("737updatesboeing.com", options);
+
   expect(response.status).toBe("Success");
   expect(response.result.data).toBeDefined();
+  expect(response.result.data.verdict).toBe("malicious");
 });
 
 it("IP lookup should succeed", async () => {
@@ -152,6 +167,15 @@ it("IP is proxy with default provider should succeed", async () => {
   expect(response.result.data.is_proxy).toBeTruthy();
 });
 
+it("IP reputation should succeed", async () => {
+  const options = { provider: "crowdstrike", verbose: true, raw: true };
+  const response = await ipIntel.reputation("93.231.182.110", options);
+
+  expect(response.status).toBe("Success");
+  expect(response.result.data).toBeDefined();
+  expect(response.result.data.verdict).toBe("malicious");
+});
+
 it("URL lookup should succeed", async () => {
   const options = { provider: "crowdstrike", verbose: true, raw: true };
   const response = await urlIntel.lookup("http://113.235.101.11:54384", options);
@@ -163,5 +187,19 @@ it("URL lookup should succeed", async () => {
 
 it("URL lookup with default provider should succeed", async () => {
   const response = await urlIntel.lookup("http://113.235.101.11:54384");
+  expect(response.status).toBe("Success");
+});
+
+it("URL reputation should succeed", async () => {
+  const options = { provider: "crowdstrike", verbose: true, raw: true };
+  const response = await urlIntel.reputation("http://113.235.101.11:54384", options);
+
+  expect(response.status).toBe("Success");
+  expect(response.result.data).toBeDefined();
+  expect(response.result.data.verdict).toBe("malicious");
+});
+
+it("URL reputation with default provider should succeed", async () => {
+  const response = await urlIntel.reputation("http://113.235.101.11:54384");
   expect(response.status).toBe("Success");
 });

@@ -12,7 +12,7 @@ const ipIntel = new IPIntelService(String(token), config);
 
   const options = { provider: "crowdstrike", verbose: true, raw: true };
   try {
-    const response = await ipIntel.lookup("93.231.182.110", options);
+    const response = await ipIntel.reputation("93.231.182.110", options);
     console.log(response.result);
   } catch (e) {
     if (e instanceof PangeaErrors.APIError) {

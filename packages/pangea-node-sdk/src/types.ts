@@ -179,6 +179,61 @@ export namespace Intel {
     provider?: string;
   }
 
+  export interface Response {
+    data: {
+      category: string[];
+      score: number;
+      verdict: string;
+    };
+  }
+
+  export interface ReputationResult extends Response {}
+
+  export namespace File {
+    export interface Options extends Intel.Options {}
+    export interface Params {
+      hash: string;
+      hash_type: string;
+    }
+
+    export interface ReputationOptions extends Options {}
+    export interface ReputationResult extends Intel.ReputationResult {}
+    export interface ReputationParams extends Params, ReputationOptions {}
+  }
+
+  export namespace Domain {
+    export interface Options extends Intel.Options {}
+    export interface Params {
+      domain: string;
+    }
+
+    export interface ReputationOptions extends Options {}
+    export interface ReputationResult extends Intel.ReputationResult {}
+    export interface ReputationParams extends Params, ReputationOptions {}
+  }
+
+  export namespace URL {
+    export interface Options extends Intel.Options {}
+    export interface Params {
+      url: string;
+    }
+
+    export interface ReputationOptions extends Options {}
+    export interface ReputationResult extends Intel.ReputationResult {}
+    export interface ReputationParams extends Params, ReputationOptions {}
+  }
+
+  export namespace IP {
+    export interface Options extends Intel.Options {}
+    export interface Params {
+      ip: string;
+    }
+
+    export interface ReputationOptions extends Options {}
+    export interface ReputationResult extends Intel.ReputationResult {}
+    export interface ReputationParams extends Params, ReputationOptions {}
+  }
+
   export interface FileParams extends Intel.Options {
     hash: string;
     hash_type: string;
