@@ -21,8 +21,16 @@ class RedactService extends BaseService {
    * @example
    * const response = await redact.redact("Jenny Jenny... 415-867-5309");
    */
-  redact(text: string): Promise<PangeaResponse<Redact.BaseResponse>> {
-    const input = { text };
+  redact(
+    text: string,
+    options: Redact.TextOptions = {}
+  ): Promise<PangeaResponse<Redact.BaseResponse>> {
+    let input: Redact.TextParams = {
+      text: text,
+    };
+
+    if (options?.debug) input.debug = options.debug;
+    if (options?.rules) input.rules = options.rules;
 
     return this.post("redact", input);
   }
@@ -37,8 +45,18 @@ class RedactService extends BaseService {
    *
    * const response = await redact.redactStructured(data);
    */
-  redactStructured(data: object): Promise<PangeaResponse<Redact.StructuredResponse>> {
-    const input = { data };
+  redactStructured(
+    data: object,
+    options: Redact.StructuredOptions = {}
+  ): Promise<PangeaResponse<Redact.StructuredResponse>> {
+    let input: Redact.StructuredParams = {
+      data: data,
+    };
+
+    if (options?.debug) input.debug = options.debug;
+    if (options?.rules) input.rules = options.rules;
+    if (options?.jsonp) input.jsonp = options.jsonp;
+    if (options?.format) input.format = options.format;
 
     return this.post("redact_structured", input);
   }
