@@ -251,3 +251,386 @@ export namespace Intel {
     domain: string;
   }
 }
+
+/**
+ * Vault services interface definitions
+ */
+export namespace Vault {
+  export const AsymmetricPurpose = {
+    SIGNING: "signing",
+    ENCRYPTION: "encryption",
+  };
+
+  export const AsymmetricAlgorithm = {
+    Ed25519: "ed25519",
+    RSA: "rsa",
+  };
+
+  export const SymmetricAlgorithm = {
+    AES: "aes",
+  };
+
+  export const ItemType = {
+    ASYMMETRIC_KEY: "asymmetric_key",
+    SYMMETRIC_KEY: "symmetric_key",
+    SECRET: "secret",
+    MASTER_KEY: "master_key",
+  };
+
+  export type Metadata = Object;
+  export type Tags = string[];
+
+  // EncodedPublicKey is a PEM public key, with no further encoding (i.e. no base64)
+  // It may be used for example in openssh with no further processing
+  export type EncodedPublicKey = string;
+
+  // EncodedPrivateKey is a PEM private key, with no further encoding (i.e. no base64).
+  // It may be used for example in openssh with no further processing
+  export type EncodedPrivateKey = string;
+
+  // EncodedSymmetricKey is a base64 encoded key
+  export type EncodedSymmetricKey = string;
+
+  export interface RevokeRequest {
+    id: string;
+  }
+
+  export interface RevokeResult {
+    id: string;
+  }
+
+  export interface DeleteRequest {
+    id: string;
+  }
+
+  export interface DeleteResult {
+    id: string;
+  }
+
+  export interface ListItemData {
+    //FIXME: check with Diego this fields, some are left from docs https://dev.pangea.cloud/docs/api/vault#list
+    id: string;
+    version: number;
+    type: string;
+    name?: string;
+    folder?: string;
+    metadata?: Metadata;
+    tags?: Tags;
+    rotation_policy?: string;
+    next_rotation?: string;
+    expiration?: string;
+    created_at?: string;
+    revoked_at?: string;
+    managed?: boolean;
+    identity: string;
+  }
+
+  export interface ListFolderData {
+    type: string;
+    name?: string;
+    folder?: string;
+  }
+
+  export interface ListResult {
+    items: [ListItemData | ListFolderData][];
+    count: number;
+    last?: string;
+  }
+
+  export interface ListOptions {
+    filter?: Object;
+    restrictions?: Object;
+    last?: string;
+    size?: number;
+    order?: string;
+    order_by?: string;
+  }
+
+  export interface UpdateOptions {
+    name?: string;
+    folder?: string;
+    metadata?: Metadata;
+    tags?: Tags;
+    auto_rotate?: boolean;
+    rotation_policy?: string;
+    expiration?: string;
+  }
+
+  export interface UpdateRequest extends UpdateOptions {
+    id: string;
+  }
+
+  export interface UpdateResult {
+    id: string;
+  }
+
+  export interface GetRequest {
+    id: string;
+  }
+
+  export interface GetOptions {
+    version?: number;
+    verbose?: boolean;
+  }
+
+  export interface GetResult {
+    id: string;
+    type: string;
+    version: number;
+    name?: string;
+    folder?: string;
+    metadata?: Metadata;
+    tags?: Tags;
+    auto_rotate?: boolean;
+    rotation_policy?: string;
+    last_rotated?: string;
+    next_rotation?: string;
+    retaion_previous_version?: boolean;
+    expiration?: string;
+    created_at?: string;
+    revoked_at?: string;
+    public_key?: EncodedPublicKey;
+    private_key?: EncodedPrivateKey;
+    algorithm?: string; // Should be KeyPairAlgorithm | KeyAlgorithm;
+    purpose?: string; // Should be KeyPairPurpose
+    key?: EncodedSymmetricKey;
+    managed?: boolean;
+    secret?: string;
+  }
+
+  export namespace Common {
+    export interface StoreOptions {
+      name?: string;
+      folder?: string;
+      metadata?: Metadata;
+      tags?: Tags;
+      auto_rotate?: boolean;
+      rotation_policy?: string;
+      retain_previous_version?: boolean;
+      expiration?: string;
+      managed?: boolean;
+    }
+
+    export interface StoreRequest {
+      type: string; // should be some of Vault.ItemType;
+    }
+
+    export interface StoreResult {
+      id: string;
+      type: string;
+      version: number;
+    }
+
+    export interface GenerateRequest {
+      type: string; // should be some of Vault.ItemType;
+    }
+
+    export interface GenerateOptions {
+      name?: string;
+      folder?: string;
+      metadata?: Metadata;
+      tags?: Tags;
+      auto_rotate?: boolean;
+      rotation_policy?: string;
+      retain_previous_version?: boolean;
+      store?: boolean;
+      expiration?: string;
+      managed?: boolean;
+    }
+
+    export interface GenerateResult {
+      id: string;
+      type?: string;
+      version?: number;
+    }
+
+    export interface RotateRequest {
+      id: string;
+    }
+
+    export interface RotateResult {
+      id: string;
+      version: number;
+      type: string;
+    }
+
+    export interface RotateGenericKeyOptions {
+      public_key?: EncodedPublicKey;
+      private_key?: EncodedPrivateKey;
+      key?: EncodedSymmetricKey;
+    }
+
+    export interface RotateKeyGenericRequest extends RotateRequest, RotateGenericKeyOptions {}
+
+    export interface RotateKeyGenericResult {
+      public_key?: EncodedPublicKey;
+      private_key?: EncodedPrivateKey;
+      key?: EncodedSymmetricKey;
+    }
+  }
+
+  export namespace Secret {
+    export const Algorithm = {
+      BASE32: "base32",
+    };
+
+    export interface StoreOptions extends Common.StoreOptions {}
+
+    export interface StoreRequest extends Common.StoreRequest, StoreOptions {
+      secret: string;
+      type: string;
+    }
+
+    export interface StoreResult extends Common.StoreResult {
+      secret: string;
+    }
+
+    export interface GenerateRequest extends Common.GenerateRequest, Common.GenerateOptions {}
+
+    export interface GenerateResult extends Common.GenerateRequest {
+      secret: string;
+    }
+
+    export interface RotateRequest extends Common.RotateRequest {
+      secret: string;
+    }
+
+    export interface RotateResult extends Common.RotateResult {
+      secret: string;
+    }
+  }
+
+  export namespace Key {
+    export interface RotateOptions {
+      key?: EncodedSymmetricKey;
+      public_key?: EncodedPublicKey;
+      private_key?: EncodedPrivateKey;
+    }
+
+    export interface RotateRequest extends Common.RotateRequest, RotateOptions {}
+
+    export interface RotateResult extends Common.RotateResult {
+      algorithm: string;
+      key?: EncodedSymmetricKey;
+      public_key?: EncodedPublicKey;
+      private_key?: EncodedPrivateKey;
+    }
+  }
+
+  export namespace Asymmetric {
+    export interface GenerateOptions extends Common.GenerateOptions {
+      algorithm?: string; // Should be KeyPairAlgorithm
+      purpose?: string; // Should be KeyPairPurpose
+    }
+
+    export interface GenerateRequest extends Common.GenerateRequest, GenerateOptions {}
+
+    export interface GenerateResult extends Common.GenerateResult {
+      algorithm: string;
+      public_key: EncodedPublicKey;
+      private_key?: EncodedPrivateKey;
+    }
+
+    export interface StoreOptions extends Common.StoreOptions {
+      purpose?: string; // Should be KeyPairPurpose
+    }
+
+    export interface StoreRequest extends Common.StoreRequest, StoreOptions {
+      algorithm: string;
+      public_key: EncodedPublicKey;
+      private_key: EncodedPrivateKey;
+    }
+
+    export interface StoreResult extends Common.StoreResult {
+      public_key: EncodedPublicKey;
+      private_key?: EncodedPrivateKey;
+      algorithm: string;
+    }
+
+    export interface SignRequest {
+      id: string;
+      message: string;
+    }
+
+    export interface SignResult {
+      id: string;
+      version: number;
+      signature: string;
+      algorithm: string; // Should be KeyPairAlgorithm
+      public_key?: EncodedPublicKey;
+    }
+
+    export interface VerifyOptions {
+      version?: number;
+    }
+
+    export interface VerifyRequest extends VerifyOptions {
+      id: string;
+      message: string;
+      signature: string;
+    }
+
+    export interface VerifyResult {
+      id: string;
+      version: number;
+      algorithm: string; // Should be KeyPairAlgorithm
+      valid_signature: boolean;
+    }
+  }
+
+  export namespace Symmetric {
+    export interface StoreOptions extends Common.StoreOptions {
+      managed?: boolean;
+    }
+
+    export interface StoreRequest extends Common.StoreRequest, StoreOptions {
+      key: EncodedSymmetricKey;
+      algorithm: string; // Should be KeyAlgorithm
+    }
+
+    export interface StoreResult extends Common.StoreResult {
+      algorithm?: string; // Should be KeyAlgorithm   # FIXME: Remove optional once backend is updated
+      key?: EncodedSymmetricKey;
+    }
+
+    export interface GenerateOptions extends Common.GenerateOptions {
+      algorithm?: string; // Should be KeyAlgorithm
+      managed?: boolean;
+    }
+
+    export interface GenerateRequest extends Common.GenerateRequest, GenerateOptions {}
+
+    export interface GenerateResult extends Common.GenerateResult {
+      algorithm: string; //Should be KeyAlgorithm
+      key?: EncodedSymmetricKey;
+    }
+
+    export interface EncryptRequest {
+      id: string;
+      plain_text: string;
+    }
+
+    export interface EncryptResult {
+      id: string;
+      version: number;
+      algorithm: string; // Should be KeyAlgorithm
+      cipher_text: string;
+    }
+
+    export interface DecryptOptions {
+      version?: number;
+    }
+
+    export interface DecryptRequest extends DecryptOptions {
+      id: string;
+      cipher_text: string;
+    }
+
+    export interface DecryptResult {
+      id: string;
+      version?: number;
+      algorithm: string; // Should be KeyAlgorithm
+      plain_text: string;
+    }
+  }
+}

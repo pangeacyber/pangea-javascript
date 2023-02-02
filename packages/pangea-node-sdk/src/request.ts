@@ -153,6 +153,8 @@ class PangeaRequest {
         throw new PangeaErrors.ServiceNotAvailableError(this.serviceName, response);
       case "InvalidPayloadReceived":
         throw new PangeaErrors.InvalidPayloadReceived(response.summary, response);
+      case "ForbiddenVaultOperation":
+        throw new PangeaErrors.ForbiddenVaultOperation(response.summary, response);
       default:
         throw new PangeaErrors.APIError(response.status, response);
     }
