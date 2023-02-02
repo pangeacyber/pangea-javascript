@@ -40,6 +40,7 @@ export class FileIntelService extends BaseService {
   /**
    * @summary Look up a file
    * @description Retrieve hash-based file reputation from a provider, including an optional detailed report.
+   * @deprecated Since version 1.2.0. Use hashReputation instead.
    * @param {String} fileHash - Hash of the file to be looked up
    * @param {String} hashType - Type of hash, can be "sha256", "sha" or "md5"
    * @param {Object} options - An object of optional parameters
@@ -65,12 +66,44 @@ export class FileIntelService extends BaseService {
     if (options?.verbose) data.verbose = options.verbose;
     if (options?.raw) data.raw = options.raw;
 
-    return this.post("lookup", data);
+    return this.post("reputation", data);
+  }
+
+  /**
+   * @summary Look up a file hash reputation
+   * @description Retrieve hash-based file reputation from a provider, including an optional detailed report.
+   * @param {String} fileHash - Hash of the file to be looked up
+   * @param {String} hashType - Type of hash, can be "sha256", "sha" or "md5"
+   * @param {Object} options - An object of optional parameters
+   * @param {String} options.provider - Provider of the reputation information. ("reversinglabs"). Default provider defined by the configuration.
+   * @param {Boolean} options.verbose - Echo back the parameters of the API in the response. Default: verbose=false.
+   * @param {Boolean} options.raw - Return additional details from the provider. Default: raw=false.
+   * @returns {Promise} - A promise representing an async call to the lookup endpoint.
+   * @example
+   * const options = { provider: "reversinglabs" };
+   * const response = await fileIntel.hashReputation("142b638c6a60b60c7f9928da4fb85a5a8e1422a9ffdc9ee49e17e56ccca9cf6e", "sha256", options);
+   */
+  hashReputation(
+    fileHash: string,
+    hashType: string,
+    options?: Intel.File.ReputationOptions
+  ): Promise<PangeaResponse<Intel.File.ReputationResult>> {
+    const data: Intel.File.ReputationParams = {
+      hash: fileHash,
+      hash_type: hashType,
+    };
+
+    if (options?.provider) data.provider = options.provider;
+    if (options?.verbose) data.verbose = options.verbose;
+    if (options?.raw) data.raw = options.raw;
+
+    return this.post("reputation", data);
   }
 
   /**
    * @summary Look up a file, from file path
    * @description Retrieve file reputation from a provider, using the file's hash.
+   * @deprecated Since version 1.2.0. Use filepathReputation instead.
    * @param {String} fileHash - Hash of the file to be looked up
    * @param {Object} options - An object of optional parameters. Parameters supported:
    *   - provider {String} - Use reputation data from this provider: "reversinglabs".
@@ -98,7 +131,40 @@ export class FileIntelService extends BaseService {
     if (options?.verbose) data.verbose = options.verbose;
     if (options?.raw) data.raw = options.raw;
 
-    return this.post("lookup", data);
+    return this.post("reputation", data);
+  }
+
+  /**
+   * @summary Look up a file hash reputation from file path
+   * @description Retrieve file reputation from a provider, using the file's hash.
+   * @param {String} fileHash - Hash of the file to be looked up
+   * @param {Object} options - An object of optional parameters. Parameters supported:
+   *   - provider {String} - Use reputation data from this provider: "reversinglabs".
+   *   Default provider defined by the configuration.
+   *   - verbose {Boolean} - Echo the API parameters in the response. Default: verbose=false.
+   *   - raw {Boolean} - Include raw data from this provider. Default: raw=false.
+   * @returns {Promise} - A promise representing an async call to the lookup endpoint.
+   * @example
+   * const options = { provider: "reversinglabs" };
+   * const response = await fileIntel.filepathReputation("./myfile.exe", options);
+   */
+  filepathReputation(
+    filepath: string,
+    options?: Intel.File.ReputationOptions
+  ): Promise<PangeaResponse<Intel.File.ReputationResult>> {
+    const content = readFileSync(filepath);
+    const fileHash = createHash(hashType).update(content).digest("hex");
+
+    const data: Intel.File.ReputationParams = {
+      hash: fileHash,
+      hash_type: hashType,
+    };
+
+    if (options?.provider) data.provider = options.provider;
+    if (options?.verbose) data.verbose = options.verbose;
+    if (options?.raw) data.raw = options.raw;
+
+    return this.post("reputation", data);
   }
 }
 
@@ -135,6 +201,7 @@ export class DomainIntelService extends BaseService {
   /**
    * @summary Look up a domain
    * @description Retrieve reputation for a domain from a provider, including an optional detailed report.
+   * @deprecated Since version 1.2.0. Use reputation instead.
    * @param {String} domain - Domain address to be looked up.
    * @param {Object} options - An object of optional parameters. Parameters supported:
    *   - provider {String} - Use reputation data from these providers: "reversinglabs" or "domaintools".
@@ -154,7 +221,35 @@ export class DomainIntelService extends BaseService {
     if (options?.verbose) data.verbose = options.verbose;
     if (options?.raw) data.raw = options.raw;
 
-    return this.post("lookup", data);
+    return this.post("reputation", data);
+  }
+
+  /**
+   * @summary Look up a domain reputation
+   * @description Retrieve reputation for a domain from a provider, including an optional detailed report.
+   * @param {String} domain - Domain address to be looked up.
+   * @param {Object} options - An object of optional parameters. Parameters supported:
+   *   - provider {String} - Use reputation data from these providers: "reversinglabs" or "domaintools".
+   *   Default provider defined by the configuration.
+   *   - verbose {Boolean} - Echo the API parameters in the response. Default: verbose=false.
+   *   - raw {Boolean} - Include raw data from this provider. Default: raw=false.
+   * @returns {Promise} - A promise representing an async call to the lookup endpoint.
+   * @example
+   * const response = await domainIntel.reputation("google.com")
+   */
+  reputation(
+    domain: string,
+    options?: Intel.Domain.ReputationOptions
+  ): Promise<PangeaResponse<Intel.Domain.ReputationResult>> {
+    const data: Intel.Domain.ReputationParams = {
+      domain,
+    };
+
+    if (options?.provider) data.provider = options.provider;
+    if (options?.verbose) data.verbose = options.verbose;
+    if (options?.raw) data.raw = options.raw;
+
+    return this.post("reputation", data);
   }
 }
 
@@ -190,13 +285,14 @@ export class IPIntelService extends BaseService {
   /**
    * @summary Look up an IP
    * @description Retrieve a reputation score for an IP address from a provider, including an optional detailed report.
+   * @deprecated Since version 1.2.0. Use reputation instead.
    * @param {String} ip - Geolocate this IP and check the corresponding country against
    * @param {Object} options - An object of optional parameters. Parameters supported:
    *   - provider {String} - Use reputation data from this provider: "crowdstrike".
    *   Default provider defined by the configuration.
    *   - verbose {Boolean} - Echo the API parameters in the response. Default: verbose=false.
    *   - raw {Boolean} - Include raw data from this provider. Default: raw=false.
-   * @returns {Promise} - A promise representing an async call to the lookup endpoint.
+   * @returns {Promise} - A promise representing an async call to the /reputation endpoint.
    * @example
    * const options = {
    *   provider: "crowdstrike"
@@ -216,7 +312,42 @@ export class IPIntelService extends BaseService {
     if (options?.verbose) data.verbose = options.verbose;
     if (options?.raw) data.raw = options.raw;
 
-    return this.post("lookup", data);
+    return this.post("reputation", data);
+  }
+
+  /**
+   * @summary Look up an IP reputation
+   * @description Retrieve a reputation score for an IP address from a provider, including an optional detailed report.
+   * @param {String} ip - Geolocate this IP and check the corresponding country against
+   * @param {Object} options - An object of optional parameters. Parameters supported:
+   *   - provider {String} - Use reputation data from this provider: "crowdstrike".
+   *   Default provider defined by the configuration.
+   *   - verbose {Boolean} - Echo the API parameters in the response. Default: verbose=false.
+   *   - raw {Boolean} - Include raw data from this provider. Default: raw=false.
+   * @returns {Promise} - A promise representing an async call to the /reputation endpoint.
+   * @example
+   * const options = {
+   *   provider: "reversinglabs"
+   * };
+   *
+   * const response = await ipIntel.reputation(
+   *   "1.1.1.1",
+   *   options
+   * );
+   */
+  reputation(
+    ip: string,
+    options?: Intel.IP.ReputationOptions
+  ): Promise<PangeaResponse<Intel.IP.ReputationResult>> {
+    const data: Intel.IP.ReputationParams = {
+      ip,
+    };
+
+    if (options?.provider) data.provider = options.provider;
+    if (options?.verbose) data.verbose = options.verbose;
+    if (options?.raw) data.raw = options.raw;
+
+    return this.post("reputation", data);
   }
 
   /**
@@ -284,6 +415,7 @@ export class URLIntelService extends BaseService {
   /**
    * @summary Look up a URL
    * @description Retrieve a reputation score for a URL from a provider, including an optional detailed report.
+   * @deprecated Since version 1.2.0. Use reputation instead.
    * @param {String} url - The URL to be looked up
    * @param {Object} options - An object of optional parameters. Parameters supported:
    *   - provider {String} - Use reputation data from this provider: "crowdstrike".
@@ -310,6 +442,41 @@ export class URLIntelService extends BaseService {
     if (options?.verbose) data.verbose = options.verbose;
     if (options?.raw) data.raw = options.raw;
 
-    return this.post("lookup", data);
+    return this.post("reputation", data);
+  }
+
+  /**
+   * @summary Look up a URL
+   * @description Retrieve a reputation score for a URL from a provider, including an optional detailed report.
+   * @param {String} url - The URL to be looked up
+   * @param {Object} options - An object of optional parameters. Parameters supported:
+   *   - provider {String} - Use reputation data from this provider: "crowdstrike".
+   *   Default provider defined by the configuration.
+   *   - verbose {Boolean} - Echo the API parameters in the response. Default: verbose=false.
+   *   - raw {Boolean} - Include raw data from this provider. Default: raw=false.
+   * @returns {Promise} - A promise representing an async call to the lookup endpoint.
+   * @example
+   * const options = {
+   *   provider: "reversinglabs"
+   * };
+   *
+   * const response = await urlIntel.reputation(
+   *   "http://113.235.101.11:54384,
+   *   options
+   * );
+   */
+  reputation(
+    url: string,
+    options?: Intel.URL.ReputationOptions
+  ): Promise<PangeaResponse<Intel.URL.ReputationResult>> {
+    const data: Intel.URL.ReputationParams = {
+      url,
+    };
+
+    if (options?.provider) data.provider = options.provider;
+    if (options?.verbose) data.verbose = options.verbose;
+    if (options?.raw) data.raw = options.raw;
+
+    return this.post("reputation", data);
   }
 }
