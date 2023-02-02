@@ -27,6 +27,15 @@ it("file lookup should succeed", async () => {
   expect(response.result.data.verdict).toBe("malicious");
 });
 
+it("file lookup with default provider should succeed", async () => {
+  const response = await fileIntel.lookup(
+    "142b638c6a60b60c7f9928da4fb85a5a8e1422a9ffdc9ee49e17e56ccca9cf6e",
+    "sha256"
+  );
+  expect(response.status).toBe("Success");
+  expect(response.result.data).toBeDefined();
+});
+
 it("file hash reputation should succeed", async () => {
   const options = { provider: "reversinglabs", verbose: true, raw: true };
   const response = await fileIntel.hashReputation(
@@ -74,6 +83,12 @@ it("Domain lookup should succeed", async () => {
   expect(response.status).toBe("Success");
   expect(response.result.data).toBeDefined();
   expect(response.result.data.verdict).toBe("malicious");
+});
+
+it("Domain lookup with default should succeed", async () => {
+  const response = await domainIntel.lookup("737updatesboeing.com");
+  expect(response.status).toBe("Success");
+  expect(response.result.data).toBeDefined();
 });
 
 it("Domain reputation should succeed", async () => {
