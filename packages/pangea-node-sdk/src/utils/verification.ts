@@ -7,14 +7,14 @@ import MerkleTools from "merkle-tools";
 import { Audit } from "../types.js";
 import { PublishedRoots } from "./arweave.js";
 import { Verifier } from "../utils/signer.js";
-import { canonicalize } from "./utils.js";
+import { canonicalizeEvent, canonicalizeEnvelope } from "./utils.js";
 
 // @ts-ignore
 const merkleTools = new MerkleTools();
 
 export function verifyLogHash(envelope: Audit.EventEnvelope, hash: string): boolean {
   var sha256 = CryptoJS.algo.SHA256.create();
-  sha256.update(canonicalize(envelope));
+  sha256.update(canonicalizeEnvelope(envelope));
   const calcHash = sha256.finalize().toString();
   return calcHash == hash;
 }
@@ -255,15 +255,31 @@ export const verifyRecordConsistencyProof = ({
 };
 
 export const verifySignature = (envelope: Audit.EventEnvelope | undefined): string => {
-  const v = new Verifier();
-  if (
-    envelope?.signature !== undefined &&
-    envelope?.public_key !== undefined &&
-    !envelope.public_key.startsWith("-----")
-  ) {
-    var data = canonicalize(envelope.event);
-    return v.verify(data, envelope.signature, envelope.public_key) ? "pass" : "fail";
+  // both undefined so "none" verification
+  if (envelope?.signature === undefined && envelope?.public_key === undefined) {
+    return "none";
   }
 
-  return "none";
+  // Just one undefined it's an error, so "fail"
+  if (envelope?.signature === undefined || envelope?.public_key === undefined) {
+    return "fail";
+  }
+
+  let pubKey = envelope.public_key;
+  try {
+    // Try to parse json for new public_key struct
+    // @ts-ignore
+    const obj = JSON.parse(pubKey);
+    pubKey = obj["key"];
+    if (pubKey === undefined) {
+      return "fail";
+    }
+  } catch (e) {
+    // If fails to parse, it's old format (just public key as string)
+    pubKey = envelope.public_key;
+  }
+
+  const v = new Verifier();
+  var data = canonicalizeEvent(envelope.event);
+  return v.verify(data, envelope.signature, pubKey) ? "pass" : "fail";
 };

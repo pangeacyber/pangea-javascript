@@ -11,7 +11,7 @@ import {
   verifySignature,
   verifyLogConsistencyProof,
 } from "../utils/verification.js";
-import { canonicalize } from "../utils/utils.js";
+import { canonicalizeEvent } from "../utils/utils.js";
 import { PangeaErrors } from "../errors.js";
 
 const SupportedFields = ["actor", "action", "status", "source", "target", "timestamp"];
@@ -95,15 +95,20 @@ class AuditService extends BaseService {
 
     if (options.signer && options.signMode == Audit.SignOptions.Local) {
       const signer = options.signer;
-      const eventJson = canonicalize(event);
+      const eventJson = canonicalizeEvent(event);
       const signature = signer.sign(eventJson);
       const pubKey = signer.getPublicKey();
+
+      let publicKeyInfo: { [key: string]: any } = {};
+      if (options.publicKeyInfo) {
+        Object.assign(publicKeyInfo, options.publicKeyInfo);
+      }
+      publicKeyInfo["key"] = pubKey;
+
       data.signature = signature;
-      data.public_key = pubKey;
-    } 
-    if(options.signMode == Audit.SignOptions.Vault) {
-      data.sign = true;
+      data.public_key = JSON.stringify(publicKeyInfo);
     }
+
     if (options?.verbose) {
       data.verbose = options.verbose;
     }

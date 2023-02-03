@@ -22,6 +22,7 @@ export namespace Audit {
     signer?: Signer;
     skipEventVerification?: boolean;
     verify?: boolean;
+    publicKeyInfo?: Object; // Key:Value object
   }
 
   export interface LogData {
@@ -30,16 +31,12 @@ export namespace Audit {
     signature?: string;
     public_key?: string;
     prev_root?: string;
-    sign?: boolean;
-    signature_key_id?: string;
-    signature_key_version?: string;
   }
 
   export enum SignOptions {
-      Unsign,
-      Local,
-      Vault,
-  };
+    Unsign,
+    Local,
+  }
 
   export interface Event {
     message: Object | string;
@@ -58,8 +55,6 @@ export namespace Audit {
     signature?: string;
     public_key?: string;
     received_at: string;
-    signature_key_id?: string;
-    signature_key_version?: number;
   }
 
   export interface AuditRecord {
