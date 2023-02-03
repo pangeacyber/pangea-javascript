@@ -23,9 +23,9 @@ const JSON_OLD_DATA = {
   customtag5: "mycustommsg5",
   ct6: "cm6",
 };
-
-const token = getTestToken(TestEnvironment.LIVE);
-const testHost = getTestDomain(TestEnvironment.LIVE);
+const environment = TestEnvironment.LIVE;
+const token = getTestToken(environment);
+const testHost = getTestDomain(environment);
 const config = new PangeaConfig({ domain: testHost });
 const audit = new AuditService(token, config);
 
