@@ -132,6 +132,56 @@ it("IP geolocate with default provider should succeed", async () => {
   expect(response.result.data).toBeDefined();
 });
 
+it("IP get domain should succeed", async () => {
+  const options = { provider: "digitalenvoy", verbose: true, raw: true };
+  const response = await ipIntel.getDomain("24.235.114.61", options);
+
+  expect(response.status).toBe("Success");
+  expect(response.result.data).toBeDefined();
+  expect(response.result.data.domain_found).toBeTruthy();
+  expect(response.result.data.domain).toBe("rogers.com");
+});
+
+it("IP get domain with default provider should succeed", async () => {
+  const response = await ipIntel.getDomain("24.235.114.61");
+  expect(response.status).toBe("Success");
+  expect(response.result.data).toBeDefined();
+  expect(response.result.data.domain_found).toBeTruthy();
+  expect(response.result.data.domain).toBe("rogers.com");
+});
+
+it("IP is VPN should succeed", async () => {
+  const options = { provider: "digitalenvoy", verbose: true, raw: true };
+  const response = await ipIntel.isVPN("1.46.128.165", options);
+
+  expect(response.status).toBe("Success");
+  expect(response.result.data).toBeDefined();
+  expect(response.result.data.is_vpn).toBeTruthy();
+});
+
+it("IP is VPN with default provider should succeed", async () => {
+  const response = await ipIntel.isVPN("1.46.128.165");
+  expect(response.status).toBe("Success");
+  expect(response.result.data).toBeDefined();
+  expect(response.result.data.is_vpn).toBeTruthy();
+});
+
+it("IP is proxy should succeed", async () => {
+  const options = { provider: "digitalenvoy", verbose: true, raw: true };
+  const response = await ipIntel.isProxy("34.201.32.172", options);
+
+  expect(response.status).toBe("Success");
+  expect(response.result.data).toBeDefined();
+  expect(response.result.data.is_proxy).toBeTruthy();
+});
+
+it("IP is proxy with default provider should succeed", async () => {
+  const response = await ipIntel.isProxy("34.201.32.172");
+  expect(response.status).toBe("Success");
+  expect(response.result.data).toBeDefined();
+  expect(response.result.data.is_proxy).toBeTruthy();
+});
+
 it("IP reputation should succeed", async () => {
   const options = { provider: "crowdstrike", verbose: true, raw: true };
   const response = await ipIntel.reputation("93.231.182.110", options);
@@ -152,5 +202,19 @@ it("URL lookup should succeed", async () => {
 
 it("URL lookup with default provider should succeed", async () => {
   const response = await urlIntel.lookup("http://113.235.101.11:54384");
+  expect(response.status).toBe("Success");
+});
+
+it("URL reputation should succeed", async () => {
+  const options = { provider: "crowdstrike", verbose: true, raw: true };
+  const response = await urlIntel.reputation("http://113.235.101.11:54384", options);
+
+  expect(response.status).toBe("Success");
+  expect(response.result.data).toBeDefined();
+  expect(response.result.data.verdict).toBe("malicious");
+});
+
+it("URL reputation with default provider should succeed", async () => {
+  const response = await urlIntel.reputation("http://113.235.101.11:54384");
   expect(response.status).toBe("Success");
 });
