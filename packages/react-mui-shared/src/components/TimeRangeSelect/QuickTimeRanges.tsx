@@ -16,8 +16,8 @@ const QuickTimeRanges: FC<Props> = ({ value, onSelect }) => {
         <div>
           <Button
             color="info"
-            variant={value === "1d" ? "contained" : "outlined"}
-            onClick={() => onSelect("1d")}
+            variant={value === "1day" ? "contained" : "outlined"}
+            onClick={() => onSelect("1day")}
           >
             1 day
           </Button>
@@ -25,8 +25,8 @@ const QuickTimeRanges: FC<Props> = ({ value, onSelect }) => {
         <div>
           <Button
             color="info"
-            variant={value === "7d" ? "contained" : "outlined"}
-            onClick={() => onSelect("7d")}
+            variant={value === "7day" ? "contained" : "outlined"}
+            onClick={() => onSelect("7day")}
           >
             7 days
           </Button>
@@ -34,8 +34,8 @@ const QuickTimeRanges: FC<Props> = ({ value, onSelect }) => {
         <div>
           <Button
             color="info"
-            variant={value === "30d" ? "contained" : "outlined"}
-            onClick={() => onSelect("30d")}
+            variant={value === "30day" ? "contained" : "outlined"}
+            onClick={() => onSelect("30day")}
           >
             30 days
           </Button>

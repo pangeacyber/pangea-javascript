@@ -8,7 +8,7 @@ import AuditSearch from "../AuditSearch";
 import AuditTable from "../AuditTable";
 
 import { Audit } from "../../types";
-import { useAuditQuery } from "../../utils/query";
+import { PublicAuditQuery, useAuditQuery } from "../../utils/query";
 import { useAuditContext } from "../../hooks/context";
 
 export interface ViewerProps {
@@ -21,6 +21,7 @@ export interface ViewerProps {
   dataGridProps?: Partial<DataGridProps>;
   fields?: Partial<Record<keyof Audit.Event, Partial<GridColDef>>>;
   visibilityModel?: Partial<Record<keyof Audit.Event, boolean>>;
+  filters?: PublicAuditQuery;
 }
 
 /*
@@ -44,12 +45,14 @@ const AuditLogViewerComponent: FC<ViewerProps> = ({
   sx = {},
   dataGridProps = {},
   fields,
+  filters,
 }) => {
   const { limit } = useAuditContext();
   const { body, query, queryObj, setQuery, setQueryObj, setSort } =
-    useAuditQuery(limit);
+    useAuditQuery(limit, filters);
 
   const handleSearch = () => {
+    if (!body) return;
     return onSearch(body);
   };
 
