@@ -256,25 +256,51 @@ export namespace Intel {
  * Vault services interface definitions
  */
 export namespace Vault {
-  export const AsymmetricPurpose = {
+  export const KeyPurpose = {
     SIGNING: "signing",
     ENCRYPTION: "encryption",
+    JWT: "jwt",
   };
 
   export const AsymmetricAlgorithm = {
     Ed25519: "ed25519",
     RSA: "rsa",
+    ES256: "es256",
+    ES384: "es384",
+    ES512: "es512",
   };
 
   export const SymmetricAlgorithm = {
     AES: "aes",
+    HS256: "hs256",
+    HS384: "hs384",
+    HS512: "hs512",
   };
 
   export const ItemType = {
     ASYMMETRIC_KEY: "asymmetric_key",
     SYMMETRIC_KEY: "symmetric_key",
     SECRET: "secret",
-    MASTER_KEY: "master_key",
+  };
+
+  export const ItemOrder = {
+    ASC: "asc",
+    DESC: "desc",
+  };
+
+  export const ItemOrderBy = {
+    TYPE: "type",
+    CREATED_AT: "created_at",
+    REVOKED_AT: "revoked_at",
+    IDENTITY: "identity",
+    MANAGED: "managed",
+    PURPOSE: "purpose",
+    EXPIRATION: "expiration",
+    LAST_ROTATED: "last_rotated",
+    NEXT_ROTATION: "next_rotation",
+    NAME: "name",
+    FOLDER: "folder",
+    VERSION: "version",
   };
 
   export type Metadata = Object;
@@ -308,7 +334,6 @@ export namespace Vault {
   }
 
   export interface ListItemData {
-    //FIXME: check with Diego this fields, some are left from docs https://dev.pangea.cloud/docs/api/vault#list
     id: string;
     version: number;
     type: string;
@@ -318,21 +343,16 @@ export namespace Vault {
     tags?: Tags;
     rotation_policy?: string;
     next_rotation?: string;
+    last_rotated?: string;
     expiration?: string;
     created_at?: string;
     revoked_at?: string;
-    managed?: boolean;
+    managed: boolean;
     identity: string;
   }
 
-  export interface ListFolderData {
-    type: string;
-    name?: string;
-    folder?: string;
-  }
-
   export interface ListResult {
-    items: [ListItemData | ListFolderData][];
+    items: [ListItemData][];
     count: number;
     last?: string;
   }
@@ -342,8 +362,8 @@ export namespace Vault {
     restrictions?: Object;
     last?: string;
     size?: number;
-    order?: string;
-    order_by?: string;
+    order?: string; //Should be some of Vault.ItemOrder
+    order_by?: string; // Should be some of Vault.ItemOrderBy
   }
 
   export interface UpdateOptions {
@@ -406,14 +426,10 @@ export namespace Vault {
       tags?: Tags;
       auto_rotate?: boolean;
       rotation_policy?: string;
-      retain_previous_version?: boolean;
       expiration?: string;
-      managed?: boolean;
     }
 
-    export interface StoreRequest {
-      type: string; // should be some of Vault.ItemType;
-    }
+    export interface StoreRequest {}
 
     export interface StoreResult {
       id: string;
@@ -432,7 +448,6 @@ export namespace Vault {
       tags?: Tags;
       auto_rotate?: boolean;
       rotation_policy?: string;
-      retain_previous_version?: boolean;
       store?: boolean;
       expiration?: string;
       managed?: boolean;
@@ -474,7 +489,9 @@ export namespace Vault {
       BASE32: "base32",
     };
 
-    export interface StoreOptions extends Common.StoreOptions {}
+    export interface StoreOptions extends Common.StoreOptions {
+      retain_previous_version?: boolean;
+    }
 
     export interface StoreRequest extends Common.StoreRequest, StoreOptions {
       secret: string;
@@ -533,9 +550,12 @@ export namespace Vault {
 
     export interface StoreOptions extends Common.StoreOptions {
       purpose?: string; // Should be KeyPairPurpose
+      managed?: boolean;
     }
 
     export interface StoreRequest extends Common.StoreRequest, StoreOptions {
+      type: string; // should be some of Vault.ItemType;
+      managed?: boolean;
       algorithm: string;
       public_key: EncodedPublicKey;
       private_key: EncodedPrivateKey;
@@ -581,9 +601,11 @@ export namespace Vault {
   export namespace Symmetric {
     export interface StoreOptions extends Common.StoreOptions {
       managed?: boolean;
+      purpose?: boolean;
     }
 
     export interface StoreRequest extends Common.StoreRequest, StoreOptions {
+      type: string; // should be some of Vault.ItemType;
       key: EncodedSymmetricKey;
       algorithm: string; // Should be KeyAlgorithm
     }
