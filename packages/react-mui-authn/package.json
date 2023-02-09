@@ -56,7 +56,6 @@
   },
   "dependencies": {
     "formik": "^2.2.9",
-    "loader-utils": "^2.0.0",
     "yup": "^0.32.11"
   }
 }
