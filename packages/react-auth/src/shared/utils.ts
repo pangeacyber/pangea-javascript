@@ -55,3 +55,22 @@ export const toUrlEncoded = (obj: { [key: string]: string }): string => {
     )
     .join("&");
 };
+
+/**
+ * isLocalhost - helper function to determine if a hostname is localhost
+ * @param hostname {string}
+ * @returns {boolean}
+ * @example
+ * isLocalhost("pangea.cloud");
+ * // false
+ *
+ * isLocalhost("127.0.0.1");
+ * // true
+ */
+export const isLocalhost = (hostname: string): boolean => {
+  if (hostname === "localhost" || hostname === "127.0.0.1") {
+    return true;
+  }
+
+  return false;
+};
