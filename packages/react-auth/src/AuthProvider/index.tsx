@@ -27,6 +27,7 @@ export interface AuthContextType {
   authenticated: boolean;
   error: string;
   user: AuthUser | undefined;
+  client: AuthNClient;
   login: () => void;
   logout: (redirect?: boolean) => void;
 }
@@ -125,7 +126,9 @@ export const AuthProvider: FC<AuthProviderProps> = ({
   const [error, setError] = useState<string>("");
   const [user, setUser] = useState<AuthUser>();
 
-  const auth = new AuthNClient(config);
+  const client = useMemo(() => {
+    return new AuthNClient(config);
+  }, [config]);
 
   // For local development, use port 4000 for API and 4001 for hosted UI
   const slashRe = /\/$/;
@@ -157,7 +160,7 @@ export const AuthProvider: FC<AuthProviderProps> = ({
   }, []);
 
   const validate = async (token: string) => {
-    const { success, response } = await auth.validate(token);
+    const { success, response } = await client.validate(token);
 
     if (success) {
       const userData = getUserFromResponse(response);
@@ -207,7 +210,7 @@ export const AuthProvider: FC<AuthProviderProps> = ({
       setError(msg);
       setLoading(false);
     } else {
-      const { success, response } = await auth.userinfo(code);
+      const { success, response } = await client.userinfo(code);
 
       if (success) {
         if (response.result?.active_token?.token) {
@@ -252,17 +255,6 @@ export const AuthProvider: FC<AuthProviderProps> = ({
   const logout = async (redirect: boolean = true) => {
     const stateCode = generateBase58(32);
 
-    let redirectUri = location.origin;
-    if (typeof redirectPathname === "string") {
-      redirectUri += redirectPathname;
-    }
-
-    const query = {
-      redirectUri,
-      state: stateCode,
-    };
-    const url = `${logoutURL}?${toUrlEncoded(query)}`;
-
     if (useCookie) {
       removeCookie(
         combinedCookieOptions.cookieName as string,
@@ -273,22 +265,45 @@ export const AuthProvider: FC<AuthProviderProps> = ({
     const storageAPI = getStorageAPI(useCookie);
     storageAPI.removeItem(SESSION_DATA_KEY);
 
-    setAuthenticated(false);
-
+    // redirect to the hosted page
     if (redirect) {
+      let redirectUri = location.origin;
+
+      if (typeof redirectPathname === "string") {
+        redirectUri += redirectPathname;
+      }
+
+      const query = {
+        redirectUri,
+        state: stateCode,
+      };
+      const url = `${logoutURL}?${toUrlEncoded(query)}`;
+
+      setAuthenticated(false);
       window.location.replace(url);
-    } else {
-      const { success, response } = await auth.logout(
-        user?.active_token?.token
-      );
-      if (success) {
-        setError("");
-        setUser(undefined);
-        setAuthenticated(false);
+    }
+    // call the logout endpoint
+    else {
+      const userToken = user?.active_token.token;
+
+      if (userToken) {
+        const { success, response } = await client.logout(userToken);
+
+        if (success) {
+          setLoggedOut();
+        } else {
+          setError(response.summary);
+        }
       } else {
-        setError(response.summary);
+        setLoggedOut();
       }
     }
+  };
+
+  const setLoggedOut = () => {
+    setError("");
+    setUser(undefined);
+    setAuthenticated(false);
   };
 
   const processLogin = (data: AuthUser) => {
@@ -326,10 +341,11 @@ export const AuthProvider: FC<AuthProviderProps> = ({
       loading,
       error,
       user,
+      client,
       login,
       logout,
     }),
-    [authenticated, loading, error, user, login, logout]
+    [authenticated, loading, error, user, client, login, logout]
   );
 
   return (

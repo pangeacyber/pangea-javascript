@@ -9,7 +9,7 @@ import {
   useState,
 } from "react";
 
-import { APIResponse } from "@src/types";
+import { APIResponse, AuthNConfig } from "@src/types";
 
 import {
   FlowState,
@@ -24,8 +24,8 @@ import {
   FlowMfaComplete,
 } from "./types";
 
-import AuthFlowClient from "./client";
 import { useAuth } from "@src/ComponentAuthProvider";
+import AuthNFlowClient from "./client";
 
 export interface AuthFlowContextType {
   step?: FlowStep;
@@ -37,7 +37,6 @@ export interface AuthFlowContextType {
 }
 
 export interface AuthFlowProviderProps {
-  client: AuthFlowClient;
   children: ReactNode;
 }
 
@@ -47,9 +46,17 @@ const AuthFlowContext = createContext<AuthFlowContextType>(
   {} as AuthFlowContextType
 );
 
-const AuthFlowProvider: FC<AuthFlowProviderProps> = ({ client, children }) => {
-  const { setFlowComplete } = useAuth();
-  const auth = client;
+const AuthFlowProvider: FC<AuthFlowProviderProps> = ({ children }) => {
+  const { client, setFlowComplete } = useAuth();
+  const config: AuthNConfig = {
+    token: client.config.token,
+    domain: client.config.domain,
+    callbackUri: client.config.callbackUri,
+  };
+
+  const auth = useMemo(() => {
+    return new AuthNFlowClient(config);
+  }, [config]);
 
   const [step, setStep] = useState<FlowStep>();
   const [error, setError] = useState<string>("");
@@ -122,9 +129,9 @@ const AuthFlowProvider: FC<AuthFlowProviderProps> = ({ client, children }) => {
       setLoading(true);
 
       switch (step) {
-        case undefined:
-          // authenticated state
-          break;
+        // case undefined:
+        //   // authenticated state
+        //   break;
         case FlowStep.START:
           startHandler(payload);
           break;
@@ -281,7 +288,6 @@ const AuthFlowProvider: FC<AuthFlowProviderProps> = ({ client, children }) => {
       setStep(auth.state.step);
       setFlowState({ ...auth.state });
 
-      // TODO: find a better way to check if complete was called
       if (
         auth.state.step === undefined &&
         response.result?.active_token?.token

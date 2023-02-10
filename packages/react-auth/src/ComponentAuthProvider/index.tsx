@@ -18,13 +18,14 @@ export interface ComponentAuthContextType {
   loading: boolean;
   error: APIResponse | undefined;
   user?: AuthUser;
+  client: AuthNClient;
   login: () => void;
   logout: () => void;
-  config: AuthNConfig;
   setFlowComplete: (data: any) => void;
 }
 
-export interface ComponentAuthProps {
+export interface ComponentAuthProviderProps {
+  loginPath: string;
   config: AuthNConfig;
   children: ReactNode;
 }
@@ -35,7 +36,7 @@ const AuthContext = createContext<ComponentAuthContextType>(
   {} as ComponentAuthContextType
 );
 
-const ComponentAuthProvider: FC<ComponentAuthProps> = ({
+const ComponentAuthProvider: FC<ComponentAuthProviderProps> = ({
   config,
   children,
 }) => {
@@ -44,7 +45,9 @@ const ComponentAuthProvider: FC<ComponentAuthProps> = ({
   const [error, setError] = useState<APIResponse>();
   const [user, setUser] = useState<AuthUser>();
 
-  const auth = new AuthNClient(config);
+  const client = useMemo(() => {
+    return new AuthNClient(config);
+  }, [config]);
 
   // load data from local storage, and params from URL
   useEffect(() => {
@@ -86,7 +89,7 @@ const ComponentAuthProvider: FC<ComponentAuthProps> = ({
 
   const validate = async (data: SessionData) => {
     const userToken = data.user?.active_token?.token || "";
-    const { success, response } = await auth.validate(userToken);
+    const { success, response } = await client.validate(userToken);
 
     if (success) {
       setUser(data.user);
@@ -102,17 +105,27 @@ const ComponentAuthProvider: FC<ComponentAuthProps> = ({
   }, []);
 
   const logout = useCallback(async () => {
-    const { success, response } = await auth.logout(user?.active_token?.token);
-    if (success) {
-      setError(undefined);
-      setUser(undefined);
-      setAuthenticated(false);
-    } else {
-      setError(response);
-    }
+    const userToken = user?.active_token.token;
 
+    if (userToken) {
+      const { success, response } = await client.logout(userToken);
+
+      if (success) {
+        setLoggedOut();
+      } else {
+        setError(response);
+      }
+    } else {
+      setLoggedOut();
+    }
     // eslint-disable-next-line
   }, [user]);
+
+  const setLoggedOut = () => {
+    setError(undefined);
+    setUser(undefined);
+    setAuthenticated(false);
+  };
 
   const setFlowComplete = useCallback((response: APIResponse) => {
     const user: AuthUser = getUserFromResponse(response);
@@ -128,9 +141,9 @@ const ComponentAuthProvider: FC<ComponentAuthProps> = ({
       loading,
       error,
       user,
+      client,
       login,
       logout,
-      config,
       setFlowComplete,
     }),
     [
@@ -138,9 +151,9 @@ const ComponentAuthProvider: FC<ComponentAuthProps> = ({
       loading,
       error,
       user,
+      client,
       login,
       logout,
-      config,
       setFlowComplete,
     ]
   );

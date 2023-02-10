@@ -1,11 +1,6 @@
 import axios, { AxiosResponse } from "axios";
 
-import { AuthNConfig, APIResponse } from "@src/types";
-
-interface ClientResponse {
-  success: boolean;
-  response: APIResponse;
-}
+import { AuthNConfig, APIResponse, ClientResponse } from "@src/types";
 
 const API_VERSION = "v1";
 

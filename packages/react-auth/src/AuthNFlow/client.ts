@@ -2,7 +2,7 @@ import axios, { AxiosResponse } from "axios";
 
 import AuthNClient from "@src/AuthNClient";
 
-import { APIResponse, AuthNConfig } from "@src/types";
+import { APIResponse, AuthNConfig, ClientResponse } from "@src/types";
 
 import {
   AuthNFlowOptions,
@@ -16,11 +16,6 @@ import {
   FlowMfaStart,
   FlowMfaComplete,
 } from "./types";
-
-interface ClientResponse {
-  success: boolean;
-  response: APIResponse;
-}
 
 const DEFAULT_FLOW_OPTIONS = {
   signin: true,
@@ -46,7 +41,7 @@ class AuthNFlowClient extends AuthNClient {
   state: FlowState;
   options: AuthNFlowOptions;
 
-  constructor(config: AuthNConfig, options: AuthNFlowOptions) {
+  constructor(config: AuthNConfig, options?: AuthNFlowOptions) {
     super(config);
 
     this.options = {

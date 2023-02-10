@@ -13,6 +13,11 @@ export interface APIResponse {
   result: any;
 }
 
+export interface ClientResponse {
+  success: boolean;
+  response: APIResponse;
+}
+
 export interface Token {
   id: string;
   identity: string;
@@ -24,23 +29,23 @@ export interface Token {
   scopes?: string[];
 }
 
-export type Profile = {
+export interface Profile {
   first_name: string;
   last_name: string;
   phone: string;
-};
+}
 
-export type AuthUser = {
+export interface AuthUser {
   email: string;
   profile: Profile;
   active_token: Token;
   refresh_token: Token;
-};
+}
 
-export type AppState = {
+export interface AppState {
   userData: AuthUser;
   returnPath: string;
-};
+}
 
 export interface SessionData {
   user?: AuthUser;
