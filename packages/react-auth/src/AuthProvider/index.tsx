@@ -144,10 +144,13 @@ export const AuthProvider: FC<AuthProviderProps> = ({
 
   // For local development, use port 4000 for API and 4001 for hosted UI
   const slashRe = /\/$/;
-  const checkURL = `${config.domain.replace(slashRe, "")}/v1/token/check`;
+  const checkURL = `${config.domain.replace(
+    slashRe,
+    ""
+  )}/v1/client/token/check`;
   const loginURL = `${loginUrl.replace(slashRe, "")}/authorize`;
   const signupURL = `${loginUrl.replace(slashRe, "")}/signup`;
-  const infoURL = `${config.domain.replace(slashRe, "")}/v1/userinfo`;
+  const infoURL = `${config.domain.replace(slashRe, "")}/v1/client/userinfo`;
   const logoutURL = `${loginUrl.replace(slashRe, "")}/logout`;
 
   const combinedCookieOptions: CookieOptions = {
@@ -191,7 +194,7 @@ export const AuthProvider: FC<AuthProviderProps> = ({
          * the login flow
          */
         if (resp.data.status === "Success") {
-          setUser(resp.data.result);
+          setUser({ ...resp.data.result, token });
           setAuthenticated(true);
         } else {
           throw resp.data?.status;
@@ -247,7 +250,7 @@ export const AuthProvider: FC<AuthProviderProps> = ({
         .post(infoURL, { code: code }, { headers: clientHeaders() })
         .then((resp: any) => {
           const result = resp?.data?.result;
-          if (result?.token) {
+          if (result?.active_token?.token) {
             processLogin(result);
           } else {
             const msg = "Missing Token";

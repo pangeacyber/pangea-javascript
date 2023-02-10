@@ -62,11 +62,15 @@ export class Verifier {
       x: publicKeyB64urlSafe,
       kty: "OKP",
     };
-    // FIXME: what happens if fails?
-    const pubKey = createPublicKey({
-      key: rawKey,
-      format: "jwk",
-    });
-    return verify(null, bytes, pubKey, signBytes);
+
+    try {
+      const pubKey = createPublicKey({
+        key: rawKey,
+        format: "jwk",
+      });
+      return verify(null, bytes, pubKey, signBytes);
+    } catch {
+      return false;
+    }
   }
 }

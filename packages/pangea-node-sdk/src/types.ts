@@ -158,6 +158,25 @@ export namespace Redact {
     redacted_data: object;
     count: number;
   }
+
+  export interface Options {
+    debug?: boolean;
+    rules?: string[];
+  }
+
+  export interface TextOptions extends Options {}
+  export interface StructuredOptions extends Options {
+    jsonp?: string[];
+    format?: string;
+  }
+
+  export interface TextParams extends TextOptions {
+    text: string;
+  }
+
+  export interface StructuredParams extends StructuredOptions {
+    data: Object;
+  }
 }
 
 export namespace Embargo {
