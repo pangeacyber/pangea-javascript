@@ -169,7 +169,7 @@ async function encryptingCycle(id: string) {
 jest.setTimeout(60000);
 it("ed25519 generate, store and signing life cycle", async () => {
   const algorithm = Vault.AsymmetricAlgorithm.Ed25519;
-  const purpose = Vault.AsymmetricPurpose.SIGNING;
+  const purpose = Vault.KeyPurpose.SIGNING;
 
   const respGen = await vault.asymmetricGenerate({
     algorithm: algorithm,

@@ -1,7 +1,6 @@
 import PangeaResponse from "../response.js";
 import BaseService from "./base.js";
 import PangeaConfig from "../config.js";
-import { PangeaErrors } from "../errors.js";
 import { Vault } from "../types.js";
 
 /**
