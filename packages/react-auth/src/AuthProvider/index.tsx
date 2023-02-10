@@ -129,13 +129,8 @@ export const AuthProvider: FC<AuthProviderProps> = ({
 
   // For local development, use port 4000 for API and 4001 for hosted UI
   const slashRe = /\/$/;
-  const checkURL = `${config.domain.replace(
-    slashRe,
-    ""
-  )}/v1/client/token/check`;
   const loginURL = `${loginUrl.replace(slashRe, "")}/authorize`;
   const signupURL = `${loginUrl.replace(slashRe, "")}/signup`;
-  const infoURL = `${config.domain.replace(slashRe, "")}/v1/client/userinfo`;
   const logoutURL = `${loginUrl.replace(slashRe, "")}/logout`;
 
   const combinedCookieOptions: CookieOptions = {
@@ -161,14 +156,6 @@ export const AuthProvider: FC<AuthProviderProps> = ({
     }
   }, []);
 
-  /*
-  const clientHeaders = () => {
-    return {
-      Authorization: `Bearer ${config.token}`,
-    };
-  };
-  */
-
   const validate = async (token: string) => {
     const { success, response } = await auth.validate(token);
 
@@ -191,44 +178,6 @@ export const AuthProvider: FC<AuthProviderProps> = ({
       onLogin(appState);
     }
     setLoading(false);
-
-    /*
-    axios
-      .post(checkURL, { token }, { headers: clientHeaders() })
-      .then((resp: any) => {
-        /**
-         * Only set authenticated to true if we return a successful status
-         *
-         * It's entirely possible to get a status back: "InvalidToken"
-         * when that happens we want to throw an error and stop
-         * the login flow
-         */
-    /*
-        if (resp.data.status === "Success") {
-          setUser({ ...resp.data.result, token });
-          setAuthenticated(true);
-        } else {
-          throw resp.data?.status;
-        }
-      })
-      .catch((error: any) => {
-        let msg = "Token validation error";
-        setError(msg);
-      })
-      .finally(() => {
-        if (onLogin) {
-          const storageAPI = getStorageAPI(useCookie);
-          const sessionData = getSessionData(storageAPI);
-
-          const appState = {
-            userData: sessionData,
-            returnPath: window.location.pathname,
-          };
-          onLogin(appState);
-        }
-        setLoading(false);
-      });
-      */
   };
 
   const exchange = async () => {
@@ -258,7 +207,7 @@ export const AuthProvider: FC<AuthProviderProps> = ({
       setError(msg);
       setLoading(false);
     } else {
-      const { success, response } = await auth.post(infoURL, { code: code });
+      const { success, response } = await auth.userinfo(code);
 
       if (success) {
         if (response.result?.active_token?.token) {
@@ -272,36 +221,6 @@ export const AuthProvider: FC<AuthProviderProps> = ({
       }
       storageAPI.removeItem(STATE_DATA_KEY);
       setLoading(false);
-
-      /*
-      axios      
-        .post(infoURL, { code: code }, { headers: clientHeaders() })
-        .then((resp: any) => {
-          const result = resp?.data?.result;
-          if (result?.active_token?.token) {
-            processLogin(result);
-          } else {
-            const msg = "Missing Token";
-            setError(msg);
-          }
-        })
-        .catch((error: any) => {
-          const data = error?.response?.data;
-          const status = error?.response?.status || "Error";
-
-          if (data) {
-            const msg = `${status} ${data.status}: ${data.summary}`;
-            setError(msg);
-          } else {
-            const msg = `${status}: ${error}`;
-            setError(msg);
-          }
-        })
-        .finally(() => {
-          storageAPI.removeItem(STATE_DATA_KEY);
-          setLoading(false);
-        });
-      */
     }
   };
 

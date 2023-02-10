@@ -42,6 +42,10 @@ export type AppState = {
   returnPath: string;
 };
 
+export interface SessionData {
+  user?: AuthUser;
+}
+
 export interface CookieOptions {
   /**
    * cookieMaxAge: optional number, default is 48 hours (in seconds)

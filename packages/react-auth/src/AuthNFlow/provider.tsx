@@ -25,7 +25,7 @@ import {
 } from "./types";
 
 import AuthFlowClient from "./client";
-import { usePangea } from "@src/ComponentAuthProvider";
+import { useAuth } from "@src/ComponentAuthProvider";
 
 export interface AuthFlowContextType {
   step?: FlowStep;
@@ -48,7 +48,7 @@ const AuthFlowContext = createContext<AuthFlowContextType>(
 );
 
 const AuthFlowProvider: FC<AuthFlowProviderProps> = ({ client, children }) => {
-  const { setFlowComplete } = usePangea();
+  const { setFlowComplete } = useAuth();
   const auth = client;
 
   const [step, setStep] = useState<FlowStep>();

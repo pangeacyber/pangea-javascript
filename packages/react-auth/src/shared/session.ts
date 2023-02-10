@@ -42,31 +42,21 @@ export const getSessionData = (storageAPI = localStorage) => {
   return session_json;
 };
 
-const mapTokenData = (data: any) => {
-  const tokenData: Token = (({
-    id,
-    identity,
-    token,
-    type,
-    life,
-    expire,
-    created_at,
-    scopes,
-  }) => ({ id, identity, token, type, life, expire, created_at, scopes }))(
-    data
-  );
-  return tokenData;
-};
-
 export const getUserFromResponse = (data: APIResponse): AuthUser => {
   const activeToken = { ...data.result.active_token };
   const refreshToken = { ...data.result.refresh_token };
 
+  // remove deplicate user data from tokens
+  delete activeToken.email;
+  delete activeToken.profile;
+  delete refreshToken.email;
+  delete refreshToken.profile;
+
   const user: AuthUser = {
     email: activeToken.email,
     profile: activeToken.profile,
-    active_token: mapTokenData(activeToken),
-    refresh_token: mapTokenData(refreshToken),
+    active_token: activeToken,
+    refresh_token: refreshToken,
   };
 
   return user;

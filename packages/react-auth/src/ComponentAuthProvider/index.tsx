@@ -10,12 +10,8 @@ import {
 } from "react";
 
 import AuthNClient from "@src/AuthNClient";
-
-import { APIResponse, AuthNConfig, Token, AuthUser } from "@src/types";
-
-export interface SessionData {
-  user?: AuthUser;
-}
+import { getUserFromResponse } from "@src/shared/session";
+import { APIResponse, AuthNConfig, AuthUser, SessionData } from "@src/types";
 
 export interface ComponentAuthContextType {
   authenticated: boolean;
@@ -35,7 +31,7 @@ export interface ComponentAuthProps {
 
 const SESSION_NAME = "pangea-session";
 
-const PangeaContext = createContext<ComponentAuthContextType>(
+const AuthContext = createContext<ComponentAuthContextType>(
   {} as ComponentAuthContextType
 );
 
@@ -150,44 +146,14 @@ const ComponentAuthProvider: FC<ComponentAuthProps> = ({
   );
 
   return (
-    <PangeaContext.Provider value={memoData}>
+    <AuthContext.Provider value={memoData}>
       <>{children}</>
-    </PangeaContext.Provider>
+    </AuthContext.Provider>
   );
 };
 
-export const usePangea = () => {
-  return useContext(PangeaContext);
-};
-
-const mapTokenData = (data: any) => {
-  const tokenData: Token = (({
-    id,
-    identity,
-    token,
-    type,
-    life,
-    expire,
-    created_at,
-    scopes,
-  }) => ({ id, identity, token, type, life, expire, created_at, scopes }))(
-    data
-  );
-  return tokenData;
-};
-
-const getUserFromResponse = (data: APIResponse): AuthUser => {
-  const activeToken = { ...data.result.active_token };
-  const refreshToken = { ...data.result.refresh_token };
-
-  const user: AuthUser = {
-    email: activeToken.email,
-    profile: activeToken.profile,
-    active_token: mapTokenData(activeToken),
-    refresh_token: mapTokenData(refreshToken),
-  };
-
-  return user;
+export const useAuth = () => {
+  return useContext(AuthContext);
 };
 
 export default ComponentAuthProvider;

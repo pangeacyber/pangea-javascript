@@ -27,7 +27,7 @@ class AuthNClient {
     General AuthN functions
   */
 
-  async logout(userToken?: string): Promise<ClientResponse> {
+  async logout(userToken: string): Promise<ClientResponse> {
     const path = "client/session/logout";
     const data = { token: userToken };
 
@@ -37,6 +37,13 @@ class AuthNClient {
   async validate(userToken: string): Promise<ClientResponse> {
     const path = "client/token/check";
     const payload = { token: userToken };
+
+    return await this.post(path, payload);
+  }
+
+  async userinfo(code: string): Promise<ClientResponse> {
+    const path = "client/userinfo";
+    const payload = { code: code };
 
     return await this.post(path, payload);
   }

@@ -301,11 +301,6 @@ class AuthNFlowClient extends AuthNClient {
         this.state.selectedMfa = this.state.mfaProviders[0];
       }
 
-      // set the user to the result if a token was returned
-      if (response.result?.active_token?.token) {
-        //this.state.user = response.result.active_token
-      }
-
       // set the next step
       this.state.step = response.result?.next_step;
     }
