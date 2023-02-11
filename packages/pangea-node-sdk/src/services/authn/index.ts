@@ -3,20 +3,28 @@ import BaseService from "../base";
 import PangeaConfig from "../../config";
 import { AuthN } from "../../types";
 import AuthNUser from "./user";
+import AuthNFlow from "./flow";
+import AuthNClient from "./client";
+import AuthNSession from "./session";
 
 /**
  * AuthnService class provides methods for interacting with the AuthN Service
  * @extends BaseService
  */
 export default class AuthNService extends BaseService {
-  // Needed for ts type
   user: AuthNUser;
+  flow: AuthNFlow;
+  client: AuthNClient;
+  session: AuthNSession;
 
   constructor(token: string, config: PangeaConfig) {
     super("authn", token, config);
     this.apiVersion = "v1";
 
     this.user = new AuthNUser(token, config);
+    this.flow = new AuthNFlow(token, config);
+    this.client = new AuthNClient(token, config);
+    this.session = new AuthNSession(token, config);
   }
 
   // authn::/v1/password/update

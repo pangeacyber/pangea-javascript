@@ -1,9 +1,9 @@
-import PangeaResponse from "../../response";
-import BaseService from "../base";
-import PangeaConfig from "../../config";
-import { AuthN } from "../../types";
+import PangeaResponse from "../../../response";
+import BaseService from "../../base";
+import PangeaConfig from "../../../config";
+import { AuthN } from "../../../types";
 
-export default class AuthNProfile extends BaseService {
+export default class AuthNUserProfile extends BaseService {
   constructor(token: string, config: PangeaConfig) {
     super("authnprofile", token, config);
     this.apiVersion = "v1";

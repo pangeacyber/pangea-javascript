@@ -1,20 +1,26 @@
-import PangeaResponse from "../../response";
-import BaseService from "../base";
-import PangeaConfig from "../../config";
-import { AuthN } from "../../types";
-import AuthNProfile from "./profile";
-import AuthNInvites from "./invites";
+import PangeaResponse from "../../../response";
+import BaseService from "../../base";
+import PangeaConfig from "../../../config";
+import { AuthN } from "../../../types";
+import AuthNUserProfile from "./profile";
+import AuthNUserInvites from "./invites";
+import AuthNUserLogin from "./login";
+import AuthNUserMFA from "./mfa";
 
 export default class AuthNUser extends BaseService {
-  profile: AuthNProfile;
-  invites: AuthNInvites;
+  profile: AuthNUserProfile;
+  invites: AuthNUserInvites;
+  login: AuthNUserLogin;
+  mfa: AuthNUserMFA;
 
   constructor(token: string, config: PangeaConfig) {
     super("authnuser", token, config);
     this.apiVersion = "v1";
 
-    this.profile = new AuthNProfile(token, config);
-    this.invites = new AuthNInvites(token, config);
+    this.profile = new AuthNUserProfile(token, config);
+    this.invites = new AuthNUserInvites(token, config);
+    this.login = new AuthNUserLogin(token, config);
+    this.mfa = new AuthNUserMFA(token, config);
   }
 
   // authn::/v1/user/delete

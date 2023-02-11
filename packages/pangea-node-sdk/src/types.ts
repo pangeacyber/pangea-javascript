@@ -509,7 +509,7 @@ export namespace AuthN {
     flow_id: string;
   }
 
-  export interface FlowCompleteResponse {
+  export interface SessionInfoCreds {
     refresh_token: {
       token: string;
     };
@@ -556,5 +556,101 @@ export namespace AuthN {
   export interface FlowVerifyMFAStartRequest {
     flow_id: string;
     mfa_provider: MFAProvider;
+  }
+
+  export interface UserLoginPasswordRequest {
+    email: string;
+    password: string;
+    extra_profile?: object;
+  }
+
+  export interface UserLoginSocialRequest {
+    provider: MFAProvider;
+    email: string;
+    social_id: string;
+    extra_profile?: object;
+  }
+
+  export interface ClientSessionInvalidateRequest {
+    token: string;
+    session_id: string;
+  }
+
+  export interface ClientSessionListRequest {
+    token: string;
+    filter?: any;
+    last?: string;
+    order?: string;
+    order_by?: string;
+    size?: number;
+  }
+
+  export enum TokenType {
+    USER = "user",
+    SERVICE = "service",
+    CLIENT = "client",
+    SESSION = "session",
+  }
+
+  export interface ActiveToken {
+    id: string;
+    type: TokenType;
+    life: number;
+    expire: string;
+    identity: string;
+    email: string;
+    scopes: Scopes;
+    profile: Profile;
+    created_at: string;
+  }
+
+  export interface Session {
+    id: string;
+    type: TokenType;
+    life: number;
+    expire: string;
+    identity: string;
+    profile: Profile;
+    created_at: string;
+    scopes?: Scopes;
+    active_token?: ActiveToken;
+  }
+
+  export interface SessionListResponse {
+    sessions: Session[];
+    last?: string;
+  }
+
+  export interface ClientSessionRefreshRequest {
+    refresh_token: string;
+    user_token?: string;
+  }
+
+  // FIXME: refresh_token and active_token need to be filled out
+  export interface ClientSessionRefreshResponse {
+    refresh_token: object;
+    active_token: object;
+  }
+
+  export interface SessionListRequest {
+    filter?: any;
+    last?: string;
+    order?: string;
+    order_by?: string;
+    size?: number;
+  }
+
+  export interface UserMFAStartRequest {
+    user_id: string;
+    mfa_provider: MFAProvider;
+    enroll?: boolean;
+    phone?: string;
+  }
+
+  export interface UserMFAStartResponse {
+    totp_secret?: {
+      qr_image: string;
+      secret: string;
+    };
   }
 }

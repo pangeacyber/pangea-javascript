@@ -23,7 +23,7 @@ export default class AuthNFlow extends BaseService {
   // #   - path: authn::/v1/flow/complete
   complete({
     flow_id,
-  }: AuthN.FlowCompleteRequest): Promise<PangeaResponse<AuthN.FlowCompleteResponse>> {
+  }: AuthN.FlowCompleteRequest): Promise<PangeaResponse<AuthN.SessionInfoCreds>> {
     return this.post("flow/complete", { flow_id });
   }
 
