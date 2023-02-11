@@ -378,25 +378,6 @@ export namespace AuthN {
     users: User[];
   }
 
-  export interface UserLoginRequest {
-    email: string;
-    secret: string;
-    scopes?: Scopes;
-  }
-
-  export interface UserLoginResult {
-    id: string;
-    token: string;
-    type: string;
-    life: number;
-    expire: string;
-    identity: string;
-    email: string;
-    created_at: string;
-    scopes?: Scopes;
-    profile: Profile;
-  }
-
   export interface UserProfileGetRequest {
     identity?: string;
     email?: string;
@@ -444,19 +425,6 @@ export namespace AuthN {
     mfa_providers?: MFAProvider[];
   }
 
-  export interface UserInfoResult {
-    token: string;
-    id: string;
-    type: string;
-    life: number;
-    expire: string;
-    identity: string;
-    email: string;
-    scopes: Scopes;
-    profile: Profile;
-    created_at: string;
-  }
-
   export interface UserVerifyRequest {
     id_provider: IDProvider;
     email: string;
@@ -473,5 +441,120 @@ export namespace AuthN {
     verified: boolean;
     disabled: boolean;
     last_login_at: string;
+  }
+
+  export interface FlowStartRequest {
+    cb_uri: string;
+    email?: string;
+    flow_types?: FlowType[];
+  }
+
+  export enum FlowStep {
+    START = "start",
+    VERIFY_CAPTCHA = "verify/captcha",
+    SIGNUP = "signup",
+    VERIFY_EMAIL = "verify/email",
+    VERIFY_PASSWORD = "verify/password",
+    VERIFY_SOCIAL = "verify/social",
+    ENROLL_MFA_START = "enroll/mfa/start",
+    ENROLL_MFA_COMPLETE = "enroll/mfa/complete",
+    VERIFY_MFA_START = "verify/mfa/start",
+    VERIFY_MFA_COMPLETE = "verify/mfa/complete",
+    COMPLETE = "complete",
+  }
+
+  export interface PasswordRequirements {
+    password_chars_min: number;
+    password_chars_max: number;
+    password_lower_min: number;
+    password_upper_min: number;
+    password_punct_min: number;
+  }
+
+  export interface FlowNextStepResponse {
+    flow_id: string;
+    next_step: FlowStep;
+    error?: string;
+    complete?: object;
+    enroll_mfa_start?: {
+      mfa_providers: MFAProvider[];
+    };
+    enroll_mfa_complete?: {
+      totp_secret?: {
+        qr_image: string;
+        secret: string;
+      };
+    };
+    signup?: {
+      social_signup?: {
+        redirect_uri: object;
+      };
+      password_signup?: PasswordRequirements;
+    };
+    verify_captcha?: {
+      site_key: string;
+    };
+    verify_email?: object;
+    verify_mfa_start?: {
+      mfa_providers: MFAProvider[];
+    };
+    verify_mfa_complete?: object;
+    verify_password?: PasswordRequirements;
+    verify_social?: {
+      redirect_uri: object;
+    };
+  }
+
+  export interface FlowCompleteRequest {
+    flow_id: string;
+  }
+
+  export interface FlowCompleteResponse {
+    refresh_token: {
+      token: string;
+    };
+    active_token?: {
+      token: string;
+    };
+  }
+
+  export interface FlowEnrollMFAStartRequest {
+    flow_id: string;
+    mfa_provider: MFAProvider;
+    phone?: string;
+  }
+
+  export interface FlowMFACompleteRequest {
+    flow_id: string;
+    code: string;
+    cancel?: boolean;
+  }
+
+  export interface FlowSignupPasswordRequest {
+    flow_id: string;
+    password: string;
+    first_name: string;
+    last_name: string;
+  }
+
+  export interface FlowSignupRequest {
+    flow_id: string;
+    cb_state: string;
+    cb_code: string;
+  }
+
+  export interface FlowVerifyCaptchaRequest {
+    flow_id: string;
+    code: string;
+  }
+
+  export interface FlowVerifyPasswordRequest {
+    flow_id: string;
+    password: string;
+  }
+
+  export interface FlowVerifyMFAStartRequest {
+    flow_id: string;
+    mfa_provider: MFAProvider;
   }
 }

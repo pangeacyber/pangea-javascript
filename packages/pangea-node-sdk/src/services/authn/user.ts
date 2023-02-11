@@ -104,25 +104,6 @@ export default class AuthNUser extends BaseService {
     return this.post("user/list", o);
   }
 
-  // authn::/v1/user/login
-  /**
-   * @summary User login
-   * @description Log a user in and return the user's token and information
-   * @param {String} o.email - An email address
-   * @param {String} o.secret - User's authentication secret
-   * @param {Array<String>} o.scopes - An optional list of scopes
-   * @returns {Promise<PangeaResponse<AuthN.UserLoginResult>>} - A promise representing an async call to the endpoint
-   * @example
-   * const response = await authn.user.login({
-   *   email: "joe.user@email.com",
-   *   secret: "My1s+Password",
-   *   scopes: ["scope1", "scope2"],
-   * });
-   */
-  login(o: AuthN.UserLoginRequest): Promise<PangeaResponse<AuthN.UserLoginResult>> {
-    return this.post("user/login", o);
-  }
-
   // authn::/v1/user/verify
   /**
    * @summary Verify a user

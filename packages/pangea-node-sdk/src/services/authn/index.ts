@@ -37,19 +37,4 @@ export default class AuthNService extends BaseService {
   passwordUpdate(o: AuthN.PasswordUpdateRequest): Promise<PangeaResponse<{}>> {
     return this.post("password/update", o);
   }
-
-  // authn::/v1/userinfo
-  /**
-   * @summary Complete a login
-   * @description Retrieve the logged in user's token and information
-   * @param {String} code - A one-time ticket
-   * @returns {Promise<PangeaResponse<AuthN.UserInfoResult>>} - A token and its information
-   * @example
-   * const response = await authn.userinfo(
-   *   "pmc_wuk7tvtpswyjtlsx52b7yyi2l7zotv4a"
-   * );
-   */
-  userinfo(code: string): Promise<PangeaResponse<AuthN.UserInfoResult>> {
-    return this.post("userinfo", { code });
-  }
 }
