@@ -13,14 +13,23 @@ import { toUrlEncoded, generateBase58 } from "../shared/utils";
 import {
   getStorageAPI,
   getSessionData,
-  getUserFromResponse,
   getToken,
+  getUserFromResponse,
+  processValidateResponse,
+  saveSessionData,
   setCookie,
   removeCookie,
   SESSION_DATA_KEY,
   DEFAULT_COOKIE_OPTIONS,
 } from "@src/shared/session";
-import { AuthUser, AppState, AuthNConfig, CookieOptions } from "../types";
+import {
+  APIResponse,
+  AuthUser,
+  AppState,
+  AuthNConfig,
+  CookieOptions,
+  SessionData,
+} from "../types";
 
 export interface AuthContextType {
   loading: boolean;
@@ -118,8 +127,8 @@ export const AuthProvider: FC<AuthProviderProps> = ({
   useCookie = false,
   cookieOptions = {},
   redirectPathname,
-  children,
   useStrictStateCheck = false,
+  children,
 }) => {
   const [authenticated, setAuthenticated] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(true);
@@ -163,23 +172,25 @@ export const AuthProvider: FC<AuthProviderProps> = ({
     const { success, response } = await client.validate(token);
 
     if (success) {
-      const userData = getUserFromResponse(response);
-      setUser(userData);
+      const sessionData: SessionData = processValidateResponse(
+        response,
+        token,
+        useCookie
+      );
+      setUser(sessionData.user);
       setAuthenticated(true);
+
+      if (onLogin) {
+        const appState = {
+          userData: sessionData.user,
+          returnPath: window.location.pathname,
+        };
+        onLogin(appState);
+      }
     } else {
       setError(response.summary);
     }
 
-    if (onLogin) {
-      const storageAPI = getStorageAPI(useCookie);
-      const sessionData = getSessionData(storageAPI);
-
-      const appState = {
-        userData: sessionData,
-        returnPath: window.location.pathname,
-      };
-      onLogin(appState);
-    }
     setLoading(false);
   };
 
@@ -214,7 +225,7 @@ export const AuthProvider: FC<AuthProviderProps> = ({
 
       if (success) {
         if (response.result?.active_token?.token) {
-          processLogin(response.result);
+          processLogin(response);
         } else {
           const msg = "Missing Token";
           setError(msg);
@@ -252,7 +263,7 @@ export const AuthProvider: FC<AuthProviderProps> = ({
     window.location.replace(url);
   };
 
-  const logout = async (redirect: boolean = true) => {
+  const logout = async (redirect = true) => {
     const stateCode = generateBase58(32);
 
     if (useCookie) {
@@ -306,28 +317,33 @@ export const AuthProvider: FC<AuthProviderProps> = ({
     setAuthenticated(false);
   };
 
-  const processLogin = (data: AuthUser) => {
+  const processLogin = (response: APIResponse) => {
+    const user: AuthUser = getUserFromResponse(response);
     const storageAPI = getStorageAPI(useCookie);
+    const sessionData = getSessionData(storageAPI);
+    sessionData.user = user;
+    saveSessionData(storageAPI, sessionData);
+
     const returnURL = storageAPI.getItem(LAST_PATH_KEY) || "/";
 
     const appState = {
-      userData: data,
+      userData: user,
       returnPath: returnURL,
       authState: storageAPI.getItem(STATE_DATA_KEY),
     };
 
     storageAPI.removeItem(LAST_PATH_KEY);
-    storageAPI.setItem(SESSION_DATA_KEY, JSON.stringify(data));
 
     if (useCookie) {
       setCookie(
         combinedCookieOptions.cookieName as string,
-        data.active_token?.token,
+        response.result.active_token?.token,
         combinedCookieOptions
       );
     }
 
-    setUser(data);
+    setError("");
+    setUser(user);
     setAuthenticated(true);
 
     if (onLogin) {

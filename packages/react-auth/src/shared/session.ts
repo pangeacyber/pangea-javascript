@@ -1,11 +1,12 @@
-import { APIResponse, AuthUser, CookieOptions, Token } from "@src/types";
+import { APIResponse, AuthUser, CookieOptions, SessionData } from "@src/types";
 import { isLocalhost } from "./utils";
 
 type CookieObj = {
   [key: string]: string;
 };
 
-export const SESSION_DATA_KEY = "pangea-authn";
+export const SESSION_DATA_KEY = "pangea-session";
+
 export const DEFAULT_COOKIE_OPTIONS: CookieOptions = {
   cookieMaxAge: 60 * 60 * 24 * 2, // 48 Hours, in seconds
   cookieName: SESSION_DATA_KEY,
@@ -24,6 +25,21 @@ export function getStorageAPI(isUsingCookies: boolean): Storage {
   return isUsingCookies ? window.sessionStorage : window.localStorage;
 }
 
+export const saveSessionData = (
+  storageAPI = localStorage,
+  data: SessionData
+) => {
+  const dataString = JSON.stringify(data);
+  storageAPI.setItem(SESSION_DATA_KEY, dataString);
+};
+
+export const getSessionData = (storageAPI = localStorage): SessionData => {
+  const data = storageAPI.getItem(SESSION_DATA_KEY);
+  const session_json = data ? JSON.parse(data) : {};
+
+  return session_json;
+};
+
 export const getToken = (cookieName: string, storageAPI?: Storage) => {
   if (storageAPI === undefined) {
     const cookies = getCookies();
@@ -32,19 +48,21 @@ export const getToken = (cookieName: string, storageAPI?: Storage) => {
   }
 
   const data = getSessionData(storageAPI);
-  return data?.active_token?.token;
-};
-
-export const getSessionData = (storageAPI = localStorage) => {
-  const data = storageAPI.getItem(SESSION_DATA_KEY);
-  const session_json = data ? JSON.parse(data) : {};
-
-  return session_json;
+  return data?.user?.active_token?.token;
 };
 
 export const getUserFromResponse = (data: APIResponse): AuthUser => {
-  const activeToken = { ...data.result.active_token };
-  const refreshToken = { ...data.result.refresh_token };
+  // The token/check endpoint returns a different format thean userinfo and flow/complete
+  // Data only includes the active_token information in response.result
+  // TODO: need a fix for this for cookie sessions and refresh token support
+  const activeToken = data.result?.active_token?.token
+    ? { ...data.result.active_token }
+    : { ...data.result };
+  const refreshToken = data.result?.refresh_token?.token
+    ? { ...data.result.refresh_token }
+    : {};
+  const email = activeToken.email;
+  const profile = { ...activeToken.profile };
 
   // remove deplicate user data from tokens
   delete activeToken.email;
@@ -53,13 +71,35 @@ export const getUserFromResponse = (data: APIResponse): AuthUser => {
   delete refreshToken.profile;
 
   const user: AuthUser = {
-    email: activeToken.email,
-    profile: activeToken.profile,
+    email: email,
+    profile: profile,
     active_token: activeToken,
     refresh_token: refreshToken,
   };
 
   return user;
+};
+
+export const processValidateResponse = (
+  response: APIResponse,
+  token: string,
+  useCookie: boolean
+): SessionData => {
+  const storageAPI = getStorageAPI(useCookie);
+  const sessionData = getSessionData(storageAPI);
+
+  // session data exists, use it
+  if (sessionData.user?.active_token?.token) {
+    return sessionData;
+  }
+
+  // token from a cookie, use data from validate response and save the token
+  const userData = getUserFromResponse(response);
+  userData.active_token.token = token;
+  sessionData.user = userData;
+  saveSessionData(storageAPI, sessionData);
+
+  return { user: userData };
 };
 
 /*
@@ -107,7 +147,7 @@ export const getCookies = (): CookieObj => {
 
 export const setCookie = (
   key: string,
-  value: string = "",
+  value = "",
   cookieOptions: CookieOptions
 ) => {
   const { cookieMaxAge } = cookieOptions;

@@ -42,13 +42,13 @@ export interface AuthUser {
   refresh_token: Token;
 }
 
-export interface AppState {
-  userData: AuthUser;
-  returnPath: string;
-}
-
 export interface SessionData {
   user?: AuthUser;
+}
+
+export interface AppState {
+  userData?: AuthUser;
+  returnPath: string;
 }
 
 export interface CookieOptions {

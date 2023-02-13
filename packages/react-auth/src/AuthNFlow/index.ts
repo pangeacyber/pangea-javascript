@@ -1,4 +1,18 @@
 import AuthNFlowClient from "./client";
-import AuthFlowProvider from "./provider";
+import { AuthFlowProvider, useAuthFlow } from "./provider";
 
-export { AuthNFlowClient, AuthFlowProvider };
+export { AuthNFlowClient, AuthFlowProvider, useAuthFlow };
+
+export {
+  AuthNFlowOptions,
+  FlowStorage,
+  FlowStep,
+  FlowState,
+  FlowStart,
+  FlowSignupPassword,
+  FlowVerifyPassword,
+  FlowVerifyCallback,
+  FlowVerifyCaptcha,
+  FlowMfaStart,
+  FlowMfaComplete,
+} from "./types";

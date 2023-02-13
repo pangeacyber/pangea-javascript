@@ -35,7 +35,7 @@ export const encode58 = (source: any) => {
   }
 
   let x = BigInt("0x" + bytesToHex(source));
-  let output = [];
+  const output = [];
 
   while (x > 0) {
     const mod = Number(x % 58n);

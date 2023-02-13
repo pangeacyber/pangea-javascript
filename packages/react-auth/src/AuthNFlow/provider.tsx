@@ -24,12 +24,12 @@ import {
   FlowMfaComplete,
 } from "./types";
 
-import { useAuth } from "@src/ComponentAuthProvider";
+import { useComponentAuth } from "@src/ComponentAuthProvider";
 import AuthNFlowClient from "./client";
 
 export interface AuthFlowContextType {
   step?: FlowStep;
-  error: string;
+  error: APIResponse | undefined;
   loading: boolean;
   flowData: FlowState;
   callNext: (endpoint: FlowStep, data: any) => void;
@@ -42,12 +42,13 @@ export interface AuthFlowProviderProps {
 
 const SESSION_DATA_NAME = "pangea-authn-flow";
 
-const AuthFlowContext = createContext<AuthFlowContextType>(
+export const AuthFlowContext = createContext<AuthFlowContextType>(
   {} as AuthFlowContextType
 );
 
-const AuthFlowProvider: FC<AuthFlowProviderProps> = ({ children }) => {
-  const { client, setFlowComplete } = useAuth();
+export const AuthFlowProvider: FC<AuthFlowProviderProps> = ({ children }) => {
+  const { client, setFlowComplete } = useComponentAuth();
+
   const config: AuthNConfig = {
     token: client.config.token,
     domain: client.config.domain,
@@ -56,10 +57,10 @@ const AuthFlowProvider: FC<AuthFlowProviderProps> = ({ children }) => {
 
   const auth = useMemo(() => {
     return new AuthNFlowClient(config);
-  }, [config]);
+  }, []);
 
   const [step, setStep] = useState<FlowStep>();
-  const [error, setError] = useState<string>("");
+  const [error, setError] = useState<APIResponse>();
   const [loading, setLoading] = useState<boolean>(false);
   const [flowData, setFlowState] = useState<FlowState>({});
 
@@ -275,7 +276,7 @@ const AuthFlowProvider: FC<AuthFlowProviderProps> = ({ children }) => {
 
   const reset = useCallback(() => {
     auth.reset();
-    setError("");
+    setError(undefined);
     callNext(FlowStep.START, {});
   }, [auth, callNext]);
 
@@ -284,7 +285,7 @@ const AuthFlowProvider: FC<AuthFlowProviderProps> = ({ children }) => {
   */
   const updateFlowState = (success: boolean, response: APIResponse) => {
     if (success) {
-      setError("");
+      setError(undefined);
       setStep(auth.state.step);
       setFlowState({ ...auth.state });
 
@@ -298,8 +299,8 @@ const AuthFlowProvider: FC<AuthFlowProviderProps> = ({ children }) => {
         updateSessionData(auth.state);
       }
     } else {
-      setError(response.summary);
-      console.log("Error", response.summary);
+      setError(response);
+      console.log("Error", response);
     }
   };
 
@@ -325,5 +326,3 @@ const AuthFlowProvider: FC<AuthFlowProviderProps> = ({ children }) => {
 export const useAuthFlow = () => {
   return useContext(AuthFlowContext);
 };
-
-export default AuthFlowProvider;

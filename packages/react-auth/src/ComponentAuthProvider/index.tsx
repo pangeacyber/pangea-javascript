@@ -10,8 +10,24 @@ import {
 } from "react";
 
 import AuthNClient from "@src/AuthNClient";
-import { getUserFromResponse } from "@src/shared/session";
-import { APIResponse, AuthNConfig, AuthUser, SessionData } from "@src/types";
+import {
+  getStorageAPI,
+  getSessionData,
+  getUserFromResponse,
+  getToken,
+  processValidateResponse,
+  saveSessionData,
+  setCookie,
+  removeCookie,
+  DEFAULT_COOKIE_OPTIONS,
+} from "@src/shared/session";
+import {
+  APIResponse,
+  AuthNConfig,
+  AuthUser,
+  CookieOptions,
+  SessionData,
+} from "@src/types";
 
 export interface ComponentAuthContextType {
   authenticated: boolean;
@@ -25,19 +41,20 @@ export interface ComponentAuthContextType {
 }
 
 export interface ComponentAuthProviderProps {
-  loginPath: string;
   config: AuthNConfig;
+  useCookie?: boolean;
+  cookieOptions?: CookieOptions;
   children: ReactNode;
 }
-
-const SESSION_NAME = "pangea-session";
 
 const AuthContext = createContext<ComponentAuthContextType>(
   {} as ComponentAuthContextType
 );
 
-const ComponentAuthProvider: FC<ComponentAuthProviderProps> = ({
+export const ComponentAuthProvider: FC<ComponentAuthProviderProps> = ({
   config,
+  useCookie = false,
+  cookieOptions = {},
   children,
 }) => {
   const [authenticated, setAuthenticated] = useState<boolean>(false);
@@ -49,50 +66,35 @@ const ComponentAuthProvider: FC<ComponentAuthProviderProps> = ({
     return new AuthNClient(config);
   }, [config]);
 
+  const combinedCookieOptions: CookieOptions = {
+    ...DEFAULT_COOKIE_OPTIONS,
+    ...cookieOptions,
+  };
+
   // load data from local storage, and params from URL
   useEffect(() => {
-    const sessionData = getSessionData();
+    const storageAPI = getStorageAPI(useCookie);
+    const token = useCookie
+      ? getToken(combinedCookieOptions.cookieName as string)
+      : getToken(combinedCookieOptions.cookieName as string, storageAPI);
 
-    if (sessionData?.user?.active_token?.token) {
-      validate(sessionData);
+    if (token) {
+      validate(token);
     } else {
       setLoading(false);
     }
-
-    // eslint-disable-next-line
   }, []);
 
-  // update session data on step
-  useEffect(() => {
-    const sessionData = getSessionData();
-    sessionData.user = user;
-    saveSessionData(sessionData);
-
-    // eslint-disable-next-line
-  }, [user]);
-
-  const getSessionData = (): SessionData => {
-    const storedData = localStorage.getItem(SESSION_NAME);
-
-    if (storedData) {
-      const session: SessionData = JSON.parse(storedData);
-      return session;
-    }
-
-    return {};
-  };
-
-  const saveSessionData = (data: SessionData) => {
-    const dataString = JSON.stringify(data);
-    localStorage.setItem(SESSION_NAME, dataString);
-  };
-
-  const validate = async (data: SessionData) => {
-    const userToken = data.user?.active_token?.token || "";
-    const { success, response } = await client.validate(userToken);
+  const validate = async (token: string) => {
+    const { success, response } = await client.validate(token);
 
     if (success) {
-      setUser(data.user);
+      const sessionData: SessionData = processValidateResponse(
+        response,
+        token,
+        useCookie
+      );
+      setUser(sessionData.user);
       setAuthenticated(true);
     } else {
       setError(response);
@@ -101,7 +103,8 @@ const ComponentAuthProvider: FC<ComponentAuthProviderProps> = ({
   };
 
   const login = useCallback(async () => {
-    // TODO: show AuthFlow
+    // TODO: render AuthFlow
+    // is this needed???
   }, []);
 
   const logout = useCallback(async () => {
@@ -122,6 +125,13 @@ const ComponentAuthProvider: FC<ComponentAuthProviderProps> = ({
   }, [user]);
 
   const setLoggedOut = () => {
+    if (useCookie) {
+      removeCookie(
+        combinedCookieOptions.cookieName as string,
+        combinedCookieOptions
+      );
+    }
+
     setError(undefined);
     setUser(undefined);
     setAuthenticated(false);
@@ -129,6 +139,18 @@ const ComponentAuthProvider: FC<ComponentAuthProviderProps> = ({
 
   const setFlowComplete = useCallback((response: APIResponse) => {
     const user: AuthUser = getUserFromResponse(response);
+    const storageAPI = getStorageAPI(useCookie);
+    const sessionData = getSessionData(storageAPI);
+    sessionData.user = user;
+    saveSessionData(storageAPI, sessionData);
+
+    if (useCookie) {
+      setCookie(
+        combinedCookieOptions.cookieName as string,
+        response.result?.active_token?.token,
+        combinedCookieOptions
+      );
+    }
 
     setError(undefined);
     setUser(user);
@@ -165,8 +187,6 @@ const ComponentAuthProvider: FC<ComponentAuthProviderProps> = ({
   );
 };
 
-export const useAuth = () => {
+export const useComponentAuth = () => {
   return useContext(AuthContext);
 };
-
-export default ComponentAuthProvider;

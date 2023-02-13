@@ -4,7 +4,7 @@ import { AuthNConfig, APIResponse, ClientResponse } from "@src/types";
 
 const API_VERSION = "v1";
 
-class AuthNClient {
+export class AuthNClient {
   config: AuthNConfig;
 
   constructor(config: AuthNConfig) {

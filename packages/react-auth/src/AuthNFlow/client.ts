@@ -37,7 +37,7 @@ const DEFAULT_FLOW_STATE: FlowState = {
 
 const API_FLOW_BASE = "flow";
 
-class AuthNFlowClient extends AuthNClient {
+export class AuthNFlowClient extends AuthNClient {
   state: FlowState;
   options: AuthNFlowOptions;
 
@@ -103,7 +103,7 @@ class AuthNFlowClient extends AuthNClient {
       }
 
       // store flow_id
-      this.state.flowId = response.result?.flow_id;
+      this.state.flowId = response.result.flow_id;
 
       // store recapta key
       if (response.result?.verify_captcha?.site_key) {
@@ -159,7 +159,7 @@ class AuthNFlowClient extends AuthNClient {
   }
 
   async verifyCaptcha(data: FlowVerifyCaptcha): Promise<ClientResponse> {
-    const path = "flow/verify/captcha";
+    const path = `${API_FLOW_BASE}/${FlowStep.VERIFY_CAPTCHA}`;
     const payload = {
       flow_id: this.state.flowId,
       code: data.captchaCode,
@@ -169,7 +169,7 @@ class AuthNFlowClient extends AuthNClient {
   }
 
   async verifyEmail(data: FlowVerifyCallback): Promise<ClientResponse> {
-    const path = "flow/verify/email";
+    const path = `${API_FLOW_BASE}/${FlowStep.VERIFY_EMAIL}`;
     const payload = {
       flow_id: this.state.flowId,
       cb_code: data.cbCode,
@@ -180,7 +180,7 @@ class AuthNFlowClient extends AuthNClient {
   }
 
   async enrollMfaStart(data: FlowMfaStart): Promise<ClientResponse> {
-    const path = "flow/enroll/mfa/start";
+    const path = `${API_FLOW_BASE}/${FlowStep.ENROLL_MFA_START}`;
     const payload: any = {
       flow_id: this.state.flowId,
       mfa_provider: data.mfaProvider,
@@ -190,11 +190,22 @@ class AuthNFlowClient extends AuthNClient {
       payload.phone = data.phoneNumber;
     }
 
-    return await this.post(path, payload);
+    const { success, response } = await this.post(path, payload);
+
+    if (success) {
+      if (response.result?.enroll_mfa_complete?.totp_secret?.qr_image) {
+        this.state.qrCode =
+          response.result.enroll_mfa_complete.totp_secret.qr_image;
+      }
+
+      this.state.step = response.result?.next_step;
+    }
+
+    return { success, response };
   }
 
   async enrollMfaComplete(data: FlowMfaComplete): Promise<ClientResponse> {
-    const path = "flow/enroll/mfa/complete";
+    const path = `${API_FLOW_BASE}/${FlowStep.ENROLL_MFA_COMPLETE}`;
     const payload = {
       flow_id: this.state.flowId,
       code: data.code,
@@ -205,7 +216,7 @@ class AuthNFlowClient extends AuthNClient {
   }
 
   async verifyMfaStart(data: FlowMfaStart): Promise<ClientResponse> {
-    const path = "flow/verify/mfa/start";
+    const path = `${API_FLOW_BASE}/${FlowStep.VERIFY_MFA_START}`;
     const payload = {
       flow_id: this.state.flowId,
       mfa_provider: data.mfaProvider,
@@ -215,7 +226,7 @@ class AuthNFlowClient extends AuthNClient {
   }
 
   async verifyMfaComplete(data: FlowMfaComplete): Promise<ClientResponse> {
-    const path = "flow/verify/mfa/complete";
+    const path = `${API_FLOW_BASE}/${FlowStep.VERIFY_MFA_COMPLETE}`;
     const payload = {
       flow_id: this.state.flowId,
       code: data.code,
@@ -226,7 +237,7 @@ class AuthNFlowClient extends AuthNClient {
   }
 
   async complete(): Promise<ClientResponse> {
-    const path = "flow/complete";
+    const path = `${API_FLOW_BASE}/${FlowStep.COMPLETE}`;
     const payload = {
       flow_id: this.state.flowId,
     };
