@@ -64,14 +64,17 @@ export class Verifier {
         x: publicKeyB64urlSafe,
         kty: "OKP",
       };
-      // FIXME: what happens if fails?
-      pubKey = createPublicKey({
-        key: rawKey,
-        format: "jwk",
-      });
+      const bytes = Buffer.from(data);
+      const signBytes = Buffer.from(signB64, "base64");
+      try {
+        const pubKey = createPublicKey({
+          key: rawKey,
+          format: "jwk",
+        });
+        return verify(null, bytes, pubKey, signBytes);
+      } catch {
+        return false;
+      }
     }
-    const bytes = Buffer.from(data);
-    const signBytes = Buffer.from(signB64, "base64");
-    return pubKey != undefined ? verify(null, bytes, pubKey, signBytes) : false;
   }
 }

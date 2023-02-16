@@ -9,6 +9,7 @@ import AuditLogViewerComponent from "./components/AuditLogViewerComponent";
 import { Audit } from "./types";
 import AuditContextProvider from "./hooks/context";
 import { usePublishedRoots } from "./hooks/root";
+import { PublicAuditQuery } from "./utils/query";
 
 export interface AuditLogViewerProps {
   onSearch: (body: Audit.SearchRequest) => Promise<Audit.SearchResponse>;
@@ -22,6 +23,8 @@ export interface AuditLogViewerProps {
 
   fields?: Partial<Record<keyof Audit.Event, Partial<GridColDef>>>;
   visibilityModel?: Partial<Record<keyof Audit.Event, boolean>>;
+
+  filters?: PublicAuditQuery;
 }
 
 const AuditLogViewerWithProvider: FC<AuditLogViewerProps> = ({

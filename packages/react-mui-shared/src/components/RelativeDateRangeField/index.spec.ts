@@ -8,13 +8,13 @@ describe("getRelativeDateRange should", () => {
   it("should match expected", () => {
     expect(getRelativeDateRange("1M")).toStrictEqual({
       amount: 1,
-      span: "M",
+      span: "month",
       relativeRange: RelativeRange.Month,
       prefix: "",
     });
     expect(getRelativeDateRange("1m")).toStrictEqual({
       amount: 1,
-      span: "m",
+      span: "minute",
       relativeRange: RelativeRange.Minute,
       prefix: "",
     });

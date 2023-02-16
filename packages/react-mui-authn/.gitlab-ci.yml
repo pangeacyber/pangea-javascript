@@ -1,0 +1,43 @@
+.react_mui_authn_base:
+  image: node
+  before_script:
+    - cd packages/react-mui-authn
+    - yarn install --frozen-lockfile
+    - apt-get -qq update
+    - apt-get install -y jq
+  cache:
+    - key:
+        files:
+          - yarn.lock
+      paths:
+        - node_modules
+
+publish_react_mui_authn:
+  extends: .react_mui_authn_base
+  stage: Publish
+  script:
+    - cp ../../scripts/publish.sh .
+    - echo "${NPMRC}" > .npmrc && ./publish.sh && rm .npmrc
+    - rm publish.sh
+  rules:
+    - if: $CI_COMMIT_BRANCH == "main"
+      changes:
+        - packages/react-mui-authn/**/*
+      when: always
+
+tag_react_auth:
+  extends: .react_mui_authn_base
+  stage: Tag Release
+  script:
+    - apt-get install python3 -y
+    - apt-get install python3-pip -y
+    - pip3 install PyGithub
+    - VERSION=$(node -p "require('./package.json').version")
+    - cp ../../scripts/tag_release.py .
+    - python3 tag_release.py ${GITHUB_TOKEN} ${VERSION} ${CI_COMMIT_SHA} "react-mui-authn" "React MUI AuthN"
+    - rm tag_release.py
+  rules:
+    - if: $CI_COMMIT_BRANCH == "main"
+      changes:
+        - packages/react-mui-authn/**/*
+      when: always

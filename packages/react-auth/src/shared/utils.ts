@@ -35,7 +35,7 @@ export const encode58 = (source: any) => {
   }
 
   let x = BigInt("0x" + bytesToHex(source));
-  let output = [];
+  const output = [];
 
   while (x > 0) {
     const mod = Number(x % 58n);
@@ -54,4 +54,23 @@ export const toUrlEncoded = (obj: { [key: string]: string }): string => {
       (k) => encodeURIComponent(snakeCase(k)) + "=" + encodeURIComponent(obj[k])
     )
     .join("&");
+};
+
+/**
+ * isLocalhost - helper function to determine if a hostname is localhost
+ * @param hostname {string}
+ * @returns {boolean}
+ * @example
+ * isLocalhost("pangea.cloud");
+ * // false
+ *
+ * isLocalhost("127.0.0.1");
+ * // true
+ */
+export const isLocalhost = (hostname: string): boolean => {
+  if (hostname === "localhost" || hostname === "127.0.0.1") {
+    return true;
+  }
+
+  return false;
 };
