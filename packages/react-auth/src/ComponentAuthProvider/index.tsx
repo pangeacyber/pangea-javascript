@@ -15,6 +15,7 @@ import {
   getSessionData,
   getUserFromResponse,
   getToken,
+  hasAuthParams,
   processValidateResponse,
   saveSessionData,
   setCookie,
@@ -23,8 +24,9 @@ import {
 } from "@src/shared/session";
 import {
   APIResponse,
-  AuthNConfig,
+  AuthConfig,
   AuthUser,
+  CallbackParams,
   CookieOptions,
   SessionData,
 } from "@src/types";
@@ -34,14 +36,14 @@ export interface ComponentAuthContextType {
   loading: boolean;
   error: APIResponse | undefined;
   user?: AuthUser;
+  cbParams?: CallbackParams;
   client: AuthNClient;
-  login: () => void;
   logout: () => void;
   setFlowComplete: (data: any) => void;
 }
 
 export interface ComponentAuthProviderProps {
-  config: AuthNConfig;
+  config: AuthConfig;
   useCookie?: boolean;
   cookieOptions?: CookieOptions;
   children: ReactNode;
@@ -61,6 +63,7 @@ export const ComponentAuthProvider: FC<ComponentAuthProviderProps> = ({
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<APIResponse>();
   const [user, setUser] = useState<AuthUser>();
+  const [cbParams, setCbParams] = useState<CallbackParams>();
 
   const client = useMemo(() => {
     return new AuthNClient(config);
@@ -77,6 +80,16 @@ export const ComponentAuthProvider: FC<ComponentAuthProviderProps> = ({
     const token = useCookie
       ? getToken(combinedCookieOptions.cookieName as string)
       : getToken(combinedCookieOptions.cookieName as string, storageAPI);
+
+    // save callback params if set
+    if (hasAuthParams()) {
+      const queryString = window.location.search;
+      const urlParams = new URLSearchParams(queryString);
+      const state = urlParams.get("state") || "";
+      const code = urlParams.get("code") || "";
+
+      setCbParams({ state, code });
+    }
 
     if (token) {
       validate(token);
@@ -97,15 +110,14 @@ export const ComponentAuthProvider: FC<ComponentAuthProviderProps> = ({
       setUser(sessionData.user);
       setAuthenticated(true);
     } else {
-      setError(response);
+      if (response.status === "InvalidToken") {
+        setLoggedOut();
+      } else {
+        setError(response);
+      }
     }
     setLoading(false);
   };
-
-  const login = useCallback(async () => {
-    // TODO: render AuthFlow
-    // is this needed???
-  }, []);
 
   const logout = useCallback(async () => {
     const userToken = user?.active_token.token;
@@ -163,8 +175,8 @@ export const ComponentAuthProvider: FC<ComponentAuthProviderProps> = ({
       loading,
       error,
       user,
+      cbParams,
       client,
-      login,
       logout,
       setFlowComplete,
     }),
@@ -173,8 +185,8 @@ export const ComponentAuthProvider: FC<ComponentAuthProviderProps> = ({
       loading,
       error,
       user,
+      cbParams,
       client,
-      login,
       logout,
       setFlowComplete,
     ]

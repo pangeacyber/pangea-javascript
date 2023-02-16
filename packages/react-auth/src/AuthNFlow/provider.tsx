@@ -9,7 +9,7 @@ import {
   useState,
 } from "react";
 
-import { APIResponse, AuthNConfig } from "@src/types";
+import { APIResponse, AuthConfig } from "@src/types";
 
 import {
   FlowState,
@@ -47,10 +47,10 @@ export const AuthFlowContext = createContext<AuthFlowContextType>(
 );
 
 export const AuthFlowProvider: FC<AuthFlowProviderProps> = ({ children }) => {
-  const { client, setFlowComplete } = useComponentAuth();
+  const { client, cbParams, setFlowComplete } = useComponentAuth();
 
-  const config: AuthNConfig = {
-    token: client.config.token,
+  const config: AuthConfig = {
+    clientToken: client.config.clientToken,
     domain: client.config.domain,
     callbackUri: client.config.callbackUri,
   };
@@ -71,11 +71,9 @@ export const AuthFlowProvider: FC<AuthFlowProviderProps> = ({ children }) => {
       step: sessionData.step || FlowStep.START,
     };
 
-    // check for callback params
-    const queryString = window.location.search;
-    const urlParams = new URLSearchParams(queryString);
-    const cbCode = urlParams.get("code") || "";
-    const cbState = urlParams.get("state") || null;
+    // get callback params from main provider
+    const cbCode = cbParams?.code;
+    const cbState = cbParams?.state;
 
     if (sessionData.step) {
       initFlowState.flowId = sessionData.flow_id;
@@ -98,7 +96,12 @@ export const AuthFlowProvider: FC<AuthFlowProviderProps> = ({ children }) => {
      */
 
     // social signup with callback
-    if (initFlowState.step === FlowStep.START && cbCode && cbState) {
+    if (
+      initFlowState.step === FlowStep.START &&
+      cbCode &&
+      cbState &&
+      initFlowState.flowId
+    ) {
       callNext(FlowStep.SIGNUP_SOCIAL, { cbCode: cbCode, cbState: cbState });
     }
     // fetch social providers
@@ -113,12 +116,8 @@ export const AuthFlowProvider: FC<AuthFlowProviderProps> = ({ children }) => {
     ) {
       callNext(FlowStep.VERIFY_SOCIAL, { cbCode: cbCode, cbState: cbState });
     }
-    // verify email with callback
-    else if (
-      initFlowState.step === FlowStep.VERIFY_EMAIL &&
-      cbCode &&
-      cbState
-    ) {
+    // verify email with callback or check if complete
+    else if (initFlowState.step === FlowStep.VERIFY_EMAIL) {
       callNext(FlowStep.VERIFY_EMAIL, { cbCode: cbCode, cbState: cbState });
     }
 
@@ -130,9 +129,6 @@ export const AuthFlowProvider: FC<AuthFlowProviderProps> = ({ children }) => {
       setLoading(true);
 
       switch (step) {
-        // case undefined:
-        //   // authenticated state
-        //   break;
         case FlowStep.START:
           startHandler(payload);
           break;
@@ -165,6 +161,12 @@ export const AuthFlowProvider: FC<AuthFlowProviderProps> = ({ children }) => {
           break;
         case FlowStep.VERIFY_MFA_COMPLETE:
           verifyMfaCompleteHandler(payload);
+          break;
+        case FlowStep.ENROLL_MFA_SELECT:
+          setNextStep(FlowStep.ENROLL_MFA_SELECT);
+          break;
+        case FlowStep.VERIFY_MFA_SELECT:
+          setNextStep(FlowStep.VERIFY_MFA_SELECT);
           break;
         default:
           // invalid state
@@ -272,6 +274,17 @@ export const AuthFlowProvider: FC<AuthFlowProviderProps> = ({ children }) => {
     const { success, response } = await auth.verifyMfaComplete(payload);
 
     updateFlowState(success, response);
+  };
+
+  /*
+    Set flow step without an API call
+  */
+
+  const setNextStep = (nextStep: FlowStep) => {
+    auth.state.step = nextStep;
+    setStep(auth.state.step);
+    setFlowState({ ...auth.state });
+    updateSessionData(auth.state);
   };
 
   const reset = useCallback(() => {

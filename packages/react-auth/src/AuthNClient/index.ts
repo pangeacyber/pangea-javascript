@@ -1,14 +1,14 @@
 import axios, { AxiosResponse } from "axios";
 
-import { AuthNConfig, APIResponse, ClientResponse } from "@src/types";
+import { AuthConfig, APIResponse, ClientResponse } from "@src/types";
 
 const API_VERSION = "v1";
 
 export class AuthNClient {
-  config: AuthNConfig;
+  config: AuthConfig;
 
-  constructor(config: AuthNConfig) {
-    if (!config.token) throw new Error("A token is required");
+  constructor(config: AuthConfig) {
+    if (!config.clientToken) throw new Error("A token is required");
     if (!config.domain) throw new Error("A domain is required");
 
     if (!config.callbackUri) config.callbackUri = window.location.origin;
@@ -69,7 +69,7 @@ export class AuthNClient {
     const options = {
       headers: {
         "Content-Type": "application/json",
-        Authorization: `Bearer ${this.config.token}`,
+        Authorization: `Bearer ${this.config.clientToken}`,
       },
     };
 

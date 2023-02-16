@@ -32,6 +32,7 @@ export enum FlowStep {
   VERIFY_MFA_SELECT = "verify/mfa/select",
   VERIFY_MFA_START = "verify/mfa/start",
   VERIFY_MFA_COMPLETE = "verify/mfa/complete",
+  MFA_SELECT = "mfa/select",
   COMPLETE = "complete",
 }
 
