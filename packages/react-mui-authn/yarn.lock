@@ -1591,10 +1591,10 @@
     mkdirp "^1.0.4"
     rimraf "^3.0.2"
 
-"@pangeacyber/react-auth@^0.0.2-beta.1":
-  version "0.0.2-beta.1"
-  resolved "https://registry.yarnpkg.com/@pangeacyber/react-auth/-/react-auth-0.0.2-beta.1.tgz#9bea150f6af0509ae040f22172e62a8c2033d1a2"
-  integrity sha512-05zKidb1o1GeKaC96EPoLmufHSYKrGiraUfp1t/Ot37RXd/zlyJVqLCzZvzlgOZNw0dntmC3w8nHvF0LN57PHQ==
+"@pangeacyber/react-auth@^0.0.2-beta.2":
+  version "0.0.2-beta.2"
+  resolved "https://registry.yarnpkg.com/@pangeacyber/react-auth/-/react-auth-0.0.2-beta.2.tgz#639a17490930e5c3cc914347d29144a2643d7791"
+  integrity sha512-nn76lKhaS9j1Lriiz8v72CIpKA0Tf1IdirAR60HvE7IU8U8CG+mEyYcxtuKtU9dooZ3yCvLHhZmEozRMtYFcvQ==
   dependencies:
     "@types/randombytes" "^2.0.0"
     axios "^1.1.3"
@@ -3601,9 +3601,9 @@ autoprefixer@^9.8.6:
     postcss-value-parser "^4.1.0"
 
 axios@^1.1.3:
-  version "1.3.2"
-  resolved "https://registry.yarnpkg.com/axios/-/axios-1.3.2.tgz#7ac517f0fa3ec46e0e636223fd973713a09c72b3"
-  integrity sha512-1M3O703bYqYuPhbHeya5bnhpYVsDDRyQSabNja04mZtboLNSuZ4YrltestrLXfHgmzua4TpUqRiVKbiQuo2epw==
+  version "1.3.3"
+  resolved "https://registry.yarnpkg.com/axios/-/axios-1.3.3.tgz#e7011384ba839b885007c9c9fae1ff23dceb295b"
+  integrity sha512-eYq77dYIFS77AQlhzEL937yUBSepBfPIe8FcgEDN35vMNZKMrs81pgnyrQpwfy4NF4b4XWX1Zgx7yX+25w8QJA==
   dependencies:
     follow-redirects "^1.15.0"
     form-data "^4.0.0"

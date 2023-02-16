@@ -13,6 +13,10 @@ const VerifySocialView = () => {
   return (
     <Stack gap={2}>
       <Typography variant="h6">Verify Social</Typography>
+      <Typography variant="caption">{flowData.email}</Typography>
+      <Typography variant="body1">
+        This email is registered with Social Authentication
+      </Typography>
       <Button
         variant="outlined"
         onClick={() => {
@@ -21,9 +25,14 @@ const VerifySocialView = () => {
       >
         Continue with social
       </Button>
-      <Stack direction="row" gap={2} my={2}>
-        <Button variant="text" onClick={reset} sx={{ alignSelf: "flex-start" }}>
-          Start Over
+      <Stack direction="row" gap={2} mt={2}>
+        <Button
+          variant="contained"
+          color="secondary"
+          onClick={reset}
+          sx={{ alignSelf: "flex-start" }}
+        >
+          Reset
         </Button>
       </Stack>
     </Stack>

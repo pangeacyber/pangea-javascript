@@ -1,8 +1,10 @@
 import { useFormik } from "formik";
 import * as yup from "yup";
-import { Box, Button, Stack, TextField, Typography } from "@mui/material";
+import { Button, Stack, TextField, Typography } from "@mui/material";
 
 import { useAuthFlow, FlowStep } from "@pangeacyber/react-auth";
+
+import ErrorMessage from "../ErrorMessage";
 
 const VerifyMfaCompleteView = () => {
   const { callNext, reset, flowData, loading, error } = useAuthFlow();
@@ -31,14 +33,19 @@ const VerifyMfaCompleteView = () => {
     },
   });
 
-  const resendCode = () => {
-    const payload = {
-      mfaProvider: flowData.selectedMfa,
-      code: "",
-      cancel: true,
-    };
-    callNext(FlowStep.VERIFY_MFA_COMPLETE, payload);
-  };
+  // const resendCode = () => {
+  //   const payload = {
+  //     mfaProvider: flowData.selectedMfa,
+  //     code: "",
+  //     cancel: true,
+  //   };
+  //   callNext(FlowStep.VERIFY_MFA_COMPLETE, payload);
+  // };
+
+  // const selectMfaMethod = () => {
+  //   callNext(FlowStep.VERIFY_MFA_SELECT, {});
+  // };
+
   return (
     <Stack gap={2}>
       <Stack>
@@ -57,8 +64,15 @@ const VerifyMfaCompleteView = () => {
           error={formik.touched.code && Boolean(formik.errors.code)}
           helperText={formik.touched.code && formik.errors.code}
         />
-        {error && <Box sx={{ color: "red" }}>{error.summary}</Box>}
-        <Stack direction="row" gap={2} my={2}>
+        {/* {flowData?.mfaProviders && flowData?.mfaProviders?.length > 1 && (
+          <Stack direction="row" mt={3} mb={3}>
+            <Button variant="text" onClick={selectMfaMethod}>
+              Choose another way
+            </Button>
+          </Stack>
+        )} */}
+        {error && <ErrorMessage response={error} />}
+        <Stack direction="row" gap={2} mt={2}>
           <Button
             color="primary"
             variant="contained"
@@ -67,7 +81,7 @@ const VerifyMfaCompleteView = () => {
           >
             Submit
           </Button>
-          {error?.status === "MfaCodeExpired" && (
+          {/* {error?.status === "MfaCodeExpired" && (
             <Button
               variant="text"
               onClick={resendCode}
@@ -75,13 +89,14 @@ const VerifyMfaCompleteView = () => {
             >
               Resend Code
             </Button>
-          )}
+          )} */}
           <Button
-            variant="text"
+            variant="contained"
+            color="secondary"
             onClick={reset}
             sx={{ alignSelf: "flex-start" }}
           >
-            Start Over
+            Reset
           </Button>
         </Stack>
       </form>
@@ -95,7 +110,7 @@ const getOtpTitle = (provider: string) => {
   } else if (provider === "email_otp") {
     return "Email";
   } else if (provider === "totp") {
-    return "TOTP App";
+    return "Authenticator App";
   } else {
     return provider;
   }

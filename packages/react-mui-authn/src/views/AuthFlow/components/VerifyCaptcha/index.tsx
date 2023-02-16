@@ -20,9 +20,14 @@ const VerifyCaptchaView = () => {
         <Typography variant="caption">{flowData.email}</Typography>
       </Stack>
       <ReCAPTCHA sitekey={flowData.recaptchaKey} onChange={handleChange} />
-      <Stack direction="row" gap={2} my={2}>
-        <Button variant="text" onClick={reset} sx={{ alignSelf: "flex-start" }}>
-          Start Over
+      <Stack direction="row" gap={2} mt={2}>
+        <Button
+          variant="contained"
+          color="secondary"
+          onClick={reset}
+          sx={{ alignSelf: "flex-start" }}
+        >
+          Reset
         </Button>
       </Stack>
     </Stack>

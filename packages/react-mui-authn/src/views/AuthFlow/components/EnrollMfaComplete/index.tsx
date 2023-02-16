@@ -1,28 +1,35 @@
-import { useEffect, useState } from "react";
+import { ReactNode, useEffect, useState } from "react";
 import { useFormik } from "formik";
 import * as yup from "yup";
-import { Box, Button, Stack, TextField, Typography } from "@mui/material";
+import { Button, Stack, TextField, Typography } from "@mui/material";
 
 import { useAuthFlow, FlowStep } from "@pangeacyber/react-auth";
+
+import ErrorMessage from "../ErrorMessage";
 
 const EnrollMfaCompleteView = () => {
   const { callNext, reset, flowData, loading, error } = useAuthFlow();
   const [qrCode, setQrCode] = useState<string>("");
 
-  const mfaEnrollTitle = (provider: string): string => {
+  const mfaEnrollContent = (provider: string): ReactNode => {
     switch (provider) {
       case "sms_otp":
-        return "Enter the code sent to your phone";
+        return <p>Enter the code sent to your phone</p>;
       case "email_otp":
-        return "Enter the code sent to your email";
+        return <p>Enter the code sent to your email</p>;
       case "totp":
-        return "Scan the QR Code below, then enter the code from your app";
+        return (
+          <ul>
+            <li>Open the Authenticator app</li>
+            <li>Scan the QR Code below in the app</li>
+            <li>Enter the code from your Authenticator app</li>
+          </ul>
+        );
       default:
-        return "Enter the code";
+        return <p>Enter the code</p>;
     }
   };
 
-  console.log("flowData", flowData);
   useEffect(() => {
     if (flowData.selectedMfa === "totp" && flowData.qrCode) {
       setQrCode(flowData.qrCode);
@@ -50,11 +57,16 @@ const EnrollMfaCompleteView = () => {
     },
   });
 
+  // const selectMfaMethod = () => {
+  //   callNext(FlowStep.ENROLL_MFA_SELECT, {});
+  // };
+
   return (
     <Stack gap={2}>
       <Stack>
-        <Typography variant="h6">
-          {mfaEnrollTitle(flowData?.selectedMfa || "")}
+        <Typography variant="h6">Enroll MFA</Typography>
+        <Typography component="div" variant="body1">
+          {mfaEnrollContent(flowData?.selectedMfa || "")}
         </Typography>
         <Typography variant="caption">{flowData.email}</Typography>
         {qrCode && (
@@ -62,7 +74,6 @@ const EnrollMfaCompleteView = () => {
             <img src={qrCode} alt="TOTP QR CODE" />
           </div>
         )}
-        {qrCode}
       </Stack>
       <form onSubmit={formik.handleSubmit}>
         <TextField
@@ -76,8 +87,15 @@ const EnrollMfaCompleteView = () => {
           error={formik.touched.code && Boolean(formik.errors.code)}
           helperText={formik.touched.code && formik.errors.code}
         />
-        {error && <Box sx={{ color: "red" }}>{error.summary}</Box>}
-        <Stack direction="row" gap={2} my={2}>
+        {/* {flowData?.mfaProviders && flowData?.mfaProviders?.length > 1 && (
+          <Stack direction="row" mt={3} mb={3}>
+            <Button variant="text" onClick={selectMfaMethod}>
+              Choose another way
+            </Button>
+          </Stack>
+        )} */}
+        {error && <ErrorMessage response={error} />}
+        <Stack direction="row" gap={2} mt={2}>
           <Button
             color="primary"
             variant="contained"
@@ -87,11 +105,12 @@ const EnrollMfaCompleteView = () => {
             Submit
           </Button>
           <Button
-            variant="text"
+            variant="contained"
+            color="secondary"
             onClick={reset}
             sx={{ alignSelf: "flex-start" }}
           >
-            Start Over
+            Reset
           </Button>
         </Stack>
       </form>

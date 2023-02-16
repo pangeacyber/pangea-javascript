@@ -1,13 +1,17 @@
 import { Button, Stack, Typography } from "@mui/material";
 
-import { useAuthFlow } from "@pangeacyber/react-auth";
+import { useAuthFlow, FlowStep } from "@pangeacyber/react-auth";
 
 const VerifyEmailView = () => {
-  const { reset, flowData } = useAuthFlow();
+  const { reset, loading, flowData, callNext } = useAuthFlow();
 
-  // const resendEmail = () => {
-  //   callNext(FlowStep.VERIFY_EMAIL, { flowId: flowData.flowId, cb_state: null, cb_code: null });
-  // }
+  const resendEmail = () => {
+    callNext(FlowStep.VERIFY_EMAIL, {
+      flowId: flowData.flowId,
+      cb_state: null,
+      cb_code: null,
+    });
+  };
 
   return (
     <Stack gap={2}>
@@ -18,12 +22,22 @@ const VerifyEmailView = () => {
       <Typography variant="body1">
         An email message has been sent to your inbox
       </Typography>
-      <Stack direction="row" gap={2} my={2}>
-        {/*
-        <Button variant="text" onClick={resendEmail} disabled={loading}>Resend Email</Button>
-        */}
-        <Button variant="text" onClick={reset} sx={{ alignSelf: "flex-start" }}>
-          Start Over
+      <Stack direction="row" gap={2} mt={2}>
+        <Button
+          variant="contained"
+          color="secondary"
+          onClick={resendEmail}
+          disabled={loading}
+        >
+          Resend Email
+        </Button>
+        <Button
+          variant="contained"
+          color="secondary"
+          onClick={reset}
+          sx={{ alignSelf: "flex-start" }}
+        >
+          Reset
         </Button>
       </Stack>
     </Stack>
