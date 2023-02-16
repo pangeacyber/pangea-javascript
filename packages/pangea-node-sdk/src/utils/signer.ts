@@ -55,6 +55,9 @@ export class Verifier {
    */
   verify(data: string, signB64: string, publicKeyInput: string): boolean {
     let pubKey;
+    const bytes = Buffer.from(data);
+    const signBytes = Buffer.from(signB64, "base64");
+
     if (publicKeyInput.startsWith("-----")) {
       pubKey = createPublicKey(publicKeyInput);
     } else {
@@ -64,8 +67,6 @@ export class Verifier {
         x: publicKeyB64urlSafe,
         kty: "OKP",
       };
-      const bytes = Buffer.from(data);
-      const signBytes = Buffer.from(signB64, "base64");
       try {
         const pubKey = createPublicKey({
           key: rawKey,
@@ -76,5 +77,7 @@ export class Verifier {
         return false;
       }
     }
+
+    return pubKey != undefined ? verify(null, bytes, pubKey, signBytes) : false;
   }
 }
