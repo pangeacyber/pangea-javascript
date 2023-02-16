@@ -1,8 +1,10 @@
 import { useFormik } from "formik";
 import * as yup from "yup";
-import { Box, Button, Stack, TextField, Typography } from "@mui/material";
+import { Button, Stack, TextField, Typography } from "@mui/material";
 
 import { useAuthFlow, FlowStep } from "@pangeacyber/react-auth";
+
+import ErrorMessage from "../ErrorMessage";
 
 const VerifyPasswordView = () => {
   const { callNext, reset, flowData, loading, error } = useAuthFlow();
@@ -42,8 +44,8 @@ const VerifyPasswordView = () => {
           error={formik.touched.password && Boolean(formik.errors.password)}
           helperText={formik.touched.password && formik.errors.password}
         />
-        {error && <Box sx={{ color: "red" }}>{error.summary}</Box>}
-        <Stack direction="row" gap={2} my={2}>
+        {error && <ErrorMessage response={error} />}
+        <Stack direction="row" gap={2} mt={2}>
           <Button
             color="primary"
             variant="contained"
@@ -53,11 +55,12 @@ const VerifyPasswordView = () => {
             Submit
           </Button>
           <Button
-            variant="text"
+            variant="contained"
+            color="secondary"
             onClick={reset}
             sx={{ alignSelf: "flex-start" }}
           >
-            Start Over
+            Reset
           </Button>
         </Stack>
       </form>

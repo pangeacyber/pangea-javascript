@@ -1,8 +1,10 @@
 import { useFormik } from "formik";
 import * as yup from "yup";
-import { Box, Button, Stack, TextField, Typography } from "@mui/material";
+import { Button, Stack, TextField, Typography } from "@mui/material";
 
 import { useAuthFlow, FlowStep } from "@pangeacyber/react-auth";
+
+import ErrorMessage from "../ErrorMessage";
 
 const EnrollMfaStartView = () => {
   const { callNext, reset, flowData, loading, error } = useAuthFlow();
@@ -31,6 +33,10 @@ const EnrollMfaStartView = () => {
     },
   });
 
+  // const selectMfaMethod = () => {
+  //   callNext(FlowStep.ENROLL_MFA_SELECT, {});
+  // };
+
   return (
     <Stack gap={2}>
       <Stack>
@@ -51,8 +57,15 @@ const EnrollMfaStartView = () => {
           }
           helperText={formik.touched.phoneNumber && formik.errors.phoneNumber}
         />
-        {error && <Box sx={{ color: "red" }}>{error.summary}</Box>}
-        <Stack direction="row" gap={2} my={2}>
+        {/* {flowData?.mfaProviders && flowData?.mfaProviders?.length > 1 && (
+          <Stack direction="row" mt={3} mb={3}>
+            <Button variant="text" onClick={selectMfaMethod}>
+              Choose another way
+            </Button>
+          </Stack>
+        )} */}
+        {error && <ErrorMessage response={error} />}
+        <Stack direction="row" gap={2} mt={2}>
           <Button
             color="primary"
             variant="contained"
@@ -62,11 +75,12 @@ const EnrollMfaStartView = () => {
             Submit
           </Button>
           <Button
-            variant="text"
+            variant="contained"
+            color="secondary"
             onClick={reset}
             sx={{ alignSelf: "flex-start" }}
           >
-            Start Over
+            Reset
           </Button>
         </Stack>
       </form>

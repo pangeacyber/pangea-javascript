@@ -39,6 +39,7 @@ export default [
     ],
     external: Object.keys(pkg.dependencies),
     //external: Object.keys(pkg.peerDependencies || {}),
+    //inlineDynamicImports: true,
   },
   {
     input: "dist/esm/index.d.ts",

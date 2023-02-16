@@ -4,6 +4,8 @@ import { Box, Button, Stack, TextField, Typography } from "@mui/material";
 
 import { useAuthFlow, FlowStep } from "@pangeacyber/react-auth";
 
+import ErrorMessage from "../ErrorMessage";
+
 const SignupView = () => {
   const { callNext, reset, flowData, loading, error } = useAuthFlow();
 
@@ -68,8 +70,8 @@ const SignupView = () => {
           helperText={formik.touched.password && formik.errors.password}
           sx={{ marginTop: 1 }}
         />
-        {error && <Box sx={{ color: "red" }}>{error.summary}</Box>}
-        <Stack direction="row" gap={2} my={2}>
+        {error && <ErrorMessage response={error} />}
+        <Stack direction="row" gap={2} mt={2}>
           <Button
             color="primary"
             variant="contained"
@@ -79,11 +81,12 @@ const SignupView = () => {
             Submit
           </Button>
           <Button
-            variant="text"
+            color="secondary"
+            variant="contained"
             onClick={reset}
             sx={{ alignSelf: "flex-start" }}
           >
-            Start Over
+            Reset
           </Button>
         </Stack>
       </form>

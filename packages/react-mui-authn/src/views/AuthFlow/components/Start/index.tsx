@@ -1,15 +1,10 @@
 import { useFormik } from "formik";
 import * as yup from "yup";
-import {
-  Box,
-  Button,
-  Divider,
-  Stack,
-  TextField,
-  Typography,
-} from "@mui/material";
+import { Button, Divider, Stack, TextField, Typography } from "@mui/material";
 
 import { useAuthFlow, FlowStep } from "@pangeacyber/react-auth";
+
+import ErrorMessage from "../ErrorMessage";
 
 const StartView = () => {
   const { callNext, flowData, loading, error } = useAuthFlow();
@@ -52,7 +47,7 @@ const StartView = () => {
           error={formik.touched.email && Boolean(formik.errors.email)}
           helperText={formik.touched.email && formik.errors.email}
         />
-        {error && <Box sx={{ color: "red" }}>{error.summary}</Box>}
+        {error && <ErrorMessage response={error} />}
         <Stack direction="row" gap={2} mt={2}>
           <Button
             color="primary"
