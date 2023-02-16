@@ -13,8 +13,8 @@ export interface ConfigOptions {
 }
 
 export enum ConfigEnv {
-  "local" = "local",
-  "production" = "production",
+  LOCAL = "local",
+  PRODUCTION = "production",
 }
 
 /**

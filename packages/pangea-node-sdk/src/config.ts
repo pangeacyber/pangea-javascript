@@ -4,7 +4,7 @@ export const version = "1.2.0";
 
 class PangeaConfig {
   domain: string = "pangea.cloud";
-  environment: ConfigEnv = ConfigEnv.production;
+  environment: ConfigEnv = ConfigEnv.PRODUCTION;
   requestRetries: number = 3;
   requestTimeout: number = 5000;
   queuedRetryEnabled: boolean = true;

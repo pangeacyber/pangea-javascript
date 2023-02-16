@@ -107,7 +107,7 @@ class PangeaRequest {
 
   getUrl(path: string): string {
     let url;
-    if (this.config?.environment == ConfigEnv.local) {
+    if (this.config?.environment == ConfigEnv.LOCAL) {
       url = `https://${this.config.domain}/${path}`;
     } else {
       url = `https://${this.serviceName}.${this.config.domain}/${path}`;
