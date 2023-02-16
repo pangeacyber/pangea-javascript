@@ -15,6 +15,7 @@ import {
   getSessionData,
   getToken,
   getUserFromResponse,
+  hasAuthParams,
   processValidateResponse,
   saveSessionData,
   setCookie,
@@ -26,7 +27,7 @@ import {
   APIResponse,
   AuthUser,
   AppState,
-  AuthNConfig,
+  AuthConfig,
   CookieOptions,
   SessionData,
 } from "../types";
@@ -57,7 +58,7 @@ export interface AuthProviderProps {
    *
    * The client config for the authn API
    */
-  config: AuthNConfig;
+  config: AuthConfig;
 
   /**
    * onLogin: (appState: AppState) => void
@@ -111,12 +112,6 @@ export interface AuthProviderProps {
 // const SESSION_DATA_KEY = "pangea-authn";
 const STATE_DATA_KEY = "state";
 const LAST_PATH_KEY = "last-path";
-
-const CODE_RE = /[?&]code=[^&]+/;
-const STATE_RE = /[?&]state=[^&]+/;
-
-export const hasAuthParams = (searchParams = window.location.search): boolean =>
-  CODE_RE.test(searchParams) && STATE_RE.test(searchParams);
 
 const AuthContext = createContext<AuthContextType>({} as AuthContextType);
 

@@ -1,4 +1,4 @@
-export { AuthProvider, hasAuthParams, useAuth, getToken } from "./AuthProvider";
+export { AuthProvider, useAuth, getToken } from "./AuthProvider";
 
 export {
   ComponentAuthProvider,
@@ -24,13 +24,15 @@ export {
   useAuthFlow,
 } from "./AuthNFlow";
 
+export { hasAuthParams } from "./shared/session";
 export { encode58, toUrlEncoded } from "./shared/utils";
 
 export {
   APIResponse,
   AppState,
-  AuthNConfig,
+  AuthConfig,
   AuthUser,
+  CallbackParams,
   ClientResponse,
   CookieOptions,
   Profile,

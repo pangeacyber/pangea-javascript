@@ -2,7 +2,7 @@ import axios, { AxiosResponse } from "axios";
 
 import AuthNClient from "@src/AuthNClient";
 
-import { APIResponse, AuthNConfig, ClientResponse } from "@src/types";
+import { APIResponse, AuthConfig, ClientResponse } from "@src/types";
 
 import {
   AuthNFlowOptions,
@@ -41,7 +41,7 @@ export class AuthNFlowClient extends AuthNClient {
   state: FlowState;
   options: AuthNFlowOptions;
 
-  constructor(config: AuthNConfig, options?: AuthNFlowOptions) {
+  constructor(config: AuthConfig, options?: AuthNFlowOptions) {
     super(config);
 
     this.options = {
@@ -274,7 +274,10 @@ export class AuthNFlowClient extends AuthNClient {
         return await this.verifyMfaStart({
           mfaProvider: this.state.selectedMfa || "",
         });
-      } else if (this.state.step === FlowStep.ENROLL_MFA_START) {
+      } else if (
+        this.state.step === FlowStep.ENROLL_MFA_START &&
+        this.state.selectedMfa !== "sms_otp"
+      ) {
         return await this.enrollMfaStart({
           mfaProvider: this.state.selectedMfa || "",
         });
@@ -293,13 +296,15 @@ export class AuthNFlowClient extends AuthNClient {
     if (success && updateState) {
       // check for mfaProviders
       if (response.result?.verify_mfa_start?.mfa_providers) {
-        this.state.mfaProviders = [
-          ...response.result.verify_mfa_start.mfa_providers,
-        ];
+        this.state.mfaProviders =
+          response.result?.verify_mfa_start?.mfa_providers === null
+            ? []
+            : [...response.result.verify_mfa_start.mfa_providers];
       } else if (response.result?.enroll_mfa_start?.mfa_providers) {
-        this.state.mfaProviders = [
-          ...response.result.enroll_mfa_start.mfa_providers,
-        ];
+        this.state.mfaProviders =
+          response.result?.enroll_mfa_start?.mfa_providers === null
+            ? []
+            : [...response.result.enroll_mfa_start.mfa_providers];
       }
 
       // set default mfa is none is set

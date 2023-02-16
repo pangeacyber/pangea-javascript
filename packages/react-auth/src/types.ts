@@ -1,8 +1,8 @@
 // Copyright 2021 Pangea Cyber Corporation
 // Author: Pangea Cyber Corporation
 
-export interface AuthNConfig {
-  token: string;
+export interface AuthConfig {
+  clientToken: string;
   domain: string;
   callbackUri?: string;
 }
@@ -11,6 +11,11 @@ export interface APIResponse {
   status: string;
   summary: string;
   result: any;
+}
+
+export interface CallbackParams {
+  code: string;
+  state: string;
 }
 
 export interface ClientResponse {
