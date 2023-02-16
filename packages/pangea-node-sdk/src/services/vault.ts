@@ -126,7 +126,7 @@ class VaultService extends BaseService {
   }
 
   async asymmetricStore(
-    algorithm: string,
+    algorithm: Vault.AsymmetricAlgorithm,
     publicKey: Vault.EncodedPublicKey,
     privateKey: Vault.EncodedPrivateKey,
     options: Vault.Asymmetric.StoreOptions = {}
@@ -143,7 +143,7 @@ class VaultService extends BaseService {
   }
 
   async symmetricStore(
-    algorithm: string,
+    algorithm: Vault.SymmetricAlgorithm,
     key: string,
     options: Vault.Asymmetric.StoreOptions = {}
   ): Promise<PangeaResponse<Vault.Symmetric.StoreResult>> {
