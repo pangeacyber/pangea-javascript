@@ -281,6 +281,7 @@ export namespace Vault {
     ASYMMETRIC_KEY: "asymmetric_key",
     SYMMETRIC_KEY: "symmetric_key",
     SECRET: "secret",
+    PANGEA_TOKEN: "pangea_token",
   };
 
   export const ItemOrder = {
@@ -352,7 +353,7 @@ export namespace Vault {
   }
 
   export interface ListResult {
-    items: [ListItemData][];
+    items: ListItemData[];
     count: number;
     last?: string;
   }
@@ -418,6 +419,63 @@ export namespace Vault {
     secret?: string;
   }
 
+  export namespace JWT {
+    export interface Header {
+      alg: string;
+      kid?: string;
+      kty: string;
+      use?: string;
+    }
+
+    export interface JWKrsa extends Header {
+      n: string;
+      e: string;
+      d?: string;
+    }
+
+    export interface JWKec extends Header {
+      crv: string;
+      d?: string;
+      x: string;
+      y: string;
+    }
+
+    export interface JWK extends Header {}
+
+    export interface JWKSet {
+      keys: [JWKrsa | JWKec][];
+    }
+
+    export interface GetResult {
+      jwk: JWKSet;
+    }
+
+    export interface GetOptions {
+      version?: string;
+    }
+
+    export interface GetRequest extends GetOptions {
+      id: string;
+    }
+
+    export interface SignRequest {
+      id: string;
+      payload: string;
+    }
+
+    export interface SignResult {
+      jws: string;
+    }
+
+    export interface VerifyRequest {
+      jws: string;
+    }
+
+    export interface VerifyResult {
+      valid_signature: boolean;
+    }
+  }
+
   export namespace Common {
     export interface StoreOptions {
       name?: string;
@@ -429,7 +487,9 @@ export namespace Vault {
       expiration?: string;
     }
 
-    export interface StoreRequest {}
+    export interface StoreRequest {
+      type: string;
+    }
 
     export interface StoreResult {
       id: string;
@@ -495,7 +555,6 @@ export namespace Vault {
 
     export interface StoreRequest extends Common.StoreRequest, StoreOptions {
       secret: string;
-      type: string;
     }
 
     export interface StoreResult extends Common.StoreResult {
@@ -509,7 +568,7 @@ export namespace Vault {
     }
 
     export interface RotateRequest extends Common.RotateRequest {
-      secret: string;
+      secret?: string;
     }
 
     export interface RotateResult extends Common.RotateResult {
@@ -554,7 +613,6 @@ export namespace Vault {
     }
 
     export interface StoreRequest extends Common.StoreRequest, StoreOptions {
-      type: string; // should be some of Vault.ItemType;
       managed?: boolean;
       algorithm: string;
       public_key: EncodedPublicKey;
@@ -605,7 +663,6 @@ export namespace Vault {
     }
 
     export interface StoreRequest extends Common.StoreRequest, StoreOptions {
-      type: string; // should be some of Vault.ItemType;
       key: EncodedSymmetricKey;
       algorithm: string; // Should be KeyAlgorithm
     }
@@ -618,6 +675,7 @@ export namespace Vault {
     export interface GenerateOptions extends Common.GenerateOptions {
       algorithm?: string; // Should be KeyAlgorithm
       managed?: boolean;
+      purpose?: string;
     }
 
     export interface GenerateRequest extends Common.GenerateRequest, GenerateOptions {}

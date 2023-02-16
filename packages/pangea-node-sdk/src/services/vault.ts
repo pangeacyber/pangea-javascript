@@ -70,13 +70,34 @@ class VaultService extends BaseService {
     return this.post("secret/store", data);
   }
 
+  async pangeaTokenStore(
+    secret: string,
+    options: Vault.Secret.StoreOptions = {}
+  ): Promise<PangeaResponse<Vault.Secret.StoreResult>> {
+    let data: Vault.Secret.StoreRequest = {
+      type: Vault.ItemType.PANGEA_TOKEN,
+      secret: secret,
+    };
+
+    Object.assign(data, options);
+    return this.post("secret/store", data);
+  }
+
   async secretRotate(
     id: string,
-    secret: string
+    secret?: string
   ): Promise<PangeaResponse<Vault.Secret.RotateResult>> {
     let data: Vault.Secret.RotateRequest = {
       id: id,
       secret: secret,
+    };
+
+    return this.post("secret/rotate", data);
+  }
+
+  async pangeaTokenRotate(id: string): Promise<PangeaResponse<Vault.Secret.RotateResult>> {
+    let data: Vault.Secret.RotateRequest = {
+      id: id,
     };
 
     return this.post("secret/rotate", data);
@@ -193,6 +214,32 @@ class VaultService extends BaseService {
     };
     Object.assign(data, options);
     return this.post("key/verify", data);
+  }
+
+  async jwtGet(
+    id: string,
+    options: Vault.JWT.GetOptions = {}
+  ): Promise<PangeaResponse<Vault.JWT.GetResult>> {
+    let data: Vault.JWT.GetRequest = {
+      id: id,
+    };
+    Object.assign(data, options);
+    return this.post("get/jwk", data);
+  }
+
+  async jwtSign(id: string, payload: string): Promise<PangeaResponse<Vault.JWT.SignResult>> {
+    let data: Vault.JWT.SignRequest = {
+      id: id,
+      payload: payload,
+    };
+    return this.post("key/sign/jwt", data);
+  }
+
+  async jwtVerify(jws: string): Promise<PangeaResponse<Vault.JWT.VerifyResult>> {
+    let data: Vault.JWT.VerifyRequest = {
+      jws: jws,
+    };
+    return this.post("key/verify/jwt", data);
   }
 }
 
