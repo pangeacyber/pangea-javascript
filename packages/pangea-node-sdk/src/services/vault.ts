@@ -71,12 +71,12 @@ class VaultService extends BaseService {
   }
 
   async pangeaTokenStore(
-    secret: string,
+    pangeaToken: string,
     options: Vault.Secret.StoreOptions = {}
   ): Promise<PangeaResponse<Vault.Secret.StoreResult>> {
     let data: Vault.Secret.StoreRequest = {
       type: Vault.ItemType.PANGEA_TOKEN,
-      secret: secret,
+      secret: pangeaToken,
     };
 
     Object.assign(data, options);
@@ -85,7 +85,7 @@ class VaultService extends BaseService {
 
   async secretRotate(
     id: string,
-    secret?: string
+    secret: string
   ): Promise<PangeaResponse<Vault.Secret.RotateResult>> {
     let data: Vault.Secret.RotateRequest = {
       id: id,
@@ -216,11 +216,11 @@ class VaultService extends BaseService {
     return this.post("key/verify", data);
   }
 
-  async jwtGet(
+  async jwkGet(
     id: string,
-    options: Vault.JWT.GetOptions = {}
-  ): Promise<PangeaResponse<Vault.JWT.GetResult>> {
-    let data: Vault.JWT.GetRequest = {
+    options: Vault.JWK.GetOptions = {}
+  ): Promise<PangeaResponse<Vault.JWK.GetResult>> {
+    let data: Vault.JWK.GetRequest = {
       id: id,
     };
     Object.assign(data, options);

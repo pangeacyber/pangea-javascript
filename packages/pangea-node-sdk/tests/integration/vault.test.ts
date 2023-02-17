@@ -143,19 +143,19 @@ async function jwtSigningCycle(id: string) {
     expect(respVerify2.result.valid_signature).toBe(true);
 
     // Get default
-    let getResp = await vault.jwtGet(id);
+    let getResp = await vault.jwkGet(id);
     expect(getResp.result.jwk.keys.length).toBe(1);
 
     // Get version
-    getResp = await vault.jwtGet(id, { version: "1" });
+    getResp = await vault.jwkGet(id, { version: "1" });
     expect(getResp.result.jwk.keys.length).toBe(1);
 
     // Get all
-    getResp = await vault.jwtGet(id, { version: "all" });
+    getResp = await vault.jwkGet(id, { version: "all" });
     expect(getResp.result.jwk.keys.length).toBe(2);
 
     // Get -1
-    getResp = await vault.jwtGet(id, { version: "-1" });
+    getResp = await vault.jwkGet(id, { version: "-1" });
     expect(getResp.result.jwk.keys.length).toBe(2);
 
     // Revoke key

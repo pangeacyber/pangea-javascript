@@ -420,6 +420,25 @@ export namespace Vault {
   }
 
   export namespace JWT {
+    export interface SignRequest {
+      id: string;
+      payload: string;
+    }
+
+    export interface SignResult {
+      jws: string;
+    }
+
+    export interface VerifyRequest {
+      jws: string;
+    }
+
+    export interface VerifyResult {
+      valid_signature: boolean;
+    }
+  }
+
+  export namespace JWK {
     export interface Header {
       alg: string;
       kid?: string;
@@ -456,23 +475,6 @@ export namespace Vault {
 
     export interface GetRequest extends GetOptions {
       id: string;
-    }
-
-    export interface SignRequest {
-      id: string;
-      payload: string;
-    }
-
-    export interface SignResult {
-      jws: string;
-    }
-
-    export interface VerifyRequest {
-      jws: string;
-    }
-
-    export interface VerifyResult {
-      valid_signature: boolean;
     }
   }
 
