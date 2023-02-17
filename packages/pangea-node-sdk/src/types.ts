@@ -256,52 +256,53 @@ export namespace Intel {
  * Vault services interface definitions
  */
 export namespace Vault {
-  export const KeyPurpose = {
-    SIGNING: "signing",
-    ENCRYPTION: "encryption",
-    JWT: "jwt",
-  };
+  export enum KeyPurpose {
+    SIGNING = "signing",
+    ENCRYPTION = "encryption",
+    JWT = "jwt",
+  }
 
-  export const AsymmetricAlgorithm = {
-    Ed25519: "ed25519",
-    RSA: "rsa",
-    ES256: "es256",
-    ES384: "es384",
-    ES512: "es512",
-  };
+  export enum AsymmetricAlgorithm {
+    Ed25519 = "ed25519",
+    RSA = "rsa",
+    ES256 = "es256",
+    ES384 = "es384",
+    ES512 = "es512",
+  }
 
-  export const SymmetricAlgorithm = {
-    AES: "aes",
-    HS256: "hs256",
-    HS384: "hs384",
-    HS512: "hs512",
-  };
+  export enum SymmetricAlgorithm {
+    AES = "aes",
+    HS256 = "hs256",
+    HS384 = "hs384",
+    HS512 = "hs512",
+  }
 
-  export const ItemType = {
-    ASYMMETRIC_KEY: "asymmetric_key",
-    SYMMETRIC_KEY: "symmetric_key",
-    SECRET: "secret",
-  };
+  export enum ItemType {
+    ASYMMETRIC_KEY = "asymmetric_key",
+    SYMMETRIC_KEY = "symmetric_key",
+    SECRET = "secret",
+    PANGEA_TOKEN = "pangea_token",
+  }
 
-  export const ItemOrder = {
-    ASC: "asc",
-    DESC: "desc",
-  };
+  export enum ItemOrder {
+    ASC = "asc",
+    DESC = "desc",
+  }
 
-  export const ItemOrderBy = {
-    TYPE: "type",
-    CREATED_AT: "created_at",
-    REVOKED_AT: "revoked_at",
-    IDENTITY: "identity",
-    MANAGED: "managed",
-    PURPOSE: "purpose",
-    EXPIRATION: "expiration",
-    LAST_ROTATED: "last_rotated",
-    NEXT_ROTATION: "next_rotation",
-    NAME: "name",
-    FOLDER: "folder",
-    VERSION: "version",
-  };
+  export enum ItemOrderBy {
+    TYPE = "type",
+    CREATED_AT = "created_at",
+    REVOKED_AT = "revoked_at",
+    IDENTITY = "identity",
+    MANAGED = "managed",
+    PURPOSE = "purpose",
+    EXPIRATION = "expiration",
+    LAST_ROTATED = "last_rotated",
+    NEXT_ROTATION = "next_rotation",
+    NAME = "name",
+    FOLDER = "folder",
+    VERSION = "version",
+  }
 
   export type Metadata = Object;
   export type Tags = string[];
@@ -352,7 +353,7 @@ export namespace Vault {
   }
 
   export interface ListResult {
-    items: [ListItemData][];
+    items: ListItemData[];
     count: number;
     last?: string;
   }
@@ -362,8 +363,8 @@ export namespace Vault {
     restrictions?: Object;
     last?: string;
     size?: number;
-    order?: string; //Should be some of Vault.ItemOrder
-    order_by?: string; // Should be some of Vault.ItemOrderBy
+    order?: Vault.ItemOrder;
+    order_by?: Vault.ItemOrderBy;
   }
 
   export interface UpdateOptions {
@@ -411,11 +412,70 @@ export namespace Vault {
     revoked_at?: string;
     public_key?: EncodedPublicKey;
     private_key?: EncodedPrivateKey;
-    algorithm?: string; // Should be KeyPairAlgorithm | KeyAlgorithm;
-    purpose?: string; // Should be KeyPairPurpose
+    algorithm?: string;
+    purpose?: string;
     key?: EncodedSymmetricKey;
     managed?: boolean;
     secret?: string;
+  }
+
+  export namespace JWT {
+    export interface SignRequest {
+      id: string;
+      payload: string;
+    }
+
+    export interface SignResult {
+      jws: string;
+    }
+
+    export interface VerifyRequest {
+      jws: string;
+    }
+
+    export interface VerifyResult {
+      valid_signature: boolean;
+    }
+  }
+
+  export namespace JWK {
+    export interface Header {
+      alg: string;
+      kid?: string;
+      kty: string;
+      use?: string;
+    }
+
+    export interface JWKrsa extends Header {
+      n: string;
+      e: string;
+      d?: string;
+    }
+
+    export interface JWKec extends Header {
+      crv: string;
+      d?: string;
+      x: string;
+      y: string;
+    }
+
+    export interface JWK extends Header {}
+
+    export interface JWKSet {
+      keys: [JWKrsa | JWKec][];
+    }
+
+    export interface GetResult {
+      jwk: JWKSet;
+    }
+
+    export interface GetOptions {
+      version?: string;
+    }
+
+    export interface GetRequest extends GetOptions {
+      id: string;
+    }
   }
 
   export namespace Common {
@@ -429,7 +489,9 @@ export namespace Vault {
       expiration?: string;
     }
 
-    export interface StoreRequest {}
+    export interface StoreRequest {
+      type: Vault.ItemType;
+    }
 
     export interface StoreResult {
       id: string;
@@ -438,7 +500,7 @@ export namespace Vault {
     }
 
     export interface GenerateRequest {
-      type: string; // should be some of Vault.ItemType;
+      type: Vault.ItemType;
     }
 
     export interface GenerateOptions {
@@ -455,7 +517,7 @@ export namespace Vault {
 
     export interface GenerateResult {
       id: string;
-      type?: string;
+      type?: Vault.ItemType;
       version?: number;
     }
 
@@ -495,7 +557,6 @@ export namespace Vault {
 
     export interface StoreRequest extends Common.StoreRequest, StoreOptions {
       secret: string;
-      type: string;
     }
 
     export interface StoreResult extends Common.StoreResult {
@@ -509,7 +570,7 @@ export namespace Vault {
     }
 
     export interface RotateRequest extends Common.RotateRequest {
-      secret: string;
+      secret?: string;
     }
 
     export interface RotateResult extends Common.RotateResult {
@@ -536,8 +597,8 @@ export namespace Vault {
 
   export namespace Asymmetric {
     export interface GenerateOptions extends Common.GenerateOptions {
-      algorithm?: string; // Should be KeyPairAlgorithm
-      purpose?: string; // Should be KeyPairPurpose
+      algorithm?: Vault.AsymmetricAlgorithm | Vault.SymmetricAlgorithm;
+      purpose?: Vault.KeyPurpose;
     }
 
     export interface GenerateRequest extends Common.GenerateRequest, GenerateOptions {}
@@ -549,13 +610,11 @@ export namespace Vault {
     }
 
     export interface StoreOptions extends Common.StoreOptions {
-      purpose?: string; // Should be KeyPairPurpose
+      purpose?: Vault.KeyPurpose;
       managed?: boolean;
     }
 
     export interface StoreRequest extends Common.StoreRequest, StoreOptions {
-      type: string; // should be some of Vault.ItemType;
-      managed?: boolean;
       algorithm: string;
       public_key: EncodedPublicKey;
       private_key: EncodedPrivateKey;
@@ -576,7 +635,7 @@ export namespace Vault {
       id: string;
       version: number;
       signature: string;
-      algorithm: string; // Should be KeyPairAlgorithm
+      algorithm: string;
       public_key?: EncodedPublicKey;
     }
 
@@ -593,7 +652,7 @@ export namespace Vault {
     export interface VerifyResult {
       id: string;
       version: number;
-      algorithm: string; // Should be KeyPairAlgorithm
+      algorithm: string;
       valid_signature: boolean;
     }
   }
@@ -605,25 +664,25 @@ export namespace Vault {
     }
 
     export interface StoreRequest extends Common.StoreRequest, StoreOptions {
-      type: string; // should be some of Vault.ItemType;
       key: EncodedSymmetricKey;
-      algorithm: string; // Should be KeyAlgorithm
+      algorithm: Vault.SymmetricAlgorithm;
     }
 
     export interface StoreResult extends Common.StoreResult {
-      algorithm?: string; // Should be KeyAlgorithm   # FIXME: Remove optional once backend is updated
+      algorithm?: Vault.SymmetricAlgorithm;
       key?: EncodedSymmetricKey;
     }
 
     export interface GenerateOptions extends Common.GenerateOptions {
-      algorithm?: string; // Should be KeyAlgorithm
+      algorithm?: Vault.SymmetricAlgorithm;
       managed?: boolean;
+      purpose?: Vault.KeyPurpose;
     }
 
     export interface GenerateRequest extends Common.GenerateRequest, GenerateOptions {}
 
     export interface GenerateResult extends Common.GenerateResult {
-      algorithm: string; //Should be KeyAlgorithm
+      algorithm: Vault.SymmetricAlgorithm;
       key?: EncodedSymmetricKey;
     }
 
@@ -635,7 +694,7 @@ export namespace Vault {
     export interface EncryptResult {
       id: string;
       version: number;
-      algorithm: string; // Should be KeyAlgorithm
+      algorithm: string;
       cipher_text: string;
     }
 
@@ -651,7 +710,7 @@ export namespace Vault {
     export interface DecryptResult {
       id: string;
       version?: number;
-      algorithm: string; // Should be KeyAlgorithm
+      algorithm: string;
       plain_text: string;
     }
   }

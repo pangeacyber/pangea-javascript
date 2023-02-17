@@ -14,6 +14,7 @@ const vault = new VaultService(token, config);
 
 jest.setTimeout(60000);
 it("Secret life cycle", async () => {
+  // Store
   const secretV1 = "mysecret";
   const respV1 = await vault.secretStore(secretV1);
   const id = respV1.result.id;
@@ -21,12 +22,14 @@ it("Secret life cycle", async () => {
   expect(respV1.result.secret).toBe(secretV1);
   expect(respV1.result.version).toBe(1);
 
+  // Rotate
   const secretV2 = "newsecret";
   const respRotate = await vault.secretRotate(id, secretV2);
   expect(respRotate.result.secret).toBe(secretV2);
   expect(respRotate.result.version).toBe(2);
 
-  const respGet = await vault.getItem(id);
+  // Get
+  let respGet = await vault.getItem(id);
   expect(respGet.result.secret).toBe(secretV2);
   expect(respGet.result.version).toBe(2);
   expect(respGet.result.revoked_at).toBeUndefined();
@@ -34,16 +37,21 @@ it("Secret life cycle", async () => {
   expect(respGet.result.public_key).toBeUndefined();
   expect(respGet.result.key).toBeUndefined();
 
+  // Revoke
   const respRevoke = await vault.revoke(id);
   expect(respRevoke.result.id).toBe(id);
 
-  const f = async () => {
-    return await vault.getItem(id);
-  };
-  await expect(f()).rejects.toThrow(PangeaErrors.APIError);
+  // Get after revoke
+  respGet = await vault.getItem(id);
+  expect(respGet.result.secret).toBe(secretV2);
+  expect(respGet.result.version).toBe(2);
+  expect(respGet.result.revoked_at).toBeUndefined();
+  expect(respGet.result.private_key).toBeUndefined();
+  expect(respGet.result.public_key).toBeUndefined();
+  expect(respGet.result.key).toBeUndefined();
 });
 
-async function signingCycle(id: string) {
+async function asymSigningCycle(id: string) {
   const data = "thisisamessagetosign";
 
   // Sign 1
@@ -106,6 +114,61 @@ async function signingCycle(id: string) {
     version: 1,
   });
   expect(respVerify1.result.valid_signature).toBe(true);
+}
+
+async function jwtSigningCycle(id: string) {
+  const data = {
+    message: "message to sign",
+    data: "Some extra data",
+  };
+
+  const payload = JSON.stringify(data);
+
+  // Sign 1
+  try {
+    const respSign1 = await vault.jwtSign(id, payload);
+    expect(respSign1.result.jws).toBeDefined();
+
+    // Rotate
+    const respRotate = await vault.keyRotate(id);
+    expect(respRotate.result.version).toBe(2);
+    expect(respRotate.result.id).toBe(id);
+
+    // Sign2
+    const respSign2 = await vault.jwtSign(id, payload);
+    expect(respSign2.result.jws).toBeDefined();
+
+    // Verify 2
+    const respVerify2 = await vault.jwtVerify(respSign2.result.jws);
+    expect(respVerify2.result.valid_signature).toBe(true);
+
+    // Get default
+    let getResp = await vault.jwkGet(id);
+    expect(getResp.result.jwk.keys.length).toBe(1);
+
+    // Get version
+    getResp = await vault.jwkGet(id, { version: "1" });
+    expect(getResp.result.jwk.keys.length).toBe(1);
+
+    // Get all
+    getResp = await vault.jwkGet(id, { version: "all" });
+    expect(getResp.result.jwk.keys.length).toBe(2);
+
+    // Get -1
+    getResp = await vault.jwkGet(id, { version: "-1" });
+    expect(getResp.result.jwk.keys.length).toBe(2);
+
+    // Revoke key
+    const respRevoke = await vault.revoke(id);
+    expect(respRevoke.result.id).toBe(id);
+
+    // Verify after revoked
+    const respVerify1 = await vault.jwtVerify(respSign1.result.jws);
+    expect(respVerify1.result.valid_signature).toBe(true);
+  } catch (e) {
+    console.log(e);
+    expect(false).toBeTruthy();
+  }
 }
 
 async function encryptingCycle(id: string) {
@@ -194,7 +257,7 @@ it("ed25519 generate, store and signing life cycle", async () => {
   const id = respStore.result.id;
   expect(id).toBeDefined();
   expect(respStore.result.version).toBe(1);
-  await signingCycle(id);
+  await asymSigningCycle(id);
 });
 
 jest.setTimeout(60000);
@@ -216,4 +279,60 @@ it("AES generate, store and encrypting life cycle", async () => {
   expect(id).toBeDefined();
   expect(respStore.result.version).toBe(1);
   await encryptingCycle(id);
+});
+
+jest.setTimeout(60000);
+it("JWT asym es256 generate, store and signing life cycle", async () => {
+  const algorithm = Vault.AsymmetricAlgorithm.ES256;
+  const purpose = Vault.KeyPurpose.JWT;
+
+  const respGen = await vault.asymmetricGenerate({
+    algorithm: algorithm,
+    purpose: purpose,
+    managed: false,
+    store: false,
+  });
+
+  expect(respGen.result.id).toBeUndefined();
+  expect(respGen.result.public_key).toBeDefined();
+  expect(respGen.result.private_key).toBeDefined();
+
+  const respStore = await vault.asymmetricStore(
+    algorithm,
+    respGen.result.public_key,
+    String(respGen.result.private_key),
+    {
+      purpose: purpose,
+    }
+  );
+
+  const id = respStore.result.id;
+  expect(id).toBeDefined();
+  expect(respStore.result.version).toBe(1);
+  await jwtSigningCycle(id);
+});
+
+jest.setTimeout(60000);
+it("JWT symm generate, store and encrypting life cycle", async () => {
+  const algorithm = Vault.SymmetricAlgorithm.HS256;
+  const purpose = Vault.KeyPurpose.JWT;
+
+  const respGen = await vault.symmetricGenerate({
+    algorithm: algorithm,
+    purpose: purpose,
+    managed: false,
+    store: false,
+  });
+
+  expect(respGen.result.id).toBeUndefined();
+  expect(respGen.result.key).toBeDefined();
+
+  const respStore = await vault.symmetricStore(algorithm, String(respGen.result.key), {
+    purpose: purpose,
+  });
+
+  const id = respStore.result.id;
+  expect(id).toBeDefined();
+  expect(respStore.result.version).toBe(1);
+  await jwtSigningCycle(id);
 });
