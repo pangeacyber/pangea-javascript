@@ -2,36 +2,39 @@ import PangeaResponse from "../../../response";
 import BaseService from "../../base";
 import PangeaConfig from "../../../config";
 import { AuthN } from "../../../types";
-import AuthNEnroll from "./enroll";
-import AuthNSignup from "./signup";
-import AuthNVerify from "./verify";
+import FlowEnroll from "./enroll";
+import FlowSignup from "./signup";
+import FlowVerify from "./verify";
 
-export default class AuthNFlow extends BaseService {
-  enroll: AuthNEnroll;
-  signup: AuthNSignup;
-  verify: AuthNVerify;
+export default class Flow extends BaseService {
+  enroll: FlowEnroll;
+  signup: FlowSignup;
+  verify: FlowVerify;
 
   constructor(token: string, config: PangeaConfig) {
-    super("authnflow", token, config);
+    super("authn", token, config);
     this.apiVersion = "v1";
 
-    this.enroll = new AuthNEnroll(token, config);
-    this.signup = new AuthNSignup(token, config);
-    this.verify = new AuthNVerify(token, config);
+    this.enroll = new FlowEnroll(token, config);
+    this.signup = new FlowSignup(token, config);
+    this.verify = new FlowVerify(token, config);
   }
 
   // #   - path: authn::/v1/flow/complete
-  complete(flow_id: string): Promise<PangeaResponse<AuthN.Flow.Complete.Response>> {
-    return this.post("flow/complete", { flow_id });
+  complete(flowID: string): Promise<PangeaResponse<AuthN.Flow.CompleteResult>> {
+    const data: AuthN.Flow.CompleteRequest = {
+      flow_id: flowID,
+    };
+    return this.post("flow/complete", data);
   }
 
   // #   - path: authn::/v1/flow/start
   start(
-    cb_uri: string,
-    { email, flow_types }: AuthN.Flow.Start.OptionalParams
-  ): Promise<PangeaResponse<AuthN.Flow.Response>> {
-    const data: AuthN.Flow.Start.Request = {
-      cb_uri,
+    cbURI: string,
+    { email, flow_types }: AuthN.Flow.StartOptions
+  ): Promise<PangeaResponse<AuthN.Flow.Result>> {
+    const data: AuthN.Flow.StartRequest = {
+      cb_uri: cbURI,
     };
 
     if (email) data.email = email;

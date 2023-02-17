@@ -3,15 +3,15 @@ import BaseService from "../base";
 import PangeaConfig from "../../config";
 import { AuthN } from "../../types";
 
-export default class AuthNSession extends BaseService {
+export default class Session extends BaseService {
   constructor(token: string, config: PangeaConfig) {
-    super("authnsession", token, config);
+    super("authn", token, config);
     this.apiVersion = "v1";
   }
 
   // - path: authn::/v1/session/invalidate
-  invalidate(session_id: string): Promise<PangeaResponse<{}>> {
-    return this.post("session/invalidate", { session_id });
+  invalidate(sessionID: string): Promise<PangeaResponse<{}>> {
+    return this.post("session/invalidate", { session_id: sessionID });
   }
 
   // - path: authn::/v1/session/list
@@ -21,8 +21,8 @@ export default class AuthNSession extends BaseService {
     order,
     order_by,
     size,
-  }: AuthN.Session.List.Request): Promise<PangeaResponse<AuthN.Session.List.Response>> {
-    const data: AuthN.Session.List.Request = {};
+  }: AuthN.Session.ListRequest): Promise<PangeaResponse<AuthN.Session.ListResult>> {
+    const data: AuthN.Session.ListRequest = {};
 
     if (filter) data.filter = filter;
     if (last) data.last = last;

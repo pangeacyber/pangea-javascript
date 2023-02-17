@@ -3,26 +3,28 @@ import BaseService from "../../base";
 import PangeaConfig from "../../../config";
 import { AuthN } from "../../../types";
 
-export default class AuthNClientSession extends BaseService {
+export default class ClientSession extends BaseService {
   constructor(token: string, config: PangeaConfig) {
-    super("authnclientsession", token, config);
+    super("authn", token, config);
     this.apiVersion = "v1";
   }
 
   // - path: authn::/v1/client/session/invalidate
-  invalidate({
-    token,
-    session_id,
-  }: AuthN.Client.Session.Invalidate.Request): Promise<PangeaResponse<{}>> {
-    return this.post("client/session/invalidate", { token, session_id });
+  invalidate(token: string, sessionID: string): Promise<PangeaResponse<{}>> {
+    const data: AuthN.Client.Session.InvalidateRequest = {
+      token: token,
+      session_id: sessionID,
+    };
+
+    return this.post("client/session/invalidate", data);
   }
 
   // - path: authn::/v1/client/session/list
   list(
     token: string,
-    { filter, last, order, order_by, size }: AuthN.Client.Session.List.OptionalParams
-  ): Promise<PangeaResponse<AuthN.Session.List.Response>> {
-    const data: AuthN.Client.Session.List.Request = {
+    { filter, last, order, order_by, size }: AuthN.Client.Session.ListOptions
+  ): Promise<PangeaResponse<AuthN.Session.ListResult>> {
+    const data: AuthN.Client.Session.ListRequest = {
       token,
     };
 
@@ -42,11 +44,11 @@ export default class AuthNClientSession extends BaseService {
 
   // - path: authn::/v1/client/session/refresh
   refresh(
-    refresh_token: string,
-    { user_token }: AuthN.Client.Session.Refresh.OptionalParams
-  ): Promise<PangeaResponse<AuthN.Client.Session.Refresh.Response>> {
-    const data: AuthN.Client.Session.Refresh.Request = {
-      refresh_token,
+    refreshToken: string,
+    { user_token }: AuthN.Client.Session.RefreshOptions
+  ): Promise<PangeaResponse<AuthN.Client.Session.RefreshResult>> {
+    const data: AuthN.Client.Session.RefreshRequest = {
+      refresh_token: refreshToken,
     };
 
     if (user_token) data.user_token = user_token;

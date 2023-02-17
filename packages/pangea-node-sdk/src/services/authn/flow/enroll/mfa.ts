@@ -3,20 +3,21 @@ import PangeaConfig from "../../../../config";
 import BaseService from "../../../base";
 import { AuthN } from "../../../../types";
 
-export default class AuthNEnrollMFA extends BaseService {
+export default class FlowEnrollMFA extends BaseService {
   constructor(token: string, config: PangeaConfig) {
-    super("authnenrollmfa", token, config);
+    super("authn", token, config);
     this.apiVersion = "v1";
   }
 
   // #   - path: authn::/v1/flow/enroll/mfa/start
   start(
-    { flow_id, mfa_provider }: AuthN.Flow.Enroll.MFA.Start.RequiredParams,
-    { phone }: AuthN.Flow.Enroll.MFA.Start.OptionalParams
-  ): Promise<PangeaResponse<AuthN.Flow.Response>> {
-    const data: AuthN.Flow.Enroll.MFA.Start.Request = {
-      flow_id,
-      mfa_provider,
+    flowID: string,
+    mfaProvider: AuthN.MFAProvider,
+    { phone }: AuthN.Flow.Enroll.MFA.StartOptions
+  ): Promise<PangeaResponse<AuthN.Flow.Result>> {
+    const data: AuthN.Flow.Enroll.MFA.StartRequest = {
+      flow_id: flowID,
+      mfa_provider: mfaProvider,
     };
 
     if (phone) data.phone = phone;
@@ -26,12 +27,13 @@ export default class AuthNEnrollMFA extends BaseService {
 
   // #   - path: authn::/v1/flow/enroll/mfa/complete
   complete(
-    { flow_id, code }: AuthN.Flow.Enroll.MFA.Complete.RequiredParams,
-    { cancel }: AuthN.Flow.Enroll.MFA.Complete.OptionalParams
-  ): Promise<PangeaResponse<AuthN.Flow.Response>> {
-    const data: AuthN.Flow.Enroll.MFA.Complete.Request = {
-      flow_id,
-      code,
+    flowID: string,
+    code: string,
+    { cancel }: AuthN.Flow.Enroll.MFA.CompleteOptions
+  ): Promise<PangeaResponse<AuthN.Flow.Result>> {
+    const data: AuthN.Flow.Enroll.MFA.CompleteRequest = {
+      flow_id: flowID,
+      code: code,
     };
 
     if (typeof cancel === "boolean") data.cancel = cancel;

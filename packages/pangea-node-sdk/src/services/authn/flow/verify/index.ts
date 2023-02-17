@@ -3,49 +3,62 @@ import PangeaConfig from "../../../../config";
 import BaseService from "../../../base";
 import { AuthN } from "../../../../types";
 
-import AuthNVerifyMFA from "./mfa";
+import FlowVerifyMFA from "./mfa";
 
-export default class AuthNVerify extends BaseService {
-  mfa: AuthNVerifyMFA;
+export default class FlowVerify extends BaseService {
+  mfa: FlowVerifyMFA;
 
   constructor(token: string, config: PangeaConfig) {
-    super("authnverify", token, config);
+    super("authn", token, config);
     this.apiVersion = "v1";
 
-    this.mfa = new AuthNVerifyMFA(token, config);
+    this.mfa = new FlowVerifyMFA(token, config);
   }
 
   // #   - path: authn::/v1/flow/verify/captcha
-  captcha({
-    flow_id,
-    code,
-  }: AuthN.Flow.Verify.Captcha.Request): Promise<PangeaResponse<AuthN.Flow.Response>> {
-    return this.post("flow/verify/captcha", { flow_id, code });
+  captcha(flowID: string, code: string): Promise<PangeaResponse<AuthN.Flow.Result>> {
+    const data: AuthN.Flow.Verify.CaptchaRequest = {
+      flow_id: flowID,
+      code: code,
+    };
+
+    return this.post("flow/verify/captcha", data);
   }
 
   // #   - path: authn::/v1/flow/verify/email
-  email({
-    flow_id,
-    cb_state,
-    cb_code,
-  }: AuthN.Flow.Verify.Email.Request): Promise<PangeaResponse<AuthN.Flow.Response>> {
-    return this.post("flow/verify/email", { flow_id, cb_state, cb_code });
+  email(
+    flowID: string,
+    cbState: string,
+    cbCode: string
+  ): Promise<PangeaResponse<AuthN.Flow.Result>> {
+    const data: AuthN.Flow.Verify.EmailRequest = {
+      flow_id: flowID,
+      cb_code: cbCode,
+      cb_state: cbState,
+    };
+    return this.post("flow/verify/email", data);
   }
 
   // #   - path: authn::/v1/flow/verify/password
-  password({
-    flow_id,
-    password,
-  }: AuthN.Flow.Verify.Password.Request): Promise<PangeaResponse<AuthN.Flow.Response>> {
-    return this.post("flow/verify/password", { flow_id, password });
+  password(flowID: string, password: string): Promise<PangeaResponse<AuthN.Flow.Result>> {
+    const data: AuthN.Flow.Verify.PasswordRequest = {
+      flow_id: flowID,
+      password: password,
+    };
+    return this.post("flow/verify/password", data);
   }
 
   // #   - path: authn::/v1/flow/verify/social
-  social({
-    flow_id,
-    cb_state,
-    cb_code,
-  }: AuthN.Flow.Verify.Social.Request): Promise<PangeaResponse<AuthN.Flow.Response>> {
-    return this.post("flow/verify/social", { flow_id, cb_state, cb_code });
+  social(
+    flowID: string,
+    cbState: string,
+    cbCode: string
+  ): Promise<PangeaResponse<AuthN.Flow.Result>> {
+    const data: AuthN.Flow.Verify.SocialRequest = {
+      flow_id: flowID,
+      cb_code: cbCode,
+      cb_state: cbState,
+    };
+    return this.post("flow/verify/social", data);
   }
 }

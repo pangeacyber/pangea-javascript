@@ -3,28 +3,39 @@ import PangeaConfig from "../../../config";
 import BaseService from "../../base";
 import { AuthN } from "../../../types";
 
-export default class AuthNSignup extends BaseService {
+export default class FlowSignup extends BaseService {
   constructor(token: string, config: PangeaConfig) {
-    super("authnsignup", token, config);
+    super("authn", token, config);
     this.apiVersion = "v1";
   }
 
   // #   - path: authn::/v1/flow/signup/password
-  password({
-    flow_id,
-    password,
-    first_name,
-    last_name,
-  }: AuthN.Flow.Signup.Password.Request): Promise<PangeaResponse<AuthN.Flow.Response>> {
-    return this.post("flow/signup/password", { flow_id, password, first_name, last_name });
+  password(
+    flowID: string,
+    password: string,
+    firstName: string,
+    lastName: string
+  ): Promise<PangeaResponse<AuthN.Flow.Result>> {
+    const data: AuthN.Flow.Signup.PasswordRequest = {
+      flow_id: flowID,
+      password: password,
+      first_name: firstName,
+      last_name: lastName,
+    };
+    return this.post("flow/signup/password", data);
   }
 
   // #   - path: authn::/v1/flow/signup/social
-  social({
-    flow_id,
-    cb_state,
-    cb_code,
-  }: AuthN.Flow.Signup.Social.Request): Promise<PangeaResponse<AuthN.Flow.Response>> {
-    return this.post("flow/signup/social", { flow_id, cb_state, cb_code });
+  social(
+    flowID: string,
+    cbState: string,
+    cbCode: string
+  ): Promise<PangeaResponse<AuthN.Flow.Result>> {
+    const data: AuthN.Flow.Signup.SocialRequest = {
+      flow_id: flowID,
+      cb_code: cbCode,
+      cb_state: cbState,
+    };
+    return this.post("flow/signup/social", data);
   }
 }

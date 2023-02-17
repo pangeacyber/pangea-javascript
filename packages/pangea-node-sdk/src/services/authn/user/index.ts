@@ -2,25 +2,25 @@ import PangeaResponse from "../../../response";
 import BaseService from "../../base";
 import PangeaConfig from "../../../config";
 import { AuthN } from "../../../types";
-import AuthNUserProfile from "./profile";
-import AuthNUserInvites from "./invites";
-import AuthNUserLogin from "./login";
-import AuthNUserMFA from "./mfa";
+import UserProfile from "./profile";
+import UserInvites from "./invites";
+import UserLogin from "./login";
+import UserMFA from "./mfa";
 
-export default class AuthNUser extends BaseService {
-  profile: AuthNUserProfile;
-  invites: AuthNUserInvites;
-  login: AuthNUserLogin;
-  mfa: AuthNUserMFA;
+export default class User extends BaseService {
+  profile: UserProfile;
+  invites: UserInvites;
+  login: UserLogin;
+  mfa: UserMFA;
 
   constructor(token: string, config: PangeaConfig) {
-    super("authnuser", token, config);
+    super("authn", token, config);
     this.apiVersion = "v1";
 
-    this.profile = new AuthNUserProfile(token, config);
-    this.invites = new AuthNUserInvites(token, config);
-    this.login = new AuthNUserLogin(token, config);
-    this.mfa = new AuthNUserMFA(token, config);
+    this.profile = new UserProfile(token, config);
+    this.invites = new UserInvites(token, config);
+    this.login = new UserLogin(token, config);
+    this.mfa = new UserMFA(token, config);
   }
 
   // authn::/v1/user/delete
@@ -33,8 +33,8 @@ export default class AuthNUser extends BaseService {
    * await authn.user.delete("example@example.com");
    */
   delete(email: string): Promise<PangeaResponse<{}>> {
-    const data: AuthN.User.Delete.Request = {
-      email,
+    const data: AuthN.User.DeleteRequest = {
+      email: email,
     };
 
     return this.post("user/delete", data);
@@ -42,12 +42,13 @@ export default class AuthNUser extends BaseService {
 
   // authn::/v1/user/create
   create(
-    { email, authenticator }: AuthN.User.Create.RequiredParams,
-    { id_provider, verified, require_mfa, profile, scopes }: AuthN.User.Create.OptionalParams
-  ): Promise<PangeaResponse<AuthN.User.Create.Response>> {
-    const data: AuthN.User.Create.Request = {
-      email,
-      authenticator,
+    email: string,
+    authenticator: string,
+    { id_provider, verified, require_mfa, profile, scopes }: AuthN.User.CreateOptions
+  ): Promise<PangeaResponse<AuthN.User.CreateResult>> {
+    const data: AuthN.User.CreateRequest = {
+      email: email,
+      authenticator: authenticator,
     };
 
     if (id_provider) data.id_provider = id_provider;
@@ -61,10 +62,13 @@ export default class AuthNUser extends BaseService {
 
   // authn::/v1/user/invite
   invite(
-    { inviter, email, callback, state }: AuthN.User.Invite.RequiredParams,
-    { invite_org, require_mfa }: AuthN.User.Invite.OptionalParams
-  ): Promise<PangeaResponse<AuthN.User.Invite.Response>> {
-    const data: AuthN.User.Invite.Request = {
+    inviter: string,
+    email: string,
+    callback: string,
+    state: string,
+    { invite_org, require_mfa }: AuthN.User.InviteOptions
+  ): Promise<PangeaResponse<AuthN.User.InviteResult>> {
+    const data: AuthN.User.InviteRequest = {
       inviter,
       email,
       callback,
@@ -81,27 +85,32 @@ export default class AuthNUser extends BaseService {
   list({
     scopes,
     glob_scopes,
-  }: AuthN.User.List.Request): Promise<PangeaResponse<AuthN.User.List.Response>> {
+  }: AuthN.User.ListRequest): Promise<PangeaResponse<AuthN.User.ListResult>> {
     return this.post("user/list", { scopes, glob_scopes });
   }
 
   // authn::/v1/user/verify
-  verify({
-    id_provider,
-    email,
-    authenticator,
-  }: AuthN.User.Verify.Request): Promise<PangeaResponse<AuthN.User.Verify.Response>> {
-    return this.post("user/verify", { id_provider, email, authenticator });
+  verify(
+    idProvider: AuthN.IDProvider,
+    email: string,
+    authenticator: string
+  ): Promise<PangeaResponse<AuthN.User.VerifyResult>> {
+    const data: AuthN.User.VerifyRequest = {
+      id_provider: idProvider,
+      email: email,
+      authenticator: authenticator,
+    };
+    return this.post("user/verify", data);
   }
 
   // authn::/v1/user/update
   update(
     request: AuthN.User.Update.EmailRequest | AuthN.User.Update.IdentityRequest,
-    optionalParams: AuthN.User.Update.OptionalParams
-  ): Promise<PangeaResponse<AuthN.User.Update.Response>> {
+    options: AuthN.User.Update.Options
+  ): Promise<PangeaResponse<AuthN.User.UpdateResult>> {
     const data: AuthN.User.Update.EmailRequest | AuthN.User.Update.IdentityRequest = {
       ...request,
-      ...optionalParams,
+      ...options,
     };
 
     return this.post("user/update", data);

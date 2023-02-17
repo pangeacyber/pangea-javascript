@@ -1,15 +1,15 @@
 import PangeaConfig from "../../../../config";
 import BaseService from "../../../base";
 
-import AuthNEnrollMFA from "./mfa";
+import FlowEnrollMFA from "./mfa";
 
-export default class AuthNEnroll extends BaseService {
-  mfa: AuthNEnrollMFA;
+export default class FlowEnroll extends BaseService {
+  mfa: FlowEnrollMFA;
 
   constructor(token: string, config: PangeaConfig) {
-    super("authnenroll", token, config);
+    super("authn", token, config);
     this.apiVersion = "v1";
 
-    this.mfa = new AuthNEnrollMFA(token, config);
+    this.mfa = new FlowEnrollMFA(token, config);
   }
 }

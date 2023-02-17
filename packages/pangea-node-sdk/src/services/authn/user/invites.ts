@@ -3,9 +3,9 @@ import BaseService from "../../base";
 import PangeaConfig from "../../../config";
 import { AuthN } from "../../../types";
 
-export default class AuthNUserInvites extends BaseService {
+export default class UserInvites extends BaseService {
   constructor(token: string, config: PangeaConfig) {
-    super("authninvite", token, config);
+    super("authn", token, config);
     this.apiVersion = "v1";
   }
 
@@ -13,11 +13,11 @@ export default class AuthNUserInvites extends BaseService {
   /**
    * @summary List invites
    * @description Lookup active invites for the userpool
-   * @returns {Promise<PangeaResponse<AuthN.User.Invite.List.Response>>} - A list of pending user invitations
+   * @returns {Promise<PangeaResponse<AuthN.User.Invite.ListResult>>} - A list of pending user invitations
    * @example
    * const response = await authn.user.invites.list();
    */
-  list(): Promise<PangeaResponse<AuthN.User.Invite.List.Response>> {
+  list(): Promise<PangeaResponse<AuthN.User.Invite.ListResult>> {
     return this.post("user/invite/list", {});
   }
 
@@ -31,7 +31,7 @@ export default class AuthNUserInvites extends BaseService {
    * await authn.user.invites.delete("pmc_wuk7tvtpswyjtlsx52b7yyi2l7zotv4a");
    */
   delete(id: string): Promise<PangeaResponse<{}>> {
-    const data: AuthN.User.Invite.Delete.Request = {
+    const data: AuthN.User.Invite.DeleteRequest = {
       id,
     };
 

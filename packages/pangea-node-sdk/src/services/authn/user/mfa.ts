@@ -3,33 +3,43 @@ import BaseService from "../../base";
 import PangeaConfig from "../../../config";
 import { AuthN } from "../../../types";
 
-export default class AuthNUserMFA extends BaseService {
+export default class UserMFA extends BaseService {
   constructor(token: string, config: PangeaConfig) {
-    super("authnusermfa", token, config);
+    super("authn", token, config);
     this.apiVersion = "v1";
   }
   //   #   - path: authn::/v1/user/mfa/delete
-  delete({ user_id, mfa_provider }: AuthN.User.MFA.Delete.Request): Promise<PangeaResponse<{}>> {
-    return this.post("user/mfa/delete", { user_id, mfa_provider });
+  delete(userID: string, mfaProvider: AuthN.MFAProvider): Promise<PangeaResponse<{}>> {
+    const data: AuthN.User.MFA.DeleteRequest = {
+      user_id: userID,
+      mfa_provider: mfaProvider,
+    };
+    return this.post("user/mfa/delete", data);
   }
 
   //   #   - path: authn::/v1/user/mfa/enroll
-  enroll({
-    user_id,
-    mfa_provider,
-    code,
-  }: AuthN.User.MFA.Enroll.Request): Promise<PangeaResponse<{}>> {
-    return this.post("user/mfa/enroll", { user_id, mfa_provider, code });
+  enroll(
+    userID: string,
+    mfaProvider: AuthN.MFAProvider,
+    code: string
+  ): Promise<PangeaResponse<{}>> {
+    const data: AuthN.User.MFA.EnrollRequest = {
+      user_id: userID,
+      mfa_provider: mfaProvider,
+      code: code,
+    };
+    return this.post("user/mfa/enroll", data);
   }
 
   //   #   - path: authn::/v1/user/mfa/start
   start(
-    { user_id, mfa_provider }: AuthN.User.MFA.Start.RequiredParams,
-    { enroll, phone }: AuthN.User.MFA.Start.OptionalParams
-  ): Promise<PangeaResponse<AuthN.User.MFA.Start.Response>> {
-    const data: AuthN.User.MFA.Start.Request = {
-      user_id,
-      mfa_provider,
+    userID: string,
+    mfaProvider: AuthN.MFAProvider,
+    { enroll, phone }: AuthN.User.MFA.StartOptions
+  ): Promise<PangeaResponse<AuthN.User.MFA.StartResult>> {
+    const data: AuthN.User.MFA.StartRequest = {
+      user_id: userID,
+      mfa_provider: mfaProvider,
     };
 
     if (typeof enroll === "boolean") data.enroll = enroll;
@@ -39,11 +49,16 @@ export default class AuthNUserMFA extends BaseService {
   }
 
   //   #   - path: authn::/v1/user/mfa/verify
-  verify({
-    user_id,
-    mfa_provider,
-    code,
-  }: AuthN.User.MFA.Verify.Request): Promise<PangeaResponse<{}>> {
-    return this.post("user/mfa/verify", { user_id, mfa_provider, code });
+  verify(
+    userID: string,
+    mfaProvider: AuthN.MFAProvider,
+    code: string
+  ): Promise<PangeaResponse<{}>> {
+    const data: AuthN.User.MFA.VerifyRequest = {
+      user_id: userID,
+      mfa_provider: mfaProvider,
+      code: code,
+    };
+    return this.post("user/mfa/verify", data);
   }
 }

@@ -1,15 +1,15 @@
 import BaseService from "../../base";
 import PangeaConfig from "../../../config";
 
-import AuthNClientSession from "./session";
+import ClientSession from "./session";
 
-export default class AuthNClient extends BaseService {
-  session: AuthNClientSession;
+export default class Client extends BaseService {
+  session: ClientSession;
 
   constructor(token: string, config: PangeaConfig) {
-    super("authnclient", token, config);
+    super("authn", token, config);
     this.apiVersion = "v1";
 
-    this.session = new AuthNClientSession(token, config);
+    this.session = new ClientSession(token, config);
   }
 }
