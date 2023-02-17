@@ -19,7 +19,7 @@ export default class AuthNVerify extends BaseService {
   captcha({
     flow_id,
     code,
-  }: AuthN.FlowVerifyCaptchaRequest): Promise<PangeaResponse<AuthN.SessionInfoCreds>> {
+  }: AuthN.Flow.Verify.Captcha.Request): Promise<PangeaResponse<AuthN.Flow.Response>> {
     return this.post("flow/verify/captcha", { flow_id, code });
   }
 
@@ -28,7 +28,7 @@ export default class AuthNVerify extends BaseService {
     flow_id,
     cb_state,
     cb_code,
-  }: AuthN.FlowSignupRequest): Promise<PangeaResponse<AuthN.SessionInfoCreds>> {
+  }: AuthN.Flow.Verify.Email.Request): Promise<PangeaResponse<AuthN.Flow.Response>> {
     return this.post("flow/verify/email", { flow_id, cb_state, cb_code });
   }
 
@@ -36,7 +36,7 @@ export default class AuthNVerify extends BaseService {
   password({
     flow_id,
     password,
-  }: AuthN.FlowVerifyPasswordRequest): Promise<PangeaResponse<AuthN.SessionInfoCreds>> {
+  }: AuthN.Flow.Verify.Password.Request): Promise<PangeaResponse<AuthN.Flow.Response>> {
     return this.post("flow/verify/password", { flow_id, password });
   }
 
@@ -45,7 +45,7 @@ export default class AuthNVerify extends BaseService {
     flow_id,
     cb_state,
     cb_code,
-  }: AuthN.FlowSignupRequest): Promise<PangeaResponse<AuthN.SessionInfoCreds>> {
+  }: AuthN.Flow.Verify.Social.Request): Promise<PangeaResponse<AuthN.Flow.Response>> {
     return this.post("flow/verify/social", { flow_id, cb_state, cb_code });
   }
 }

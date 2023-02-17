@@ -21,19 +21,16 @@ export default class AuthNFlow extends BaseService {
   }
 
   // #   - path: authn::/v1/flow/complete
-  complete({
-    flow_id,
-  }: AuthN.FlowCompleteRequest): Promise<PangeaResponse<AuthN.SessionInfoCreds>> {
+  complete(flow_id: string): Promise<PangeaResponse<AuthN.Flow.Complete.Response>> {
     return this.post("flow/complete", { flow_id });
   }
 
   // #   - path: authn::/v1/flow/start
-  start({
-    cb_uri,
-    email,
-    flow_types,
-  }: AuthN.FlowStartRequest): Promise<PangeaResponse<AuthN.FlowNextStepResponse>> {
-    const data: AuthN.FlowStartRequest = {
+  start(
+    cb_uri: string,
+    { email, flow_types }: AuthN.Flow.Start.OptionalParams
+  ): Promise<PangeaResponse<AuthN.Flow.Response>> {
+    const data: AuthN.Flow.Start.Request = {
       cb_uri,
     };
 

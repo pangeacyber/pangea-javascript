@@ -10,12 +10,11 @@ export default class AuthNVerifyMFA extends BaseService {
   }
 
   // #   - path: authn::/v1/flow/verify/mfa/complete
-  complete({
-    flow_id,
-    code,
-    cancel,
-  }: AuthN.FlowMFACompleteRequest): Promise<PangeaResponse<AuthN.SessionInfoCreds>> {
-    const data: AuthN.FlowMFACompleteRequest = {
+  complete(
+    { flow_id, code }: AuthN.Flow.Verify.MFA.Complete.RequiredParams,
+    { cancel }: AuthN.Flow.Verify.MFA.Complete.OptionalParams
+  ): Promise<PangeaResponse<AuthN.Flow.Response>> {
+    const data: AuthN.Flow.Verify.MFA.Complete.Request = {
       flow_id,
       code,
     };
@@ -29,7 +28,7 @@ export default class AuthNVerifyMFA extends BaseService {
   start({
     flow_id,
     mfa_provider,
-  }: AuthN.FlowVerifyMFAStartRequest): Promise<PangeaResponse<AuthN.SessionInfoCreds>> {
+  }: AuthN.Flow.Verify.MFA.Start.Request): Promise<PangeaResponse<AuthN.Flow.Response>> {
     return this.post("flow/verify/mfa/start", { flow_id, mfa_provider });
   }
 }

@@ -33,7 +33,7 @@ export default class AuthNUser extends BaseService {
    * await authn.user.delete("example@example.com");
    */
   delete(email: string): Promise<PangeaResponse<{}>> {
-    const data: AuthN.UserDeleteRequest = {
+    const data: AuthN.User.Delete.Request = {
       email,
     };
 
@@ -41,111 +41,69 @@ export default class AuthNUser extends BaseService {
   }
 
   // authn::/v1/user/create
-  /**
-   * @summary Create a user
-   * @description Create a user
-   * @param {String} user.email - An email address
-   * @param {String} user.authenticator - A provider-specific authenticator, such as a password or a social identity
-   * @param {String} user.id_provider - Mechanism for authenticating a user's identity
-   * @param {Boolean} user.verified - True if the user's email has been verified
-   * @param {Boolean} user.require_mfa - True if the user must use MFA during authentication
-   * @param {Object} user.profile - A user profile as a collection of string properties
-   * @param {Array<String>} user.scopes - A list of scopes
-   * @returns {Promise<PangeaResponse<{}>>} - A promise representing an async call to the endpoint
-   * @example
-   * const response = await authn.user.create({
-   *   email: "example@example.com",
-   *   authenticator: "My1s+Password",
-   *   id_provider: "password",
-   *   verified: false,
-   *   require_mfa: false,
-   *   profile: {
-   *     first_name: "Joe",
-   *     last_name: "User",
-   *   },
-   *   scopes: ["scope1", "scope2"]
-   * });
-   */
-  create(user: AuthN.UserCreateRequest): Promise<PangeaResponse<AuthN.UserCreateResult>> {
-    return this.post("user/create", user);
+  create(
+    { email, authenticator }: AuthN.User.Create.RequiredParams,
+    { id_provider, verified, require_mfa, profile, scopes }: AuthN.User.Create.OptionalParams
+  ): Promise<PangeaResponse<AuthN.User.Create.Response>> {
+    const data: AuthN.User.Create.Request = {
+      email,
+      authenticator,
+    };
+
+    if (id_provider) data.id_provider = id_provider;
+    if (typeof verified === "boolean") data.verified = verified;
+    if (typeof require_mfa === "boolean") data.require_mfa = require_mfa;
+    if (profile) data.profile = profile;
+    if (scopes) data.scopes = scopes;
+
+    return this.post("user/create", data);
   }
 
   // authn::/v1/user/invite
-  /**
-   * @summary Invite a user
-   * @description Send an invitation to a user
-   * @param {String} userInvite.inviter - An email address
-   * @param {String} userInvite.email - An email address
-   * @param {String} userInvite.callback - A login callback URI
-   * @param {String} userInvite.state - State tracking string for login callbacks
-   * @param {String} userInvite.invite_org - Optional invite org
-   * @param {String} userInvite.require_mfa - Optional boolean setting for requiring mfa
-   * @returns {Promise<PangeaResponse<AuthN.UserInvite>>} - A promise representing an async call to the endpoint
-   * @example
-   * const response = await authn.user.invite({
-   *   inviter: "kat.user@email.com",
-   *   email: "joe.user@email.com",
-   *   callback: "https://www.myserver.com/callback",
-   *   state: "C8VTNjY2icUMeiDHFHUxBwiAstEGqaayU4",
-   * });
-   */
-  invite(userInvite: AuthN.UserInviteRequest): Promise<PangeaResponse<AuthN.UserInvite>> {
-    return this.post("user/invite", userInvite);
+  invite(
+    { inviter, email, callback, state }: AuthN.User.Invite.RequiredParams,
+    { invite_org, require_mfa }: AuthN.User.Invite.OptionalParams
+  ): Promise<PangeaResponse<AuthN.User.Invite.Response>> {
+    const data: AuthN.User.Invite.Request = {
+      inviter,
+      email,
+      callback,
+      state,
+    };
+
+    if (invite_org) data.invite_org = invite_org;
+    if (typeof require_mfa === "boolean") data.require_mfa = require_mfa;
+
+    return this.post("user/invite", data);
   }
 
   // authn::/v1/user/list
-  /**
-   * @summary List users
-   * @description Lookup users by scopes
-   * @param {Array<String>} o.scopes - A list of scopes
-   * @param {Array<String>} o.glob_scopes - A list of scopes
-   * @returns {Promise<PangeaResponse<AuthN.UserListResult>>} - A promise representing an async call to the endpoint
-   * @example
-   * const response = await authn.user.list({
-   *   scopes: ["scope1", "scope2"],
-   *   glob_scopes: ["scope1", "scope2"],
-   * });
-   */
-  list(o: AuthN.UserListRequest): Promise<PangeaResponse<AuthN.UserListResult>> {
-    return this.post("user/list", o);
+  list({
+    scopes,
+    glob_scopes,
+  }: AuthN.User.List.Request): Promise<PangeaResponse<AuthN.User.List.Response>> {
+    return this.post("user/list", { scopes, glob_scopes });
   }
 
   // authn::/v1/user/verify
-  /**
-   * @summary Verify a user
-   * @description Verify a user's primary authentication
-   * @param {String} o.id_provider - Mechanism for authenticating a user's identity
-   * @param {String} o.email - An email address
-   * @param {String} o.authenticator - A provider-specific authenticator, such as a password or a social identity.
-   * @returns {Promise<PangeaResponse<AuthN.UserVerifyResult>>} - A promise representing an async call to the endpoint
-   * @example
-   * const response = await authn.user.verify({
-   *   id_provider: "password",
-   *   email: "joe.user@email.com",
-   *   authenticator: "My1s+Password",
-   * });
-   */
-  verify(o: AuthN.UserVerifyRequest): Promise<PangeaResponse<AuthN.UserVerifyResult>> {
-    return this.post("user/verify", o);
+  verify({
+    id_provider,
+    email,
+    authenticator,
+  }: AuthN.User.Verify.Request): Promise<PangeaResponse<AuthN.User.Verify.Response>> {
+    return this.post("user/verify", { id_provider, email, authenticator });
   }
 
   // authn::/v1/user/update
-  /**
-   * @summary Administration user update
-   * @description Update user's settings
-   * @param {String | null} o.identity - The identity of a user or a service
-   * @param {String | null} o.email - An email address
-   * @param {String | null} o.authenticator - New value for a user's authenticator
-   * @param {Boolean | null} o.disabled - New disabled value. Disabling a user account will prevent them from logging in.
-   * @param {Boolean | null} o.require_mfa - New require_mfa value
-   * @returns {Promise<PangeaResponse<AuthN.UserUpdateResult>>} - A promise representing an async call to the endpoint
-   * @example
-   * const response = await authn.user.update({
-   *   email: "joe.user@email.com",
-   *   require_mfa: true,
-   * });
-   */
-  update(o: AuthN.UserUpdateRequest): Promise<PangeaResponse<AuthN.UserUpdateResult>> {
-    return this.post("user/update", o);
+  update(
+    request: AuthN.User.Update.EmailRequest | AuthN.User.Update.IdentityRequest,
+    optionalParams: AuthN.User.Update.OptionalParams
+  ): Promise<PangeaResponse<AuthN.User.Update.Response>> {
+    const data: AuthN.User.Update.EmailRequest | AuthN.User.Update.IdentityRequest = {
+      ...request,
+      ...optionalParams,
+    };
+
+    return this.post("user/update", data);
   }
 }

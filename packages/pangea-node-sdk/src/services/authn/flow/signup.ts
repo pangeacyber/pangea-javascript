@@ -15,7 +15,7 @@ export default class AuthNSignup extends BaseService {
     password,
     first_name,
     last_name,
-  }: AuthN.FlowSignupPasswordRequest): Promise<PangeaResponse<AuthN.FlowNextStepResponse>> {
+  }: AuthN.Flow.Signup.Password.Request): Promise<PangeaResponse<AuthN.Flow.Response>> {
     return this.post("flow/signup/password", { flow_id, password, first_name, last_name });
   }
 
@@ -24,7 +24,7 @@ export default class AuthNSignup extends BaseService {
     flow_id,
     cb_state,
     cb_code,
-  }: AuthN.FlowSignupRequest): Promise<PangeaResponse<AuthN.FlowNextStepResponse>> {
+  }: AuthN.Flow.Signup.Social.Request): Promise<PangeaResponse<AuthN.Flow.Response>> {
     return this.post("flow/signup/social", { flow_id, cb_state, cb_code });
   }
 }

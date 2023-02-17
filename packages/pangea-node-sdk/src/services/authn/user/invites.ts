@@ -13,11 +13,11 @@ export default class AuthNUserInvites extends BaseService {
   /**
    * @summary List invites
    * @description Lookup active invites for the userpool
-   * @returns {Promise<PangeaResponse<AuthN.UserInviteListResult>>} - A list of pending user invitations
+   * @returns {Promise<PangeaResponse<AuthN.User.Invite.List.Response>>} - A list of pending user invitations
    * @example
    * const response = await authn.user.invites.list();
    */
-  list(): Promise<PangeaResponse<AuthN.UserInviteListResult>> {
+  list(): Promise<PangeaResponse<AuthN.User.Invite.List.Response>> {
     return this.post("user/invite/list", {});
   }
 
@@ -31,7 +31,7 @@ export default class AuthNUserInvites extends BaseService {
    * await authn.user.invites.delete("pmc_wuk7tvtpswyjtlsx52b7yyi2l7zotv4a");
    */
   delete(id: string): Promise<PangeaResponse<{}>> {
-    const data: AuthN.UserInviteDeleteRequest = {
+    const data: AuthN.User.Invite.Delete.Request = {
       id,
     };
 

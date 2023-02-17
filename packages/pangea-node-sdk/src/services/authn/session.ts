@@ -21,8 +21,8 @@ export default class AuthNSession extends BaseService {
     order,
     order_by,
     size,
-  }: AuthN.SessionListRequest): Promise<PangeaResponse<AuthN.SessionListResponse>> {
-    const data: AuthN.SessionListRequest = {};
+  }: AuthN.Session.List.Request): Promise<PangeaResponse<AuthN.Session.List.Response>> {
+    const data: AuthN.Session.List.Request = {};
 
     if (filter) data.filter = filter;
     if (last) data.last = last;

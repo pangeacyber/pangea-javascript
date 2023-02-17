@@ -1,7 +1,5 @@
-import PangeaResponse from "../../../response";
 import BaseService from "../../base";
 import PangeaConfig from "../../../config";
-import { AuthN } from "../../../types";
 
 import AuthNClientSession from "./session";
 

@@ -10,12 +10,11 @@ export default class AuthNUserLogin extends BaseService {
   }
 
   // `/v1/user/login/password`
-  password({
-    email,
-    password,
-    extra_profile,
-  }: AuthN.UserLoginPasswordRequest): Promise<PangeaResponse<AuthN.SessionInfoCreds>> {
-    const data: AuthN.UserLoginPasswordRequest = {
+  password(
+    { email, password }: AuthN.User.Login.Password.RequiredParams,
+    { extra_profile }: AuthN.User.Login.Password.OptionalParams
+  ): Promise<PangeaResponse<AuthN.SessionInfoCreds>> {
+    const data: AuthN.User.Login.Password.Request = {
       email,
       password,
     };
@@ -28,13 +27,11 @@ export default class AuthNUserLogin extends BaseService {
   }
 
   // `/v1/user/login/social`
-  social({
-    provider,
-    email,
-    social_id,
-    extra_profile,
-  }: AuthN.UserLoginSocialRequest): Promise<PangeaResponse<AuthN.SessionInfoCreds>> {
-    const data: AuthN.UserLoginSocialRequest = {
+  social(
+    { provider, email, social_id }: AuthN.User.Login.Social.RequiredParams,
+    { extra_profile }: AuthN.User.Login.Social.OptionalParams
+  ): Promise<PangeaResponse<AuthN.SessionInfoCreds>> {
+    const data: AuthN.User.Login.Social.Request = {
       provider,
       email,
       social_id,

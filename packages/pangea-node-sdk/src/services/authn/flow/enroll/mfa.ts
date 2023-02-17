@@ -10,12 +10,11 @@ export default class AuthNEnrollMFA extends BaseService {
   }
 
   // #   - path: authn::/v1/flow/enroll/mfa/start
-  start({
-    flow_id,
-    mfa_provider,
-    phone,
-  }: AuthN.FlowEnrollMFAStartRequest): Promise<PangeaResponse<AuthN.FlowNextStepResponse>> {
-    const data: AuthN.FlowEnrollMFAStartRequest = {
+  start(
+    { flow_id, mfa_provider }: AuthN.Flow.Enroll.MFA.Start.RequiredParams,
+    { phone }: AuthN.Flow.Enroll.MFA.Start.OptionalParams
+  ): Promise<PangeaResponse<AuthN.Flow.Response>> {
+    const data: AuthN.Flow.Enroll.MFA.Start.Request = {
       flow_id,
       mfa_provider,
     };
@@ -26,12 +25,11 @@ export default class AuthNEnrollMFA extends BaseService {
   }
 
   // #   - path: authn::/v1/flow/enroll/mfa/complete
-  complete({
-    flow_id,
-    code,
-    cancel,
-  }: AuthN.FlowMFACompleteRequest): Promise<PangeaResponse<AuthN.FlowNextStepResponse>> {
-    const data: AuthN.FlowMFACompleteRequest = {
+  complete(
+    { flow_id, code }: AuthN.Flow.Enroll.MFA.Complete.RequiredParams,
+    { cancel }: AuthN.Flow.Enroll.MFA.Complete.OptionalParams
+  ): Promise<PangeaResponse<AuthN.Flow.Response>> {
+    const data: AuthN.Flow.Enroll.MFA.Complete.Request = {
       flow_id,
       code,
     };
