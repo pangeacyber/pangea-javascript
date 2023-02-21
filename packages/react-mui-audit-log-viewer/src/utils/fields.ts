@@ -42,4 +42,10 @@ export const AuditRecordFields: any = {
     label: "Source",
     sortable: false,
   },
+  timestamp: {
+    label: "Timestamp",
+    readonly: true,
+    sortable: false,
+    type: "dateTime",
+  },
 };
