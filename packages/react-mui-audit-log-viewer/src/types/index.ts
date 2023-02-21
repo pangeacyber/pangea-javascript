@@ -17,6 +17,7 @@ export namespace Audit {
     new?: string;
     old?: string;
     target?: string;
+    timestamp?: string;
 
     // FIXME: This is part of Envelope
     received_at?: string;
@@ -52,6 +53,7 @@ export namespace Audit {
         source?: string;
         new?: string;
         old?: string;
+        timestamp?: string;
       };
       received_at?: string;
       public_key?: string;
