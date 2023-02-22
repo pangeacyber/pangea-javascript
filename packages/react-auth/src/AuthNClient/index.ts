@@ -43,6 +43,16 @@ export class AuthNClient {
     return await this.post(path, payload);
   }
 
+  async refresh(
+    userToken: string,
+    refreshToken: string
+  ): Promise<ClientResponse> {
+    const path = "client/token/refresh";
+    const payload = { user_token: userToken, refresh_token: refreshToken };
+
+    return await this.post(path, payload);
+  }
+
   /*
     API Request functions
   */

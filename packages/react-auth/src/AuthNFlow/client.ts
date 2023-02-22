@@ -15,6 +15,7 @@ import {
   FlowVerifyCaptcha,
   FlowMfaStart,
   FlowMfaComplete,
+  FlowResetPassword,
 } from "./types";
 
 const DEFAULT_FLOW_OPTIONS = {
@@ -32,6 +33,7 @@ const DEFAULT_FLOW_STATE: FlowState = {
   qrCode: "",
   passwordSignup: true,
   socialSignup: {},
+  verifyProvider: {},
   redirectUri: "",
 };
 
@@ -92,6 +94,11 @@ export class AuthNFlowClient extends AuthNClient {
       if (payload.email) {
         this.state.step = response.result?.next_step;
         this.state.email = payload.email;
+
+        // if email is signed up using social, save the provider info
+        if (response.result?.verify_social) {
+          this.state.verifyProvider = { ...response.result?.verify_social };
+        }
       } else {
         // store configured signup methods
         if (response.result?.signup?.password_signup === null) {
@@ -150,10 +157,15 @@ export class AuthNFlowClient extends AuthNClient {
 
   async verifyPassword(data: FlowVerifyPassword): Promise<ClientResponse> {
     const path = `${API_FLOW_BASE}/${FlowStep.VERIFY_PASSWORD}`;
-    const payload = {
+    const payload: any = {
       flow_id: this.state.flowId,
-      password: data.password,
     };
+
+    if (data.reset) {
+      payload.reset = true;
+    } else {
+      payload.password = data.password;
+    }
 
     return await this.post(path, payload);
   }
@@ -206,11 +218,15 @@ export class AuthNFlowClient extends AuthNClient {
 
   async enrollMfaComplete(data: FlowMfaComplete): Promise<ClientResponse> {
     const path = `${API_FLOW_BASE}/${FlowStep.ENROLL_MFA_COMPLETE}`;
-    const payload = {
+    const payload: any = {
       flow_id: this.state.flowId,
-      code: data.code,
-      cancel: data.cancel,
     };
+
+    if (data.cancel) {
+      payload.cancel = true;
+    } else {
+      payload.code = data.code;
+    }
 
     return await this.post(path, payload);
   }
@@ -227,11 +243,32 @@ export class AuthNFlowClient extends AuthNClient {
 
   async verifyMfaComplete(data: FlowMfaComplete): Promise<ClientResponse> {
     const path = `${API_FLOW_BASE}/${FlowStep.VERIFY_MFA_COMPLETE}`;
-    const payload = {
+    const payload: any = {
       flow_id: this.state.flowId,
-      code: data.code,
-      cancel: data.cancel,
     };
+
+    if (data.cancel) {
+      payload.cancel = true;
+    } else {
+      payload.code = data.code;
+    }
+
+    return await this.post(path, payload);
+  }
+
+  async resetPassword(data: FlowResetPassword): Promise<ClientResponse> {
+    const path = `${API_FLOW_BASE}/${FlowStep.RESET_PASSWORD}`;
+    const payload: any = {
+      flow_id: this.state.flowId,
+    };
+
+    if (data.cancel) {
+      payload.cancel = true;
+    } else {
+      payload.password = data.password;
+      payload.cb_code = data.cbCode;
+      payload.cb_state = data.cbState;
+    }
 
     return await this.post(path, payload);
   }

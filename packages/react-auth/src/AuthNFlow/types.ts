@@ -32,6 +32,7 @@ export enum FlowStep {
   VERIFY_MFA_SELECT = "verify/mfa/select",
   VERIFY_MFA_START = "verify/mfa/start",
   VERIFY_MFA_COMPLETE = "verify/mfa/complete",
+  RESET_PASSWORD = "reset/password",
   MFA_SELECT = "mfa/select",
   COMPLETE = "complete",
 }
@@ -46,6 +47,7 @@ export interface FlowState {
   qrCode?: string;
   passwordSignup?: boolean;
   socialSignup?: any;
+  verifyProvider?: any;
   redirectUri?: string;
 }
 
@@ -64,7 +66,8 @@ export interface FlowSignupPassword extends FlowBase {
 }
 
 export interface FlowVerifyPassword extends FlowBase {
-  password: string;
+  password?: string;
+  reset?: string;
 }
 
 export interface FlowVerifyCallback extends FlowBase {
@@ -82,6 +85,14 @@ export interface FlowMfaStart extends FlowBase {
 }
 
 export interface FlowMfaComplete extends FlowBase {
-  code: string;
+  code?: string;
+  mfaProvider?: string;
+  cancel?: boolean;
+}
+
+export interface FlowResetPassword extends FlowBase {
+  password?: string;
+  cbCode?: string;
+  cbState?: string;
   cancel?: boolean;
 }
