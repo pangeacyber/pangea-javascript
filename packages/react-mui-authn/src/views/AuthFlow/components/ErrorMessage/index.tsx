@@ -14,21 +14,29 @@ type errorEntry = {
 };
 
 const ErrorMessage: FC<Props> = ({ response }) => {
-  if (
+  const errorContent =
     response.status === "ValidationError" &&
-    response.result?.errors?.length > 0
-  ) {
-    return (
-      <Stack mt={2} className="flow-errors">
-        <Typography variant="caption" color="error">
-          {response.result.errors.map((err: errorEntry, idx: number) => {
-            return <div key={`error-${idx}`}>{err.detail}</div>;
-          })}
-        </Typography>
-      </Stack>
+    response.result?.errors?.length > 0 ? (
+      <>
+        {response.result.errors.map((err: errorEntry, idx: number) => {
+          return (
+            <Typography variant="caption" color="red" key={`error-${idx}`}>
+              {err.detail}
+            </Typography>
+          );
+        })}
+      </>
+    ) : (
+      <Typography variant="caption" color="red">
+        {response.summary}
+      </Typography>
     );
-  }
-  return <div>{response.summary}</div>;
+
+  return (
+    <Stack mt={2} className="flow-errors">
+      {errorContent}
+    </Stack>
+  );
 };
 
 export default ErrorMessage;

@@ -26,6 +26,10 @@ const VerifyPasswordView = () => {
     },
   });
 
+  const resetPassword = () => {
+    callNext(FlowStep.VERIFY_PASSWORD, { reset: true });
+  };
+
   return (
     <Stack gap={2}>
       <Stack>
@@ -54,13 +58,13 @@ const VerifyPasswordView = () => {
           >
             Submit
           </Button>
-          <Button
-            variant="contained"
-            color="secondary"
-            onClick={reset}
-            sx={{ alignSelf: "flex-start" }}
-          >
-            Reset
+          <Button color="primary" variant="outlined" onClick={reset}>
+            Start Over
+          </Button>
+        </Stack>
+        <Stack direction="row" gap={2} mt={2}>
+          <Button variant="text" onClick={resetPassword}>
+            Forgot your password?
           </Button>
         </Stack>
       </form>

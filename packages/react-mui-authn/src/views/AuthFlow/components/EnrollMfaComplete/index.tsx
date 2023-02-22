@@ -57,9 +57,9 @@ const EnrollMfaCompleteView = () => {
     },
   });
 
-  // const selectMfaMethod = () => {
-  //   callNext(FlowStep.ENROLL_MFA_SELECT, {});
-  // };
+  const selectMfaMethod = () => {
+    callNext(FlowStep.ENROLL_MFA_SELECT, {});
+  };
 
   return (
     <Stack gap={2}>
@@ -87,13 +87,13 @@ const EnrollMfaCompleteView = () => {
           error={formik.touched.code && Boolean(formik.errors.code)}
           helperText={formik.touched.code && formik.errors.code}
         />
-        {/* {flowData?.mfaProviders && flowData?.mfaProviders?.length > 1 && (
+        {flowData?.mfaProviders && flowData?.mfaProviders?.length > 1 && (
           <Stack direction="row" mt={3} mb={3}>
             <Button variant="text" onClick={selectMfaMethod}>
-              Choose another way
+              Choose another MFA method
             </Button>
           </Stack>
-        )} */}
+        )}
         {error && <ErrorMessage response={error} />}
         <Stack direction="row" gap={2} mt={2}>
           <Button
@@ -104,13 +104,8 @@ const EnrollMfaCompleteView = () => {
           >
             Submit
           </Button>
-          <Button
-            variant="contained"
-            color="secondary"
-            onClick={reset}
-            sx={{ alignSelf: "flex-start" }}
-          >
-            Reset
+          <Button color="primary" variant="outlined" onClick={reset}>
+            Start Over
           </Button>
         </Stack>
       </form>

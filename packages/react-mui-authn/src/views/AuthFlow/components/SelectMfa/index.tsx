@@ -8,9 +8,9 @@ import ErrorMessage from "../ErrorMessage";
 const SelectMfaView = () => {
   const { callNext, reset, flowData, error, step } = useAuthFlow();
   const nextStep =
-    step === (FlowStep.ENROLL_MFA_START || FlowStep.ENROLL_MFA_COMPLETE)
-      ? FlowStep.ENROLL_MFA_START
-      : FlowStep.VERIFY_MFA_START;
+    step === FlowStep.ENROLL_MFA_SELECT
+      ? FlowStep.ENROLL_MFA_COMPLETE
+      : FlowStep.VERIFY_MFA_COMPLETE;
 
   const selectProvider = (provider: string) => {
     callNext(nextStep, { mfaProvider: provider, cancel: true });
@@ -54,13 +54,8 @@ const SelectMfaView = () => {
       </Stack>
       {error && <ErrorMessage response={error} />}
       <Stack direction="row" gap={2} mt={2}>
-        <Button
-          variant="contained"
-          color="secondary"
-          onClick={reset}
-          sx={{ alignSelf: "flex-start" }}
-        >
-          Reset
+        <Button color="primary" variant="outlined" onClick={reset}>
+          Start Over
         </Button>
       </Stack>
     </Stack>
