@@ -3,8 +3,10 @@ import { Button, Stack, Typography } from "@mui/material";
 
 import { useAuthFlow, FlowStep } from "@pangeacyber/react-auth";
 
+import ErrorMessage from "../ErrorMessage";
+
 const VerifyCaptchaView = () => {
-  const { callNext, reset, flowData } = useAuthFlow();
+  const { callNext, reset, error, flowData } = useAuthFlow();
 
   const handleChange = (value: string) => {
     const payload = {
@@ -20,14 +22,10 @@ const VerifyCaptchaView = () => {
         <Typography variant="caption">{flowData.email}</Typography>
       </Stack>
       <ReCAPTCHA sitekey={flowData.recaptchaKey} onChange={handleChange} />
+      {error && <ErrorMessage response={error} />}
       <Stack direction="row" gap={2} mt={2}>
-        <Button
-          variant="contained"
-          color="secondary"
-          onClick={reset}
-          sx={{ alignSelf: "flex-start" }}
-        >
-          Reset
+        <Button color="primary" variant="outlined" onClick={reset}>
+          Start Over
         </Button>
       </Stack>
     </Stack>
