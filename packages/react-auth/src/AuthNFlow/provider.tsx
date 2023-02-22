@@ -9,7 +9,7 @@ import {
   useState,
 } from "react";
 
-import { APIResponse, AuthConfig } from "@src/types";
+import { APIResponse, AuthConfig, CallbackParams } from "@src/types";
 
 import {
   FlowState,
@@ -22,6 +22,7 @@ import {
   FlowVerifyCaptcha,
   FlowMfaStart,
   FlowMfaComplete,
+  FlowResetPassword,
 } from "./types";
 
 import { useComponentAuth } from "@src/ComponentAuthProvider";
@@ -34,6 +35,7 @@ export interface AuthFlowContextType {
   flowData: FlowState;
   callNext: (endpoint: FlowStep, data: any) => void;
   reset: () => void;
+  cbParams?: CallbackParams;
 }
 
 export interface AuthFlowProviderProps {
@@ -162,6 +164,9 @@ export const AuthFlowProvider: FC<AuthFlowProviderProps> = ({ children }) => {
         case FlowStep.VERIFY_MFA_COMPLETE:
           verifyMfaCompleteHandler(payload);
           break;
+        case FlowStep.RESET_PASSWORD:
+          resetPasswordHandler(payload);
+          break;
         case FlowStep.ENROLL_MFA_SELECT:
           setNextStep(FlowStep.ENROLL_MFA_SELECT);
           break;
@@ -259,6 +264,11 @@ export const AuthFlowProvider: FC<AuthFlowProviderProps> = ({ children }) => {
   };
 
   const enrollMfaCompleteHandler = async (payload: FlowMfaComplete) => {
+    // set provider when cancelling, to support changing providers
+    if (payload.cancel && payload.mfaProvider) {
+      auth.state.selectedMfa = payload.mfaProvider;
+    }
+
     const { success, response } = await auth.enrollMfaComplete(payload);
 
     updateFlowState(success, response);
@@ -271,7 +281,23 @@ export const AuthFlowProvider: FC<AuthFlowProviderProps> = ({ children }) => {
   };
 
   const verifyMfaCompleteHandler = async (payload: FlowMfaComplete) => {
+    // set provider when cancelling, to support changing providers
+    if (payload.cancel && payload.mfaProvider) {
+      auth.state.selectedMfa = payload.mfaProvider;
+    }
+
     const { success, response } = await auth.verifyMfaComplete(payload);
+
+    updateFlowState(success, response);
+  };
+
+  const resetPasswordHandler = async (payload: FlowResetPassword) => {
+    if (!payload.cancel) {
+      payload.cbCode = cbParams?.code;
+      payload.cbState = cbParams?.state;
+    }
+
+    const { success, response } = await auth.resetPassword(payload);
 
     updateFlowState(success, response);
   };
@@ -325,8 +351,9 @@ export const AuthFlowProvider: FC<AuthFlowProviderProps> = ({ children }) => {
       flowData,
       callNext,
       reset,
+      cbParams,
     }),
-    [step, error, loading, flowData, callNext, reset]
+    [step, error, loading, flowData, callNext, reset, cbParams]
   );
 
   return (
