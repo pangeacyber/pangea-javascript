@@ -45,8 +45,8 @@ const DefaultOrder = [
   "status",
   "target",
   "source",
-  "message",
   "tenant_id",
+  "message",
 ];
 
 interface AuditContextShape {
