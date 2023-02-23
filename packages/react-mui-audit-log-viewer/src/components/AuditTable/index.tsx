@@ -56,6 +56,7 @@ const AuditTable: FC<AuditTableProps> = ({
         "target",
         "received_at",
         "timestamp",
+        "tenant_id",
       ])
     );
   }, [fields]);
