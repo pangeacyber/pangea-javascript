@@ -101,7 +101,7 @@ export class FileIntelService extends BaseService {
   }
 
   /**
-   * @summary Look up a file, from file path
+   * @summary File reputation, from file path
    * @description Retrieve file reputation from a provider, using the file's hash.
    * @deprecated Since version 1.2.0. Use filepathReputation instead.
    * @param {String} fileHash - Hash of the file to be looked up
@@ -135,7 +135,7 @@ export class FileIntelService extends BaseService {
   }
 
   /**
-   * @summary Look up a file hash reputation from file path
+   * @summary File reputation, from file path
    * @description Retrieve file reputation from a provider, using the file's hash.
    * @param {String} fileHash - Hash of the file to be looked up
    * @param {Object} options - An object of optional parameters. Parameters supported:
@@ -199,7 +199,7 @@ export class DomainIntelService extends BaseService {
   }
 
   /**
-   * @summary Look up a domain
+   * @summary Domain reputation
    * @description Retrieve reputation for a domain from a provider, including an optional detailed report.
    * @deprecated Since version 1.2.0. Use reputation instead.
    * @param {String} domain - Domain address to be looked up.
@@ -225,7 +225,7 @@ export class DomainIntelService extends BaseService {
   }
 
   /**
-   * @summary Look up a domain reputation
+   * @summary Domain reputation
    * @description Retrieve reputation for a domain from a provider, including an optional detailed report.
    * @param {String} domain - Domain address to be looked up.
    * @param {Object} options - An object of optional parameters. Parameters supported:
@@ -283,7 +283,7 @@ export class IPIntelService extends BaseService {
   }
 
   /**
-   * @summary Look up an IP
+   * @summary IP reputation
    * @description Retrieve a reputation score for an IP address from a provider, including an optional detailed report.
    * @deprecated Since version 1.2.0. Use reputation instead.
    * @param {String} ip - Geolocate this IP and check the corresponding country against
@@ -316,7 +316,7 @@ export class IPIntelService extends BaseService {
   }
 
   /**
-   * @summary Look up an IP reputation
+   * @summary IP reputation
    * @description Retrieve a reputation score for an IP address from a provider, including an optional detailed report.
    * @param {String} ip - Geolocate this IP and check the corresponding country against
    * @param {Object} options - An object of optional parameters. Parameters supported:
@@ -512,7 +512,7 @@ export class URLIntelService extends BaseService {
   }
 
   /**
-   * @summary Look up a URL
+   * @summary URL reputation
    * @description Retrieve a reputation score for a URL from a provider, including an optional detailed report.
    * @deprecated Since version 1.2.0. Use reputation instead.
    * @param {String} url - The URL to be looked up
@@ -545,7 +545,7 @@ export class URLIntelService extends BaseService {
   }
 
   /**
-   * @summary Look up a URL
+   * @summary URL reputation
    * @description Retrieve a reputation score for a URL from a provider, including an optional detailed report.
    * @param {String} url - The URL to be looked up
    * @param {Object} options - An object of optional parameters. Parameters supported:

@@ -18,5 +18,6 @@
     "paths": {
       "@src/*": ["./src/*"]
     }
-  }
+  },
+  "exclude": ["src/stories", "**/*.stories.tsx"]
 }

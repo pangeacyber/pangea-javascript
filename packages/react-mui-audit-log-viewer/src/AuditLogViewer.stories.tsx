@@ -281,7 +281,7 @@ SimpleAuditLogViewer.args = {
 
 export const ThemedAuditLogViewer = ThemeTemplate.bind({});
 ThemedAuditLogViewer.args = {
-  onSearch: async () => {
+  onSearch: async (body) => {
     return {
       id: "mock",
       count: 2,

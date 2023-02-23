@@ -1,6 +1,6 @@
 // Copyright 2021 Pangea Cyber Corporation
 // Author: Pangea Cyber Corporation
-
+import isEmpty from "lodash/isEmpty";
 import { useState, useMemo, useEffect } from "react";
 import { Audit } from "../types";
 
@@ -17,6 +17,50 @@ export interface AuditQuery {
   old?: string;
   status?: string;
   target?: string;
+}
+
+interface AfterRange {
+  type: "after";
+  after: string;
+}
+
+interface BeforeRange {
+  type: "before";
+  before: string;
+}
+
+interface BetweenRange {
+  type: "between";
+  after: string;
+  before: string;
+}
+
+interface SinceRange {
+  type: "relative";
+  since: string;
+}
+
+type AuditQueryRange = SinceRange | BetweenRange | BeforeRange | AfterRange;
+
+interface QueryObj {
+  type: "object";
+  actor?: string;
+  action?: string;
+  message?: string;
+  new?: string;
+  old?: string;
+  status?: string;
+  target?: string;
+}
+
+interface QueryString {
+  type: "string";
+  value: string;
+}
+
+export interface PublicAuditQuery {
+  range?: AuditQueryRange;
+  query?: QueryObj | QueryString;
 }
 
 export interface Sort {
@@ -83,7 +127,7 @@ const getTimeFilterKwargs = (queryObj: AuditQuery | null): TimeFilter => {
 };
 
 interface UseAuditQuery {
-  body: Audit.SearchRequest;
+  body: Audit.SearchRequest | null;
   query: string;
   queryObj: AuditQuery | null;
   setQuery: (query: string) => void;
@@ -92,15 +136,61 @@ interface UseAuditQuery {
   setSort: (sort?: Sort) => void;
 }
 
-export const useAuditQuery = (limit: number): UseAuditQuery => {
+export const useAuditQuery = (
+  limit: number,
+  auditQuery: PublicAuditQuery | undefined = undefined
+): UseAuditQuery => {
   const [query, setQuery] = useState("");
   const [sort, setSort] = useState<Sort>();
-  const [queryObj, setQueryObj] = useState<AuditQuery | null>({
-    since: "7d",
-    active: "since",
-  });
+  const [queryObj, setQueryObj] = useState<AuditQuery | null>(
+    !!auditQuery
+      ? {}
+      : {
+          since: "7day",
+          active: "since",
+        }
+  );
 
-  const body = useMemo<Audit.SearchRequest>(() => {
+  useEffect(() => {
+    if (!auditQuery?.range && !auditQuery?.query) {
+      if (isEmpty(queryObj))
+        setQueryObj({
+          since: "7day",
+          active: "since",
+        });
+      return;
+    }
+
+    const { range, query } = auditQuery;
+
+    // Handle optional query param in filters
+    const { type: queryType, ...newQueryObj_ } = query ?? {};
+    let newQueryObj = {};
+    if (queryType === "object") {
+      newQueryObj = newQueryObj_;
+    }
+
+    // Handle optional range param in filters
+    const { type, ...timeFields } = range ?? {};
+    const active =
+      type === "relative" ? "since" : type ?? queryObj?.active ?? "since";
+
+    const newQuery = {
+      since: "7day",
+      ...newQueryObj,
+      ...timeFields,
+      active,
+    };
+
+    setQueryObj(newQuery);
+
+    if (query?.type === "string") {
+      setQuery(query.value);
+    }
+  }, [JSON.stringify(auditQuery)]);
+
+  const body = useMemo<Audit.SearchRequest | null>(() => {
+    if (isEmpty(queryObj)) return null;
     return {
       query: query,
       ...getTimeFilterKwargs(queryObj),
