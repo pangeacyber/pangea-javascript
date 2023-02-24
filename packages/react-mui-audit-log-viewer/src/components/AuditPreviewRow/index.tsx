@@ -24,6 +24,19 @@ const AuditPreviewRow: FC<Props> = ({
   // @ts-ignore - An id is needed for mui data grid so one is added.
   const rowId: string = record.id;
 
+  let date;
+  if (record?.timestamp) {
+    date = new Date(record?.timestamp);
+    date = date.toLocaleDateString(undefined, {
+      year: "numeric",
+      month: "2-digit",
+      day: "2-digit",
+      hour: "2-digit",
+      minute: "2-digit",
+      second: undefined,
+    });
+  }
+
   return (
     <Stack
       padding={1}
@@ -44,6 +57,13 @@ const AuditPreviewRow: FC<Props> = ({
           spacing={-1}
         >
           <Stack spacing={-1}>
+            {!visibilityModel?.tenant_id && (
+              <StringField
+                title="Tenant ID"
+                value={record?.tenant_id ?? "-"}
+                uniqueId={rowId}
+              />
+            )}
             {!visibilityModel?.actor && (
               <StringField
                 title="Actor"
@@ -76,6 +96,13 @@ const AuditPreviewRow: FC<Props> = ({
               <StringField
                 title="Source"
                 value={record.source}
+                uniqueId={rowId}
+              />
+            )}
+            {!visibilityModel?.timestamp && (
+              <StringField
+                title="Timestamp"
+                value={date ?? "-"}
                 uniqueId={rowId}
               />
             )}
