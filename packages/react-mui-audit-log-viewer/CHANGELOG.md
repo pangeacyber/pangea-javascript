@@ -10,6 +10,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 
 - New column in the Audit Log Table: `tenant_id`
+- Added `tenant_id` and `timestamp` to the expanded audit log table row
 
 ## [0.0.6] - 2023-02-21
 
