@@ -20,6 +20,7 @@ import {
   saveSessionData,
   setCookie,
   removeCookie,
+  startTokenWatch,
   SESSION_DATA_KEY,
   DEFAULT_COOKIE_OPTIONS,
 } from "@src/shared/session";
@@ -129,6 +130,7 @@ export const AuthProvider: FC<AuthProviderProps> = ({
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string>("");
   const [user, setUser] = useState<AuthUser>();
+  const [timer, setTimer] = useState<number>();
 
   const client = useMemo(() => {
     return new AuthNClient(config);
@@ -174,6 +176,11 @@ export const AuthProvider: FC<AuthProviderProps> = ({
       );
       setUser(sessionData.user);
       setAuthenticated(true);
+
+      const timerId = startTokenWatch(refresh, useCookie);
+      if (timerId) {
+        setTimer(timerId);
+      }
 
       if (onLogin) {
         const appState = {
@@ -261,16 +268,6 @@ export const AuthProvider: FC<AuthProviderProps> = ({
   const logout = async (redirect = true) => {
     const stateCode = generateBase58(32);
 
-    if (useCookie) {
-      removeCookie(
-        combinedCookieOptions.cookieName as string,
-        combinedCookieOptions
-      );
-    }
-
-    const storageAPI = getStorageAPI(useCookie);
-    storageAPI.removeItem(SESSION_DATA_KEY);
-
     // redirect to the hosted page
     if (redirect) {
       let redirectUri = location.origin;
@@ -285,7 +282,7 @@ export const AuthProvider: FC<AuthProviderProps> = ({
       };
       const url = `${logoutURL}?${toUrlEncoded(query)}`;
 
-      setAuthenticated(false);
+      setLoggedOut();
       window.location.replace(url);
     }
     // call the logout endpoint
@@ -306,7 +303,48 @@ export const AuthProvider: FC<AuthProviderProps> = ({
     }
   };
 
+  const refresh = async (useCookie: boolean) => {
+    const storageAPI = getStorageAPI(useCookie);
+    const sessionData = getSessionData(storageAPI);
+    const activeToken = sessionData.user?.active_token?.token || "";
+    const refreshToken = sessionData.user?.refresh_token?.token || "";
+    const { success, response } = await client.refresh(
+      activeToken,
+      refreshToken
+    );
+
+    if (success) {
+      const user: AuthUser = getUserFromResponse(response);
+      sessionData.user = user;
+      saveSessionData(storageAPI, sessionData);
+
+      if (useCookie) {
+        setCookie(
+          combinedCookieOptions.cookieName as string,
+          response.result.active_token?.token,
+          combinedCookieOptions
+        );
+      }
+    } else {
+      logout();
+    }
+  };
+
   const setLoggedOut = () => {
+    if (useCookie) {
+      removeCookie(
+        combinedCookieOptions.cookieName as string,
+        combinedCookieOptions
+      );
+    }
+
+    if (timer) {
+      clearInterval(timer);
+    }
+
+    const storageAPI = getStorageAPI(useCookie);
+    storageAPI.removeItem(SESSION_DATA_KEY);
+
     setError("");
     setUser(undefined);
     setAuthenticated(false);
@@ -340,6 +378,11 @@ export const AuthProvider: FC<AuthProviderProps> = ({
     setError("");
     setUser(user);
     setAuthenticated(true);
+
+    const timerId = startTokenWatch(refresh, useCookie);
+    if (timerId) {
+      setTimer(timerId);
+    }
 
     if (onLogin) {
       onLogin(appState);
