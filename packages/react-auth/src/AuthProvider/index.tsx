@@ -268,20 +268,6 @@ export const AuthProvider: FC<AuthProviderProps> = ({
   const logout = async (redirect = true) => {
     const stateCode = generateBase58(32);
 
-    // if (useCookie) {
-    //   removeCookie(
-    //     combinedCookieOptions.cookieName as string,
-    //     combinedCookieOptions
-    //   );
-    // }
-
-    // if (timer) {
-    //   clearInterval(timer);
-    // }
-
-    // const storageAPI = getStorageAPI(useCookie);
-    // storageAPI.removeItem(SESSION_DATA_KEY);
-
     // redirect to the hosted page
     if (redirect) {
       let redirectUri = location.origin;
@@ -296,7 +282,6 @@ export const AuthProvider: FC<AuthProviderProps> = ({
       };
       const url = `${logoutURL}?${toUrlEncoded(query)}`;
 
-      //setAuthenticated(false);
       setLoggedOut();
       window.location.replace(url);
     }
