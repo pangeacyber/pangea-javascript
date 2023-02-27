@@ -51,7 +51,6 @@ export class AuthNClient {
   ): Promise<ClientResponse> {
     const path = "client/session/refresh";
     const payload = { user_token: userToken, refresh_token: refreshToken };
-    console.log("client refresh", userToken, refreshToken);
     return await this.post(path, payload);
   }
 
