@@ -284,6 +284,19 @@ export namespace Vault {
     PANGEA_TOKEN = "pangea_token",
   }
 
+  export enum ItemState {
+    ENABLED = "ENABLED",
+    DISABLED = "disabled",
+  }
+
+  export enum ItemVersionState {
+    ACTIVE = "active",
+    DEACTIVATED = "deactivated",
+    SUSPENDED = "suspended",
+    COMPROMISED = "compromised",
+    DESTROYED = "destroyed",
+  }
+
   export enum ItemOrder {
     ASC = "asc",
     DESC = "desc",
@@ -294,7 +307,6 @@ export namespace Vault {
     CREATED_AT = "created_at",
     REVOKED_AT = "revoked_at",
     IDENTITY = "identity",
-    MANAGED = "managed",
     PURPOSE = "purpose",
     EXPIRATION = "expiration",
     LAST_ROTATED = "last_rotated",
@@ -318,12 +330,16 @@ export namespace Vault {
   // EncodedSymmetricKey is a base64 encoded key
   export type EncodedSymmetricKey = string;
 
-  export interface RevokeRequest {
+  export interface StateChangeRequest {
     id: string;
+    state: Vault.ItemVersionState;
+    version: number;
   }
 
-  export interface RevokeResult {
+  export interface StateChangeResult {
     id: string;
+    state: Vault.ItemVersionState;
+    version: number;
   }
 
   export interface DeleteRequest {
@@ -342,13 +358,13 @@ export namespace Vault {
     folder?: string;
     metadata?: Metadata;
     tags?: Tags;
-    rotation_policy?: string;
+    rotation_frequency?: string;
+    rotation_state?: string;
     next_rotation?: string;
     last_rotated?: string;
     expiration?: string;
     created_at?: string;
     revoked_at?: string;
-    managed: boolean;
     identity: string;
   }
 
@@ -372,8 +388,8 @@ export namespace Vault {
     folder?: string;
     metadata?: Metadata;
     tags?: Tags;
-    auto_rotate?: boolean;
-    rotation_policy?: string;
+    rotation_frequency?: string;
+    rotation_state?: ItemVersionState;
     expiration?: string;
   }
 
@@ -394,29 +410,30 @@ export namespace Vault {
     verbose?: boolean;
   }
 
+  export interface ItemVersionData {
+    version: number;
+    state: string;
+    created_at: string;
+    public_key?: EncodedPublicKey;
+    secret?: string;
+  }
+
   export interface GetResult {
     id: string;
     type: string;
-    version: number;
     name?: string;
     folder?: string;
     metadata?: Metadata;
     tags?: Tags;
-    auto_rotate?: boolean;
-    rotation_policy?: string;
+    rotation_frequency?: string;
+    rotation_state?: string;
     last_rotated?: string;
     next_rotation?: string;
-    retaion_previous_version?: boolean;
     expiration?: string;
-    created_at?: string;
     revoked_at?: string;
-    public_key?: EncodedPublicKey;
-    private_key?: EncodedPrivateKey;
     algorithm?: string;
     purpose?: string;
-    key?: EncodedSymmetricKey;
-    managed?: boolean;
-    secret?: string;
+    versions: ItemVersionData[];
   }
 
   export namespace JWT {
@@ -484,8 +501,8 @@ export namespace Vault {
       folder?: string;
       metadata?: Metadata;
       tags?: Tags;
-      auto_rotate?: boolean;
-      rotation_policy?: string;
+      rotation_frequency?: string;
+      rotation_state?: ItemVersionState;
       expiration?: string;
     }
 
@@ -508,11 +525,9 @@ export namespace Vault {
       folder?: string;
       metadata?: Metadata;
       tags?: Tags;
-      auto_rotate?: boolean;
-      rotation_policy?: string;
-      store?: boolean;
+      rotation_frequency?: string;
+      rotation_state?: ItemVersionState;
       expiration?: string;
-      managed?: boolean;
     }
 
     export interface GenerateResult {
@@ -541,8 +556,6 @@ export namespace Vault {
 
     export interface RotateKeyGenericResult {
       public_key?: EncodedPublicKey;
-      private_key?: EncodedPrivateKey;
-      key?: EncodedSymmetricKey;
     }
   }
 
@@ -551,9 +564,7 @@ export namespace Vault {
       BASE32: "base32",
     };
 
-    export interface StoreOptions extends Common.StoreOptions {
-      retain_previous_version?: boolean;
-    }
+    export interface StoreOptions extends Common.StoreOptions {}
 
     export interface StoreRequest extends Common.StoreRequest, StoreOptions {
       secret: string;
@@ -589,9 +600,7 @@ export namespace Vault {
 
     export interface RotateResult extends Common.RotateResult {
       algorithm: string;
-      key?: EncodedSymmetricKey;
       public_key?: EncodedPublicKey;
-      private_key?: EncodedPrivateKey;
     }
   }
 
@@ -606,12 +615,10 @@ export namespace Vault {
     export interface GenerateResult extends Common.GenerateResult {
       algorithm: string;
       public_key: EncodedPublicKey;
-      private_key?: EncodedPrivateKey;
     }
 
     export interface StoreOptions extends Common.StoreOptions {
       purpose?: Vault.KeyPurpose;
-      managed?: boolean;
     }
 
     export interface StoreRequest extends Common.StoreRequest, StoreOptions {
@@ -622,11 +629,14 @@ export namespace Vault {
 
     export interface StoreResult extends Common.StoreResult {
       public_key: EncodedPublicKey;
-      private_key?: EncodedPrivateKey;
       algorithm: string;
     }
 
-    export interface SignRequest {
+    export interface SignOptions {
+      version?: number;
+    }
+
+    export interface SignRequest extends SignOptions {
       id: string;
       message: string;
     }
@@ -659,7 +669,6 @@ export namespace Vault {
 
   export namespace Symmetric {
     export interface StoreOptions extends Common.StoreOptions {
-      managed?: boolean;
       purpose?: boolean;
     }
 
@@ -670,12 +679,10 @@ export namespace Vault {
 
     export interface StoreResult extends Common.StoreResult {
       algorithm?: Vault.SymmetricAlgorithm;
-      key?: EncodedSymmetricKey;
     }
 
     export interface GenerateOptions extends Common.GenerateOptions {
       algorithm?: Vault.SymmetricAlgorithm;
-      managed?: boolean;
       purpose?: Vault.KeyPurpose;
     }
 
@@ -683,10 +690,13 @@ export namespace Vault {
 
     export interface GenerateResult extends Common.GenerateResult {
       algorithm: Vault.SymmetricAlgorithm;
-      key?: EncodedSymmetricKey;
     }
 
-    export interface EncryptRequest {
+    export interface EncryptOptions {
+      version?: number;
+    }
+
+    export interface EncryptRequest extends EncryptOptions {
       id: string;
       plain_text: string;
     }

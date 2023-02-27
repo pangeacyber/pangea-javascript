@@ -13,12 +13,18 @@ class VaultService extends BaseService {
     this.apiVersion = "v1";
   }
 
-  async revoke(id: string): Promise<PangeaResponse<Vault.RevokeResult>> {
-    const data: Vault.RevokeRequest = {
+  async stateChange(
+    id: string,
+    state: Vault.ItemVersionState,
+    version: number
+  ): Promise<PangeaResponse<Vault.StateChangeResult>> {
+    const data: Vault.StateChangeRequest = {
       id: id,
+      state: state,
+      version: version,
     };
 
-    return this.post("revoke", data);
+    return this.post("state/change", data);
   }
 
   async delete(id: string): Promise<PangeaResponse<Vault.DeleteResult>> {
