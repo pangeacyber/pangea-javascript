@@ -353,9 +353,8 @@ export namespace Vault {
   export interface ListItemData {
     type: string;
     id: string;
-    current_version: number;
-    versions: ItemVersionData[];
-    has_compromised_versions: boolean;
+    current_version: ItemVersionData;
+    compromised_versions: ItemVersionData[];
     name?: string;
     folder?: string;
     metadata?: Metadata;
