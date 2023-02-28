@@ -351,21 +351,22 @@ export namespace Vault {
   }
 
   export interface ListItemData {
-    id: string;
-    version: number;
     type: string;
+    id: string;
+    current_version: number;
+    versions: ItemVersionData[];
+    has_compromised_versions: boolean;
     name?: string;
     folder?: string;
     metadata?: Metadata;
     tags?: Tags;
     rotation_frequency?: string;
     rotation_state?: string;
+    rotation_grace_period?: string;
     next_rotation?: string;
     last_rotated?: string;
     expiration?: string;
     created_at?: string;
-    destroyed_at?: string;
-    identity: string;
   }
 
   export interface ListResult {
@@ -406,14 +407,16 @@ export namespace Vault {
   }
 
   export interface GetOptions {
-    version?: number;
+    version?: number | string;
     verbose?: boolean;
+    version_state?: ItemVersionState;
   }
 
   export interface ItemVersionData {
     version: number;
     state: string;
     created_at: string;
+    destroyed_at?: string;
     public_key?: EncodedPublicKey;
     secret?: string;
   }
@@ -421,16 +424,17 @@ export namespace Vault {
   export interface GetResult {
     id: string;
     type: string;
+    current_version: number;
     name?: string;
     folder?: string;
     metadata?: Metadata;
     tags?: Tags;
     rotation_frequency?: string;
     rotation_state?: string;
+    rotation_grace_period?: string;
     last_rotated?: string;
     next_rotation?: string;
     expiration?: string;
-    destroyed_at?: string;
     algorithm?: string;
     purpose?: string;
     versions: ItemVersionData[];
