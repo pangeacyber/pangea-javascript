@@ -305,7 +305,7 @@ export namespace Vault {
   export enum ItemOrderBy {
     TYPE = "type",
     CREATED_AT = "created_at",
-    REVOKED_AT = "revoked_at",
+    DESTROYED_AT = "destroyed_at",
     IDENTITY = "identity",
     PURPOSE = "purpose",
     EXPIRATION = "expiration",
@@ -364,7 +364,7 @@ export namespace Vault {
     last_rotated?: string;
     expiration?: string;
     created_at?: string;
-    revoked_at?: string;
+    destroyed_at?: string;
     identity: string;
   }
 
@@ -430,7 +430,7 @@ export namespace Vault {
     last_rotated?: string;
     next_rotation?: string;
     expiration?: string;
-    revoked_at?: string;
+    destroyed_at?: string;
     algorithm?: string;
     purpose?: string;
     versions: ItemVersionData[];

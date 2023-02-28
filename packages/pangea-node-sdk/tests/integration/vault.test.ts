@@ -40,7 +40,7 @@ it("Secret life cycle", async () => {
   expect(getResp.result.versions.length).toBe(1);
   expect(getResp.result.versions[0].secret).toBe(secretV2);
   expect(getResp.result.versions[0].version).toBe(2);
-  expect(getResp.result.revoked_at).toBeUndefined();
+  expect(getResp.result.destroyed_at).toBeUndefined();
   expect(getResp.result.versions[0].public_key).toBeUndefined();
 
   // Deactivate
@@ -52,7 +52,7 @@ it("Secret life cycle", async () => {
   expect(getResp.result.versions.length).toBe(1);
   expect(getResp.result.versions[0].secret).toBe(secretV2);
   expect(getResp.result.versions[0].version).toBe(2);
-  expect(getResp.result.revoked_at).toBeUndefined();
+  expect(getResp.result.destroyed_at).toBeUndefined();
   expect(getResp.result.versions[0].public_key).toBeUndefined();
 });
 
