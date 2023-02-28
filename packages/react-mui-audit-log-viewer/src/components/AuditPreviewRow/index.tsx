@@ -60,7 +60,7 @@ const AuditPreviewRow: FC<Props> = ({
             {!visibilityModel?.tenant_id && (
               <StringField
                 title="Tenant ID"
-                value={record?.tenant_id ?? "-"}
+                value={record?.tenant_id || "-"}
                 uniqueId={rowId}
               />
             )}
