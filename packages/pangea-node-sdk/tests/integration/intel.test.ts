@@ -3,8 +3,7 @@ import { it, expect } from "@jest/globals";
 import { TestEnvironment, getTestDomain, getTestToken } from "../../src/utils/utils";
 import { FileIntelService, DomainIntelService, IPIntelService, URLIntelService } from "../../src";
 
-// FIXME: Update testEnvironment to live once released!
-const testEnvironment = TestEnvironment.DEVELOP;
+const testEnvironment = TestEnvironment.LIVE;
 
 const token = getTestToken(testEnvironment);
 const testHost = getTestDomain(testEnvironment);
@@ -121,7 +120,7 @@ it("IP geolocate should succeed", async () => {
 
   expect(response.status).toBe("Success");
   expect(response.result.data).toBeDefined();
-  expect(response.result.data.country).toBe("deu");
+  expect(response.result.data.country).toBe("Federal Republic Of Germany");
   expect(response.result.data.city).toBe("unna");
   expect(response.result.data.postal_code).toBe("59425");
 });
@@ -152,7 +151,7 @@ it("IP get domain with default provider should succeed", async () => {
 
 it("IP is VPN should succeed", async () => {
   const options = { provider: "digitalenvoy", verbose: true, raw: true };
-  const response = await ipIntel.isVPN("2.25.119.42", options);
+  const response = await ipIntel.isVPN("2.56.189.74", options);
 
   expect(response.status).toBe("Success");
   expect(response.result.data).toBeDefined();
@@ -160,7 +159,7 @@ it("IP is VPN should succeed", async () => {
 });
 
 it("IP is VPN with default provider should succeed", async () => {
-  const response = await ipIntel.isVPN("2.25.119.42");
+  const response = await ipIntel.isVPN("2.56.189.74");
   expect(response.status).toBe("Success");
   expect(response.result.data).toBeDefined();
   expect(response.result.data.is_vpn).toBeTruthy();
