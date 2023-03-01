@@ -19,6 +19,19 @@ const ROTATION_FREQUENCY_VALUE = "1d";
 const ROTATION_STATE_VALUE = Vault.ItemVersionState.DEACTIVATED;
 const EXPIRATION_VALUE = new Date(new Date().setDate(new Date().getDate() + 2)).toISOString();
 
+const KEY_ED25519 = {
+  algorithm: Vault.AsymmetricAlgorithm.Ed25519,
+  private_key:
+    "-----BEGIN PRIVATE KEY-----\nMC4CAQAwBQYDK2VwBCIEIGthqegkjgddRAn0PWN2FeYC6HcCVQf/Ph9sUbeprTBO\n-----END PRIVATE KEY-----\n",
+  public_key:
+    "-----BEGIN PUBLIC KEY-----\nMCowBQYDK2VwAyEAPlGrDliJXUbPc2YWEhFxlL2UbBfLHc3ed1f36FrDtTc=\n-----END PUBLIC KEY-----\n",
+};
+
+const KEY_AES = {
+  algorithm: Vault.SymmetricAlgorithm.AES,
+  key: "oILlp2FUPHWiaqFXl4/1ww==",
+};
+
 jest.setTimeout(60000);
 it("Secret life cycle", async () => {
   // Store
@@ -339,6 +352,26 @@ it("Ed25519 signing generate all params", async () => {
     console.log(`Failed asymGenerateParams with ${algorithm} and ${purpose}`);
     expect(false).toBeTruthy();
   }
+});
+
+jest.setTimeout(60000);
+it("Ed25519 default store", async () => {
+  const genResp = await vault.asymmetricStore(
+    KEY_ED25519.algorithm,
+    KEY_ED25519.public_key,
+    KEY_ED25519.private_key
+  );
+  expect(genResp.result.type).toBe(Vault.ItemType.ASYMMETRIC_KEY);
+  expect(genResp.result.version).toBe(1);
+  expect(genResp.result.id).toBeDefined();
+});
+
+jest.setTimeout(60000);
+it("AES default store", async () => {
+  const genResp = await vault.symmetricStore(KEY_AES.algorithm, KEY_AES.key);
+  expect(genResp.result.type).toBe(Vault.ItemType.SYMMETRIC_KEY);
+  expect(genResp.result.version).toBe(1);
+  expect(genResp.result.id).toBeDefined();
 });
 
 jest.setTimeout(60000);
