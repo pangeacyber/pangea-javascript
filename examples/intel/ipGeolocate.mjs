@@ -8,11 +8,11 @@ const config = new PangeaConfig({ domain: domain });
 const ipIntel = new IPIntelService(String(token), config);
 
 (async () => {
-  console.log("Checking IP...");
+  console.log("Geolocate IP...");
 
-  const options = { provider: "crowdstrike", verbose: true, raw: true };
+  const options = { provider: "digitalenvoy", verbose: true, raw: true };
   try {
-    const response = await ipIntel.reputation("93.231.182.110", options);
+    const response = await ipIntel.geolocate("93.231.182.110", options);
     console.log(response.result);
   } catch (e) {
     if (e instanceof PangeaErrors.APIError) {
