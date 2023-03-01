@@ -37,23 +37,23 @@ it("Secret life cycle", async () => {
 
   // Get
   let getResp = await vault.getItem(id);
-  expect(getResp.result.versions.length).toBe(1);
-  expect(getResp.result.versions[0].secret).toBe(secretV2);
-  expect(getResp.result.versions[0].version).toBe(2);
-  expect(getResp.result.destroyed_at).toBeUndefined();
-  expect(getResp.result.versions[0].public_key).toBeUndefined();
+  expect(getResp.result.versions.length).toBe(0);
+  expect(getResp.result.current_version.secret).toBe(secretV2);
+  expect(getResp.result.current_version.version).toBe(2);
+  expect(getResp.result.current_version.public_key).toBeUndefined();
 
   // Deactivate
-  const stateChangeResp = await vault.stateChange(id, Vault.ItemVersionState.SUSPENDED, 1);
+  const stateChangeResp = await vault.stateChange(id, Vault.ItemVersionState.SUSPENDED, {
+    version: 1,
+  });
   expect(stateChangeResp.result.id).toBe(id);
 
   // Get after deactivate
   getResp = await vault.getItem(id);
-  expect(getResp.result.versions.length).toBe(1);
-  expect(getResp.result.versions[0].secret).toBe(secretV2);
-  expect(getResp.result.versions[0].version).toBe(2);
-  expect(getResp.result.destroyed_at).toBeUndefined();
-  expect(getResp.result.versions[0].public_key).toBeUndefined();
+  expect(getResp.result.versions.length).toBe(0);
+  expect(getResp.result.current_version.secret).toBe(secretV2);
+  expect(getResp.result.current_version.version).toBe(2);
+  expect(getResp.result.current_version.public_key).toBeUndefined();
 });
 
 async function asymSigningCycle(id: string) {
@@ -111,7 +111,9 @@ async function asymSigningCycle(id: string) {
   expect(verifyBad2Resp.result.valid_signature).toBe(false);
 
   // Deactivate key
-  const stateChangeResp = await vault.stateChange(id, Vault.ItemVersionState.SUSPENDED, 1);
+  const stateChangeResp = await vault.stateChange(id, Vault.ItemVersionState.SUSPENDED, {
+    version: 1,
+  });
   expect(stateChangeResp.result.id).toBe(id);
 
   // Verify after deactivated
@@ -164,7 +166,9 @@ async function jwtSigningCycle(id: string) {
     expect(getResp.result.jwk.keys.length).toBe(2);
 
     // Deactivate key
-    const stateChangeResp = await vault.stateChange(id, Vault.ItemVersionState.SUSPENDED, 1);
+    const stateChangeResp = await vault.stateChange(id, Vault.ItemVersionState.SUSPENDED, {
+      version: 1,
+    });
     expect(stateChangeResp.result.id).toBe(id);
 
     // Verify after deactivated
@@ -224,7 +228,9 @@ async function encryptingCycle(id: string) {
   await expect(f()).rejects.toThrow(PangeaErrors.APIError);
 
   // Deactivate key
-  const stateChangeResp = await vault.stateChange(id, Vault.ItemVersionState.SUSPENDED, 1);
+  const stateChangeResp = await vault.stateChange(id, Vault.ItemVersionState.SUSPENDED, {
+    version: 1,
+  });
   expect(stateChangeResp.result.id).toBe(id);
 
   // Decrypt after deactivated
@@ -267,11 +273,9 @@ async function symGenerateParams(
 
   const getResp = await vault.getItem(genResp.result.id, { verbose: true });
   expect(getResp.result.algorithm).toBe(algorithm);
-  expect(getResp.result.versions.length).toBe(1);
-  expect(getResp.result.versions[0].version).toBe(1);
+  expect(getResp.result.versions.length).toBe(0);
+  expect(getResp.result.current_version.version).toBe(1);
   expect(getResp.result.name).toBe(name);
-  // expect(getResp.result.metadata).toBe(METADATA_VALUE);
-  // expect(getResp.result.folder).toBe(FOLDER_VALUE);
   expect(getResp.result.expiration).toBe(EXPIRATION_VALUE);
   expect(getResp.result.rotation_frequency).toBe(ROTATION_FREQUENCY_VALUE);
   expect(getResp.result.rotation_state).toBe(ROTATION_STATE_VALUE);
@@ -311,12 +315,10 @@ async function asymGenerateParams(
   expect(genResp.result.id).toBeDefined();
 
   const getResp = await vault.getItem(genResp.result.id, { verbose: true });
-  expect(getResp.result.versions.length).toBe(1);
+  expect(getResp.result.versions.length).toBe(0);
   expect(getResp.result.algorithm).toBe(algorithm);
-  expect(getResp.result.versions[0].version).toBe(1);
+  expect(getResp.result.current_version.version).toBe(1);
   expect(getResp.result.name).toBe(name);
-  // expect(getResp.result.metadata).toBe(METADATA_VALUE);
-  // expect(getResp.result.folder).toBe(FOLDER_VALUE);
   expect(getResp.result.folder).toBe(FOLDER_VALUE);
   expect(getResp.result.expiration).toBe(EXPIRATION_VALUE);
   expect(getResp.result.rotation_frequency).toBe(ROTATION_FREQUENCY_VALUE);

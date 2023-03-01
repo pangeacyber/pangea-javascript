@@ -330,16 +330,21 @@ export namespace Vault {
   // EncodedSymmetricKey is a base64 encoded key
   export type EncodedSymmetricKey = string;
 
-  export interface StateChangeRequest {
+  export interface StateChangeOptions {
+    version?: number;
+    destroy_period?: string;
+  }
+
+  export interface StateChangeRequest extends StateChangeOptions {
     id: string;
     state: Vault.ItemVersionState;
-    version: number;
   }
 
   export interface StateChangeResult {
     id: string;
-    state: Vault.ItemVersionState;
     version: number;
+    state: string;
+    destroy_at?: string;
   }
 
   export interface DeleteRequest {
@@ -350,22 +355,27 @@ export namespace Vault {
     id: string;
   }
 
-  export interface ListItemData {
+  export interface ItemData {
     type: string;
     id: string;
+    item_state: string;
     current_version: ItemVersionData;
-    compromised_versions: ItemVersionData[];
     name?: string;
     folder?: string;
     metadata?: Metadata;
     tags?: Tags;
     rotation_frequency?: string;
     rotation_state?: string;
-    rotation_grace_period?: string;
-    next_rotation?: string;
     last_rotated?: string;
+    next_rotation?: string;
     expiration?: string;
-    created_at?: string;
+    created_at: string;
+    algorithm: string;
+    purpose: string;
+  }
+
+  export interface ListItemData extends ItemData {
+    compromised_versions: ItemVersionData[];
   }
 
   export interface ListResult {
@@ -376,7 +386,6 @@ export namespace Vault {
 
   export interface ListOptions {
     filter?: Object;
-    restrictions?: Object;
     last?: string;
     size?: number;
     order?: Vault.ItemOrder;
@@ -390,7 +399,9 @@ export namespace Vault {
     tags?: Tags;
     rotation_frequency?: string;
     rotation_state?: ItemVersionState;
+    rotation_grace_period?: string;
     expiration?: string;
+    item_state?: string;
   }
 
   export interface UpdateRequest extends UpdateOptions {
@@ -401,41 +412,27 @@ export namespace Vault {
     id: string;
   }
 
-  export interface GetRequest {
-    id: string;
-  }
-
   export interface GetOptions {
     version?: number | string;
     verbose?: boolean;
     version_state?: ItemVersionState;
   }
 
+  export interface GetRequest extends GetOptions {
+    id: string;
+  }
+
   export interface ItemVersionData {
     version: number;
     state: string;
     created_at: string;
-    destroyed_at?: string;
+    destroy_at?: string;
     public_key?: EncodedPublicKey;
     secret?: string;
   }
 
-  export interface GetResult {
-    id: string;
-    type: string;
-    current_version: number;
-    name?: string;
-    folder?: string;
-    metadata?: Metadata;
-    tags?: Tags;
-    rotation_frequency?: string;
-    rotation_state?: string;
+  export interface GetResult extends ItemData {
     rotation_grace_period?: string;
-    last_rotated?: string;
-    next_rotation?: string;
-    expiration?: string;
-    algorithm?: string;
-    purpose?: string;
     versions: ItemVersionData[];
   }
 
@@ -535,30 +532,22 @@ export namespace Vault {
 
     export interface GenerateResult {
       id: string;
-      type?: Vault.ItemType;
-      version?: number;
+      type: string;
+      version: number;
     }
 
     export interface RotateRequest {
       id: string;
     }
 
+    export interface RotateOptions {
+      rotation_state?: ItemVersionState;
+    }
+
     export interface RotateResult {
       id: string;
       version: number;
       type: string;
-    }
-
-    export interface RotateGenericKeyOptions {
-      public_key?: EncodedPublicKey;
-      private_key?: EncodedPrivateKey;
-      key?: EncodedSymmetricKey;
-    }
-
-    export interface RotateKeyGenericRequest extends RotateRequest, RotateGenericKeyOptions {}
-
-    export interface RotateKeyGenericResult {
-      public_key?: EncodedPublicKey;
     }
   }
 
@@ -583,8 +572,17 @@ export namespace Vault {
       secret: string;
     }
 
-    export interface RotateRequest extends Common.RotateRequest {
-      secret?: string;
+    export namespace Secret {
+      export interface RotateOptions extends Common.RotateOptions {}
+      export interface RotateRequest extends Common.RotateRequest, RotateOptions {
+        secret?: string;
+      }
+    }
+
+    export namespace Token {
+      export interface RotateRequest extends Common.RotateRequest {
+        rotation_grace_period: string;
+      }
     }
 
     export interface RotateResult extends Common.RotateResult {
@@ -603,6 +601,7 @@ export namespace Vault {
 
     export interface RotateResult extends Common.RotateResult {
       algorithm: string;
+      purpose: string;
       public_key?: EncodedPublicKey;
     }
   }
@@ -617,6 +616,7 @@ export namespace Vault {
 
     export interface GenerateResult extends Common.GenerateResult {
       algorithm: string;
+      purpose: string;
       public_key: EncodedPublicKey;
     }
 
@@ -633,6 +633,7 @@ export namespace Vault {
     export interface StoreResult extends Common.StoreResult {
       public_key: EncodedPublicKey;
       algorithm: string;
+      purpose: string;
     }
 
     export interface SignOptions {
@@ -681,7 +682,8 @@ export namespace Vault {
     }
 
     export interface StoreResult extends Common.StoreResult {
-      algorithm?: Vault.SymmetricAlgorithm;
+      algorithm?: string;
+      purpose?: string;
     }
 
     export interface GenerateOptions extends Common.GenerateOptions {
@@ -692,7 +694,8 @@ export namespace Vault {
     export interface GenerateRequest extends Common.GenerateRequest, GenerateOptions {}
 
     export interface GenerateResult extends Common.GenerateResult {
-      algorithm: Vault.SymmetricAlgorithm;
+      algorithm: string;
+      purpose: string;
     }
 
     export interface EncryptOptions {

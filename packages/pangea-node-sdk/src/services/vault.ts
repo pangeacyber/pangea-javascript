@@ -16,14 +16,13 @@ class VaultService extends BaseService {
   async stateChange(
     id: string,
     state: Vault.ItemVersionState,
-    version: number
+    options: Vault.StateChangeOptions = {}
   ): Promise<PangeaResponse<Vault.StateChangeResult>> {
     const data: Vault.StateChangeRequest = {
       id: id,
       state: state,
-      version: version,
     };
-
+    Object.assign(data, options);
     return this.post("state/change", data);
   }
 
@@ -91,19 +90,24 @@ class VaultService extends BaseService {
 
   async secretRotate(
     id: string,
-    secret: string
+    secret: string,
+    options: Vault.Secret.Secret.RotateOptions = {}
   ): Promise<PangeaResponse<Vault.Secret.RotateResult>> {
-    let data: Vault.Secret.RotateRequest = {
+    let data: Vault.Secret.Secret.RotateRequest = {
       id: id,
       secret: secret,
     };
-
+    Object.assign(data, options);
     return this.post("secret/rotate", data);
   }
 
-  async pangeaTokenRotate(id: string): Promise<PangeaResponse<Vault.Secret.RotateResult>> {
-    let data: Vault.Secret.RotateRequest = {
+  async pangeaTokenRotate(
+    id: string,
+    rotation_grace_period: string
+  ): Promise<PangeaResponse<Vault.Secret.RotateResult>> {
+    let data: Vault.Secret.Token.RotateRequest = {
       id: id,
+      rotation_grace_period: rotation_grace_period,
     };
 
     return this.post("secret/rotate", data);
