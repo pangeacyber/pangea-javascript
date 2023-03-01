@@ -161,6 +161,11 @@ class PangeaRequest {
         throw new PangeaErrors.ServiceNotAvailableError(this.serviceName, response);
       case "InvalidPayloadReceived":
         throw new PangeaErrors.InvalidPayloadReceived(response.summary, response);
+      case "NotFound":
+        throw new PangeaErrors.NotFound(
+          response.gotResponse?.requestUrl !== undefined ? response.gotResponse.requestUrl : "",
+          response
+        );
       default:
         throw new PangeaErrors.APIError(response.status, response);
     }

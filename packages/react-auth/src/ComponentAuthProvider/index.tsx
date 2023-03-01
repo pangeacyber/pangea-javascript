@@ -20,6 +20,7 @@ import {
   saveSessionData,
   setCookie,
   removeCookie,
+  startTokenWatch,
   DEFAULT_COOKIE_OPTIONS,
 } from "@src/shared/session";
 import {
@@ -64,6 +65,7 @@ export const ComponentAuthProvider: FC<ComponentAuthProviderProps> = ({
   const [error, setError] = useState<APIResponse>();
   const [user, setUser] = useState<AuthUser>();
   const [cbParams, setCbParams] = useState<CallbackParams>();
+  const [timer, setTimer] = useState<number>();
 
   const client = useMemo(() => {
     return new AuthNClient(config);
@@ -109,6 +111,11 @@ export const ComponentAuthProvider: FC<ComponentAuthProviderProps> = ({
       );
       setUser(sessionData.user);
       setAuthenticated(true);
+
+      const timerId = startTokenWatch(refresh, useCookie);
+      if (timerId) {
+        setTimer(timerId);
+      }
     } else {
       if (response.status === "InvalidToken") {
         setLoggedOut();
@@ -135,6 +142,25 @@ export const ComponentAuthProvider: FC<ComponentAuthProviderProps> = ({
     }
     // eslint-disable-next-line
   }, [user]);
+
+  const refresh = async (useCookie: boolean) => {
+    const storageAPI = getStorageAPI(useCookie);
+    const sessionData = getSessionData(storageAPI);
+    const activeToken = sessionData.user?.active_token?.token || "";
+    const refreshToken = sessionData.user?.refresh_token?.token || "";
+    const { success, response } = await client.refresh(
+      activeToken,
+      refreshToken
+    );
+
+    if (success) {
+      const user: AuthUser = getUserFromResponse(response);
+      sessionData.user = user;
+      saveSessionData(storageAPI, sessionData);
+    } else {
+      setLoggedOut();
+    }
+  };
 
   const setLoggedOut = () => {
     if (useCookie) {
@@ -167,6 +193,11 @@ export const ComponentAuthProvider: FC<ComponentAuthProviderProps> = ({
     setError(undefined);
     setUser(user);
     setAuthenticated(true);
+
+    const timerId = startTokenWatch(refresh, useCookie);
+    if (timerId) {
+      setTimer(timerId);
+    }
   }, []);
 
   const memoData = useMemo(

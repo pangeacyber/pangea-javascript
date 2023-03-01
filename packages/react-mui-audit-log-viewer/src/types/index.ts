@@ -18,6 +18,7 @@ export namespace Audit {
     old?: string;
     target?: string;
     timestamp?: string;
+    tenant_id?: string;
 
     // FIXME: This is part of Envelope
     received_at?: string;
@@ -54,6 +55,7 @@ export namespace Audit {
         new?: string;
         old?: string;
         timestamp?: string;
+        tenant_id?: string;
       };
       received_at?: string;
       public_key?: string;

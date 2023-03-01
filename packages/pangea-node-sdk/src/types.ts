@@ -47,6 +47,7 @@ export namespace Audit {
     target?: string;
     source?: string;
     timestamp?: Date | string;
+    tenant_id?: string;
   }
 
   export interface EventEnvelope {

@@ -48,4 +48,8 @@ export const AuditRecordFields: any = {
     sortable: false,
     type: "dateTime",
   },
+  tenant_id: {
+    label: "Tenant ID",
+    sortable: false,
+  },
 };
