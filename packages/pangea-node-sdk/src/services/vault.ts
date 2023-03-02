@@ -114,10 +114,14 @@ class VaultService extends BaseService {
   }
 
   async symmetricGenerate(
+    algorithm: Vault.SymmetricAlgorithm,
+    purpose: Vault.KeyPurpose,
     options: Vault.Symmetric.GenerateOptions = {}
   ): Promise<PangeaResponse<Vault.Symmetric.GenerateResult>> {
     let data: Vault.Symmetric.GenerateRequest = {
       type: Vault.ItemType.SYMMETRIC_KEY,
+      algorithm: algorithm,
+      purpose: purpose,
     };
 
     Object.assign(data, options);
@@ -125,10 +129,14 @@ class VaultService extends BaseService {
   }
 
   async asymmetricGenerate(
+    algorithm: Vault.AsymmetricAlgorithm,
+    purpose: Vault.KeyPurpose,
     options: Vault.Asymmetric.GenerateOptions = {}
   ): Promise<PangeaResponse<Vault.Asymmetric.GenerateResult>> {
     let data: Vault.Asymmetric.GenerateRequest = {
       type: Vault.ItemType.ASYMMETRIC_KEY,
+      algorithm: algorithm,
+      purpose: purpose,
     };
 
     Object.assign(data, options);
@@ -136,16 +144,18 @@ class VaultService extends BaseService {
   }
 
   async asymmetricStore(
-    algorithm: Vault.AsymmetricAlgorithm,
-    publicKey: Vault.EncodedPublicKey,
     privateKey: Vault.EncodedPrivateKey,
+    publicKey: Vault.EncodedPublicKey,
+    algorithm: Vault.AsymmetricAlgorithm,
+    purpose: Vault.KeyPurpose,
     options: Vault.Asymmetric.StoreOptions = {}
   ): Promise<PangeaResponse<Vault.Asymmetric.StoreResult>> {
     let data: Vault.Asymmetric.StoreRequest = {
       type: Vault.ItemType.ASYMMETRIC_KEY,
-      algorithm: algorithm,
-      public_key: publicKey,
       private_key: privateKey,
+      public_key: publicKey,
+      algorithm: algorithm,
+      purpose: purpose,
     };
 
     Object.assign(data, options);
@@ -153,14 +163,16 @@ class VaultService extends BaseService {
   }
 
   async symmetricStore(
-    algorithm: Vault.SymmetricAlgorithm,
     key: string,
+    algorithm: Vault.SymmetricAlgorithm,
+    purpose: Vault.KeyPurpose,
     options: Vault.Asymmetric.StoreOptions = {}
   ): Promise<PangeaResponse<Vault.Symmetric.StoreResult>> {
     let data: Vault.Symmetric.StoreRequest = {
       type: Vault.ItemType.SYMMETRIC_KEY,
-      algorithm: algorithm,
       key: key,
+      algorithm: algorithm,
+      purpose: purpose,
     };
 
     Object.assign(data, options);

@@ -257,7 +257,7 @@ async function symGenerateDefault(
   algorithm: Vault.SymmetricAlgorithm,
   purpose: Vault.KeyPurpose
 ): Promise<string> {
-  const response = await vault.symmetricGenerate({ algorithm: algorithm, purpose: purpose });
+  const response = await vault.symmetricGenerate(algorithm, purpose);
   expect(response.result.type).toBe(Vault.ItemType.SYMMETRIC_KEY);
   expect(response.result.version).toBe(1);
   expect(response.result.id).toBeDefined();
@@ -269,9 +269,7 @@ async function symGenerateParams(
   purpose: Vault.KeyPurpose
 ): Promise<string> {
   const name = "symGenerateParams_" + TIME;
-  const genResp = await vault.symmetricGenerate({
-    algorithm: algorithm,
-    purpose: purpose,
+  const genResp = await vault.symmetricGenerate(algorithm, purpose, {
     name: name,
     metadata: METADATA_VALUE,
     tags: TAGS_VALUE,
@@ -300,7 +298,7 @@ async function asymGenerateDefault(
   algorithm: Vault.AsymmetricAlgorithm,
   purpose: Vault.KeyPurpose
 ): Promise<string> {
-  const genResp = await vault.asymmetricGenerate({ algorithm: algorithm, purpose: purpose });
+  const genResp = await vault.asymmetricGenerate(algorithm, purpose);
   expect(genResp.result.type).toBe(Vault.ItemType.ASYMMETRIC_KEY);
   expect(genResp.result.version).toBe(1);
   expect(genResp.result.id).toBeDefined();
@@ -312,9 +310,7 @@ async function asymGenerateParams(
   purpose: Vault.KeyPurpose
 ): Promise<string> {
   const name = "asymGenerateParams_" + TIME;
-  const genResp = await vault.asymmetricGenerate({
-    algorithm: algorithm,
-    purpose: purpose,
+  const genResp = await vault.asymmetricGenerate(algorithm, purpose, {
     name: name,
     metadata: METADATA_VALUE,
     tags: TAGS_VALUE,
@@ -357,9 +353,10 @@ it("Ed25519 signing generate all params", async () => {
 jest.setTimeout(60000);
 it("Ed25519 default store", async () => {
   const genResp = await vault.asymmetricStore(
-    KEY_ED25519.algorithm,
+    KEY_ED25519.private_key,
     KEY_ED25519.public_key,
-    KEY_ED25519.private_key
+    KEY_ED25519.algorithm,
+    Vault.KeyPurpose.SIGNING
   );
   expect(genResp.result.type).toBe(Vault.ItemType.ASYMMETRIC_KEY);
   expect(genResp.result.version).toBe(1);
@@ -368,7 +365,11 @@ it("Ed25519 default store", async () => {
 
 jest.setTimeout(60000);
 it("AES default store", async () => {
-  const genResp = await vault.symmetricStore(KEY_AES.algorithm, KEY_AES.key);
+  const genResp = await vault.symmetricStore(
+    KEY_AES.key,
+    KEY_AES.algorithm,
+    Vault.KeyPurpose.ENCRYPTION
+  );
   expect(genResp.result.type).toBe(Vault.ItemType.SYMMETRIC_KEY);
   expect(genResp.result.version).toBe(1);
   expect(genResp.result.id).toBeDefined();

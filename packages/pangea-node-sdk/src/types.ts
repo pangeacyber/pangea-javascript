@@ -368,7 +368,6 @@ export namespace Vault {
     TYPE = "type",
     CREATED_AT = "created_at",
     DESTROYED_AT = "destroyed_at",
-    IDENTITY = "identity",
     PURPOSE = "purpose",
     EXPIRATION = "expiration",
     LAST_ROTATED = "last_rotated",
@@ -669,12 +668,12 @@ export namespace Vault {
   }
 
   export namespace Asymmetric {
-    export interface GenerateOptions extends Common.GenerateOptions {
-      algorithm?: Vault.AsymmetricAlgorithm | Vault.SymmetricAlgorithm;
-      purpose?: Vault.KeyPurpose;
-    }
+    export interface GenerateOptions extends Common.GenerateOptions {}
 
-    export interface GenerateRequest extends Common.GenerateRequest, GenerateOptions {}
+    export interface GenerateRequest extends Common.GenerateRequest, GenerateOptions {
+      algorithm: Vault.AsymmetricAlgorithm;
+      purpose: Vault.KeyPurpose;
+    }
 
     export interface GenerateResult extends Common.GenerateResult {
       algorithm: string;
@@ -682,14 +681,13 @@ export namespace Vault {
       public_key: EncodedPublicKey;
     }
 
-    export interface StoreOptions extends Common.StoreOptions {
-      purpose?: Vault.KeyPurpose;
-    }
+    export interface StoreOptions extends Common.StoreOptions {}
 
     export interface StoreRequest extends Common.StoreRequest, StoreOptions {
-      algorithm: string;
-      public_key: EncodedPublicKey;
       private_key: EncodedPrivateKey;
+      public_key: EncodedPublicKey;
+      algorithm: Vault.AsymmetricAlgorithm;
+      purpose: Vault.KeyPurpose;
     }
 
     export interface StoreResult extends Common.StoreResult {
@@ -734,13 +732,12 @@ export namespace Vault {
   }
 
   export namespace Symmetric {
-    export interface StoreOptions extends Common.StoreOptions {
-      purpose?: boolean;
-    }
+    export interface StoreOptions extends Common.StoreOptions {}
 
     export interface StoreRequest extends Common.StoreRequest, StoreOptions {
       key: EncodedSymmetricKey;
       algorithm: Vault.SymmetricAlgorithm;
+      purpose: Vault.KeyPurpose;
     }
 
     export interface StoreResult extends Common.StoreResult {
@@ -748,12 +745,12 @@ export namespace Vault {
       purpose?: string;
     }
 
-    export interface GenerateOptions extends Common.GenerateOptions {
-      algorithm?: Vault.SymmetricAlgorithm;
-      purpose?: Vault.KeyPurpose;
-    }
+    export interface GenerateOptions extends Common.GenerateOptions {}
 
-    export interface GenerateRequest extends Common.GenerateRequest, GenerateOptions {}
+    export interface GenerateRequest extends Common.GenerateRequest, GenerateOptions {
+      algorithm: Vault.SymmetricAlgorithm;
+      purpose: Vault.KeyPurpose;
+    }
 
     export interface GenerateResult extends Common.GenerateResult {
       algorithm: string;
