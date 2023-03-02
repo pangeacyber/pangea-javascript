@@ -51,9 +51,9 @@ it("Secret life cycle", async () => {
   // Get
   let getResp = await vault.getItem(id);
   expect(getResp.result.versions.length).toBe(0);
-  expect(getResp.result.current_version.secret).toBe(secretV2);
-  expect(getResp.result.current_version.version).toBe(2);
-  expect(getResp.result.current_version.public_key).toBeUndefined();
+  expect(getResp.result.current_version?.secret).toBe(secretV2);
+  expect(getResp.result.current_version?.version).toBe(2);
+  expect(getResp.result.current_version?.public_key).toBeUndefined();
 
   // Deactivate
   const stateChangeResp = await vault.stateChange(id, Vault.ItemVersionState.SUSPENDED, {
@@ -64,9 +64,9 @@ it("Secret life cycle", async () => {
   // Get after deactivate
   getResp = await vault.getItem(id);
   expect(getResp.result.versions.length).toBe(0);
-  expect(getResp.result.current_version.secret).toBe(secretV2);
-  expect(getResp.result.current_version.version).toBe(2);
-  expect(getResp.result.current_version.public_key).toBeUndefined();
+  expect(getResp.result.current_version?.secret).toBe(secretV2);
+  expect(getResp.result.current_version?.version).toBe(2);
+  expect(getResp.result.current_version?.public_key).toBeUndefined();
 });
 
 async function asymSigningCycle(id: string) {
@@ -285,13 +285,13 @@ async function symGenerateParams(
   const getResp = await vault.getItem(genResp.result.id, { verbose: true });
   expect(getResp.result.algorithm).toBe(algorithm);
   expect(getResp.result.versions.length).toBe(0);
-  expect(getResp.result.current_version.version).toBe(1);
+  expect(getResp.result.current_version?.version).toBe(1);
   expect(getResp.result.name).toBe(name);
   expect(getResp.result.expiration).toBe(EXPIRATION_VALUE);
   expect(getResp.result.rotation_frequency).toBe(ROTATION_FREQUENCY_VALUE);
   expect(getResp.result.rotation_state).toBe(ROTATION_STATE_VALUE);
   expect(getResp.result.id).toBeDefined();
-  return getResp.result.id;
+  return getResp.result.id ? getResp.result.id : "";
 }
 
 async function asymGenerateDefault(
@@ -326,14 +326,14 @@ async function asymGenerateParams(
   const getResp = await vault.getItem(genResp.result.id, { verbose: true });
   expect(getResp.result.versions.length).toBe(0);
   expect(getResp.result.algorithm).toBe(algorithm);
-  expect(getResp.result.current_version.version).toBe(1);
+  expect(getResp.result.current_version?.version).toBe(1);
   expect(getResp.result.name).toBe(name);
   expect(getResp.result.folder).toBe(FOLDER_VALUE);
   expect(getResp.result.expiration).toBe(EXPIRATION_VALUE);
   expect(getResp.result.rotation_frequency).toBe(ROTATION_FREQUENCY_VALUE);
   expect(getResp.result.rotation_state).toBe(ROTATION_STATE_VALUE);
   expect(getResp.result.id).toBeDefined();
-  return getResp.result.id;
+  return getResp.result.id ? getResp.result.id : "";
 }
 
 jest.setTimeout(60000);
