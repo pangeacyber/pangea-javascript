@@ -418,9 +418,9 @@ export namespace Vault {
 
   export interface ItemData {
     type: string;
-    id: string;
-    item_state: string;
-    current_version: ItemVersionData;
+    id?: string;
+    item_state?: string;
+    current_version?: ItemVersionData;
     name?: string;
     folder?: string;
     metadata?: Metadata;
