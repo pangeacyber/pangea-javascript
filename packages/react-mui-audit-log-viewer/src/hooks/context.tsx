@@ -33,15 +33,19 @@ const DefaultVisibility: Partial<Record<keyof Audit.Event, boolean>> = {
   old: false,
   new: false,
   source: false,
+  timestamp: false,
+  tenant_id: false,
 };
 
 const DefaultOrder = [
   "received_at",
+  "timestamp",
   "actor",
   "action",
   "status",
   "target",
   "source",
+  "tenant_id",
   "message",
 ];
 

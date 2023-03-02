@@ -188,7 +188,7 @@ const PangeaDataGrid = <
               hideFooterPagination={
                 !ServerPagination && data?.length < pageSize
               }
-              selectionModel={preview?.row?.id}
+              selectionModel={preview?.row?.id ?? []}
               onRowClick={(params, event) => {
                 if (!isRowClickable || event.defaultPrevented) return;
                 if (!!onRowClick) {

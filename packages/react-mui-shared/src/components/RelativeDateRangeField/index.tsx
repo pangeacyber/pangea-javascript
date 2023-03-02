@@ -11,16 +11,35 @@ import { FC } from "react";
 import get from "lodash/get";
 import startCase from "lodash/startCase";
 
-export enum RelativeRange {
+export enum ShortRelativeRange {
   Year = "y",
   Month = "M",
   Week = "w",
   Day = "d",
   Hour = "h",
-  // This matches to Pangea search duration, diverages from iso8601 duration
   Minute = "m",
   Second = "s",
 }
+
+export enum RelativeRange {
+  Year = "year",
+  Month = "month",
+  Week = "week",
+  Day = "day",
+  Hour = "hour",
+  Minute = "minute",
+  Second = "second",
+}
+
+const SHORT_RANGE_TO_FULL = {
+  [ShortRelativeRange.Year]: RelativeRange.Year,
+  [ShortRelativeRange.Month]: RelativeRange.Month,
+  [ShortRelativeRange.Week]: RelativeRange.Week,
+  [ShortRelativeRange.Day]: RelativeRange.Day,
+  [ShortRelativeRange.Hour]: RelativeRange.Hour,
+  [ShortRelativeRange.Minute]: RelativeRange.Minute,
+  [ShortRelativeRange.Second]: RelativeRange.Second,
+};
 
 const RANGE_TO_SECONDS = {
   [RelativeRange.Year]: 3.154e7,
@@ -63,7 +82,10 @@ export const getRelativeDateRange = (
   const spanMatch = range_.match(/[A-Za-z]*$/g)?.filter((m) => !!m);
   if (
     spanMatch?.length !== 1 ||
-    !Object.values(RelativeRange).includes(spanMatch[0] as RelativeRange)
+    (!Object.values(RelativeRange).includes(spanMatch[0] as RelativeRange) &&
+      !Object.values(ShortRelativeRange).includes(
+        spanMatch[0] as ShortRelativeRange
+      ))
   ) {
     return {
       prefix: "",
@@ -73,8 +95,14 @@ export const getRelativeDateRange = (
     };
   }
 
+  let span = spanMatch[0];
+  if (Object.values(ShortRelativeRange).includes(span as ShortRelativeRange)) {
+    // @ts-ignore
+    span = SHORT_RANGE_TO_FULL[span];
+  }
+
   // @ts-ignore
-  let relativeRange: RelativeRange = spanMatch[0];
+  let relativeRange: RelativeRange = span;
   if (!!prefix && relativeRange === RelativeRange.Month) {
     relativeRange = RelativeRange.Minute;
   }
@@ -86,7 +114,7 @@ export const getRelativeDateRange = (
 
   return {
     amount: Number(amountMatch[0]),
-    span: spanMatch[0],
+    span: span,
     relativeRange,
     prefix,
   };
@@ -159,11 +187,6 @@ const RelativeDateRangeField: FC<RelativeDateRangeFieldProps> = ({
   };
 
   const setSpan = (value: RelativeRange) => {
-    if (value.length > 2) {
-      console.error(`Invalid span ${value}`);
-      return;
-    }
-
     const [prefix, span] = value.length === 2 ? value.split("") : ["", value];
     const range = `${prefix}${amount}${span}`;
 

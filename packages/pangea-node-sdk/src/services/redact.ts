@@ -15,30 +15,59 @@ class RedactService extends BaseService {
 
   /**
    * @summary Redact
-   * @description Redact sensitive information from provided text.
-   * @param {string} text - The text data to redact.
+   * @description Redact sensitive information from provided text
+   * @param {String} text - The text data to redact
+   * @param {Object} options - Supported options:
+   *   - debug {Boolean} - Setting this value to true will provide a detailed analysis of the redacted
+   * data and the rules that caused redaction
+   *   - rules {String[]} - An array of redact rule short names
    * @returns {Promise} - A promise representing an async call to the redact endpoint
    * @example
    * const response = await redact.redact("Jenny Jenny... 415-867-5309");
    */
-  redact(text: string): Promise<PangeaResponse<Redact.BaseResponse>> {
-    const input = { text };
+  redact(
+    text: string,
+    options: Redact.TextOptions = {}
+  ): Promise<PangeaResponse<Redact.BaseResponse>> {
+    let input: Redact.TextParams = {
+      text: text,
+    };
+
+    if (options?.debug) input.debug = options.debug;
+    if (options?.rules) input.rules = options.rules;
 
     return this.post("redact", input);
   }
 
   /**
    * @summary Redact structured
-   * @description Redact sensitive information from structured data (e.g., JSON).
-   * @param {Object} text - Structured data to redact
+   * @description Redact sensitive information from structured data (e.g., JSON)
+   * @param {Object} data - Structured data to redact
+   * @param {Object} options - Supported options:
+   *   - debug {Boolean} - Setting this value to true will provide a detailed analysis of the redacted
+   * data and the rules that caused redaction
+   *   - rules {String[]} - An array of redact rule short names
+   *   - jsonp {String[]} - JSON path(s) used to identify the specific JSON fields to redact in the
+   * structured data. Note: If jsonp parameter is used, the data parameter must be in JSON format.
+   *   - format {String} - The format of the structured data to redact. Default: "json"
    * @returns {Promise} - A promise representing an async call to the redactStructured endpoint
    * @example
    * const data = { "phone": "415-867-5309" };
    *
    * const response = await redact.redactStructured(data);
    */
-  redactStructured(data: object): Promise<PangeaResponse<Redact.StructuredResponse>> {
-    const input = { data };
+  redactStructured(
+    data: object,
+    options: Redact.StructuredOptions = {}
+  ): Promise<PangeaResponse<Redact.StructuredResponse>> {
+    let input: Redact.StructuredParams = {
+      data: data,
+    };
+
+    if (options?.debug) input.debug = options.debug;
+    if (options?.rules) input.rules = options.rules;
+    if (options?.jsonp) input.jsonp = options.jsonp;
+    if (options?.format) input.format = options.format;
 
     return this.post("redact_structured", input);
   }

@@ -10,7 +10,7 @@ const ipIntel = new IPIntelService(String(token), config);
 (async () => {
   console.log("Checking IP...");
 
-  const options = { provider: "domaintools", verbose: true, raw: true };
+  const options = { provider: "crowdstrike", verbose: true, raw: true };
   try {
     const response = await ipIntel.reputation("93.231.182.110", options);
     console.log(response.result);

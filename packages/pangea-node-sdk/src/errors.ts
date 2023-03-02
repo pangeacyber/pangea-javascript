@@ -85,6 +85,13 @@ export namespace PangeaErrors {
     }
   }
 
+  export class NotFound extends APIError {
+    constructor(url: string, response: PangeaResponse<any>) {
+      super("Resource " + url + " not found", response);
+      this.name = "NotFound";
+    }
+  }
+
   //API usage requires payment"""
   export class NoCreditError extends APIError {
     constructor(message: string, response: PangeaResponse<any>) {

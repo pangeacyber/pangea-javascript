@@ -15,6 +15,7 @@ class PangeaRequest {
   token: string;
   config: PangeaConfig;
   extraHeaders: Object;
+  customUserAgent: string;
 
   constructor(serviceName: string, token: string, config: PangeaConfig) {
     if (!serviceName) throw new Error("A serviceName is required");
@@ -24,6 +25,7 @@ class PangeaRequest {
     this.token = token;
     this.config = config;
     this.extraHeaders = {};
+    this.customUserAgent = "";
   }
 
   async post(endpoint: string, data: object): Promise<PangeaResponse<any>> {
@@ -104,6 +106,10 @@ class PangeaRequest {
     this.extraHeaders = { ...headers };
   }
 
+  setCustomUserAgent(userAgent: string): any {
+    this.customUserAgent = userAgent;
+  }
+
   getUrl(path: string): string {
     let url;
     if (this.config?.environment == "local") {
@@ -115,16 +121,18 @@ class PangeaRequest {
   }
 
   getHeaders(): Headers {
-    const headers = {
+    const headers = {};
+    const pangeaHeaders = {
       "Content-Type": "application/json",
-      "User-Agent": `pangea-node/${version}`,
+      "User-Agent": `pangea-node/${version} ${this.customUserAgent}`,
       Authorization: `Bearer ${this.token}`,
     };
 
     if (Object.keys(this.extraHeaders).length > 0) {
       Object.assign(headers, this.extraHeaders);
     }
-
+    // We want to overwrite extraHeaders if user set some of pangea headers values.
+    Object.assign(headers, pangeaHeaders);
     return headers;
   }
 
@@ -155,6 +163,11 @@ class PangeaRequest {
         throw new PangeaErrors.InvalidPayloadReceived(response.summary, response);
       case "ForbiddenVaultOperation":
         throw new PangeaErrors.ForbiddenVaultOperation(response.summary, response);
+      case "NotFound":
+        throw new PangeaErrors.NotFound(
+          response.gotResponse?.requestUrl !== undefined ? response.gotResponse.requestUrl : "",
+          response
+        );
       default:
         throw new PangeaErrors.APIError(response.status, response);
     }
