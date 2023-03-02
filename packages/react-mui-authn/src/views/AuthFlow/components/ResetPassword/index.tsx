@@ -6,19 +6,15 @@ import { useAuthFlow, FlowStep } from "@pangeacyber/react-auth";
 
 import ErrorMessage from "../ErrorMessage";
 
-const SignupView = () => {
-  const { callNext, reset, flowData, loading, error } = useAuthFlow();
+const ResetPasswordView = () => {
+  const { callNext, flowData, loading, error, reset, cbParams } = useAuthFlow();
 
   const validationSchema = yup.object({
-    firstName: yup.string().required("First name is required"),
-    lastName: yup.string().required("First name is required"),
     password: yup.string().min(8, "Must be at least 8 characters"),
   });
 
   const formik = useFormik({
     initialValues: {
-      firstName: "",
-      lastName: "",
       password: "",
     },
     validationSchema: validationSchema,
@@ -26,38 +22,46 @@ const SignupView = () => {
       const payload = {
         ...values,
       };
-      callNext(FlowStep.SIGNUP_PASSWORD, payload);
+      callNext(FlowStep.RESET_PASSWORD, payload);
     },
   });
+
+  const cancelReset = () => {
+    callNext(FlowStep.RESET_PASSWORD, { cancel: true });
+  };
+
+  // TODO: This should be a separate flow state
+  if (!cbParams) {
+    return (
+      <Stack gap={2}>
+        <Stack>
+          <Typography variant="h6">Reset Password</Typography>
+          <Typography variant="caption">{flowData.email}</Typography>
+        </Stack>
+        <Typography variant="body1">
+          An email message has been sent to your inbox, click the link to reset
+          your password.
+        </Typography>
+        {error && <ErrorMessage response={error} />}
+        <Stack direction="row" gap={2} mt={2}>
+          <Button variant="contained" color="secondary" onClick={cancelReset}>
+            Cancel Reset
+          </Button>
+          <Button variant="outlined" color="secondary" onClick={reset}>
+            Start Over
+          </Button>
+        </Stack>
+      </Stack>
+    );
+  }
 
   return (
     <Stack gap={2}>
       <Stack>
-        <Typography variant="h6">Signup</Typography>
+        <Typography variant="h6">Reset Password</Typography>
         <Typography variant="caption">{flowData.email}</Typography>
       </Stack>
       <form onSubmit={formik.handleSubmit}>
-        <TextField
-          fullWidth
-          id="firstName"
-          name="firstName"
-          label="First Name"
-          value={formik.values.firstName}
-          onChange={formik.handleChange}
-          error={formik.touched.firstName && Boolean(formik.errors.firstName)}
-          helperText={formik.touched.firstName && formik.errors.firstName}
-        />
-        <TextField
-          fullWidth
-          id="lastName"
-          name="lastName"
-          label="Last Name"
-          value={formik.values.lastName}
-          onChange={formik.handleChange}
-          error={formik.touched.lastName && Boolean(formik.errors.lastName)}
-          helperText={formik.touched.lastName && formik.errors.lastName}
-          sx={{ marginTop: 1 }}
-        />
         <TextField
           fullWidth
           id="password"
@@ -80,6 +84,14 @@ const SignupView = () => {
           >
             Submit
           </Button>
+          <Button
+            color="secondary"
+            variant="contained"
+            onClick={cancelReset}
+            sx={{ alignSelf: "flex-start" }}
+          >
+            Cancel Reset
+          </Button>
           <Button color="primary" variant="outlined" onClick={reset}>
             Start Over
           </Button>
@@ -89,4 +101,4 @@ const SignupView = () => {
   );
 };
 
-export default SignupView;
+export default ResetPasswordView;

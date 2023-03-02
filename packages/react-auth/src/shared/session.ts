@@ -1,5 +1,5 @@
 import { APIResponse, AuthUser, CookieOptions, SessionData } from "@src/types";
-import { isLocalhost } from "./utils";
+import { isLocalhost, diffInSeconds } from "./utils";
 
 type CookieObj = {
   [key: string]: string;
@@ -106,6 +106,47 @@ export const processValidateResponse = (
   saveSessionData(storageAPI, sessionData);
 
   return { user: userData };
+};
+
+/*
+  Token refresh functions
+*/
+
+export const startTokenWatch = (
+  callback: (useCookie: boolean) => void,
+  useCookie = false
+): number => {
+  // get last refresh time, if set
+  const storageAPI = getStorageAPI(useCookie);
+  const sessionData: SessionData = getSessionData(storageAPI);
+  const user: AuthUser | undefined = sessionData.user;
+  const intervalTime = 10 * 1000; // TODO: adjust frequecy of check based on token type or life
+
+  if (user?.refresh_token?.expire) {
+    const timer: number = window.setInterval(() => {
+      tokenLifeCheck(callback, user.active_token.expire, useCookie);
+    }, intervalTime);
+
+    return timer;
+  } else {
+    console.log("No refresh token");
+  }
+
+  return 0;
+};
+
+const tokenLifeCheck = (
+  callback: (useCookie: boolean) => void,
+  expireTime: string,
+  useCookie: boolean
+) => {
+  const refreshExpires = new Date(expireTime);
+  const timeDiff = diffInSeconds(refreshExpires, new Date());
+  const threshold = 15;
+
+  if (timeDiff < threshold) {
+    callback(useCookie);
+  }
 };
 
 /*

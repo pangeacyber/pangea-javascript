@@ -48,6 +48,7 @@ export namespace Audit {
     target?: string;
     source?: string;
     timestamp?: Date | string;
+    tenant_id?: string;
   }
 
   export interface EventEnvelope {
@@ -252,6 +253,35 @@ export namespace Intel {
     export interface ReputationOptions extends Options {}
     export interface ReputationResult extends Intel.ReputationResult {}
     export interface ReputationParams extends Params, ReputationOptions {}
+    export interface GeolocateResult extends CommonResponse {
+      data: {
+        country: string;
+        city: string;
+        latitude: number;
+        longitude: number;
+        postal_code: string;
+        country_code: string;
+      };
+    }
+
+    export interface DomainResult extends CommonResponse {
+      data: {
+        domain_found: boolean;
+        domain?: string;
+      };
+    }
+
+    export interface VPNResult extends CommonResponse {
+      data: {
+        is_vpn: boolean;
+      };
+    }
+
+    export interface ProxyResult extends CommonResponse {
+      data: {
+        is_proxy: boolean;
+      };
+    }
   }
 
   export interface FileParams extends Intel.Options {
@@ -269,5 +299,18 @@ export namespace Intel {
 
   export interface DomainParams extends Intel.Options {
     domain: string;
+  }
+
+  export interface CommonResponse {
+    parameter?: Object;
+    raw_data?: Object;
+  }
+
+  export interface Response extends CommonResponse {
+    data: {
+      category: string[];
+      score: number;
+      verdict: string;
+    };
   }
 }

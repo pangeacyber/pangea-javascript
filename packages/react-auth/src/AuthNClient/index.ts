@@ -11,7 +11,9 @@ export class AuthNClient {
     if (!config.clientToken) throw new Error("A token is required");
     if (!config.domain) throw new Error("A domain is required");
 
-    if (!config.callbackUri) config.callbackUri = window.location.origin;
+    if (!config.callbackUri && typeof window !== "undefined") {
+      config.callbackUri = window.location.origin;
+    }
 
     this.config = {
       ...config,
@@ -40,6 +42,15 @@ export class AuthNClient {
     const path = "client/userinfo";
     const payload = { code: code };
 
+    return await this.post(path, payload);
+  }
+
+  async refresh(
+    userToken: string,
+    refreshToken: string
+  ): Promise<ClientResponse> {
+    const path = "client/session/refresh";
+    const payload = { user_token: userToken, refresh_token: refreshToken };
     return await this.post(path, payload);
   }
 

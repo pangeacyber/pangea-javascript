@@ -3,6 +3,7 @@ import { useAuthFlow, FlowStep } from "@pangeacyber/react-auth";
 import {
   EnrollMfaCompleteView,
   EnrollMfaStartView,
+  ResetPasswordView,
   SelectMfaView,
   SignupView,
   StartView,
@@ -39,6 +40,8 @@ const AuthFlowView = () => {
     case FlowStep.VERIFY_MFA_START:
     case FlowStep.VERIFY_MFA_COMPLETE:
       return <VerifyMfaCompleteView />;
+    case FlowStep.RESET_PASSWORD:
+      return <ResetPasswordView />;
     default:
       return <></>;
   }
