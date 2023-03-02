@@ -38,9 +38,9 @@ export class FileIntelService extends BaseService {
   }
 
   /**
-   * @summary Look up a file
-   * @description Retrieve hash-based file reputation from a provider, including an optional detailed report.
    * @deprecated Since version 1.2.0. Use hashReputation instead.
+   * @summary Reputation, from file hash
+   * @description Retrieve hash-based file reputation from a provider, including an optional detailed report.
    * @param {String} fileHash - Hash of the file to be looked up
    * @param {String} hashType - Type of hash, can be "sha256", "sha" or "md5"
    * @param {Object} options - An object of optional parameters
@@ -70,7 +70,7 @@ export class FileIntelService extends BaseService {
   }
 
   /**
-   * @summary Look up a file hash reputation
+   * @summary Reputation, from file hash
    * @description Retrieve hash-based file reputation from a provider, including an optional detailed report.
    * @param {String} fileHash - Hash of the file to be looked up
    * @param {String} hashType - Type of hash, can be "sha256", "sha" or "md5"
@@ -101,9 +101,9 @@ export class FileIntelService extends BaseService {
   }
 
   /**
-   * @summary File reputation, from file path
-   * @description Retrieve file reputation from a provider, using the file's hash.
    * @deprecated Since version 1.2.0. Use filepathReputation instead.
+   * @summary Reputation, from file path
+   * @description Retrieve file reputation from a provider, using the file's hash.
    * @param {String} fileHash - Hash of the file to be looked up
    * @param {Object} options - An object of optional parameters. Parameters supported:
    *   - provider {String} - Use reputation data from this provider: "reversinglabs".
@@ -135,7 +135,7 @@ export class FileIntelService extends BaseService {
   }
 
   /**
-   * @summary File reputation, from file path
+   * @summary Reputation, from file path
    * @description Retrieve file reputation from a provider, using the file's hash.
    * @param {String} fileHash - Hash of the file to be looked up
    * @param {Object} options - An object of optional parameters. Parameters supported:
@@ -199,9 +199,9 @@ export class DomainIntelService extends BaseService {
   }
 
   /**
-   * @summary Domain reputation
-   * @description Retrieve reputation for a domain from a provider, including an optional detailed report.
    * @deprecated Since version 1.2.0. Use reputation instead.
+   * @summary Reputation check
+   * @description Retrieve reputation for a domain from a provider, including an optional detailed report.
    * @param {String} domain - Domain address to be looked up.
    * @param {Object} options - An object of optional parameters. Parameters supported:
    *   - provider {String} - Use reputation data from these providers: "reversinglabs" or "domaintools".
@@ -225,7 +225,7 @@ export class DomainIntelService extends BaseService {
   }
 
   /**
-   * @summary Domain reputation
+   * @summary Reputation check
    * @description Retrieve reputation for a domain from a provider, including an optional detailed report.
    * @param {String} domain - Domain address to be looked up.
    * @param {Object} options - An object of optional parameters. Parameters supported:
@@ -283,9 +283,9 @@ export class IPIntelService extends BaseService {
   }
 
   /**
-   * @summary IP reputation
-   * @description Retrieve a reputation score for an IP address from a provider, including an optional detailed report.
    * @deprecated Since version 1.2.0. Use reputation instead.
+   * @summary Reputation
+   * @description Retrieve a reputation score for an IP address from a provider, including an optional detailed report.
    * @param {String} ip - Geolocate this IP and check the corresponding country against
    * @param {Object} options - An object of optional parameters. Parameters supported:
    *   - provider {String} - Use reputation data from this provider: "crowdstrike".
@@ -316,7 +316,7 @@ export class IPIntelService extends BaseService {
   }
 
   /**
-   * @summary IP reputation
+   * @summary Reputation
    * @description Retrieve a reputation score for an IP address from a provider, including an optional detailed report.
    * @param {String} ip - Geolocate this IP and check the corresponding country against
    * @param {Object} options - An object of optional parameters. Parameters supported:
@@ -351,7 +351,7 @@ export class IPIntelService extends BaseService {
   }
 
   /**
-   * @summary Geolocate an IP
+   * @summary Geolocate
    * @description Retrieve geolocation information for an IP address from a provider, including an optional detailed report.
    * @param {String} ip - The IP to be looked up
    * @param {Object} options - An object of optional parameters. Parameters supported:
@@ -386,7 +386,7 @@ export class IPIntelService extends BaseService {
   }
 
   /**
-   * @summary Look up domain for an IP
+   * @summary Domain
    * @description Retrieve the domain name associated with an IP address.
    * @param {String} ip - The IP to be looked up
    * @param {Object} options - An object of optional parameters. Parameters supported:
@@ -418,7 +418,7 @@ export class IPIntelService extends BaseService {
   }
 
   /**
-   * @summary Check if an IP is a VPN
+   * @summary VPN
    * @description Determine if an IP address is provided by a VPN service.
    * @param {String} ip - The IP to be looked up
    * @param {Object} options - An object of optional parameters. Parameters supported:
@@ -450,7 +450,7 @@ export class IPIntelService extends BaseService {
   }
 
   /**
-   * @summary Check for proxied IPs
+   * @summary Proxy
    * @description Determine if an IP address is provided by a proxy service.
    * @param {String} ip - The IP to be looked up
    * @param {Object} options - An object of optional parameters. Parameters supported:
@@ -512,9 +512,9 @@ export class URLIntelService extends BaseService {
   }
 
   /**
-   * @summary URL reputation
-   * @description Retrieve a reputation score for a URL from a provider, including an optional detailed report.
    * @deprecated Since version 1.2.0. Use reputation instead.
+   * @summary Reputation check
+   * @description Retrieve a reputation score for a URL from a provider, including an optional detailed report.
    * @param {String} url - The URL to be looked up
    * @param {Object} options - An object of optional parameters. Parameters supported:
    *   - provider {String} - Use reputation data from this provider: "crowdstrike".
@@ -545,7 +545,7 @@ export class URLIntelService extends BaseService {
   }
 
   /**
-   * @summary URL reputation
+   * @summary Reputation check
    * @description Retrieve a reputation score for a URL from a provider, including an optional detailed report.
    * @param {String} url - The URL to be looked up
    * @param {Object} options - An object of optional parameters. Parameters supported:

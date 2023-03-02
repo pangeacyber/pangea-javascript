@@ -48,6 +48,7 @@ class AuditService extends BaseService {
    *     This can be recorded as free-form text or as a JSON-formatted string.
    *   - new (string|object): The value of a record after it was changed.
    *   - old (string|object): The value of a record before it was changed.
+   *   - tenant_id (string): Used to record the tenant associated with this activity.
    * @param {Object} options - Log options. The following log options are supported:
    *   - verbose (bool): Return a verbose response, including the canonical event hash and received_at time.
    * @returns {Promise} - A promise representing an async call to the log endpoint.
