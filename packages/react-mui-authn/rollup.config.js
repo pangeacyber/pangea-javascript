@@ -7,6 +7,7 @@ import typescript from "@rollup/plugin-typescript";
 import commonjs from "@rollup/plugin-commonjs";
 import dts from "rollup-plugin-dts";
 import json from "@rollup/plugin-json";
+import nodePolyfills from "rollup-plugin-polyfill-node";
 
 import pkg from "./package.json";
 
@@ -34,8 +35,11 @@ export default [
       json(),
       postcss(),
       terser(),
+      nodePolyfills(),
     ],
-    external: Object.keys(pkg.peerDependencies || {}),
+    external: Object.keys(pkg.dependencies),
+    //external: Object.keys(pkg.peerDependencies || {}),
+    //inlineDynamicImports: true,
   },
   {
     input: "dist/esm/index.d.ts",

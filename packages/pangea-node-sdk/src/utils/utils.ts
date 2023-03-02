@@ -1,21 +1,21 @@
-export function canonicalize(obj: Object) {
-  function _orderKeys(obj: Object, firstLevel: boolean) {
-    const orderedEntries = Object.entries(obj).sort((a, b) => a[0].localeCompare(b[0]));
-    orderedEntries.forEach((value) => {
-      if (value[1] instanceof Date) {
-        value[1] = value[1].toISOString();
-      } else if (value[1] instanceof Object) {
-        if (firstLevel) {
-          value[1] = _orderKeys(value[1], false);
-        } else {
-          value[1] = JSON.stringify(value[1]); // This is to stringify JSON objects in the same way server do
-        }
+function _orderKeys(obj: Object, firstLevel: boolean) {
+  const orderedEntries = Object.entries(obj).sort((a, b) => a[0].localeCompare(b[0]));
+  orderedEntries.forEach((value) => {
+    if (value[1] instanceof Date) {
+      value[1] = value[1].toISOString();
+    } else if (value[1] instanceof Object) {
+      if (firstLevel) {
+        value[1] = _orderKeys(value[1], false);
+      } else {
+        value[1] = JSON.stringify(value[1]); // This is to stringify JSON objects in the same way server do
       }
-    });
-    const orderedObj = Object.fromEntries(orderedEntries);
-    return orderedObj;
-  }
+    }
+  });
+  const orderedObj = Object.fromEntries(orderedEntries);
+  return orderedObj;
+}
 
+export function canonicalizeEnvelope(obj: Object) {
   const ordererObj = _orderKeys(obj, true);
   return JSON.stringify(ordererObj);
 }
@@ -26,6 +26,11 @@ export function strToB64(data: string) {
 
 export function b64toStr(data: string) {
   return Buffer.from(data, "base64").toString("utf8");
+}
+
+export function canonicalizeEvent(obj: Object) {
+  const ordererObj = _orderKeys(obj, false);
+  return JSON.stringify(ordererObj);
 }
 
 export const TestEnvironment = {
