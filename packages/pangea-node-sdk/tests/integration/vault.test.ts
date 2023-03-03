@@ -6,7 +6,7 @@ import { PangeaErrors } from "../../src/errors";
 import { strToB64 } from "../../src/utils/utils";
 import { TestEnvironment, getTestDomain, getTestToken } from "../../src/utils/utils";
 
-const environment = TestEnvironment.DEVELOP;
+const environment = TestEnvironment.LIVE;
 const token = getTestToken(environment);
 const testHost = getTestDomain(environment);
 const config = new PangeaConfig({ domain: testHost });
