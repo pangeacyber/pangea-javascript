@@ -63,7 +63,7 @@ export namespace PangeaErrors {
       let ret = "";
       ret += this.response.summary + "\n";
       (this.response.result?.errors || []).forEach((ef) => {
-        ret += ef.detail + "\n";
+        ret += "\t" + ef.detail + "\n";
       });
       return ret;
     }
