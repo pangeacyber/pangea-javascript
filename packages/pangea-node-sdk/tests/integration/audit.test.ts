@@ -30,7 +30,7 @@ const JSON_OLD_DATA = {
   ct6: "cm6",
 };
 
-const environment = TestEnvironment.DEVELOP; // FIXME: Update this to Live once deployed
+const environment = TestEnvironment.LIVE;
 const token = getTestToken(environment);
 const tokenVault = getVaultSignatureTestToken(environment);
 const domain = getTestDomain(environment);
