@@ -64,11 +64,13 @@ class VaultService extends BaseService {
 
   async secretStore(
     secret: string,
+    name: string,
     options: Vault.Secret.StoreOptions = {}
   ): Promise<PangeaResponse<Vault.Secret.StoreResult>> {
     let data: Vault.Secret.StoreRequest = {
       type: Vault.ItemType.SECRET,
       secret: secret,
+      name: name,
     };
 
     Object.assign(data, options);
@@ -77,11 +79,13 @@ class VaultService extends BaseService {
 
   async pangeaTokenStore(
     pangeaToken: string,
+    name: string,
     options: Vault.Secret.StoreOptions = {}
   ): Promise<PangeaResponse<Vault.Secret.StoreResult>> {
     let data: Vault.Secret.StoreRequest = {
       type: Vault.ItemType.PANGEA_TOKEN,
       secret: pangeaToken,
+      name: name,
     };
 
     Object.assign(data, options);
@@ -116,12 +120,14 @@ class VaultService extends BaseService {
   async symmetricGenerate(
     algorithm: Vault.SymmetricAlgorithm,
     purpose: Vault.KeyPurpose,
+    name: string,
     options: Vault.Symmetric.GenerateOptions = {}
   ): Promise<PangeaResponse<Vault.Symmetric.GenerateResult>> {
     let data: Vault.Symmetric.GenerateRequest = {
       type: Vault.ItemType.SYMMETRIC_KEY,
       algorithm: algorithm,
       purpose: purpose,
+      name: name,
     };
 
     Object.assign(data, options);
@@ -131,12 +137,14 @@ class VaultService extends BaseService {
   async asymmetricGenerate(
     algorithm: Vault.AsymmetricAlgorithm,
     purpose: Vault.KeyPurpose,
+    name: string,
     options: Vault.Asymmetric.GenerateOptions = {}
   ): Promise<PangeaResponse<Vault.Asymmetric.GenerateResult>> {
     let data: Vault.Asymmetric.GenerateRequest = {
       type: Vault.ItemType.ASYMMETRIC_KEY,
       algorithm: algorithm,
       purpose: purpose,
+      name: name,
     };
 
     Object.assign(data, options);
@@ -148,6 +156,7 @@ class VaultService extends BaseService {
     publicKey: Vault.EncodedPublicKey,
     algorithm: Vault.AsymmetricAlgorithm,
     purpose: Vault.KeyPurpose,
+    name: string,
     options: Vault.Asymmetric.StoreOptions = {}
   ): Promise<PangeaResponse<Vault.Asymmetric.StoreResult>> {
     let data: Vault.Asymmetric.StoreRequest = {
@@ -156,6 +165,7 @@ class VaultService extends BaseService {
       public_key: publicKey,
       algorithm: algorithm,
       purpose: purpose,
+      name: name,
     };
 
     Object.assign(data, options);
@@ -166,6 +176,7 @@ class VaultService extends BaseService {
     key: string,
     algorithm: Vault.SymmetricAlgorithm,
     purpose: Vault.KeyPurpose,
+    name: string,
     options: Vault.Asymmetric.StoreOptions = {}
   ): Promise<PangeaResponse<Vault.Symmetric.StoreResult>> {
     let data: Vault.Symmetric.StoreRequest = {
@@ -173,6 +184,7 @@ class VaultService extends BaseService {
       key: key,
       algorithm: algorithm,
       purpose: purpose,
+      name: name,
     };
 
     Object.assign(data, options);

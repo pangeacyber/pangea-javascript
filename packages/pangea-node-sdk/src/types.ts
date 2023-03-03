@@ -558,7 +558,6 @@ export namespace Vault {
 
   export namespace Common {
     export interface StoreOptions {
-      name?: string;
       folder?: string;
       metadata?: Metadata;
       tags?: Tags;
@@ -569,6 +568,7 @@ export namespace Vault {
 
     export interface StoreRequest {
       type: Vault.ItemType;
+      name: string;
     }
 
     export interface StoreResult {
@@ -579,10 +579,10 @@ export namespace Vault {
 
     export interface GenerateRequest {
       type: Vault.ItemType;
+      name: string;
     }
 
     export interface GenerateOptions {
-      name?: string;
       folder?: string;
       metadata?: Metadata;
       tags?: Tags;
