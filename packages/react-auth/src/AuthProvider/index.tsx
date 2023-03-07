@@ -22,6 +22,7 @@ import {
   setTokenCookies,
   removeTokenCookies,
   startTokenWatch,
+  getTokenFromCookie,
   SESSION_DATA_KEY,
   DEFAULT_COOKIE_OPTIONS,
 } from "@src/shared/session";
@@ -432,3 +433,6 @@ export const AuthProvider: FC<AuthProviderProps> = ({
 export const useAuth = () => {
   return useContext(AuthContext);
 };
+
+// Convience method and for backwards compatbility
+export { getTokenFromCookie };
