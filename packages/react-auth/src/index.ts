@@ -1,4 +1,4 @@
-export { AuthProvider, useAuth, getToken } from "./AuthProvider";
+export { AuthProvider, useAuth } from "./AuthProvider";
 
 export {
   ComponentAuthProvider,
