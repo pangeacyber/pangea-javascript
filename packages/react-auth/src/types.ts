@@ -71,18 +71,18 @@ export interface CookieOptions {
   cookieMaxAge?: number;
 
   /**
-   * tokenCookieName: The name to be used when setting/getting the user token cookie
+   * cookieName: The name to be used when setting/getting the user token cookie
    *
    * Defaults to "pangea-token" if not set
    */
-  tokenCookieName: string;
+  cookieName?: string;
 
   /**
    * refreshCookieName: The name to be used when setting/getting the refresh token cookie
    *
    * Defaults to "pangea-refresh" if not set
    */
-  refreshCookieName: string;
+  refreshCookieName?: string;
 
   /**
    * cookieDomain: The domain to set on the cookie

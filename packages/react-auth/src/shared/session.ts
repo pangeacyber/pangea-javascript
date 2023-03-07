@@ -20,7 +20,7 @@ export const REFRESH_COOKIE_NAME = "pangea-refresh";
 
 export const DEFAULT_COOKIE_OPTIONS: CookieOptions = {
   cookieMaxAge: 60 * 60 * 24 * 2, // 48 Hours, in seconds
-  tokenCookieName: TOKEN_COOKIE_NAME,
+  cookieName: TOKEN_COOKIE_NAME,
   refreshCookieName: REFRESH_COOKIE_NAME,
 };
 
@@ -64,7 +64,7 @@ export const getSessionToken = (options: ProviderOptions) => {
   if (options.useCookie) {
     const cookies = getCookies();
 
-    return cookies[options.tokenCookieName];
+    return cookies[options.cookieName as string];
   }
 
   const data = getSessionData(options);
@@ -75,7 +75,7 @@ export const getRefreshToken = (options: ProviderOptions) => {
   if (options.useCookie) {
     const cookies = getCookies();
 
-    return cookies[options.refreshCookieName];
+    return cookies[options.refreshCookieName as string];
   }
 
   const data = getSessionData(options);
@@ -134,7 +134,6 @@ export const startTokenWatch = (
   const intervalTime = REFRESH_CHECK_INTERVAL * 1000; // TODO: adjust frequecy of check based on token type or life
 
   if (user?.refresh_token?.expire) {
-    console.log("Start timer");
     const timer: number = window.setInterval(() => {
       tokenLifeCheck(callback, user.active_token.expire, options.useCookie);
     }, intervalTime);
@@ -155,7 +154,7 @@ const tokenLifeCheck = (
   const refreshExpires = new Date(expireTime);
   const timeDiff = diffInSeconds(refreshExpires, new Date());
   const threshold = REFRESH_CHECK_INTERVAL + REFRESH_CHECK_THRESHOLD;
-  console.log("tokenLifeCheck", timeDiff, threshold);
+
   if (timeDiff < threshold) {
     callback(useCookie);
   }
@@ -235,11 +234,11 @@ export const setTokenCookies = (
   const userToken: string = userData.active_token.token;
   const refreshToken: string = userData.refresh_token.token;
 
-  setCookie(options.tokenCookieName, userToken, options);
-  setCookie(options.refreshCookieName, refreshToken, options);
+  setCookie(options.cookieName as string, userToken, options);
+  setCookie(options.refreshCookieName as string, refreshToken, options);
 };
 
 export const removeTokenCookies = (options: ProviderOptions) => {
-  removeCookie(options.tokenCookieName, options);
-  removeCookie(options.refreshCookieName, options);
+  removeCookie(options.cookieName as string, options);
+  removeCookie(options.refreshCookieName as string, options);
 };
