@@ -82,6 +82,15 @@ export const getRefreshToken = (options: ProviderOptions) => {
   return data?.user?.refresh_token?.token;
 };
 
+/*
+  Backwards compatibility support for fetching the token by name
+*/
+export const getTokenFromCookie = (name: string) => {
+  const cookies = getCookies();
+
+  return cookies[name];
+};
+
 export const getUserFromResponse = (data: APIResponse): AuthUser => {
   // The token/check endpoint returns a different format thean userinfo and flow/complete
   // Data only includes the active_token information in response.result
