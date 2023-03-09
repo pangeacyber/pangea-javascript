@@ -56,6 +56,11 @@ export interface AppState {
   returnPath: string;
 }
 
+export interface AuthOptions {
+  sessionKey: string;
+  useCookie: boolean;
+}
+
 export interface CookieOptions {
   /**
    * cookieMaxAge: optional number, default is 48 hours (in seconds)
@@ -66,14 +71,23 @@ export interface CookieOptions {
   cookieMaxAge?: number;
 
   /**
-   * cookieName: The name to be used when setting/getting the cookie
+   * cookieName: The name to be used when setting/getting the user token cookie
    *
-   * Defaults to "pangea-authn" if not set
+   * Defaults to "pangea-token" if not set
    */
   cookieName?: string;
+
+  /**
+   * refreshCookieName: The name to be used when setting/getting the refresh token cookie
+   *
+   * Defaults to "pangea-refresh" if not set
+   */
+  refreshCookieName?: string;
 
   /**
    * cookieDomain: The domain to set on the cookie
    */
   cookieDomain?: string;
 }
+
+export type ProviderOptions = AuthOptions & CookieOptions;

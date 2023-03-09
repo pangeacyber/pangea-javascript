@@ -2,6 +2,7 @@ import {
   FC,
   ReactNode,
   createContext,
+  useCallback,
   useContext,
   useEffect,
   useMemo,
@@ -13,24 +14,26 @@ import { toUrlEncoded, generateBase58 } from "../shared/utils";
 import {
   getStorageAPI,
   getSessionData,
-  getToken,
+  getSessionToken,
+  getRefreshToken,
   getUserFromResponse,
   hasAuthParams,
-  processValidateResponse,
   saveSessionData,
-  setCookie,
-  removeCookie,
+  setTokenCookies,
+  removeTokenCookies,
   startTokenWatch,
+  getTokenFromCookie,
   SESSION_DATA_KEY,
   DEFAULT_COOKIE_OPTIONS,
 } from "@src/shared/session";
 import {
   APIResponse,
   AuthUser,
+  AuthOptions,
   AppState,
   AuthConfig,
   CookieOptions,
-  SessionData,
+  ProviderOptions,
 } from "../types";
 
 export interface AuthContextType {
@@ -41,6 +44,7 @@ export interface AuthContextType {
   client: AuthNClient;
   login: () => void;
   logout: (redirect?: boolean) => void;
+  getToken: () => string | undefined;
 }
 
 export interface AuthProviderProps {
@@ -68,6 +72,12 @@ export interface AuthProviderProps {
    * logging in
    */
   onLogin?: (appState: AppState) => void;
+
+  /**
+   * AuthOptions: optional options for customizing auth settings
+   */
+
+  authOptions?: AuthOptions;
 
   /**
    * useCookie: optional boolean
@@ -120,6 +130,7 @@ export const AuthProvider: FC<AuthProviderProps> = ({
   loginUrl,
   config,
   onLogin,
+  authOptions = {},
   useCookie = false,
   cookieOptions = {},
   redirectPathname,
@@ -142,16 +153,17 @@ export const AuthProvider: FC<AuthProviderProps> = ({
   const signupURL = `${loginUrl.replace(slashRe, "")}/signup`;
   const logoutURL = `${loginUrl.replace(slashRe, "")}/logout`;
 
-  const combinedCookieOptions: CookieOptions = {
+  const options: ProviderOptions = {
+    useCookie,
+    sessionKey: SESSION_DATA_KEY,
     ...DEFAULT_COOKIE_OPTIONS,
+    ...authOptions,
     ...cookieOptions,
   };
 
   useEffect(() => {
     const storageAPI = getStorageAPI(useCookie);
-    const token = useCookie
-      ? getToken(combinedCookieOptions.cookieName as string)
-      : getToken(combinedCookieOptions.cookieName as string, storageAPI);
+    const token = getSessionToken(options);
 
     if (hasAuthParams()) {
       // if code and secret params are set, exchange code for a token
@@ -163,21 +175,36 @@ export const AuthProvider: FC<AuthProviderProps> = ({
       // show unauthenticated state
       setLoading(false);
     }
+
+    // clear the timer on unmount, if it's set
+    return () => {
+      if (timer) {
+        clearInterval(timer);
+      }
+    };
   }, []);
 
   const validate = async (token: string) => {
-    const { success, response } = await client.validate(token);
+    const refreshToken = getRefreshToken(options);
+
+    const { success, response } = refreshToken
+      ? await client.refresh(token, refreshToken)
+      : await client.validate(token);
 
     if (success) {
-      const sessionData: SessionData = processValidateResponse(
-        response,
-        token,
-        useCookie
-      );
+      const user: AuthUser = getUserFromResponse(response);
+      const sessionData = getSessionData(options);
+      sessionData.user = user;
+
+      saveSessionData(sessionData, options);
       setUser(sessionData.user);
       setAuthenticated(true);
 
-      const timerId = startTokenWatch(refresh, useCookie);
+      if (useCookie) {
+        setTokenCookies(user, options);
+      }
+
+      const timerId = startTokenWatch(refresh, options);
       if (timerId) {
         setTimer(timerId);
       }
@@ -265,7 +292,7 @@ export const AuthProvider: FC<AuthProviderProps> = ({
     window.location.replace(url);
   };
 
-  const logout = async (redirect = true) => {
+  const logout = useCallback(async (redirect = true) => {
     const stateCode = generateBase58(32);
 
     // redirect to the hosted page
@@ -301,11 +328,14 @@ export const AuthProvider: FC<AuthProviderProps> = ({
         setLoggedOut();
       }
     }
-  };
+  }, []);
+
+  const getToken = useCallback((): string | undefined => {
+    return getSessionToken(options);
+  }, []);
 
   const refresh = async (useCookie: boolean) => {
-    const storageAPI = getStorageAPI(useCookie);
-    const sessionData = getSessionData(storageAPI);
+    const sessionData = getSessionData(options);
     const activeToken = sessionData.user?.active_token?.token || "";
     const refreshToken = sessionData.user?.refresh_token?.token || "";
     const { success, response } = await client.refresh(
@@ -316,14 +346,11 @@ export const AuthProvider: FC<AuthProviderProps> = ({
     if (success) {
       const user: AuthUser = getUserFromResponse(response);
       sessionData.user = user;
-      saveSessionData(storageAPI, sessionData);
+      saveSessionData(sessionData, options);
+      setUser(user);
 
       if (useCookie) {
-        setCookie(
-          combinedCookieOptions.cookieName as string,
-          response.result.active_token?.token,
-          combinedCookieOptions
-        );
+        setTokenCookies(user, options);
       }
     } else {
       logout();
@@ -332,10 +359,7 @@ export const AuthProvider: FC<AuthProviderProps> = ({
 
   const setLoggedOut = () => {
     if (useCookie) {
-      removeCookie(
-        combinedCookieOptions.cookieName as string,
-        combinedCookieOptions
-      );
+      removeTokenCookies(options);
     }
 
     if (timer) {
@@ -352,11 +376,11 @@ export const AuthProvider: FC<AuthProviderProps> = ({
 
   const processLogin = (response: APIResponse) => {
     const user: AuthUser = getUserFromResponse(response);
-    const storageAPI = getStorageAPI(useCookie);
-    const sessionData = getSessionData(storageAPI);
+    const sessionData = getSessionData(options);
     sessionData.user = user;
-    saveSessionData(storageAPI, sessionData);
+    saveSessionData(sessionData, options);
 
+    const storageAPI = getStorageAPI(useCookie);
     const returnURL = storageAPI.getItem(LAST_PATH_KEY) || "/";
 
     const appState = {
@@ -368,18 +392,14 @@ export const AuthProvider: FC<AuthProviderProps> = ({
     storageAPI.removeItem(LAST_PATH_KEY);
 
     if (useCookie) {
-      setCookie(
-        combinedCookieOptions.cookieName as string,
-        response.result.active_token?.token,
-        combinedCookieOptions
-      );
+      setTokenCookies(user, options);
     }
 
     setError("");
     setUser(user);
     setAuthenticated(true);
 
-    const timerId = startTokenWatch(refresh, useCookie);
+    const timerId = startTokenWatch(refresh, options);
     if (timerId) {
       setTimer(timerId);
     }
@@ -398,8 +418,9 @@ export const AuthProvider: FC<AuthProviderProps> = ({
       client,
       login,
       logout,
+      getToken,
     }),
-    [authenticated, loading, error, user, client, login, logout]
+    [authenticated, loading, error, user, client, login, logout, getToken]
   );
 
   return (
@@ -413,5 +434,5 @@ export const useAuth = () => {
   return useContext(AuthContext);
 };
 
-// export getToken for convienence and backwards compat
-export { getToken };
+// Convience method and for backwards compatbility
+export { getTokenFromCookie };

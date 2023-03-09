@@ -1,15 +1,27 @@
-import { APIResponse, AuthUser, CookieOptions, SessionData } from "@src/types";
+import {
+  APIResponse,
+  AuthUser,
+  CookieOptions,
+  ProviderOptions,
+  SessionData,
+} from "@src/types";
 import { isLocalhost, diffInSeconds } from "./utils";
 
 type CookieObj = {
   [key: string]: string;
 };
 
+const REFRESH_CHECK_INTERVAL = 10; // Frequency of refresh check in seconds
+const REFRESH_CHECK_THRESHOLD = 2; //
+
 export const SESSION_DATA_KEY = "pangea-session";
+export const TOKEN_COOKIE_NAME = "pangea-token";
+export const REFRESH_COOKIE_NAME = "pangea-refresh";
 
 export const DEFAULT_COOKIE_OPTIONS: CookieOptions = {
   cookieMaxAge: 60 * 60 * 24 * 2, // 48 Hours, in seconds
-  cookieName: SESSION_DATA_KEY,
+  cookieName: TOKEN_COOKIE_NAME,
+  refreshCookieName: REFRESH_COOKIE_NAME,
 };
 
 const BASE_COOKIE_FLAGS = "; path=/";
@@ -32,29 +44,51 @@ export function getStorageAPI(isUsingCookies: boolean): Storage {
 }
 
 export const saveSessionData = (
-  storageAPI = localStorage,
-  data: SessionData
+  data: SessionData,
+  options: ProviderOptions
 ) => {
+  const storageAPI = getStorageAPI(options.useCookie);
   const dataString = JSON.stringify(data);
-  storageAPI.setItem(SESSION_DATA_KEY, dataString);
+  storageAPI.setItem(options.sessionKey, dataString);
 };
 
-export const getSessionData = (storageAPI = localStorage): SessionData => {
-  const data = storageAPI.getItem(SESSION_DATA_KEY);
-  const session_json = data ? JSON.parse(data) : {};
+export const getSessionData = (options: ProviderOptions): SessionData => {
+  const storageAPI = getStorageAPI(options.useCookie);
+  const data = storageAPI.getItem(options.sessionKey);
+  const sessionJSON = data ? JSON.parse(data) : {};
 
-  return session_json;
+  return sessionJSON;
 };
 
-export const getToken = (cookieName: string, storageAPI?: Storage) => {
-  if (storageAPI === undefined) {
+export const getSessionToken = (options: ProviderOptions) => {
+  if (options.useCookie) {
     const cookies = getCookies();
 
-    return cookies[cookieName];
+    return cookies[options.cookieName as string];
   }
 
-  const data = getSessionData(storageAPI);
+  const data = getSessionData(options);
   return data?.user?.active_token?.token;
+};
+
+export const getRefreshToken = (options: ProviderOptions) => {
+  if (options.useCookie) {
+    const cookies = getCookies();
+
+    return cookies[options.refreshCookieName as string];
+  }
+
+  const data = getSessionData(options);
+  return data?.user?.refresh_token?.token;
+};
+
+/*
+  Backwards compatibility support for fetching the token by name
+*/
+export const getTokenFromCookie = (name: string) => {
+  const cookies = getCookies();
+
+  return cookies[name];
 };
 
 export const getUserFromResponse = (data: APIResponse): AuthUser => {
@@ -86,45 +120,22 @@ export const getUserFromResponse = (data: APIResponse): AuthUser => {
   return user;
 };
 
-export const processValidateResponse = (
-  response: APIResponse,
-  token: string,
-  useCookie: boolean
-): SessionData => {
-  const storageAPI = getStorageAPI(useCookie);
-  const sessionData = getSessionData(storageAPI);
-
-  // session data exists, use it
-  if (sessionData.user?.active_token?.token) {
-    return sessionData;
-  }
-
-  // token from a cookie, use data from validate response and save the token
-  const userData = getUserFromResponse(response);
-  userData.active_token.token = token;
-  sessionData.user = userData;
-  saveSessionData(storageAPI, sessionData);
-
-  return { user: userData };
-};
-
 /*
   Token refresh functions
 */
 
 export const startTokenWatch = (
   callback: (useCookie: boolean) => void,
-  useCookie = false
+  options: ProviderOptions
 ): number => {
   // get last refresh time, if set
-  const storageAPI = getStorageAPI(useCookie);
-  const sessionData: SessionData = getSessionData(storageAPI);
+  const sessionData: SessionData = getSessionData(options);
   const user: AuthUser | undefined = sessionData.user;
-  const intervalTime = 10 * 1000; // TODO: adjust frequecy of check based on token type or life
+  const intervalTime = REFRESH_CHECK_INTERVAL * 1000; // TODO: adjust frequecy of check based on token type or life
 
   if (user?.refresh_token?.expire) {
     const timer: number = window.setInterval(() => {
-      tokenLifeCheck(callback, user.active_token.expire, useCookie);
+      tokenLifeCheck(callback, user.active_token.expire, options.useCookie);
     }, intervalTime);
 
     return timer;
@@ -142,7 +153,7 @@ const tokenLifeCheck = (
 ) => {
   const refreshExpires = new Date(expireTime);
   const timeDiff = diffInSeconds(refreshExpires, new Date());
-  const threshold = 15;
+  const threshold = REFRESH_CHECK_INTERVAL + REFRESH_CHECK_THRESHOLD;
 
   if (timeDiff < threshold) {
     callback(useCookie);
@@ -155,9 +166,9 @@ const tokenLifeCheck = (
 
 export const maybeAddSecureFlag = (
   cookie: string,
-  cookieOptions: CookieOptions
+  options: ProviderOptions
 ): string => {
-  const { cookieDomain } = cookieOptions;
+  const { cookieDomain } = options;
 
   // Check the location.hostname
   // if we're not at localhost, then add the Secure flag
@@ -195,23 +206,39 @@ export const getCookies = (): CookieObj => {
 export const setCookie = (
   key: string,
   value = "",
-  cookieOptions: CookieOptions
+  options: ProviderOptions
 ) => {
-  const { cookieMaxAge } = cookieOptions;
+  const { cookieMaxAge } = options;
 
   let cookie = `${key}=${value}${BASE_COOKIE_FLAGS}; max-age=${cookieMaxAge}`;
 
-  cookie = maybeAddSecureFlag(cookie, cookieOptions);
+  cookie = maybeAddSecureFlag(cookie, options);
 
   document.cookie = cookie;
 };
 
-export const removeCookie = (key: string, cookieOptions: CookieOptions) => {
+export const removeCookie = (key: string, options: ProviderOptions) => {
   const epoch = new Date(0);
 
   let cookie = `${key}=${BASE_COOKIE_FLAGS}; expires=${epoch.toUTCString()}; max-age=0`;
 
-  cookie = maybeAddSecureFlag(cookie, cookieOptions);
+  cookie = maybeAddSecureFlag(cookie, options);
 
   document.cookie = cookie;
+};
+
+export const setTokenCookies = (
+  userData: AuthUser,
+  options: ProviderOptions
+) => {
+  const userToken: string = userData.active_token.token;
+  const refreshToken: string = userData.refresh_token.token;
+
+  setCookie(options.cookieName as string, userToken, options);
+  setCookie(options.refreshCookieName as string, refreshToken, options);
+};
+
+export const removeTokenCookies = (options: ProviderOptions) => {
+  removeCookie(options.cookieName as string, options);
+  removeCookie(options.refreshCookieName as string, options);
 };
