@@ -111,13 +111,17 @@ export const verifyMembershipProof = async ({
   if (record.membership_proof === undefined) return false;
   if (!record.hash) return false;
 
-  const proofs = constructProof(record.membership_proof);
-  return merkleTools.validateProof(
-    // @ts-ignore
-    proofs,
-    record.hash,
-    root.root_hash
-  );
+  /**
+   * Skipped from crypto issues
+   * 
+    const proofs = constructProof(record.membership_proof);
+    return merkleTools.validateProof(
+      // @ts-ignore
+      proofs,
+      record.hash,
+      root.root_hash
+    );
+  */
 
   // Leaving orginial proof code here
   const nodeHash = decodeHash(record.hash ?? "");

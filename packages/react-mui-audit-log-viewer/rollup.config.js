@@ -9,9 +9,6 @@ import dts from "rollup-plugin-dts";
 import json from "@rollup/plugin-json";
 import nodePolyfills from "rollup-plugin-polyfill-node";
 
-import builtins from "rollup-plugin-node-builtins";
-import globals from "rollup-plugin-node-globals";
-
 import pkg from "./package.json";
 
 export default [
@@ -39,17 +36,13 @@ export default [
       postcss(),
       terser(),
       nodePolyfills(),
-      builtins({
-        crypto: true,
-      }),
-      globals(),
     ],
     external: Object.keys(pkg.peerDependencies || {}),
   },
   {
     input: "dist/esm/index.d.ts",
     output: [{ file: "dist/index.d.ts", format: "esm" }],
-    external: [/\.css$/, "crypto"],
+    external: [/\.css$/],
     plugins: [dts()],
   },
 ];
