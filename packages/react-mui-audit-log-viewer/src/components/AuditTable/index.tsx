@@ -22,7 +22,6 @@ enum AuditTableView {
 }
 
 interface AuditTableProps {
-  isVerificationCheckEnabled?: boolean;
   logs: Audit.FlattenedAuditRecord[];
   dataGridProps?: Partial<DataGridProps>;
   fields?: Partial<Record<keyof Audit.Event, Partial<GridColDef>>>;
@@ -34,13 +33,13 @@ interface AuditTableProps {
 
 const AuditTable: FC<AuditTableProps> = ({
   logs,
-  isVerificationCheckEnabled,
   dataGridProps = {},
   fields,
   setSort,
   options,
 }) => {
-  const { visibility, order, limit } = useAuditContext();
+  const { visibility, order, limit, isVerificationCheckEnabled } =
+    useAuditContext();
   const pagination = usePagination();
   // FIXME: This doesn't feel right
   const gridFields: any = useMemo(() => {

@@ -3,6 +3,7 @@ import clone from "lodash/clone";
 import keyBy from "lodash/keyBy";
 import mapValues from "lodash/mapValues";
 import get from "lodash/get";
+import find from "lodash/find";
 
 import Grid from "@mui/material/Grid";
 import {
@@ -72,6 +73,7 @@ export interface PangeaDataGridProps<
     GridColDef?: Partial<GridColDef>;
   };
   PreviewPanel?: PreviewPanel<DataType>;
+  previewId?: string;
   onRowClick?: (
     param: GridRowParams<DataType>,
     event: MuiEvent<MouseEvent>
@@ -93,6 +95,7 @@ const PangeaDataGrid = <
   ExpansionRow,
   DataGridProps = {},
   PreviewPanel,
+  previewId,
   onRowClick,
   ColumnCustomization,
 }: PangeaDataGridProps<DataType, FiltersObj>): JSX.Element => {
@@ -140,6 +143,25 @@ const PangeaDataGrid = <
     setOrder(order);
     setVisibility(vis);
   }, [ColumnCustomization?.visibilityModel]);
+
+  useEffect(() => {
+    if (preview?.row) {
+      const row = find(data, (d) => d.id === preview?.row?.id);
+      if (!row) {
+        setPreview(null);
+      }
+    }
+  }, [data, preview]);
+
+  useEffect(() => {
+    if (previewId) {
+      const row = find(data, (d) => d.id === previewId);
+      if (row) {
+        // @ts-ignore
+        setPreview({ row });
+      }
+    }
+  }, [data, previewId]);
 
   const columnsPopoutProps = !!ColumnCustomization
     ? {
