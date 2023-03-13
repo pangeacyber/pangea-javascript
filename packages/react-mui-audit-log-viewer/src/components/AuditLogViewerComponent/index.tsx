@@ -1,4 +1,4 @@
-import { FC, useEffect, useMemo } from "react";
+import { FC, useCallback, useEffect, useMemo } from "react";
 import pick from "lodash/pick";
 import merge from "lodash/merge";
 import find from "lodash/find";
@@ -66,6 +66,17 @@ const AuditLogViewerComponent: FC<ViewerProps> = ({
     if (!!body) handleSearch();
   }, [body]);
 
+  const handleChange = useCallback(
+    (newQuery: string) => {
+      if (newQuery === query) {
+        handleSearch();
+      } else {
+        setQuery(newQuery);
+      }
+    },
+    [query, setQuery]
+  );
+
   const gridFields: PDG.GridSchemaFields = useMemo(() => {
     return merge(
       cloneDeep(AuditRecordFields),
@@ -125,7 +136,7 @@ const AuditLogViewerComponent: FC<ViewerProps> = ({
         }}
         Search={{
           query: query,
-          onChange: setQuery,
+          onChange: handleChange,
           Filters: {
             // @ts-ignore
             filters: queryObj,
