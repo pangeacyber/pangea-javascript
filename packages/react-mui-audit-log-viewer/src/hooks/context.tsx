@@ -23,36 +23,10 @@ export interface Pagination {
   history: string[];
 }
 
-export const DefaultVisibility: Partial<Record<keyof Audit.Event, boolean>> = {
-  received_at: true,
-  message: true,
-  actor: false,
-  action: false,
-  status: false,
-  target: false,
-  old: false,
-  new: false,
-  source: false,
-  timestamp: false,
-  tenant_id: false,
-};
-
-export const DefaultOrder = [
-  "received_at",
-  "timestamp",
-  "actor",
-  "action",
-  "status",
-  "target",
-  "source",
-  "tenant_id",
-  "message",
-];
-
-interface AuditContextShape {
+interface AuditContextShape<Event = Audit.DefaultEvent> {
   root?: Audit.Root;
   unpublishedRoot?: Audit.Root;
-  visibilityModel?: Partial<Record<keyof Audit.Event, boolean>>;
+  visibilityModel?: Partial<Record<keyof Event, boolean>>;
   proofs?: Record<string, boolean>;
   setProofs: Dispatch<SetStateAction<Record<string, boolean>>>;
   consistency?: Record<string, boolean>;
@@ -91,7 +65,7 @@ const AuditContext = createContext<AuditContextShape>({
   isVerificationCheckEnabled: true,
 });
 
-const AuditContextProvider: FC<{
+interface AuditContextProviderProps<Event = Audit.DefaultEvent> {
   total: number;
   resultsId: string | undefined;
   fetchResults: (body: Audit.ResultRequest) => Promise<void>;
@@ -101,12 +75,14 @@ const AuditContextProvider: FC<{
   unpublishedRoot?: Audit.Root;
   publishedRoots?: PublishedRoots;
   rowToLeafIndex?: Record<string, { leaf_index?: string }>;
-  visibilityModel?: Partial<Record<keyof Audit.Event, boolean>>;
+  visibilityModel?: Partial<Record<keyof Event, boolean>>;
   children?: React.ReactNode;
   isVerificationCheckEnabled?: boolean;
   VerificationModalChildComp?: React.FC;
   handleVerificationCopy?: (message: string, value: string) => void;
-}> = ({
+}
+
+const AuditContextProvider = <Event,>({
   children,
   total,
   resultsId,
@@ -115,13 +91,13 @@ const AuditContextProvider: FC<{
   limitOptions = [10, 20, 30, 40, 50],
   root,
   unpublishedRoot,
-  visibilityModel = DefaultVisibility,
+  visibilityModel,
   publishedRoots,
   isVerificationCheckEnabled = true,
   rowToLeafIndex,
   VerificationModalChildComp,
   handleVerificationCopy,
-}) => {
+}: AuditContextProviderProps<Event>): JSX.Element => {
   const [offset, setOffset] = useState<number>(0);
   const [limit, setLimit] = useState<number>(
     !!propLimit ? Number(propLimit) : 20
