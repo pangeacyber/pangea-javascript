@@ -1,41 +1,73 @@
-import { FC } from "react";
+import { FC, useMemo } from "react";
+import map from "lodash/map";
+import get from "lodash/get";
+import some from "lodash/some";
 import { Stack } from "@mui/material";
 import { useTheme, lighten } from "@mui/material/styles";
 
 import { Audit } from "../../types";
 
-import StringJsonField, { StringField } from "../AuditStringJsonField";
+import StringJsonField, {
+  DateTimeField,
+  StringField,
+  StringFieldProps,
+} from "../AuditStringJsonField";
 import OldNewFields from "../AuditOldNewFields";
-import { useAuditContext } from "../../hooks/context";
 import VerificationLine from "./VerificationLine";
 
 interface Props {
   record: Audit.FlattenedAuditRecord;
   isVerificationCheckEnabled?: boolean;
+  schema: Audit.Schema;
 }
+
+const NoopField = (props: any) => null;
+
+const getFieldComponent = (field: Audit.SchemaField): FC<StringFieldProps> => {
+  if (field.id === "new" || field.id === "old") {
+    // SpecialField: Old and New we do a special comparison field
+    return NoopField;
+  }
+
+  if (field.type === "datetime") {
+    return DateTimeField;
+  }
+
+  if (field.type === "string" && (field.size ?? 0) > 128) {
+    return StringJsonField;
+  }
+
+  return StringField;
+};
 
 const AuditPreviewRow: FC<Props> = ({
   record,
   isVerificationCheckEnabled = true,
+  schema,
 }) => {
   const theme = useTheme();
-  const { visibilityModel } = useAuditContext();
+
+  const fields = useMemo(() => {
+    const schemaFields = schema?.fields ?? [];
+
+    return map(schemaFields, (field) => ({
+      title: field.name ?? field.id,
+      id: field.id,
+      FieldComp: getFieldComponent(field),
+    }));
+  }, [schema]);
+
+  const hasOldNew = useMemo(() => {
+    const schemaFields = schema?.fields ?? [];
+
+    return some(
+      schemaFields,
+      (field) => field.id === "old" || field.id === "new"
+    );
+  }, [schema]);
 
   // @ts-ignore - An id is needed for mui data grid so one is added.
   const rowId: string = record.id;
-
-  let date;
-  if (record?.timestamp) {
-    date = new Date(record?.timestamp);
-    date = date.toLocaleDateString(undefined, {
-      year: "numeric",
-      month: "2-digit",
-      day: "2-digit",
-      hour: "2-digit",
-      minute: "2-digit",
-      second: undefined,
-    });
-  }
 
   return (
     <Stack
@@ -57,64 +89,31 @@ const AuditPreviewRow: FC<Props> = ({
           spacing={-1}
         >
           <Stack spacing={-1}>
-            {!visibilityModel?.tenant_id && (
-              <StringField
-                title="Tenant ID"
-                value={record?.tenant_id || "-"}
-                uniqueId={rowId}
-              />
-            )}
-            {!visibilityModel?.actor && (
-              <StringField
-                title="Actor"
-                value={record.actor}
-                uniqueId={rowId}
-              />
-            )}
-            {!visibilityModel?.action && (
-              <StringField
-                title="Action"
-                value={record.action}
-                uniqueId={rowId}
-              />
-            )}
-            {!visibilityModel?.status && (
-              <StringField
-                title="Status"
-                value={record.status}
-                uniqueId={rowId}
-              />
-            )}
-            {!visibilityModel?.target && (
-              <StringField
-                title="Target"
-                value={record.target}
-                uniqueId={rowId}
-              />
-            )}
-            {!visibilityModel?.source && (
-              <StringField
-                title="Source"
-                value={record.source}
-                uniqueId={rowId}
-              />
-            )}
-            {!visibilityModel?.timestamp && (
-              <StringField
-                title="Timestamp"
-                value={date ?? "-"}
-                uniqueId={rowId}
-              />
-            )}
-            {!visibilityModel?.message && (
-              <StringJsonField
-                title="Message"
-                value={record.message}
-                uniqueId={rowId}
-              />
-            )}
+            {fields.map((field, idx) => {
+              const { FieldComp, title } = field;
+
+              return (
+                <FieldComp
+                  key={`preview-field-${idx}-${rowId}`}
+                  title={title}
+                  value={get(record, field.id)}
+                  uniqueId={rowId}
+                />
+              );
+            })}
           </Stack>
-          <OldNewFields record={record} direction="row" uniqueId={rowId} />
+          {hasOldNew && (
+            <OldNewFields
+              event={{
+                // @ts-ignore
+                old: record.old,
+                // @ts-ignore
+                new: record.new,
+              }}
+              direction="row"
+              uniqueId={rowId}
+            />
+          )}
         </Stack>
       </Stack>
     </Stack>

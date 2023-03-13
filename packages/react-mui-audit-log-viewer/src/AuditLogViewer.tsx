@@ -10,8 +10,9 @@ import { Audit } from "./types";
 import AuditContextProvider from "./hooks/context";
 import { usePublishedRoots } from "./hooks/root";
 import { PublicAuditQuery } from "./utils/query";
+import { DEFAULT_AUDIT_SCHEMA } from "./hooks/schema";
 
-export interface AuditLogViewerProps {
+export interface AuditLogViewerProps<Event = Audit.DefaultEvent> {
   initialQuery?: string;
   onSearch: (body: Audit.SearchRequest) => Promise<Audit.SearchResponse>;
   onPageChange: (body: Audit.ResultRequest) => Promise<Audit.ResultResponse>;
@@ -24,18 +25,25 @@ export interface AuditLogViewerProps {
   pageSize?: number;
   dataGridProps?: Partial<DataGridProps>;
 
-  fields?: Partial<Record<keyof Audit.Event, Partial<GridColDef>>>;
-  visibilityModel?: Partial<Record<keyof Audit.Event, boolean>>;
+  fields?: Partial<Record<keyof Event, Partial<GridColDef>>>;
+  visibilityModel?: Partial<Record<keyof Event, boolean>>;
 
   filters?: PublicAuditQuery;
+
+  schema?: Audit.Schema;
 }
 
-const AuditLogViewerWithProvider: FC<AuditLogViewerProps> = ({
+const AuditLogViewerWithProvider = <Event,>({
   onSearch,
   onPageChange,
   verificationOptions,
+  schema: schemaProp,
   ...props
-}) => {
+}: AuditLogViewerProps<Event>): JSX.Element => {
+  const schema = useMemo(() => {
+    return schemaProp ?? DEFAULT_AUDIT_SCHEMA;
+  }, [schemaProp]);
+
   const [loading, setLoading] = useState(false);
   const [searchResponse, setSearchResponse] = useState<
     Audit.SearchResponse | undefined
@@ -133,6 +141,7 @@ const AuditLogViewerWithProvider: FC<AuditLogViewerProps> = ({
       rowToLeafIndex={rowToLeafIndex}
     >
       <AuditLogViewerComponent
+        schema={schema}
         logs={logs}
         root={root}
         loading={loading}

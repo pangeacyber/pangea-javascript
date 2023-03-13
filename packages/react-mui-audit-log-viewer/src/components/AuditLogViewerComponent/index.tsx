@@ -10,39 +10,37 @@ import { DataGridProps, GridColDef, GridSortModel } from "@mui/x-data-grid";
 
 import { Audit } from "../../types";
 import { PublicAuditQuery, useAuditQuery } from "../../utils/query";
-import {
-  DefaultOrder,
-  DefaultVisibility,
-  useAuditContext,
-  usePagination,
-} from "../../hooks/context";
-import {
-  PangeaDataGrid,
-  PDG,
-  useGridSchemaColumns,
-} from "@pangeacyber/react-mui-shared";
-import { AuditFilterFields, AuditRecordFields } from "../../utils/fields";
+import { useAuditContext, usePagination } from "../../hooks/context";
+import { PangeaDataGrid } from "@pangeacyber/react-mui-shared";
 import AuditPreviewRow from "../AuditPreviewRow";
 import { AuditSecureColumn } from "./secureColumn";
 import AuditTimeFilterButton from "./AuditTimeFilterButton";
-import { CONDITIONAL_AUDIT_OPTIONS } from "../../utils/autocomplete";
+import {
+  useAuditColumns,
+  useAuditConditionalOptions,
+  useAuditFilterFields,
+  useDefaultOrder,
+  useDefaultVisibility,
+} from "../../hooks/schema";
 
-export interface ViewerProps {
+export interface ViewerProps<Event = Audit.DefaultEvent> {
   initialQuery?: string;
-  logs: Audit.FlattenedAuditRecord[];
+  logs: Event[];
+  schema: Audit.Schema;
   root?: Audit.Root;
   loading: boolean;
   onSearch: (body: Audit.SearchRequest) => Promise<void>;
   sx?: SxProps;
   pageSize?: number;
   dataGridProps?: Partial<DataGridProps>;
-  fields?: Partial<Record<keyof Audit.Event, Partial<GridColDef>>>;
-  visibilityModel?: Partial<Record<keyof Audit.Event, boolean>>;
+  fields?: Partial<Record<keyof Event, Partial<GridColDef>>>;
+  visibilityModel?: Partial<Record<keyof Event, boolean>>;
   filters?: PublicAuditQuery;
 }
 
 const AuditLogViewerComponent: FC<ViewerProps> = ({
   logs,
+  schema,
   loading,
   onSearch,
   sx = {},
@@ -56,6 +54,12 @@ const AuditLogViewerComponent: FC<ViewerProps> = ({
   const { body, query, queryObj, setQuery, setQueryObj, setSort } =
     useAuditQuery(limit, filters, initialQuery);
   const pagination = usePagination();
+  const defaultVisibility = useDefaultVisibility(schema);
+  const defaultOrder = useDefaultOrder(schema);
+
+  const columns = useAuditColumns(schema, fields);
+  const filterFields = useAuditFilterFields(schema);
+  const conditionalOptions = useAuditConditionalOptions(schema);
 
   const handleSearch = () => {
     if (!body) return;
@@ -77,26 +81,6 @@ const AuditLogViewerComponent: FC<ViewerProps> = ({
     [query, setQuery]
   );
 
-  const gridFields: PDG.GridSchemaFields = useMemo(() => {
-    return merge(
-      cloneDeep(AuditRecordFields),
-      pick(fields, [
-        "actor",
-        "action",
-        "message",
-        "new",
-        "old",
-        "status",
-        "target",
-        "received_at",
-        "timestamp",
-        "tenant_id",
-      ])
-    );
-  }, [fields]);
-
-  const columns = useGridSchemaColumns(gridFields);
-
   return (
     <Box
       sx={{
@@ -115,8 +99,9 @@ const AuditLogViewerComponent: FC<ViewerProps> = ({
         columns={columns}
         loading={loading}
         ColumnCustomization={{
-          visibilityModel: visibilityModel ?? DefaultVisibility,
-          order: DefaultOrder,
+          // @ts-ignore
+          visibilityModel: visibilityModel ?? defaultVisibility,
+          order: defaultOrder,
         }}
         ExpansionRow={{
           render: (object: any, open: boolean) => {
@@ -126,6 +111,7 @@ const AuditLogViewerComponent: FC<ViewerProps> = ({
               <AuditPreviewRow
                 record={object}
                 isVerificationCheckEnabled={isVerificationCheckEnabled}
+                schema={schema}
               />
             );
           },
@@ -142,9 +128,9 @@ const AuditLogViewerComponent: FC<ViewerProps> = ({
             filters: queryObj,
             onFilterChange: setQueryObj,
             // @ts-ignore
-            options: AuditFilterFields,
+            options: filterFields,
           },
-          conditionalOptions: CONDITIONAL_AUDIT_OPTIONS,
+          conditionalOptions,
           // @ts-ignore
           EndFilterButton: AuditTimeFilterButton,
         }}

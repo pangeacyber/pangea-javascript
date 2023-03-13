@@ -5,7 +5,6 @@ import {
   FilterFormProps,
   TimeRangeSelect,
 } from "@pangeacyber/react-mui-shared";
-import { Audit } from "../../types";
 import { AuditQuery } from "../../utils/query";
 
 const AuditTimeFilterButton: FC<FilterFormProps<AuditQuery>> = ({

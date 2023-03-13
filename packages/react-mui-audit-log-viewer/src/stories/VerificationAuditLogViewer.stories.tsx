@@ -5,6 +5,7 @@ import AuditLogViewer, { AuditLogViewerProps } from "../AuditLogViewer";
 import { Box } from "@mui/material";
 import axios from "axios";
 import PangeaThemeProvider from "./theme/pangea/provider";
+import { Audit } from "../types";
 
 export default {
   title: "AuditLogViewer",
@@ -12,10 +13,73 @@ export default {
   argTypes: {},
 } as ComponentMeta<typeof AuditLogViewer>;
 
+const AUDIT_SCHEMA: Audit.Schema = {
+  client_signable: true,
+  tamper_proofing: true,
+  fields: [
+    {
+      id: "received_at",
+      name: "Time",
+      type: "datetime",
+      uiDefaultVisible: true,
+    },
+    {
+      id: "actor",
+      name: "Actor",
+      type: "string",
+      size: 32766,
+    },
+    {
+      id: "action",
+      name: "Action",
+      type: "string",
+      size: 32766,
+      uiDefaultVisible: true,
+    },
+    {
+      id: "status",
+      name: "Status",
+      type: "string",
+      size: 32766,
+    },
+    {
+      id: "target",
+      name: "Target",
+      type: "string",
+      size: 32766,
+    },
+    {
+      id: "source",
+      name: "Source",
+      type: "string",
+      size: 32766,
+    },
+    {
+      id: "old",
+      name: "Old",
+      type: "string",
+      size: 32766,
+    },
+    {
+      id: "new",
+      name: "New",
+      type: "string",
+      size: 32766,
+    },
+    {
+      id: "message",
+      name: "Message",
+      type: "string",
+      size: 32766,
+      uiDefaultVisible: true,
+    },
+  ],
+};
+
 const ThemeTemplate: ComponentStory<typeof AuditLogViewer> = (args) => (
   <PangeaThemeProvider>
     <Box className="widget" sx={{ padding: 1 }}>
-      <AuditLogViewer {...args} />
+      <AuditLogViewer {...args} schema={AUDIT_SCHEMA} />
     </Box>
   </PangeaThemeProvider>
 );
@@ -32,7 +96,7 @@ VerificationAuditLogViewer.args = {
         { ...body },
         {
           headers: {
-            Authorization: "Bearer pts_fqwc2mv4s4mhyjwmcp2utwclczho3iyu",
+            Authorization: `Bearer ${process.env.STORYBOOK_PANGEA_TOKEN}`,
           },
         }
       )
@@ -50,7 +114,7 @@ VerificationAuditLogViewer.args = {
         { ...body },
         {
           headers: {
-            Authorization: "Bearer pts_fqwc2mv4s4mhyjwmcp2utwclczho3iyu",
+            Authorization: `Bearer ${process.env.STORYBOOK_PANGEA_TOKEN}`,
           },
         }
       )
@@ -69,7 +133,7 @@ VerificationAuditLogViewer.args = {
           { ...body },
           {
             headers: {
-              Authorization: "Bearer pts_fqwc2mv4s4mhyjwmcp2utwclczho3iyu",
+              Authorization: `Bearer ${process.env.STORYBOOK_PANGEA_TOKEN}`,
             },
           }
         )
