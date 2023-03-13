@@ -97,7 +97,6 @@ export const getArweavePublishedRoots = async (
     if (!(treeSize in publishedRoots)) {
       const body = !!treeSize ? { tree_size: treeSize } : {};
       const root = await fetchRoot(body).catch((err) => {
-        // FIXME: Support onError
         console.error(err);
       });
 

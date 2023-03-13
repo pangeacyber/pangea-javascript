@@ -138,9 +138,10 @@ interface UseAuditQuery {
 
 export const useAuditQuery = (
   limit: number,
-  auditQuery: PublicAuditQuery | undefined = undefined
+  auditQuery: PublicAuditQuery | undefined = undefined,
+  initialQuery: string | undefined = undefined
 ): UseAuditQuery => {
-  const [query, setQuery] = useState("");
+  const [query, setQuery] = useState(initialQuery ?? "");
   const [sort, setSort] = useState<Sort>();
   const [queryObj, setQueryObj] = useState<AuditQuery | null>(
     !!auditQuery
@@ -150,6 +151,12 @@ export const useAuditQuery = (
           active: "since",
         }
   );
+
+  useEffect(() => {
+    if (initialQuery) {
+      setQuery(initialQuery);
+    }
+  }, [initialQuery]);
 
   useEffect(() => {
     if (!auditQuery?.range && !auditQuery?.query) {

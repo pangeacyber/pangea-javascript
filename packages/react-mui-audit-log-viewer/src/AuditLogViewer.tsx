@@ -1,4 +1,4 @@
-import { FC, useMemo, useState } from "react";
+import { FC, ReactNode, useMemo, useState } from "react";
 import keyBy from "lodash/keyBy";
 
 import { SxProps } from "@mui/system";
@@ -12,10 +12,13 @@ import { usePublishedRoots } from "./hooks/root";
 import { PublicAuditQuery } from "./utils/query";
 
 export interface AuditLogViewerProps {
+  initialQuery?: string;
   onSearch: (body: Audit.SearchRequest) => Promise<Audit.SearchResponse>;
   onPageChange: (body: Audit.ResultRequest) => Promise<Audit.ResultResponse>;
   verificationOptions?: {
     onFetchRoot: (body: Audit.RootRequest) => Promise<Audit.RootResponse>;
+    ModalChildComponent?: FC;
+    onCopy?: (message: string, value: string) => void;
   };
   sx?: SxProps;
   pageSize?: number;
@@ -53,10 +56,7 @@ const AuditLogViewerWithProvider: FC<AuditLogViewerProps> = ({
       })
       .catch((err) => {
         setLoading(false);
-
-        // FIXME: Can we assume how to show erros?
-        // FIXME: onError, default way to display search errors
-        // showNotification(parseError(err));
+        console.error(`Error from search handler - ${err}`);
       });
   };
 
@@ -71,8 +71,7 @@ const AuditLogViewerWithProvider: FC<AuditLogViewerProps> = ({
       })
       .catch((err) => {
         setLoading(false);
-        // FIXME: handleException, default way to display search errors
-        // showNotification(parseError(err));
+        console.error(`Error from search handler - ${err}`);
       });
   };
 
@@ -126,6 +125,8 @@ const AuditLogViewerWithProvider: FC<AuditLogViewerProps> = ({
       limit={limit}
       // Props required for calculating verification
       isVerificationCheckEnabled={isVerificationCheckEnabled}
+      VerificationModalChildComp={verificationOptions?.ModalChildComponent}
+      handleVerificationCopy={verificationOptions?.onCopy}
       root={root}
       unpublishedRoot={unpublishedRoot}
       publishedRoots={publishedRoots}
