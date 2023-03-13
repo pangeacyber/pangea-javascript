@@ -39,6 +39,8 @@ interface LeftProof {
 }
 
 const decodeProof = (data: string): ProofItem[] => {
+  if (!data) return [];
+
   const proof: ProofItem[] = [];
   data.split(",").forEach((item) => {
     const parts = item.split(":");

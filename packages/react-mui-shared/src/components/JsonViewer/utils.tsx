@@ -83,8 +83,18 @@ export const useReactJsonViewHighlight = (
       const queryValues = node.querySelectorAll(ReactJsonView.VariableEl);
       queryValues.forEach((el) => {
         if (!el.textContent) return;
-        const text = el.textContent?.replace(/"/g, "") ?? "";
-        const highlights_ = highlights.filter((hl) => text.includes(hl.value));
+        let text = el.textContent?.replace(/"/g, "") ?? "";
+        const highlights_ = highlights.filter((hl) => {
+          const hasHighlight = text.includes(hl.value);
+          if (hasHighlight) {
+            const [first, ...rest] = text.split(hl.value);
+            text = rest.join(hl.value);
+            return true;
+          }
+
+          return false;
+        });
+
         if (isEmpty(highlights_)) return;
 
         let left: string = el.textContent;

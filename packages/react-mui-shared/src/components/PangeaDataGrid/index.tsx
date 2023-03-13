@@ -26,11 +26,17 @@ import SearchBar from "./components/Search";
 
 import { ConditionalOption } from "../ConditionalAutocomplete";
 import { PreviewPanel } from "./components/PreviewPanel";
-import {
+import FiltersForm, {
   FilterFormProps,
   FilterOptions,
 } from "./components/Search/FiltersForm";
-import { Visibility } from "./components/Search/ColumnsPopout";
+import ColumnsPopout, {
+  ColumnsPopoutProps,
+  Visibility,
+} from "./components/Search/ColumnsPopout";
+
+import { useGridSchemaColumns } from "./hooks/useGridSchemaColumns";
+import { PDG } from "./types";
 
 export interface PangeaDataGridProps<
   DataType extends GridValidRowModel,
@@ -42,6 +48,7 @@ export interface PangeaDataGridProps<
   loading?: boolean;
   ColumnCustomization?: {
     visibilityModel: Record<string, boolean>;
+    order?: string[];
   };
   ServerPagination?: {
     page: number;
@@ -61,6 +68,7 @@ export interface PangeaDataGridProps<
     onChange: (query: string) => void;
     conditionalOptions?: ConditionalOption[];
     Filters?: FilterFormProps<FiltersObj>;
+    EndFilterButton?: FC<FilterFormProps<FiltersObj>>;
   };
   // Optional easy to add action column. Always inserted after all columns
   //    Action column could also always
@@ -138,11 +146,13 @@ const PangeaDataGrid = <
       label: get(columnsMap, key, { headerName: key }).headerName ?? key,
     }));
 
-    const order = Object.keys(columnsMap).filter((field) => !!vis[field]);
+    const customizableFields =
+      ColumnCustomization?.order ?? Object.keys(columnsMap);
+    const order = customizableFields.filter((field) => !!vis[field]);
 
     setOrder(order);
     setVisibility(vis);
-  }, [ColumnCustomization?.visibilityModel]);
+  }, [ColumnCustomization?.visibilityModel, ColumnCustomization?.order]);
 
   useEffect(() => {
     if (preview?.row) {
@@ -337,6 +347,13 @@ const PangeaDataGrid = <
   );
 };
 
-export type { FilterOptions, FilterFormProps };
+export type {
+  PDG,
+  FilterOptions,
+  FilterFormProps,
+  ColumnsPopoutProps,
+  Visibility,
+};
+export { useGridSchemaColumns, FiltersForm, ColumnsPopout };
 
 export default PangeaDataGrid;

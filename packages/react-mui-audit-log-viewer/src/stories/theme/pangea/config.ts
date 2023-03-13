@@ -3,7 +3,7 @@ export const PANGEA: any = {
   bg_color: "#F6F9FC",
   bg_image: "",
   body_font_size: "14px",
-  body_font_weight: "600",
+  body_font_weight: "400",
   brand_favicon:
     "https://pangea-marketing.s3.us-west-2.amazonaws.com/favicon.ico",
   brand_logo:
@@ -15,7 +15,6 @@ export const PANGEA: any = {
   brand_url: "",
   button_border_radius: "4px",
   button_variant: "contained",
-  custom: "",
   density: "normal",
   font_family: "Kanit",
   header_font_size: "24px",
@@ -46,4 +45,11 @@ export const PANGEA: any = {
   text_primary_color: "#23315A",
   text_secondary_color: "#727A92",
   updated_at: "2023-01-18T19:21:40.716282Z",
+  custom: {
+    audit: {
+      column_header_bg_color: "#F1F4F7",
+      selected_row_bg_color: "#F1F4F7",
+      hover_row_bg_color: "#d4dce5",
+    },
+  },
 };

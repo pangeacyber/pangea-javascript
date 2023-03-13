@@ -1,14 +1,15 @@
+import { PDG, FilterOptions } from "@pangeacyber/react-mui-shared";
+import { Audit } from "../types";
+
 // FIXME: Determine how we should expose types here?
-export const AuditRecordFields: any = {
+export const AuditRecordFields: PDG.GridSchemaFields = {
   received_at: {
     label: "Time",
-    readonly: true,
     cellClassName: "columnPrimary",
     type: "dateTime",
   },
   actor: {
     label: "Actor",
-    required: true,
     sortable: false,
   },
   action: {
@@ -21,7 +22,6 @@ export const AuditRecordFields: any = {
   },
   message: {
     label: "Message",
-    required: true,
     flex: 10,
     minWidth: 200,
     sortable: false,
@@ -44,12 +44,41 @@ export const AuditRecordFields: any = {
   },
   timestamp: {
     label: "Timestamp",
-    readonly: true,
     sortable: false,
     type: "dateTime",
   },
   tenant_id: {
     label: "Tenant ID",
     sortable: false,
+  },
+};
+
+export const AuditFilterFields: FilterOptions<Audit.AuditRecord> = {
+  actor: {
+    label: "Actor",
+  },
+  action: {
+    label: "Action",
+  },
+  target: {
+    label: "Target",
+  },
+  message: {
+    label: "Message",
+  },
+  status: {
+    label: "Status",
+  },
+  new: {
+    label: "New",
+  },
+  old: {
+    label: "Old",
+  },
+  source: {
+    label: "Source",
+  },
+  tenant_id: {
+    label: "Tenant ID",
   },
 };

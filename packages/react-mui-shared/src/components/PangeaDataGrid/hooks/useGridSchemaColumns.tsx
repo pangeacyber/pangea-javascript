@@ -1,10 +1,19 @@
-import { useMemo } from "react";
+import { useMemo, FC } from "react";
+import get from "lodash/get";
 import startCase from "lodash/startCase";
 
 import { GridColDef } from "@mui/x-data-grid";
+import { PDG } from "../types";
+import { DateCell, DateTimeCell, TextCell } from "../cells";
+
+const CELL_TYPE_MAP: Partial<Record<PDG.FieldType, FC<PDG.CellProps>>> = {
+  string: TextCell,
+  date: DateCell,
+  dateTime: DateTimeCell,
+};
 
 const constructGridColumnsFromFields = (
-  fields: any,
+  fields: PDG.GridSchemaFields,
   order: string[] | undefined = undefined
 ): GridColDef[] => {
   const columns: GridColDef[] = [];
@@ -18,13 +27,19 @@ const constructGridColumnsFromFields = (
         !!fieldObj?.width && typeof fieldObj?.width === "number"
           ? fieldObj?.width
           : 180,
-      type: fieldObj?.type ?? typeof fieldObj?.default ?? "string",
-      headerName: startCase(fieldObj?.label || fieldName),
+      type: fieldObj?.type ?? "string",
+      headerName:
+        fieldObj?.headerName ?? startCase(fieldObj?.label || fieldName),
       valueGetter: (params) => {
         const value = params.row[params.field];
         return typeof value === "string" ? value : JSON.stringify(value);
       },
     };
+
+    if (!fieldObj?.renderCell) {
+      const Cell = get(CELL_TYPE_MAP, col.type ?? "", TextCell);
+      col.renderCell = (params) => <Cell params={params} />;
+    }
 
     columns.push(col);
   });
@@ -32,7 +47,7 @@ const constructGridColumnsFromFields = (
   return columns;
 };
 
-export const useFormSchemaColumns = (
+export const useGridSchemaColumns = (
   fields: any,
   order: string[] | undefined = undefined
 ): GridColDef[] => {

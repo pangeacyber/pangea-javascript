@@ -1,4 +1,4 @@
-import React, { FC, useState, useRef } from "react";
+import React, { FC, useState, useRef, ReactNode } from "react";
 import pick from "lodash/pick";
 import { useTheme } from "@mui/material/styles";
 
@@ -6,6 +6,7 @@ import CancelOutlinedIcon from "@mui/icons-material/CancelOutlined";
 import CheckCircleOutlinedIcon from "@mui/icons-material/CheckCircleOutlined";
 import CopyAllIcon from "@mui/icons-material/CopyAll";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
+import OpenInNewIcon from "@mui/icons-material/OpenInNew";
 
 import {
   Stack,
@@ -14,9 +15,10 @@ import {
   Typography,
   Button,
   ButtonProps,
+  Link,
 } from "@mui/material";
 import { GridColDef } from "@mui/x-data-grid";
-import { useVerification } from "../../hooks/context";
+import { useAuditContext, useVerification } from "../../hooks/context";
 import { Audit } from "../../types";
 import { PopoutCard } from "@pangeacyber/react-mui-shared";
 import { arweaveViewTransactionUrl } from "../../utils/arweave";
@@ -44,14 +46,18 @@ interface CopyProps extends ButtonProps {
 }
 
 const CopyButton: FC<CopyProps> = ({ label, value, ...props }) => {
+  const { handleVerificationCopy } = useAuditContext();
   return (
     <Button
       onClick={() => {
         if (value && typeof value === "string") {
           navigator.clipboard.writeText(value);
-
-          // FIXME: Support custom alert handler
-          window.alert(`Successfully copied ${label} to clipboard.`);
+          const message = `Successfully copied ${label} to clipboard.`;
+          if (!!handleVerificationCopy) {
+            handleVerificationCopy(message, value);
+          } else {
+            window.alert(`Successfully copied ${label} to clipboard.`);
+          }
         }
       }}
       endIcon={
@@ -79,6 +85,7 @@ interface VerificationModalProps {
   isPendingVerification: boolean;
   isMembershipValid: boolean;
   transactionId?: string;
+  children?: ReactNode;
 }
 
 const VerificationModal: FC<VerificationModalProps> = ({
@@ -88,6 +95,7 @@ const VerificationModal: FC<VerificationModalProps> = ({
   isPendingVerification,
   isMembershipValid,
   transactionId,
+  children,
 }) => {
   const buttonRef = useRef(null);
   const [open, setOpen] = useState(false);
@@ -130,6 +138,9 @@ const VerificationModal: FC<VerificationModalProps> = ({
               ? "secondary.main"
               : "error"
           }
+          data-testid={`Pangea-VerificationLock-${
+            isMembershipValid ? "Verified" : "Unverified"
+          }`}
         />
       </IconButton>
       <PopoutCard
@@ -189,17 +200,26 @@ const VerificationModal: FC<VerificationModalProps> = ({
                 </VerificationRow>
                 {!!transactionId && (
                   <VerificationRow label="Published Root">
-                    {/* FIXME <DocsLinkButton
+                    <Link
                       href={arweaveViewTransactionUrl(transactionId)}
-                      buttonProps={{
-                        sx: {
-                          marginLeft: "0!important",
-                          color: "text.primary",
-                        },
+                      underline="none"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      sx={{
+                        width: "fit-content",
                       }}
                     >
-                      View
-                    </DocsLinkButton> */}
+                      <Button
+                        className="text"
+                        endIcon={<OpenInNewIcon fontSize="small" />}
+                        sx={{
+                          marginLeft: "0!important",
+                          color: "text.primary",
+                        }}
+                      >
+                        <Typography variant="body2">View</Typography>
+                      </Button>
+                    </Link>
                   </VerificationRow>
                 )}
               </>
@@ -227,9 +247,7 @@ const VerificationModal: FC<VerificationModalProps> = ({
               </Stack>
             )}
           </Stack>
-          {/* FIXME <DocsLinkButton href={DocsPages.Tamperproof} service={Service.Audit}>
-            Learn about Tamperproofing
-            </DocsLinkButton> */}
+          {!!children && children}
         </Stack>
       </PopoutCard>
     </>
@@ -262,6 +280,7 @@ export const AuditSecureColumn: GridColDef = {
       transactionId,
       isConsistentWithPrevious,
       isConsistentWithNext,
+      VerificationModalChildComp,
     } = useVerification(params.row, Number(params.id));
 
     return (
@@ -293,7 +312,9 @@ export const AuditSecureColumn: GridColDef = {
           root={root}
           unpublishedRoot={unpublishedRoot}
           record={params.row}
-        />
+        >
+          {!!VerificationModalChildComp && <VerificationModalChildComp />}
+        </VerificationModal>
         <Box
           sx={{
             backgroundColor: isConsistentWithNext

@@ -12,12 +12,16 @@ const ConfigThemeProvider: FC<{
       theme={createTheme({
         spacing: config?.density === "comfortable" ? 12 : 8,
         typography: {
-          fontFamily: config?.font_family ?? "Roboto",
+          fontFamily: config?.font_family ?? ["Kanit", "sans-serif"].join(","),
           h6: {
             fontSize: config?.header_font_size,
             fontWeight: config?.header_font_weight,
           },
           body2: {
+            fontSize: config?.body_font_size,
+            fontWeight: config?.body_font_weight,
+          },
+          button: {
             fontSize: config?.body_font_size,
             fontWeight: config?.body_font_weight,
           },
@@ -123,6 +127,7 @@ const ConfigThemeProvider: FC<{
                       config?.panel_bg_color,
                     ":hover": {
                       backgroundColor:
+                        config?.custom?.audit?.hover_row_bg_color ??
                         config?.custom?.audit?.selected_row_bg_color ??
                         config?.panel_bg_color,
                     },
@@ -130,6 +135,7 @@ const ConfigThemeProvider: FC<{
                   ".MuiDataGrid-row": {
                     ":hover": {
                       backgroundColor:
+                        config?.custom?.audit?.hover_row_bg_color ??
                         config?.custom?.audit?.selected_row_bg_color ??
                         config?.panel_bg_color,
                     },
