@@ -339,7 +339,9 @@ async function asymGenerateParams(
   expect(getResp.result.current_version?.version).toBe(1);
   expect(getResp.result.name).toBe(name);
   expect(getResp.result.folder).toBe(FOLDER_VALUE);
-  expect(getResp.result.expiration).toBe(EXPIRATION_VALUE);
+
+  const expiration = new Date(getResp.result.expiration ?? "").toISOString();
+  expect(expiration).toBe(EXPIRATION_VALUE);
   expect(getResp.result.rotation_frequency).toBe(ROTATION_FREQUENCY_VALUE);
   expect(getResp.result.rotation_state).toBe(ROTATION_STATE_VALUE);
   expect(getResp.result.id).toBeDefined();
