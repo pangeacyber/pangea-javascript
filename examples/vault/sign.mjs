@@ -1,6 +1,11 @@
 /* eslint-disable no-console */
 
-import { PangeaConfig, VaultService, PangeaErrors, Vault} from "pangea-node-sdk";
+import {
+  PangeaConfig,
+  VaultService,
+  PangeaErrors,
+  Vault,
+} from "pangea-node-sdk";
 
 const token = process.env.PANGEA_VAULT_TOKEN;
 const config = new PangeaConfig({ domain: process.env.PANGEA_DOMAIN });
@@ -9,7 +14,11 @@ const vault = new VaultService(token, config);
 (async () => {
   try {
     console.log("Create...");
-    const createRespose = await vault.asymmetricGenerate(Vault.AsymmetricAlgorithm.Ed25519, Vault.KeyPurpose.SIGNING, "My key name");
+    const createRespose = await vault.asymmetricGenerate(
+      Vault.AsymmetricAlgorithm.Ed25519,
+      Vault.KeyPurpose.SIGNING,
+      "My key name"
+    );
     console.log("Response: %s", createRespose.result);
     const keyID = createRespose.result.id;
 
@@ -19,14 +28,17 @@ const vault = new VaultService(token, config);
     console.log("Response: %s", signResponse.result);
 
     console.log("Verify...");
-    const verifyResponse = await vault.verify(keyID, data, signResponse.result.signature);
+    const verifyResponse = await vault.verify(
+      keyID,
+      data,
+      signResponse.result.signature
+    );
 
-    if(verifyResponse.result.valid_signature == true){
-      console.log("Signature is valid")
+    if (verifyResponse.result.valid_signature == true) {
+      console.log("Signature is valid");
     } else {
-      console.log("Signature is invalid")
+      console.log("Signature is invalid");
     }
-
   } catch (err) {
     if (err instanceof PangeaErrors.APIError) {
       console.log(err.summary, err.pangeaResponse);
