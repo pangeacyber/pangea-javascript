@@ -10,7 +10,7 @@ const ipIntel = new IPIntelService(String(token), config);
 (async () => {
   console.log("Geolocate IP...");
 
-  const options = { provider: "digitalenvoy", verbose: true, raw: true };
+  const options = { provider: "digitalelement", verbose: true, raw: true };
   try {
     const response = await ipIntel.geolocate("93.231.182.110", options);
     console.log(response.result);

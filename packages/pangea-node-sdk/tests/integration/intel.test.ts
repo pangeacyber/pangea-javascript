@@ -115,7 +115,7 @@ it("IP lookup with default provider should succeed", async () => {
 });
 
 it("IP geolocate should succeed", async () => {
-  const options = { provider: "digitalenvoy", verbose: true, raw: true };
+  const options = { provider: "digitalelement", verbose: true, raw: true };
   const response = await ipIntel.geolocate("93.231.182.110", options);
 
   expect(response.status).toBe("Success");
@@ -132,7 +132,7 @@ it("IP geolocate with default provider should succeed", async () => {
 });
 
 it("IP get domain should succeed", async () => {
-  const options = { provider: "digitalenvoy", verbose: true, raw: true };
+  const options = { provider: "digitalelement", verbose: true, raw: true };
   const response = await ipIntel.getDomain("24.235.114.61", options);
 
   expect(response.status).toBe("Success");
@@ -150,7 +150,7 @@ it("IP get domain with default provider should succeed", async () => {
 });
 
 it("IP is VPN should succeed", async () => {
-  const options = { provider: "digitalenvoy", verbose: true, raw: true };
+  const options = { provider: "digitalelement", verbose: true, raw: true };
   const response = await ipIntel.isVPN("2.56.189.74", options);
 
   expect(response.status).toBe("Success");
@@ -166,7 +166,7 @@ it("IP is VPN with default provider should succeed", async () => {
 });
 
 it("IP is proxy should succeed", async () => {
-  const options = { provider: "digitalenvoy", verbose: true, raw: true };
+  const options = { provider: "digitalelement", verbose: true, raw: true };
   const response = await ipIntel.isProxy("132.76.150.141", options);
 
   expect(response.status).toBe("Success");
