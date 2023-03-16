@@ -141,10 +141,11 @@ export namespace PangeaErrors {
   }
 
   // A pangea service error
-  export class InternalServiceErrorError extends APIError {
-    constructor(message: string, response: PangeaResponse<any>) {
+  export class InternalServerError extends APIError {
+    constructor(response: PangeaResponse<any>) {
+      const message = `summary: ${response.summary}. request_id: ${response.request_id}. request_time: ${response.request_time}. response_time: ${response.response_time}`;
       super(message, response);
-      this.name = "InternalServiceError";
+      this.name = "InternalServerError";
     }
   }
 
