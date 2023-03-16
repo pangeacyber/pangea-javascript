@@ -27,6 +27,7 @@ interface SearchProps<FiltersObj> {
   loading?: boolean;
   Filters?: FilterFormProps<FiltersObj>;
   ColumnsPopoutProps?: ColumnsPopoutProps;
+  EndFilterButton?: FC<FilterFormProps<FiltersObj>>;
 }
 
 const Search = <
@@ -39,6 +40,7 @@ const Search = <
   loading = false,
   Filters,
   ColumnsPopoutProps,
+  EndFilterButton,
 }: SearchProps<FiltersObj>): JSX.Element => {
   const [query_, setQuery_] = useInternalState(query, onChange);
   const searchRef = useRef<HTMLDivElement | null>(null);
@@ -55,6 +57,10 @@ const Search = <
             value={query_}
             options={conditionalOptions}
             onChange={setQuery_}
+            hideMenu={filterMenuOpen}
+            onOpen={() => {
+              setFilterMenuOpen(false);
+            }}
             InputProps={
               !!Filters
                 ? {
@@ -80,11 +86,18 @@ const Search = <
                       "&.MuiInputBase-root.MuiOutlinedInput-root": {
                         paddingRight: "8px",
                       },
+                      ...(!!EndFilterButton
+                        ? {
+                            borderBottomRightRadius: "0!important",
+                            borderTopRightRadius: "0!important",
+                          }
+                        : {}),
                     },
                   }
                 : undefined
             }
           />
+          {!!EndFilterButton && !!Filters && <EndFilterButton {...Filters} />}
         </ButtonGroup>
         <Button
           variant="contained"

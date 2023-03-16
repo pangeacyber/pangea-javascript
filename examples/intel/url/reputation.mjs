@@ -10,7 +10,7 @@ const urlIntel = new URLIntelService(String(token), config);
 (async () => {
   console.log("Checking url...");
 
-  const options = { provider: "domaintools", verbose: true, raw: true };
+  const options = { provider: "crowdstrike", verbose: true, raw: true };
   try {
     const response = await urlIntel.reputation(
       "http://113.235.101.11:54384",

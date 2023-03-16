@@ -1,4 +1,4 @@
-import { FC } from "react";
+import { FC, useMemo } from "react";
 import isEmpty from "lodash/isEmpty";
 
 import { Container, Typography, Stack, Box } from "@mui/material";
@@ -7,13 +7,21 @@ import { JsonViewer } from "@pangeacyber/react-mui-shared";
 // FIXME: Diff needs to be split out to react-mui-shared
 import { Change } from "../../hooks/diff";
 
-export const StringField: FC<{
+export interface StringFieldProps {
   inRow?: boolean;
   title: string;
   value: string | undefined;
   changes?: Change[];
   uniqueId: string;
-}> = ({ title, inRow, value: value_, changes = [], uniqueId }) => {
+}
+
+export const StringField: FC<StringFieldProps> = ({
+  title,
+  inRow,
+  value: value_,
+  changes = [],
+  uniqueId,
+}) => {
   const direction = inRow ? "column" : "row";
 
   const value = typeof value_ === "string" ? value_ : JSON.stringify(value_);
@@ -55,6 +63,27 @@ export const StringField: FC<{
       </Container>
     </Stack>
   );
+};
+
+export const DateTimeField: FC<StringFieldProps> = (props) => {
+  const dateTimeString = useMemo(() => {
+    let dateTimeString = "-";
+    if (props.value) {
+      const dateObj = new Date(props.value);
+      dateTimeString = dateObj.toLocaleDateString(undefined, {
+        year: "numeric",
+        month: "2-digit",
+        day: "2-digit",
+        hour: "2-digit",
+        minute: "2-digit",
+        second: undefined,
+      });
+    }
+
+    return dateTimeString;
+  }, [props.value]);
+
+  return <StringField {...props} value={dateTimeString} />;
 };
 
 const parseJson = (value: any): object | null => {

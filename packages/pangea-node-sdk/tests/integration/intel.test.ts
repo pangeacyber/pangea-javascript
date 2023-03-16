@@ -167,7 +167,7 @@ it("IP is VPN with default provider should succeed", async () => {
 
 it("IP is proxy should succeed", async () => {
   const options = { provider: "digitalenvoy", verbose: true, raw: true };
-  const response = await ipIntel.isProxy("1.0.136.28", options);
+  const response = await ipIntel.isProxy("132.76.150.141", options);
 
   expect(response.status).toBe("Success");
   expect(response.result.data).toBeDefined();
@@ -175,7 +175,7 @@ it("IP is proxy should succeed", async () => {
 });
 
 it("IP is proxy with default provider should succeed", async () => {
-  const response = await ipIntel.isProxy("1.0.136.28");
+  const response = await ipIntel.isProxy("132.76.150.141");
   expect(response.status).toBe("Success");
   expect(response.result.data).toBeDefined();
   expect(response.result.data.is_proxy).toBeTruthy();

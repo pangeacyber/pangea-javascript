@@ -146,7 +146,7 @@ async function asymSigningCycle(id: string) {
   expect(verify1Resp.result.valid_signature).toBe(true);
 }
 
-async function jwtSigningCycle(id: string) {
+async function jwtAsymSigningCycle(id: string) {
   const data = {
     message: "message to sign",
     data: "Some extra data",
@@ -174,19 +174,60 @@ async function jwtSigningCycle(id: string) {
 
     // Get default
     let getResp = await vault.jwkGet(id);
-    expect(getResp.result.jwk.keys.length).toBe(1);
+    expect(getResp.result.keys.length).toBe(1);
 
     // Get version
     getResp = await vault.jwkGet(id, { version: "1" });
-    expect(getResp.result.jwk.keys.length).toBe(1);
+    expect(getResp.result.keys.length).toBe(1);
 
     // Get all
     getResp = await vault.jwkGet(id, { version: "all" });
-    expect(getResp.result.jwk.keys.length).toBe(2);
+    expect(getResp.result.keys.length).toBe(2);
 
     // Get -1
     getResp = await vault.jwkGet(id, { version: "-1" });
-    expect(getResp.result.jwk.keys.length).toBe(2);
+    expect(getResp.result.keys.length).toBe(2);
+
+    // Deactivate key
+    const stateChangeResp = await vault.stateChange(id, Vault.ItemVersionState.SUSPENDED, {
+      version: 1,
+    });
+    expect(stateChangeResp.result.id).toBe(id);
+
+    // Verify after deactivated
+    const verify1Resp = await vault.jwtVerify(sign1Resp.result.jws);
+    expect(verify1Resp.result.valid_signature).toBe(true);
+  } catch (e) {
+    e instanceof PangeaErrors.APIError ? console.log(e.toString()) : console.log(e);
+    expect(false).toBeTruthy();
+  }
+}
+
+async function jwtSymSigningCycle(id: string) {
+  const data = {
+    message: "message to sign",
+    data: "Some extra data",
+  };
+
+  const payload = JSON.stringify(data);
+
+  // Sign 1
+  try {
+    const sign1Resp = await vault.jwtSign(id, payload);
+    expect(sign1Resp.result.jws).toBeDefined();
+
+    // Rotate
+    const rotateResp = await vault.keyRotate(id);
+    expect(rotateResp.result.version).toBe(2);
+    expect(rotateResp.result.id).toBe(id);
+
+    // Sign2
+    const sign2Resp = await vault.jwtSign(id, payload);
+    expect(sign2Resp.result.jws).toBeDefined();
+
+    // Verify 2
+    const verify2Resp = await vault.jwtVerify(sign2Resp.result.jws);
+    expect(verify2Resp.result.valid_signature).toBe(true);
 
     // Deactivate key
     const stateChangeResp = await vault.stateChange(id, Vault.ItemVersionState.SUSPENDED, {
@@ -339,7 +380,9 @@ async function asymGenerateParams(
   expect(getResp.result.current_version?.version).toBe(1);
   expect(getResp.result.name).toBe(name);
   expect(getResp.result.folder).toBe(FOLDER_VALUE);
-  expect(getResp.result.expiration).toBe(EXPIRATION_VALUE);
+
+  const expiration = new Date(getResp.result.expiration ?? "").toISOString();
+  expect(expiration).toBe(EXPIRATION_VALUE);
   expect(getResp.result.rotation_frequency).toBe(ROTATION_FREQUENCY_VALUE);
   expect(getResp.result.rotation_state).toBe(ROTATION_STATE_VALUE);
   expect(getResp.result.id).toBeDefined();
@@ -471,7 +514,7 @@ it("JWT asymmetric signing life cycle", async () => {
   algorithms.forEach(async (algorithm) => {
     try {
       const id = await asymGenerateDefault(algorithm, purpose);
-      await jwtSigningCycle(id);
+      await jwtAsymSigningCycle(id);
       await vault.delete(id);
     } catch (e) {
       console.log(`Failed JWT asymmetric signing life cycle with ${algorithm} and ${purpose}`);
@@ -486,7 +529,7 @@ it("JWT symmetric signing life cycle", async () => {
   const purpose = Vault.KeyPurpose.JWT;
   try {
     const id = await symGenerateDefault(algorithm, purpose);
-    await jwtSigningCycle(id);
+    await jwtSymSigningCycle(id);
     await vault.delete(id);
   } catch (e) {
     e instanceof PangeaErrors.APIError ? console.log(e.toString()) : console.log(e);

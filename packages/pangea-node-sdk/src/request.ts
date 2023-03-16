@@ -168,6 +168,8 @@ class PangeaRequest {
           response.gotResponse?.requestUrl !== undefined ? response.gotResponse.requestUrl : "",
           response
         );
+      case "InternalError":
+        throw new PangeaErrors.InternalServerError(response);
       default:
         throw new PangeaErrors.APIError(response.status, response);
     }

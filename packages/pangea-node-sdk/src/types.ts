@@ -540,12 +540,8 @@ export namespace Vault {
 
     export interface JWK extends Header {}
 
-    export interface JWKSet {
-      keys: [JWKrsa | JWKec][];
-    }
-
     export interface GetResult {
-      jwk: JWKSet;
+      keys: [JWKrsa | JWKec][];
     }
 
     export interface GetOptions {

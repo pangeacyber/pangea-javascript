@@ -12,7 +12,7 @@ const fileIntel = new FileIntelService(String(token), config);
 
   const options = { provider: "reversinglabs", verbose: true, raw: true };
   try {
-    const response = await fileIntel.reputation(
+    const response = await fileIntel.hashReputation(
       "142b638c6a60b60c7f9928da4fb85a5a8e1422a9ffdc9ee49e17e56ccca9cf6e",
       "sha256",
       options

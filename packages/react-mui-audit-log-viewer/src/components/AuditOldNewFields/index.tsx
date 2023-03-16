@@ -9,14 +9,17 @@ import { useDiffWords } from "../../hooks/diff";
 import StringJsonField from "../AuditStringJsonField";
 
 interface Props {
-  record: Audit.FlattenedAuditRecord;
+  event: {
+    old: string;
+    new: string;
+  };
   direction: "row" | "column";
   uniqueId: string;
 }
 
-const OldNewFields: FC<Props> = ({ record, direction, uniqueId }) => {
+const OldNewFields: FC<Props> = ({ event, direction, uniqueId }) => {
   const [showDiff, setShowDiff] = useState(true);
-  const changes = useDiffWords(record.old, record.new);
+  const changes = useDiffWords(event.old, event.new);
 
   const shouldShowDiffs = showDiff && !isEmpty(changes);
 
@@ -42,19 +45,19 @@ const OldNewFields: FC<Props> = ({ record, direction, uniqueId }) => {
           />
         </Stack>
       )}
-      {!!record.old && (
+      {!!event.old && (
         <StringJsonField
           title="Old Value"
-          value={record.old}
+          value={event.old}
           shouldHighlight={(c) => !!c.removed}
           changes={shouldShowDiffs ? changes.filter((c) => !c.added) : []}
           uniqueId={uniqueId}
         />
       )}
-      {!!record.new && (
+      {!!event.new && (
         <StringJsonField
           title="New Value"
-          value={record.new}
+          value={event.new}
           shouldHighlight={(c) => !!c.added}
           changes={shouldShowDiffs ? changes.filter((c) => !c.removed) : []}
           uniqueId={uniqueId}
