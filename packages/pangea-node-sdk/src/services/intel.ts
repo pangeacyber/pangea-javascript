@@ -355,14 +355,14 @@ export class IPIntelService extends BaseService {
    * @description Retrieve geolocation information for an IP address from a provider, including an optional detailed report.
    * @param {String} ip - The IP to be looked up
    * @param {Object} options - An object of optional parameters. Parameters supported:
-   *   - provider {String} - Use geolocation data from this provider: "digitalenvoy".
+   *   - provider {String} - Use geolocation data from this provider: "digitalelement".
    *   Default provider defined by the configuration.
    *   - verbose {Boolean} - Echo the API parameters in the response. Default: verbose=false.
    *   - raw {Boolean} - Include raw data from this provider. Default: raw=false.
    * @returns {Promise} - A promise representing an async call to the geolocate endpoint.
    * @example
    * const options = {
-   *   provider: "digitalenvoy"
+   *   provider: "digitalelement"
    * };
    *
    * const response = await ipIntel.geolocate(
@@ -390,14 +390,14 @@ export class IPIntelService extends BaseService {
    * @description Retrieve the domain name associated with an IP address.
    * @param {String} ip - The IP to be looked up
    * @param {Object} options - An object of optional parameters. Parameters supported:
-   *   - provider {String} - Use data from this provider: "digitalenvoy".
+   *   - provider {String} - Use data from this provider: "digitalelement".
    *   Default provider defined by the configuration.
    *   - verbose {Boolean} - Echo the API parameters in the response. Default: verbose=false.
    *   - raw {Boolean} - Include raw data from this provider. Default: raw=false.
    * @returns {Promise} - A promise representing an async call to the domain endpoint.
    * @example
    * const options = {
-   *   provider: "digitalenvoy"
+   *   provider: "digitalelement"
    * };
    *
    * const response = await ipIntel.getDomain(
@@ -422,14 +422,14 @@ export class IPIntelService extends BaseService {
    * @description Determine if an IP address is provided by a VPN service.
    * @param {String} ip - The IP to be looked up
    * @param {Object} options - An object of optional parameters. Parameters supported:
-   *   - provider {String} - Use data from this provider: "digitalenvoy".
+   *   - provider {String} - Use data from this provider: "digitalelement".
    *   Default provider defined by the configuration.
    *   - verbose {Boolean} - Echo the API parameters in the response. Default: verbose=false.
    *   - raw {Boolean} - Include raw data from this provider. Default: raw=false.
    * @returns {Promise} - A promise representing an async call to the vpn endpoint.
    * @example
    * const options = {
-   *   provider: "digitalenvoy"
+   *   provider: "digitalelement"
    * };
    *
    * const response = await ipIntel.isVPN(
@@ -454,14 +454,14 @@ export class IPIntelService extends BaseService {
    * @description Determine if an IP address is provided by a proxy service.
    * @param {String} ip - The IP to be looked up
    * @param {Object} options - An object of optional parameters. Parameters supported:
-   *   - provider {String} - Use data from this provider: "digitalenvoy".
+   *   - provider {String} - Use data from this provider: "digitalelement".
    *   Default provider defined by the configuration.
    *   - verbose {Boolean} - Echo the API parameters in the response. Default: verbose=false.
    *   - raw {Boolean} - Include raw data from this provider. Default: raw=false.
    * @returns {Promise} - A promise representing an async call to the vpn endpoint.
    * @example
    * const options = {
-   *   provider: "digitalenvoy"
+   *   provider: "digitalelement"
    * };
    *
    * const response = await ipIntel.isProxy(
