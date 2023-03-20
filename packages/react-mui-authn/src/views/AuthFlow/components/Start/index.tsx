@@ -1,12 +1,14 @@
+import { FC } from "react";
 import { useFormik } from "formik";
 import * as yup from "yup";
 import { Button, Divider, Stack, TextField, Typography } from "@mui/material";
 
 import { useAuthFlow, FlowStep } from "@pangeacyber/react-auth";
 
+import { ViewComponentProps } from "@src/views/AuthFlow/types";
 import ErrorMessage from "../ErrorMessage";
 
-const StartView = () => {
+const StartView: FC<ViewComponentProps> = ({ options }) => {
   const { callNext, flowData, loading, error } = useAuthFlow();
 
   const socialLogin = (redirect: string) => {
@@ -55,12 +57,12 @@ const StartView = () => {
             type="submit"
             disabled={loading}
           >
-            Submit
+            {options.submitLabel}
           </Button>
         </Stack>
       </form>
       {flowData.passwordSignup && flowData.socialSignup && <Divider />}
-      {flowData.socialSignup && (
+      {flowData.socialSignup?.redirect_uri && (
         <Stack gap={2}>
           {Object.keys(flowData.socialSignup.redirect_uri).map((provider) => {
             const redirect = flowData.socialSignup.redirect_uri[provider];

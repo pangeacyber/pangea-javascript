@@ -1,17 +1,19 @@
-import { ReactNode, useEffect, useState } from "react";
+import { FC, useEffect, useState } from "react";
 import { useFormik } from "formik";
 import * as yup from "yup";
-import { Button, Stack, TextField, Typography } from "@mui/material";
+import { Button, Stack, Typography } from "@mui/material";
 
 import { useAuthFlow, FlowStep } from "@pangeacyber/react-auth";
 
+import { ViewComponentProps } from "@src/views/AuthFlow/types";
+import CodeField from "@src/components/fields/CodeField";
 import ErrorMessage from "../ErrorMessage";
 
-const EnrollMfaCompleteView = () => {
+const EnrollMfaCompleteView: FC<ViewComponentProps> = ({ options }) => {
   const { callNext, reset, flowData, loading, error } = useAuthFlow();
   const [qrCode, setQrCode] = useState<string>("");
 
-  const mfaEnrollContent = (provider: string): ReactNode => {
+  const mfaEnrollContent = (provider: string) => {
     switch (provider) {
       case "sms_otp":
         return <p>Enter the code sent to your phone</p>;
@@ -58,7 +60,7 @@ const EnrollMfaCompleteView = () => {
   });
 
   const selectMfaMethod = () => {
-    callNext(FlowStep.ENROLL_MFA_SELECT, {});
+    callNext(FlowStep.ENROLL_MFA_SELECT, { cancel: true });
   };
 
   return (
@@ -68,7 +70,9 @@ const EnrollMfaCompleteView = () => {
         <Typography component="div" variant="body1">
           {mfaEnrollContent(flowData?.selectedMfa || "")}
         </Typography>
-        <Typography variant="caption">{flowData.email}</Typography>
+        {options.showEmail && (
+          <Typography variant="caption">{flowData.email}</Typography>
+        )}
         {qrCode && (
           <div className="auth-flow-qr-code">
             <img src={qrCode} alt="TOTP QR CODE" />
@@ -76,16 +80,12 @@ const EnrollMfaCompleteView = () => {
         )}
       </Stack>
       <form onSubmit={formik.handleSubmit}>
-        <TextField
-          fullWidth
-          id="code"
+        <CodeField
           name="code"
-          label="Code"
-          type="text"
-          value={formik.values.code}
-          onChange={formik.handleChange}
-          error={formik.touched.code && Boolean(formik.errors.code)}
-          helperText={formik.touched.code && formik.errors.code}
+          formik={formik}
+          field={{
+            label: "Code",
+          }}
         />
         {flowData?.mfaProviders && flowData?.mfaProviders?.length > 1 && (
           <Stack direction="row" mt={3} mb={3}>
@@ -102,11 +102,13 @@ const EnrollMfaCompleteView = () => {
             type="submit"
             disabled={loading}
           >
-            Submit
+            {options.submitLabel}
           </Button>
-          <Button color="primary" variant="outlined" onClick={reset}>
-            Start Over
-          </Button>
+          {options.showReset && (
+            <Button color="primary" variant="outlined" onClick={reset}>
+              {options.resetLabel}
+            </Button>
+          )}
         </Stack>
       </form>
     </Stack>

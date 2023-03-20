@@ -1,11 +1,12 @@
-import { ReactNode } from "react";
+import { FC } from "react";
 import { Button, Stack, Typography } from "@mui/material";
 
 import { useAuthFlow, FlowStep } from "@pangeacyber/react-auth";
 
+import { ViewComponentProps } from "@src/views/AuthFlow/types";
 import ErrorMessage from "../ErrorMessage";
 
-const SelectMfaView = () => {
+const SelectMfaView: FC<ViewComponentProps> = ({ options }) => {
   const { callNext, reset, flowData, error, step } = useAuthFlow();
   const nextStep =
     step === FlowStep.ENROLL_MFA_SELECT
@@ -13,10 +14,14 @@ const SelectMfaView = () => {
       : FlowStep.VERIFY_MFA_COMPLETE;
 
   const selectProvider = (provider: string) => {
-    callNext(nextStep, { mfaProvider: provider, cancel: true });
+    if (flowData.cancelMfa) {
+      callNext(nextStep, { mfaProvider: provider, cancel: true });
+    } else {
+      callNext(FlowStep.ENROLL_MFA_START, { mfaProvider: provider });
+    }
   };
 
-  const selectMfaContent = (provider: string): ReactNode => {
+  const selectMfaContent = (provider: string) => {
     switch (provider) {
       case "sms_otp":
         return <p>Text me a one time security code</p>;
@@ -33,10 +38,9 @@ const SelectMfaView = () => {
     <Stack gap={2}>
       <Stack>
         <Typography variant="h6">Select MFA method</Typography>
-        <Typography variant="caption">{flowData.email}</Typography>
-        {/* <Typography variant="body1">
-        Choose how you want to sign in by selecting a verification method below.
-        </Typography> */}
+        {options.showEmail && (
+          <Typography variant="caption">{flowData.email}</Typography>
+        )}
       </Stack>
       <Stack gap={2}>
         {flowData.mfaProviders?.map((provider: string) => {
@@ -53,11 +57,13 @@ const SelectMfaView = () => {
         })}
       </Stack>
       {error && <ErrorMessage response={error} />}
-      <Stack direction="row" gap={2} mt={2}>
-        <Button color="primary" variant="outlined" onClick={reset}>
-          Start Over
-        </Button>
-      </Stack>
+      {options.showReset && (
+        <Stack direction="row" gap={2} mt={2}>
+          <Button color="primary" variant="outlined" onClick={reset}>
+            {options.resetLabel}
+          </Button>
+        </Stack>
+      )}
     </Stack>
   );
 };

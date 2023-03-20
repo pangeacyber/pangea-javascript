@@ -126,6 +126,7 @@ const CodeInput: FC<CodeInputProps> = ({
       {inputs.map((inputId) => {
         return (
           <TextField
+            className="otp-input"
             inputRef={(ref) => {
               inputRefs.current[inputId] = ref;
             }}
