@@ -49,6 +49,7 @@ const CopyButton: FC<CopyProps> = ({ label, value, ...props }) => {
   const { handleVerificationCopy } = useAuditContext();
   return (
     <Button
+      variant="text"
       onClick={() => {
         if (value && typeof value === "string") {
           navigator.clipboard.writeText(value);
@@ -113,10 +114,18 @@ const VerificationModal: FC<VerificationModalProps> = ({
     ]),
   };
 
-  const verificationCmd = () => {
-    return `echo $'${JSON.stringify(artifacts)
+  const verificationArtifacts = () => {
+    // Replacing \\n is for the public_key which is embed
+    // inside a dictionary that is expressed as a string...
+
+    return JSON.stringify(artifacts)
       .replace(/'/g, "\\'")
-      .replace(/\\"/g, '\\\\"')}' | python -m pangea.verify_audit`;
+      .replace(/\\"/g, '\\\\"')
+      .replace(/\\\\n/g, "\\\\\\\\\\\\\\\\n");
+  };
+
+  const verificationCmd = () => {
+    return `echo $'${verificationArtifacts()}' | python -m pangea.verify_audit`;
   };
 
   return (
@@ -188,7 +197,7 @@ const VerificationModal: FC<VerificationModalProps> = ({
               <>
                 <VerificationRow label="Verification Artifacts">
                   <CopyButton
-                    value={JSON.stringify(artifacts)}
+                    value={verificationArtifacts()}
                     label="Verification Artifacts"
                   />
                 </VerificationRow>
