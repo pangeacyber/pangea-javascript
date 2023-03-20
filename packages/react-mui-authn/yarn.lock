@@ -1597,10 +1597,10 @@
     mkdirp "^1.0.4"
     rimraf "^3.0.2"
 
-"@pangeacyber/react-auth@0.0.2-beta.6":
-  version "0.0.2-beta.6"
-  resolved "https://registry.yarnpkg.com/@pangeacyber/react-auth/-/react-auth-0.0.2-beta.6.tgz#35db2e254a4ee2cd26c348cfb1e08869e166a3a7"
-  integrity sha512-nw3KDf3+Hy5BBI5HIJUDH68EbkJbjqf4O29s8gpCIJDOyQjbaFAxEBNGOOycYk+jYBK51D8DIGuv081oHW90rw==
+"@pangeacyber/react-auth@0.0.2-beta.8":
+  version "0.0.2-beta.8"
+  resolved "https://registry.yarnpkg.com/@pangeacyber/react-auth/-/react-auth-0.0.2-beta.8.tgz#a292d0cd5a43502f15676d475fa4e092d5746947"
+  integrity sha512-tsBQHQmK7QerOHZKaotk88ZvCvTqLDLke/uQ4WPyi6bl+BNhFLINBiiM7+sURMhrWAgyPRCO+I47J7wNqkiSLw==
   dependencies:
     "@types/randombytes" "^2.0.0"
     axios "^1.1.3"
