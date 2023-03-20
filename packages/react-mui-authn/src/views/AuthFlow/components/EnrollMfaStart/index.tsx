@@ -1,12 +1,14 @@
+import { FC } from "react";
 import { useFormik } from "formik";
 import * as yup from "yup";
 import { Button, Stack, TextField, Typography } from "@mui/material";
 
 import { useAuthFlow, FlowStep } from "@pangeacyber/react-auth";
 
+import { ViewComponentProps } from "@src/views/AuthFlow/types";
 import ErrorMessage from "../ErrorMessage";
 
-const EnrollMfaStartView = () => {
+const EnrollMfaStartView: FC<ViewComponentProps> = ({ options }) => {
   const { callNext, reset, flowData, loading, error } = useAuthFlow();
 
   const validationSchema = yup.object({
@@ -34,14 +36,16 @@ const EnrollMfaStartView = () => {
   });
 
   const selectMfaMethod = () => {
-    callNext(FlowStep.ENROLL_MFA_SELECT, {});
+    callNext(FlowStep.ENROLL_MFA_SELECT, { cancel: false });
   };
 
   return (
     <Stack gap={2}>
       <Stack>
         <Typography variant="h6">Enroll a Phone Number for SMS 2FA</Typography>
-        <Typography variant="caption">{flowData.email}</Typography>
+        {options.showEmail && (
+          <Typography variant="caption">{flowData.email}</Typography>
+        )}
       </Stack>
       <form onSubmit={formik.handleSubmit}>
         <TextField
@@ -72,11 +76,13 @@ const EnrollMfaStartView = () => {
             type="submit"
             disabled={loading}
           >
-            Submit
+            {options.submitLabel}
           </Button>
-          <Button color="primary" variant="outlined" onClick={reset}>
-            Start Over
-          </Button>
+          {options.showReset && (
+            <Button color="primary" variant="outlined" onClick={reset}>
+              {options.resetLabel}
+            </Button>
+          )}
         </Stack>
       </form>
     </Stack>

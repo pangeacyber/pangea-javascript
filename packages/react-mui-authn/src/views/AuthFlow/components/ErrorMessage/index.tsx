@@ -20,14 +20,18 @@ const ErrorMessage: FC<Props> = ({ response }) => {
       <>
         {response.result.errors.map((err: errorEntry, idx: number) => {
           return (
-            <Typography variant="caption" color="red" key={`error-${idx}`}>
+            <Typography variant="body1" color="error" key={`error-${idx}`}>
               {err.detail}
             </Typography>
           );
         })}
       </>
+    ) : response.result?.error ? (
+      <Typography variant="body1" color="error">
+        {response.result.error}
+      </Typography>
     ) : (
-      <Typography variant="caption" color="red">
+      <Typography variant="body1" color="error">
         {response.summary}
       </Typography>
     );

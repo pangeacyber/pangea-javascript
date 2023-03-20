@@ -1,12 +1,15 @@
+import { FC } from "react";
 import { useFormik } from "formik";
 import * as yup from "yup";
-import { Button, Stack, TextField, Typography } from "@mui/material";
+import { Button, Stack, Typography } from "@mui/material";
 
 import { useAuthFlow, FlowStep } from "@pangeacyber/react-auth";
 
+import { ViewComponentProps } from "@src/views/AuthFlow/types";
+import CodeField from "@src/components/fields/CodeField";
 import ErrorMessage from "../ErrorMessage";
 
-const VerifyMfaCompleteView = () => {
+const VerifyMfaCompleteView: FC<ViewComponentProps> = ({ options }) => {
   const { callNext, reset, flowData, loading, error } = useAuthFlow();
   const provider = getOtpTitle(
     flowData.mfaProviders ? flowData.mfaProviders[0] : ""
@@ -43,26 +46,24 @@ const VerifyMfaCompleteView = () => {
   // };
 
   const selectMfaMethod = () => {
-    callNext(FlowStep.VERIFY_MFA_SELECT, {});
+    callNext(FlowStep.VERIFY_MFA_SELECT, { cancel: true });
   };
 
   return (
     <Stack gap={2}>
       <Stack>
         <Typography variant="h6">Enter {provider} Code</Typography>
-        <Typography variant="caption">{flowData.email}</Typography>
+        {options.showEmail && (
+          <Typography variant="caption">{flowData.email}</Typography>
+        )}
       </Stack>
       <form onSubmit={formik.handleSubmit}>
-        <TextField
-          fullWidth
-          id="code"
+        <CodeField
           name="code"
-          label="Code"
-          type="text"
-          value={formik.values.code}
-          onChange={formik.handleChange}
-          error={formik.touched.code && Boolean(formik.errors.code)}
-          helperText={formik.touched.code && formik.errors.code}
+          formik={formik}
+          field={{
+            label: "Code",
+          }}
         />
         {flowData?.mfaProviders && flowData?.mfaProviders?.length > 1 && (
           <Stack direction="row" mt={3} mb={3}>
@@ -72,6 +73,7 @@ const VerifyMfaCompleteView = () => {
           </Stack>
         )}
         {error && <ErrorMessage response={error} />}
+        {}
         <Stack direction="row" gap={2} mt={2}>
           <Button
             color="primary"
@@ -79,19 +81,10 @@ const VerifyMfaCompleteView = () => {
             type="submit"
             disabled={loading}
           >
-            Submit
+            {options.submitLabel}
           </Button>
-          {/* {error?.status === "MfaCodeExpired" && (
-            <Button
-              variant="text"
-              onClick={resendCode}
-              sx={{ alignSelf: "flex-start" }}
-            >
-              Resend Code
-            </Button>
-          )} */}
           <Button color="primary" variant="outlined" onClick={reset}>
-            Start Over
+            {options.resetLabel}
           </Button>
         </Stack>
       </form>

@@ -1,10 +1,12 @@
+import { FC } from "react";
 import { Button, Stack, Typography } from "@mui/material";
 
 import { useAuthFlow, FlowStep } from "@pangeacyber/react-auth";
 
+import { ViewComponentProps } from "@src/views/AuthFlow/types";
 import ErrorMessage from "../ErrorMessage";
 
-const VerifyEmailView = () => {
+const VerifyEmailView: FC<ViewComponentProps> = ({ options }) => {
   const { reset, loading, error, flowData, callNext } = useAuthFlow();
 
   const resendEmail = () => {
@@ -19,7 +21,9 @@ const VerifyEmailView = () => {
     <Stack gap={2}>
       <Stack>
         <Typography variant="h6">Verify your email</Typography>
-        <Typography variant="caption">{flowData.email}</Typography>
+        {options.showEmail && (
+          <Typography variant="caption">{flowData.email}</Typography>
+        )}
       </Stack>
       <Typography variant="body1">
         An email message has been sent to your inbox.
@@ -34,9 +38,11 @@ const VerifyEmailView = () => {
         >
           Resend Email
         </Button>
-        <Button color="primary" variant="outlined" onClick={reset}>
-          Start Over
-        </Button>
+        {options.showReset && (
+          <Button color="primary" variant="outlined" onClick={reset}>
+            {options.resetLabel}
+          </Button>
+        )}
       </Stack>
     </Stack>
   );

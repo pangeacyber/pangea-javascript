@@ -1,12 +1,14 @@
+import { FC } from "react";
 import { useFormik } from "formik";
 import * as yup from "yup";
 import { Button, Stack, TextField, Typography } from "@mui/material";
 
 import { useAuthFlow, FlowStep } from "@pangeacyber/react-auth";
 
+import { ViewComponentProps } from "@src/views/AuthFlow/types";
 import ErrorMessage from "../ErrorMessage";
 
-const VerifyPasswordView = () => {
+const VerifyPasswordView: FC<ViewComponentProps> = ({ options }) => {
   const { callNext, reset, flowData, loading, error } = useAuthFlow();
 
   const validationSchema = yup.object({
@@ -34,7 +36,9 @@ const VerifyPasswordView = () => {
     <Stack gap={2}>
       <Stack>
         <Typography variant="h6">Log in</Typography>
-        <Typography variant="caption">{flowData.email}</Typography>
+        {options.showEmail && (
+          <Typography variant="caption">{flowData.email}</Typography>
+        )}
       </Stack>
       <form onSubmit={formik.handleSubmit}>
         <TextField
@@ -56,11 +60,13 @@ const VerifyPasswordView = () => {
             type="submit"
             disabled={loading}
           >
-            Submit
+            {options.submitLabel}
           </Button>
-          <Button color="primary" variant="outlined" onClick={reset}>
-            Start Over
-          </Button>
+          {options.showReset && (
+            <Button color="primary" variant="outlined" onClick={reset}>
+              {options.resetLabel}
+            </Button>
+          )}
         </Stack>
         <Stack direction="row" gap={2} mt={2}>
           <Button variant="text" onClick={resetPassword}>
