@@ -168,9 +168,11 @@ export const AuthFlowProvider: FC<AuthFlowProviderProps> = ({ children }) => {
           resetPasswordHandler(payload);
           break;
         case FlowStep.ENROLL_MFA_SELECT:
+          auth.state.cancelMfa = payload.cancel;
           setNextStep(FlowStep.ENROLL_MFA_SELECT);
           break;
         case FlowStep.VERIFY_MFA_SELECT:
+          auth.state.cancelMfa = payload.cancel;
           setNextStep(FlowStep.VERIFY_MFA_SELECT);
           break;
         default:

@@ -29,6 +29,7 @@ const DEFAULT_FLOW_STATE: FlowState = {
   email: "",
   selectedMfa: "",
   mfaProviders: [],
+  cancelMfa: true,
   recaptchaKey: "",
   qrCode: "",
   passwordSignup: true,
@@ -327,7 +328,7 @@ export class AuthNFlowClient extends AuthNClient {
   }
 
   processResponse(response: APIResponse, updateState = true): boolean {
-    const success = response.status === "Success";
+    let success = response.status === "Success";
 
     // update state data if call was sucessful and updateState is true
     if (success && updateState) {
@@ -344,13 +345,21 @@ export class AuthNFlowClient extends AuthNClient {
             : [...response.result.enroll_mfa_start.mfa_providers];
       }
 
-      // set default mfa is none is set
+      // set default mfa if none is set
       if (!this.state.selectedMfa && this.state.mfaProviders?.length) {
         this.state.selectedMfa = this.state.mfaProviders[0];
       }
 
+      // Handle error in response for invalid OTP code - GEA-4753
+      if (response.result?.error) {
+        success = false;
+      }
+
       // set the next step
       this.state.step = response.result?.next_step;
+    } else if (!success && updateState && response.result?.next_step) {
+      // update the step on error if a step is set
+      this.state.step = response.result.next_step;
     }
 
     return success;
