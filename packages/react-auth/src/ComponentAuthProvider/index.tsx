@@ -86,7 +86,6 @@ export const ComponentAuthProvider: FC<ComponentAuthProviderProps> = ({
 
   // load data from local storage, and params from URL
   useEffect(() => {
-    const storageAPI = getStorageAPI(useCookie);
     const token = getSessionToken(options);
 
     // save callback params if set
@@ -114,11 +113,7 @@ export const ComponentAuthProvider: FC<ComponentAuthProviderProps> = ({
   }, []);
 
   const validate = async (token: string) => {
-    const refreshToken = getRefreshToken(options);
-
-    const { success, response } = refreshToken
-      ? await client.refresh(token, refreshToken)
-      : await client.validate(token);
+    const { success, response } = await client.validate(token);
 
     if (success) {
       const user: AuthUser = getUserFromResponse(response);
@@ -128,10 +123,6 @@ export const ComponentAuthProvider: FC<ComponentAuthProviderProps> = ({
       saveSessionData(sessionData, options);
       setUser(sessionData.user);
       setAuthenticated(true);
-
-      if (useCookie) {
-        setTokenCookies(user, options);
-      }
 
       const timerId = startTokenWatch(refresh, options);
       if (timerId) {
