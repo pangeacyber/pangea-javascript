@@ -162,7 +162,6 @@ export const AuthProvider: FC<AuthProviderProps> = ({
   };
 
   useEffect(() => {
-    const storageAPI = getStorageAPI(useCookie);
     const token = getSessionToken(options);
 
     if (hasAuthParams()) {
@@ -185,11 +184,7 @@ export const AuthProvider: FC<AuthProviderProps> = ({
   }, []);
 
   const validate = async (token: string) => {
-    const refreshToken = getRefreshToken(options);
-
-    const { success, response } = refreshToken
-      ? await client.refresh(token, refreshToken)
-      : await client.validate(token);
+    const { success, response } = await client.validate(token);
 
     if (success) {
       const user: AuthUser = getUserFromResponse(response);
@@ -199,10 +194,6 @@ export const AuthProvider: FC<AuthProviderProps> = ({
       saveSessionData(sessionData, options);
       setUser(sessionData.user);
       setAuthenticated(true);
-
-      if (useCookie) {
-        setTokenCookies(user, options);
-      }
 
       const timerId = startTokenWatch(refresh, options);
       if (timerId) {
@@ -338,6 +329,7 @@ export const AuthProvider: FC<AuthProviderProps> = ({
     const sessionData = getSessionData(options);
     const activeToken = sessionData.user?.active_token?.token || "";
     const refreshToken = sessionData.user?.refresh_token?.token || "";
+
     const { success, response } = await client.refresh(
       activeToken,
       refreshToken
