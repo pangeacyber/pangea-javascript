@@ -11,8 +11,8 @@ type CookieObj = {
   [key: string]: string;
 };
 
-const REFRESH_CHECK_INTERVAL = 15; // Frequency of refresh check in seconds
-const REFRESH_CHECK_THRESHOLD = 10; //
+export const REFRESH_CHECK_INTERVAL = 15; // Frequency of refresh check in seconds
+export const REFRESH_CHECK_THRESHOLD = 10;
 
 export const SESSION_DATA_KEY = "pangea-session";
 export const TOKEN_COOKIE_NAME = "pangea-token";
@@ -81,18 +81,22 @@ export const getRefreshToken = (options: ProviderOptions) => {
 /*
   Backwards compatibility support for fetching the token by name
 */
-export const getTokenFromCookie = (name: string, raw = false) => {
+export const getTokenFromCookie = (name: string, raw = false): string => {
   const cookies = getCookies();
   const cookie = cookies[name];
 
+  // return the full value if `raw` is true
   if (raw) {
     return cookie;
   }
 
   // token cookie should contain the value and expiration timestamp separated by a comma
-  const parts = cookie ? cookie.split(",") : [];
-
-  return parts[0];
+  if (cookie) {
+    const parts = cookie.split(",");
+    return parts[0];
+  } else {
+    return "";
+  }
 };
 
 export const getUserFromResponse = (data: APIResponse): AuthUser => {
@@ -129,14 +133,17 @@ export const getUserFromResponse = (data: APIResponse): AuthUser => {
 */
 
 // Get the expire value of the session token, from cookie or storage
-const getTokenExpire = (options: ProviderOptions) => {
+export const getTokenExpire = (options: ProviderOptions) => {
   if (options.useCookie) {
     const fullTokenData = getTokenFromCookie(
       options.cookieName as string,
       true
     );
+
+    // return empty string if no cookie was found
+    if (!fullTokenData) return "";
     const parts = fullTokenData.split(",");
-    return parts[1];
+    return parts.length > 1 ? parts[1] : "";
   } else {
     const sessionData: SessionData = getSessionData(options);
     const user: AuthUser | undefined = sessionData.user;
@@ -144,34 +151,12 @@ const getTokenExpire = (options: ProviderOptions) => {
   }
 };
 
-const isTokenExpiring = (expireTime: string) => {
+export const isTokenExpiring = (expireTime: string) => {
   const refreshExpires = new Date(expireTime);
   const timeDiff = diffInSeconds(refreshExpires, new Date());
   const threshold = REFRESH_CHECK_INTERVAL + REFRESH_CHECK_THRESHOLD;
 
   return timeDiff < threshold;
-};
-
-export const startTokenWatch = (
-  callback: (useCookie: boolean) => void,
-  options: ProviderOptions
-): number => {
-  const tokenExpire = getTokenExpire(options);
-  const intervalTime = REFRESH_CHECK_INTERVAL * 1000; // TODO: adjust frequecy of check based on token type or life
-
-  if (tokenExpire) {
-    const timer: number = window.setInterval(() => {
-      if (isTokenExpiring(tokenExpire)) {
-        callback(options.useCookie);
-      }
-    }, intervalTime);
-
-    return timer;
-  } else {
-    console.log("No refresh token");
-  }
-
-  return 0;
 };
 
 /*
