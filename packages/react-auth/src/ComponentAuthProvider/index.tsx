@@ -4,25 +4,27 @@ import {
   ReactNode,
   useCallback,
   useContext,
-  useState,
-  useMemo,
   useEffect,
+  useMemo,
+  useRef,
+  useState,
 } from "react";
 
 import AuthNClient from "@src/AuthNClient";
 import {
-  getStorageAPI,
   getSessionData,
   getUserFromResponse,
   getSessionToken,
+  getTokenExpire,
   getRefreshToken,
   hasAuthParams,
   saveSessionData,
   setTokenCookies,
   removeTokenCookies,
-  startTokenWatch,
+  isTokenExpiring,
   DEFAULT_COOKIE_OPTIONS,
   SESSION_DATA_KEY,
+  REFRESH_CHECK_INTERVAL,
 } from "@src/shared/session";
 import {
   APIResponse,
@@ -70,7 +72,7 @@ export const ComponentAuthProvider: FC<ComponentAuthProviderProps> = ({
   const [error, setError] = useState<APIResponse>();
   const [user, setUser] = useState<AuthUser>();
   const [cbParams, setCbParams] = useState<CallbackParams>();
-  const [timer, setTimer] = useState<number>();
+  const intervalId = useRef<number | null>(null);
 
   const client = useMemo(() => {
     return new AuthNClient(config);
@@ -86,7 +88,9 @@ export const ComponentAuthProvider: FC<ComponentAuthProviderProps> = ({
 
   // load data from local storage, and params from URL
   useEffect(() => {
+    // TODO: Combine into one function call
     const token = getSessionToken(options);
+    const expire = getTokenExpire(options);
 
     // save callback params if set
     if (hasAuthParams()) {
@@ -99,35 +103,50 @@ export const ComponentAuthProvider: FC<ComponentAuthProviderProps> = ({
     }
 
     if (token) {
-      validate(token);
+      // if token is expiring or expired, try refreshing
+      if (expire && isTokenExpiring(expire)) {
+        refresh();
+      } else {
+        // if token has not expired, validate that it's still good
+        validate(token);
+      }
+
+      startTokenWatch();
     } else {
       setLoading(false);
     }
 
+    // event handler to start/stop refresh checker
+    document.addEventListener("visibilitychange", checkVisibility);
+
     // clear the timer on unmount, if it's set
     return () => {
-      if (timer) {
-        clearInterval(timer);
+      document.removeEventListener("visibilitychange", checkVisibility);
+      if (intervalId.current) {
+        clearInterval(intervalId.current);
+        intervalId.current = null;
       }
     };
   }, []);
+
+  const checkVisibility = () => {
+    if (document.hidden) {
+      if (intervalId.current) {
+        clearInterval(intervalId.current);
+        intervalId.current = null;
+      }
+    } else {
+      startTokenWatch();
+    }
+  };
 
   const validate = async (token: string) => {
     const { success, response } = await client.validate(token);
 
     if (success) {
-      const user: AuthUser = getUserFromResponse(response);
       const sessionData = getSessionData(options);
-      sessionData.user = user;
 
-      saveSessionData(sessionData, options);
-      setUser(sessionData.user);
       setAuthenticated(true);
-
-      const timerId = startTokenWatch(refresh, options);
-      if (timerId) {
-        setTimer(timerId);
-      }
     } else {
       if (response.status === "InvalidToken") {
         setLoggedOut();
@@ -139,7 +158,7 @@ export const ComponentAuthProvider: FC<ComponentAuthProviderProps> = ({
   };
 
   const logout = useCallback(async () => {
-    const userToken = user?.active_token.token;
+    const userToken = getSessionToken(options);
 
     if (userToken) {
       const { success, response } = await client.logout(userToken);
@@ -159,10 +178,11 @@ export const ComponentAuthProvider: FC<ComponentAuthProviderProps> = ({
     return getSessionToken(options);
   }, []);
 
-  const refresh = async (useCookie: boolean) => {
+  const refresh = async () => {
     const sessionData = getSessionData(options);
-    const activeToken = sessionData.user?.active_token?.token || "";
-    const refreshToken = sessionData.user?.refresh_token?.token || "";
+    const activeToken = getSessionToken(options) || "";
+    const refreshToken = getRefreshToken(options) || "";
+
     const { success, response } = await client.refresh(
       activeToken,
       refreshToken
@@ -177,8 +197,11 @@ export const ComponentAuthProvider: FC<ComponentAuthProviderProps> = ({
       if (useCookie) {
         setTokenCookies(user, options);
       }
+
+      setAuthenticated(true);
+      setLoading(false);
     } else {
-      setLoggedOut();
+      logout();
     }
   };
 
@@ -190,6 +213,26 @@ export const ComponentAuthProvider: FC<ComponentAuthProviderProps> = ({
     setError(undefined);
     setUser(undefined);
     setAuthenticated(false);
+  };
+
+  const checkTokenLife = () => {
+    const tokenExpire = getTokenExpire(options);
+    if (tokenExpire && isTokenExpiring(tokenExpire)) {
+      refresh();
+    }
+  };
+
+  const startTokenWatch = () => {
+    const intervalTime = REFRESH_CHECK_INTERVAL * 1000;
+
+    if (intervalId.current) {
+      clearInterval(intervalId.current);
+      intervalId.current = null;
+    }
+
+    intervalId.current = window.setInterval(() => {
+      checkTokenLife();
+    }, intervalTime);
   };
 
   const setFlowComplete = useCallback((response: APIResponse) => {
@@ -206,10 +249,7 @@ export const ComponentAuthProvider: FC<ComponentAuthProviderProps> = ({
     setUser(user);
     setAuthenticated(true);
 
-    const timerId = startTokenWatch(refresh, options);
-    if (timerId) {
-      setTimer(timerId);
-    }
+    startTokenWatch();
   }, []);
 
   const memoData = useMemo(
