@@ -376,8 +376,9 @@ export const AuthProvider: FC<AuthProviderProps> = ({
       removeTokenCookies(options);
     }
 
-    if (timer) {
-      clearInterval(timer);
+    if (intervalId.current) {
+      clearInterval(intervalId.current);
+      intervalId.current = null;
     }
 
     const storageAPI = getStorageAPI(useCookie);
