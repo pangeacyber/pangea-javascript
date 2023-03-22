@@ -77,6 +77,7 @@ const Template: ComponentStory<typeof PangeaDataGrid> = (args) => {
         },
       }}
       PreviewPanel={PreviewPanel}
+      previewId={2}
     />
   );
 };

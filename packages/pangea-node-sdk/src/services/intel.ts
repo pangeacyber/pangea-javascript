@@ -38,9 +38,9 @@ export class FileIntelService extends BaseService {
   }
 
   /**
-   * @summary Look up a file
-   * @description Retrieve hash-based file reputation from a provider, including an optional detailed report.
    * @deprecated Since version 1.2.0. Use hashReputation instead.
+   * @summary Reputation, from file hash
+   * @description Retrieve hash-based file reputation from a provider, including an optional detailed report.
    * @param {String} fileHash - Hash of the file to be looked up
    * @param {String} hashType - Type of hash, can be "sha256", "sha" or "md5"
    * @param {Object} options - An object of optional parameters
@@ -70,7 +70,7 @@ export class FileIntelService extends BaseService {
   }
 
   /**
-   * @summary Look up a file hash reputation
+   * @summary Reputation, from file hash
    * @description Retrieve hash-based file reputation from a provider, including an optional detailed report.
    * @param {String} fileHash - Hash of the file to be looked up
    * @param {String} hashType - Type of hash, can be "sha256", "sha" or "md5"
@@ -101,9 +101,9 @@ export class FileIntelService extends BaseService {
   }
 
   /**
-   * @summary Look up a file, from file path
-   * @description Retrieve file reputation from a provider, using the file's hash.
    * @deprecated Since version 1.2.0. Use filepathReputation instead.
+   * @summary Reputation, from file path
+   * @description Retrieve file reputation from a provider, using the file's hash.
    * @param {String} fileHash - Hash of the file to be looked up
    * @param {Object} options - An object of optional parameters. Parameters supported:
    *   - provider {String} - Use reputation data from this provider: "reversinglabs".
@@ -135,7 +135,7 @@ export class FileIntelService extends BaseService {
   }
 
   /**
-   * @summary Look up a file hash reputation from file path
+   * @summary Reputation, from file path
    * @description Retrieve file reputation from a provider, using the file's hash.
    * @param {String} fileHash - Hash of the file to be looked up
    * @param {Object} options - An object of optional parameters. Parameters supported:
@@ -199,9 +199,9 @@ export class DomainIntelService extends BaseService {
   }
 
   /**
-   * @summary Look up a domain
-   * @description Retrieve reputation for a domain from a provider, including an optional detailed report.
    * @deprecated Since version 1.2.0. Use reputation instead.
+   * @summary Reputation check
+   * @description Retrieve reputation for a domain from a provider, including an optional detailed report.
    * @param {String} domain - Domain address to be looked up.
    * @param {Object} options - An object of optional parameters. Parameters supported:
    *   - provider {String} - Use reputation data from these providers: "reversinglabs" or "domaintools".
@@ -225,7 +225,7 @@ export class DomainIntelService extends BaseService {
   }
 
   /**
-   * @summary Look up a domain reputation
+   * @summary Reputation check
    * @description Retrieve reputation for a domain from a provider, including an optional detailed report.
    * @param {String} domain - Domain address to be looked up.
    * @param {Object} options - An object of optional parameters. Parameters supported:
@@ -283,9 +283,9 @@ export class IPIntelService extends BaseService {
   }
 
   /**
-   * @summary Look up an IP
-   * @description Retrieve a reputation score for an IP address from a provider, including an optional detailed report.
    * @deprecated Since version 1.2.0. Use reputation instead.
+   * @summary Reputation
+   * @description Retrieve a reputation score for an IP address from a provider, including an optional detailed report.
    * @param {String} ip - Geolocate this IP and check the corresponding country against
    * @param {Object} options - An object of optional parameters. Parameters supported:
    *   - provider {String} - Use reputation data from this provider: "crowdstrike".
@@ -295,7 +295,7 @@ export class IPIntelService extends BaseService {
    * @returns {Promise} - A promise representing an async call to the /reputation endpoint.
    * @example
    * const options = {
-   *   provider: "reversinglabs"
+   *   provider: "crowdstrike"
    * };
    *
    * const response = await ipIntel.lookup(
@@ -316,7 +316,7 @@ export class IPIntelService extends BaseService {
   }
 
   /**
-   * @summary Look up an IP reputation
+   * @summary Reputation
    * @description Retrieve a reputation score for an IP address from a provider, including an optional detailed report.
    * @param {String} ip - Geolocate this IP and check the corresponding country against
    * @param {Object} options - An object of optional parameters. Parameters supported:
@@ -348,6 +348,137 @@ export class IPIntelService extends BaseService {
     if (options?.raw) data.raw = options.raw;
 
     return this.post("reputation", data);
+  }
+
+  /**
+   * @summary Geolocate
+   * @description Retrieve geolocation information for an IP address from a provider, including an optional detailed report.
+   * @param {String} ip - The IP to be looked up
+   * @param {Object} options - An object of optional parameters. Parameters supported:
+   *   - provider {String} - Use geolocation data from this provider: "digitalelement".
+   *   Default provider defined by the configuration.
+   *   - verbose {Boolean} - Echo the API parameters in the response. Default: verbose=false.
+   *   - raw {Boolean} - Include raw data from this provider. Default: raw=false.
+   * @returns {Promise} - A promise representing an async call to the geolocate endpoint.
+   * @example
+   * const options = {
+   *   provider: "digitalelement"
+   * };
+   *
+   * const response = await ipIntel.geolocate(
+   *   "1.1.1.1",
+   *   options
+   * );
+   */
+  geolocate(
+    ip: string,
+    options?: Intel.Options
+  ): Promise<PangeaResponse<Intel.IP.GeolocateResult>> {
+    const data: Intel.IPParams = {
+      ip,
+    };
+
+    if (options?.provider) data.provider = options.provider;
+    if (options?.verbose) data.verbose = options.verbose;
+    if (options?.raw) data.raw = options.raw;
+
+    return this.post("geolocate", data);
+  }
+
+  /**
+   * @summary Domain
+   * @description Retrieve the domain name associated with an IP address.
+   * @param {String} ip - The IP to be looked up
+   * @param {Object} options - An object of optional parameters. Parameters supported:
+   *   - provider {String} - Use data from this provider: "digitalelement".
+   *   Default provider defined by the configuration.
+   *   - verbose {Boolean} - Echo the API parameters in the response. Default: verbose=false.
+   *   - raw {Boolean} - Include raw data from this provider. Default: raw=false.
+   * @returns {Promise} - A promise representing an async call to the domain endpoint.
+   * @example
+   * const options = {
+   *   provider: "digitalelement"
+   * };
+   *
+   * const response = await ipIntel.getDomain(
+   *   "1.1.1.1",
+   *   options
+   * );
+   */
+  getDomain(ip: string, options?: Intel.Options): Promise<PangeaResponse<Intel.IP.DomainResult>> {
+    const data: Intel.IPParams = {
+      ip,
+    };
+
+    if (options?.provider) data.provider = options.provider;
+    if (options?.verbose) data.verbose = options.verbose;
+    if (options?.raw) data.raw = options.raw;
+
+    return this.post("domain", data);
+  }
+
+  /**
+   * @summary VPN
+   * @description Determine if an IP address is provided by a VPN service.
+   * @param {String} ip - The IP to be looked up
+   * @param {Object} options - An object of optional parameters. Parameters supported:
+   *   - provider {String} - Use data from this provider: "digitalelement".
+   *   Default provider defined by the configuration.
+   *   - verbose {Boolean} - Echo the API parameters in the response. Default: verbose=false.
+   *   - raw {Boolean} - Include raw data from this provider. Default: raw=false.
+   * @returns {Promise} - A promise representing an async call to the vpn endpoint.
+   * @example
+   * const options = {
+   *   provider: "digitalelement"
+   * };
+   *
+   * const response = await ipIntel.isVPN(
+   *   "1.1.1.1",
+   *   options
+   * );
+   */
+  isVPN(ip: string, options?: Intel.Options): Promise<PangeaResponse<Intel.IP.VPNResult>> {
+    const data: Intel.IPParams = {
+      ip,
+    };
+
+    if (options?.provider) data.provider = options.provider;
+    if (options?.verbose) data.verbose = options.verbose;
+    if (options?.raw) data.raw = options.raw;
+
+    return this.post("vpn", data);
+  }
+
+  /**
+   * @summary Proxy
+   * @description Determine if an IP address is provided by a proxy service.
+   * @param {String} ip - The IP to be looked up
+   * @param {Object} options - An object of optional parameters. Parameters supported:
+   *   - provider {String} - Use data from this provider: "digitalelement".
+   *   Default provider defined by the configuration.
+   *   - verbose {Boolean} - Echo the API parameters in the response. Default: verbose=false.
+   *   - raw {Boolean} - Include raw data from this provider. Default: raw=false.
+   * @returns {Promise} - A promise representing an async call to the vpn endpoint.
+   * @example
+   * const options = {
+   *   provider: "digitalelement"
+   * };
+   *
+   * const response = await ipIntel.isProxy(
+   *   "1.1.1.1",
+   *   options
+   * );
+   */
+  isProxy(ip: string, options?: Intel.Options): Promise<PangeaResponse<Intel.IP.ProxyResult>> {
+    const data: Intel.IPParams = {
+      ip,
+    };
+
+    if (options?.provider) data.provider = options.provider;
+    if (options?.verbose) data.verbose = options.verbose;
+    if (options?.raw) data.raw = options.raw;
+
+    return this.post("proxy", data);
   }
 }
 
@@ -381,9 +512,9 @@ export class URLIntelService extends BaseService {
   }
 
   /**
-   * @summary Look up a URL
-   * @description Retrieve a reputation score for a URL from a provider, including an optional detailed report.
    * @deprecated Since version 1.2.0. Use reputation instead.
+   * @summary Reputation check
+   * @description Retrieve a reputation score for a URL from a provider, including an optional detailed report.
    * @param {String} url - The URL to be looked up
    * @param {Object} options - An object of optional parameters. Parameters supported:
    *   - provider {String} - Use reputation data from this provider: "crowdstrike".
@@ -414,7 +545,7 @@ export class URLIntelService extends BaseService {
   }
 
   /**
-   * @summary Look up a URL
+   * @summary Reputation check
    * @description Retrieve a reputation score for a URL from a provider, including an optional detailed report.
    * @param {String} url - The URL to be looked up
    * @param {Object} options - An object of optional parameters. Parameters supported:

@@ -3,6 +3,7 @@ import clone from "lodash/clone";
 import keyBy from "lodash/keyBy";
 import mapValues from "lodash/mapValues";
 import get from "lodash/get";
+import find from "lodash/find";
 
 import Grid from "@mui/material/Grid";
 import {
@@ -25,11 +26,17 @@ import SearchBar from "./components/Search";
 
 import { ConditionalOption } from "../ConditionalAutocomplete";
 import { PreviewPanel } from "./components/PreviewPanel";
-import {
+import FiltersForm, {
   FilterFormProps,
   FilterOptions,
 } from "./components/Search/FiltersForm";
-import { Visibility } from "./components/Search/ColumnsPopout";
+import ColumnsPopout, {
+  ColumnsPopoutProps,
+  Visibility,
+} from "./components/Search/ColumnsPopout";
+
+import { useGridSchemaColumns } from "./hooks/useGridSchemaColumns";
+import { PDG } from "./types";
 
 export interface PangeaDataGridProps<
   DataType extends GridValidRowModel,
@@ -41,6 +48,7 @@ export interface PangeaDataGridProps<
   loading?: boolean;
   ColumnCustomization?: {
     visibilityModel: Record<string, boolean>;
+    order?: string[];
   };
   ServerPagination?: {
     page: number;
@@ -60,6 +68,7 @@ export interface PangeaDataGridProps<
     onChange: (query: string) => void;
     conditionalOptions?: ConditionalOption[];
     Filters?: FilterFormProps<FiltersObj>;
+    EndFilterButton?: FC<FilterFormProps<FiltersObj>>;
   };
   // Optional easy to add action column. Always inserted after all columns
   //    Action column could also always
@@ -72,6 +81,7 @@ export interface PangeaDataGridProps<
     GridColDef?: Partial<GridColDef>;
   };
   PreviewPanel?: PreviewPanel<DataType>;
+  previewId?: string;
   onRowClick?: (
     param: GridRowParams<DataType>,
     event: MuiEvent<MouseEvent>
@@ -93,6 +103,7 @@ const PangeaDataGrid = <
   ExpansionRow,
   DataGridProps = {},
   PreviewPanel,
+  previewId,
   onRowClick,
   ColumnCustomization,
 }: PangeaDataGridProps<DataType, FiltersObj>): JSX.Element => {
@@ -135,11 +146,32 @@ const PangeaDataGrid = <
       label: get(columnsMap, key, { headerName: key }).headerName ?? key,
     }));
 
-    const order = Object.keys(columnsMap).filter((field) => !!vis[field]);
+    const customizableFields =
+      ColumnCustomization?.order ?? Object.keys(columnsMap);
+    const order = customizableFields.filter((field) => !!vis[field]);
 
     setOrder(order);
     setVisibility(vis);
-  }, [ColumnCustomization?.visibilityModel]);
+  }, [ColumnCustomization?.visibilityModel, ColumnCustomization?.order]);
+
+  useEffect(() => {
+    if (preview?.row) {
+      const row = find(data, (d) => d.id === preview?.row?.id);
+      if (!row) {
+        setPreview(null);
+      }
+    }
+  }, [data, preview]);
+
+  useEffect(() => {
+    if (previewId) {
+      const row = find(data, (d) => d.id === previewId);
+      if (row) {
+        // @ts-ignore
+        setPreview({ row });
+      }
+    }
+  }, [data, previewId]);
 
   const columnsPopoutProps = !!ColumnCustomization
     ? {
@@ -188,7 +220,7 @@ const PangeaDataGrid = <
               hideFooterPagination={
                 !ServerPagination && data?.length < pageSize
               }
-              selectionModel={preview?.row?.id}
+              selectionModel={preview?.row?.id ?? []}
               onRowClick={(params, event) => {
                 if (!isRowClickable || event.defaultPrevented) return;
                 if (!!onRowClick) {
@@ -315,6 +347,13 @@ const PangeaDataGrid = <
   );
 };
 
-export type { FilterOptions, FilterFormProps };
+export type {
+  PDG,
+  FilterOptions,
+  FilterFormProps,
+  ColumnsPopoutProps,
+  Visibility,
+};
+export { useGridSchemaColumns, FiltersForm, ColumnsPopout };
 
 export default PangeaDataGrid;

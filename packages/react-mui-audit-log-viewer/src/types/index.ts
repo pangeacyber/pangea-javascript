@@ -8,7 +8,7 @@ export namespace Audit {
     hotstorage: string;
   }
 
-  export interface Event {
+  export interface DefaultEvent {
     action?: string;
     actor?: string;
     message?: string;
@@ -17,12 +17,14 @@ export namespace Audit {
     new?: string;
     old?: string;
     target?: string;
+    timestamp?: string;
+    tenant_id?: string;
 
     // FIXME: This is part of Envelope
     received_at?: string;
   }
 
-  export interface Envelope {
+  export interface Envelope<Event = DefaultEvent> {
     event: Event;
     received_at?: string;
     public_key?: string;
@@ -37,22 +39,15 @@ export namespace Audit {
     published?: boolean;
   }
 
-  export interface FlattenedAuditRecord extends AuditRecord, Envelope, Event {
-    // Added to the component for PangeaDataGrid
+  export interface FlattenedAuditRecord<Event = DefaultEvent>
+    extends AuditRecord,
+      Envelope {
     id: number;
   }
 
-  export interface VerificationArtifact {
+  export interface VerificationArtifact<Event = DefaultEvent> {
     envelope: {
-      event?: {
-        action?: string;
-        actor?: string;
-        message?: string;
-        status?: string;
-        source?: string;
-        new?: string;
-        old?: string;
-      };
+      event?: Event;
       received_at?: string;
       public_key?: string;
       signature?: string;
@@ -81,16 +76,12 @@ export namespace Audit {
     loggedCount: number;
   }
 
-  export interface SearchRequest {
+  export interface SearchRequest<Event = DefaultEvent> {
     // Search fields
     query: string;
     start?: string;
     end?: string;
-    search_restriction?: {
-      sources?: string[];
-      actor?: string[];
-      target?: string[];
-    };
+    search_restriction?: Record<keyof Event, string[]>;
     order_by?: string;
     order?: string;
     // Result fields
@@ -126,4 +117,34 @@ export namespace Audit {
   }
 
   export interface RootResponse extends Root {}
+
+  export enum SchemaFieldType {
+    Boolean = "boolean",
+    DateTime = "datetime",
+    Integer = "integer",
+    String = "string",
+  }
+
+  export interface SchemaField {
+    id: string; // ^[a-z][a-z_]*$
+
+    // Safe
+    description?: string;
+    name: string;
+
+    uiDefaultVisible?: boolean;
+
+    // Breaking
+    required?: boolean;
+    size?: number;
+    type: "boolean" | "datetime" | "integer" | "string";
+
+    redact?: boolean;
+  }
+
+  export interface Schema {
+    client_signable: boolean;
+    tamper_proofing: boolean;
+    fields: SchemaField[];
+  }
 }

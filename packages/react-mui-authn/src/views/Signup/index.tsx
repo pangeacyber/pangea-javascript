@@ -6,13 +6,13 @@ import { ThemeOptions } from "@mui/material/styles";
 import AuthNPanel from "@src/components/core/Panel";
 import SignupForm from "@src/components/forms/SignupForm";
 
-interface SignupViewProps {
+interface SignupViewComponentProps {
   config: any; // TODO: add shared interface
   themeOptions?: ThemeOptions;
   sx?: SxProps;
 }
 
-const SignupView: FC<SignupViewProps> = ({
+const SignupView: FC<SignupViewComponentProps> = ({
   config,
   themeOptions,
   sx,

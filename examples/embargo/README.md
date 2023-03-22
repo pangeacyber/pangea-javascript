@@ -10,6 +10,6 @@ Setup
 Run examples
 
 ```
-% node ip_check.mjs
-% node iso_check.mjs
+% node ipCheck.mjs
+% node isoCheck.mjs
 ```

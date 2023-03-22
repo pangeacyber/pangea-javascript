@@ -4,6 +4,7 @@ import EmbargoService from "./embargo";
 import BaseService from "./base";
 import RedactService from "./redact";
 import { FileIntelService, DomainIntelService, IPIntelService, URLIntelService } from "./intel.js";
+import VaultService from "./vault.js";
 
 export default {
   AuditService,
@@ -15,4 +16,5 @@ export default {
   DomainIntelService,
   IPIntelService,
   URLIntelService,
+  VaultService,
 };

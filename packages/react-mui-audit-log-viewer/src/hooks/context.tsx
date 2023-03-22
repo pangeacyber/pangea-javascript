@@ -23,36 +23,10 @@ export interface Pagination {
   history: string[];
 }
 
-const DefaultVisibility: Partial<Record<keyof Audit.Event, boolean>> = {
-  received_at: true,
-  message: true,
-  actor: false,
-  action: false,
-  status: false,
-  target: false,
-  old: false,
-  new: false,
-  source: false,
-};
-
-const DefaultOrder = [
-  "received_at",
-  "actor",
-  "action",
-  "status",
-  "target",
-  "source",
-  "message",
-];
-
-interface AuditContextShape {
+interface AuditContextShape<Event = Audit.DefaultEvent> {
   root?: Audit.Root;
   unpublishedRoot?: Audit.Root;
-  visibilityModel?: Partial<Record<keyof Audit.Event, boolean>>;
-  visibility: Partial<Record<keyof Audit.Event, boolean>>;
-  order: string[];
-  setOrder: Dispatch<SetStateAction<string[]>>;
-  setVisibility: (update: Partial<Record<keyof Audit.Event, boolean>>) => void;
+  visibilityModel?: Partial<Record<keyof Event, boolean>>;
   proofs?: Record<string, boolean>;
   setProofs: Dispatch<SetStateAction<Record<string, boolean>>>;
   consistency?: Record<string, boolean>;
@@ -70,13 +44,11 @@ interface AuditContextShape {
   fetchResults: (body: Audit.ResultRequest) => Promise<void>;
   consistencyRef?: any;
   isVerificationCheckEnabled?: boolean;
+  VerificationModalChildComp?: React.FC;
+  handleVerificationCopy?: (message: string, value: string) => void;
 }
 
 const AuditContext = createContext<AuditContextShape>({
-  visibility: cloneDeep(DefaultVisibility),
-  order: DefaultOrder,
-  setOrder: () => {},
-  setVisibility: () => {},
   offset: 0,
   setOffset: () => {},
   limit: 20,
@@ -93,7 +65,7 @@ const AuditContext = createContext<AuditContextShape>({
   isVerificationCheckEnabled: true,
 });
 
-const AuditContextProvider: FC<{
+interface AuditContextProviderProps<Event = Audit.DefaultEvent> {
   total: number;
   resultsId: string | undefined;
   fetchResults: (body: Audit.ResultRequest) => Promise<void>;
@@ -103,10 +75,14 @@ const AuditContextProvider: FC<{
   unpublishedRoot?: Audit.Root;
   publishedRoots?: PublishedRoots;
   rowToLeafIndex?: Record<string, { leaf_index?: string }>;
-  visibilityModel?: Partial<Record<keyof Audit.Event, boolean>>;
+  visibilityModel?: Partial<Record<keyof Event, boolean>>;
   children?: React.ReactNode;
   isVerificationCheckEnabled?: boolean;
-}> = ({
+  VerificationModalChildComp?: React.FC;
+  handleVerificationCopy?: (message: string, value: string) => void;
+}
+
+const AuditContextProvider = <Event,>({
   children,
   total,
   resultsId,
@@ -115,18 +91,13 @@ const AuditContextProvider: FC<{
   limitOptions = [10, 20, 30, 40, 50],
   root,
   unpublishedRoot,
-  visibilityModel = {},
+  visibilityModel,
   publishedRoots,
   isVerificationCheckEnabled = true,
   rowToLeafIndex,
-}) => {
-  const [visibility, setVisibility_] = useState(
-    cloneDeep({
-      ...DefaultVisibility,
-      ...visibilityModel,
-    })
-  );
-  const [order, setOrder] = useState(DefaultOrder);
+  VerificationModalChildComp,
+  handleVerificationCopy,
+}: AuditContextProviderProps<Event>): JSX.Element => {
   const [offset, setOffset] = useState<number>(0);
   const [limit, setLimit] = useState<number>(
     !!propLimit ? Number(propLimit) : 20
@@ -135,21 +106,10 @@ const AuditContextProvider: FC<{
   const [consistency, setConsistency] = useState<Record<string, boolean>>({});
   const consistencyRef = useRef({});
 
-  const setVisibility = (vis: Partial<Record<keyof Audit.Event, boolean>>) => {
-    setVisibility_({
-      ...vis,
-      ...visibilityModel,
-    });
-  };
-
   return (
     <AuditContext.Provider
       value={{
         visibilityModel,
-        visibility,
-        order: order.filter((fieldName) => !get(visibilityModel, fieldName)),
-        setVisibility,
-        setOrder,
         offset,
         setOffset,
         total,
@@ -169,7 +129,11 @@ const AuditContextProvider: FC<{
         publishedRoots,
         rowToLeafIndex,
         consistencyRef,
+
+        // Verification Controls
         isVerificationCheckEnabled,
+        VerificationModalChildComp,
+        handleVerificationCopy,
       }}
     >
       {children}
@@ -337,9 +301,16 @@ export const useVerification = (
   isConsistent: boolean;
   root?: Audit.Root;
   unpublishedRoot?: Audit.Root;
+  VerificationModalChildComp?: React.FC;
 } => {
-  const { root, unpublishedRoot, proofs, setProofs, consistencyRef } =
-    useAuditContext();
+  const {
+    root,
+    unpublishedRoot,
+    proofs,
+    setProofs,
+    consistencyRef,
+    VerificationModalChildComp,
+  } = useAuditContext();
   const {
     isConsistent,
     transactionId,
@@ -387,6 +358,7 @@ export const useVerification = (
       isConsistent,
       root,
       unpublishedRoot,
+      VerificationModalChildComp,
     };
   }
 
@@ -399,6 +371,7 @@ export const useVerification = (
     isConsistent,
     root,
     unpublishedRoot,
+    VerificationModalChildComp,
   };
 };
 
