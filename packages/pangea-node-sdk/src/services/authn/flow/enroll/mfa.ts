@@ -13,30 +13,27 @@ export default class FlowEnrollMFA extends BaseService {
   start(
     flowID: string,
     mfaProvider: AuthN.MFAProvider,
-    { phone }: AuthN.Flow.Enroll.MFA.StartOptions
+    options: AuthN.Flow.Enroll.MFA.StartOptions
   ): Promise<PangeaResponse<AuthN.Flow.Result>> {
     const data: AuthN.Flow.Enroll.MFA.StartRequest = {
       flow_id: flowID,
       mfa_provider: mfaProvider,
     };
 
-    if (phone) data.phone = phone;
-
+    Object.assign(data, options);
     return this.post("flow/enroll/mfa/start", data);
   }
 
   // #   - path: authn::/v1/flow/enroll/mfa/complete
   complete(
     flowID: string,
-    code: string,
-    { cancel }: AuthN.Flow.Enroll.MFA.CompleteOptions
+    options: AuthN.Flow.Enroll.MFA.CompleteOptions
   ): Promise<PangeaResponse<AuthN.Flow.Result>> {
     const data: AuthN.Flow.Enroll.MFA.CompleteRequest = {
       flow_id: flowID,
-      code: code,
     };
 
-    if (typeof cancel === "boolean") data.cancel = cancel;
+    Object.assign(data, options);
 
     return this.post("flow/enroll/mfa/complete", data);
   }

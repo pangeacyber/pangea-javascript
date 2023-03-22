@@ -13,7 +13,7 @@ export default class UserLogin extends BaseService {
   password(
     email: string,
     password: string,
-    { extra_profile }: AuthN.User.Login.PasswordOptions
+    { extra_profile }: AuthN.User.Login.PasswordOptions = {}
   ): Promise<PangeaResponse<AuthN.User.Login.LoginResult>> {
     const data: AuthN.User.Login.PasswordRequest = {
       email: email,
@@ -32,7 +32,7 @@ export default class UserLogin extends BaseService {
     provider: AuthN.MFAProvider,
     email: string,
     socialID: string,
-    { extra_profile }: AuthN.User.Login.SocialOptions
+    { extra_profile }: AuthN.User.Login.SocialOptions = {}
   ): Promise<PangeaResponse<AuthN.User.Login.LoginResult>> {
     const data: AuthN.User.Login.SocialRequest = {
       provider: provider,

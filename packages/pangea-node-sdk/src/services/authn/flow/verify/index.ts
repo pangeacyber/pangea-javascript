@@ -40,11 +40,15 @@ export default class FlowVerify extends BaseService {
   }
 
   // #   - path: authn::/v1/flow/verify/password
-  password(flowID: string, password: string): Promise<PangeaResponse<AuthN.Flow.Result>> {
+  password(
+    flowID: string,
+    options: AuthN.Flow.Verify.PasswordOptions
+  ): Promise<PangeaResponse<AuthN.Flow.Result>> {
     const data: AuthN.Flow.Verify.PasswordRequest = {
       flow_id: flowID,
-      password: password,
     };
+
+    Object.assign(data, options);
     return this.post("flow/verify/password", data);
   }
 

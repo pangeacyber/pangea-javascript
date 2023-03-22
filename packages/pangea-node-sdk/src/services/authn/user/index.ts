@@ -44,14 +44,15 @@ export default class User extends BaseService {
   create(
     email: string,
     authenticator: string,
-    { id_provider, verified, require_mfa, profile, scopes }: AuthN.User.CreateOptions
+    idProvider: AuthN.IDProvider,
+    { verified, require_mfa, profile, scopes }: AuthN.User.CreateOptions = {}
   ): Promise<PangeaResponse<AuthN.User.CreateResult>> {
     const data: AuthN.User.CreateRequest = {
       email: email,
       authenticator: authenticator,
+      id_provider: idProvider,
     };
 
-    if (id_provider) data.id_provider = id_provider;
     if (typeof verified === "boolean") data.verified = verified;
     if (typeof require_mfa === "boolean") data.require_mfa = require_mfa;
     if (profile) data.profile = profile;
@@ -66,7 +67,7 @@ export default class User extends BaseService {
     email: string,
     callback: string,
     state: string,
-    { invite_org, require_mfa }: AuthN.User.InviteOptions
+    { invite_org, require_mfa }: AuthN.User.InviteOptions = {}
   ): Promise<PangeaResponse<AuthN.User.InviteResult>> {
     const data: AuthN.User.InviteRequest = {
       inviter,

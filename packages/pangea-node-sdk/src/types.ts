@@ -794,12 +794,6 @@ export namespace Vault {
 }
 
 export namespace AuthN {
-  export interface PasswordUpdateRequest {
-    email: string;
-    old_secret: string;
-    new_secret: string;
-  }
-
   export enum IDProvider {
     FACEBOOK = "facebook",
     GITHUB = "github",
@@ -838,15 +832,6 @@ export namespace AuthN {
     last_login_at: string;
   }
 
-  // export interface UserProfileUpdateRequest {
-  //   profile: Profile;
-  //   identity?: string;
-  //   email?: string | null;
-  //   require_mfa?: boolean | null;
-  //   mfa_value?: string;
-  //   mfa_provider?: MFAProvider;
-  // }
-
   export interface PasswordRequirements {
     password_chars_min: number;
     password_chars_max: number;
@@ -872,6 +857,14 @@ export namespace AuthN {
     scopes: Scopes;
     profile: Profile;
     created_at: string;
+  }
+
+  export namespace Password {
+    export interface UpdateRequest {
+      email: string;
+      old_secret: string;
+      new_secret: string;
+    }
   }
 
   export namespace Flow {
@@ -923,6 +916,20 @@ export namespace AuthN {
       };
     }
 
+    export namespace Reset {
+      export interface PasswordOptions {
+        cb_state?: string;
+        cb_code?: string;
+      }
+
+      export interface PasswordRequest extends PasswordOptions {
+        flow_id: string;
+        password: string;
+      }
+
+      export interface PasswordResult extends Flow.Result {}
+    }
+
     export namespace Enroll {
       export namespace MFA {
         export interface StartRequest extends StartOptions {
@@ -936,10 +943,10 @@ export namespace AuthN {
 
         export interface CompleteRequest extends CompleteOptions {
           flow_id: string;
-          code: string;
         }
         export interface CompleteOptions {
           cancel?: boolean;
+          code?: string;
         }
       }
     }
@@ -956,9 +963,13 @@ export namespace AuthN {
         cb_code: string;
       }
 
+      export interface PasswordOptions {
+        password?: string;
+        cancel?: boolean;
+      }
+
       export interface PasswordRequest {
         flow_id: string;
-        password: string;
       }
 
       export interface SocialRequest {
@@ -975,10 +986,10 @@ export namespace AuthN {
 
         export interface CompleteOptions {
           cancel?: boolean;
+          code?: string;
         }
         export interface CompleteRequest extends CompleteOptions {
           flow_id: string;
-          code: string;
         }
       }
     }
@@ -999,6 +1010,7 @@ export namespace AuthN {
     export interface StartOptions {
       email?: string;
       flow_types?: FlowType[];
+      provider?: AuthN.IDProvider;
     }
 
     export namespace Signup {
@@ -1079,7 +1091,6 @@ export namespace AuthN {
 
   export namespace User {
     export interface CreateOptions {
-      id_provider?: IDProvider;
       verified?: boolean;
       require_mfa?: boolean;
       profile?: Profile;
@@ -1089,6 +1100,7 @@ export namespace AuthN {
     export interface CreateRequest extends CreateOptions {
       email: string;
       authenticator: string;
+      id_provider: IDProvider;
     }
 
     export interface CreateResult {
@@ -1266,6 +1278,7 @@ export namespace AuthN {
         authenticator?: string | null;
         disabled?: boolean | null;
         require_mfa?: boolean | null;
+        verified?: boolean | null;
       }
     }
 
@@ -1282,11 +1295,12 @@ export namespace AuthN {
       email: string;
       profile: Profile;
       scopes: Scopes;
-      id_provider: IDProvider;
+      id_provider: string;
       require_mfa: boolean;
+      mfa_providers: string[];
       verified: boolean;
       disabled: boolean;
-      last_login_at: string;
+      last_login_at?: string;
     }
   }
 }

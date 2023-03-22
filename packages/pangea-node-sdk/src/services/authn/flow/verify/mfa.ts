@@ -12,16 +12,13 @@ export default class FlowVerifyMFA extends BaseService {
   // #   - path: authn::/v1/flow/verify/mfa/complete
   complete(
     flowID: string,
-    code: string,
-    { cancel }: AuthN.Flow.Verify.MFA.CompleteOptions
+    options: AuthN.Flow.Verify.MFA.CompleteOptions
   ): Promise<PangeaResponse<AuthN.Flow.Result>> {
     const data: AuthN.Flow.Verify.MFA.CompleteRequest = {
       flow_id: flowID,
-      code: code,
     };
 
-    if (typeof cancel === "boolean") data.cancel = cancel;
-
+    Object.assign(data, options);
     return this.post("flow/verify/mfa/complete", data);
   }
 

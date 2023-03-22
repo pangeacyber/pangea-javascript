@@ -35,16 +35,14 @@ export default class UserMFA extends BaseService {
   start(
     userID: string,
     mfaProvider: AuthN.MFAProvider,
-    { enroll, phone }: AuthN.User.MFA.StartOptions
+    options: AuthN.User.MFA.StartOptions
   ): Promise<PangeaResponse<AuthN.User.MFA.StartResult>> {
     const data: AuthN.User.MFA.StartRequest = {
       user_id: userID,
       mfa_provider: mfaProvider,
     };
 
-    if (typeof enroll === "boolean") data.enroll = enroll;
-    if (phone) data.phone = phone;
-
+    Object.assign(data, options);
     return this.post("user/mfa/start", data);
   }
 
