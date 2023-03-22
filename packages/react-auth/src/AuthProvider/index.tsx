@@ -9,7 +9,6 @@ import {
   useRef,
   useState,
 } from "react";
-import throttle from "lodash/throttle";
 
 import AuthNClient from "@src/AuthNClient";
 import { toUrlEncoded, generateBase58 } from "../shared/utils";
@@ -17,7 +16,8 @@ import {
   getStorageAPI,
   getSessionData,
   getSessionToken,
-  getRefreshToken,
+  getAllTokens,
+  getTokenCookieFields,
   getUserFromResponse,
   hasAuthParams,
   saveSessionData,
@@ -166,9 +166,7 @@ export const AuthProvider: FC<AuthProviderProps> = ({
   };
 
   useEffect(() => {
-    // TODO: Combine into one function call
-    const token = getSessionToken(options);
-    const expire = getTokenExpire(options);
+    const [token, expire] = getTokenCookieFields(options.cookieName as string);
 
     if (hasAuthParams()) {
       // if code and secret params are set, exchange code for a token
@@ -207,6 +205,9 @@ export const AuthProvider: FC<AuthProviderProps> = ({
         intervalId.current = null;
       }
     } else {
+      setLoading(true);
+      checkTokenLife();
+      setLoading(false);
       startTokenWatch();
     }
   };
@@ -345,16 +346,15 @@ export const AuthProvider: FC<AuthProviderProps> = ({
   }, []);
 
   const refresh = async () => {
-    const sessionData = getSessionData(options);
-    const activeToken = getSessionToken(options) || "";
-    const refreshToken = getRefreshToken(options) || "";
+    const { sessionToken, refreshToken } = getAllTokens(options);
 
     const { success, response } = await client.refresh(
-      activeToken,
+      sessionToken,
       refreshToken
     );
 
     if (success) {
+      const sessionData = getSessionData(options);
       const user: AuthUser = getUserFromResponse(response);
       sessionData.user = user;
       saveSessionData(sessionData, options);
