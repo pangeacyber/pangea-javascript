@@ -15,8 +15,9 @@ import {
   getSessionData,
   getUserFromResponse,
   getSessionToken,
+  getAllTokens,
+  getTokenCookieFields,
   getTokenExpire,
-  getRefreshToken,
   hasAuthParams,
   saveSessionData,
   setTokenCookies,
@@ -88,9 +89,7 @@ export const ComponentAuthProvider: FC<ComponentAuthProviderProps> = ({
 
   // load data from local storage, and params from URL
   useEffect(() => {
-    // TODO: Combine into one function call
-    const token = getSessionToken(options);
-    const expire = getTokenExpire(options);
+    const [token, expire] = getTokenCookieFields(options.cookieName as string);
 
     // save callback params if set
     if (hasAuthParams()) {
@@ -136,6 +135,9 @@ export const ComponentAuthProvider: FC<ComponentAuthProviderProps> = ({
         intervalId.current = null;
       }
     } else {
+      setLoading(true);
+      checkTokenLife();
+      setLoading(false);
       startTokenWatch();
     }
   };
@@ -144,8 +146,6 @@ export const ComponentAuthProvider: FC<ComponentAuthProviderProps> = ({
     const { success, response } = await client.validate(token);
 
     if (success) {
-      const sessionData = getSessionData(options);
-
       setAuthenticated(true);
     } else {
       if (response.status === "InvalidToken") {
@@ -179,16 +179,15 @@ export const ComponentAuthProvider: FC<ComponentAuthProviderProps> = ({
   }, []);
 
   const refresh = async () => {
-    const sessionData = getSessionData(options);
-    const activeToken = getSessionToken(options) || "";
-    const refreshToken = getRefreshToken(options) || "";
+    const { sessionToken, refreshToken } = getAllTokens(options);
 
     const { success, response } = await client.refresh(
-      activeToken,
+      sessionToken,
       refreshToken
     );
 
     if (success) {
+      const sessionData = getSessionData(options);
       const user: AuthUser = getUserFromResponse(response);
       sessionData.user = user;
       saveSessionData(sessionData, options);

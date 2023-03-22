@@ -72,28 +72,38 @@ export const getSessionToken = (options: ProviderOptions) => {
 export const getRefreshToken = (options: ProviderOptions) => {
   if (options.useCookie) {
     return getTokenFromCookie(options.refreshCookieName as string);
+  } else {
+    const data = getSessionData(options);
+    return data?.user?.refresh_token?.token;
   }
+};
 
-  const data = getSessionData(options);
-  return data?.user?.refresh_token?.token;
+export const getAllTokens = (options: ProviderOptions) => {
+  const sessionToken = getSessionToken(options) || "";
+  const refreshToken = getRefreshToken(options) || "";
+
+  return { sessionToken, refreshToken };
+};
+
+export const getTokenCookieFields = (name: string) => {
+  const cookies = getCookies();
+  const cookie = cookies[name] || "";
+  const [token, expire] = cookie.split(",");
+
+  return [token || "", expire || ""];
 };
 
 /*
-  Backwards compatibility support for fetching the token by name
+  Support for fetching a token by name
 */
-export const getTokenFromCookie = (name: string, raw = false): string => {
+export const getTokenFromCookie = (name: string): string => {
   const cookies = getCookies();
   const cookie = cookies[name];
 
-  // return the full value if `raw` is true
-  if (raw) {
-    return cookie;
-  }
-
   // token cookie should contain the value and expiration timestamp separated by a comma
   if (cookie) {
-    const parts = cookie.split(",");
-    return parts[0];
+    const [token] = cookie.split(",");
+    return token || "";
   } else {
     return "";
   }
@@ -135,19 +145,12 @@ export const getUserFromResponse = (data: APIResponse): AuthUser => {
 // Get the expire value of the session token, from cookie or storage
 export const getTokenExpire = (options: ProviderOptions) => {
   if (options.useCookie) {
-    const fullTokenData = getTokenFromCookie(
-      options.cookieName as string,
-      true
-    );
-
-    // return empty string if no cookie was found
-    if (!fullTokenData) return "";
-    const parts = fullTokenData.split(",");
-    return parts.length > 1 ? parts[1] : "";
+    const [_, expire] = getTokenCookieFields(options.cookieName as string);
+    return expire;
   } else {
     const sessionData: SessionData = getSessionData(options);
     const user: AuthUser | undefined = sessionData.user;
-    return user?.refresh_token?.expire;
+    return user?.refresh_token?.expire || "";
   }
 };
 
