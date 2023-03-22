@@ -4,12 +4,16 @@ import { FC } from "react";
 import { Tooltip, Typography, Chip, Stack } from "@mui/material";
 import { lighten, useTheme } from "@mui/material/styles";
 import { PDG } from "../types";
+import { limitCharacters } from "../../../utils";
 
 export const TextCell: FC<PDG.CellProps> = ({ params }) => {
   const { value } = params;
 
   return (
-    <Tooltip title={value ?? ""} placement="bottom-start">
+    <Tooltip
+      title={limitCharacters(value ?? "", 1000)}
+      placement="bottom-start"
+    >
       <Typography variant="body2">{value}</Typography>
     </Tooltip>
   );

@@ -1,19 +1,21 @@
-import { useMemo } from "react";
+import { useMemo, useState, useEffect } from "react";
 import merge from "lodash/merge";
 import pick from "lodash/pick";
 import map from "lodash/map";
 import get from "lodash/get";
+import some from "lodash/some";
 import cloneDeep from "lodash/cloneDeep";
 import keyBy from "lodash/keyBy";
 import mapValues from "lodash/mapValues";
 
-import { Audit } from "../types";
+import { Audit, AuthConfig } from "../types";
 import { GridColDef } from "@mui/x-data-grid";
 import {
   FilterOptions,
   PDG,
   useGridSchemaColumns,
 } from "@pangeacyber/react-mui-shared";
+import { AuditErrorsColumn } from "../components/AuditLogViewerComponent/errorColumn";
 
 export const DEFAULT_AUDIT_SCHEMA: Audit.Schema = {
   client_signable: true,
@@ -23,7 +25,7 @@ export const DEFAULT_AUDIT_SCHEMA: Audit.Schema = {
       id: "received_at",
       name: "Time",
       type: "datetime",
-      uiDefaultVisible: true,
+      ui_default_visible: true,
     },
     {
       id: "timestamp",
@@ -83,9 +85,70 @@ export const DEFAULT_AUDIT_SCHEMA: Audit.Schema = {
       name: "Message",
       type: "string",
       size: 32766,
-      uiDefaultVisible: true,
+      ui_default_visible: true,
     },
   ],
+};
+
+export const useSchema = (
+  auth: AuthConfig | undefined,
+  schemaProp: Audit.Schema | undefined
+): {
+  schema: Audit.Schema;
+  loading: boolean;
+  error: string | null;
+} => {
+  const [schema_, setSchema_] = useState<Audit.Schema>(DEFAULT_AUDIT_SCHEMA);
+  const [error, setError] = useState<string | null>(null);
+  const [loading, setLoading] = useState(false);
+
+  useEffect(() => {
+    if (!auth || !!schemaProp) return;
+    if (!auth?.clientToken || !auth?.domain) {
+      setError(
+        "Invalid authentication. Both clientToken and domain are required."
+      );
+      return;
+    }
+
+    setLoading(true);
+    fetch(`https://audit.${auth.domain}/v1/schema`, {
+      method: "POST",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${auth.clientToken}`,
+      },
+      body: JSON.stringify({}),
+    }).then(async (res) => {
+      const data = await res.json();
+      if (data.result && Array.isArray(data.result?.fields)) {
+        setSchema_({
+          ...data.result,
+          fields: [
+            {
+              id: "received_at",
+              name: "Time",
+              type: "datetime",
+              ui_default_visible: true,
+            },
+            ...data.result.fields,
+          ],
+        });
+        setError(null);
+      } else
+        setError(data.summary ?? "Unable to retrieve branding configuration");
+
+      setLoading(false);
+      return;
+    });
+  }, [auth?.clientToken, auth?.domain]);
+
+  useEffect(() => {
+    if (error) console.error(error);
+  }, [error]);
+
+  return { schema: schemaProp ?? schema_, loading, error };
 };
 
 const COLUMN_TYPE_MAP = {
@@ -132,6 +195,21 @@ export const useAuditColumns = <Event,>(
   }, [fields, schema]);
 
   const columns = useGridSchemaColumns(gridFields);
+  return columns;
+};
+
+export const useAuditColumnsWithErrors = <Event,>(
+  schemaColumns: GridColDef[],
+  logs: Audit.FlattenedAuditRecord<Event>[]
+) => {
+  const hasErrors = some(logs, "err");
+  const columns = useMemo(() => {
+    if (hasErrors) {
+      return [AuditErrorsColumn, ...schemaColumns];
+    }
+
+    return schemaColumns;
+  }, [hasErrors]);
 
   return columns;
 };
@@ -142,7 +220,7 @@ export const useDefaultVisibility = <Event,>(schema: Audit.Schema) => {
 
     return mapValues(
       keyBy(schemaFields, "id"),
-      (field) => !!field.uiDefaultVisible
+      (field) => !!field.ui_default_visible
     );
   }, [schema]);
 

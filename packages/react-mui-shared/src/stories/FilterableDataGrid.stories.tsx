@@ -10,6 +10,7 @@ import PangeaDataGrid, {
   PangeaDataGridProps,
 } from "../components/PangeaDataGrid";
 import { Show, SHOWS } from "./data/television";
+import { TextCell } from "../components/PangeaDataGrid/cells";
 
 export default {
   title: "PangeaDataGrid",
@@ -92,10 +93,12 @@ FilterableDataGrid.args = {
     {
       field: "title",
       width: 200,
+      renderCell: (params) => <TextCell params={params} />,
     },
     {
       field: "description",
       flex: 10,
+      renderCell: (params) => <TextCell params={params} />,
     },
   ],
   data: SHOWS,

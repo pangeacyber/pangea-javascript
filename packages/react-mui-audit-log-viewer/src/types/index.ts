@@ -8,6 +8,12 @@ export namespace Audit {
     hotstorage: string;
   }
 
+  export interface FieldError {
+    field: string;
+    value: string;
+    error: string;
+  }
+
   export interface DefaultEvent {
     action?: string;
     actor?: string;
@@ -22,6 +28,9 @@ export namespace Audit {
 
     // FIXME: This is part of Envelope
     received_at?: string;
+
+    // Internal Field
+    err?: string;
   }
 
   export interface Envelope<Event = DefaultEvent> {
@@ -43,6 +52,9 @@ export namespace Audit {
     extends AuditRecord,
       Envelope {
     id: number;
+
+    // Internal Field
+    err?: string;
   }
 
   export interface VerificationArtifact<Event = DefaultEvent> {
@@ -132,7 +144,7 @@ export namespace Audit {
     description?: string;
     name: string;
 
-    uiDefaultVisible?: boolean;
+    ui_default_visible?: boolean;
 
     // Breaking
     required?: boolean;
@@ -147,4 +159,9 @@ export namespace Audit {
     tamper_proofing: boolean;
     fields: SchemaField[];
   }
+}
+
+export interface AuthConfig {
+  clientToken: string;
+  domain: string;
 }
