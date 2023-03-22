@@ -21,7 +21,9 @@ export const SHOWS: Show[] = [
     id: 3,
     title: "The Wire",
     description:
-      "This series looks at the narcotics scene in Baltimore through the eyes of law enforcers as well as the drug dealers and users. Other facets of the city that are explored in the series are the government and bureaucracy, schools and the news media.",
+      "This series looks at the narcotics scene in Baltimore through the eyes of law enforcers as well as the drug dealers and users. Other facets of the city that are explored in the series are the government and bureaucracy, schools and the news media.".repeat(
+        100
+      ),
   },
   {
     id: 4,

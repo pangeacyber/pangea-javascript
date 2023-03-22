@@ -21,7 +21,7 @@ const AUDIT_SCHEMA: Audit.Schema = {
       id: "received_at",
       name: "Time",
       type: "datetime",
-      uiDefaultVisible: true,
+      ui_default_visible: true,
     },
     {
       id: "actor",
@@ -34,7 +34,7 @@ const AUDIT_SCHEMA: Audit.Schema = {
       name: "Action",
       type: "string",
       size: 32766,
-      uiDefaultVisible: true,
+      ui_default_visible: true,
     },
     {
       id: "status",
@@ -71,7 +71,7 @@ const AUDIT_SCHEMA: Audit.Schema = {
       name: "Message",
       type: "string",
       size: 32766,
-      uiDefaultVisible: true,
+      ui_default_visible: true,
     },
   ],
 };
@@ -79,7 +79,7 @@ const AUDIT_SCHEMA: Audit.Schema = {
 const ThemeTemplate: ComponentStory<typeof AuditLogViewer> = (args) => (
   <PangeaThemeProvider>
     <Box className="widget" sx={{ padding: 1 }}>
-      <AuditLogViewer {...args} schema={AUDIT_SCHEMA} />
+      <AuditLogViewer {...args} />
     </Box>
   </PangeaThemeProvider>
 );
@@ -144,5 +144,9 @@ VerificationAuditLogViewer.args = {
           console.log(err);
         });
     },
+  },
+  config: {
+    domain: process.env.STORYBOOK_SERVICE_DOMAIN ?? "",
+    clientToken: process.env.STORYBOOK_CLIENT_TOKEN ?? "",
   },
 };

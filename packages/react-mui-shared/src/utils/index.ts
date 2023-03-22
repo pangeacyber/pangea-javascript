@@ -13,6 +13,16 @@ export const getISO = (date: any): string => {
   return "";
 };
 
+export const limitCharacters = (value: string, limit: number) => {
+  let value_ = value.substring(0, limit);
+
+  if (value.length > limit) {
+    value_ = value_ + "...";
+  }
+
+  return value_;
+};
+
 export const getTransformValue = (
   transform: string
 ): { x: number; y: number } => {
