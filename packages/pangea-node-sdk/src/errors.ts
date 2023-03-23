@@ -58,6 +58,15 @@ export namespace PangeaErrors {
     get errors(): ErrorField[] {
       return this.response.result?.errors || ([] as ErrorField[]);
     }
+
+    toString(): string {
+      let ret = "";
+      ret += this.response.summary + "\n";
+      (this.response.result?.errors || []).forEach((ef) => {
+        ret += "\t" + ef.detail + "\n";
+      });
+      return ret;
+    }
   }
 
   //Pangea Validation Errors denoting issues with an API request
@@ -73,6 +82,13 @@ export namespace PangeaErrors {
     constructor(message: string, response: PangeaResponse<any>) {
       super(message, response);
       this.name = "RateLimiteError";
+    }
+  }
+
+  export class NotFound extends APIError {
+    constructor(url: string, response: PangeaResponse<any>) {
+      super("Resource " + url + " not found", response);
+      this.name = "NotFound";
     }
   }
 
@@ -125,10 +141,11 @@ export namespace PangeaErrors {
   }
 
   // A pangea service error
-  export class InternalServiceErrorError extends APIError {
-    constructor(message: string, response: PangeaResponse<any>) {
+  export class InternalServerError extends APIError {
+    constructor(response: PangeaResponse<any>) {
+      const message = `summary: ${response.summary}. request_id: ${response.request_id}. request_time: ${response.request_time}. response_time: ${response.response_time}`;
       super(message, response);
-      this.name = "InternalServiceError";
+      this.name = "InternalServerError";
     }
   }
 
@@ -144,6 +161,13 @@ export namespace PangeaErrors {
     constructor(message: string, response: PangeaResponse<any>) {
       super(message, response);
       this.name = "InvalidPayloadReceived";
+    }
+  }
+
+  export class ForbiddenVaultOperation extends APIError {
+    constructor(message: string, response: PangeaResponse<any>) {
+      super(message, response);
+      this.name = "ForbiddenVaultOperation";
     }
   }
 }

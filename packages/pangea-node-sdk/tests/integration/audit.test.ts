@@ -25,9 +25,10 @@ const JSON_OLD_DATA = {
 };
 const environment = TestEnvironment.LIVE;
 const token = getTestToken(environment);
-const testHost = getTestDomain(environment);
-const config = new PangeaConfig({ domain: testHost });
+const domain = getTestDomain(environment);
+const config = new PangeaConfig({ domain: domain });
 const audit = new AuditService(token, config);
+const auditWithTenantId = new AuditService(token, config, "mytenantid");
 
 it("log an audit event. no verbose", async () => {
   const event: Audit.Event = {
@@ -68,6 +69,30 @@ it("log an audit event. verbose but no verify", async () => {
   expect(response.result.consistency_verification).toBeUndefined();
   expect(response.result.membership_verification).toBeUndefined();
   expect(response.result.signature_verification).toBe("none");
+});
+
+it("log an audit event with tenant_id", async () => {
+  const event: Audit.Event = {
+    actor: ACTOR,
+    message: MSG_NO_SIGNED,
+    status: STATUS_NO_SIGNED,
+  };
+
+  const options: Audit.LogOptions = {
+    verbose: true, // set verbose to true
+  };
+
+  const response = await auditWithTenantId.log(event, options);
+
+  expect(response.status).toBe("Success");
+  expect(typeof response.result.hash).toBe("string");
+  expect(response.result.envelope).toBeDefined();
+  expect(response.result.consistency_proof).toBeUndefined();
+  expect(response.result.membership_proof).toBeDefined();
+  expect(response.result.consistency_verification).toBeUndefined();
+  expect(response.result.membership_verification).toBeUndefined();
+  expect(response.result.signature_verification).toBe("none");
+  expect(response.result.envelope.event.tenant_id).toBe("mytenantid");
 });
 
 it("log an audit event. verbose and verify", async () => {
@@ -157,6 +182,37 @@ it("log an event, local sign and verify", async () => {
   };
 
   const respLog = await audit.log(event, {
+    verbose: true,
+    signer: signer,
+    signMode: Audit.SignOptions.Local,
+  });
+  expect(respLog.status).toBe("Success");
+  expect(typeof respLog.result.hash).toBe("string");
+
+  const query = "message:" + MSG_SIGNED_LOCAL + " actor:" + ACTOR;
+  const queryOptions: Audit.SearchParamsOptions = {
+    limit: 1,
+  };
+
+  const respSearch = await audit.search(query, queryOptions, {});
+  const searchEvent = respSearch.result.events[0];
+  expect(searchEvent.signature_verification).toBe("pass");
+  expect(searchEvent.envelope.public_key).toBe("lvOyDMpK2DQ16NI8G41yINl01wMHzINBahtDPoh4+mE=");
+});
+
+it("log an event, local sign and tenant id", async () => {
+  const event: Audit.Event = {
+    message: MSG_SIGNED_LOCAL,
+    source: "Source",
+    status: "Status",
+    target: "Target",
+    actor: ACTOR,
+    action: "Action",
+    new: "New",
+    old: "Old",
+  };
+
+  const respLog = await auditWithTenantId.log(event, {
     verbose: true,
     signer: signer,
     signMode: Audit.SignOptions.Local,

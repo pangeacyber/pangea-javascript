@@ -5,11 +5,12 @@ Setup
 ```
 % npm install
 % export PANGEA_EMBARGO_TOKEN=<PANGEA-EMBARGO-TOKEN>
+% export PANGEA_DOMAIN="aws.us.pangea.cloud"    // Check this url in your project config page
 ```
 
 Run examples
 
 ```
-% node ip_check.mjs
-% node iso_check.mjs
+% node ipCheck.mjs
+% node isoCheck.mjs
 ```

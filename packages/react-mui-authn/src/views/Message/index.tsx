@@ -6,13 +6,13 @@ import { ThemeOptions } from "@mui/material/styles";
 import AuthNPanel from "@src/components/core/Panel";
 import StatusBox from "@src/components/core/Status";
 
-interface MessageViewProps {
+interface MessageViewComponentProps {
   config: any; // TODO: add shared interface
   themeOptions?: ThemeOptions;
   sx?: SxProps;
 }
 
-const MessageView: FC<MessageViewProps> = ({
+const MessageView: FC<MessageViewComponentProps> = ({
   config,
   themeOptions,
   sx,

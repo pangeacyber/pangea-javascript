@@ -1,0 +1,14 @@
+{
+  "name": "vault_examples",
+  "version": "1.0.0",
+  "description": "Pangea Vault examples",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Pangea",
+  "license": "MIT",
+  "dependencies": {
+    "pangea-node-sdk": "^1.5.0"
+  }
+}

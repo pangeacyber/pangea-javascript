@@ -1,4 +1,4 @@
-import { FC, useMemo, useState } from "react";
+import { FC, ReactNode, useMemo, useState } from "react";
 import keyBy from "lodash/keyBy";
 
 import { SxProps } from "@mui/system";
@@ -6,33 +6,44 @@ import { DataGridProps, GridColDef } from "@mui/x-data-grid";
 
 import AuditLogViewerComponent from "./components/AuditLogViewerComponent";
 
-import { Audit } from "./types";
+import { Audit, AuthConfig } from "./types";
 import AuditContextProvider from "./hooks/context";
 import { usePublishedRoots } from "./hooks/root";
 import { PublicAuditQuery } from "./utils/query";
+import { DEFAULT_AUDIT_SCHEMA, useSchema } from "./hooks/schema";
 
-export interface AuditLogViewerProps {
+export interface AuditLogViewerProps<Event = Audit.DefaultEvent> {
+  initialQuery?: string;
   onSearch: (body: Audit.SearchRequest) => Promise<Audit.SearchResponse>;
   onPageChange: (body: Audit.ResultRequest) => Promise<Audit.ResultResponse>;
   verificationOptions?: {
     onFetchRoot: (body: Audit.RootRequest) => Promise<Audit.RootResponse>;
+    ModalChildComponent?: FC;
+    onCopy?: (message: string, value: string) => void;
   };
   sx?: SxProps;
   pageSize?: number;
   dataGridProps?: Partial<DataGridProps>;
 
-  fields?: Partial<Record<keyof Audit.Event, Partial<GridColDef>>>;
-  visibilityModel?: Partial<Record<keyof Audit.Event, boolean>>;
+  fields?: Partial<Record<keyof Event, Partial<GridColDef>>>;
+  visibilityModel?: Partial<Record<keyof Event, boolean>>;
 
   filters?: PublicAuditQuery;
+
+  config?: AuthConfig;
+  schema?: Audit.Schema;
 }
 
-const AuditLogViewerWithProvider: FC<AuditLogViewerProps> = ({
+const AuditLogViewerWithProvider = <Event,>({
   onSearch,
   onPageChange,
   verificationOptions,
+  config,
+  schema: schemaProp,
   ...props
-}) => {
+}: AuditLogViewerProps<Event>): JSX.Element => {
+  const { schema } = useSchema(config, schemaProp);
+
   const [loading, setLoading] = useState(false);
   const [searchResponse, setSearchResponse] = useState<
     Audit.SearchResponse | undefined
@@ -53,10 +64,7 @@ const AuditLogViewerWithProvider: FC<AuditLogViewerProps> = ({
       })
       .catch((err) => {
         setLoading(false);
-
-        // FIXME: Can we assume how to show erros?
-        // FIXME: onError, default way to display search errors
-        // showNotification(parseError(err));
+        console.error(`Error from search handler - ${err}`);
       });
   };
 
@@ -71,8 +79,7 @@ const AuditLogViewerWithProvider: FC<AuditLogViewerProps> = ({
       })
       .catch((err) => {
         setLoading(false);
-        // FIXME: handleException, default way to display search errors
-        // showNotification(parseError(err));
+        console.error(`Error from search handler - ${err}`);
       });
   };
 
@@ -126,12 +133,15 @@ const AuditLogViewerWithProvider: FC<AuditLogViewerProps> = ({
       limit={limit}
       // Props required for calculating verification
       isVerificationCheckEnabled={isVerificationCheckEnabled}
+      VerificationModalChildComp={verificationOptions?.ModalChildComponent}
+      handleVerificationCopy={verificationOptions?.onCopy}
       root={root}
       unpublishedRoot={unpublishedRoot}
       publishedRoots={publishedRoots}
       rowToLeafIndex={rowToLeafIndex}
     >
       <AuditLogViewerComponent
+        schema={schema}
         logs={logs}
         root={root}
         loading={loading}

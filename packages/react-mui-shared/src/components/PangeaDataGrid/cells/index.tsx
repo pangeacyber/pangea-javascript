@@ -3,22 +3,23 @@ import { FC } from "react";
 
 import { Tooltip, Typography, Chip, Stack } from "@mui/material";
 import { lighten, useTheme } from "@mui/material/styles";
+import { PDG } from "../types";
+import { limitCharacters } from "../../../utils";
 
-export interface CellProps {
-  params: GridRenderCellParams;
-}
-
-export const TextCell: FC<CellProps> = ({ params }) => {
+export const TextCell: FC<PDG.CellProps> = ({ params }) => {
   const { value } = params;
 
   return (
-    <Tooltip title={value ?? ""} placement="bottom-start">
+    <Tooltip
+      title={limitCharacters(value ?? "", 1000)}
+      placement="bottom-start"
+    >
       <Typography variant="body2">{value}</Typography>
     </Tooltip>
   );
 };
 
-export const DateCell: FC<CellProps> = ({ params }) => {
+export const DateCell: FC<PDG.CellProps> = ({ params }) => {
   const { value } = params;
 
   const date = new Date(value);
@@ -28,7 +29,7 @@ export const DateCell: FC<CellProps> = ({ params }) => {
   return <Typography variant="body2">{date.toDateString()}</Typography>;
 };
 
-export const DateTimeCell: FC<CellProps> = ({ params }) => {
+export const DateTimeCell: FC<PDG.CellProps> = ({ params }) => {
   const { value } = params;
 
   const date = new Date(value);
@@ -49,13 +50,13 @@ export const DateTimeCell: FC<CellProps> = ({ params }) => {
   );
 };
 
-export const SingleSelectCell: FC<CellProps> = ({ params }) => {
+export const SingleSelectCell: FC<PDG.CellProps> = ({ params }) => {
   const { value } = params;
 
   return value ? <Chip size="small" label={value} /> : <></>;
 };
 
-export const MultiSelectCell: FC<CellProps> = ({ params }) => {
+export const MultiSelectCell: FC<PDG.CellProps> = ({ params }) => {
   const { value } = params;
   const theme = useTheme();
 

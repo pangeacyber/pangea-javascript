@@ -11,10 +11,10 @@ import {
   verifySignature,
   verifyLogConsistencyProof,
 } from "../utils/verification.js";
-import { canonicalize } from "../utils/utils.js";
+import { canonicalizeEvent } from "../utils/utils.js";
 import { PangeaErrors } from "../errors.js";
 
-const SupportedFields = ["actor", "action", "status", "source", "target", "timestamp"];
+const SupportedFields = ["actor", "action", "status", "source", "target", "timestamp", "tenant_id"];
 const SupportedJSONFields = ["message", "new", "old"];
 
 /**
@@ -24,13 +24,15 @@ const SupportedJSONFields = ["message", "new", "old"];
 class AuditService extends BaseService {
   publishedRoots: PublishedRoots;
   prevUnpublishedRootHash: string | undefined;
+  tenantID: string | undefined;
 
-  constructor(token: string, config: PangeaConfig) {
+  constructor(token: string, config: PangeaConfig, tenantID: string | undefined = undefined) {
     super("audit", token, config);
     this.publishedRoots = {};
     this.publishedRoots = {};
     this.apiVersion = "v1";
     this.prevUnpublishedRootHash = undefined;
+    this.tenantID = tenantID;
   }
 
   /**
@@ -46,6 +48,7 @@ class AuditService extends BaseService {
    *     This can be recorded as free-form text or as a JSON-formatted string.
    *   - new (string|object): The value of a record after it was changed.
    *   - old (string|object): The value of a record before it was changed.
+   *   - tenant_id (string): Used to record the tenant associated with this activity.
    * @param {Object} options - Log options. The following log options are supported:
    *   - verbose (bool): Return a verbose response, including the canonical event hash and received_at time.
    * @returns {Promise} - A promise representing an async call to the log endpoint.
@@ -91,11 +94,16 @@ class AuditService extends BaseService {
       }
     });
 
+    // Always overwrite tenant_id field
+    if (this.tenantID !== undefined) {
+      event.tenant_id = this.tenantID;
+    }
+
     const data: Audit.LogData = { event: event };
 
     if (options.signer && options.signMode == Audit.SignOptions.Local) {
       const signer = options.signer;
-      const eventJson = canonicalize(event);
+      const eventJson = canonicalizeEvent(event);
       const signature = signer.sign(eventJson);
       const pubKey = signer.getPublicKey();
       data.signature = signature;
