@@ -94,7 +94,7 @@ it("User actions test", async () => {
 });
 
 jest.setTimeout(20000);
-it("User actions test", async () => {
+it("Invite actions test", async () => {
   // Invite
   const inviteResp = await authn.user.invite(
     EMAIL_TEST,
