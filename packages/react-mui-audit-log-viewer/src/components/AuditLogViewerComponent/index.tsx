@@ -17,6 +17,7 @@ import { AuditSecureColumn } from "./secureColumn";
 import AuditTimeFilterButton from "./AuditTimeFilterButton";
 import {
   useAuditColumns,
+  useAuditColumnsWithErrors,
   useAuditConditionalOptions,
   useAuditFilterFields,
   useDefaultOrder,
@@ -25,7 +26,7 @@ import {
 
 export interface ViewerProps<Event = Audit.DefaultEvent> {
   initialQuery?: string;
-  logs: Event[];
+  logs: Audit.FlattenedAuditRecord<Event>[];
   schema: Audit.Schema;
   root?: Audit.Root;
   loading: boolean;
@@ -57,7 +58,8 @@ const AuditLogViewerComponent: FC<ViewerProps> = ({
   const defaultVisibility = useDefaultVisibility(schema);
   const defaultOrder = useDefaultOrder(schema);
 
-  const columns = useAuditColumns(schema, fields);
+  const schemaColumns = useAuditColumns(schema, fields);
+  const columns = useAuditColumnsWithErrors(schemaColumns, logs);
   const filterFields = useAuditFilterFields(schema);
   const conditionalOptions = useAuditConditionalOptions(schema);
 

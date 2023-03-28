@@ -54,6 +54,18 @@ ThemedAuditLogViewer.args = {
           actor: "Pepe Silvia",
           received_at: new Date().toISOString(),
           message: "Failed to deliver mail to Pepe Silvia, unable to find",
+          err: JSON.stringify([
+            {
+              field: "old",
+              value: 111,
+              error: "Invalid value type",
+            },
+            {
+              field: "new",
+              value: 111,
+              error: "Invalid value type",
+            },
+          ]),
         },
         {
           envelope: {

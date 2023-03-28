@@ -69,6 +69,9 @@ const AuditPreviewRow: FC<Props> = ({
   // @ts-ignore - An id is needed for mui data grid so one is added.
   const rowId: string = record.id;
 
+  // @ts-ignore - Is an internal optional field used when some incorrect fields are logged
+  const hasErrorValues = !!record.err;
+
   return (
     <Stack
       padding={1}
@@ -111,6 +114,13 @@ const AuditPreviewRow: FC<Props> = ({
                 new: record.new,
               }}
               direction="row"
+              uniqueId={rowId}
+            />
+          )}
+          {hasErrorValues && (
+            <StringJsonField
+              value={get(record, "err")}
+              title="Errors"
               uniqueId={rowId}
             />
           )}
