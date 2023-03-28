@@ -41,7 +41,7 @@ const vault = new VaultService(token, config);
     }
   } catch (err) {
     if (err instanceof PangeaErrors.APIError) {
-      console.log(err.summary, err.pangeaResponse);
+      console.log(err.toString());
     } else {
       throw err;
     }

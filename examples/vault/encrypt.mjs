@@ -15,8 +15,8 @@ const vault = new VaultService(token, config);
   try {
     console.log("Create...");
     const createRespose = await vault.symmetricGenerate(
-      Vault.SymmetricAlgorithm.AES,
-      Vault.KeyPurpose.ENCRYPTING,
+      Vault.SymmetricAlgorithm.AES128_CFB,
+      Vault.KeyPurpose.ENCRYPTION,
       "My key name"
     );
     console.log("Response: %s", createRespose.result);
@@ -25,25 +25,24 @@ const vault = new VaultService(token, config);
     console.log("Encrypt...");
     const text = "mymessagetoencrypt";
     const data = Buffer.from(text, "utf8").toString("base64");
-    const encryptResponse = await vault.sign(keyID, data);
+    const encryptResponse = await vault.encrypt(keyID, data);
     console.log("Response: %s", encryptResponse.result);
 
     console.log("Decrypt...");
     const decryptResponse = await vault.decrypt(
       keyID,
-      data,
       encryptResponse.result.cipher_text
     );
     console.log("Response: %s", decryptResponse.result);
 
-    if (decryptResponse.result.plain_text == text) {
+    if (decryptResponse.result.plain_text == data) {
       console.log("Encrypt/decrypt worked");
     } else {
       console.log("Encrypt/decrypt failed");
     }
   } catch (err) {
     if (err instanceof PangeaErrors.APIError) {
-      console.log(err.summary, err.pangeaResponse);
+      console.log(err.toString());
     } else {
       throw err;
     }
