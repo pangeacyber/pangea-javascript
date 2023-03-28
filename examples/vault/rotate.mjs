@@ -31,7 +31,7 @@ const vault = new VaultService(token, config);
     console.log("Version: ", getV1Response.result.versions[0]);
   } catch (err) {
     if (err instanceof PangeaErrors.APIError) {
-      console.log(err.summary, err.pangeaResponse);
+      console.log(err.toString());
     } else {
       throw err;
     }
