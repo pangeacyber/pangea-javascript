@@ -35,7 +35,7 @@ const vault = new VaultService(token, config);
     );
     console.log("Response: %s", decryptResponse.result);
 
-    if (decryptResponse.result.plain_text == data) {
+    if (decryptResponse.result.plain_text === data) {
       console.log("Encrypt/decrypt worked");
     } else {
       console.log("Encrypt/decrypt failed");

@@ -34,7 +34,7 @@ const vault = new VaultService(token, config);
       signResponse.result.signature
     );
 
-    if (verifyResponse.result.valid_signature == true) {
+    if (verifyResponse.result.valid_signature === true) {
       console.log("Signature is valid");
     } else {
       console.log("Signature is invalid");
