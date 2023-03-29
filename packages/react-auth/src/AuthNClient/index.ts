@@ -54,6 +54,11 @@ export class AuthNClient {
     return await this.post(path, payload);
   }
 
+  async jwks(): Promise<ClientResponse> {
+    const path = "client/jwks";
+    return await this.post(path, {});
+  }
+
   /*
     API Request functions
   */

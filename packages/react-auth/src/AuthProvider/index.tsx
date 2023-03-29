@@ -9,6 +9,7 @@ import {
   useRef,
   useState,
 } from "react";
+import * as jose from "jose";
 
 import AuthNClient from "@src/AuthNClient";
 import { toUrlEncoded, generateBase58 } from "../shared/utils";
@@ -146,6 +147,7 @@ export const AuthProvider: FC<AuthProviderProps> = ({
   const [error, setError] = useState<string>("");
   const [user, setUser] = useState<AuthUser>();
   const intervalId = useRef<number | null>(null);
+  const JWKS = useRef<jose.JSONWebKeySet>({ keys: [] });
 
   const client = useMemo(() => {
     return new AuthNClient(config);
@@ -213,9 +215,23 @@ export const AuthProvider: FC<AuthProviderProps> = ({
   };
 
   const validate = async (token: string) => {
-    const { success, response } = await client.validate(token);
+    let isValid = false;
 
-    if (success) {
+    if (config?.useJwt) {
+      if (await validateJwt(token)) {
+        isValid = true;
+      }
+    } else {
+      const { success, response } = await client.validate(token);
+
+      if (success) {
+        isValid = true;
+      } else {
+        setError(response.summary);
+      }
+    }
+
+    if (isValid) {
       const sessionData = getSessionData(options);
 
       setAuthenticated(true);
@@ -227,8 +243,6 @@ export const AuthProvider: FC<AuthProviderProps> = ({
         };
         onLogin(appState);
       }
-    } else {
-      setError(response.summary);
     }
 
     setLoading(false);
@@ -264,8 +278,16 @@ export const AuthProvider: FC<AuthProviderProps> = ({
       const { success, response } = await client.userinfo(code);
 
       if (success) {
-        if (response.result?.active_token?.token) {
-          processLogin(response);
+        const token = response.result?.active_token?.token;
+
+        if (token) {
+          // if using an opaque token or has a valid JWT
+          if (
+            !config?.useJwt ||
+            (config?.useJwt && (await validateJwt(token)))
+          ) {
+            processLogin(response);
+          }
         } else {
           const msg = "Missing Token";
           setError(msg);
@@ -387,6 +409,48 @@ export const AuthProvider: FC<AuthProviderProps> = ({
     setError("");
     setUser(undefined);
     setAuthenticated(false);
+  };
+
+  const getPublicKeys = async () => {
+    const { success, response } = await client.jwks();
+
+    if (success) {
+      if (response.result?.keys && response.result.keys.length > 0) {
+        JWKS.current = { keys: [...response.result.keys] };
+      } else {
+        console.log("Error: empty JWKS response");
+      }
+    } else {
+      console.log("Error: fetch JWKS failed", response);
+    }
+  };
+
+  const validateJwt = async (token: string) => {
+    // TODO: Take claims to validate from configuration
+    const options = {};
+
+    // fetch public keys if not set
+    if (!JWKS.current?.keys?.length) {
+      await getPublicKeys();
+    }
+
+    try {
+      const keySet = jose.createLocalJWKSet(JWKS.current);
+
+      const { payload, protectedHeader } = await jose.jwtVerify(
+        token,
+        keySet,
+        options
+      );
+      console.log("header", protectedHeader);
+      console.log("payload", payload);
+
+      return true;
+    } catch (error) {
+      setError("JWT verification failed");
+
+      return false;
+    }
   };
 
   const processLogin = (response: APIResponse) => {

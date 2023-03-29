@@ -9,6 +9,7 @@ import {
   useRef,
   useState,
 } from "react";
+import * as jose from "jose";
 
 import AuthNClient from "@src/AuthNClient";
 import {
@@ -74,6 +75,7 @@ export const ComponentAuthProvider: FC<ComponentAuthProviderProps> = ({
   const [user, setUser] = useState<AuthUser>();
   const [cbParams, setCbParams] = useState<CallbackParams>();
   const intervalId = useRef<number | null>(null);
+  const JWKS = useRef<jose.JSONWebKeySet>({ keys: [] });
 
   const client = useMemo(() => {
     return new AuthNClient(config);
@@ -143,17 +145,26 @@ export const ComponentAuthProvider: FC<ComponentAuthProviderProps> = ({
   };
 
   const validate = async (token: string) => {
-    const { success, response } = await client.validate(token);
-
-    if (success) {
-      setAuthenticated(true);
-    } else {
-      if (response.status === "InvalidToken") {
-        setLoggedOut();
+    if (config?.useJwt) {
+      if (await validateJwt(token)) {
+        setAuthenticated(true);
       } else {
-        setError(response);
+        setLoggedOut();
+      }
+    } else {
+      const { success, response } = await client.validate(token);
+
+      if (success) {
+        setAuthenticated(true);
+      } else {
+        if (response.status === "InvalidToken") {
+          setLoggedOut();
+        } else {
+          setError(response);
+        }
       }
     }
+
     setLoading(false);
   };
 
@@ -214,6 +225,64 @@ export const ComponentAuthProvider: FC<ComponentAuthProviderProps> = ({
     setAuthenticated(false);
   };
 
+  const getPublicKeys = async () => {
+    const { success, response } = await client.jwks();
+
+    if (success) {
+      if (response.result?.keys && response.result.keys.length > 0) {
+        JWKS.current = { keys: [...response.result.keys] };
+      } else {
+        console.log("Error: empty JWKS response");
+      }
+    } else {
+      console.log("Error: fetch JWKS failed", response);
+    }
+  };
+
+  const validateJwt = async (token: string) => {
+    // TODO: Take claims to validate from configuration
+    const options = {};
+
+    // fetch public keys if not set
+    if (!JWKS.current?.keys?.length) {
+      await getPublicKeys();
+    }
+
+    try {
+      const keySet = jose.createLocalJWKSet(JWKS.current);
+
+      const { payload, protectedHeader } = await jose.jwtVerify(
+        token,
+        keySet,
+        options
+      );
+      console.log("header", protectedHeader);
+      console.log("payload", payload);
+
+      return true;
+    } catch (error) {
+      console.log("ERROR", error);
+      return false;
+    }
+  };
+
+  const setFlowComplete = useCallback((response: APIResponse) => {
+    const user: AuthUser = getUserFromResponse(response);
+    const sessionData = getSessionData(options);
+    sessionData.user = user;
+    saveSessionData(sessionData, options);
+
+    if (useCookie) {
+      setTokenCookies(user, options);
+    }
+
+    setError(undefined);
+    setUser(user);
+    setAuthenticated(true);
+
+    startTokenWatch();
+  }, []);
+
   const checkTokenLife = () => {
     const tokenExpire = getTokenExpire(options);
     if (tokenExpire && isTokenExpiring(tokenExpire)) {
@@ -233,23 +302,6 @@ export const ComponentAuthProvider: FC<ComponentAuthProviderProps> = ({
       checkTokenLife();
     }, intervalTime);
   };
-
-  const setFlowComplete = useCallback((response: APIResponse) => {
-    const user: AuthUser = getUserFromResponse(response);
-    const sessionData = getSessionData(options);
-    sessionData.user = user;
-    saveSessionData(sessionData, options);
-
-    if (useCookie) {
-      setTokenCookies(user, options);
-    }
-
-    setError(undefined);
-    setUser(user);
-    setAuthenticated(true);
-
-    startTokenWatch();
-  }, []);
 
   const memoData = useMemo(
     () => ({

@@ -5,6 +5,7 @@ export interface AuthConfig {
   clientToken: string;
   domain: string;
   callbackUri?: string;
+  useJwt?: boolean;
 }
 
 export interface APIResponse {
