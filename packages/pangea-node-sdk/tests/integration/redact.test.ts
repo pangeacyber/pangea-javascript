@@ -6,7 +6,7 @@ import { TestEnvironment, getTestDomain, getTestToken } from "../../src/utils/ut
 
 const token = getTestToken(TestEnvironment.LIVE);
 const testHost = getTestDomain(TestEnvironment.LIVE);
-const config = new PangeaConfig({ domain: testHost });
+const config = new PangeaConfig({ domain: testHost, customUserAgent: "sdk-test" });
 const redact = new RedactService(token, config);
 
 it("redact a data string", async () => {
