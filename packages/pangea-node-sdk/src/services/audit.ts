@@ -22,8 +22,8 @@ const SupportedJSONFields = ["message", "new", "old"];
  * @extends BaseService
  */
 class AuditService extends BaseService {
-  publishedRoots: PublishedRoots;
-  prevUnpublishedRootHash: string | undefined;
+  private publishedRoots: PublishedRoots;
+  private prevUnpublishedRootHash: string | undefined;
   tenantID: string | undefined;
 
   constructor(token: string, config: PangeaConfig, tenantID: string | undefined = undefined) {

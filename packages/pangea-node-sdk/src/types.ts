@@ -10,6 +10,7 @@ export interface ConfigOptions {
   requestTimeout?: number;
   queuedRetryEnabled?: boolean;
   aqueuedRetries?: number;
+  customUserAgent?: string;
 }
 
 /**
