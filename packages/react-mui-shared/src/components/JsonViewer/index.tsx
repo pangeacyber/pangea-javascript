@@ -1,10 +1,13 @@
-import { FC } from "react";
+import { FC, lazy } from "react";
 import { Box } from "@mui/material";
 import { useTheme } from "@mui/material/styles";
 import { useReactJsonViewHighlight, Highlight } from "./utils";
+import { ReactJsonViewProps } from "react-json-view";
 
-import loadable from "@loadable/component";
-const ReactJson = loadable(() => import("react-json-view"));
+let ReactJson: FC<ReactJsonViewProps> = () => null;
+if (typeof window !== "undefined") {
+  ReactJson = require("react-json-view").default;
+}
 
 interface Props {
   src: object;
@@ -14,6 +17,7 @@ interface Props {
     highlightBackground: string;
     highlightColor: string;
   };
+  allowEmpty?: boolean;
 }
 
 const JsonViewer: FC<Props> = ({
@@ -24,9 +28,14 @@ const JsonViewer: FC<Props> = ({
     highlightBackground: "#FFFF0B",
     highlightColor: "#000",
   },
+  allowEmpty = false,
 }) => {
   const theme = useTheme();
   const ref = useReactJsonViewHighlight(highlights);
+
+  if (typeof window === "undefined") {
+    return null;
+  }
 
   return (
     <Box
@@ -64,7 +73,7 @@ const JsonViewer: FC<Props> = ({
     >
       <ReactJson
         name={null}
-        src={src}
+        src={allowEmpty && !src ? {} : src}
         collapsed={!!depth ? depth : false}
         displayDataTypes={false}
         displayObjectSize={false}

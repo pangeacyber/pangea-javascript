@@ -138,6 +138,7 @@ interface UseAuditQuery {
 
 export const useAuditQuery = (
   limit: number,
+  maxResults: number,
   auditQuery: PublicAuditQuery | undefined = undefined,
   initialQuery: string | undefined = undefined
 ): UseAuditQuery => {
@@ -203,9 +204,10 @@ export const useAuditQuery = (
       ...getTimeFilterKwargs(queryObj),
       ...(sort ?? {}),
       limit,
+      max_results: maxResults,
       verbose: true,
     };
-  }, [query, queryObj, sort]);
+  }, [query, queryObj, sort, maxResults]);
 
   useEffect(() => {
     const queryString = constructQueryString(queryObj);

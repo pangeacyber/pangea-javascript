@@ -23,6 +23,11 @@ export interface Pagination {
   history: string[];
 }
 
+const DEFAULT_LIMIT_OPTIONS = [10, 20, 30, 40, 50];
+const DEFAULT_MAX_RESULT_OPTIONS = [
+  1000, 2000, 3000, 4000, 5000, 6000, 7000, 8000, 9000, 10000,
+];
+
 interface AuditContextShape<Event = Audit.DefaultEvent> {
   root?: Audit.Root;
   unpublishedRoot?: Audit.Root;
@@ -39,6 +44,9 @@ interface AuditContextShape<Event = Audit.DefaultEvent> {
   limit: number;
   limitOptions: number[];
   setLimit: Dispatch<SetStateAction<number>>;
+  maxResults: number;
+  maxResultOptions: number[];
+  setMaxResults: Dispatch<SetStateAction<number>>;
   resultsId: string | undefined;
   total: number;
   fetchResults: (body: Audit.ResultRequest) => Promise<void>;
@@ -52,8 +60,11 @@ const AuditContext = createContext<AuditContextShape>({
   offset: 0,
   setOffset: () => {},
   limit: 20,
-  limitOptions: [10, 20, 30, 40, 50],
+  limitOptions: DEFAULT_LIMIT_OPTIONS,
   setLimit: () => {},
+  maxResults: 1000,
+  maxResultOptions: DEFAULT_MAX_RESULT_OPTIONS,
+  setMaxResults: () => {},
   resultsId: undefined,
   total: 0,
   proofs: undefined,
@@ -71,6 +82,8 @@ interface AuditContextProviderProps<Event = Audit.DefaultEvent> {
   fetchResults: (body: Audit.ResultRequest) => Promise<void>;
   limit?: number;
   limitOptions?: number[];
+  maxResults?: number;
+  maxResultOptions?: number[];
   root?: Audit.Root;
   unpublishedRoot?: Audit.Root;
   publishedRoots?: PublishedRoots;
@@ -88,7 +101,9 @@ const AuditContextProvider = <Event,>({
   resultsId,
   fetchResults,
   limit: propLimit,
-  limitOptions = [10, 20, 30, 40, 50],
+  limitOptions = DEFAULT_LIMIT_OPTIONS,
+  maxResults: propMaxResults,
+  maxResultOptions = DEFAULT_MAX_RESULT_OPTIONS,
   root,
   unpublishedRoot,
   visibilityModel,
@@ -101,6 +116,9 @@ const AuditContextProvider = <Event,>({
   const [offset, setOffset] = useState<number>(0);
   const [limit, setLimit] = useState<number>(
     !!propLimit ? Number(propLimit) : 20
+  );
+  const [maxResults, setMaxResults] = useState<number>(
+    !!propMaxResults ? Number(propMaxResults) : 1000
   );
   const [proofs, setProofs] = useState<Record<string, boolean>>({});
   const [consistency, setConsistency] = useState<Record<string, boolean>>({});
@@ -118,6 +136,9 @@ const AuditContextProvider = <Event,>({
         limit,
         limitOptions,
         setLimit,
+        maxResults,
+        maxResultOptions,
+        setMaxResults,
 
         // Verification props. FIXME: Split into separate provider
         root,
@@ -157,6 +178,9 @@ export const usePagination = (): {
   offset: number;
   onPageSizeChange: (pageSize: number) => void;
   rowsPerPageOptions: number[];
+  maxResults: number;
+  onMaxResultChange?: (maxResults: number) => void;
+  maxResultOptions: number[];
 } => {
   const {
     offset,
@@ -167,6 +191,9 @@ export const usePagination = (): {
     fetchResults,
     setLimit,
     limitOptions,
+    maxResults,
+    setMaxResults,
+    maxResultOptions,
   } = useAuditContext();
   const totalPages = Math.max(Math.ceil(total / limit), 1);
 
@@ -209,6 +236,10 @@ export const usePagination = (): {
     });
   };
 
+  const onMaxResultChange = (newMaxResults: number) => {
+    setMaxResults(newMaxResults);
+  };
+
   useEffect(() => {
     setOffset(0);
   }, [resultsId]);
@@ -225,6 +256,9 @@ export const usePagination = (): {
     pageSize,
     onPageSizeChange,
     rowsPerPageOptions: limitOptions,
+    maxResults,
+    maxResultOptions,
+    onMaxResultChange,
   };
 };
 

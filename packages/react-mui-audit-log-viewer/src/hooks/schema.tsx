@@ -160,7 +160,7 @@ export const useAuditColumns = <Event,>(
   fields: Partial<Record<keyof Event, Partial<GridColDef>>> | undefined
 ) => {
   const gridFields: PDG.GridSchemaFields<Event> = useMemo(() => {
-    const schemaFields = schema?.fields ?? [];
+    const schemaFields = cloneDeep(schema?.fields ?? []);
 
     // @ts-ignore
     const defaultColumnDefinitions: PDG.GridSchemaFields<Event> = mapValues(
@@ -168,7 +168,9 @@ export const useAuditColumns = <Event,>(
       (field) => {
         const column: Partial<PDG.GridField> = {
           label: field.name ?? field.id,
-          description: field.description,
+          description: `Field: ${field.id}${
+            !!field.description ? ". " + field.description : ""
+          }`,
           type: get(COLUMN_TYPE_MAP, field.type, "string"),
           sortable: field.type === "datetime", // FIXME: What fields exactly should be sortable
           // SpecialField: Message is treated as a special field here, there is no UX for how customers define what is the flex field
@@ -209,7 +211,7 @@ export const useAuditColumnsWithErrors = <Event,>(
     }
 
     return schemaColumns;
-  }, [hasErrors]);
+  }, [hasErrors, schemaColumns]);
 
   return columns;
 };

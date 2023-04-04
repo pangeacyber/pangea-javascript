@@ -50,10 +50,10 @@ const AuditLogViewerComponent: FC<ViewerProps> = ({
   filters,
   initialQuery,
 }) => {
-  const { visibilityModel, limit, isVerificationCheckEnabled } =
+  const { visibilityModel, limit, maxResults, isVerificationCheckEnabled } =
     useAuditContext();
   const { body, query, queryObj, setQuery, setQueryObj, setSort } =
-    useAuditQuery(limit, filters, initialQuery);
+    useAuditQuery(limit, maxResults, filters, initialQuery);
   const pagination = usePagination();
   const defaultVisibility = useDefaultVisibility(schema);
   const defaultOrder = useDefaultOrder(schema);
