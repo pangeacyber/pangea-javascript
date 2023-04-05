@@ -7,7 +7,7 @@ import {
 } from "pangea-node-sdk";
 
 const domain = process.env.PANGEA_DOMAIN;
-const token = process.env.PANGEA_DOMAIN_INTEL_TOKEN;
+const token = process.env.PANGEA_INTEL_TOKEN;
 const config = new PangeaConfig({ domain: domain });
 const domainIntel = new DomainIntelService(String(token), config);
 

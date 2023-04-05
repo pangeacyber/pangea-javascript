@@ -3,7 +3,7 @@
 import { PangeaConfig, FileIntelService, PangeaErrors } from "pangea-node-sdk";
 
 const domain = process.env.PANGEA_DOMAIN;
-const token = process.env.PANGEA_FILE_INTEL_TOKEN;
+const token = process.env.PANGEA_INTEL_TOKEN;
 const config = new PangeaConfig({ domain: domain });
 const fileIntel = new FileIntelService(String(token), config);
 

@@ -147,7 +147,7 @@ it("log an audit event in JSON format", async () => {
   expect(typeof response.result?.envelope?.event?.new).toBe("object");
   expect(typeof response.result?.envelope?.event?.old).toBe("object");
 
-  const query = "message:" + MSG_JSON + " message: " + " status:" + STATUS_NO_SIGNED;
+  const query = "message:" + MSG_JSON + " status:" + STATUS_NO_SIGNED;
   const searchOptions: Audit.SearchOptions = {
     verifyConsistency: true,
   };
@@ -284,7 +284,7 @@ it("search audit log and verify signature", async () => {
 
 jest.setTimeout(60000);
 it("search audit log and verify consistency", async () => {
-  const query = "message:";
+  const query = 'message:""';
   const limit = 2;
   const maxResults = 4;
   const options: Audit.SearchOptions = {
@@ -340,7 +340,7 @@ it("search audit log and skip consistency verification", async () => {
 
 jest.setTimeout(20000);
 it("results audit log with search verbose", async () => {
-  const query = "message:";
+  const query = 'message:""';
   const searchLimit = 2;
   const searchMaxResults = 4;
 
@@ -397,7 +397,7 @@ it("results audit log with search verbose", async () => {
 
 jest.setTimeout(20000);
 it("results audit log with search no verbose", async () => {
-  const query = "message:";
+  const query = 'message:""';
   const searchLimit = 2;
   const searchMaxResults = 20;
 
