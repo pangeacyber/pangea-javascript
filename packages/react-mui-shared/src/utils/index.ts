@@ -48,3 +48,13 @@ export const reorder = (
 
   return result;
 };
+
+export const safeStringify = (o: any) => {
+  return JSON.stringify(o, (k, value) => {
+    return typeof value === "function" ||
+      typeof value === "symbol" ||
+      (typeof value === "object" && !!value?.$$typeof)
+      ? null
+      : value;
+  });
+};

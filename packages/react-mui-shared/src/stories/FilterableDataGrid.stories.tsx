@@ -76,6 +76,17 @@ const Template: ComponentStory<typeof PangeaDataGrid> = (args) => {
           },
           showFilterChips: true,
         },
+        conditionalOptions: [
+          {
+            match: () => true,
+            options: [
+              {
+                value: "cheese:",
+                label: "Cheesy",
+              },
+            ],
+          },
+        ],
       }}
       PreviewPanel={PreviewPanel}
       previewId={2}
@@ -98,6 +109,7 @@ FilterableDataGrid.args = {
     {
       field: "description",
       flex: 10,
+      description: "Field: testing. Hi there",
       renderCell: (params) => <TextCell params={params} />,
     },
   ],

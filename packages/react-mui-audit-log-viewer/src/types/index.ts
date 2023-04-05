@@ -100,12 +100,15 @@ export namespace Audit {
     limit?: number;
     // Optional include params
     verbose?: boolean;
+
+    max_results?: number;
   }
 
   export interface ResultRequest {
     id: string; // FIXME: This field name is probably changing
     offset?: number;
     limit?: number;
+    max_results?: number;
   }
 
   export interface RootRequest {
@@ -155,8 +158,8 @@ export namespace Audit {
   }
 
   export interface Schema {
-    client_signable: boolean;
-    tamper_proofing: boolean;
+    client_signable?: boolean;
+    tamper_proofing?: boolean;
     fields: SchemaField[];
   }
 }
