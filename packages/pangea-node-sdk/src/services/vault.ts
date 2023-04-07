@@ -27,7 +27,7 @@ class VaultService extends BaseService {
    * ```js
    * const response = await vault.stateChange(
    *   "pvi_p6g5i3gtbvqvc3u6zugab6qs6r63tqf5",
-   *   "deactivated"
+   *   Vault.ItemVersionState.DEACTIVATED
    * );
    * ```
    */
@@ -72,7 +72,7 @@ class VaultService extends BaseService {
    *   - version (number | string): The key version(s).
    *     `all` for all versions, `num` for a specific version,
    *      `-num` for the `num` latest versions.
-   *   - version_state (string): The state of the item version
+   *   - version_state (Vault.ItemVersionState): The state of the item version
    *   - verbose (boolean): Return metadata and extra fields
    * @returns {Promise} - A promise representing an async call to the get endpoint
    * @example
@@ -81,7 +81,7 @@ class VaultService extends BaseService {
    *   "pvi_p6g5i3gtbvqvc3u6zugab6qs6r63tqf5",
    *   {
    *     version: 1,
-   *     version_state: "active",
+   *     version_state: Vault.ItemVersionState.ACTIVE,
    *     verbose: true,
    *   }
    * );
@@ -106,6 +106,10 @@ class VaultService extends BaseService {
    *   - filter (object): A set of filters to help you customize your search. Examples:
    *     `"folder": "/tmp"`, `"tags": "personal"`, `"name__contains": "xxx"`, `"created_at__gt": "2020-02-05T10:00:00Z"`
    *     For metadata, use: `"metadata_": "<value>"`
+   *   - last (string): Internal ID returned in the previous look up response. Used for pagination.
+   *   - order: (Vault.ItemOrder): Ordering direction
+   *   - order_by: (Vault.ItemOrderBy): Property used to order the results
+   *   - size: (number): Maximum number of items in the response
    * @returns {Promise} - A promise representing an async call to the list endpoint
    * @example
    * ```js
@@ -119,8 +123,8 @@ class VaultService extends BaseService {
    *       created_at__lt: "2023-12-12T00:00:00Z",
    *     },
    *     last: "WyIvdGVzdF8yMDdfc3ltbWV0cmljLyJd",
-   *     order: "asc",
-   *     order_by: "name",
+   *     order: Vault.ItemOrder.ASC,
+   *     order_by: Vault.ItemOrderby.NAME,
    *     size=20,
    *   }
    * );
@@ -140,7 +144,7 @@ class VaultService extends BaseService {
    *   - metadata (object): User-provided metadata
    *   - tags (string[], optional): A list of user-defined tags
    *   - rotation_frequency (string): Period of time between item rotations
-   *   - rotation_state (string): State to which the previous version should transition upon rotation.
+   *   - rotation_state (Vault.ItemVersionState): State to which the previous version should transition upon rotation.
    *   - rotation_grace_period (string): Grace period for the previous version of the Pangea Token
    *   - expiration (string): Expiration timestamp
    *   - item_state (string): The new state of the item.
@@ -158,10 +162,10 @@ class VaultService extends BaseService {
    *     },
    *     tags: ["irs_2023", "personal"],
    *     rotation_frequency: "10d",
-   *     rotation_state: "deactivated",
+   *     rotation_state: Vault.ItemVersionState.DEACTIVATED,
    *     rotation_grace_period: "1d",
    *     expiration: "2025-01-01T10:00:00Z",
-   *     item_state: "disabled",
+   *     item_state: Vault.ItemState.DISABLED,
    *   }
    * );
    * ```
@@ -186,9 +190,9 @@ class VaultService extends BaseService {
    * @param {Vault.Secret.StoreOptions} options - The following options are supported:
    *   - folder (string): The folder where this item is stored
    *   - metadata (object): User-provided metadata
-   *   - tags (string[], optional): A list of user-defined tags
+   *   - tags (string[]): A list of user-defined tags
    *   - rotation_frequency (string): Period of time between item rotations
-   *   - rotation_state (string): State to which the previous version should transition upon rotation.
+   *   - rotation_state (Vault.ItemVersionState): State to which the previous version should transition upon rotation.
    *   - expiration (string): Expiration timestamp
    * @returns {Promise} - A promise representing an async call to the secret store endpoint
    * @example
@@ -204,7 +208,7 @@ class VaultService extends BaseService {
    *     },
    *     tags: ["irs_2023", "personal"],
    *     rotation_frequency: "10d",
-   *     rotation_state: "deactivated",
+   *     rotation_state: Vault.ItemVersionState.DEACTIVATED,
    *     expiration: "2025-01-01T10:00:00Z",
    *   }
    * );
@@ -233,9 +237,9 @@ class VaultService extends BaseService {
    * @param {Vault.Secret.StoreOptions} options - The following options are supported:
    *   - folder (string): The folder where this item is stored
    *   - metadata (object): User-provided metadata
-   *   - tags (string[], optional): A list of user-defined tags
+   *   - tags (string[]): A list of user-defined tags
    *   - rotation_frequency (string): Period of time between item rotations
-   *   - rotation_state (string): State to which the previous version should transition upon rotation.
+   *   - rotation_state (Vault.ItemVersionState): State to which the previous version should transition upon rotation.
    *   - expiration (string): Expiration timestamp
    * @returns {Promise} - A promise representing an async call to the secret store endpoint
    * @example
@@ -251,7 +255,7 @@ class VaultService extends BaseService {
    *     },
    *     tags: ["irs_2023", "personal"],
    *     rotation_frequency: "10d",
-   *     rotation_state: "deactivated",
+   *     rotation_state: Vault.ItemVersionState.DEACTIVATED,
    *     expiration: "2025-01-01T10:00:00Z",
    *   }
    * );
@@ -278,7 +282,7 @@ class VaultService extends BaseService {
    * @param {String} id - The item ID
    * @param {String} secret - The secret value
    * @param {Vault.Secret.Secret.RotateOptions} options - The following options are supported:
-   *   - rotation_state (string): State to which the previous version should transition upon rotation.
+   *   - rotation_state (Vault.ItemVersionState): State to which the previous version should transition upon rotation.
    *     Default is `deactivated`.
    * @returns {Promise} - A promise representing an async call to the secret rotate endpoint
    * @example
@@ -287,7 +291,7 @@ class VaultService extends BaseService {
    *   "pvi_p6g5i3gtbvqvc3u6zugab6qs6r63tqf5",
    *   "12sdfgs4543qv@#%$casd",
    *   {
-   *     rotation_state: "deactivated",
+   *     rotation_state: Vault.ItemVersionState.DEACTIVATED,
    *   }
    * );
    * ```
@@ -341,16 +345,16 @@ class VaultService extends BaseService {
    * @param {Vault.Symmetric.GenerateOptions} options - The following options are supported:
    *   - folder (string): The folder where this item is stored
    *   - metadata (object): User-provided metadata
-   *   - tags (string[], optional): A list of user-defined tags
+   *   - tags (string[]): A list of user-defined tags
    *   - rotation_frequency (string): Period of time between item rotations, or `never` to disallow rotation
-   *   - rotation_state (string): State to which the previous version should transition upon rotation.
+   *   - rotation_state (Vault.ItemVersionState): State to which the previous version should transition upon rotation.
    *   - expiration (string): Expiration timestamp
    * @returns {Promise} - A promise representing an async call to the key generate endpoint
    * @example
    * ```js
    * const response = await vault.symmetricGenerate(
-   *   "AES-CFB-128",
-   *   "encryption",
+   *   Vault.SymmetricAlgorithm.AES128_CFB,
+   *   Vault.KeyPurpose.ENCRYPTION,
    *   "my-very-secret-secret",
    *   {
    *     folder: "/personal",
@@ -360,7 +364,7 @@ class VaultService extends BaseService {
    *     },
    *     tags: ["irs_2023", "personal"],
    *     rotation_frequency: "10d",
-   *     rotation_state: "deactivated",
+   *     rotation_state: Vault.ItemVersionState.DEACTIVATED,
    *     expiration: "2025-01-01T10:00:00Z",
    *   }
    * );
@@ -393,16 +397,16 @@ class VaultService extends BaseService {
    * @param {Vault.Asymmetric.GenerateOptions} options - The following options are supported:
    *   - folder (string): The folder where this item is stored
    *   - metadata (object): User-provided metadata
-   *   - tags (string[], optional): A list of user-defined tags
+   *   - tags (string[]): A list of user-defined tags
    *   - rotation_frequency (string): Period of time between item rotations, or `never` to disallow rotation
-   *   - rotation_state (string): State to which the previous version should transition upon rotation.
+   *   - rotation_state (Vault.ItemVersionState): State to which the previous version should transition upon rotation.
    *   - expiration (string): Expiration timestamp
    * @returns {Promise} - A promise representing an async call to the key generate endpoint
    * @example
    * ```js
    * const response = await vault.asymmetricGenerate(
-   *   "RSA-PKCS1V15-2048-SHA256",
-   *   "signing",
+   *   Vault.AsymmetricAlgorithm.RSA2048_PKCS1V15_SHA256,
+   *   Vault.KeyPurpose.SIGNING,
    *   "my-very-secret-secret",
    *   {
    *     folder: "/personal",
@@ -412,7 +416,7 @@ class VaultService extends BaseService {
    *     },
    *     tags: ["irs_2023", "personal"],
    *     rotation_frequency: "10d",
-   *     rotation_state: "deactivated",
+   *     rotation_state: Vault.ItemVersionState.DEACTIVATED,
    *     expiration: "2025-01-01T10:00:00Z",
    *   }
    * );
@@ -447,9 +451,9 @@ class VaultService extends BaseService {
    * @param {Vault.Asymmetric.StoreOptions} options - The following options are supported:
    *   - folder (string): The folder where this item is stored
    *   - metadata (object): User-provided metadata
-   *   - tags (string[], optional): A list of user-defined tags
+   *   - tags (string[]): A list of user-defined tags
    *   - rotation_frequency (string): Period of time between item rotations, or `never` to disallow rotation
-   *   - rotation_state (string): State to which the previous version should transition upon rotation.
+   *   - rotation_state (Vault.ItemVersionState): State to which the previous version should transition upon rotation.
    *   - expiration (string): Expiration timestamp
    * @returns {Promise} - A promise representing an async call to the key store endpoint
    * @example
@@ -457,8 +461,8 @@ class VaultService extends BaseService {
    * const response = await vault.asymmetricStore(
    *   "private key example",
    *   "-----BEGIN PUBLIC KEY-----\nMCowBQYDK2VwAyEA8s5JopbEPGBylPBcMK+L5PqHMqPJW/5KYPgBHzZGncc=\n-----END PUBLIC KEY-----",
-   *   "RSA-PKCS1V15-2048-SHA256",
-   *   "signing",
+   *   Vault.AsymmetricAlgorithm.RSA2048_PKCS1V15_SHA256,
+   *   Vault.KeyPurpose.SIGNING,
    *   "my-very-secret-secret",
    *   {
    *     folder: "/personal",
@@ -468,7 +472,7 @@ class VaultService extends BaseService {
    *     },
    *     tags: ["irs_2023", "personal"],
    *     rotation_frequency: "10d",
-   *     rotation_state: "deactivated",
+   *     rotation_state: Vault.ItemVersionState.DEACTIVATED,
    *     expiration: "2025-01-01T10:00:00Z",
    *   }
    * );
@@ -506,17 +510,17 @@ class VaultService extends BaseService {
    * @param {Vault.Asymmetric.StoreOptions} options - The following options are supported:
    *   - folder (string): The folder where this item is stored
    *   - metadata (object): User-provided metadata
-   *   - tags (string[], optional): A list of user-defined tags
+   *   - tags (string[]): A list of user-defined tags
    *   - rotation_frequency (string): Period of time between item rotations, or `never` to disallow rotation
-   *   - rotation_state (string): State to which the previous version should transition upon rotation.
+   *   - rotation_state (Vault.ItemVersionState): State to which the previous version should transition upon rotation.
    *   - expiration (string): Expiration timestamp
    * @returns {Promise} - A promise representing an async call to the key store endpoint
    * @example
    * ```js
    * const response = await vault.symmetricStore(
    *   "lJkk0gCLux+Q+rPNqLPEYw==",
-   *   "AES-CFB-128",
-   *   "encryption",
+   *   Vault.SymmetricAlgorithm.AES128_CFB,
+   *   Vault.KeyPurpose.ENCRYPTION,
    *   "my-very-secret-secret",
    *   {
    *     folder: "/personal",
@@ -526,7 +530,7 @@ class VaultService extends BaseService {
    *     },
    *     tags: ["irs_2023", "personal"],
    *     rotation_frequency: "10d",
-   *     rotation_state: "deactivated",
+   *     rotation_state: Vault.ItemVersionState.DEACTIVATED,
    *     expiration: "2025-01-01T10:00:00Z",
    *   }
    * );
@@ -556,7 +560,7 @@ class VaultService extends BaseService {
    * @description Manually rotate a symmetric or asymmetric key
    * @param {String} id - The ID of the item
    * @param {Vault.Key.RotateOptions} options - Supported options:
-   *   - rotation_state (string): State to which the previous version should transition upon rotation.
+   *   - rotation_state (Vault.ItemVersionState): State to which the previous version should transition upon rotation.
    *     `deactivated`, `suspended`, or `destroyed`. Default is `deactivated`.
    *   - public_key (string): The public key (in PEM format)
    *   - private_key: (string): The private key (in PEM format)
@@ -567,7 +571,7 @@ class VaultService extends BaseService {
    * const response = await vault.keyRotate(
    *   "pvi_p6g5i3gtbvqvc3u6zugab6qs6r63tqf5",
    *   {
-   *     rotation_state: "deactivated",
+   *     rotation_state: Vault.ItemVersionState.DEACTIVATED,
    *     key: "lJkk0gCLux+Q+rPNqLPEYw==",
    *   }
    * );
