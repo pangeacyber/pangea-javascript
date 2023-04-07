@@ -17,8 +17,8 @@ class VaultService extends BaseService {
    * @summary State change
    * @description Change the state of a specific version of a secret or key
    * @param {String} id - The item ID
-   * @param {String} state - The new state of the item version
-   * @param {Object} options - State change options. The following options are supported:
+   * @param {Vault.ItemVersionState} state - The new state of the item version
+   * @param {Vault.StateChangeOptions} options - State change options. The following options are supported:
    *   - version (number): the item version
    *   - destroy_period (string): Period of time for the destruction of a compromised key.
    *     Only valid if state=`compromised`
@@ -68,7 +68,7 @@ class VaultService extends BaseService {
    * @summary Retrieve
    * @description Retrieve a secret or key, and any associated information
    * @param {String} id - The item ID
-   * @param {Object} options - The following options are supported:
+   * @param {Vault.GetOptions} options - The following options are supported:
    *   - version (number | string): The key version(s).
    *     `all` for all versions, `num` for a specific version,
    *      `-num` for the `num` latest versions.
@@ -134,7 +134,7 @@ class VaultService extends BaseService {
    * @summary Update
    * @description Update information associated with a secret or key
    * @param {String} id - The item ID
-   * @param {Object} options - The following options are supported:
+   * @param {Vault.UpdateOptions} options - The following options are supported:
    *   - name (string): The name of this item
    *   - folder (string): The folder where this item is stored
    *   - metadata (object): User-provided metadata
@@ -183,7 +183,7 @@ class VaultService extends BaseService {
    * @description Import a secret
    * @param {String} secret - The secret value
    * @param {String} name - The name of this item
-   * @param {Object} options - The following options are supported:
+   * @param {Vault.Secret.StoreOptions} options - The following options are supported:
    *   - folder (string): The folder where this item is stored
    *   - metadata (object): User-provided metadata
    *   - tags (string[], optional): A list of user-defined tags
@@ -230,7 +230,7 @@ class VaultService extends BaseService {
    * @description Import a secret
    * @param {String} pangeaToken - The pangea token to store
    * @param {String} name - The name of this item
-   * @param {Object} options - The following options are supported:
+   * @param {Vault.Secret.StoreOptions} options - The following options are supported:
    *   - folder (string): The folder where this item is stored
    *   - metadata (object): User-provided metadata
    *   - tags (string[], optional): A list of user-defined tags
@@ -277,7 +277,7 @@ class VaultService extends BaseService {
    * @description Rotate a secret
    * @param {String} id - The item ID
    * @param {String} secret - The secret value
-   * @param {Object} options - The following options are supported:
+   * @param {Vault.Secret.Secret.RotateOptions} options - The following options are supported:
    *   - rotation_state (string): State to which the previous version should transition upon rotation.
    *     Default is `deactivated`.
    * @returns {Promise} - A promise representing an async call to the secret rotate endpoint
@@ -334,11 +334,11 @@ class VaultService extends BaseService {
   /**
    * @summary Symmetric generate
    * @description Generate a symmetric key
-   * @param {String} algorithm - The algorithm of the key. Options
+   * @param {Vault.SymmetricAlgorithm} algorithm - The algorithm of the key. Options
    * [listed in Vault documentation](https://pangea.cloud/docs/vault/manage-keys/generate-a-key#generating-a-symmetric-key).
-   * @param {String} purpose - The purpose of this key
+   * @param {Vault.KeyPurpose} purpose - The purpose of this key
    * @param {String} name - The name of this item
-   * @param {Object} options - The following options are supported:
+   * @param {Vault.Symmetric.GenerateOptions} options - The following options are supported:
    *   - folder (string): The folder where this item is stored
    *   - metadata (object): User-provided metadata
    *   - tags (string[], optional): A list of user-defined tags
@@ -386,11 +386,11 @@ class VaultService extends BaseService {
   /**
    * @summary Asymmetric generate
    * @description Generate an asymmetric key
-   * @param {String} algorithm - The algorithm of the key. Options
+   * @param {Vault.AsymmetricAlgorithm} algorithm - The algorithm of the key. Options
    * [listed in Vault documentation](https://pangea.cloud/docs/vault/manage-keys/generate-a-key#generating-asymmetric-key-pairs).
-   * @param {String} purpose - The purpose of this key
+   * @param {Vault.KeyPurpose} purpose - The purpose of this key
    * @param {String} name - The name of this item
-   * @param {Object} options - The following options are supported:
+   * @param {Vault.Asymmetric.GenerateOptions} options - The following options are supported:
    *   - folder (string): The folder where this item is stored
    *   - metadata (object): User-provided metadata
    *   - tags (string[], optional): A list of user-defined tags
@@ -438,13 +438,13 @@ class VaultService extends BaseService {
   /**
    * @summary Asymmetric store
    * @description Import an asymmetric key
-   * @param {String} privateKey - The private key in PEM format
-   * @param {String} publicKey - The public key in PEM format
-   * @param {String} algorithm - The algorithm of the key. Options
+   * @param {Vault.EncodedPrivateKey} privateKey - The private key in PEM format
+   * @param {Vault.EncodedPublicKey} publicKey - The public key in PEM format
+   * @param {Vault.AsymmetricAlgorithm} algorithm - The algorithm of the key. Options
    * [listed in Vault documentation](https://pangea.cloud/docs/vault/manage-keys/import-a-key#importing-an-asymmetric-key-pair).
-   * @param {String} purpose - The purpose of this key. `signing`, `encryption`, or `jwt`.
+   * @param {Vault.KeyPurpose} purpose - The purpose of this key. `signing`, `encryption`, or `jwt`.
    * @param {String} name - The name of this item
-   * @param {Object} options - The following options are supported:
+   * @param {Vault.Asymmetric.StoreOptions} options - The following options are supported:
    *   - folder (string): The folder where this item is stored
    *   - metadata (object): User-provided metadata
    *   - tags (string[], optional): A list of user-defined tags
@@ -499,11 +499,11 @@ class VaultService extends BaseService {
    * @summary Symmetric store
    * @description Import a symmetric key
    * @param {String} key - The key material (in base64)
-   * @param {String} algorithm - The algorithm of the key. Options
+   * @param {Vault.SymmetricAlgorithm} algorithm - The algorithm of the key. Options
    * [listed in Vault documentation](https://pangea.cloud/docs/vault/manage-keys/import-a-key#importing-a-symmetric-key).
-   * @param {String} purpose - The purpose of this key. `encryption` or `jwt`
+   * @param {Vault.KeyPurpose} purpose - The purpose of this key. `encryption` or `jwt`
    * @param {String} name - The name of this item
-   * @param {Object} options - The following options are supported:
+   * @param {Vault.Asymmetric.StoreOptions} options - The following options are supported:
    *   - folder (string): The folder where this item is stored
    *   - metadata (object): User-provided metadata
    *   - tags (string[], optional): A list of user-defined tags
@@ -555,7 +555,7 @@ class VaultService extends BaseService {
    * @summary Key rotate
    * @description Manually rotate a symmetric or asymmetric key
    * @param {String} id - The ID of the item
-   * @param {Object} options - Supported options:
+   * @param {Vault.Key.RotateOptions} options - Supported options:
    *   - rotation_state (string): State to which the previous version should transition upon rotation.
    *     `deactivated`, `suspended`, or `destroyed`. Default is `deactivated`.
    *   - public_key (string): The public key (in PEM format)
@@ -668,7 +668,7 @@ class VaultService extends BaseService {
    * @param {String} id - The item ID
    * @param {String} message - The message to be verified (in base64)
    * @param {String} signature - The message signature (in base64)
-   * @param {Object} options - Supported options:
+   * @param {Vault.Asymmetric.VerifyOptions} options - Supported options:
    *   - version (number): The item version
    * @returns {Promise} - A promise representing an async call to the key verify endpoint
    * @example
@@ -700,7 +700,7 @@ class VaultService extends BaseService {
    * @summary JWT Retrieve
    * @description Retrieve a key in JWK format
    * @param {String} id - The item ID
-   * @param {Object} options - Supported options:
+   * @param {Vault.JWK.GetOptions} options - Supported options:
    *   - version (string): The key version(s). `all` for all versions, `num` for a specific version,
    *     `-num` for the `num` latest versions
    * @returns {Promise} - A promise representing an async call to the get JWK endpoint
