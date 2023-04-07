@@ -1877,10 +1877,10 @@
     mkdirp "^1.0.4"
     rimraf "^3.0.2"
 
-"@pangeacyber/react-mui-shared@0.0.12":
-  version "0.0.12"
-  resolved "https://registry.yarnpkg.com/@pangeacyber/react-mui-shared/-/react-mui-shared-0.0.12.tgz#540598dae1c5042dc15b3d20d1ab1b7c3dbec208"
-  integrity sha512-VlWsFU03NFkC5oFEAgKc34bjxWGJsVO8DuISAT2IgdTTKw8IpJG9tFBQADh5IvvJCvd743ilMCciV8PTaeVKyw==
+"@pangeacyber/react-mui-shared@0.0.16":
+  version "0.0.16"
+  resolved "https://registry.yarnpkg.com/@pangeacyber/react-mui-shared/-/react-mui-shared-0.0.16.tgz#a7f8a9729020cfb3cb42cf842c8e81f6c214aa81"
+  integrity sha512-LcObWeT9lG379Jsl7knU2lKLfMRmM9nDfGfK5LXqgQMlm7Y3j2cC3QMeHX2c2mikp0NLyO7fz1rUlFQt8I8ETg==
   dependencies:
     "@loadable/component" "^5.15.2"
     "@mui/x-data-grid" "^5.17.2"

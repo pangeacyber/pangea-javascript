@@ -11,3 +11,4 @@ tsconfig.json
 src/
 .storybook/
 *.tgz
+CHANGELOG.md

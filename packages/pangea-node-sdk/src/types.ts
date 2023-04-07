@@ -10,6 +10,7 @@ export interface ConfigOptions {
   requestTimeout?: number;
   queuedRetryEnabled?: boolean;
   aqueuedRetries?: number;
+  customUserAgent?: string;
 }
 
 /**
@@ -146,18 +147,19 @@ export namespace Audit {
 
 export namespace Redact {
   export interface BaseResponse {
-    redacted_text: string;
+    redacted_text?: string;
     count: number;
   }
 
   export interface StructuredResponse {
-    redacted_data: object;
+    redacted_data?: object;
     count: number;
   }
 
   export interface Options {
     debug?: boolean;
     rules?: string[];
+    return_result?: boolean;
   }
 
   export interface TextOptions extends Options {}
@@ -325,18 +327,22 @@ export namespace Vault {
   }
 
   export enum AsymmetricAlgorithm {
-    Ed25519 = "ed25519",
-    RSA = "rsa",
-    ES256 = "es256",
-    ES384 = "es384",
-    ES512 = "es512",
+    Ed25519 = "ED25519",
+    RSA2048_PKCS1V15_SHA256 = "RSA-PKCS1V15-2048-SHA256",
+    RSA2048_OAEP_SHA256 = "RSA-OAEP-2048-SHA256",
+    ES256 = "ES256",
+    ES384 = "ES384",
+    ES512 = "ES512",
+    RSA = "RSA-PKCS1V15-2048-SHA256", // deprecated, use RSA2048_PKCS1V15_SHA256 instead
   }
 
   export enum SymmetricAlgorithm {
-    AES = "aes",
-    HS256 = "hs256",
-    HS384 = "hs384",
-    HS512 = "hs512",
+    HS256 = "HS256",
+    HS384 = "HS384",
+    HS512 = "HS512",
+    AES128_CFB = "AES-CFB-128",
+    AES256_CFB = "AES-CFB-256",
+    AES = "AES-CFB-128", // deprecated, use AES128_CFB instead
   }
 
   export enum ItemType {

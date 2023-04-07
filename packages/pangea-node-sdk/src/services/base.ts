@@ -1,13 +1,12 @@
 import PangeaConfig from "../config.js";
 import PangeaRequest from "../request.js";
 import PangeaResponse from "../response.js";
-import { PangeaErrors } from "../errors.js";
 
 class BaseService {
-  serviceName: string;
-  token: string;
-  apiVersion: string;
-  config: PangeaConfig;
+  protected serviceName: string;
+  protected token: string;
+  protected apiVersion: string;
+  protected config: PangeaConfig;
   request: PangeaRequest;
 
   /*
@@ -26,8 +25,8 @@ class BaseService {
     this.apiVersion = "v1";
     this.token = token;
 
-    this.config = config || new PangeaConfig();
-    this.request = new PangeaRequest(this.serviceName, this.token, this.config);
+    this.config = new PangeaConfig({ ...config }) || new PangeaConfig();
+    this.request = new PangeaRequest(this.serviceName, this.token, config);
   }
 
   async get(endpoint: string, path: string): Promise<PangeaResponse<any>> {

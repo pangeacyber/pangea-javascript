@@ -11,11 +11,11 @@ const delay = async (ms: number) =>
   });
 
 class PangeaRequest {
-  serviceName: string;
-  token: string;
-  config: PangeaConfig;
-  extraHeaders: Object;
-  customUserAgent: string;
+  private serviceName: string;
+  private token: string;
+  private config: PangeaConfig;
+  private extraHeaders: Object;
+  private userAgent: string;
 
   constructor(serviceName: string, token: string, config: PangeaConfig) {
     if (!serviceName) throw new Error("A serviceName is required");
@@ -23,9 +23,10 @@ class PangeaRequest {
 
     this.serviceName = serviceName;
     this.token = token;
-    this.config = config;
+    this.config = new PangeaConfig({ ...config });
+    this.userAgent = "";
+    this.setCustomUserAgent(config.customUserAgent);
     this.extraHeaders = {};
-    this.customUserAgent = "";
   }
 
   async post(endpoint: string, data: object): Promise<PangeaResponse<any>> {
@@ -106,8 +107,12 @@ class PangeaRequest {
     this.extraHeaders = { ...headers };
   }
 
-  setCustomUserAgent(userAgent: string): any {
-    this.customUserAgent = userAgent;
+  setCustomUserAgent(customUserAgent: string | undefined): any {
+    this.config.customUserAgent = customUserAgent;
+    this.userAgent = `pangea-node/${version}`;
+    if (this.config.customUserAgent) {
+      this.userAgent += ` ${this.config.customUserAgent}`;
+    }
   }
 
   getUrl(path: string): string {
@@ -124,7 +129,7 @@ class PangeaRequest {
     const headers = {};
     const pangeaHeaders = {
       "Content-Type": "application/json",
-      "User-Agent": `pangea-node/${version} ${this.customUserAgent}`,
+      "User-Agent": this.userAgent,
       Authorization: `Bearer ${this.token}`,
     };
 

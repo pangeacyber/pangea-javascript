@@ -2,18 +2,23 @@ import { useState, forwardRef, useMemo, useRef, useEffect } from "react";
 import find from "lodash/find";
 import isEmpty from "lodash/isEmpty";
 import startCase from "lodash/startCase";
+import keyBy from "lodash/keyBy";
+import get from "lodash/get";
+
 import {
   Autocomplete,
   InputProps,
   TextField,
   ListItem,
   Typography,
+  Stack,
 } from "@mui/material";
 import { determinedFocusedWordsOnCursorPosition } from "./utils";
+import { safeStringify } from "../../utils";
 
 export interface ConditionalOption {
   match: (current: string, previous: string) => boolean;
-  options: { value: string; label: string }[];
+  options: { value: string; label: string; caption?: string }[];
 }
 
 interface ConditionalAutocompleteProps {
@@ -61,17 +66,24 @@ const ConditionalAutocomplete = forwardRef<any, ConditionalAutocompleteProps>(
       if (hideMenu) setOpen_(false);
     }, [hideMenu]);
 
-    const { options: autocompleteOptions, currentPosition } = useMemo(() => {
+    const {
+      options: autocompleteOptions,
+      optionsMap,
+      currentPosition,
+    } = useMemo(() => {
       const { current, previous, currentPosition } =
         determinedFocusedWordsOnCursorPosition(value, cursor);
 
+      const options_ =
+        find(options, (option) => option.match(current, previous))?.options ||
+        [];
+
       return {
-        options:
-          find(options, (option) => option.match(current, previous))?.options ||
-          [],
+        options: options_,
         currentPosition,
+        optionsMap: keyBy(options_, "value"),
       };
-    }, [value, cursor]);
+    }, [value, cursor, safeStringify(options)]);
 
     useEffect(() => {
       setOpen(!!cursor && !isEmpty(autocompleteOptions));
@@ -110,9 +122,16 @@ const ConditionalAutocomplete = forwardRef<any, ConditionalAutocompleteProps>(
           const optionValue: string = option;
           return (
             <ListItem {...props}>
-              <Typography variant="body2">
-                {startCase(optionValue.replace(":", ""))}
-              </Typography>
+              <Stack direction="row" alignItems="center" spacing={1}>
+                <Typography variant="body2">
+                  {startCase(optionValue.replace(":", ""))}
+                </Typography>
+                {!!get(optionsMap, optionValue, { value: undefined }).value && (
+                  <Typography variant="body2" color="textSecondary">
+                    {optionsMap[optionValue].value.replace(":", "")}
+                  </Typography>
+                )}
+              </Stack>
             </ListItem>
           );
         }}

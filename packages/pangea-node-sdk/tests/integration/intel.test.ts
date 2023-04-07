@@ -7,7 +7,7 @@ const testEnvironment = TestEnvironment.LIVE;
 
 const token = getTestToken(testEnvironment);
 const testHost = getTestDomain(testEnvironment);
-const config = new PangeaConfig({ domain: testHost });
+const config = new PangeaConfig({ domain: testHost, customUserAgent: "sdk-test" });
 const fileIntel = new FileIntelService(token, config);
 const domainIntel = new DomainIntelService(token, config);
 const ipIntel = new IPIntelService(token, config);

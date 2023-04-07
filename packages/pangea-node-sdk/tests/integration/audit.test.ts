@@ -26,7 +26,7 @@ const JSON_OLD_DATA = {
 const environment = TestEnvironment.LIVE;
 const token = getTestToken(environment);
 const domain = getTestDomain(environment);
-const config = new PangeaConfig({ domain: domain });
+const config = new PangeaConfig({ domain: domain, customUserAgent: "sdk-test" });
 const audit = new AuditService(token, config);
 const auditWithTenantId = new AuditService(token, config, "mytenantid");
 
