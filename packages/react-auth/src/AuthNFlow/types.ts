@@ -26,7 +26,7 @@ export enum FlowStep {
   VERIFY_PASSWORD = "verify/password",
   VERIFY_CAPTCHA = "verify/captcha",
   VERIFY_EMAIL = "verify/email",
-  ENROLL_MFA_SELECT = "enroll/mfa/select",
+  ENROLL_MFA_SELECT = "enroll/mfa/select", // UI-only state
   ENROLL_MFA_START = "enroll/mfa/start",
   ENROLL_MFA_COMPLETE = "enroll/mfa/complete",
   VERIFY_MFA_SELECT = "verify/mfa/select",
@@ -43,6 +43,7 @@ export interface FlowState {
   email?: string;
   selectedMfa?: string;
   mfaProviders?: string[];
+  cancelMfa?: boolean;
   recaptchaKey?: string;
   qrCode?: string;
   passwordSignup?: boolean;

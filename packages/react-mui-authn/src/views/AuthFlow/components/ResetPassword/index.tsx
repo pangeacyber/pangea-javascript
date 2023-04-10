@@ -1,12 +1,14 @@
+import { FC } from "react";
 import { useFormik } from "formik";
 import * as yup from "yup";
 import { Button, Stack, TextField, Typography } from "@mui/material";
 
 import { useAuthFlow, FlowStep } from "@pangeacyber/react-auth";
 
+import { ViewComponentProps } from "@src/views/AuthFlow/types";
 import ErrorMessage from "../ErrorMessage";
 
-const ResetPasswordView = () => {
+const ResetPasswordView: FC<ViewComponentProps> = ({ options }) => {
   const { callNext, flowData, loading, error, reset, cbParams } = useAuthFlow();
 
   const validationSchema = yup.object({
@@ -36,7 +38,9 @@ const ResetPasswordView = () => {
       <Stack gap={2}>
         <Stack>
           <Typography variant="h6">Reset Password</Typography>
-          <Typography variant="caption">{flowData.email}</Typography>
+          {options.showEmail && (
+            <Typography variant="caption">{flowData.email}</Typography>
+          )}
         </Stack>
         <Typography variant="body1">
           An email message has been sent to your inbox, click the link to reset
@@ -47,9 +51,11 @@ const ResetPasswordView = () => {
           <Button variant="contained" color="secondary" onClick={cancelReset}>
             Cancel Reset
           </Button>
-          <Button variant="outlined" color="secondary" onClick={reset}>
-            Start Over
-          </Button>
+          {options.showReset && (
+            <Button variant="outlined" color="secondary" onClick={reset}>
+              {options.resetLabel}
+            </Button>
+          )}
         </Stack>
       </Stack>
     );

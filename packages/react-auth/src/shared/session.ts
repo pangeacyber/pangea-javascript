@@ -11,8 +11,8 @@ type CookieObj = {
   [key: string]: string;
 };
 
-const REFRESH_CHECK_INTERVAL = 10; // Frequency of refresh check in seconds
-const REFRESH_CHECK_THRESHOLD = 2; //
+export const REFRESH_CHECK_INTERVAL = 15; // Frequency of refresh check in seconds
+export const REFRESH_CHECK_THRESHOLD = 10;
 
 export const SESSION_DATA_KEY = "pangea-session";
 export const TOKEN_COOKIE_NAME = "pangea-token";
@@ -62,9 +62,7 @@ export const getSessionData = (options: ProviderOptions): SessionData => {
 
 export const getSessionToken = (options: ProviderOptions) => {
   if (options.useCookie) {
-    const cookies = getCookies();
-
-    return cookies[options.cookieName as string];
+    return getTokenFromCookie(options.cookieName as string);
   }
 
   const data = getSessionData(options);
@@ -73,22 +71,42 @@ export const getSessionToken = (options: ProviderOptions) => {
 
 export const getRefreshToken = (options: ProviderOptions) => {
   if (options.useCookie) {
-    const cookies = getCookies();
-
-    return cookies[options.refreshCookieName as string];
+    return getTokenFromCookie(options.refreshCookieName as string);
+  } else {
+    const data = getSessionData(options);
+    return data?.user?.refresh_token?.token;
   }
+};
 
-  const data = getSessionData(options);
-  return data?.user?.refresh_token?.token;
+export const getAllTokens = (options: ProviderOptions) => {
+  const sessionToken = getSessionToken(options) || "";
+  const refreshToken = getRefreshToken(options) || "";
+
+  return { sessionToken, refreshToken };
+};
+
+export const getTokenCookieFields = (name: string) => {
+  const cookies = getCookies();
+  const cookie = cookies[name] || "";
+  const [token, expire] = cookie.split(",");
+
+  return [token || "", expire || ""];
 };
 
 /*
-  Backwards compatibility support for fetching the token by name
+  Support for fetching a token by name
 */
-export const getTokenFromCookie = (name: string) => {
+export const getTokenFromCookie = (name: string): string => {
   const cookies = getCookies();
+  const cookie = cookies[name];
 
-  return cookies[name];
+  // token cookie should contain the value and expiration timestamp separated by a comma
+  if (cookie) {
+    const [token] = cookie.split(",");
+    return token || "";
+  } else {
+    return "";
+  }
 };
 
 export const getUserFromResponse = (data: APIResponse): AuthUser => {
@@ -124,40 +142,24 @@ export const getUserFromResponse = (data: APIResponse): AuthUser => {
   Token refresh functions
 */
 
-export const startTokenWatch = (
-  callback: (useCookie: boolean) => void,
-  options: ProviderOptions
-): number => {
-  // get last refresh time, if set
-  const sessionData: SessionData = getSessionData(options);
-  const user: AuthUser | undefined = sessionData.user;
-  const intervalTime = REFRESH_CHECK_INTERVAL * 1000; // TODO: adjust frequecy of check based on token type or life
-
-  if (user?.refresh_token?.expire) {
-    const timer: number = window.setInterval(() => {
-      tokenLifeCheck(callback, user.active_token.expire, options.useCookie);
-    }, intervalTime);
-
-    return timer;
+// Get the expire value of the session token, from cookie or storage
+export const getTokenExpire = (options: ProviderOptions) => {
+  if (options.useCookie) {
+    const [_, expire] = getTokenCookieFields(options.cookieName as string);
+    return expire;
   } else {
-    console.log("No refresh token");
+    const sessionData: SessionData = getSessionData(options);
+    const user: AuthUser | undefined = sessionData.user;
+    return user?.refresh_token?.expire || "";
   }
-
-  return 0;
 };
 
-const tokenLifeCheck = (
-  callback: (useCookie: boolean) => void,
-  expireTime: string,
-  useCookie: boolean
-) => {
+export const isTokenExpiring = (expireTime: string) => {
   const refreshExpires = new Date(expireTime);
   const timeDiff = diffInSeconds(refreshExpires, new Date());
   const threshold = REFRESH_CHECK_INTERVAL + REFRESH_CHECK_THRESHOLD;
 
-  if (timeDiff < threshold) {
-    callback(useCookie);
-  }
+  return timeDiff < threshold;
 };
 
 /*
@@ -233,9 +235,14 @@ export const setTokenCookies = (
 ) => {
   const userToken: string = userData.active_token.token;
   const refreshToken: string = userData.refresh_token.token;
+  const userExpire: string = userData.active_token.expire;
+  const refreshExpire: string = userData.refresh_token.expire;
 
-  setCookie(options.cookieName as string, userToken, options);
-  setCookie(options.refreshCookieName as string, refreshToken, options);
+  const userCookieValue = `${userToken},${userExpire}`;
+  const refreshCookieValue = `${refreshToken},${refreshExpire}`;
+
+  setCookie(options.cookieName as string, userCookieValue, options);
+  setCookie(options.refreshCookieName as string, refreshCookieValue, options);
 };
 
 export const removeTokenCookies = (options: ProviderOptions) => {

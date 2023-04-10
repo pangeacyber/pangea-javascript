@@ -6,13 +6,13 @@ import { ThemeOptions } from "@mui/material/styles";
 import AuthNPanel from "@src/components/core/Panel";
 import LoginForm from "@src/components/forms/LoginForm";
 
-interface LoginViewProps {
+interface LoginViewComponentProps {
   config: any; // TODO: add shared interface
   themeOptions?: ThemeOptions;
   sx?: SxProps;
 }
 
-const LoginView: FC<LoginViewProps> = ({
+const LoginView: FC<LoginViewComponentProps> = ({
   config,
   themeOptions,
   sx,

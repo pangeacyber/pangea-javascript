@@ -77,5 +77,9 @@ export const isLocalhost = (hostname: string): boolean => {
 
 export const diffInSeconds = (dt1: Date, dt2: Date) => {
   const diff = (dt1.getTime() - dt2.getTime()) / 1000;
-  return Math.abs(Math.round(diff));
+  return Math.round(diff);
+};
+
+export const delay = (ms: number) => {
+  return new Promise((resolve) => setTimeout(resolve, ms));
 };

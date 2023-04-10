@@ -6,7 +6,7 @@ import { TestEnvironment, getTestDomain, getTestToken } from "../../src/utils/ut
 
 const token = getTestToken(TestEnvironment.LIVE);
 const testHost = getTestDomain(TestEnvironment.LIVE);
-const config = new PangeaConfig({ domain: testHost });
+const config = new PangeaConfig({ domain: testHost, customUserAgent: "sdk-test" });
 const redact = new RedactService(token, config);
 
 it("redact a data string", async () => {
@@ -18,11 +18,29 @@ it("redact a data string", async () => {
   expect(response.result).toMatchObject(expected);
 });
 
+it("redact a data string without result", async () => {
+  const data = "Jenny Jenny... 415-867-5309";
+  const expected = { count: 2 };
+
+  const response = await redact.redact(data, { return_result: false });
+  expect(response.status).toBe("Success");
+  expect(response.result).toMatchObject(expected);
+});
+
 it("redact a data object", async () => {
   const data = { phone: "415-867-5309" };
   const expected = { redacted_data: { phone: "<PHONE_NUMBER>" }, count: 1 };
 
   const response = await redact.redactStructured(data);
+  expect(response.status).toBe("Success");
+  expect(response.result).toMatchObject(expected);
+});
+
+it("redact a data object without result", async () => {
+  const data = { phone: "415-867-5309" };
+  const expected = { count: 1 };
+
+  const response = await redact.redactStructured(data, { return_result: false });
   expect(response.status).toBe("Success");
   expect(response.result).toMatchObject(expected);
 });

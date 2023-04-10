@@ -9,7 +9,7 @@ import { TestEnvironment, getTestDomain, getTestToken } from "../../src/utils/ut
 const environment = TestEnvironment.LIVE;
 const token = getTestToken(environment);
 const testHost = getTestDomain(environment);
-const config = new PangeaConfig({ domain: testHost });
+const config = new PangeaConfig({ domain: testHost, customUserAgent: "sdk-test" });
 const vault = new VaultService(token, config);
 const TIME = new Date().toDateString();
 const FOLDER_VALUE = "/test_key_folder_" + TIME + "/";
@@ -338,7 +338,8 @@ async function symGenerateParams(
   expect(getResp.result.versions.length).toBe(0);
   expect(getResp.result.current_version?.version).toBe(1);
   expect(getResp.result.name).toBe(name);
-  expect(getResp.result.expiration).toBe(EXPIRATION_VALUE);
+  const expiration = new Date(getResp.result.expiration ?? "").toISOString();
+  expect(expiration).toBe(EXPIRATION_VALUE);
   expect(getResp.result.rotation_frequency).toBe(ROTATION_FREQUENCY_VALUE);
   expect(getResp.result.rotation_state).toBe(ROTATION_STATE_VALUE);
   expect(getResp.result.id).toBeDefined();
@@ -434,7 +435,7 @@ it("AES default store", async () => {
 
 jest.setTimeout(60000);
 it("AES encrypting generate all params", async () => {
-  const algorithm = Vault.SymmetricAlgorithm.AES;
+  const algorithm = Vault.SymmetricAlgorithm.AES128_CFB;
   const purpose = Vault.KeyPurpose.ENCRYPTION;
   try {
     const id = await symGenerateParams(algorithm, purpose);
@@ -448,7 +449,7 @@ it("AES encrypting generate all params", async () => {
 
 jest.setTimeout(60000);
 it("RSA encrypting generate all params", async () => {
-  const algorithm = Vault.AsymmetricAlgorithm.RSA;
+  const algorithm = Vault.AsymmetricAlgorithm.RSA2048_OAEP_SHA256;
   const purpose = Vault.KeyPurpose.ENCRYPTION;
   try {
     const id = await asymGenerateParams(algorithm as Vault.AsymmetricAlgorithm, purpose);
@@ -476,7 +477,7 @@ it("Ed25519 signing life cycle", async () => {
 
 jest.setTimeout(60000);
 it("RSA encrypting life cycle", async () => {
-  const algorithm = Vault.AsymmetricAlgorithm.RSA;
+  const algorithm = Vault.AsymmetricAlgorithm.RSA2048_OAEP_SHA256;
   const purpose = Vault.KeyPurpose.ENCRYPTION;
   try {
     const id = await asymGenerateDefault(algorithm as Vault.AsymmetricAlgorithm, purpose);

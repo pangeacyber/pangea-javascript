@@ -1,6 +1,6 @@
 {
   "name": "pangea-node-sdk",
-  "version": "1.4.0",
+  "version": "1.6.0",
   "main": "dist/cjs/index.js",
   "module": "dist/mjs/index.js",
   "exports": {
