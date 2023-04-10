@@ -9,7 +9,7 @@
       paths:
         - node_modules
   rules:
-    - if: $CI_PIPELINE_SOURCE == "merge_request_event"
+    - if: $CI_PIPELINE_SOURCE == "push"
       changes:
         - packages/pangea-node-sdk/**/*
       when: on_success
