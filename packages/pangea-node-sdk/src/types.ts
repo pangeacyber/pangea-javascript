@@ -23,6 +23,7 @@ export namespace Audit {
     signer?: Signer;
     skipEventVerification?: boolean;
     verify?: boolean;
+    publicKeyInfo?: Object; // Key:Value object
   }
 
   export interface LogData {
