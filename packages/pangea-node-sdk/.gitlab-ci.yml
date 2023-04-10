@@ -9,11 +9,7 @@
       paths:
         - node_modules
   rules:
-    - if: $CI_COMMIT_BRANCH != "main"
-      changes:
-        - packages/pangea-node-sdk/**/*
-      when: on_success
-    - if: $CI_COMMIT_BRANCH == "main"
+    - if: $CI_COMMIT_BRANCH
       changes:
         - packages/pangea-node-sdk/**/*
       when: on_success

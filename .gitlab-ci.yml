@@ -26,8 +26,6 @@ lint_packages:
   extends: .packages_base
   stage: Lint
   script:
-    - echo "GITLAB VARS"
-    - env
     - yarn lint
 
 include:
