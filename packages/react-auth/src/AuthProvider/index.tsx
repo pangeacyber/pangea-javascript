@@ -34,7 +34,6 @@ import {
 import {
   APIResponse,
   AuthUser,
-  AuthOptions,
   AppState,
   AuthConfig,
   CookieOptions,
@@ -77,12 +76,6 @@ export interface AuthProviderProps {
    * logging in
    */
   onLogin?: (appState: AppState) => void;
-
-  /**
-   * AuthOptions: optional options for customizing auth settings
-   */
-
-  authOptions?: AuthOptions;
 
   /**
    * useCookie: optional boolean
@@ -135,7 +128,6 @@ export const AuthProvider: FC<AuthProviderProps> = ({
   loginUrl,
   config,
   onLogin,
-  authOptions = {},
   useCookie = false,
   cookieOptions = {},
   redirectPathname,
@@ -163,7 +155,6 @@ export const AuthProvider: FC<AuthProviderProps> = ({
     useCookie,
     sessionKey: SESSION_DATA_KEY,
     ...DEFAULT_COOKIE_OPTIONS,
-    ...authOptions,
     ...cookieOptions,
   };
 
