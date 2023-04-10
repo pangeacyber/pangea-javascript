@@ -25,7 +25,10 @@ stages:
 lint_packages:
   extends: .packages_base
   stage: Lint
-  script: yarn lint
+  script: 
+    - echo "GITLAB SOURCE"
+    - echo $CI_PIPELINE_SOURCE
+    - yarn lint
 
 include:
   - /packages/react-mui-shared/.gitlab-ci.yml
