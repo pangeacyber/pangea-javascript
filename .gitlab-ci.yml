@@ -25,9 +25,9 @@ stages:
 lint_packages:
   extends: .packages_base
   stage: Lint
-  script: 
-    - echo "GITLAB SOURCE"
-    - echo $CI_PIPELINE_SOURCE
+  script:
+    - echo "GITLAB VARS"
+    - env
     - yarn lint
 
 include:
