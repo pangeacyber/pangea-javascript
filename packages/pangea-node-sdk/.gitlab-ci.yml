@@ -18,7 +18,6 @@
         - packages/pangea-node-sdk/**/*
       when: on_success
 
-
 .pangea_node_sdk_publish:
   before_script:
     - cd packages/pangea-node-sdk
