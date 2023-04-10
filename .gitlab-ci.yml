@@ -22,10 +22,10 @@ stages:
       paths:
         - node_modules
 
-# lint_packages:
-#   extends: .packages_base
-#   stage: Lint
-#   script: yarn lint
+lint_packages:
+  extends: .packages_base
+  stage: Lint
+  script: yarn lint
 
 include:
   - /packages/react-mui-shared/.gitlab-ci.yml
