@@ -62,6 +62,12 @@ export interface AuthOptions {
   useCookie: boolean;
 }
 
+export interface JwtToken {
+  header: any;
+  payload: any;
+  signature: any;
+}
+
 export interface CookieOptions {
   /**
    * cookieMaxAge: optional number, default is 48 hours (in seconds)

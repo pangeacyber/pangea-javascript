@@ -83,3 +83,8 @@ export const diffInSeconds = (dt1: Date, dt2: Date) => {
 export const delay = (ms: number) => {
   return new Promise((resolve) => setTimeout(resolve, ms));
 };
+
+// convert base64 encoded to base64url encoded
+export const toBase64Url = (value: string) => {
+  return value.replace("+", "-").replace("/", "_").replace(/=$/, "");
+};
