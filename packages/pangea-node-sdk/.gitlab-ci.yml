@@ -40,14 +40,12 @@ lint_pangea_node_sdk:
   extends: .pangea_node_sdk_base
   stage: Lint
   script:
-    - echo "Lint Node SDK"
     - yarn lint
 
 generate_docs:
   extends: .pangea_node_sdk_base
   stage: Lint
   script:
-    - echo "Generate Docs"
     - yarn generate:docs
   artifacts:
     expire_in: 1 month
