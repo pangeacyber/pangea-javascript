@@ -10,6 +10,7 @@ export interface ConfigOptions {
   requestTimeout?: number;
   queuedRetryEnabled?: boolean;
   aqueuedRetries?: number;
+  customUserAgent?: string;
 }
 
 /**
@@ -22,6 +23,7 @@ export namespace Audit {
     signer?: Signer;
     skipEventVerification?: boolean;
     verify?: boolean;
+    publicKeyInfo?: Object; // Key:Value object
   }
 
   export interface LogData {
@@ -146,18 +148,19 @@ export namespace Audit {
 
 export namespace Redact {
   export interface BaseResponse {
-    redacted_text: string;
+    redacted_text?: string;
     count: number;
   }
 
   export interface StructuredResponse {
-    redacted_data: object;
+    redacted_data?: object;
     count: number;
   }
 
   export interface Options {
     debug?: boolean;
     rules?: string[];
+    return_result?: boolean;
   }
 
   export interface TextOptions extends Options {}

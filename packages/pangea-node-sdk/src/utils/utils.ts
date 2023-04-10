@@ -48,3 +48,8 @@ export function getTestToken(environment: string) {
   const name = "PANGEA_INTEGRATION_TOKEN_" + environment;
   return process.env[name] || "";
 }
+
+export function getVaultSignatureTestToken(environment: string) {
+  const name = "PANGEA_INTEGRATION_VAULT_TOKEN_" + environment;
+  return process.env[name] || "";
+}

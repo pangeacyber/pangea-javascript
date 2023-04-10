@@ -80,6 +80,11 @@ const Template: ComponentStory<typeof PangeaDataGrid> = (args) => {
         pageSize: 10,
         paginationRowCount: Math.min(lastKnownPage * 10, SHOWS.length),
         rowCount: SHOWS.length,
+        maxResults: 1000,
+        maxResultOptions: [1000, 2000],
+        onMaxResultChange: (maxResults) => {},
+        rowsPerPageOptions: [10, 20],
+        onPageSizeChange: () => {},
       }}
     />
   );

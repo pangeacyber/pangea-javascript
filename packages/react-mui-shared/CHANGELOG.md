@@ -5,6 +5,24 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.0.16] - 2023-04-04
+
+### Fixed
+
+- Fix condition options not updating with new options
+
+## [0.0.14] - 2023-03-28
+
+### Fixed
+
+- maxResults displayed as limit
+
+## [0.0.13] - 2023-03-27
+
+### Fixed
+
+- Fix direct import of react-json-view. Only require is window is not undefined
+
 ## [0.0.12] - 2023-03-21
 
 ### Fixed

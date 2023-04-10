@@ -4,12 +4,18 @@ import { Audit } from "../../src/types";
 import { Signer } from "../../src/utils/signer";
 import { jest, it, expect } from "@jest/globals";
 import { PangeaErrors } from "../../src/errors";
-import { TestEnvironment, getTestDomain, getTestToken } from "../../src/utils/utils";
+import {
+  TestEnvironment,
+  getTestDomain,
+  getTestToken,
+  getVaultSignatureTestToken,
+} from "../../src/utils/utils";
 
 const ACTOR = "node-sdk";
 const MSG_NO_SIGNED = "test-message";
 const MSG_JSON = "JSON-message";
 const MSG_SIGNED_LOCAL = "sign-test-local";
+const MSG_SIGNED_VAULT = "sign-test-vault";
 const STATUS_NO_SIGNED = "no-signed";
 const STATUS_SIGNED = "signed";
 const signer = new Signer("./tests/testdata/privkey");
@@ -23,11 +29,14 @@ const JSON_OLD_DATA = {
   customtag5: "mycustommsg5",
   ct6: "cm6",
 };
+
 const environment = TestEnvironment.LIVE;
 const token = getTestToken(environment);
+const tokenVault = getVaultSignatureTestToken(environment);
 const domain = getTestDomain(environment);
-const config = new PangeaConfig({ domain: domain });
+const config = new PangeaConfig({ domain: domain, customUserAgent: "sdk-test" });
 const audit = new AuditService(token, config);
+const auditVault = new AuditService(tokenVault, config);
 const auditWithTenantId = new AuditService(token, config, "mytenantid");
 
 it("log an audit event. no verbose", async () => {
@@ -197,7 +206,9 @@ it("log an event, local sign and verify", async () => {
   const respSearch = await audit.search(query, queryOptions, {});
   const searchEvent = respSearch.result.events[0];
   expect(searchEvent.signature_verification).toBe("pass");
-  expect(searchEvent.envelope.public_key).toBe("lvOyDMpK2DQ16NI8G41yINl01wMHzINBahtDPoh4+mE=");
+  expect(searchEvent.envelope.public_key).toBe(
+    String.raw`{"key":"-----BEGIN PUBLIC KEY-----\nMCowBQYDK2VwAyEAlvOyDMpK2DQ16NI8G41yINl01wMHzINBahtDPoh4+mE=\n-----END PUBLIC KEY-----\n"}`
+  );
 });
 
 it("log an event, local sign and tenant id", async () => {
@@ -228,19 +239,39 @@ it("log an event, local sign and tenant id", async () => {
   const respSearch = await audit.search(query, queryOptions, {});
   const searchEvent = respSearch.result.events[0];
   expect(searchEvent.signature_verification).toBe("pass");
-  expect(searchEvent.envelope.public_key).toBe("lvOyDMpK2DQ16NI8G41yINl01wMHzINBahtDPoh4+mE=");
+  expect(searchEvent.envelope.public_key).toBe(
+    String.raw`{"key":"-----BEGIN PUBLIC KEY-----\nMCowBQYDK2VwAyEAlvOyDMpK2DQ16NI8G41yINl01wMHzINBahtDPoh4+mE=\n-----END PUBLIC KEY-----\n"}`
+  );
 });
 
-it("log JSON event, sign and verify", async () => {
+it("log an event, vault sign", async () => {
   const event: Audit.Event = {
-    message: MSG_SIGNED_LOCAL,
+    message: MSG_SIGNED_VAULT,
     source: "Source",
-    status: STATUS_SIGNED,
+    status: "Status",
     target: "Target",
     actor: ACTOR,
     action: "Action",
     new: "New",
     old: "Old",
+  };
+
+  const respLog = await auditVault.log(event, { verbose: true });
+  expect(respLog.status).toBe("Success");
+  expect(typeof respLog.result.hash).toBe("string");
+  expect(respLog.result.envelope).toBeDefined();
+  expect(respLog.result.envelope.public_key).toBeDefined();
+  expect(respLog.result.envelope.signature).toBeDefined();
+  expect(respLog.result.signature_verification).toBe("pass");
+});
+
+it("log JSON event, sign and verify", async () => {
+  const event: Audit.Event = {
+    actor: ACTOR,
+    message: MSG_JSON,
+    status: STATUS_SIGNED,
+    new: JSON_NEW_DATA,
+    old: JSON_OLD_DATA,
   };
 
   const respLog = await audit.log(event, {
@@ -252,7 +283,7 @@ it("log JSON event, sign and verify", async () => {
   expect(typeof respLog.result.hash).toBe("string");
   expect(respLog.result.signature_verification).toBe("pass");
 
-  const query = "message:" + MSG_SIGNED_LOCAL + " actor:" + ACTOR + " status:" + STATUS_SIGNED;
+  const query = "message:" + MSG_JSON + " actor:" + ACTOR + " status:" + STATUS_SIGNED;
   const queryOptions: Audit.SearchParamsOptions = {
     limit: 1,
   };
@@ -260,7 +291,44 @@ it("log JSON event, sign and verify", async () => {
   const respSearch = await audit.search(query, queryOptions, {});
   const searchEvent = respSearch.result.events[0];
   expect(searchEvent.signature_verification).toBe("pass");
-  expect(searchEvent.envelope.public_key).toBe("lvOyDMpK2DQ16NI8G41yINl01wMHzINBahtDPoh4+mE=");
+  expect(searchEvent.envelope.public_key).toBe(
+    String.raw`{"key":"-----BEGIN PUBLIC KEY-----\nMCowBQYDK2VwAyEAlvOyDMpK2DQ16NI8G41yINl01wMHzINBahtDPoh4+mE=\n-----END PUBLIC KEY-----\n"}`
+  );
+});
+
+it("log JSON event, vault sign and verify", async () => {
+  const event: Audit.Event = {
+    actor: ACTOR,
+    message: MSG_JSON,
+    status: STATUS_SIGNED,
+    new: JSON_NEW_DATA,
+    old: JSON_OLD_DATA,
+  };
+  try {
+    const respLog = await auditVault.log(event, {
+      verbose: true,
+    });
+
+    expect(respLog.status).toBe("Success");
+    expect(typeof respLog.result.hash).toBe("string");
+    expect(respLog.result.signature_verification).toBe("pass");
+    expect(respLog.result.envelope.public_key).toBeDefined();
+  } catch (e) {
+    if (e instanceof PangeaErrors.ValidationError) {
+      e.errors.forEach((ef) => {
+        console.log(ef.detail);
+      });
+    }
+  }
+
+  const query = "message:" + MSG_JSON + " actor:" + ACTOR + " status:" + STATUS_SIGNED;
+  const queryOptions: Audit.SearchParamsOptions = {
+    limit: 1,
+  };
+
+  const respSearch = await auditVault.search(query, queryOptions, {});
+  const searchEvent = respSearch.result.events[0];
+  expect(searchEvent.signature_verification).toBe("pass");
 });
 
 jest.setTimeout(20000);
