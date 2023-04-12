@@ -19,7 +19,6 @@ export interface ConfigOptions {
 export namespace Audit {
   export interface LogOptions {
     verbose?: boolean;
-    signMode?: SignOptions;
     signer?: Signer;
     skipEventVerification?: boolean;
     verify?: boolean;
@@ -34,22 +33,8 @@ export namespace Audit {
     prev_root?: string;
   }
 
-  export enum SignOptions {
-    Unsign,
-    Local,
-  }
-
   export interface Event {
-    message: Object | string;
-    actor?: string;
-    action?: string;
-    new?: Object | string;
-    old?: Object | string;
-    status?: string;
-    target?: string;
-    source?: string;
-    timestamp?: Date | string;
-    tenant_id?: string;
+    [key: string]: Object | string | boolean | number | Date;
   }
 
   export interface EventEnvelope {
