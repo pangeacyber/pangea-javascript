@@ -1,10 +1,5 @@
-import {
-  APIResponse,
-  AuthUser,
-  CookieOptions,
-  ProviderOptions,
-  SessionData,
-} from "@src/types";
+import { APIResponse, AuthUser, SessionData } from "@src/types";
+import { AuthOptions, CookieOptions } from "@src/shared/types";
 import { isLocalhost, diffInSeconds } from "./utils";
 
 type CookieObj = {
@@ -19,6 +14,7 @@ export const TOKEN_COOKIE_NAME = "pangea-token";
 export const REFRESH_COOKIE_NAME = "pangea-refresh";
 
 export const DEFAULT_COOKIE_OPTIONS: CookieOptions = {
+  useCookie: false,
   cookieMaxAge: 60 * 60 * 24 * 2, // 48 Hours, in seconds
   cookieName: TOKEN_COOKIE_NAME,
   refreshCookieName: REFRESH_COOKIE_NAME,
@@ -43,16 +39,13 @@ export function getStorageAPI(isUsingCookies: boolean): Storage {
   return isUsingCookies ? window.sessionStorage : window.localStorage;
 }
 
-export const saveSessionData = (
-  data: SessionData,
-  options: ProviderOptions
-) => {
+export const saveSessionData = (data: SessionData, options: AuthOptions) => {
   const storageAPI = getStorageAPI(options.useCookie);
   const dataString = JSON.stringify(data);
   storageAPI.setItem(options.sessionKey, dataString);
 };
 
-export const getSessionData = (options: ProviderOptions): SessionData => {
+export const getSessionData = (options: AuthOptions): SessionData => {
   const storageAPI = getStorageAPI(options.useCookie);
   const data = storageAPI.getItem(options.sessionKey);
   const sessionJSON = data ? JSON.parse(data) : {};
@@ -60,7 +53,7 @@ export const getSessionData = (options: ProviderOptions): SessionData => {
   return sessionJSON;
 };
 
-export const getSessionToken = (options: ProviderOptions) => {
+export const getSessionToken = (options: AuthOptions) => {
   if (options.useCookie) {
     return getTokenFromCookie(options.cookieName as string);
   }
@@ -69,7 +62,7 @@ export const getSessionToken = (options: ProviderOptions) => {
   return data?.user?.active_token?.token;
 };
 
-export const getRefreshToken = (options: ProviderOptions) => {
+export const getRefreshToken = (options: AuthOptions) => {
   if (options.useCookie) {
     return getTokenFromCookie(options.refreshCookieName as string);
   } else {
@@ -78,7 +71,7 @@ export const getRefreshToken = (options: ProviderOptions) => {
   }
 };
 
-export const getAllTokens = (options: ProviderOptions) => {
+export const getAllTokens = (options: AuthOptions) => {
   const sessionToken = getSessionToken(options) || "";
   const refreshToken = getRefreshToken(options) || "";
 
@@ -109,41 +102,12 @@ export const getTokenFromCookie = (name: string): string => {
   }
 };
 
-export const getUserFromResponse = (data: APIResponse): AuthUser => {
-  // The token/check endpoint returns a different format thean userinfo and flow/complete
-  // Data only includes the active_token information in response.result
-  // TODO: need a fix for this for cookie sessions and refresh token support
-  const activeToken = data.result?.active_token?.token
-    ? { ...data.result.active_token }
-    : { ...data.result };
-  const refreshToken = data.result?.refresh_token?.token
-    ? { ...data.result.refresh_token }
-    : {};
-  const email = activeToken.email;
-  const profile = { ...activeToken.profile };
-
-  // remove deplicate user data from tokens
-  delete activeToken.email;
-  delete activeToken.profile;
-  delete refreshToken.email;
-  delete refreshToken.profile;
-
-  const user: AuthUser = {
-    email: email,
-    profile: profile,
-    active_token: activeToken,
-    refresh_token: refreshToken,
-  };
-
-  return user;
-};
-
 /*
   Token refresh functions
 */
 
 // Get the expire value of the session token, from cookie or storage
-export const getTokenExpire = (options: ProviderOptions) => {
+export const getTokenExpire = (options: AuthOptions) => {
   if (options.useCookie) {
     const [_, expire] = getTokenCookieFields(options.cookieName as string);
     return expire;
@@ -168,7 +132,7 @@ export const isTokenExpiring = (expireTime: string) => {
 
 export const maybeAddSecureFlag = (
   cookie: string,
-  options: ProviderOptions
+  options: AuthOptions
 ): string => {
   const { cookieDomain } = options;
 
@@ -205,11 +169,7 @@ export const getCookies = (): CookieObj => {
   return cookies;
 };
 
-export const setCookie = (
-  key: string,
-  value = "",
-  options: ProviderOptions
-) => {
+export const setCookie = (key: string, value = "", options: AuthOptions) => {
   const { cookieMaxAge } = options;
 
   let cookie = `${key}=${value}${BASE_COOKIE_FLAGS}; max-age=${cookieMaxAge}`;
@@ -219,7 +179,7 @@ export const setCookie = (
   document.cookie = cookie;
 };
 
-export const removeCookie = (key: string, options: ProviderOptions) => {
+export const removeCookie = (key: string, options: AuthOptions) => {
   const epoch = new Date(0);
 
   let cookie = `${key}=${BASE_COOKIE_FLAGS}; expires=${epoch.toUTCString()}; max-age=0`;
@@ -229,14 +189,11 @@ export const removeCookie = (key: string, options: ProviderOptions) => {
   document.cookie = cookie;
 };
 
-export const setTokenCookies = (
-  userData: AuthUser,
-  options: ProviderOptions
-) => {
-  const userToken: string = userData.active_token.token;
-  const refreshToken: string = userData.refresh_token.token;
-  const userExpire: string = userData.active_token.expire;
-  const refreshExpire: string = userData.refresh_token.expire;
+export const setTokenCookies = (userData: AuthUser, options: AuthOptions) => {
+  const userToken: string = userData.active_token?.token || "";
+  const refreshToken: string = userData.refresh_token?.token || "";
+  const userExpire: string = userData.active_token?.expire || "";
+  const refreshExpire: string = userData.refresh_token?.expire || "";
 
   const userCookieValue = `${userToken},${userExpire}`;
   const refreshCookieValue = `${refreshToken},${refreshExpire}`;
@@ -245,7 +202,36 @@ export const setTokenCookies = (
   setCookie(options.refreshCookieName as string, refreshCookieValue, options);
 };
 
-export const removeTokenCookies = (options: ProviderOptions) => {
+export const removeTokenCookies = (options: AuthOptions) => {
   removeCookie(options.cookieName as string, options);
   removeCookie(options.refreshCookieName as string, options);
+};
+
+export const getUserFromResponse = (data: APIResponse): AuthUser => {
+  // The token/check endpoint returns a different format thean userinfo and flow/complete
+  // Data only includes the active_token information in response.result
+  // TODO: need a fix for this for cookie sessions and refresh token support
+  const activeToken = data.result?.active_token?.token
+    ? { ...data.result.active_token }
+    : { ...data.result };
+  const refreshToken = data.result?.refresh_token?.token
+    ? { ...data.result.refresh_token }
+    : {};
+  const email = activeToken.email as string;
+  const profile = { ...activeToken.profile };
+
+  // remove deplicate user data from tokens
+  delete activeToken.email;
+  delete activeToken.profile;
+  delete refreshToken.email;
+  delete refreshToken.profile;
+
+  const user: AuthUser = {
+    email: email,
+    profile: profile,
+    active_token: activeToken,
+    refresh_token: refreshToken,
+  };
+
+  return user;
 };
