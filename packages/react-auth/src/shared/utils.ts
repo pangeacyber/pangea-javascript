@@ -85,6 +85,6 @@ export const delay = (ms: number) => {
 };
 
 // convert base64 encoded to base64url encoded
-export const toBase64Url = (value: string) => {
-  return value.replace("+", "-").replace("/", "_").replace(/=$/, "");
-};
+// export const toBase64Url = (value: string) => {
+//   return value.replace("+", "-").replace("/", "_").replace(/=$/, "");
+// };

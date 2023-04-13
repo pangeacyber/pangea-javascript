@@ -1,6 +1,6 @@
 {
   "name": "@pangeacyber/react-auth",
-  "version": "0.0.2-beta.12n",
+  "version": "0.0.3-beta.1",
   "description": "Pangea auth provider React component",
   "main": "dist/cjs/index.js",
   "module": "dist/esm/index.js",
@@ -19,8 +19,8 @@
     "lodash": "^4.17.21"
   },
   "peerDependencies": {
-    "react": "17",
-    "react-dom": "17"
+    "react": "^17.0.2 || ^18.2.0",
+    "react-dom": "^17.0.2 || ^18.2.0"
   },
   "devDependencies": {
     "@babel/core": "^7.19.6",
@@ -38,8 +38,8 @@
     "@typescript-eslint/parser": "^5.51.0",
     "babel-loader": "^9.0.0",
     "eslint": "^8.34.0",
-    "react": "17",
-    "react-dom": "17",
+    "react": "^17.0.2",
+    "react-dom": "^17.0.2",
     "rollup": "^3.2.3",
     "rollup-plugin-dts": "^5.0.0",
     "rollup-plugin-peer-deps-external": "^2.2.4",

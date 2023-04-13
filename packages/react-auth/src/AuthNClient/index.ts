@@ -7,7 +7,7 @@ const API_VERSION = "v1";
 export class AuthNClient {
   config: AuthConfig;
 
-  constructor(config: AuthConfig) {
+  constructor(config: AuthConfig, useJwt: boolean = false) {
     if (!config.clientToken) throw new Error("A token is required");
     if (!config.domain) throw new Error("A domain is required");
 
