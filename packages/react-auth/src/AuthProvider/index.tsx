@@ -41,11 +41,6 @@ export interface AuthProviderProps {
   loginUrl: string;
 
   /**
-   * config: {
-   *  domain: string
-   *  token: string
-   * }
-   *
    * The client config for the authn API
    */
   config: AuthConfig;
@@ -81,7 +76,7 @@ export interface AuthProviderProps {
    *
    * Default is false
    */
-  redirectOnLogout: boolean;
+  redirectOnLogout?: boolean;
 
   /**
    * useStrictStateCheck: optional boolean
