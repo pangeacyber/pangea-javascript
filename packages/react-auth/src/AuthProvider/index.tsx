@@ -42,6 +42,9 @@ export interface AuthProviderProps {
 
   /**
    * The client config for the authn API
+   *
+   * See AuthConfig in types.ts for full
+   * config options.
    */
   config: AuthConfig;
 
@@ -393,5 +396,5 @@ export const useAuth = () => {
   return useContext(AuthContext);
 };
 
-// Convience method and for backwards compatbility
+// Convenience method and for backwards compatibility
 export { getTokenFromCookie };
