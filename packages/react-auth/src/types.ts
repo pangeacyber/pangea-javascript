@@ -35,7 +35,7 @@ export interface AuthConfig {
   /**
    * clientToken: required string
    *
-   * A Pangea client acccess token.
+   * A Pangea client access token.
    */
   clientToken: string;
 
