@@ -1,19 +1,31 @@
-# Pangea React AuthN
+## Pangea React Auth
 
-## Components and Classes
+## Getting started
 
-### [AuthProvider](src/AuthProvider)
+### Installation
 
-A provider for adding authentication using Pangea hosted pages.
+Using [npm](https://npmjs.org/)
 
-### [ComponentAuthProvider](src/ComponentAuthProvider)
+```bash
+npm install @pangeacyber/react-auth
+```
 
-A provider for implementing UI-only authentication using AuthN Flow endpoints.
+Using [yarn](https://yarnpkg.com/)
 
-### [AuthNClient](src/AuthNClient)
+```bash
+yarn add @pangeacyber/react-auth
+```
 
-A client class for using common AuthN client endpoints.
+### Components and Classes
 
-### [AuthNFlow](src/AuthNFlow)
+- **[AuthProvider](src/AuthProvider)**
+  A provider for adding authentication using Pangea hosted pages.
 
-A provider and client for implmenting authentication using AuthN Flow endpoints.
+- **[ComponentAuthProvider](src/ComponentAuthProvider)**
+  A provider for implementing UI-only authentication using AuthN Flow endpoints.
+
+- **[AuthNClient](src/AuthNClient)**
+  A client class for using common AuthN client endpoints.
+
+- **[AuthNFlow](src/AuthNFlow)**
+  A provider and client for implmenting authentication using AuthN Flow endpoints.
