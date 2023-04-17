@@ -78,6 +78,18 @@ export const getAllTokens = (options: AuthOptions) => {
   return { sessionToken, refreshToken };
 };
 
+export const getSessionTokenValues = (options: AuthOptions) => {
+  if (options.useCookie) {
+    return getTokenCookieFields(options.cookieName as string);
+  }
+
+  const data: SessionData = getSessionData(options);
+  return [
+    data?.user?.refresh_token?.token || "",
+    data?.user?.refresh_token?.expire || "",
+  ];
+};
+
 export const getTokenCookieFields = (name: string) => {
   const cookies = getCookies();
   const cookie = cookies[name] || "";

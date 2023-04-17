@@ -13,8 +13,7 @@ import {
   hasAuthParams,
   getSessionData,
   getSessionToken,
-  getTokenCookieFields,
-  getTokenExpire,
+  getSessionTokenValues,
   getUserFromResponse,
   isTokenExpiring,
   removeTokenCookies,
@@ -77,6 +76,7 @@ export const ComponentAuthProvider: FC<ComponentAuthProviderProps> = ({
   const validateCallback = useCallback((result: VerifyResponse) => {
     if (result.user) {
       setAuthenticated(true);
+      setUser(result.user);
     } else {
       setLoggedOut();
     }
@@ -108,7 +108,7 @@ export const ComponentAuthProvider: FC<ComponentAuthProviderProps> = ({
 
   // load data from local storage, and params from URL
   useEffect(() => {
-    const [token, expire] = getTokenCookieFields(options.cookieName as string);
+    const [token, expire] = getSessionTokenValues(options);
 
     // save callback params if set
     if (hasAuthParams()) {
@@ -133,57 +133,7 @@ export const ComponentAuthProvider: FC<ComponentAuthProviderProps> = ({
     } else {
       setLoading(false);
     }
-
-    // // event handler to start/stop refresh checker
-    // document.addEventListener("visibilitychange", checkVisibility);
-
-    // // clear the timer on unmount, if it's set
-    // return () => {
-    //   document.removeEventListener("visibilitychange", checkVisibility);
-    //   if (intervalId.current) {
-    //     clearInterval(intervalId.current);
-    //     intervalId.current = null;
-    //   }
-    // };
   }, []);
-
-  // const checkVisibility = () => {
-  //   if (document.hidden) {
-  //     if (intervalId.current) {
-  //       clearInterval(intervalId.current);
-  //       intervalId.current = null;
-  //     }
-  //   } else {
-  //     setLoading(true);
-  //     checkTokenLife();
-  //     setLoading(false);
-  //     startTokenWatch();
-  //   }
-  // };
-
-  // const validate = async (token: string) => {
-  //   if (config?.useJwt) {
-  //     if (await validateJwt(token)) {
-  //       setAuthenticated(true);
-  //     } else {
-  //       setLoggedOut();
-  //     }
-  //   } else {
-  //     const { success, response } = await client.validate(token);
-
-  //     if (success) {
-  //       setAuthenticated(true);
-  //     } else {
-  //       if (response.status === "InvalidToken") {
-  //         setLoggedOut();
-  //       } else {
-  //         setError(response);
-  //       }
-  //     }
-  //   }
-
-  //   setLoading(false);
-  // };
 
   const logout = useCallback(async () => {
     const userToken = getSessionToken(options);
@@ -199,38 +149,15 @@ export const ComponentAuthProvider: FC<ComponentAuthProviderProps> = ({
     } else {
       setLoggedOut();
     }
+
+    stopTokenWatch();
+
     // eslint-disable-next-line
   }, [user]);
 
   const getToken = useCallback((): string | undefined => {
     return getSessionToken(options);
   }, []);
-
-  // const refresh = async () => {
-  //   const { sessionToken, refreshToken } = getAllTokens(options);
-
-  //   const { success, response } = await client.refresh(
-  //     sessionToken,
-  //     refreshToken
-  //   );
-
-  //   if (success) {
-  //     const sessionData = getSessionData(options);
-  //     const user: AuthUser = getUserFromResponse(response);
-  //     sessionData.user = user;
-  //     saveSessionData(sessionData, options);
-
-  //     if (useCookie) {
-  //       setTokenCookies(user, options);
-  //     }
-
-  //     setUser(user);
-  //     setAuthenticated(true);
-  //     setLoading(false);
-  //   } else {
-  //     logout();
-  //   }
-  // };
 
   const setLoggedOut = () => {
     if (options.useCookie) {
@@ -241,47 +168,6 @@ export const ComponentAuthProvider: FC<ComponentAuthProviderProps> = ({
     setUser(undefined);
     setAuthenticated(false);
   };
-
-  // const getPublicKeys = async () => {
-  //   const { success, response } = await client.jwks();
-
-  //   if (success) {
-  //     if (response.result?.keys && response.result.keys.length > 0) {
-  //       JWKS.current = { keys: [...response.result.keys] };
-  //     } else {
-  //       console.log("Error: empty JWKS response");
-  //     }
-  //   } else {
-  //     console.log("Error: fetch JWKS failed", response);
-  //   }
-  // };
-
-  // const validateJwt = async (token: string) => {
-  //   // TODO: Take claims to validate from configuration
-  //   const options = {};
-
-  //   // fetch public keys if not set
-  //   if (!JWKS.current?.keys?.length) {
-  //     await getPublicKeys();
-  //   }
-
-  //   try {
-  //     const keySet = jose.createLocalJWKSet(JWKS.current);
-
-  //     const { payload, protectedHeader } = await jose.jwtVerify(
-  //       token,
-  //       keySet,
-  //       options
-  //     );
-  //     console.log("header", protectedHeader);
-  //     console.log("payload", payload);
-
-  //     return true;
-  //   } catch (error) {
-  //     console.log("ERROR", error);
-  //     return false;
-  //   }
-  // };
 
   const setFlowComplete = useCallback((response: APIResponse) => {
     const user: AuthUser = getUserFromResponse(response);
@@ -299,26 +185,6 @@ export const ComponentAuthProvider: FC<ComponentAuthProviderProps> = ({
 
     startTokenWatch();
   }, []);
-
-  const checkTokenLife = () => {
-    const tokenExpire = getTokenExpire(options);
-    if (tokenExpire && isTokenExpiring(tokenExpire)) {
-      refresh();
-    }
-  };
-
-  // const startTokenWatch = () => {
-  //   const intervalTime = REFRESH_CHECK_INTERVAL * 1000;
-
-  //   if (intervalId.current) {
-  //     clearInterval(intervalId.current);
-  //     intervalId.current = null;
-  //   }
-
-  //   intervalId.current = window.setInterval(() => {
-  //     checkTokenLife();
-  //   }, intervalTime);
-  // };
 
   const memoData = useMemo(
     () => ({

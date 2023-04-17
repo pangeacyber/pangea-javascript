@@ -14,7 +14,7 @@ import {
   getStorageAPI,
   getSessionData,
   getSessionToken,
-  getTokenCookieFields,
+  getSessionTokenValues,
   getUserFromResponse,
   hasAuthParams,
   saveSessionData,
@@ -88,7 +88,7 @@ export interface AuthProviderProps {
    *
    * Not allowing authentication flows starting from outside your application.
    *
-   * Default is false
+   * Default is true
    */
   useStrictStateCheck?: boolean;
 
@@ -119,7 +119,7 @@ export const AuthProvider: FC<AuthProviderProps> = ({
   cookieOptions = { useCookie: false },
   redirectPathname,
   redirectOnLogout = false,
-  useStrictStateCheck = false,
+  useStrictStateCheck = true,
   children,
 }) => {
   const [authenticated, setAuthenticated] = useState<boolean>(false);
@@ -149,6 +149,7 @@ export const AuthProvider: FC<AuthProviderProps> = ({
       const sessionData = getSessionData(options);
 
       setAuthenticated(true);
+      setUser(result.user);
 
       if (onLogin) {
         const appState = {
@@ -187,7 +188,7 @@ export const AuthProvider: FC<AuthProviderProps> = ({
   );
 
   useEffect(() => {
-    const [token, expire] = getTokenCookieFields(options.cookieName as string);
+    const [token, expire] = getSessionTokenValues(options);
 
     if (hasAuthParams()) {
       // if code and secret params are set, exchange code for a token

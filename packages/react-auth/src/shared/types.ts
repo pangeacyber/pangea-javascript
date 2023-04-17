@@ -1,4 +1,4 @@
-import { AuthConfig, AuthUser } from "@src/types";
+import { AuthUser } from "@src/types";
 
 export interface CookieOptions {
   /**
