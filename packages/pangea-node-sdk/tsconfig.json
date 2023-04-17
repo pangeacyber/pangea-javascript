@@ -7,6 +7,6 @@
     "paths": {
       "@src/*": ["src/*"],
       "@services/*": ["src/services/*"]
-    },
+    }
   }
 }
