@@ -48,6 +48,15 @@ export interface AuthConfig {
   domain: string;
 
   /**
+   * callbackUri: optional string
+   *
+   * The URI that the hosted pages will redirect to after login
+   *
+   * Defaults to window.location.orgin
+   */
+  callbackUri?: string;
+
+  /**
    * useJwt: optional boolean
    *
    * If set to true, expect the token to be in JWT format and
@@ -64,8 +73,6 @@ export interface AuthConfig {
    * Defaults to "pangea-session" if not set.
    */
   sessionKey?: string;
-
-  callbackUri?: string;
 }
 
 export interface AuthUser {
@@ -74,7 +81,7 @@ export interface AuthUser {
   active_token?: Token;
   refresh_token?: Token;
   payload?: JWTPayload;
-  protectedHeader?: JWTHeaderParameters;
+  header?: JWTHeaderParameters;
 }
 
 export interface SessionData {
