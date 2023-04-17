@@ -2,18 +2,18 @@
 
 ## Components and Classes
 
-### AuthProvider
+### (AuthProvider)[src/AuthProvider]
 
 A provider for adding authentication using Pangea hosted pages.
 
-### ComponentAuthProvider
+### (ComponentAuthProvider)[src/ComponentAuthProvider]
 
 A provider for implementing UI-only authentication using AuthN Flow endpoints.
 
-### AuthNClient
+### (AuthNClient)[src/AuthNClient]
 
 A client class for using common AuthN client endpoints.
 
-### AuthNFlow
+### (AuthNFlow)[src/AuthNFlow]
 
 A provider and client for implmenting authentication using AuthN Flow endpoints.
