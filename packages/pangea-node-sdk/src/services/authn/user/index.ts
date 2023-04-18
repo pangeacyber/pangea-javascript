@@ -1,11 +1,11 @@
-import PangeaResponse from "../../../response";
-import BaseService from "../../base";
-import PangeaConfig from "../../../config";
-import { AuthN } from "../../../types";
-import UserProfile from "./profile";
-import UserInvites from "./invites";
-import UserLogin from "./login";
-import UserMFA from "./mfa";
+import PangeaResponse from "../../../response.js";
+import BaseService from "../../base.js";
+import PangeaConfig from "../../../config.js";
+import { AuthN } from "../../../types.js";
+import UserProfile from "./profile.js";
+import UserInvites from "./invites.js";
+import UserLogin from "./login.js";
+import UserMFA from "./mfa.js";
 
 export default class User extends BaseService {
   profile: UserProfile;
@@ -83,11 +83,9 @@ export default class User extends BaseService {
   }
 
   // authn::/v1/user/list
-  list({
-    scopes,
-    glob_scopes,
-  }: AuthN.User.ListRequest): Promise<PangeaResponse<AuthN.User.ListResult>> {
-    return this.post("user/list", { scopes, glob_scopes });
+  list(request: AuthN.User.ListRequest): Promise<PangeaResponse<AuthN.User.ListResult>> {
+    request.use_new = true;
+    return this.post("user/list", request);
   }
 
   // authn::/v1/user/verify

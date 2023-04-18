@@ -1,10 +1,9 @@
-import BaseService from "../base";
-import PangeaConfig from "../../config";
-import User from "./user";
-import Flow from "./flow";
-import Client from "./client";
-import Session from "./session";
-import Password from "./password";
+import BaseService from "../base.js";
+import PangeaConfig from "../../config.js";
+import User from "./user/index.js";
+import Flow from "./flow/index.js";
+import Client from "./client/index.js";
+import Session from "./session.js";
 
 /**
  * AuthnService class provides methods for interacting with the AuthN Service
@@ -15,7 +14,6 @@ export default class AuthNService extends BaseService {
   flow: Flow;
   client: Client;
   session: Session;
-  password: Password;
 
   constructor(token: string, config: PangeaConfig) {
     super("authn", token, config);
@@ -25,6 +23,5 @@ export default class AuthNService extends BaseService {
     this.flow = new Flow(token, config);
     this.client = new Client(token, config);
     this.session = new Session(token, config);
-    this.password = new Password(token, config);
   }
 }

@@ -1,4 +1,3 @@
-import UserProfile from "services/authn/user/profile";
 import { Signer } from "utils/signer";
 
 /**
@@ -864,6 +863,11 @@ export namespace AuthN {
     PASSWORD = "password",
   }
 
+  export enum ItemOrder {
+    ASC = "asc",
+    DESC = "desc",
+  }
+
   export type Scopes = string[];
 
   export interface Profile {
@@ -883,7 +887,7 @@ export namespace AuthN {
 
   export interface UserItem {
     profile: Profile;
-    identity: string;
+    id: string;
     email: string;
     scopes: Scopes;
     id_provider: string;
@@ -910,23 +914,16 @@ export namespace AuthN {
   }
 
   export interface Token {
+    token: string;
     id: string;
+    identity: string;
     type: TokenType;
     life: number;
     expire: string;
-    identity: string;
     email: string;
     scopes: Scopes;
     profile: Profile;
     created_at: string;
-  }
-
-  export namespace Password {
-    export interface UpdateRequest {
-      email: string;
-      old_secret: string;
-      new_secret: string;
-    }
   }
 
   export namespace Flow {
@@ -1065,14 +1062,13 @@ export namespace AuthN {
       active_token?: Token;
     }
 
-    export interface StartRequest extends StartOptions {
-      cb_uri: string;
-    }
+    export interface StartRequest extends StartOptions {}
 
     export interface StartOptions {
       email?: string;
       flow_types?: FlowType[];
       provider?: AuthN.IDProvider;
+      cb_uri?: string;
     }
 
     export namespace Signup {
@@ -1091,6 +1087,23 @@ export namespace AuthN {
   }
 
   export namespace Client {
+    export interface UserinfoRequest {
+      code: string;
+    }
+
+    export interface UserinfoResult {
+      refresh_token: Token;
+      active_token: Token;
+    }
+
+    export namespace Password {
+      export interface UpdateRequest {
+        token: string;
+        old_password: string;
+        new_password: string;
+      }
+    }
+
     export namespace Session {
       export interface InvalidateRequest {
         token: string;
@@ -1130,7 +1143,6 @@ export namespace AuthN {
       type: TokenType;
       life: number;
       expire: string;
-      identity: string;
       profile: Profile;
       created_at: string;
       scopes?: Scopes;
@@ -1166,7 +1178,7 @@ export namespace AuthN {
     }
 
     export interface CreateResult {
-      identity: string;
+      id: string;
       email: string;
       profile: Profile;
       id_provider: string;
@@ -1207,13 +1219,31 @@ export namespace AuthN {
       require_mfa?: boolean;
     }
 
+    export enum ListOrderBy {
+      ID = "id",
+      CREATED_AT = "created_at",
+      LAST_LOGIN_AT = "last_login_at",
+      EMAIL = "email",
+    }
+
     export interface ListRequest {
-      scopes: Scopes;
-      glob_scopes: Scopes;
+      filter?: Object;
+      last?: string;
+      order?: AuthN.ItemOrder;
+      order_by?: AuthN.User.ListOrderBy;
+      size?: number;
+      use_new?: boolean; // Temporary field, need to be true
     }
 
     export interface ListResult {
       users: UserItem[];
+    }
+
+    export namespace Password {
+      export interface ResetRequest {
+        user_id: string;
+        new_password: string;
+      }
     }
 
     export namespace Invite {
@@ -1289,7 +1319,7 @@ export namespace AuthN {
     }
     export namespace Profile {
       export interface ProfileItem {
-        identity: string;
+        id: string;
         email: string;
         profile: Profile;
         id_provider: string;
@@ -1308,7 +1338,7 @@ export namespace AuthN {
         }
 
         export interface IdentityRequest {
-          identity: string | null;
+          id: string | null;
         }
       }
 
@@ -1319,7 +1349,7 @@ export namespace AuthN {
         }
 
         export interface IdentityRequest {
-          identity: string | null;
+          id: string | null;
           profile: Profile;
         }
       }
@@ -1333,7 +1363,7 @@ export namespace AuthN {
       }
 
       export interface IdentityRequest extends Options {
-        identity: string | null;
+        id: string | null;
       }
 
       export interface Options {
@@ -1353,7 +1383,7 @@ export namespace AuthN {
     }
 
     export interface VerifyResult {
-      identity: string;
+      id: string;
       email: string;
       profile: Profile;
       scopes: Scopes;

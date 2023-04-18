@@ -1,9 +1,9 @@
-import PangeaResponse from "../../../../response";
-import PangeaConfig from "../../../../config";
-import BaseService from "../../../base";
-import { AuthN } from "../../../../types";
+import PangeaResponse from "../../../../response.js";
+import PangeaConfig from "../../../../config.js";
+import BaseService from "../../../base.js";
+import { AuthN } from "../../../../types.js";
 
-import FlowVerifyMFA from "./mfa";
+import FlowVerifyMFA from "./mfa.js";
 
 export default class FlowVerify extends BaseService {
   mfa: FlowVerifyMFA;
