@@ -1,9 +1,15 @@
-import AuditService from "./audit";
+import AuditService from "./audit.js";
 import AuthNService from "./authn";
-import EmbargoService from "./embargo";
-import BaseService from "./base";
-import RedactService from "./redact";
-import { FileIntelService, DomainIntelService, IPIntelService, URLIntelService } from "./intel.js";
+import EmbargoService from "./embargo.js";
+import BaseService from "./base.js";
+import RedactService from "./redact.js";
+import {
+  FileIntelService,
+  DomainIntelService,
+  IPIntelService,
+  URLIntelService,
+  UserIntelService,
+} from "./intel.js";
 import VaultService from "./vault.js";
 
 export default {
@@ -16,5 +22,6 @@ export default {
   DomainIntelService,
   IPIntelService,
   URLIntelService,
+  UserIntelService,
   VaultService,
 };

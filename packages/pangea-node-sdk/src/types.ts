@@ -11,6 +11,7 @@ export interface ConfigOptions {
   requestTimeout?: number;
   queuedRetryEnabled?: boolean;
   aqueuedRetries?: number;
+  customUserAgent?: string;
 }
 
 export enum ConfigEnv {
@@ -28,6 +29,7 @@ export namespace Audit {
     signer?: Signer;
     skipEventVerification?: boolean;
     verify?: boolean;
+    publicKeyInfo?: Object; // Key:Value object
   }
 
   export interface LogData {
@@ -152,18 +154,19 @@ export namespace Audit {
 
 export namespace Redact {
   export interface BaseResponse {
-    redacted_text: string;
+    redacted_text?: string;
     count: number;
   }
 
   export interface StructuredResponse {
-    redacted_data: object;
+    redacted_data?: object;
     count: number;
   }
 
   export interface Options {
     debug?: boolean;
     rules?: string[];
+    return_result?: boolean;
   }
 
   export interface TextOptions extends Options {}
@@ -199,21 +202,25 @@ export namespace Embargo {
  * Intel services interface definitions
  */
 export namespace Intel {
+  export enum HashType {
+    SHA256 = "sha256",
+    SHA1 = "sha1",
+    MD5 = "md5",
+  }
+
   export interface Options {
     verbose?: boolean;
     raw?: boolean;
     provider?: string;
   }
 
-  export interface Response {
+  export interface ReputationResult {
     data: {
       category: string[];
       score: number;
       verdict: string;
     };
   }
-
-  export interface ReputationResult extends Response {}
 
   export namespace File {
     export interface Options extends Intel.Options {}
@@ -258,7 +265,7 @@ export namespace Intel {
     export interface ReputationOptions extends Options {}
     export interface ReputationResult extends Intel.ReputationResult {}
     export interface ReputationParams extends Params, ReputationOptions {}
-    export interface GeolocateResult extends CommonResponse {
+    export interface GeolocateResult extends CommonResult {
       data: {
         country: string;
         city: string;
@@ -269,20 +276,20 @@ export namespace Intel {
       };
     }
 
-    export interface DomainResult extends CommonResponse {
+    export interface DomainResult extends CommonResult {
       data: {
         domain_found: boolean;
         domain?: string;
       };
     }
 
-    export interface VPNResult extends CommonResponse {
+    export interface VPNResult extends CommonResult {
       data: {
         is_vpn: boolean;
       };
     }
 
-    export interface ProxyResult extends CommonResponse {
+    export interface ProxyResult extends CommonResult {
       data: {
         is_proxy: boolean;
       };
@@ -306,17 +313,68 @@ export namespace Intel {
     domain: string;
   }
 
-  export interface CommonResponse {
+  export interface CommonResult {
     parameter?: Object;
     raw_data?: Object;
   }
 
-  export interface Response extends CommonResponse {
+  export interface Response extends CommonResult {
     data: {
       category: string[];
       score: number;
       verdict: string;
     };
+  }
+
+  export namespace User {
+    export interface BreachedData {
+      found_in_breach: boolean;
+      breach_count: number;
+    }
+
+    export interface BreachedResult extends Intel.CommonResult {
+      data: BreachedData;
+    }
+
+    export namespace User {
+      export interface BreachedOptions extends Intel.Options {
+        start?: string;
+        end?: string;
+      }
+
+      export interface BreachedEmailRequest extends BreachedOptions {
+        email: string;
+      }
+
+      export interface BreachedUsernameRequest extends BreachedOptions {
+        username: string;
+      }
+
+      export interface BreachedIPRequest extends BreachedOptions {
+        ip: string;
+      }
+
+      export interface BreachedPhoneRequest extends BreachedOptions {
+        phone_number: string;
+      }
+
+      export interface BreachedResult extends Intel.User.BreachedResult {}
+
+      export type BreachedRequest =
+        | BreachedEmailRequest
+        | BreachedIPRequest
+        | BreachedPhoneRequest
+        | BreachedUsernameRequest;
+    }
+
+    export namespace Password {
+      export interface BreachedOptions extends Intel.Options {}
+
+      export interface BreachedRequest extends BreachedOptions {
+        hash_type: string;
+        hash_prefix: string;
+      }
+    }
   }
 }
 

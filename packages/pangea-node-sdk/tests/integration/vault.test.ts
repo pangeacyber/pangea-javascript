@@ -9,7 +9,7 @@ import { TestEnvironment, getTestDomain, getTestToken } from "../../src/utils/ut
 const environment = TestEnvironment.LIVE;
 const token = getTestToken(environment);
 const testHost = getTestDomain(environment);
-const config = new PangeaConfig({ domain: testHost });
+const config = new PangeaConfig({ domain: testHost, customUserAgent: "sdk-test" });
 const vault = new VaultService(token, config);
 const TIME = new Date().toDateString();
 const FOLDER_VALUE = "/test_key_folder_" + TIME + "/";

@@ -579,3 +579,83 @@ export class URLIntelService extends BaseService {
     return this.post("reputation", data);
   }
 }
+
+// User
+
+/**
+ * UserIntelService class provides methods for interacting with the User Intel Service
+ * @extends BaseService
+ *
+ * Documentation
+ *   https://docs.pangea.cloud/docs/api/file-intel
+ *
+ * The following information is needed:
+ *   PANGEA_TOKEN - service token which can be found on the Pangea User
+ *     Console at [https://console.pangea.cloud/project/tokens](https://console.pangea.cloud/project/tokens)
+ *
+ * Examples:
+ *    import { PangeaConfig, UserIntelService } from "pangea-node-sdk";
+ *
+ *    const domain = process.env.PANGEA_DOMAIN;
+ *    const token = process.env.PANGEA_TOKEN;
+ *    const config = new PangeaConfig({ domain });
+ *
+ *    const userIntel = new UserIntelService(token, config);
+ *    const options = { provider: "spycloud", verbose: true };
+ *    const response = await userIntel.passwordBreached(Intel.HashType.SHA256, "5baa6", options);
+ */
+export class UserIntelService extends BaseService {
+  constructor(token: string, config: PangeaConfig) {
+    super("user-intel", token, config);
+    this.apiVersion = "v1";
+  }
+
+  /**
+   * @summary Look up breached users
+   * @description Find out if an email address, username, phone number, or IP address was exposed in a security breach.
+   * @param {BrechedRequest} request - Request to be send to user/breached endpoint
+   * @param {Object} options - An object of optional parameters. Parameters supported:
+   *   - provider {String} - Use breached data from this provider: "spycloud".
+   *   Default provider defined by the configuration.
+   *   - verbose {Boolean} - Echo the API parameters in the response. Default: verbose=false.
+   *   - raw {Boolean} - Include raw data from this provider. Default: raw=false.
+   * @returns {Promise} - A promise representing an async call to the user/breached endpoint.
+   * @example
+   *  const request = {phone_number: "8005550123", verbose: true, raw: true };
+   *  const response = await userIntel.userBreached(request);
+   */
+  userBreached(
+    request: Intel.User.User.BreachedRequest
+  ): Promise<PangeaResponse<Intel.User.User.BreachedResult>> {
+    return this.post("user/breached", request);
+  }
+
+  /**
+   * @summary Look up breached passwords
+   * @description Find out if a password has been exposed in security breaches by providing a 5 character prefix of the password hash.
+   * @param {String} hashType - Hash type to be looked up
+   * @param {String} hashPrefix - The prefix of the hash to be looked up.
+   * @param {Object} options - An object of optional parameters. Parameters supported:
+   *   - provider {String} - Use breached data from this provider: "spycloud".
+   *   Default provider defined by the configuration.
+   *   - verbose {Boolean} - Echo the API parameters in the response. Default: verbose=false.
+   *   - raw {Boolean} - Include raw data from this provider. Default: raw=false.
+   * @returns {Promise} - A promise representing an async call to the password/breached endpoint.
+   * @example
+   * const options = {provider: "spycloud", verbose: true, raw: true };
+   * const response = await userIntel.passwordBreached(Intel.HashType.SHA256, "5baa6", options);
+   */
+  passwordBreached(
+    hashType: Intel.HashType,
+    hashPrefix: string,
+    options: Intel.User.Password.BreachedOptions
+  ): Promise<PangeaResponse<Intel.User.User.BreachedResult>> {
+    const data: Intel.User.Password.BreachedRequest = {
+      hash_type: hashType,
+      hash_prefix: hashPrefix,
+    };
+    Object.assign(data, options);
+
+    return this.post("password/breached", data);
+  }
+}

@@ -9,6 +9,6 @@
   "author": "Pangea",
   "license": "MIT",
   "dependencies": {
-    "pangea-node-sdk": "^1.5.0"
+    "pangea-node-sdk": "^1.6.0"
   }
 }

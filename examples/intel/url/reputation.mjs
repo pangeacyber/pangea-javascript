@@ -3,7 +3,7 @@
 import { PangeaConfig, URLIntelService, PangeaErrors } from "pangea-node-sdk";
 
 const domain = process.env.PANGEA_DOMAIN;
-const token = process.env.PANGEA_URL_INTEL_TOKEN;
+const token = process.env.PANGEA_INTEL_TOKEN;
 const config = new PangeaConfig({ domain: domain });
 const urlIntel = new URLIntelService(String(token), config);
 

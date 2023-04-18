@@ -34,14 +34,14 @@ const vault = new VaultService(token, config);
       signResponse.result.signature
     );
 
-    if (verifyResponse.result.valid_signature == true) {
+    if (verifyResponse.result.valid_signature === true) {
       console.log("Signature is valid");
     } else {
       console.log("Signature is invalid");
     }
   } catch (err) {
     if (err instanceof PangeaErrors.APIError) {
-      console.log(err.summary, err.pangeaResponse);
+      console.log(err.toString());
     } else {
       throw err;
     }

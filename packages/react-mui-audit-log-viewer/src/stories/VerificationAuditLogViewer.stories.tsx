@@ -76,13 +76,42 @@ const AUDIT_SCHEMA: Audit.Schema = {
   ],
 };
 
-const ThemeTemplate: ComponentStory<typeof AuditLogViewer> = (args) => (
-  <PangeaThemeProvider>
-    <Box className="widget" sx={{ padding: 1 }}>
-      <AuditLogViewer {...args} />
-    </Box>
-  </PangeaThemeProvider>
-);
+const ThemeTemplate: ComponentStory<typeof AuditLogViewer> = (args) => {
+  const [schema, setSchema] = React.useState<any>({
+    fields: [
+      {
+        id: "received_at",
+        name: "Time",
+        type: "datetime",
+        ui_default_visible: true,
+      },
+      {
+        id: "message",
+        name: "Message",
+        type: "string",
+        size: 32766,
+        description: "A free form text field describing the event",
+        ui_default_visible: true,
+        required: true,
+        redact: true,
+      },
+    ],
+  });
+
+  React.useEffect(() => {
+    setTimeout(() => {
+      setSchema(AUDIT_SCHEMA);
+    }, 1000);
+  }, []);
+
+  return (
+    <PangeaThemeProvider>
+      <Box className="widget" sx={{ padding: 1 }}>
+        <AuditLogViewer {...args} schema={schema} />
+      </Box>
+    </PangeaThemeProvider>
+  );
+};
 
 export const VerificationAuditLogViewer: {
   args: AuditLogViewerProps;

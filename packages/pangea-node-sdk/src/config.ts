@@ -1,6 +1,6 @@
 import { ConfigOptions, ConfigEnv } from "./types.js";
 
-export const version = "1.6.0";
+export const version = "1.7.0";
 
 class PangeaConfig {
   domain: string = "pangea.cloud";
@@ -9,6 +9,7 @@ class PangeaConfig {
   requestTimeout: number = 5000;
   queuedRetryEnabled: boolean = true;
   queuedRetries: number = 4;
+  customUserAgent: string | undefined = "";
 
   constructor(options?: ConfigOptions) {
     Object.assign(this, options);

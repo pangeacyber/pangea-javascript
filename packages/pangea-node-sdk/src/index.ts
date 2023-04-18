@@ -25,4 +25,5 @@ export const FileIntelService = services.FileIntelService;
 export const DomainIntelService = services.DomainIntelService;
 export const IPIntelService = services.IPIntelService;
 export const URLIntelService = services.URLIntelService;
+export const UserIntelService = services.UserIntelService;
 export const VaultService = services.VaultService;

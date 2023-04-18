@@ -22,8 +22,8 @@ const SupportedJSONFields = ["message", "new", "old"];
  * @extends BaseService
  */
 class AuditService extends BaseService {
-  publishedRoots: PublishedRoots;
-  prevUnpublishedRootHash: string | undefined;
+  private publishedRoots: PublishedRoots;
+  private prevUnpublishedRootHash: string | undefined;
   tenantID: string | undefined;
 
   constructor(token: string, config: PangeaConfig, tenantID: string | undefined = undefined) {
@@ -106,8 +106,15 @@ class AuditService extends BaseService {
       const eventJson = canonicalizeEvent(event);
       const signature = signer.sign(eventJson);
       const pubKey = signer.getPublicKey();
+
+      let publicKeyInfo: { [key: string]: any } = {};
+      if (options.publicKeyInfo) {
+        Object.assign(publicKeyInfo, options.publicKeyInfo);
+      }
+      publicKeyInfo["key"] = pubKey;
+
       data.signature = signature;
-      data.public_key = pubKey;
+      data.public_key = JSON.stringify(publicKeyInfo);
     }
 
     if (options?.verbose) {

@@ -34,8 +34,8 @@ export class Signer {
    */
   getPublicKey(): string {
     const pubKey = createPublicKey(this.privateKey);
-    const rawKey = pubKey.export({ format: "jwk" });
-    return Buffer.from(String(rawKey.x), "base64url").toString("base64");
+    const pem = pubKey.export({ format: "pem", type: "spki" });
+    return String(pem);
   }
 }
 

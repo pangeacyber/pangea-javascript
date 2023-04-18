@@ -9,11 +9,7 @@
       paths:
         - node_modules
   rules:
-    - if: $CI_PIPELINE_SOURCE == "merge_request_event"
-      changes:
-        - packages/pangea-node-sdk/**/*
-      when: on_success
-    - if: $CI_COMMIT_BRANCH == "main"
+    - if: $CI_COMMIT_BRANCH || $CI_PIPELINE_SOURCE == "push"
       changes:
         - packages/pangea-node-sdk/**/*
       when: on_success
@@ -84,8 +80,3 @@ tag_pangea_node_sdk:
     - cp ../../scripts/tag_release.py .
     - python3 tag_release.py ${GITHUB_TOKEN} ${VERSION} ${CI_COMMIT_SHA} "pangea-node-sdk" "Pangea Node SDK"
     - rm tag_release.py
-  rules:
-    - if: $CI_COMMIT_BRANCH == "main"
-      changes:
-        - packages/pangea-node-sdk/**/*
-      when: always

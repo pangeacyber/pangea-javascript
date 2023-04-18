@@ -1,18 +1,18 @@
 /* eslint-disable no-console */
 
-import { PangeaConfig, IPIntelService, PangeaErrors } from "pangea-node-sdk";
+import { PangeaConfig, UserIntelService, PangeaErrors } from "pangea-node-sdk";
 
 const domain = process.env.PANGEA_DOMAIN;
 const token = process.env.PANGEA_INTEL_TOKEN;
 const config = new PangeaConfig({ domain: domain });
-const ipIntel = new IPIntelService(String(token), config);
+const userIntel = new UserIntelService(String(token), config);
 
 (async () => {
-  console.log("Checking IP...");
+  console.log("Checking user breached by IP...");
 
-  const options = { provider: "crowdstrike", verbose: true, raw: true };
+  const request = { ip: "192.168.140.37", verbose: true, raw: true };
   try {
-    const response = await ipIntel.reputation("93.231.182.110", options);
+    const response = await userIntel.userBreached(request);
     console.log(response.result);
   } catch (e) {
     if (e instanceof PangeaErrors.APIError) {
