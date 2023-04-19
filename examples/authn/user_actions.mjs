@@ -77,10 +77,11 @@ let USER_ID; // Will be set once user is created
 
     // Delete
     console.log("\n\nDelete user...");
-    const deleteResp = await authn.user.delete(USER_EMAIL);
+    const deleteResp = await authn.user.delete({email: USER_EMAIL});
     console.log("Delete user success.");
   } catch (err) {
     if (err instanceof PangeaErrors.APIError) {
+      console.log("Something went wrong...");
       console.log(err.toString());
     } else {
       throw err;

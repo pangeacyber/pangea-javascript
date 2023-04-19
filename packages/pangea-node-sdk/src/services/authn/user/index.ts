@@ -27,17 +27,15 @@ export default class User extends BaseService {
   /**
    * @summary Delete a user
    * @description Delete a user
-   * @param {String} email - An email address
+   * @param {Request} request - An email/id delete request
    * @returns {Promise<PangeaResponse<{}>>} - A promise representing an async call to the endpoint
    * @example
-   * await authn.user.delete("example@example.com");
+   * await authn.user.delete({email: "example@example.com"});
    */
-  delete(email: string): Promise<PangeaResponse<{}>> {
-    const data: AuthN.User.DeleteRequest = {
-      email: email,
-    };
-
-    return this.post("user/delete", data);
+  delete(
+    request: AuthN.User.Delete.EmailRequest | AuthN.User.Delete.IDRequest
+  ): Promise<PangeaResponse<{}>> {
+    return this.post("user/delete", request);
   }
 
   // authn::/v1/user/create
@@ -67,7 +65,7 @@ export default class User extends BaseService {
     email: string,
     callback: string,
     state: string,
-    { invite_org, require_mfa }: AuthN.User.InviteOptions = {}
+    options: AuthN.User.InviteOptions = {}
   ): Promise<PangeaResponse<AuthN.User.InviteResult>> {
     const data: AuthN.User.InviteRequest = {
       inviter,
@@ -75,10 +73,7 @@ export default class User extends BaseService {
       callback,
       state,
     };
-
-    if (invite_org) data.invite_org = invite_org;
-    if (typeof require_mfa === "boolean") data.require_mfa = require_mfa;
-
+    Object.assign(data, options);
     return this.post("user/invite", data);
   }
 
@@ -104,10 +99,10 @@ export default class User extends BaseService {
 
   // authn::/v1/user/update
   update(
-    request: AuthN.User.Update.EmailRequest | AuthN.User.Update.IdentityRequest,
+    request: AuthN.User.Update.EmailRequest | AuthN.User.Update.IDRequest,
     options: AuthN.User.Update.Options
   ): Promise<PangeaResponse<AuthN.User.UpdateResult>> {
-    const data: AuthN.User.Update.EmailRequest | AuthN.User.Update.IdentityRequest = {
+    const data: AuthN.User.Update.EmailRequest | AuthN.User.Update.IDRequest = {
       ...request,
       ...options,
     };

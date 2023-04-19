@@ -28,14 +28,12 @@ export default class FlowVerify extends BaseService {
   // #   - path: authn::/v1/flow/verify/email
   email(
     flowID: string,
-    cbState: string,
-    cbCode: string
+    options: AuthN.Flow.Verify.EmailOptions
   ): Promise<PangeaResponse<AuthN.Flow.Result>> {
     const data: AuthN.Flow.Verify.EmailRequest = {
       flow_id: flowID,
-      cb_code: cbCode,
-      cb_state: cbState,
     };
+    Object.assign(data, options);
     return this.post("flow/verify/email", data);
   }
 

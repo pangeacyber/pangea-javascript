@@ -50,6 +50,7 @@ const EMAIL_INVITE_2 = `invite_2.email+delete${RANDOM_VALUE}@pangea.cloud`;
     );
   } catch (err) {
     if (err instanceof PangeaErrors.APIError) {
+      console.log("Something went wrong...");
       console.log(err.toString());
     } else {
       throw err;
