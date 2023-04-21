@@ -16,12 +16,16 @@ export const getBrandingThemeOptions = (
   const themeOptions: ThemeOptions = {
     spacing: config?.density === "comfortable" ? 12 : 8,
     typography: {
-      fontFamily: config?.font_family ?? "Roboto",
+      fontFamily: config?.font_family ?? ["Kanit", "sans-serif"].join(","),
       h6: {
         fontSize: config?.header_font_size,
         fontWeight: config?.header_font_weight,
       },
       body2: {
+        fontSize: config?.body_font_size,
+        fontWeight: config?.body_font_weight,
+      },
+      button: {
         fontSize: config?.body_font_size,
         fontWeight: config?.body_font_weight,
       },
@@ -118,28 +122,32 @@ export const getBrandingThemeOptions = (
             ".MuiDataGrid-root": {
               ".MuiDataGrid-columnHeaders": {
                 backgroundColor:
-                  config?.custom?.audit?.column_header_bg_color ??
+                  config?.custom_metadata?.audit?.column_header_bg_color ??
                   config?.panel_bg_color,
               },
               ".MuiDataGrid-row.Mui-selected": {
                 backgroundColor:
-                  config?.custom?.audit?.selected_row_bg_color ??
+                  config?.custom_metadata?.audit?.selected_row_bg_color ??
                   config?.panel_bg_color,
                 ":hover": {
                   backgroundColor:
-                    config?.custom?.audit?.selected_row_bg_color ??
+                    config?.custom_metadata?.audit?.hover_row_bg_color ??
+                    config?.custom_metadata?.audit?.selected_row_bg_color ??
                     config?.panel_bg_color,
                 },
               },
               ".MuiDataGrid-row": {
                 ":hover": {
                   backgroundColor:
-                    config?.custom?.audit?.selected_row_bg_color ??
+                    config?.custom_metadata?.audit?.hover_row_bg_color ??
+                    config?.custom_metadata?.audit?.selected_row_bg_color ??
                     config?.panel_bg_color,
                 },
               },
               ".PangeaDataGrid-ExpansionRow, .PangeaDataGrid-Chip": {
-                backgroundColor: config?.custom?.audit?.selected_row_bg_color,
+                backgroundColor:
+                  config?.custom_metadata?.audit?.selected_row_bg_color ??
+                  config?.panel_bg_color,
               },
             },
           },

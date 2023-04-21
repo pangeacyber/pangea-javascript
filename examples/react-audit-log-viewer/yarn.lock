@@ -1878,12 +1878,12 @@
     "@nodelib/fs.scandir" "2.1.5"
     fastq "^1.6.0"
 
-"@pangeacyber/react-mui-audit-log-viewer@^0.0.2":
-  version "0.0.2"
-  resolved "https://registry.yarnpkg.com/@pangeacyber/react-mui-audit-log-viewer/-/react-mui-audit-log-viewer-0.0.2.tgz#a36b10abc63f6538332027aa4db8b71a6bd44ce7"
-  integrity sha512-FLLkACodJEQco2/++Kr8iWyOHB2eAeTXSWEpXy2rhFVrlFM8wRMa91QvhKKbKmAGk64p9KRURBqXD1C2rFoRBQ==
+"@pangeacyber/react-mui-audit-log-viewer@0.0.33":
+  version "0.0.33"
+  resolved "https://registry.yarnpkg.com/@pangeacyber/react-mui-audit-log-viewer/-/react-mui-audit-log-viewer-0.0.33.tgz#55313d9eab501858efdd99bd2089b31bc4c44a76"
+  integrity sha512-6mZwjNbvzzrempI/WUAFbKQzA9VxRHWIqWW9m1U4eyg2X2JWHP+etQi+1/absX9lP3n59XsLTANoO/5YuZndPQ==
   dependencies:
-    "@pangeacyber/react-mui-shared" "^0.0.1"
+    "@pangeacyber/react-mui-shared" "0.0.16"
     axios "^0.27.2"
     crypto-js "^4.1.1"
     diff "^5.1.0"
@@ -1891,18 +1891,18 @@
     merkle-tools "^1.4.1"
     react-beautiful-dnd "^13.1.0"
 
-"@pangeacyber/react-mui-branding@^0.0.2":
-  version "0.0.2"
-  resolved "https://registry.yarnpkg.com/@pangeacyber/react-mui-branding/-/react-mui-branding-0.0.2.tgz#de61a45d72d0cac06d82c36150e44bc68a8502ad"
-  integrity sha512-B/aHvN0n69rR8Rvk4IsGSLG1JIHaRRUHltWawpPpheGLd+Ex/SRzyxtAMZGgCU17nrSdCReIJfAdaCUR3aohYw==
+"@pangeacyber/react-mui-branding@0.0.3":
+  version "0.0.3"
+  resolved "https://registry.yarnpkg.com/@pangeacyber/react-mui-branding/-/react-mui-branding-0.0.3.tgz#9796d15f59b3c41d5c02a0dcad7afa67de5d7441"
+  integrity sha512-fj5K2mc+y5tupIaqoWM6V8NNkIwYV2AGAOTMPn8cSCZ+Ak7L1SCv2czdhA6JpWOHGTzGZaFSh+DNjIHCw/MHKw==
   dependencies:
     "@mui/icons-material" "^5.8.4"
     "@mui/material" "^5.0.0"
 
-"@pangeacyber/react-mui-shared@^0.0.1":
-  version "0.0.1"
-  resolved "https://registry.yarnpkg.com/@pangeacyber/react-mui-shared/-/react-mui-shared-0.0.1.tgz#cd418b8857b586c956a030c99c5aae65f9236caf"
-  integrity sha512-z6jf/LJJOwljoGl3jvmQreIR05WnrsSRhY4x2g18TIzECSP1QLJcVJjlrz4LE+7krlIkKO/OYhpvzzg6U6aZvg==
+"@pangeacyber/react-mui-shared@0.0.16":
+  version "0.0.16"
+  resolved "https://registry.yarnpkg.com/@pangeacyber/react-mui-shared/-/react-mui-shared-0.0.16.tgz#a7f8a9729020cfb3cb42cf842c8e81f6c214aa81"
+  integrity sha512-LcObWeT9lG379Jsl7knU2lKLfMRmM9nDfGfK5LXqgQMlm7Y3j2cC3QMeHX2c2mikp0NLyO7fz1rUlFQt8I8ETg==
   dependencies:
     "@loadable/component" "^5.15.2"
     "@mui/x-data-grid" "^5.17.2"
