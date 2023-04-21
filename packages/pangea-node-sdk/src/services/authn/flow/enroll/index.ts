@@ -1,7 +1,7 @@
-import PangeaConfig from "../../../../config";
-import BaseService from "../../../base";
+import PangeaConfig from "../../../../config.js";
+import BaseService from "../../../base.js";
 
-import FlowEnrollMFA from "./mfa";
+import FlowEnrollMFA from "./mfa.js";
 
 export default class FlowEnroll extends BaseService {
   mfa: FlowEnrollMFA;

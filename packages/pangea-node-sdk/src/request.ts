@@ -1,10 +1,10 @@
 import got, { Options, HTTPError } from "got";
 import type { Headers, Response } from "got";
 
-import PangeaConfig, { version } from "./config";
-import { ConfigEnv } from "./types";
-import { PangeaErrors } from "./errors";
-import { PangeaResponse, ResponseObject } from "./response";
+import PangeaConfig, { version } from "./config.js";
+import { ConfigEnv } from "./types.js";
+import { PangeaErrors } from "./errors.js";
+import { PangeaResponse, ResponseObject } from "./response.js";
 
 const delay = async (ms: number) =>
   new Promise((resolve) => {

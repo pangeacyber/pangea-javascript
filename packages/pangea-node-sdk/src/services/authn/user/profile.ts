@@ -1,7 +1,7 @@
-import PangeaResponse from "../../../response";
-import BaseService from "../../base";
-import PangeaConfig from "../../../config";
-import { AuthN } from "../../../types";
+import PangeaResponse from "../../../response.js";
+import BaseService from "../../base.js";
+import PangeaConfig from "../../../config.js";
+import { AuthN } from "../../../types.js";
 
 export default class UserProfile extends BaseService {
   constructor(token: string, config: PangeaConfig) {
@@ -11,14 +11,14 @@ export default class UserProfile extends BaseService {
 
   // authn::/v1/user/profile/get
   getProfile(
-    data: AuthN.User.Profile.Get.EmailRequest | AuthN.User.Profile.Get.IdentityRequest
+    data: AuthN.User.Profile.Get.EmailRequest | AuthN.User.Profile.Get.IDRequest
   ): Promise<PangeaResponse<AuthN.User.Profile.GetResult>> {
     return this.post("user/profile/get", data);
   }
 
   // authn::/v1/user/profile/update
   update(
-    data: AuthN.User.Profile.Update.EmailRequest | AuthN.User.Profile.Update.IdentityRequest
+    data: AuthN.User.Profile.Update.EmailRequest | AuthN.User.Profile.Update.IDRequest
   ): Promise<PangeaResponse<AuthN.User.Profile.UpdateResult>> {
     return this.post("user/profile/update", data);
   }

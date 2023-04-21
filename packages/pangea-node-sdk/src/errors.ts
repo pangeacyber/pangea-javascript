@@ -60,7 +60,7 @@ export namespace PangeaErrors {
     }
 
     toString(): string {
-      let ret = "";
+      let ret = "Summary: ";
       ret += this.response.summary + "\n";
       (this.response.result?.errors || []).forEach((ef) => {
         ret += "\t" + ef.detail + "\n";

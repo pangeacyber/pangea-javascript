@@ -1,4 +1,3 @@
-import UserProfile from "services/authn/user/profile";
 import { Signer } from "utils/signer";
 
 /**
@@ -864,10 +863,15 @@ export namespace AuthN {
     PASSWORD = "password",
   }
 
+  export enum ItemOrder {
+    ASC = "asc",
+    DESC = "desc",
+  }
+
   export type Scopes = string[];
 
   export interface Profile {
-    [key: string]: any;
+    [key: string]: string;
   }
 
   export enum MFAProvider {
@@ -883,15 +887,16 @@ export namespace AuthN {
 
   export interface UserItem {
     profile: Profile;
-    identity: string;
+    id: string;
     email: string;
     scopes: Scopes;
-    id_provider: string;
+    id_providers: string[];
     mfa_providers: string[];
     require_mfa: boolean;
     verified: boolean;
     disabled: boolean;
     last_login_at: string;
+    created_at: string;
   }
 
   export interface PasswordRequirements {
@@ -909,24 +914,29 @@ export namespace AuthN {
     SESSION = "session",
   }
 
-  export interface Token {
+  export interface LoginToken {
+    token: string;
     id: string;
+    identity: string;
     type: TokenType;
     life: number;
     expire: string;
-    identity: string;
     email: string;
     scopes: Scopes;
     profile: Profile;
     created_at: string;
   }
 
-  export namespace Password {
-    export interface UpdateRequest {
-      email: string;
-      old_secret: string;
-      new_secret: string;
-    }
+  export interface SessionToken {
+    id: string;
+    identity: string;
+    type: TokenType;
+    life: number;
+    expire: string;
+    email: string;
+    scopes: Scopes;
+    profile: Profile;
+    created_at: string;
   }
 
   export namespace Flow {
@@ -982,6 +992,7 @@ export namespace AuthN {
       export interface PasswordOptions {
         cb_state?: string;
         cb_code?: string;
+        cancel?: boolean;
       }
 
       export interface PasswordRequest extends PasswordOptions {
@@ -1019,10 +1030,13 @@ export namespace AuthN {
         code: string;
       }
 
-      export interface EmailRequest {
+      export interface EmailOptions {
+        cb_state?: string;
+        cb_code?: string;
+      }
+
+      export interface EmailRequest extends EmailOptions {
         flow_id: string;
-        cb_state: string;
-        cb_code: string;
       }
 
       export interface PasswordOptions {
@@ -1061,18 +1075,17 @@ export namespace AuthN {
     }
 
     export interface CompleteResult {
-      refresh_token: Token;
-      active_token?: Token;
+      refresh_token: LoginToken;
+      active_token?: LoginToken;
     }
 
-    export interface StartRequest extends StartOptions {
-      cb_uri: string;
-    }
+    export interface StartRequest extends StartOptions {}
 
     export interface StartOptions {
       email?: string;
       flow_types?: FlowType[];
       provider?: AuthN.IDProvider;
+      cb_uri?: string;
     }
 
     export namespace Signup {
@@ -1091,6 +1104,35 @@ export namespace AuthN {
   }
 
   export namespace Client {
+    export interface UserinfoRequest {
+      code: string;
+    }
+
+    export interface UserinfoResult {
+      refresh_token: LoginToken;
+      active_token: LoginToken;
+    }
+
+    export interface JWKSResult {
+      keys: [Vault.JWK.JWKrsa | Vault.JWK.JWKec][];
+    }
+
+    export namespace Token {
+      export interface CheckRequest {
+        token: string;
+      }
+
+      export interface CheckResult extends SessionToken {}
+    }
+
+    export namespace Password {
+      export interface UpdateRequest {
+        token: string;
+        old_password: string;
+        new_password: string;
+      }
+    }
+
     export namespace Session {
       export interface InvalidateRequest {
         token: string;
@@ -1098,7 +1140,7 @@ export namespace AuthN {
       }
 
       export interface ListOptions {
-        filter?: any;
+        filter?: Object;
         last?: string;
         order?: string;
         order_by?: string;
@@ -1118,8 +1160,8 @@ export namespace AuthN {
       }
 
       export interface RefreshResult {
-        refresh_token: Token;
-        active_token?: Token;
+        refresh_token: LoginToken;
+        active_token?: LoginToken;
       }
     }
   }
@@ -1130,15 +1172,14 @@ export namespace AuthN {
       type: TokenType;
       life: number;
       expire: string;
-      identity: string;
       profile: Profile;
       created_at: string;
       scopes?: Scopes;
-      active_token?: Token;
+      active_token?: SessionToken;
     }
 
     export interface ListRequest {
-      filter?: any;
+      filter?: Object;
       last?: string;
       order?: string;
       order_by?: string;
@@ -1166,10 +1207,10 @@ export namespace AuthN {
     }
 
     export interface CreateResult {
-      identity: string;
+      id: string;
       email: string;
       profile: Profile;
-      id_provider: string;
+      id_providers: string[];
       require_mfa: boolean;
       verified: boolean;
       last_login_at: string;
@@ -1177,8 +1218,14 @@ export namespace AuthN {
       mfa_provider?: MFAProvider[];
     }
 
-    export interface DeleteRequest {
-      email: string;
+    export namespace Delete {
+      export interface EmailRequest {
+        email: string;
+      }
+
+      export interface IDRequest {
+        id: string;
+      }
     }
 
     export interface InviteItem {
@@ -1203,27 +1250,61 @@ export namespace AuthN {
     export interface InviteResult extends InviteItem {}
 
     export interface InviteOptions {
-      invite_org?: string;
       require_mfa?: boolean;
     }
 
+    export enum ListOrderBy {
+      ID = "id",
+      CREATED_AT = "created_at",
+      LAST_LOGIN_AT = "last_login_at",
+      EMAIL = "email",
+    }
+
     export interface ListRequest {
-      scopes: Scopes;
-      glob_scopes: Scopes;
+      filter?: Object;
+      last?: string;
+      order?: AuthN.ItemOrder;
+      order_by?: AuthN.User.ListOrderBy;
+      size?: number;
+      use_new?: boolean; // Temporary field, need to be true
     }
 
     export interface ListResult {
       users: UserItem[];
+      last: string;
+      count: number;
+    }
+
+    export namespace Password {
+      export interface ResetRequest {
+        user_id: string;
+        new_password: string;
+      }
     }
 
     export namespace Invite {
+      export enum OrderBy {
+        ID = "id",
+        CREATED_AT = "created_at",
+        TYPE = "type",
+        EXPIRE = "expire",
+        CALLBACK = "callback",
+        STATE = "state",
+        EMAIL = "email",
+        INVITER = "inviter",
+        INVITE_ORG = "invite_org",
+      }
+
       export interface DeleteRequest {
         id: string;
       }
 
       export interface ListRequest {
-        scopes: Scopes;
-        glob_scopes: Scopes;
+        filter?: Object;
+        last?: string;
+        order?: ItemOrder;
+        order_by?: OrderBy;
+        size?: number;
       }
 
       export interface ListResult {
@@ -1249,8 +1330,8 @@ export namespace AuthN {
       }
 
       export interface LoginResult {
-        refresh_token: Token;
-        active_token?: Token;
+        refresh_token: LoginToken;
+        active_token?: LoginToken;
       }
     }
 
@@ -1288,59 +1369,47 @@ export namespace AuthN {
       }
     }
     export namespace Profile {
-      export interface ProfileItem {
-        identity: string;
-        email: string;
-        profile: Profile;
-        id_provider: string;
-        mfa_providers: MFAProvider[];
-        require_mfa: boolean;
-        verified: boolean;
-        last_login_at: string;
-        disable?: boolean;
-      }
-
-      export interface GetResult extends ProfileItem {}
+      export interface GetResult extends UserItem {}
 
       export namespace Get {
         export interface EmailRequest {
-          email: string | null;
+          email: string;
         }
 
-        export interface IdentityRequest {
-          identity: string | null;
+        export interface IDRequest {
+          id: string;
         }
       }
 
       export namespace Update {
         export interface EmailRequest {
-          email: string | null;
+          email: string;
           profile: Profile;
         }
 
-        export interface IdentityRequest {
-          identity: string | null;
+        export interface IDRequest {
+          id: string;
           profile: Profile;
         }
       }
 
-      export interface UpdateResult extends ProfileItem {}
+      export interface UpdateResult extends UserItem {}
     }
 
     export namespace Update {
       export interface EmailRequest extends Options {
-        email: string | null;
+        email: string;
       }
 
-      export interface IdentityRequest extends Options {
-        identity: string | null;
+      export interface IDRequest extends Options {
+        id: string;
       }
 
       export interface Options {
-        authenticator?: string | null;
-        disabled?: boolean | null;
-        require_mfa?: boolean | null;
-        verified?: boolean | null;
+        authenticator?: string;
+        disabled?: boolean;
+        require_mfa?: boolean;
+        verified?: boolean;
       }
     }
 
@@ -1353,11 +1422,11 @@ export namespace AuthN {
     }
 
     export interface VerifyResult {
-      identity: string;
+      id: string;
       email: string;
       profile: Profile;
       scopes: Scopes;
-      id_provider: string;
+      id_providers: string[];
       require_mfa: boolean;
       mfa_providers: string[];
       verified: boolean;

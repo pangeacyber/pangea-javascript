@@ -1,11 +1,11 @@
-import PangeaResponse from "../../../response";
-import BaseService from "../../base";
-import PangeaConfig from "../../../config";
-import { AuthN } from "../../../types";
-import FlowEnroll from "./enroll";
-import FlowSignup from "./signup";
-import FlowVerify from "./verify";
-import FlowReset from "./reset";
+import PangeaResponse from "../../../response.js";
+import BaseService from "../../base.js";
+import PangeaConfig from "../../../config.js";
+import { AuthN } from "../../../types.js";
+import FlowEnroll from "./enroll/index.js";
+import FlowSignup from "./signup.js";
+import FlowVerify from "./verify/index.js";
+import FlowReset from "./reset.js";
 
 export default class Flow extends BaseService {
   enroll: FlowEnroll;
@@ -32,13 +32,8 @@ export default class Flow extends BaseService {
   }
 
   // #   - path: authn::/v1/flow/start
-  start(
-    cbURI: string,
-    options: AuthN.Flow.StartOptions
-  ): Promise<PangeaResponse<AuthN.Flow.Result>> {
-    const data: AuthN.Flow.StartRequest = {
-      cb_uri: cbURI,
-    };
+  start(options: AuthN.Flow.StartOptions): Promise<PangeaResponse<AuthN.Flow.Result>> {
+    const data: AuthN.Flow.StartRequest = {};
 
     Object.assign(data, options);
     return this.post("flow/start", data);

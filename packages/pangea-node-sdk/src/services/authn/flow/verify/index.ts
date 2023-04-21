@@ -1,9 +1,9 @@
-import PangeaResponse from "../../../../response";
-import PangeaConfig from "../../../../config";
-import BaseService from "../../../base";
-import { AuthN } from "../../../../types";
+import PangeaResponse from "../../../../response.js";
+import PangeaConfig from "../../../../config.js";
+import BaseService from "../../../base.js";
+import { AuthN } from "../../../../types.js";
 
-import FlowVerifyMFA from "./mfa";
+import FlowVerifyMFA from "./mfa.js";
 
 export default class FlowVerify extends BaseService {
   mfa: FlowVerifyMFA;
@@ -28,14 +28,12 @@ export default class FlowVerify extends BaseService {
   // #   - path: authn::/v1/flow/verify/email
   email(
     flowID: string,
-    cbState: string,
-    cbCode: string
+    options: AuthN.Flow.Verify.EmailOptions
   ): Promise<PangeaResponse<AuthN.Flow.Result>> {
     const data: AuthN.Flow.Verify.EmailRequest = {
       flow_id: flowID,
-      cb_code: cbCode,
-      cb_state: cbState,
     };
+    Object.assign(data, options);
     return this.post("flow/verify/email", data);
   }
 

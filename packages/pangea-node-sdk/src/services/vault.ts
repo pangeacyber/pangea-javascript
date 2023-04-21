@@ -27,7 +27,7 @@ class VaultService extends BaseService {
   }
 
   async delete(id: string): Promise<PangeaResponse<Vault.DeleteResult>> {
-    const data: Vault.DeleteResult = {
+    const data: Vault.DeleteRequest = {
       id: id,
     };
 
