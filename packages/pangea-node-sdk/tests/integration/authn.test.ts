@@ -5,7 +5,7 @@ import { PangeaErrors } from "../../src/errors";
 import { TestEnvironment, getTestDomain, getTestToken } from "../../src/utils/utils";
 import { AuthN } from "../../src/types";
 
-const environmet = TestEnvironment.DEVELOP;
+const environmet = TestEnvironment.LIVE;
 const token = getTestToken(environmet);
 const testHost = getTestDomain(environmet);
 const config = new PangeaConfig({ domain: testHost });
