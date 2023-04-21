@@ -43,7 +43,7 @@ it("User actions test", async () => {
   expect(createResp2.result.profile).toStrictEqual(PROFILE_NEW);
 
   // Delete
-  const deleteResp = await authn.user.delete(EMAIL_DELETE);
+  const deleteResp = await authn.user.delete({ email: EMAIL_DELETE });
   expect(deleteResp.status).toBe("Success");
   expect(deleteResp.result).toStrictEqual({});
 
