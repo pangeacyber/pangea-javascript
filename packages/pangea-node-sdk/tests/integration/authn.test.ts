@@ -5,7 +5,7 @@ import { PangeaErrors } from "../../src/errors";
 import { TestEnvironment, getTestDomain, getTestToken } from "../../src/utils/utils";
 import { AuthN } from "../../src/types";
 
-const environmet = TestEnvironment.DEVELOP;
+const environmet = TestEnvironment.LIVE;
 const token = getTestToken(environmet);
 const testHost = getTestDomain(environmet);
 const config = new PangeaConfig({ domain: testHost });
@@ -43,7 +43,7 @@ it("User actions test", async () => {
   expect(createResp2.result.profile).toStrictEqual(PROFILE_NEW);
 
   // Delete
-  const deleteResp = await authn.user.delete(EMAIL_DELETE);
+  const deleteResp = await authn.user.delete({ email: EMAIL_DELETE });
   expect(deleteResp.status).toBe("Success");
   expect(deleteResp.result).toStrictEqual({});
 
