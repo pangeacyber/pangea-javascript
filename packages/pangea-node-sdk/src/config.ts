@@ -1,10 +1,10 @@
-import type { ConfigOptions } from "./types.js";
+import { ConfigOptions, ConfigEnv } from "./types.js";
 
 export const version = "1.7.0";
 
 class PangeaConfig {
   domain: string = "pangea.cloud";
-  environment: string = "production";
+  environment: ConfigEnv = ConfigEnv.PRODUCTION;
   requestRetries: number = 3;
   requestTimeout: number = 5000;
   queuedRetryEnabled: boolean = true;

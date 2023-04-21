@@ -2,6 +2,7 @@ import got, { Options, HTTPError } from "got";
 import type { Headers, Response } from "got";
 
 import PangeaConfig, { version } from "./config.js";
+import { ConfigEnv } from "./types.js";
 import { PangeaErrors } from "./errors.js";
 import { PangeaResponse, ResponseObject } from "./response.js";
 
@@ -117,7 +118,7 @@ class PangeaRequest {
 
   getUrl(path: string): string {
     let url;
-    if (this.config?.environment == "local") {
+    if (this.config?.environment == ConfigEnv.LOCAL) {
       url = `https://${this.config.domain}/${path}`;
     } else {
       url = `https://${this.serviceName}.${this.config.domain}/${path}`;
