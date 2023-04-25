@@ -24,13 +24,17 @@ export default class Client extends BaseService {
   // authn::/v1/client/userinfo
   /**
    * @summary Get User (client token)
-   * @description Retrieve the logged in user's token and information
+   * @description Retrieve the logged in user's token and information.
+   * @operationId authn_post_v1_client_userinfo
    * @param {String} code - A one-time ticket
-   * @returns {Promise<PangeaResponse<AuthN.Client.UserinfoResult>>} - A promise representing an async call to the endpoint
+   * @returns {Promise<PangeaResponse<AuthN.Client.UserinfoResult>>} - A promise
+   * representing an async call to the endpoint
    * @example
+   * ```js
    * const response = await authn.client.userinfo(
-   *   "yourusercode",
+   *   "pmc_d6chl6qulpn3it34oerwm3cqwsjd6dxw",
    * );
+   * ```
    */
   userinfo(code: string): Promise<PangeaResponse<AuthN.Client.UserinfoResult>> {
     const data: AuthN.Client.UserinfoRequest = {
@@ -39,12 +43,17 @@ export default class Client extends BaseService {
     return this.post("client/userinfo", data);
   }
 
+  // authn::/v1/client/jwks
   /**
    * @summary Get JWT verification keys
    * @description Get JWT verification keys.
-   * @returns {Promise<PangeaResponse<AuthN.Client.JWKSResult>>} - A promise representing an async call to the endpoint
+   * @operationId authn_post_v1_client_jwks
+   * @returns {Promise<PangeaResponse<AuthN.Client.JWKSResult>>} - A promise
+   * representing an async call to the endpoint
    * @example
+   * ```js
    * const response = await authn.client.jwks();
+   * ```
    */
   jwks(): Promise<PangeaResponse<AuthN.Client.JWKSResult>> {
     return this.post("client/jwks", {});

@@ -12,12 +12,16 @@ export default class ClientToken extends BaseService {
   /**
    * @summary Check a token
    * @description Look up a token and return its contents.
-   * @param {String} token - An user token
-   * @returns {Promise<PangeaResponse<AuthN.Client.Token.CheckResult>>} - A promise representing an async call to the endpoint
+   * @operationId authn_post_v1_client_token_check
+   * @param {String} token - A token value
+   * @returns {Promise<PangeaResponse<AuthN.Client.Token.CheckResult>>} - A promise
+   * representing an async call to the endpoint
    * @example
-   * const response = await authn.password.change(
-   *   "yourusertoken",
+   * ```js
+   * const response = await authn.client.clientToken.check(
+   *   "ptu_wuk7tvtpswyjtlsx52b7yyi2l7zotv4a",
    * );
+   * ```
    */
   check(token: string): Promise<PangeaResponse<AuthN.Client.Token.CheckResult>> {
     const data: AuthN.Client.Token.CheckRequest = {
