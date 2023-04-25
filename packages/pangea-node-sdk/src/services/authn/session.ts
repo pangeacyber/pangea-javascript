@@ -9,7 +9,7 @@ export default class Session extends BaseService {
     this.apiVersion = "v1";
   }
 
-  // - path: authn::/v1/session/invalidate
+  // authn::/v1/session/invalidate
   /**
    * @summary Invalidate Session
    * @description Invalidate a session by session ID.
@@ -28,7 +28,7 @@ export default class Session extends BaseService {
     return this.post("session/invalidate", { session_id: sessionID });
   }
 
-  // - path: authn::/v1/session/list
+  // authn::/v1/session/list
   /**
    * @summary List session (service token)
    * @description List sessions.
@@ -68,7 +68,7 @@ export default class Session extends BaseService {
     return this.post("session/list", data);
   }
 
-  // - path: authn::/v1/session/logout
+  // authn::/v1/session/logout
   /**
    * @summary Log out (service token)
    * @description Invalidate all sessions belonging to a user.
