@@ -9,6 +9,7 @@ export default class ClientToken extends BaseService {
     this.apiVersion = "v1";
   }
 
+  // authn::/v1/client/token/check
   /**
    * @summary Check a token
    * @description Look up a token and return its contents.
