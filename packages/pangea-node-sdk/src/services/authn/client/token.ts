@@ -16,7 +16,7 @@ export default class ClientToken extends BaseService {
    * @operationId authn_post_v1_client_token_check
    * @param {String} token - A token value
    * @returns {Promise<PangeaResponse<AuthN.Client.Token.CheckResult>>} - A promise
-   * representing an async call to the endpoint
+   * representing an async call to the endpoint.
    * @example
    * ```js
    * const response = await authn.client.clientToken.check(
