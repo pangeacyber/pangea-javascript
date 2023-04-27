@@ -9,13 +9,14 @@ export default class ClientToken extends BaseService {
     this.apiVersion = "v1";
   }
 
+  // authn::/v1/client/token/check
   /**
    * @summary Check a token
    * @description Look up a token and return its contents.
    * @operationId authn_post_v1_client_token_check
    * @param {String} token - A token value
    * @returns {Promise<PangeaResponse<AuthN.Client.Token.CheckResult>>} - A promise
-   * representing an async call to the endpoint
+   * representing an async call to the endpoint.
    * @example
    * ```js
    * const response = await authn.client.clientToken.check(
