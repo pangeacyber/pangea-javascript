@@ -9,7 +9,27 @@ export default class FlowSignup extends BaseService {
     this.apiVersion = "v1";
   }
 
-  // #   - path: authn::/v1/flow/signup/password
+  // authn::/v1/flow/signup/password
+  /**
+   * @summary Password Sign-up
+   * @description Signup a new account using a password.
+   * @operationId authn_post_v1_flow_signup_password
+   * @param {String} flowID - An ID for a login or signup flow
+   * @param {String} password - A password
+   * @param {String} firstName
+   * @param {String} lastName
+   * @returns {Promise<PangeaResponse<AuthN.Flow.Result>>} - A promise
+   * representing an async call to the endpoint.
+   * @example
+   * ```js
+   * const response = await authn.flow.signup.password(
+   *   "pfl_dxiqyuq7ndc5ycjwdgmguwuodizcaqhh",
+   *   "My1s+Password",
+   *   "Joe",
+   *   "User"
+   * );
+   * ```
+   */
   password(
     flowID: string,
     password: string,
@@ -25,7 +45,25 @@ export default class FlowSignup extends BaseService {
     return this.post("flow/signup/password", data);
   }
 
-  // #   - path: authn::/v1/flow/signup/social
+  // authn::/v1/flow/signup/social
+  /**
+   * @summary Social Sign-up
+   * @description Signup a new account using a social provider.
+   * @operationId authn_post_v1_flow_signup_social
+   * @param {String} flowID - An ID for a login or signup flow
+   * @param {String} cbState - State tracking string fo login callbacks
+   * @param {String} cbCode - A social oauth callback code
+   * @returns {Promise<PangeaResponse<AuthN.Flow.Result>>} - A promise
+   * representing an async call to the endpoint.
+   * @example
+   * ```js
+   * const response = await authn.flow.signup.social(
+   *   "pfl_dxiqyuq7ndc5ycjwdgmguwuodizcaqhh",
+   *   "pcb_zurr3lkcwdp5keq73htsfpcii5k4zgm7",
+   *   "poc_fwg3ul4db1jpivexru3wyj354u9ej5e2"
+   * );
+   * ```
+   */
   social(
     flowID: string,
     cbState: string,
