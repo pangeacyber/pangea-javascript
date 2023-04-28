@@ -126,7 +126,10 @@ it("Invite actions test", async () => {
     expect(deleteResp.status).toBe("Success");
     expect(deleteResp.result).toStrictEqual({});
 
-    const listResp = await authn.user.invites.list();
+    const listResp = await authn.user.invites.list({
+      order: AuthN.ItemOrder.ASC,
+      order_by: AuthN.User.Invite.OrderBy.ID,
+    });
     expect(listResp.status).toBe("Success");
     expect(listResp.result.invites.length).toBeGreaterThan(0);
   } catch (e) {

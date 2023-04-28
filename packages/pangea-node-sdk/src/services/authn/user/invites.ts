@@ -19,7 +19,7 @@ export default class UserInvites extends BaseService {
    *   - last (string): Reflected value from a previous response to
    * obtain the next page of results.
    *   - order (AuthN.ItemOrder): Order results asc(ending) or desc(ending).
-   *   - order_by (AuthN.User.ListOrderBy): Which field to order results by.
+   *   - order_by (AuthN.User.Invite.OrderBy): Which field to order results by.
    *   - size (number): Maximum results to include in the response.
    * @returns {Promise<PangeaResponse<AuthN.User.Invite.ListResult>>} - A list of pending user invitations
    * @example
@@ -27,7 +27,7 @@ export default class UserInvites extends BaseService {
    * const response = await authn.user.invites.list(
    *   {
    *     order: AuthN.ItemOrder.ASC,
-   *     order_by: AuthN.User.ListOrderBy.ID,
+   *     order_by: AuthN.User.Invite.OrderBy.ID,
    *     size: 20,
    *   }
    * );
