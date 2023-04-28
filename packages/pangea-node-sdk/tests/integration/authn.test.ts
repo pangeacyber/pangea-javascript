@@ -8,6 +8,7 @@ import { AuthN } from "../../src/types";
 const environment = TestEnvironment.LIVE;
 const token = getTestToken(environment);
 const testHost = getTestDomain(environment);
+
 const config = new PangeaConfig({ domain: testHost });
 const authn = new AuthNService(token, config);
 
@@ -106,7 +107,7 @@ it("Invite actions test", async () => {
     const inviteResp = await authn.user.invite(
       EMAIL_TEST,
       EMAIL_INVITE_KEEP,
-      "https://someurl.com/login-success",
+      "/login-success",
       "somestate"
     );
     expect(inviteResp.status).toBe("Success");
@@ -115,7 +116,7 @@ it("Invite actions test", async () => {
     const inviteResp2 = await authn.user.invite(
       EMAIL_TEST,
       EMAIL_INVITE_DELETE,
-      "https://someurl.com/login-success",
+      "/login-success",
       "somestate"
     );
     expect(inviteResp2.status).toBe("Success");
