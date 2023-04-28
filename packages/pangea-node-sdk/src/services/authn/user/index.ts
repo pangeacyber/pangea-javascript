@@ -118,7 +118,7 @@ export default class User extends BaseService {
    * const response = await authn.user.invite(
    *   "admin@email.com",
    *   "joe.user@email.com",
-   *   "https://www.myserver.com/callback",
+   *   "/callback",
    *   "pcb_zurr3lkcwdp5keq73htsfpcii5k4zgm7",
    *   { require_mfa: false }
    * );
