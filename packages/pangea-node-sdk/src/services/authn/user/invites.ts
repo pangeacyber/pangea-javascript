@@ -33,7 +33,9 @@ export default class UserInvites extends BaseService {
    * );
    * ```
    */
-  list(request?: AuthN.User.ListRequest): Promise<PangeaResponse<AuthN.User.Invite.ListResult>> {
+  list(
+    request?: AuthN.User.Invite.ListRequest
+  ): Promise<PangeaResponse<AuthN.User.Invite.ListResult>> {
     const options = request || {};
     return this.post("user/invite/list", options);
   }
