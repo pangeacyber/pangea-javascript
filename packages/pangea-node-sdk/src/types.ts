@@ -1340,7 +1340,7 @@ export namespace AuthN {
         extra_profile?: Profile;
       }
       export interface SocialRequest extends SocialOptions {
-        provider: MFAProvider;
+        provider: IDProvider;
         email: string;
         social_id: string;
       }

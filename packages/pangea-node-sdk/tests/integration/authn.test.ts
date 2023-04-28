@@ -5,9 +5,10 @@ import { PangeaErrors } from "../../src/errors";
 import { TestEnvironment, getTestDomain, getTestToken } from "../../src/utils/utils";
 import { AuthN } from "../../src/types";
 
-const environmet = TestEnvironment.LIVE;
-const token = getTestToken(environmet);
-const testHost = getTestDomain(environmet);
+const environment = TestEnvironment.LIVE;
+const token = getTestToken(environment);
+const testHost = getTestDomain(environment);
+
 const config = new PangeaConfig({ domain: testHost });
 const authn = new AuthNService(token, config);
 
@@ -106,7 +107,7 @@ it("Invite actions test", async () => {
     const inviteResp = await authn.user.invite(
       EMAIL_TEST,
       EMAIL_INVITE_KEEP,
-      "https://someurl.com/callbacklink",
+      "/login-success",
       "somestate"
     );
     expect(inviteResp.status).toBe("Success");
@@ -115,7 +116,7 @@ it("Invite actions test", async () => {
     const inviteResp2 = await authn.user.invite(
       EMAIL_TEST,
       EMAIL_INVITE_DELETE,
-      "https://someurl.com/callbacklink",
+      "/login-success",
       "somestate"
     );
     expect(inviteResp2.status).toBe("Success");
@@ -126,7 +127,10 @@ it("Invite actions test", async () => {
     expect(deleteResp.status).toBe("Success");
     expect(deleteResp.result).toStrictEqual({});
 
-    const listResp = await authn.user.invites.list();
+    const listResp = await authn.user.invites.list({
+      order: AuthN.ItemOrder.ASC,
+      order_by: AuthN.User.Invite.OrderBy.ID,
+    });
     expect(listResp.status).toBe("Success");
     expect(listResp.result.invites.length).toBeGreaterThan(0);
   } catch (e) {

@@ -9,7 +9,25 @@ export default class FlowVerifyMFA extends BaseService {
     this.apiVersion = "v1";
   }
 
-  // #   - path: authn::/v1/flow/verify/mfa/complete
+  // authn::/v1/flow/verify/mfa/complete
+  /**
+   * @summary Complete MFA Verification
+   * @description Complete MFA verification.
+   * @operationId authn_post_v1_flow_verify_mfa_complete
+   * @param {String} flowID - An ID for a login or signup flow
+   * @param {Object} options - Supported options:
+   *   - code (string): A six digit MFA code
+   *   - cancel (boolean)
+   * @returns {Promise<PangeaResponse<AuthN.Flow.Result>>} - A promise
+   * representing an async call to the endpoint.
+   * @example
+   * ```js
+   * const response = await authn.flow.verify.mfa.complete(
+   *   "pfl_dxiqyuq7ndc5ycjwdgmguwuodizcaqhh",
+   *   { code: "391423" }
+   * );
+   * ```
+   */
   complete(
     flowID: string,
     options: AuthN.Flow.Verify.MFA.CompleteOptions
@@ -22,7 +40,24 @@ export default class FlowVerifyMFA extends BaseService {
     return this.post("flow/verify/mfa/complete", data);
   }
 
-  // #   - path: authn::/v1/flow/verify/mfa/start
+  // authn::/v1/flow/verify/mfa/start
+  /**
+   * @summary Start MFA Verification
+   * @description Start the process of MFA verification.
+   * @operationId authn_post_v1_flow_verify_mfa_start
+   * @param {String} flowID - An ID for a login or signup flow
+   * @param {AuthN.MFAProvider} mfaProvider - Additional mechanism for
+   * authenticating a user's identity
+   * @returns {Promise<PangeaResponse<AuthN.Flow.Result>>} - A promise
+   * representing an async call to the endpoint.
+   * @example
+   * ```js
+   * const response = await authn.flow.verify.mfa.start(
+   *   "pfl_dxiqyuq7ndc5ycjwdgmguwuodizcaqhh",
+   *   AuthN.MFAProvider.TOTP
+   * );
+   * ```
+   */
   start(
     flowID: string,
     mfaProvider: AuthN.MFAProvider
