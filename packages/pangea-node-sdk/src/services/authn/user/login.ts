@@ -55,6 +55,7 @@ export default class UserLogin extends BaseService {
   /**
    * @summary Login with a social provider
    * @description Login a user by their social ID and return the user's token and information.
+   * @operationId authn_post_v1_user_login_social
    * @param {AuthN.IDProvider} provider - Social identity provider for authenticating a user's identity
    * @param {String} email - An email address
    * @param {String} socialID - User's social ID with the provider
