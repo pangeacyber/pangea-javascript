@@ -242,7 +242,7 @@ class AuditService extends BaseService {
    * const response = audit.root(7);
    * ```
    */
-  root(size: number = 0): Promise<PangeaResponse<Audit.RootResponse>> {
+  root(size: number = 0): Promise<PangeaResponse<Audit.RootResult>> {
     const data: Audit.RootParams = {};
 
     if (size > 0) {

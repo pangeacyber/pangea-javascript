@@ -29,7 +29,7 @@ class RedactService extends BaseService {
   redact(
     text: string,
     options: Redact.TextOptions = {}
-  ): Promise<PangeaResponse<Redact.BaseResponse>> {
+  ): Promise<PangeaResponse<Redact.TextResult>> {
     let input: Redact.TextParams = {
       text: text,
     };
@@ -61,7 +61,7 @@ class RedactService extends BaseService {
   redactStructured(
     data: object,
     options: Redact.StructuredOptions = {}
-  ): Promise<PangeaResponse<Redact.StructuredResponse>> {
+  ): Promise<PangeaResponse<Redact.StructuredResult>> {
     let input: Redact.StructuredParams = {
       data: data,
     };

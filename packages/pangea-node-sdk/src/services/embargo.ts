@@ -22,7 +22,7 @@ class EmbargoService extends BaseService {
    * @example
    * const response = await embargo.ipCheck("1.1.1.1");
    */
-  ipCheck(ipAddress: string): Promise<PangeaResponse<Embargo.CheckResponse>> {
+  ipCheck(ipAddress: string): Promise<PangeaResponse<Embargo.CheckResult>> {
     const data = {
       ip: ipAddress,
     };
@@ -38,7 +38,7 @@ class EmbargoService extends BaseService {
    * @example
    * const response = await embargo.isoCheck("CU");
    */
-  isoCheck(isoCode: string): Promise<PangeaResponse<Embargo.CheckResponse>> {
+  isoCheck(isoCode: string): Promise<PangeaResponse<Embargo.CheckResult>> {
     const data = {
       iso_code: isoCode,
     };
