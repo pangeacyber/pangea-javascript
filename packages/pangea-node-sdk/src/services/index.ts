@@ -9,6 +9,7 @@ import {
   IPIntelService,
   URLIntelService,
   UserIntelService,
+  FileScanService,
 } from "./intel.js";
 import VaultService from "./vault.js";
 
@@ -24,4 +25,5 @@ export default {
   URLIntelService,
   UserIntelService,
   VaultService,
+  FileScanService,
 };

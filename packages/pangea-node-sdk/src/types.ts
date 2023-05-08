@@ -13,6 +13,10 @@ export interface ConfigOptions {
   customUserAgent?: string;
 }
 
+export interface PostOptions {
+  pollResultSync?: boolean;
+}
+
 export enum ConfigEnv {
   LOCAL = "local",
   PRODUCTION = "production",
@@ -213,12 +217,29 @@ export namespace Intel {
     provider?: string;
   }
 
-  export interface ReputationResult {
+  export interface ReputationResult extends CommonResult {
     data: {
       category: string[];
       score: number;
       verdict: string;
     };
+  }
+
+  export namespace FileScan {
+    export interface ScanRequest extends Intel.Options {
+      filepath?: string;
+      file?: string;
+    }
+
+    export interface Options extends PostOptions {}
+
+    export interface ScanResult extends CommonResult {
+      data: {
+        category: string[];
+        score: number;
+        verdict: string;
+      };
+    }
   }
 
   export namespace File {

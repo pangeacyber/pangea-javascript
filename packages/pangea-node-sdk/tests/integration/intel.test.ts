@@ -1,5 +1,5 @@
 import PangeaConfig from "../../src/config";
-import { it, expect } from "@jest/globals";
+import { it, expect, jest, beforeAll } from "@jest/globals";
 import { TestEnvironment, getTestDomain, getTestToken } from "../../src/utils/utils";
 import {
   FileIntelService,
@@ -7,10 +7,13 @@ import {
   IPIntelService,
   URLIntelService,
   UserIntelService,
+  FileScanService,
 } from "../../src";
 import { Intel } from "../../src/types";
+import fs from "fs";
+import { PangeaErrors } from "../../src";
 
-const testEnvironment = TestEnvironment.LIVE;
+const testEnvironment = TestEnvironment.DEVELOP;
 
 const token = getTestToken(testEnvironment);
 const testHost = getTestDomain(testEnvironment);
@@ -20,6 +23,18 @@ const domainIntel = new DomainIntelService(token, config);
 const ipIntel = new IPIntelService(token, config);
 const urlIntel = new URLIntelService(token, config);
 const userIntel = new UserIntelService(token, config);
+const fileScan = new FileScanService(token, config);
+
+const EICAR = "X5O!P%@AP[4\\PZX54(P^)7CC)7}$EICAR-STANDARD-ANTIVIRUS-TEST-FILE!$H+H*\n";
+const eicarFilePath = "./tests/testdata/file.exe";
+
+function createEICAR() {
+  fs.writeFileSync(eicarFilePath, EICAR);
+}
+
+beforeAll(() => {
+  createEICAR();
+});
 
 it("file lookup should succeed", async () => {
   const options = { provider: "reversinglabs", verbose: true, raw: true };
@@ -302,4 +317,37 @@ it("User password breached with default provider should succeed", async () => {
   expect(response.result.data).toBeDefined();
   expect(response.result.data.found_in_breach).toBe(true);
   expect(response.result.data.breach_count).toBeGreaterThan(0);
+});
+
+jest.setTimeout(60000);
+it("File Scan ", async () => {
+  try {
+    const request = { verbose: true, raw: true, provider: "reversinglabs" };
+    const response = await fileScan.fileScan(request, eicarFilePath);
+
+    expect(response.status).toBe("Success");
+    expect(response.result.data).toBeDefined();
+    expect(response.result.data.verdict).toBe("malicious");
+  } catch (e) {
+    console.log(e);
+    expect(false).toBeTruthy();
+  }
+});
+
+jest.setTimeout(60000);
+it("File Scan async ", async () => {
+  try {
+    const request = { verbose: true, raw: true, provider: "reversinglabs" };
+    const response = await fileScan.fileScan(request, eicarFilePath, { pollResultSync: false });
+    expect(false).toBeTruthy();
+  } catch (e) {
+    expect(e).toBeInstanceOf(PangeaErrors.APIError);
+    if (e instanceof PangeaErrors.AcceptedRequestException) {
+      expect(e.pangeaResponse.status).toBe("Accepted");
+      expect(e.errors.length).toBe(0);
+    } else {
+      console.log(e);
+      expect(false).toBeTruthy();
+    }
+  }
 });
