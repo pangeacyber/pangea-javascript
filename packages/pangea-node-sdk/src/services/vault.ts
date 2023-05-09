@@ -15,7 +15,8 @@ class VaultService extends BaseService {
 
   /**
    * @summary State change
-   * @description Change the state of a specific version of a secret or key
+   * @description Change the state of a specific version of a secret or key.
+   * @operationId vault_post_v1_state_change
    * @param {String} id - The item ID
    * @param {Vault.ItemVersionState} state - The new state of the item version
    * @param {Vault.StateChangeOptions} options - State change options. The following options are supported:
@@ -46,7 +47,8 @@ class VaultService extends BaseService {
 
   /**
    * @summary Delete
-   * @description Delete a secret or key
+   * @description Delete a secret or key.
+   * @operationId vault_post_v1_delete
    * @param {String} id - The item ID
    * @returns {Promise} - A promise representing an async call to the delete endpoint
    * @example
@@ -66,7 +68,8 @@ class VaultService extends BaseService {
 
   /**
    * @summary Retrieve
-   * @description Retrieve a secret or key, and any associated information
+   * @description Retrieve a secret or key, and any associated information.
+   * @operationId vault_post_v1_get
    * @param {String} id - The item ID
    * @param {Vault.GetOptions} options - The following options are supported:
    *   - version (number | string): The key version(s).
@@ -101,7 +104,8 @@ class VaultService extends BaseService {
 
   /**
    * @summary List
-   * @description Look up a list of secrets, keys and folders, and their associated information
+   * @description Look up a list of secrets, keys and folders, and their associated information.
+   * @operationId vault_post_v1_list
    * @param {Object} options - The following options are supported:
    *   - filter (object): A set of filters to help you customize your search. Examples:
    *     `"folder": "/tmp"`, `"tags": "personal"`, `"name__contains": "xxx"`, `"created_at__gt": "2020-02-05T10:00:00Z"`
@@ -136,7 +140,8 @@ class VaultService extends BaseService {
 
   /**
    * @summary Update
-   * @description Update information associated with a secret or key
+   * @description Update information associated with a secret or key.
+   * @operationId vault_post_v1_update
    * @param {String} id - The item ID
    * @param {Vault.UpdateOptions} options - The following options are supported:
    *   - name (string): The name of this item
@@ -184,7 +189,8 @@ class VaultService extends BaseService {
 
   /**
    * @summary Secret store
-   * @description Import a secret
+   * @description Import a secret.
+   * @operationId vault_post_v1_secret_store 1
    * @param {String} secret - The secret value
    * @param {String} name - The name of this item
    * @param {Vault.Secret.StoreOptions} options - The following options are supported:
@@ -231,7 +237,8 @@ class VaultService extends BaseService {
 
   /**
    * @summary Pangea token store
-   * @description Import a secret
+   * @description Import a secret.
+   * @operationId vault_post_v1_secret_store 2
    * @param {String} pangeaToken - The pangea token to store
    * @param {String} name - The name of this item
    * @param {Vault.Secret.StoreOptions} options - The following options are supported:
@@ -278,7 +285,8 @@ class VaultService extends BaseService {
 
   /**
    * @summary Secret rotate
-   * @description Rotate a secret
+   * @description Rotate a secret.
+   * @operationId vault_post_v1_secret_rotate 1
    * @param {String} id - The item ID
    * @param {String} secret - The secret value
    * @param {Vault.Secret.Secret.RotateOptions} options - The following options are supported:
@@ -311,7 +319,8 @@ class VaultService extends BaseService {
 
   /**
    * @summary Token rotate
-   * @description Rotate a Pangea token
+   * @description Rotate a Pangea token.
+   * @operationId vault_post_v1_secret_rotate 2
    * @param {String} id - The item ID
    * @param {String} rotation_grace_period - Grace period for the previous version of the Pangea Token
    * @returns {Promise} - A promise representing an async call to the secret rotate endpoint
@@ -337,7 +346,8 @@ class VaultService extends BaseService {
 
   /**
    * @summary Symmetric generate
-   * @description Generate a symmetric key
+   * @description Generate a symmetric key.
+   * @operationId vault_post_v1_key_generate 1
    * @param {Vault.SymmetricAlgorithm} algorithm - The algorithm of the key. Options
    * [listed in Vault documentation](https://pangea.cloud/docs/vault/manage-keys/generate-a-key#generating-a-symmetric-key).
    * @param {Vault.KeyPurpose} purpose - The purpose of this key
@@ -389,7 +399,8 @@ class VaultService extends BaseService {
 
   /**
    * @summary Asymmetric generate
-   * @description Generate an asymmetric key
+   * @description Generate an asymmetric key.
+   * @operationId vault_post_v1_key_generate 2
    * @param {Vault.AsymmetricAlgorithm} algorithm - The algorithm of the key. Options
    * [listed in Vault documentation](https://pangea.cloud/docs/vault/manage-keys/generate-a-key#generating-asymmetric-key-pairs).
    * @param {Vault.KeyPurpose} purpose - The purpose of this key
@@ -441,7 +452,8 @@ class VaultService extends BaseService {
 
   /**
    * @summary Asymmetric store
-   * @description Import an asymmetric key
+   * @description Import an asymmetric key.
+   * @operationId vault_post_v1_key_store 1
    * @param {Vault.EncodedPrivateKey} privateKey - The private key in PEM format
    * @param {Vault.EncodedPublicKey} publicKey - The public key in PEM format
    * @param {Vault.AsymmetricAlgorithm} algorithm - The algorithm of the key. Options
@@ -501,7 +513,8 @@ class VaultService extends BaseService {
 
   /**
    * @summary Symmetric store
-   * @description Import a symmetric key
+   * @description Import a symmetric key.
+   * @operationId vault_post_v1_key_store 2
    * @param {String} key - The key material (in base64)
    * @param {Vault.SymmetricAlgorithm} algorithm - The algorithm of the key. Options
    * [listed in Vault documentation](https://pangea.cloud/docs/vault/manage-keys/import-a-key#importing-a-symmetric-key).
@@ -557,7 +570,8 @@ class VaultService extends BaseService {
 
   /**
    * @summary Key rotate
-   * @description Manually rotate a symmetric or asymmetric key
+   * @description Manually rotate a symmetric or asymmetric key.
+   * @operationId vault_post_v1_key_rotate
    * @param {String} id - The ID of the item
    * @param {Vault.Key.RotateOptions} options - Supported options:
    *   - rotation_state (Vault.ItemVersionState): State to which the previous version should transition upon rotation.
@@ -591,7 +605,8 @@ class VaultService extends BaseService {
 
   /**
    * @summary Encrypt
-   * @description Encrypt a message using a key
+   * @description Encrypt a message using a key.
+   * @operationId vault_post_v1_key_encrypt
    * @param {String} id - The item ID
    * @param {String} plainText - A message to be in encrypted (in base64)
    * @returns {Promise} - A promise representing an async call to the key encrypt endpoint
@@ -616,7 +631,8 @@ class VaultService extends BaseService {
 
   /**
    * @summary Decrypt
-   * @description Decrypt a message using a key
+   * @description Decrypt a message using a key.
+   * @operationId vault_post_v1_key_decrypt
    * @param {String} id - The item ID
    * @param {String} cipherText - A message encrypted by Vault (in base64)
    * @param {Object} options - Supported options:
@@ -646,7 +662,8 @@ class VaultService extends BaseService {
 
   /**
    * @summary Sign
-   * @description Sign a message using a key
+   * @description Sign a message using a key.
+   * @operationId vault_post_v1_key_sign
    * @param {String} id - The item ID
    * @param {String} message - The message to be signed, in base64
    * @returns {Promise} - A promise representing an async call to the key sign endpoint
@@ -668,7 +685,8 @@ class VaultService extends BaseService {
 
   /**
    * @summary Verify
-   * @description Verify a signature using a key
+   * @description Verify a signature using a key.
+   * @operationId vault_post_v1_key_verify
    * @param {String} id - The item ID
    * @param {String} message - The message to be verified (in base64)
    * @param {String} signature - The message signature (in base64)
@@ -702,7 +720,8 @@ class VaultService extends BaseService {
 
   /**
    * @summary JWT Retrieve
-   * @description Retrieve a key in JWK format
+   * @description Retrieve a key in JWK format.
+   * @operationId vault_post_v1_get_jwk
    * @param {String} id - The item ID
    * @param {Vault.JWK.GetOptions} options - Supported options:
    *   - version (string): The key version(s). `all` for all versions, `num` for a specific version,
@@ -728,7 +747,8 @@ class VaultService extends BaseService {
 
   /**
    * @summary JWT Sign
-   * @description Sign a JSON Web Token (JWT) using a key
+   * @description Sign a JSON Web Token (JWT) using a key.
+   * @operationId vault_post_v1_key_sign_jwt
    * @param {String} id - The item ID
    * @param {String} payload - The JWT payload (in JSON)
    * @returns {Promise} - A promise representing an async call to the JWT sign endpoint
@@ -750,7 +770,8 @@ class VaultService extends BaseService {
 
   /**
    * @summary JWT Verify
-   * @description Verify the signature of a JSON Web Token (JWT)
+   * @description Verify the signature of a JSON Web Token (JWT).
+   * @operationId vault_post_v1_key_verify_jwt
    * @param {String} jws - The signed JSON Web Token (JWS)
    * @returns {Promise} - A promise representing an async call to the JWT verify endpoint
    * @example

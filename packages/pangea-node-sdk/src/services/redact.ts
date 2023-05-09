@@ -15,7 +15,8 @@ class RedactService extends BaseService {
 
   /**
    * @summary Redact
-   * @description Redact sensitive information from provided text
+   * @description Redact sensitive information from provided text.
+   * @operationId redact_post_v1_redact
    * @param {String} text - The text data to redact
    * @param {Object} options - Supported options:
    *   - debug {Boolean} - Setting this value to true will provide a detailed analysis of the redacted
@@ -24,7 +25,11 @@ class RedactService extends BaseService {
    *   - return_result {Boolean} - Setting this value to false will omit the redacted result only returning count
    * @returns {Promise} - A promise representing an async call to the redact endpoint
    * @example
-   * const response = await redact.redact("Jenny Jenny... 415-867-5309");
+   * ```js
+   * const response = await redact.redact(
+   *   "Jenny Jenny... 555-867-5309"
+   * );
+   * ```
    */
   redact(
     text: string,
@@ -42,7 +47,8 @@ class RedactService extends BaseService {
 
   /**
    * @summary Redact structured
-   * @description Redact sensitive information from structured data (e.g., JSON)
+   * @description Redact sensitive information from structured data (e.g., JSON).
+   * @operationId redact_post_v1_redact_structured
    * @param {Object} data - Structured data to redact
    * @param {Object} options - Supported options:
    *   - debug {Boolean} - Setting this value to true will provide a detailed analysis of the redacted
@@ -54,9 +60,11 @@ class RedactService extends BaseService {
    *   - return_result {Boolean} - Setting this value to false will omit the redacted result only returning count
    * @returns {Promise} - A promise representing an async call to the redactStructured endpoint
    * @example
-   * const data = { "phone": "415-867-5309" };
-   *
-   * const response = await redact.redactStructured(data);
+   * ```js
+   * const response = await redact.redactStructured({
+   *   "phone": "555-867-5309"
+   * });
+   * ```
    */
   redactStructured(
     data: object,
