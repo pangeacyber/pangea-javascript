@@ -80,8 +80,13 @@ export class FileIntelService extends BaseService {
    * @param {Boolean} options.raw - Return additional details from the provider. Default: raw=false.
    * @returns {Promise} - A promise representing an async call to the lookup endpoint.
    * @example
-   * const options = { provider: "reversinglabs" };
-   * const response = await fileIntel.hashReputation("142b638c6a60b60c7f9928da4fb85a5a8e1422a9ffdc9ee49e17e56ccca9cf6e", "sha256", options);
+   * ```js
+   * const response = await fileIntel.hashReputation(
+   *   "142b638c6a60b60c7f9928da4fb85a5a8e1422a9ffdc9ee49e17e56ccca9cf6e",
+   *   "sha256",
+   *   { provider: "reversinglabs" }
+   * );
+   * ```
    */
   hashReputation(
     fileHash: string,
@@ -137,6 +142,7 @@ export class FileIntelService extends BaseService {
   /**
    * @summary Reputation, from file path
    * @description Retrieve file reputation from a provider, using the file's hash.
+   * @operationId file_intel_post_v1_reputation"
    * @param {String} fileHash - Hash of the file to be looked up
    * @param {Object} options - An object of optional parameters. Parameters supported:
    *   - provider {String} - Use reputation data from this provider: "reversinglabs".
@@ -145,8 +151,12 @@ export class FileIntelService extends BaseService {
    *   - raw {Boolean} - Include raw data from this provider. Default: raw=false.
    * @returns {Promise} - A promise representing an async call to the lookup endpoint.
    * @example
-   * const options = { provider: "reversinglabs" };
-   * const response = await fileIntel.filepathReputation("./myfile.exe", options);
+   * ```js
+   * const response = await fileIntel.filepathReputation(
+   *   "./myfile.exe",
+   *   { provider: "reversinglabs" }
+   * );
+   * ```
    */
   filepathReputation(
     filepath: string,
@@ -225,9 +235,10 @@ export class DomainIntelService extends BaseService {
   }
 
   /**
-   * @summary Reputation check
+   * @summary Reputation
    * @description Retrieve reputation for a domain from a provider, including an optional detailed report.
-   * @param {String} domain - Domain address to be looked up.
+   * @operationId domain_intel_post_v1_reputation
+   * @param {String} domain - The domain to be looked up.
    * @param {Object} options - An object of optional parameters. Parameters supported:
    *   - provider {String} - Use reputation data from these providers: "reversinglabs" or "domaintools".
    *   Default provider defined by the configuration.
@@ -235,7 +246,11 @@ export class DomainIntelService extends BaseService {
    *   - raw {Boolean} - Include raw data from this provider. Default: raw=false.
    * @returns {Promise} - A promise representing an async call to the lookup endpoint.
    * @example
-   * const response = await domainIntel.reputation("google.com")
+   * ```js
+   * const response = await domainIntel.reputation(
+   *   "google.com"
+   * );
+   * ```
    */
   reputation(
     domain: string,
@@ -318,6 +333,7 @@ export class IPIntelService extends BaseService {
   /**
    * @summary Reputation
    * @description Retrieve a reputation score for an IP address from a provider, including an optional detailed report.
+   * @operationId ip_intel_post_v1_reputation
    * @param {String} ip - Geolocate this IP and check the corresponding country against
    * @param {Object} options - An object of optional parameters. Parameters supported:
    *   - provider {String} - Use reputation data from this provider: "crowdstrike".
@@ -326,14 +342,14 @@ export class IPIntelService extends BaseService {
    *   - raw {Boolean} - Include raw data from this provider. Default: raw=false.
    * @returns {Promise} - A promise representing an async call to the /reputation endpoint.
    * @example
-   * const options = {
-   *   provider: "reversinglabs"
-   * };
-   *
+   * ```js
    * const response = await ipIntel.reputation(
    *   "1.1.1.1",
-   *   options
+   *   {
+   *     provider: "reversinglabs"
+   *   }
    * );
+   * ```
    */
   reputation(
     ip: string,
@@ -353,6 +369,7 @@ export class IPIntelService extends BaseService {
   /**
    * @summary Geolocate
    * @description Retrieve geolocation information for an IP address from a provider, including an optional detailed report.
+   * @operationId ip_intel_post_v1_geolocate
    * @param {String} ip - The IP to be looked up
    * @param {Object} options - An object of optional parameters. Parameters supported:
    *   - provider {String} - Use geolocation data from this provider: "digitalelement".
@@ -361,14 +378,14 @@ export class IPIntelService extends BaseService {
    *   - raw {Boolean} - Include raw data from this provider. Default: raw=false.
    * @returns {Promise} - A promise representing an async call to the geolocate endpoint.
    * @example
-   * const options = {
-   *   provider: "digitalelement"
-   * };
-   *
+   * ```js
    * const response = await ipIntel.geolocate(
    *   "1.1.1.1",
-   *   options
+   *   {
+   *     provider: "digitalelement"
+   *   }
    * );
+   * ```
    */
   geolocate(
     ip: string,
@@ -388,6 +405,7 @@ export class IPIntelService extends BaseService {
   /**
    * @summary Domain
    * @description Retrieve the domain name associated with an IP address.
+   * @operationId ip_intel_post_v1_domain
    * @param {String} ip - The IP to be looked up
    * @param {Object} options - An object of optional parameters. Parameters supported:
    *   - provider {String} - Use data from this provider: "digitalelement".
@@ -396,14 +414,14 @@ export class IPIntelService extends BaseService {
    *   - raw {Boolean} - Include raw data from this provider. Default: raw=false.
    * @returns {Promise} - A promise representing an async call to the domain endpoint.
    * @example
-   * const options = {
-   *   provider: "digitalelement"
-   * };
-   *
+   * ```js
    * const response = await ipIntel.getDomain(
    *   "1.1.1.1",
-   *   options
+   *   {
+   *     provider: "digitalelement"
+   *   }
    * );
+   * ```
    */
   getDomain(ip: string, options?: Intel.Options): Promise<PangeaResponse<Intel.IP.DomainResult>> {
     const data: Intel.IPParams = {
@@ -420,6 +438,7 @@ export class IPIntelService extends BaseService {
   /**
    * @summary VPN
    * @description Determine if an IP address is provided by a VPN service.
+   * @operationId ip_intel_post_v1_vpn
    * @param {String} ip - The IP to be looked up
    * @param {Object} options - An object of optional parameters. Parameters supported:
    *   - provider {String} - Use data from this provider: "digitalelement".
@@ -428,14 +447,14 @@ export class IPIntelService extends BaseService {
    *   - raw {Boolean} - Include raw data from this provider. Default: raw=false.
    * @returns {Promise} - A promise representing an async call to the vpn endpoint.
    * @example
-   * const options = {
-   *   provider: "digitalelement"
-   * };
-   *
+   * ```js
    * const response = await ipIntel.isVPN(
    *   "1.1.1.1",
-   *   options
+   *   {
+   *     provider: "digitalelement"
+   *   }
    * );
+   * ```
    */
   isVPN(ip: string, options?: Intel.Options): Promise<PangeaResponse<Intel.IP.VPNResult>> {
     const data: Intel.IPParams = {
@@ -452,6 +471,7 @@ export class IPIntelService extends BaseService {
   /**
    * @summary Proxy
    * @description Determine if an IP address is provided by a proxy service.
+   * @operationId ip_intel_post_v1_proxy
    * @param {String} ip - The IP to be looked up
    * @param {Object} options - An object of optional parameters. Parameters supported:
    *   - provider {String} - Use data from this provider: "digitalelement".
@@ -460,14 +480,14 @@ export class IPIntelService extends BaseService {
    *   - raw {Boolean} - Include raw data from this provider. Default: raw=false.
    * @returns {Promise} - A promise representing an async call to the vpn endpoint.
    * @example
-   * const options = {
-   *   provider: "digitalelement"
-   * };
-   *
+   * ```js
    * const response = await ipIntel.isProxy(
    *   "1.1.1.1",
-   *   options
+   *   {
+   *     provider: "digitalelement"
+   *   }
    * );
+   * ```
    */
   isProxy(ip: string, options?: Intel.Options): Promise<PangeaResponse<Intel.IP.ProxyResult>> {
     const data: Intel.IPParams = {
@@ -545,8 +565,9 @@ export class URLIntelService extends BaseService {
   }
 
   /**
-   * @summary Reputation check
+   * @summary Reputation
    * @description Retrieve a reputation score for a URL from a provider, including an optional detailed report.
+   * @operationId url_intel_post_v1_reputation
    * @param {String} url - The URL to be looked up
    * @param {Object} options - An object of optional parameters. Parameters supported:
    *   - provider {String} - Use reputation data from this provider: "crowdstrike".
@@ -555,14 +576,14 @@ export class URLIntelService extends BaseService {
    *   - raw {Boolean} - Include raw data from this provider. Default: raw=false.
    * @returns {Promise} - A promise representing an async call to the lookup endpoint.
    * @example
-   * const options = {
-   *   provider: "reversinglabs"
-   * };
-   *
+   * ```js
    * const response = await urlIntel.reputation(
    *   "http://113.235.101.11:54384,
-   *   options
+   *   {
+   *     provider: "reversinglabs"
+   *   }
    * );
+   * ```
    */
   reputation(
     url: string,
@@ -613,6 +634,7 @@ export class UserIntelService extends BaseService {
   /**
    * @summary Look up breached users
    * @description Find out if an email address, username, phone number, or IP address was exposed in a security breach.
+   * @operationId user_intel_post_v1_user_breached
    * @param {BrechedRequest} request - Request to be send to user/breached endpoint
    * @param {Object} options - An object of optional parameters. Parameters supported:
    *   - provider {String} - Use breached data from this provider: "spycloud".
@@ -633,6 +655,7 @@ export class UserIntelService extends BaseService {
   /**
    * @summary Look up breached passwords
    * @description Find out if a password has been exposed in security breaches by providing a 5 character prefix of the password hash.
+   * @operationId user_intel_post_v1_password_breached
    * @param {String} hashType - Hash type to be looked up
    * @param {String} hashPrefix - The prefix of the hash to be looked up.
    * @param {Object} options - An object of optional parameters. Parameters supported:
