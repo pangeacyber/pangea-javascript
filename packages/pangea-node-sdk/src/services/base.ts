@@ -53,6 +53,10 @@ class BaseService {
     const fullpath = `${this.apiVersion}/${endpoint}`;
     return await this.request.postMultipart(fullpath, data, filepath, options);
   }
+
+  async pollResult(request_id: string): Promise<PangeaResponse<any>> {
+    return await this.request.pollResult(request_id, true);
+  }
 }
 
 export default BaseService;

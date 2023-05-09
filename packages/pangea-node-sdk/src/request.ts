@@ -73,7 +73,7 @@ class PangeaRequest {
     return await this.doPost(url, request, options);
   }
 
-  async doPost(
+  private async doPost(
     url: string,
     request: object,
     options: PostOptions = {}
@@ -123,7 +123,7 @@ class PangeaRequest {
     }
   }
 
-  getDelay(retryCount: number, start: number): number {
+  private getDelay(retryCount: number, start: number): number {
     let delay = retryCount * retryCount * 1000;
     const now = Date.now();
     if (now + delay > start + this.config.pollResultTimeoutMs) {
@@ -133,9 +133,15 @@ class PangeaRequest {
     return delay;
   }
 
-  reachTimeout(start: number): boolean {
+  private reachTimeout(start: number): boolean {
     const now = Date.now();
     return start + this.config.pollResultTimeoutMs <= now;
+  }
+
+  async pollResult(requestId: string, checkResponse: boolean = true): Promise<PangeaResponse<any>> {
+    const path = `request/${requestId}`;
+    // eslint-disable-next-line no-await-in-loop
+    return await this.get(path, checkResponse);
   }
 
   async handleAsync(pangeaResponse: PangeaResponse<any>): Promise<PangeaResponse<any>> {
@@ -150,9 +156,7 @@ class PangeaRequest {
 
       // eslint-disable-next-line no-await-in-loop
       await delay(waitTime);
-      const path = `request/${requestId}`;
-      // eslint-disable-next-line no-await-in-loop
-      pangeaResponse = await this.get(path, false);
+      pangeaResponse = await this.pollResult(requestId, false);
     }
     return pangeaResponse;
   }
@@ -194,7 +198,7 @@ class PangeaRequest {
     return headers;
   }
 
-  checkResponse(response: PangeaResponse<any>) {
+  private checkResponse(response: PangeaResponse<any>) {
     if (response.success) {
       return response;
     }

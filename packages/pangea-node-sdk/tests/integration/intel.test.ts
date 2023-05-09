@@ -351,3 +351,36 @@ it("File Scan async ", async () => {
     }
   }
 });
+
+const delay = async (ms: number) =>
+  new Promise((resolve) => {
+    setTimeout(resolve, ms);
+  });
+
+jest.setTimeout(120000);
+it("File Scan async and poll result", async () => {
+  let exception;
+  try {
+    const request = { verbose: true, raw: true, provider: "reversinglabs" };
+    const response = await fileScan.fileScan(request, eicarFilePath, { pollResultSync: false });
+    expect(false).toBeTruthy();
+  } catch (e) {
+    expect(e).toBeInstanceOf(PangeaErrors.APIError);
+    if (e instanceof PangeaErrors.AcceptedRequestException) {
+      expect(e.pangeaResponse.status).toBe("Accepted");
+      expect(e.errors.length).toBe(0);
+      exception = e;
+    } else {
+      console.log(e);
+      expect(false).toBeTruthy();
+    }
+  }
+
+  // Wait until result could be ready
+  await delay(60 * 1000);
+  const request_id = exception?.request_id || "";
+  const response = await fileScan.pollResult(request_id);
+  expect(response.status).toBe("Success");
+  expect(response.result.data).toBeDefined();
+  expect(response.result.data.verdict).toBe("malicious");
+});
