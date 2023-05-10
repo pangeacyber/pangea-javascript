@@ -4,9 +4,9 @@
 import CryptoJS from "crypto-js";
 import MerkleTools from "merkle-tools";
 
-import { Audit } from "../types.js";
+import { Audit } from "@src/types.js";
 import { PublishedRoots } from "./arweave.js";
-import { Verifier } from "../utils/signer.js";
+import { Verifier } from "./signer.js";
 import { canonicalizeEvent, canonicalizeEnvelope } from "./utils.js";
 
 // @ts-ignore

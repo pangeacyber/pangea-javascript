@@ -1,4 +1,4 @@
-import { Audit } from "types.js";
+import { Audit } from "../src/types.js";
 import { PangeaResponse } from "./response.js";
 
 export namespace PangeaErrors {

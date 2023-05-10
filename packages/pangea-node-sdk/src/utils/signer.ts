@@ -1,4 +1,4 @@
-import { KeyObject, createPrivateKey, createPublicKey, sign, verify, getHashes } from "node:crypto";
+import { KeyObject, createPrivateKey, createPublicKey, sign, verify } from "node:crypto";
 import fs from "fs";
 
 /**

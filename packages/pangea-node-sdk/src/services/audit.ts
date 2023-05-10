@@ -1,7 +1,7 @@
-import PangeaResponse from "../response.js";
+import PangeaResponse from "@src/response.js";
 import BaseService from "./base.js";
-import PangeaConfig from "../config.js";
-import { Audit } from "../types.js";
+import PangeaConfig from "@src/config.js";
+import { Audit } from "@src/types.js";
 import { PublishedRoots, getArweavePublishedRoots } from "../utils/arweave.js";
 import {
   verifyRecordConsistencyProof,

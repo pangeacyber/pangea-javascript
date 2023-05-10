@@ -1,7 +1,7 @@
-import PangeaResponse from "../response.js";
+import PangeaResponse from "@src/response.js";
 import BaseService from "./base.js";
-import PangeaConfig from "../config.js";
-import { Intel } from "../types.js";
+import PangeaConfig from "@src/config.js";
+import { Intel } from "@src/types.js";
 import { createHash } from "node:crypto";
 import { readFileSync } from "node:fs";
 
