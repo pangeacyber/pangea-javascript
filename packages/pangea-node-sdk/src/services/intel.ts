@@ -142,7 +142,7 @@ export class FileIntelService extends BaseService {
   /**
    * @summary Reputation, from file path
    * @description Retrieve file reputation from a provider, using the file's hash.
-   * @operationId file_intel_post_v1_reputation"
+   * @operationId file_intel_post_v1_reputation
    * @param {String} fileHash - Hash of the file to be looked up
    * @param {Object} options - An object of optional parameters. Parameters supported:
    *   - provider {String} - Use reputation data from this provider: "reversinglabs".
