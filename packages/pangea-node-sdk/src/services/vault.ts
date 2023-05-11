@@ -251,7 +251,7 @@ class VaultService extends BaseService {
    * @returns {Promise} - A promise representing an async call to the secret store endpoint
    * @example
    * ```js
-   * const response = await vault.secretStore(
+   * const response = await vault.pangeaTokenStore(
    *   "ptv_x6fdiizbon6j3bsdvnpmwxsz2aan7fqd",
    *   "my-very-secret-secret",
    *   {
