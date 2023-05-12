@@ -8,10 +8,15 @@ const token = process.env.PANGEA_INTEL_TOKEN;
 
 // To work in sync it's need to set up queuedRetryEnabled to true and set up a proper timeout
 // If timeout it's so little service won't end up and will return an AcceptedRequestException anyway
-const config = new PangeaConfig({ domain: domain, queuedRetryEnabled: true, pollResultTimeoutMs: 60*1000});
+const config = new PangeaConfig({
+  domain: domain,
+  queuedRetryEnabled: true,
+  pollResultTimeoutMs: 60 * 1000,
+});
 const intel = new FileScanService(String(token), config);
 
-const EICAR = "X5O!P%@AP[4\\PZX54(P^)7CC)7}$EICAR-STANDARD-ANTIVIRUS-TEST-FILE!$H+H*\n";
+const EICAR =
+  "X5O!P%@AP[4\\PZX54(P^)7CC)7}$EICAR-STANDARD-ANTIVIRUS-TEST-FILE!$H+H*\n";
 const yourFilepath = "./file.exe";
 
 function createEICAR() {
