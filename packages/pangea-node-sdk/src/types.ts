@@ -9,6 +9,7 @@ export interface ConfigOptions {
   requestRetries?: number;
   requestTimeout?: number;
   queuedRetryEnabled?: boolean;
+  pollResultTimeoutMs?: number;
   aqueuedRetries?: number;
   customUserAgent?: string;
 }
