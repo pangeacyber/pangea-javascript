@@ -141,7 +141,8 @@ const VerificationModal: FC<VerificationModalProps> = ({
           fontSize="small"
           // @ts-ignore
           color={
-            isMembershipValid
+            isMembershipValid &&
+            (record?.valid_signature === undefined || !!record?.valid_signature)
               ? "success"
               : isPendingVerification
               ? "secondary.main"
@@ -193,6 +194,30 @@ const VerificationModal: FC<VerificationModalProps> = ({
                 )}
               </Stack>
             </VerificationRow>
+            {record?.valid_signature !== undefined && (
+              <VerificationRow label="Signed">
+                <Stack direction="row" spacing={1} pr={0.5} alignItems="center">
+                  {!!record?.valid_signature ? (
+                    <>
+                      <Typography color="success.main" variant="body2">
+                        Verified
+                      </Typography>
+                      <CheckCircleOutlinedIcon
+                        color="success"
+                        fontSize="small"
+                      />
+                    </>
+                  ) : (
+                    <>
+                      <Typography color="textSecondary" variant="body2">
+                        Failed
+                      </Typography>
+                      <CancelOutlinedIcon color="error" fontSize="small" />
+                    </>
+                  )}
+                </Stack>
+              </VerificationRow>
+            )}
             {!isPendingVerification ? (
               <>
                 <VerificationRow label="Verification Artifacts">
@@ -240,6 +265,18 @@ const VerificationModal: FC<VerificationModalProps> = ({
                   sx={{ paddingTop: 1 }}
                 >
                   Cannot verify membership, log has not been published yet.
+                </Typography>
+              </Stack>
+            )}
+            {record?.valid_signature !== undefined && !record?.valid_signature && (
+              <Stack direction="row">
+                <Typography
+                  color="textSecondary"
+                  variant="body2"
+                  sx={{ paddingTop: 1 }}
+                >
+                  Audit log has failed Vault signature verification. Please
+                  contact Pangea.
                 </Typography>
               </Stack>
             )}

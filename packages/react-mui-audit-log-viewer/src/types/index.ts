@@ -46,6 +46,9 @@ export namespace Audit {
     membership_proof?: string;
     hash?: string;
     published?: boolean;
+
+    // Only present in logs if record is signed by Vault
+    valid_signature?: boolean;
   }
 
   export interface FlattenedAuditRecord<Event = DefaultEvent>
