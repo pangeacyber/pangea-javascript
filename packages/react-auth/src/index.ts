@@ -1,5 +1,4 @@
 export { AuthProvider, useAuth, getTokenFromCookie } from "./AuthProvider";
-
 export {
   ComponentAuthProvider,
   useComponentAuth,
@@ -34,7 +33,8 @@ export {
   AuthUser,
   CallbackParams,
   ClientResponse,
-  CookieOptions,
   Profile,
   Token,
 } from "@src/types";
+
+export { CookieOptions } from "@src/shared/types";

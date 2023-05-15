@@ -88,6 +88,7 @@ ThemedAuditLogViewer.args = {
           published: false,
           membership_proof: "",
           signature_verification: "none",
+          valid_signature: false,
         },
       ],
       expires_at: new Date().toISOString(),
@@ -96,5 +97,10 @@ ThemedAuditLogViewer.args = {
   },
   onPageChange: async () => {
     return {};
+  },
+  verificationOptions: {
+    onFetchRoot: async (body) => {
+      return undefined;
+    },
   },
 };

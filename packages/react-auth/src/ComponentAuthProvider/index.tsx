@@ -1,41 +1,39 @@
 import {
   FC,
   createContext,
-  ReactNode,
   useCallback,
   useContext,
   useEffect,
   useMemo,
-  useRef,
   useState,
 } from "react";
 
 import AuthNClient from "@src/AuthNClient";
 import {
-  getSessionData,
-  getUserFromResponse,
-  getSessionToken,
-  getAllTokens,
-  getTokenCookieFields,
-  getTokenExpire,
   hasAuthParams,
+  getSessionData,
+  getSessionToken,
+  getSessionTokenValues,
+  getUserFromResponse,
+  isTokenExpiring,
+  removeTokenCookies,
   saveSessionData,
   setTokenCookies,
-  removeTokenCookies,
-  isTokenExpiring,
   DEFAULT_COOKIE_OPTIONS,
   SESSION_DATA_KEY,
-  REFRESH_CHECK_INTERVAL,
 } from "@src/shared/session";
-import {
-  APIResponse,
-  AuthConfig,
-  AuthOptions,
-  AuthUser,
-  CallbackParams,
-  CookieOptions,
-  ProviderOptions,
-} from "@src/types";
+
+import { APIResponse, AuthConfig, AuthUser, CallbackParams } from "@src/types";
+
+import { AuthOptions, CookieOptions, VerifyResponse } from "../shared/types";
+
+import { useValidateToken, useRefresh } from "../shared/hooks";
+
+export interface ComponentAuthProviderProps {
+  config: AuthConfig;
+  cookieOptions?: CookieOptions;
+  children: JSX.Element;
+}
 
 export interface ComponentAuthContextType {
   authenticated: boolean;
@@ -49,23 +47,13 @@ export interface ComponentAuthContextType {
   setFlowComplete: (data: any) => void;
 }
 
-export interface ComponentAuthProviderProps {
-  config: AuthConfig;
-  authOptions?: AuthOptions;
-  useCookie?: boolean;
-  cookieOptions?: CookieOptions;
-  children: ReactNode;
-}
-
 const AuthContext = createContext<ComponentAuthContextType>(
   {} as ComponentAuthContextType
 );
 
 export const ComponentAuthProvider: FC<ComponentAuthProviderProps> = ({
   config,
-  authOptions = {},
-  useCookie = false,
-  cookieOptions = {},
+  cookieOptions = { useCookie: false },
   children,
 }) => {
   const [authenticated, setAuthenticated] = useState<boolean>(false);
@@ -73,23 +61,54 @@ export const ComponentAuthProvider: FC<ComponentAuthProviderProps> = ({
   const [error, setError] = useState<APIResponse>();
   const [user, setUser] = useState<AuthUser>();
   const [cbParams, setCbParams] = useState<CallbackParams>();
-  const intervalId = useRef<number | null>(null);
 
   const client = useMemo(() => {
     return new AuthNClient(config);
   }, [config]);
 
-  const options: ProviderOptions = {
-    useCookie,
-    sessionKey: SESSION_DATA_KEY,
+  const options: AuthOptions = {
+    useJwt: config.useJwt,
+    sessionKey: config.sessionKey || SESSION_DATA_KEY,
     ...DEFAULT_COOKIE_OPTIONS,
-    ...authOptions,
     ...cookieOptions,
   };
 
+  const validateCallback = useCallback((result: VerifyResponse) => {
+    if (result.user) {
+      setAuthenticated(true);
+      setUser(result.user);
+    } else {
+      setLoggedOut();
+    }
+
+    setLoading(false);
+  }, []);
+
+  const refreshCallback = useCallback((result: VerifyResponse) => {
+    if (result.user) {
+      setUser(result.user);
+      setAuthenticated(true);
+      setLoading(false);
+    } else {
+      logout();
+    }
+  }, []);
+
+  const loadingCallback = useCallback((state: boolean) => {
+    setLoading(state);
+  }, []);
+
+  const validate = useValidateToken(client, options, validateCallback);
+  const { refresh, startTokenWatch, stopTokenWatch } = useRefresh(
+    client,
+    options,
+    refreshCallback,
+    loadingCallback
+  );
+
   // load data from local storage, and params from URL
   useEffect(() => {
-    const [token, expire] = getTokenCookieFields(options.cookieName as string);
+    const [token, expire] = getSessionTokenValues(options);
 
     // save callback params if set
     if (hasAuthParams()) {
@@ -114,48 +133,7 @@ export const ComponentAuthProvider: FC<ComponentAuthProviderProps> = ({
     } else {
       setLoading(false);
     }
-
-    // event handler to start/stop refresh checker
-    document.addEventListener("visibilitychange", checkVisibility);
-
-    // clear the timer on unmount, if it's set
-    return () => {
-      document.removeEventListener("visibilitychange", checkVisibility);
-      if (intervalId.current) {
-        clearInterval(intervalId.current);
-        intervalId.current = null;
-      }
-    };
   }, []);
-
-  const checkVisibility = () => {
-    if (document.hidden) {
-      if (intervalId.current) {
-        clearInterval(intervalId.current);
-        intervalId.current = null;
-      }
-    } else {
-      setLoading(true);
-      checkTokenLife();
-      setLoading(false);
-      startTokenWatch();
-    }
-  };
-
-  const validate = async (token: string) => {
-    const { success, response } = await client.validate(token);
-
-    if (success) {
-      setAuthenticated(true);
-    } else {
-      if (response.status === "InvalidToken") {
-        setLoggedOut();
-      } else {
-        setError(response);
-      }
-    }
-    setLoading(false);
-  };
 
   const logout = useCallback(async () => {
     const userToken = getSessionToken(options);
@@ -171,6 +149,9 @@ export const ComponentAuthProvider: FC<ComponentAuthProviderProps> = ({
     } else {
       setLoggedOut();
     }
+
+    stopTokenWatch();
+
     // eslint-disable-next-line
   }, [user]);
 
@@ -178,34 +159,8 @@ export const ComponentAuthProvider: FC<ComponentAuthProviderProps> = ({
     return getSessionToken(options);
   }, []);
 
-  const refresh = async () => {
-    const { sessionToken, refreshToken } = getAllTokens(options);
-
-    const { success, response } = await client.refresh(
-      sessionToken,
-      refreshToken
-    );
-
-    if (success) {
-      const sessionData = getSessionData(options);
-      const user: AuthUser = getUserFromResponse(response);
-      sessionData.user = user;
-      saveSessionData(sessionData, options);
-      setUser(user);
-
-      if (useCookie) {
-        setTokenCookies(user, options);
-      }
-
-      setAuthenticated(true);
-      setLoading(false);
-    } else {
-      logout();
-    }
-  };
-
   const setLoggedOut = () => {
-    if (useCookie) {
+    if (options.useCookie) {
       removeTokenCookies(options);
     }
 
@@ -214,33 +169,13 @@ export const ComponentAuthProvider: FC<ComponentAuthProviderProps> = ({
     setAuthenticated(false);
   };
 
-  const checkTokenLife = () => {
-    const tokenExpire = getTokenExpire(options);
-    if (tokenExpire && isTokenExpiring(tokenExpire)) {
-      refresh();
-    }
-  };
-
-  const startTokenWatch = () => {
-    const intervalTime = REFRESH_CHECK_INTERVAL * 1000;
-
-    if (intervalId.current) {
-      clearInterval(intervalId.current);
-      intervalId.current = null;
-    }
-
-    intervalId.current = window.setInterval(() => {
-      checkTokenLife();
-    }, intervalTime);
-  };
-
   const setFlowComplete = useCallback((response: APIResponse) => {
     const user: AuthUser = getUserFromResponse(response);
     const sessionData = getSessionData(options);
     sessionData.user = user;
     saveSessionData(sessionData, options);
 
-    if (useCookie) {
+    if (options.useCookie) {
       setTokenCookies(user, options);
     }
 

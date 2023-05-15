@@ -11,6 +11,7 @@ export namespace Branding {
   export interface AuditBrandingConfig {
     column_header_bg_color: Color;
     selected_row_bg_color: Color;
+    hover_row_bg_color: Color;
   }
 
   export interface Custom {
@@ -75,7 +76,7 @@ export namespace Branding {
     panel_border_radius: CSSUnit;
     panel_box_shadow: Color;
 
-    custom: Partial<Custom>;
+    custom_metadata: Partial<Custom>;
 
     // For console only.
     preset: string;

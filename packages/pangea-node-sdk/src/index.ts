@@ -17,6 +17,7 @@ export const PangeaRequest = _PangeaRequest;
 export const PangeaResponse = _PangeaResponse;
 
 export const AuditService = services.AuditService;
+export const AuthNService = services.AuthNService;
 export const BaseService = services.BaseService;
 export const EmbargoService = services.EmbargoService;
 export const RedactService = services.RedactService;

@@ -1,4 +1,4 @@
-// Copyright 2021 Pangea Cyber Corporation
+// Copyright 2023 Pangea Cyber Corporation
 // Author: Pangea Cyber Corporation
 
 import snakeCase from "lodash/snakeCase";

@@ -28,6 +28,7 @@ export class PangeaResponse<M> extends ResponseObject<M> {
     super(obj);
     this.gotResponse = response as Response;
     this.success = this.status === "Success";
+    this.result = this.result == null ? ({} as M) : this.result;
   }
 
   // Return raw Pangea API response body
