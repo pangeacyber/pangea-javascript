@@ -13,7 +13,7 @@ import { Intel } from "../../src/types";
 import fs from "fs";
 import { PangeaErrors } from "../../src";
 
-const testEnvironment = TestEnvironment.DEVELOP;
+const testEnvironment = TestEnvironment.LIVE;
 
 const token = getTestToken(testEnvironment);
 const testHost = getTestDomain(testEnvironment);
