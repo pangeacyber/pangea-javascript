@@ -1,5 +1,3 @@
-import React from "react";
-import logo from "./logo.svg";
 import "./App.css";
 
 import { AuditLogViewer } from "@pangeacyber/react-mui-audit-log-viewer";

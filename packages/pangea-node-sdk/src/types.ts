@@ -5,12 +5,17 @@ import { Signer } from "./utils/signer";
  */
 export interface ConfigOptions {
   domain?: string;
-  environment?: string;
+  environment?: ConfigEnv;
   requestRetries?: number;
   requestTimeout?: number;
   queuedRetryEnabled?: boolean;
   aqueuedRetries?: number;
   customUserAgent?: string;
+}
+
+export enum ConfigEnv {
+  LOCAL = "local",
+  PRODUCTION = "production",
 }
 
 /**
@@ -361,6 +366,19 @@ export namespace Vault {
     ES256 = "ES256",
     ES384 = "ES384",
     ES512 = "ES512",
+    ES256K = "ES256K",
+    RSA2048_OAEP_SHA1 = "RSA-OAEP-2048-SHA1",
+    RSA2048_OAEP_SHA512 = "RSA-OAEP-2048-SHA512",
+    RSA3072_OAEP_SHA1 = "RSA-OAEP-3072-SHA1",
+    RSA3072_OAEP_SHA256 = "RSA-OAEP-3072-SHA256",
+    RSA3072_OAEP_SHA512 = "RSA-OAEP-3072-SHA512",
+    RSA4096_OAEP_SHA1 = "RSA-OAEP-4096-SHA1",
+    RSA4096_OAEP_SHA256 = "RSA-OAEP-4096-SHA256",
+    RSA4096_OAEP_SHA512 = "RSA-OAEP-4096-SHA512",
+    RSA2048_PSS_SHA256 = "RSA-PSS-2048-SHA256",
+    RSA3072_PSS_SHA256 = "RSA-PSS-3072-SHA256",
+    RSA4096_PSS_SHA256 = "RSA-PSS-4096-SHA256",
+    RSA4096_PSS_SHA512 = "RSA-PSS-4096-SHA512",
     RSA = "RSA-PKCS1V15-2048-SHA256", // deprecated, use RSA2048_PKCS1V15_SHA256 instead
   }
 
@@ -370,6 +388,7 @@ export namespace Vault {
     HS512 = "HS512",
     AES128_CFB = "AES-CFB-128",
     AES256_CFB = "AES-CFB-256",
+    AES256_GCM = "AES-GCM-256",
     AES = "AES-CFB-128", // deprecated, use AES128_CFB instead
   }
 
@@ -789,6 +808,7 @@ export namespace Vault {
 
     export interface EncryptOptions {
       version?: number;
+      additional_data?: string;
     }
 
     export interface EncryptRequest extends EncryptOptions {
@@ -805,6 +825,7 @@ export namespace Vault {
 
     export interface DecryptOptions {
       version?: number;
+      additional_data?: string;
     }
 
     export interface DecryptRequest extends DecryptOptions {
@@ -817,6 +838,588 @@ export namespace Vault {
       version?: number;
       algorithm: string;
       plain_text: string;
+    }
+  }
+}
+
+export namespace AuthN {
+  export enum IDProvider {
+    FACEBOOK = "facebook",
+    GITHUB = "github",
+    GOOGLE = "google",
+    MICROSOFT_ONLINE = "microsoftonline",
+    PASSWORD = "password",
+  }
+
+  export enum ItemOrder {
+    ASC = "asc",
+    DESC = "desc",
+  }
+
+  export type Scopes = string[];
+
+  export interface Profile {
+    [key: string]: string;
+  }
+
+  export enum MFAProvider {
+    TOTP = "totp",
+    EMAIL_OTP = "email_otp",
+    SMS_OTP = "sms_otp",
+  }
+
+  export enum FlowType {
+    SIGNIN = "signin",
+    SIGNUP = "signup",
+  }
+
+  export interface UserItem {
+    profile: Profile;
+    id: string;
+    email: string;
+    scopes: Scopes;
+    id_providers: string[];
+    mfa_providers: string[];
+    require_mfa: boolean;
+    verified: boolean;
+    disabled: boolean;
+    last_login_at: string;
+    created_at: string;
+  }
+
+  export interface PasswordRequirements {
+    password_chars_min: number;
+    password_chars_max: number;
+    password_lower_min: number;
+    password_upper_min: number;
+    password_punct_min: number;
+  }
+
+  export enum TokenType {
+    USER = "user",
+    SERVICE = "service",
+    CLIENT = "client",
+    SESSION = "session",
+  }
+
+  export interface LoginToken {
+    token: string;
+    id: string;
+    identity: string;
+    type: TokenType;
+    life: number;
+    expire: string;
+    email: string;
+    scopes: Scopes;
+    profile: Profile;
+    created_at: string;
+  }
+
+  export interface SessionToken {
+    id: string;
+    identity: string;
+    type: TokenType;
+    life: number;
+    expire: string;
+    email: string;
+    scopes: Scopes;
+    profile: Profile;
+    created_at: string;
+  }
+
+  export namespace Flow {
+    export enum Step {
+      START = "start",
+      VERIFY_CAPTCHA = "verify/captcha",
+      SIGNUP = "signup",
+      VERIFY_EMAIL = "verify/email",
+      VERIFY_PASSWORD = "verify/password",
+      VERIFY_SOCIAL = "verify/social",
+      ENROLL_MFA_START = "enroll/mfa/start",
+      ENROLL_MFA_COMPLETE = "enroll/mfa/complete",
+      VERIFY_MFA_START = "verify/mfa/start",
+      VERIFY_MFA_COMPLETE = "verify/mfa/complete",
+      COMPLETE = "complete",
+    }
+
+    export interface Result {
+      flow_id: string;
+      next_step: Step;
+      error?: string;
+      complete?: object;
+      enroll_mfa_start?: {
+        mfa_providers: MFAProvider[];
+      };
+      enroll_mfa_complete?: {
+        totp_secret?: {
+          qr_image: string;
+          secret: string;
+        };
+      };
+      signup?: {
+        social_signup?: {
+          redirect_uri: object;
+        };
+        password_signup?: PasswordRequirements;
+      };
+      verify_captcha?: {
+        site_key: string;
+      };
+      verify_email?: object;
+      verify_mfa_start?: {
+        mfa_providers: MFAProvider[];
+      };
+      verify_mfa_complete?: object;
+      verify_password?: PasswordRequirements;
+      verify_social?: {
+        redirect_uri: object;
+      };
+    }
+
+    export namespace Reset {
+      export interface PasswordOptions {
+        cb_state?: string;
+        cb_code?: string;
+        cancel?: boolean;
+      }
+
+      export interface PasswordRequest extends PasswordOptions {
+        flow_id: string;
+        password: string;
+      }
+
+      export interface PasswordResult extends Flow.Result {}
+    }
+
+    export namespace Enroll {
+      export namespace MFA {
+        export interface StartRequest extends StartOptions {
+          flow_id: string;
+          mfa_provider: MFAProvider;
+        }
+
+        export interface StartOptions {
+          phone?: string;
+        }
+
+        export interface CompleteRequest extends CompleteOptions {
+          flow_id: string;
+        }
+        export interface CompleteOptions {
+          cancel?: boolean;
+          code?: string;
+        }
+      }
+    }
+
+    export namespace Verify {
+      export interface CaptchaRequest {
+        flow_id: string;
+        code: string;
+      }
+
+      export interface EmailOptions {
+        cb_state?: string;
+        cb_code?: string;
+      }
+
+      export interface EmailRequest extends EmailOptions {
+        flow_id: string;
+      }
+
+      export interface PasswordOptions {
+        password?: string;
+        cancel?: boolean;
+      }
+
+      export interface PasswordRequest {
+        flow_id: string;
+      }
+
+      export interface SocialRequest {
+        flow_id: string;
+        cb_state: string;
+        cb_code: string;
+      }
+
+      export namespace MFA {
+        export interface StartRequest {
+          flow_id: string;
+          mfa_provider: MFAProvider;
+        }
+
+        export interface CompleteOptions {
+          cancel?: boolean;
+          code?: string;
+        }
+        export interface CompleteRequest extends CompleteOptions {
+          flow_id: string;
+        }
+      }
+    }
+
+    export interface CompleteRequest {
+      flow_id: string;
+    }
+
+    export interface CompleteResult {
+      refresh_token: LoginToken;
+      active_token?: LoginToken;
+    }
+
+    export interface StartRequest extends StartOptions {}
+
+    export interface StartOptions {
+      email?: string;
+      flow_types?: FlowType[];
+      provider?: AuthN.IDProvider;
+      cb_uri?: string;
+    }
+
+    export namespace Signup {
+      export interface PasswordRequest {
+        flow_id: string;
+        password: string;
+        first_name: string;
+        last_name: string;
+      }
+      export interface SocialRequest {
+        flow_id: string;
+        cb_state: string;
+        cb_code: string;
+      }
+    }
+  }
+
+  export namespace Client {
+    export interface UserinfoRequest {
+      code: string;
+    }
+
+    export interface UserinfoResult {
+      refresh_token: LoginToken;
+      active_token: LoginToken;
+    }
+
+    export interface JWKSResult {
+      keys: [Vault.JWK.JWKrsa | Vault.JWK.JWKec][];
+    }
+
+    export namespace Token {
+      export interface CheckRequest {
+        token: string;
+      }
+
+      export interface CheckResult extends SessionToken {}
+    }
+
+    export namespace Password {
+      export interface UpdateRequest {
+        token: string;
+        old_password: string;
+        new_password: string;
+      }
+    }
+
+    export namespace Session {
+      export interface InvalidateRequest {
+        token: string;
+        session_id: string;
+      }
+
+      export interface ListOptions {
+        filter?: Object;
+        last?: string;
+        order?: string;
+        order_by?: string;
+        size?: number;
+      }
+
+      export interface ListRequest extends ListOptions {
+        token: string;
+      }
+
+      export interface RefreshOptions {
+        user_token?: string;
+      }
+
+      export interface RefreshRequest extends RefreshOptions {
+        refresh_token: string;
+      }
+
+      export interface RefreshResult {
+        refresh_token: LoginToken;
+        active_token?: LoginToken;
+      }
+    }
+  }
+
+  export namespace Session {
+    export interface Item {
+      id: string;
+      type: TokenType;
+      life: number;
+      expire: string;
+      profile: Profile;
+      created_at: string;
+      scopes?: Scopes;
+      active_token?: SessionToken;
+    }
+
+    export interface ListRequest {
+      filter?: Object;
+      last?: string;
+      order?: string;
+      order_by?: string;
+      size?: number;
+    }
+
+    export interface ListResult {
+      sessions: Item[];
+      last?: string;
+    }
+  }
+
+  export namespace User {
+    export interface CreateOptions {
+      verified?: boolean;
+      require_mfa?: boolean;
+      profile?: Profile;
+      scopes?: Scopes;
+    }
+
+    export interface CreateRequest extends CreateOptions {
+      email: string;
+      authenticator: string;
+      id_provider: IDProvider;
+    }
+
+    export interface CreateResult {
+      id: string;
+      email: string;
+      profile: Profile;
+      id_providers: string[];
+      require_mfa: boolean;
+      verified: boolean;
+      last_login_at: string;
+      disable?: boolean;
+      mfa_provider?: MFAProvider[];
+    }
+
+    export namespace Delete {
+      export interface EmailRequest {
+        email: string;
+      }
+
+      export interface IDRequest {
+        id: string;
+      }
+    }
+
+    export interface InviteItem {
+      id: string;
+      inviter: string;
+      invite_org: string;
+      email: string;
+      callback: string;
+      state: string;
+      require_mfa: boolean;
+      created_at: string;
+      expire: string;
+    }
+
+    export interface InviteRequest extends InviteOptions {
+      inviter: string;
+      email: string;
+      callback: string;
+      state: string;
+    }
+
+    export interface InviteResult extends InviteItem {}
+
+    export interface InviteOptions {
+      require_mfa?: boolean;
+    }
+
+    export enum ListOrderBy {
+      ID = "id",
+      CREATED_AT = "created_at",
+      LAST_LOGIN_AT = "last_login_at",
+      EMAIL = "email",
+    }
+
+    export interface ListRequest {
+      filter?: Object;
+      last?: string;
+      order?: AuthN.ItemOrder;
+      order_by?: AuthN.User.ListOrderBy;
+      size?: number;
+      use_new?: boolean; // Temporary field, need to be true
+    }
+
+    export interface ListResult {
+      users: UserItem[];
+      last: string;
+      count: number;
+    }
+
+    export namespace Password {
+      export interface ResetRequest {
+        user_id: string;
+        new_password: string;
+      }
+    }
+
+    export namespace Invite {
+      export enum OrderBy {
+        ID = "id",
+        CREATED_AT = "created_at",
+        TYPE = "type",
+        EXPIRE = "expire",
+        CALLBACK = "callback",
+        STATE = "state",
+        EMAIL = "email",
+        INVITER = "inviter",
+        INVITE_ORG = "invite_org",
+      }
+
+      export interface DeleteRequest {
+        id: string;
+      }
+
+      export interface ListRequest {
+        filter?: Object;
+        last?: string;
+        order?: ItemOrder;
+        order_by?: OrderBy;
+        size?: number;
+      }
+
+      export interface ListResult {
+        invites: InviteItem[];
+      }
+    }
+
+    export namespace Login {
+      export interface PasswordOptions {
+        extra_profile?: Profile;
+      }
+      export interface PasswordRequest extends PasswordOptions {
+        email: string;
+        password: string;
+      }
+      export interface SocialOptions {
+        extra_profile?: Profile;
+      }
+      export interface SocialRequest extends SocialOptions {
+        provider: IDProvider;
+        email: string;
+        social_id: string;
+      }
+
+      export interface LoginResult {
+        refresh_token: LoginToken;
+        active_token?: LoginToken;
+      }
+    }
+
+    export namespace MFA {
+      export interface DeleteRequest {
+        user_id: string;
+        mfa_provider: MFAProvider;
+      }
+
+      export interface EnrollRequest {
+        user_id: string;
+        mfa_provider: MFAProvider;
+        code: string;
+      }
+      export interface StartRequest extends StartOptions {
+        user_id: string;
+        mfa_provider: MFAProvider;
+      }
+
+      export interface StartOptions {
+        enroll?: boolean;
+        phone?: string;
+      }
+
+      export interface StartResult {
+        totp_secret?: {
+          qr_image: string;
+          secret: string;
+        };
+      }
+      export interface VerifyRequest {
+        user_id: string;
+        mfa_provider: string;
+        code: string;
+      }
+    }
+    export namespace Profile {
+      export interface GetResult extends UserItem {}
+
+      export namespace Get {
+        export interface EmailRequest {
+          email: string;
+        }
+
+        export interface IDRequest {
+          id: string;
+        }
+      }
+
+      export namespace Update {
+        export interface EmailRequest {
+          email: string;
+          profile: Profile;
+        }
+
+        export interface IDRequest {
+          id: string;
+          profile: Profile;
+        }
+      }
+
+      export interface UpdateResult extends UserItem {}
+    }
+
+    export namespace Update {
+      export interface EmailRequest extends Options {
+        email: string;
+      }
+
+      export interface IDRequest extends Options {
+        id: string;
+      }
+
+      export interface Options {
+        authenticator?: string;
+        disabled?: boolean;
+        require_mfa?: boolean;
+        verified?: boolean;
+      }
+    }
+
+    export interface UpdateResult extends UserItem {}
+
+    export interface VerifyRequest {
+      id_provider: IDProvider;
+      email: string;
+      authenticator: string;
+    }
+
+    export interface VerifyResult {
+      id: string;
+      email: string;
+      profile: Profile;
+      scopes: Scopes;
+      id_providers: string[];
+      require_mfa: boolean;
+      mfa_providers: string[];
+      verified: boolean;
+      disabled: boolean;
+      last_login_at?: string;
     }
   }
 }

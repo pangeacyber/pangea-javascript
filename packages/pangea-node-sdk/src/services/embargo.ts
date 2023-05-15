@@ -16,11 +16,14 @@ class EmbargoService extends BaseService {
   /**
    * @summary Check IP
    * @description Check an IP against known sanction and trade embargo lists.
+   * @operationId embargo_post_v1_ip_check
    * @param {String} ipAddress - Geolocate this IP and check the corresponding country against
    *   the enabled embargo lists.
    * @returns {Promise} - A promise representing an async call to the check endpoint
    * @example
-   * const response = await embargo.ipCheck("1.1.1.1");
+   * ```js
+   * const response = await embargo.ipCheck("190.6.64.94");
+   * ```
    */
   ipCheck(ipAddress: string): Promise<PangeaResponse<Embargo.CheckResult>> {
     const data = {
@@ -33,10 +36,13 @@ class EmbargoService extends BaseService {
   /**
    * @summary ISO code check
    * @description Check a country code against known sanction and trade embargo lists.
+   * @operationId embargo_post_v1_iso_check
    * @param {String} isoCode - Check the  country against code the enabled embargo lists.
    * @returns {Promise} - A promise representing an async call to the check endpoint
    * @example
+   * ```js
    * const response = await embargo.isoCheck("CU");
+   * ```
    */
   isoCheck(isoCode: string): Promise<PangeaResponse<Embargo.CheckResult>> {
     const data = {

@@ -5,6 +5,22 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.8.1] - UNRELEASED
+
+### Fixed
+
+- AuthN: `authn.user.invites.list()` was missing an optional parameters object [@r3dcrosse](https://github.com/r3dcrosse)
+
+### Changed
+
+- AuthN: `authn.user.login.social()` had wrong provider TypeScript type: `AuthN.MFAProvider`, but should be `AuthN.IDProvider` [@r3dcrosse](https://github.com/r3dcrosse)
+
+## [1.8.0] - 2023-04-21
+
+### Added
+
+- AuthN Service support
+
 ## [1.7.0] - 2023-04-10
 
 ### Added
@@ -110,7 +126,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Domain Intel client
 - Redact client
 
-[unreleased]: https://github.com/pangeacyber/pangea-javascript/compare/v1.7.0...main
+[unreleased]: https://github.com/pangeacyber/pangea-javascript/compare/v1.8.0...main
+[1.7.0]: https://github.com/pangeacyber/pangea-javascript/compare/v1.7.0...v1.8.0
 [1.7.0]: https://github.com/pangeacyber/pangea-javascript/compare/v1.6.0...v1.7.0
 [1.6.0]: https://github.com/pangeacyber/pangea-javascript/compare/v1.5.0...v1.6.0
 [1.5.0]: https://github.com/pangeacyber/pangea-javascript/compare/v1.4.0...v1.5.0

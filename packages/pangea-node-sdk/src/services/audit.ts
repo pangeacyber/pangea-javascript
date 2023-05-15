@@ -35,6 +35,7 @@ class AuditService extends BaseService {
   /**
    * @summary Log an entry
    * @description Create a log entry in the Secure Audit Log.
+   * @operationId audit_post_v1_log
    * @param {Object} content - A structured event describing an auditable activity. Supported fields are:
    *   - actor (string): Record who performed the auditable activity.
    *   - action (string): The auditable action that occurred.
@@ -52,15 +53,15 @@ class AuditService extends BaseService {
    * @example
    * ```js
    * const auditData = {
-   *    action: "add_employee",
-   *    actor: user,
-   *    target: data.email,
-   *    status: "error",
-   *    message: `Resume denied - sanctioned country from ${clientIp}`,
-   *    source: "web",
-   *  };
+   *   action: "add_employee",
+   *   actor: user,
+   *   target: data.email,
+   *   status: "error",
+   *   message: `Resume denied - sanctioned country from ${clientIp}`,
+   *   source: "web",
+   * };
    *
-   *  const logResponse = await audit.log(auditData);
+   * const logResponse = await audit.log(auditData);
    * ```
    */
   async log(
@@ -154,8 +155,9 @@ class AuditService extends BaseService {
   }
 
   /**
-   * @summary Search for events
+   * @summary Search the log
    * @description Search for events that match the provided search criteria.
+   * @operationId audit_post_v1_search
    * @param {String} query - Natural search string; list of keywords with optional
    *   `<option>:<value>` qualifiers. The following optional qualifiers are supported:
    *   - action:
@@ -173,7 +175,9 @@ class AuditService extends BaseService {
    * @returns {Promise} - A promise representing an async call to the search endpoint
    * @example
    * ```js
-   * const response = await audit.search("add_employee:Gumby")
+   * const response = await audit.search(
+   *   "add_employee:Gumby"
+   * );
    * ```
    */
   async search(
@@ -201,7 +205,8 @@ class AuditService extends BaseService {
 
   /**
    * @summary Results of a search
-   * @description Fetch paginated results of a previously executed search
+   * @description Fetch paginated results of a previously executed search.
+   * @operationId audit_post_v1_results
    * @param {String} id - The id of a successful search
    * @param {number} limit (default 20) - The number of results returned
    * @param {number} offset (default 0) - The starting position of the first returned result
@@ -209,7 +214,11 @@ class AuditService extends BaseService {
    * @returns {Promise} - A promise representing an async call to the results endpoint
    * @example
    * ```js
-   * const response = await audit.results(pxx_asd0987asdas89a8, 50, 100)
+   * const response = await audit.results(
+   *   "pas_sqilrhruwu54uggihqj3aie24wrctakr",
+   *   50,
+   *   100
+   * );
    * ```
    */
   async results(
@@ -233,10 +242,11 @@ class AuditService extends BaseService {
   }
 
   /**
-   * @summary Retrieve tamperproof verification
-   * @description Returns current root hash and consistency proof
+   * @summary Tamperproof verification
+   * @description Returns current root hash and consistency proof.
+   * @operationId audit_post_v1_root
    * @param {number} size - The size of the tree (the number of records)
-   * @returns {Promise} - A promise representing an async call to the results endpoint
+   * @returns {Promise} - A promise representing an async call to the endpoint
    * @example
    * ```js
    * const response = audit.root(7);

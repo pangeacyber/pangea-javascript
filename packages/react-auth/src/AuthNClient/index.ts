@@ -7,7 +7,7 @@ const API_VERSION = "v1";
 export class AuthNClient {
   config: AuthConfig;
 
-  constructor(config: AuthConfig) {
+  constructor(config: AuthConfig, useJwt: boolean = false) {
     if (!config.clientToken) throw new Error("A token is required");
     if (!config.domain) throw new Error("A domain is required");
 
@@ -52,6 +52,11 @@ export class AuthNClient {
     const path = "client/session/refresh";
     const payload = { user_token: userToken, refresh_token: refreshToken };
     return await this.post(path, payload);
+  }
+
+  async jwks(): Promise<ClientResponse> {
+    const path = "client/jwks";
+    return await this.post(path, {});
   }
 
   /*
