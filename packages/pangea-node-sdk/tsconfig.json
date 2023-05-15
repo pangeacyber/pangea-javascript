@@ -4,9 +4,9 @@
     "module": "esnext",
     "outDir": "dist/mjs",
     "target": "esnext",
+    "baseUrl": ".",
     "paths": {
-      "@src/*": ["src/*"],
-      "@services/*": ["src/services/*"]
+      "@src/*": ["./src/*"]
     }
   }
 }

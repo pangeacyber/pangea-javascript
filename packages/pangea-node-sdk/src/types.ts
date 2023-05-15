@@ -1,4 +1,4 @@
-import { Signer } from "utils/signer";
+import { Signer } from "./utils/signer";
 
 /**
  * PangeaConfig options
@@ -24,7 +24,6 @@ export enum ConfigEnv {
 export namespace Audit {
   export interface LogOptions {
     verbose?: boolean;
-    signMode?: SignOptions;
     signer?: Signer;
     skipEventVerification?: boolean;
     verify?: boolean;
@@ -39,22 +38,8 @@ export namespace Audit {
     prev_root?: string;
   }
 
-  export enum SignOptions {
-    Unsign,
-    Local,
-  }
-
   export interface Event {
-    message: Object | string;
-    actor?: string;
-    action?: string;
-    new?: Object | string;
-    old?: Object | string;
-    status?: string;
-    target?: string;
-    source?: string;
-    timestamp?: Date | string;
-    tenant_id?: string;
+    [key: string]: Object | string | boolean | number | Date;
   }
 
   export interface EventEnvelope {
@@ -146,18 +131,18 @@ export namespace Audit {
     tree_size?: number;
   }
 
-  export interface RootResponse extends Root {
+  export interface RootResult extends Root {
     data: Root;
   }
 }
 
 export namespace Redact {
-  export interface BaseResponse {
+  export interface TextResult {
     redacted_text?: string;
     count: number;
   }
 
-  export interface StructuredResponse {
+  export interface StructuredResult {
     redacted_data?: object;
     count: number;
   }
@@ -192,7 +177,7 @@ export namespace Embargo {
     annotations: object;
   }
 
-  export interface CheckResponse {
+  export interface CheckResult {
     sanctions: Sanction[];
   }
 }
@@ -222,44 +207,56 @@ export namespace Intel {
   }
 
   export namespace File {
-    export interface Options extends Intel.Options {}
-    export interface Params {
+    interface Options extends Intel.Options {}
+    interface Params {
       hash: string;
       hash_type: string;
     }
 
     export interface ReputationOptions extends Options {}
     export interface ReputationResult extends Intel.ReputationResult {}
-    export interface ReputationParams extends Params, ReputationOptions {}
+    export interface ReputationRequest extends Params, ReputationOptions {}
   }
 
   export namespace Domain {
-    export interface Options extends Intel.Options {}
-    export interface Params {
+    interface Options extends Intel.Options {}
+    interface Params {
       domain: string;
     }
 
     export interface ReputationOptions extends Options {}
     export interface ReputationResult extends Intel.ReputationResult {}
-    export interface ReputationParams extends Params, ReputationOptions {}
+    export interface ReputationRequest extends Params, ReputationOptions {}
   }
 
   export namespace URL {
-    export interface Options extends Intel.Options {}
-    export interface Params {
+    interface Options extends Intel.Options {}
+    interface Params {
       url: string;
     }
 
     export interface ReputationOptions extends Options {}
     export interface ReputationResult extends Intel.ReputationResult {}
-    export interface ReputationParams extends Params, ReputationOptions {}
+    export interface ReputationRequest extends Params, ReputationOptions {}
   }
 
   export namespace IP {
-    export interface Options extends Intel.Options {}
-    export interface Params {
+    interface Options extends Intel.Options {}
+    interface Params {
       ip: string;
     }
+
+    export interface GeolocateOptions extends Options {}
+    export interface GeolocateRequest extends Params, GeolocateOptions {}
+
+    export interface DomainOptions extends Options {}
+    export interface DomainRequest extends Params, DomainOptions {}
+
+    export interface VPNOptions extends Options {}
+    export interface VPNRequest extends Params, VPNOptions {}
+
+    export interface ProxyOptions extends Options {}
+    export interface ProxyRequest extends Params, ProxyOptions {}
 
     export interface ReputationOptions extends Options {}
     export interface ReputationResult extends Intel.ReputationResult {}
@@ -295,34 +292,9 @@ export namespace Intel {
     }
   }
 
-  export interface FileParams extends Intel.Options {
-    hash: string;
-    hash_type: string;
-  }
-
-  export interface IPParams extends Intel.Options {
-    ip: string;
-  }
-
-  export interface URLParams extends Intel.Options {
-    url: string;
-  }
-
-  export interface DomainParams extends Intel.Options {
-    domain: string;
-  }
-
   export interface CommonResult {
     parameter?: Object;
     raw_data?: Object;
-  }
-
-  export interface Response extends CommonResult {
-    data: {
-      category: string[];
-      score: number;
-      verdict: string;
-    };
   }
 
   export namespace User {
