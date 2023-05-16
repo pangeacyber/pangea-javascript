@@ -1,16 +1,61 @@
 import { FC } from "react";
 import { useFormik } from "formik";
 import * as yup from "yup";
-import { Button, Divider, Stack, TextField, Typography } from "@mui/material";
+import {
+  Box,
+  Button,
+  Divider,
+  Stack,
+  TextField,
+  Typography,
+} from "@mui/material";
 
-import { useAuthFlow, FlowStep } from "@pangeacyber/react-auth";
+import { FlowStep } from "@pangeacyber/react-auth";
 
 import { ViewComponentProps } from "@src/views/AuthFlow/types";
 import ErrorMessage from "../ErrorMessage";
+import GoogleIcon from "@src/components/Icons/google";
+import GitHubIcon from "@src/components/Icons/github";
+import MicrosoftIcon from "@src/components/Icons/microsoft";
+import FacebookIcon from "@src/components/Icons/facebook";
 
-const StartView: FC<ViewComponentProps> = ({ options }) => {
-  const { callNext, flowData, loading, error } = useAuthFlow();
+const getProviderIcon = (provider: string) => {
+  switch (provider) {
+    case "google":
+      return <GoogleIcon />;
+    case "github":
+      return <GitHubIcon />;
+    case "microsoftonline":
+      return <MicrosoftIcon />;
+    case "facebook":
+      return <FacebookIcon />;
+    default:
+      return <></>;
+  }
+};
 
+const getProviderLabel = (provider: string) => {
+  switch (provider) {
+    case "google":
+      return "Google";
+    case "github":
+      return "GitHub";
+    case "microsoftonline":
+      return "Microsoft";
+    case "facebook":
+      return "Facebook";
+    default:
+      return provider;
+  }
+};
+
+const StartView: FC<ViewComponentProps> = ({
+  options,
+  data,
+  loading,
+  error,
+  next,
+}) => {
   const socialLogin = (redirect: string) => {
     window.location.href = redirect;
   };
@@ -31,7 +76,7 @@ const StartView: FC<ViewComponentProps> = ({ options }) => {
       const payload = {
         ...values,
       };
-      callNext(FlowStep.START, payload);
+      next(FlowStep.START, payload);
     },
   });
 
@@ -61,22 +106,28 @@ const StartView: FC<ViewComponentProps> = ({ options }) => {
           </Button>
         </Stack>
       </form>
-      {flowData.passwordSignup && flowData.socialSignup && <Divider />}
-      {flowData.socialSignup?.redirect_uri && (
+      {data.passwordSignup && data.socialSignup && <Divider />}
+      {data.socialSignup?.redirect_uri && (
         <Stack gap={2}>
-          {Object.keys(flowData.socialSignup.redirect_uri).map((provider) => {
-            const redirect = flowData.socialSignup.redirect_uri[provider];
+          {Object.keys(data.socialSignup.redirect_uri).map((provider) => {
+            const redirect = data.socialSignup.redirect_uri[provider];
             return (
-              <div key={provider}>
-                <Button
-                  variant="outlined"
-                  onClick={() => {
-                    socialLogin(redirect);
-                  }}
-                >
-                  Continue with {provider}
-                </Button>
-              </div>
+              <Button
+                variant="outlined"
+                fullWidth={true}
+                onClick={() => {
+                  socialLogin(redirect);
+                }}
+                key={provider}
+              >
+                {options.showSocialIcons && (
+                  <>
+                    {getProviderIcon(provider)}
+                    <Box component="span" sx={{ marginRight: 1 }} />
+                  </>
+                )}
+                Continue with {getProviderLabel(provider)}
+              </Button>
             );
           })}
         </Stack>

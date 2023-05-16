@@ -3,14 +3,20 @@ import { useFormik } from "formik";
 import * as yup from "yup";
 import { Button, Stack, TextField, Typography } from "@mui/material";
 
-import { useAuthFlow, FlowStep } from "@pangeacyber/react-auth";
+import { FlowStep } from "@pangeacyber/react-auth";
 
 import { ViewComponentProps } from "@src/views/AuthFlow/types";
 import ErrorMessage from "../ErrorMessage";
 
-const ResetPasswordView: FC<ViewComponentProps> = ({ options }) => {
-  const { callNext, flowData, loading, error, reset, cbParams } = useAuthFlow();
-
+const ResetPasswordView: FC<ViewComponentProps> = ({
+  options,
+  data,
+  loading,
+  error,
+  cbParams,
+  next,
+  reset,
+}) => {
   const validationSchema = yup.object({
     password: yup.string().min(8, "Must be at least 8 characters"),
   });
@@ -24,12 +30,12 @@ const ResetPasswordView: FC<ViewComponentProps> = ({ options }) => {
       const payload = {
         ...values,
       };
-      callNext(FlowStep.RESET_PASSWORD, payload);
+      next(FlowStep.RESET_PASSWORD, payload);
     },
   });
 
   const cancelReset = () => {
-    callNext(FlowStep.RESET_PASSWORD, { cancel: true });
+    next(FlowStep.RESET_PASSWORD, { cancel: true });
   };
 
   // TODO: This should be a separate flow state
@@ -39,7 +45,7 @@ const ResetPasswordView: FC<ViewComponentProps> = ({ options }) => {
         <Stack>
           <Typography variant="h6">Reset Password</Typography>
           {options.showEmail && (
-            <Typography variant="caption">{flowData.email}</Typography>
+            <Typography variant="caption">{data.email}</Typography>
           )}
         </Stack>
         <Typography variant="body1">
@@ -65,7 +71,7 @@ const ResetPasswordView: FC<ViewComponentProps> = ({ options }) => {
     <Stack gap={2}>
       <Stack>
         <Typography variant="h6">Reset Password</Typography>
-        <Typography variant="caption">{flowData.email}</Typography>
+        <Typography variant="caption">{data.email}</Typography>
       </Stack>
       <form onSubmit={formik.handleSubmit}>
         <TextField
