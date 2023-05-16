@@ -3,14 +3,19 @@ import { useFormik } from "formik";
 import * as yup from "yup";
 import { Button, Stack, TextField, Typography } from "@mui/material";
 
-import { useAuthFlow, FlowStep } from "@pangeacyber/react-auth";
+import { FlowStep } from "@pangeacyber/react-auth";
 
 import { ViewComponentProps } from "@src/views/AuthFlow/types";
 import ErrorMessage from "../ErrorMessage";
 
-const VerifyPasswordView: FC<ViewComponentProps> = ({ options }) => {
-  const { callNext, reset, flowData, loading, error } = useAuthFlow();
-
+const VerifyPasswordView: FC<ViewComponentProps> = ({
+  options,
+  data,
+  loading,
+  error,
+  next,
+  reset,
+}) => {
   const validationSchema = yup.object({
     password: yup.string().required("Password is required"),
   });
@@ -24,12 +29,12 @@ const VerifyPasswordView: FC<ViewComponentProps> = ({ options }) => {
       const payload = {
         ...values,
       };
-      callNext(FlowStep.VERIFY_PASSWORD, payload);
+      next(FlowStep.VERIFY_PASSWORD, payload);
     },
   });
 
   const resetPassword = () => {
-    callNext(FlowStep.VERIFY_PASSWORD, { reset: true });
+    next(FlowStep.VERIFY_PASSWORD, { reset: true });
   };
 
   return (
@@ -37,7 +42,7 @@ const VerifyPasswordView: FC<ViewComponentProps> = ({ options }) => {
       <Stack>
         <Typography variant="h6">Log in</Typography>
         {options.showEmail && (
-          <Typography variant="caption">{flowData.email}</Typography>
+          <Typography variant="caption">{data.email}</Typography>
         )}
       </Stack>
       <form onSubmit={formik.handleSubmit}>

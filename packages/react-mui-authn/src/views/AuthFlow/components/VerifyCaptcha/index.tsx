@@ -2,19 +2,23 @@ import { FC } from "react";
 import ReCAPTCHA from "react-google-recaptcha-enterprise";
 import { Button, Stack, Typography } from "@mui/material";
 
-import { useAuthFlow, FlowStep } from "@pangeacyber/react-auth";
+import { FlowStep } from "@pangeacyber/react-auth";
 
 import { ViewComponentProps } from "@src/views/AuthFlow/types";
 import ErrorMessage from "../ErrorMessage";
 
-const VerifyCaptchaView: FC<ViewComponentProps> = ({ options }) => {
-  const { callNext, reset, error, flowData } = useAuthFlow();
-
+const VerifyCaptchaView: FC<ViewComponentProps> = ({
+  options,
+  data,
+  error,
+  next,
+  reset,
+}) => {
   const handleChange = (value: string) => {
     const payload = {
       captchaCode: value,
     };
-    callNext(FlowStep.VERIFY_CAPTCHA, payload);
+    next(FlowStep.VERIFY_CAPTCHA, payload);
   };
 
   return (
@@ -22,10 +26,10 @@ const VerifyCaptchaView: FC<ViewComponentProps> = ({ options }) => {
       <Stack>
         <Typography variant="h6">Prove you're human</Typography>
         {options.showEmail && (
-          <Typography variant="caption">{flowData.email}</Typography>
+          <Typography variant="caption">{data.email}</Typography>
         )}
       </Stack>
-      <ReCAPTCHA sitekey={flowData.recaptchaKey} onChange={handleChange} />
+      <ReCAPTCHA sitekey={data.recaptchaKey} onChange={handleChange} />
       {error && <ErrorMessage response={error} />}
       {options.showReset && (
         <Stack direction="row" gap={2} mt={2}>

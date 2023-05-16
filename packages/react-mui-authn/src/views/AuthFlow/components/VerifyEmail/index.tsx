@@ -1,17 +1,22 @@
 import { FC } from "react";
 import { Button, Stack, Typography } from "@mui/material";
 
-import { useAuthFlow, FlowStep } from "@pangeacyber/react-auth";
+import { FlowStep } from "@pangeacyber/react-auth";
 
 import { ViewComponentProps } from "@src/views/AuthFlow/types";
 import ErrorMessage from "../ErrorMessage";
 
-const VerifyEmailView: FC<ViewComponentProps> = ({ options }) => {
-  const { reset, loading, error, flowData, callNext } = useAuthFlow();
-
+const VerifyEmailView: FC<ViewComponentProps> = ({
+  options,
+  data,
+  loading,
+  error,
+  next,
+  reset,
+}) => {
   const resendEmail = () => {
-    callNext(FlowStep.VERIFY_EMAIL, {
-      flowId: flowData.flowId,
+    next(FlowStep.VERIFY_EMAIL, {
+      flowId: data.flowId,
       cb_state: null,
       cb_code: null,
     });
@@ -22,7 +27,7 @@ const VerifyEmailView: FC<ViewComponentProps> = ({ options }) => {
       <Stack>
         <Typography variant="h6">Verify your email</Typography>
         {options.showEmail && (
-          <Typography variant="caption">{flowData.email}</Typography>
+          <Typography variant="caption">{data.email}</Typography>
         )}
       </Stack>
       <Typography variant="body1">

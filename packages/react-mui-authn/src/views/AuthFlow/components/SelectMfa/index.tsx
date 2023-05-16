@@ -1,23 +1,29 @@
 import { FC } from "react";
 import { Button, Stack, Typography } from "@mui/material";
 
-import { useAuthFlow, FlowStep } from "@pangeacyber/react-auth";
+import { FlowStep } from "@pangeacyber/react-auth";
 
 import { ViewComponentProps } from "@src/views/AuthFlow/types";
 import ErrorMessage from "../ErrorMessage";
 
-const SelectMfaView: FC<ViewComponentProps> = ({ options }) => {
-  const { callNext, reset, flowData, error, step } = useAuthFlow();
+const SelectMfaView: FC<ViewComponentProps> = ({
+  options,
+  data,
+  error,
+  step,
+  next,
+  reset,
+}) => {
   const nextStep =
     step === FlowStep.ENROLL_MFA_SELECT
       ? FlowStep.ENROLL_MFA_COMPLETE
       : FlowStep.VERIFY_MFA_COMPLETE;
 
   const selectProvider = (provider: string) => {
-    if (flowData.cancelMfa) {
-      callNext(nextStep, { mfaProvider: provider, cancel: true });
+    if (data.cancelMfa) {
+      next(nextStep, { mfaProvider: provider, cancel: true });
     } else {
-      callNext(FlowStep.ENROLL_MFA_START, { mfaProvider: provider });
+      next(FlowStep.ENROLL_MFA_START, { mfaProvider: provider });
     }
   };
 
@@ -39,11 +45,11 @@ const SelectMfaView: FC<ViewComponentProps> = ({ options }) => {
       <Stack>
         <Typography variant="h6">Select MFA method</Typography>
         {options.showEmail && (
-          <Typography variant="caption">{flowData.email}</Typography>
+          <Typography variant="caption">{data.email}</Typography>
         )}
       </Stack>
       <Stack gap={2}>
-        {flowData.mfaProviders?.map((provider: string) => {
+        {data.mfaProviders?.map((provider: string) => {
           return (
             <Button
               variant="outlined"

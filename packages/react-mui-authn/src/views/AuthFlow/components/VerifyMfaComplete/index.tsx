@@ -3,17 +3,21 @@ import { useFormik } from "formik";
 import * as yup from "yup";
 import { Button, Stack, Typography } from "@mui/material";
 
-import { useAuthFlow, FlowStep } from "@pangeacyber/react-auth";
+import { FlowStep } from "@pangeacyber/react-auth";
 
 import { ViewComponentProps } from "@src/views/AuthFlow/types";
 import CodeField from "@src/components/fields/CodeField";
 import ErrorMessage from "../ErrorMessage";
 
-const VerifyMfaCompleteView: FC<ViewComponentProps> = ({ options }) => {
-  const { callNext, reset, flowData, loading, error } = useAuthFlow();
-  const provider = getOtpTitle(
-    flowData.mfaProviders ? flowData.mfaProviders[0] : ""
-  );
+const VerifyMfaCompleteView: FC<ViewComponentProps> = ({
+  options,
+  data,
+  loading,
+  error,
+  next,
+  reset,
+}) => {
+  const provider = getOtpTitle(data.mfaProviders ? data.mfaProviders[0] : "");
 
   const validationSchema = yup.object({
     code: yup
@@ -32,13 +36,13 @@ const VerifyMfaCompleteView: FC<ViewComponentProps> = ({ options }) => {
       const payload = {
         code: values.code,
       };
-      callNext(FlowStep.VERIFY_MFA_COMPLETE, payload);
+      next(FlowStep.VERIFY_MFA_COMPLETE, payload);
     },
   });
 
   // const resendCode = () => {
   //   const payload = {
-  //     mfaProvider: flowData.selectedMfa,
+  //     mfaProvider: data.selectedMfa,
   //     code: "",
   //     cancel: true,
   //   };
@@ -46,7 +50,7 @@ const VerifyMfaCompleteView: FC<ViewComponentProps> = ({ options }) => {
   // };
 
   const selectMfaMethod = () => {
-    callNext(FlowStep.VERIFY_MFA_SELECT, { cancel: true });
+    next(FlowStep.VERIFY_MFA_SELECT, { cancel: true });
   };
 
   return (
@@ -54,7 +58,7 @@ const VerifyMfaCompleteView: FC<ViewComponentProps> = ({ options }) => {
       <Stack>
         <Typography variant="h6">Enter {provider} Code</Typography>
         {options.showEmail && (
-          <Typography variant="caption">{flowData.email}</Typography>
+          <Typography variant="caption">{data.email}</Typography>
         )}
       </Stack>
       <form onSubmit={formik.handleSubmit}>
@@ -65,7 +69,7 @@ const VerifyMfaCompleteView: FC<ViewComponentProps> = ({ options }) => {
             label: "Code",
           }}
         />
-        {flowData?.mfaProviders && flowData?.mfaProviders?.length > 1 && (
+        {data?.mfaProviders && data?.mfaProviders?.length > 1 && (
           <Stack direction="row" mt={3} mb={3}>
             <Button variant="text" onClick={selectMfaMethod}>
               Choose another way
@@ -73,7 +77,6 @@ const VerifyMfaCompleteView: FC<ViewComponentProps> = ({ options }) => {
           </Stack>
         )}
         {error && <ErrorMessage response={error} />}
-        {}
         <Stack direction="row" gap={2} mt={2}>
           <Button
             color="primary"
