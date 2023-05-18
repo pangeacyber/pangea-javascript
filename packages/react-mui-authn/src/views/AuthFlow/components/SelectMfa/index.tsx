@@ -1,9 +1,10 @@
 import { FC } from "react";
-import { Button, Stack, Typography } from "@mui/material";
+import { Stack, Typography } from "@mui/material";
 
 import { FlowStep } from "@pangeacyber/react-auth";
 
 import { ViewComponentProps } from "@src/views/AuthFlow/types";
+import Button from "@src/components/core/Button";
 import ErrorMessage from "../ErrorMessage";
 
 const SelectMfaView: FC<ViewComponentProps> = ({
@@ -43,17 +44,19 @@ const SelectMfaView: FC<ViewComponentProps> = ({
   return (
     <Stack gap={2}>
       <Stack>
-        <Typography variant="h6">Select MFA method</Typography>
+        <Typography variant="h6" mb={4}>
+          Select MFA method
+        </Typography>
         {options.showEmail && (
-          <Typography variant="caption">{data.email}</Typography>
+          <Typography variant="body2">{data.email}</Typography>
         )}
       </Stack>
       <Stack gap={2}>
         {data.mfaProviders?.map((provider: string) => {
           return (
             <Button
-              variant="outlined"
-              color="primary"
+              variant="contained"
+              color="secondary"
               key={provider}
               onClick={() => selectProvider(provider)}
             >
@@ -64,8 +67,8 @@ const SelectMfaView: FC<ViewComponentProps> = ({
       </Stack>
       {error && <ErrorMessage response={error} />}
       {options.showReset && (
-        <Stack direction="row" gap={2} mt={2}>
-          <Button color="primary" variant="outlined" onClick={reset}>
+        <Stack direction="row" justifyContent="center" gap={2} mt={2}>
+          <Button variant="text" onClick={reset}>
             {options.resetLabel}
           </Button>
         </Stack>
