@@ -78,7 +78,7 @@ export default class Session extends BaseService {
    * the session logout endpoint. Contains an empty object.
    * @example
    * ```js
-   * await logout(
+   * await authn.session.logout(
    *   "pui_xpkhwpnz2cmegsws737xbsqnmnuwtvm5"
    * );
    * ```
