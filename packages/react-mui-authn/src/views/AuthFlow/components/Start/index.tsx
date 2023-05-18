@@ -12,6 +12,10 @@ import GitHubIcon from "@src/components/Icons/github";
 import MicrosoftIcon from "@src/components/Icons/microsoft";
 import FacebookIcon from "@src/components/Icons/facebook";
 import ErrorMessage from "../ErrorMessage";
+import GoogleIcon from "@src/components/Icons/google";
+import GitHubIcon from "@src/components/Icons/github";
+import MicrosoftIcon from "@src/components/Icons/microsoft";
+import FacebookIcon from "@src/components/Icons/facebook";
 
 const getProviderIcon = (provider: string) => {
   switch (provider) {
