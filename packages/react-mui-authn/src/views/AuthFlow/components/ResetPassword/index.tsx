@@ -1,11 +1,12 @@
 import { FC } from "react";
 import { useFormik } from "formik";
 import * as yup from "yup";
-import { Button, Stack, TextField, Typography } from "@mui/material";
+import { Stack, TextField, Typography } from "@mui/material";
 
 import { FlowStep } from "@pangeacyber/react-auth";
 
 import { ViewComponentProps } from "@src/views/AuthFlow/types";
+import Button from "@src/components/core/Button";
 import ErrorMessage from "../ErrorMessage";
 
 const ResetPasswordView: FC<ViewComponentProps> = ({
@@ -70,8 +71,10 @@ const ResetPasswordView: FC<ViewComponentProps> = ({
   return (
     <Stack gap={2}>
       <Stack>
-        <Typography variant="h6">Reset Password</Typography>
-        <Typography variant="caption">{data.email}</Typography>
+        <Typography variant="h6" mb={4}>
+          Reset Password
+        </Typography>
+        <Typography variant="body2">{data.email}</Typography>
       </Stack>
       <form onSubmit={formik.handleSubmit}>
         <TextField
@@ -93,18 +96,16 @@ const ResetPasswordView: FC<ViewComponentProps> = ({
             variant="contained"
             type="submit"
             disabled={loading}
+            fullWidth={true}
           >
             Submit
           </Button>
-          <Button
-            color="secondary"
-            variant="contained"
-            onClick={cancelReset}
-            sx={{ alignSelf: "flex-start" }}
-          >
+        </Stack>
+        <Stack direction="row" justifyContent="center" gap={2} mt={2}>
+          <Button variant="text" onClick={cancelReset}>
             Cancel Reset
           </Button>
-          <Button color="primary" variant="outlined" onClick={reset}>
+          <Button variant="text" onClick={reset}>
             Start Over
           </Button>
         </Stack>

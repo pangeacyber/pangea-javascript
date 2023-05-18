@@ -78,7 +78,10 @@ export class AuthNClient {
   }
 
   getUrl(endpoint: string): string {
-    return `https://authn.${this.config.domain}/${API_VERSION}/${endpoint}`;
+    const protocol = this.config.domain.match(/^local\.?host(:\d{2,5})?$/)
+      ? "http"
+      : "https";
+    return `${protocol}://authn.${this.config.domain}/${API_VERSION}/${endpoint}`;
   }
 
   getOptions(): any {

@@ -54,7 +54,7 @@ export const getBrandingThemeOptions = (
         styleOverrides: {
           root: {
             "&.MuiInputLabel-sizeSmall[data-shrink='false']": {
-              transform: "translate(14px, 11px) scale(1)",
+              transform: "translate(14px, 9px) scale(1)",
             },
           },
         },

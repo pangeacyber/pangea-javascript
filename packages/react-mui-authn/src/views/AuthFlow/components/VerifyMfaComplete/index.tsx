@@ -1,12 +1,13 @@
 import { FC } from "react";
 import { useFormik } from "formik";
 import * as yup from "yup";
-import { Button, Stack, Typography } from "@mui/material";
+import { Stack, Typography } from "@mui/material";
 
 import { FlowStep } from "@pangeacyber/react-auth";
 
 import { ViewComponentProps } from "@src/views/AuthFlow/types";
 import CodeField from "@src/components/fields/CodeField";
+import Button from "@src/components/core/Button";
 import ErrorMessage from "../ErrorMessage";
 
 const VerifyMfaCompleteView: FC<ViewComponentProps> = ({
@@ -56,9 +57,11 @@ const VerifyMfaCompleteView: FC<ViewComponentProps> = ({
   return (
     <Stack gap={2}>
       <Stack>
-        <Typography variant="h6">Enter {provider} Code</Typography>
+        <Typography variant="h6" mb={4}>
+          Enter {provider} Code
+        </Typography>
         {options.showEmail && (
-          <Typography variant="caption">{data.email}</Typography>
+          <Typography variant="body2">{data.email}</Typography>
         )}
       </Stack>
       <form onSubmit={formik.handleSubmit}>
@@ -83,10 +86,13 @@ const VerifyMfaCompleteView: FC<ViewComponentProps> = ({
             variant="contained"
             type="submit"
             disabled={loading}
+            fullWidth={true}
           >
             {options.submitLabel}
           </Button>
-          <Button color="primary" variant="outlined" onClick={reset}>
+        </Stack>
+        <Stack direction="row" justifyContent="center" gap={2} mt={2}>
+          <Button variant="text" onClick={reset}>
             {options.resetLabel}
           </Button>
         </Stack>

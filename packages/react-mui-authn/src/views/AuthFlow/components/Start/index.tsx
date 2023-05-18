@@ -1,23 +1,17 @@
 import { FC } from "react";
 import { useFormik } from "formik";
 import * as yup from "yup";
-import {
-  Box,
-  Button,
-  Divider,
-  Stack,
-  TextField,
-  Typography,
-} from "@mui/material";
+import { Box, Divider, Stack, TextField, Typography } from "@mui/material";
 
 import { FlowStep } from "@pangeacyber/react-auth";
 
 import { ViewComponentProps } from "@src/views/AuthFlow/types";
-import ErrorMessage from "../ErrorMessage";
+import Button from "@src/components/core/Button";
 import GoogleIcon from "@src/components/Icons/google";
 import GitHubIcon from "@src/components/Icons/github";
 import MicrosoftIcon from "@src/components/Icons/microsoft";
 import FacebookIcon from "@src/components/Icons/facebook";
+import ErrorMessage from "../ErrorMessage";
 
 const getProviderIcon = (provider: string) => {
   switch (provider) {
@@ -44,6 +38,8 @@ const getProviderLabel = (provider: string) => {
       return "Microsoft";
     case "facebook":
       return "Facebook";
+    case "webauthn":
+      return "WebAuthn";
     default:
       return provider;
   }
@@ -82,7 +78,9 @@ const StartView: FC<ViewComponentProps> = ({
 
   return (
     <Stack gap={2}>
-      <Typography variant="h6">Log in or signup</Typography>
+      <Typography variant="h6" mb={4}>
+        Log in or signup
+      </Typography>
       <form onSubmit={formik.handleSubmit}>
         <TextField
           fullWidth
@@ -95,25 +93,27 @@ const StartView: FC<ViewComponentProps> = ({
           helperText={formik.touched.email && formik.errors.email}
         />
         {error && <ErrorMessage response={error} />}
-        <Stack direction="row" gap={2} mt={2}>
+        <Stack direction="row" gap={2} mt={2} mb={2}>
           <Button
             color="primary"
             variant="contained"
             type="submit"
             disabled={loading}
+            fullWidth={true}
           >
-            {options.submitLabel}
+            Continue with email
+            {/* {options.submitLabel} */}
           </Button>
         </Stack>
       </form>
-      {data.passwordSignup && data.socialSignup && <Divider />}
       {data.socialSignup?.redirect_uri && (
         <Stack gap={2}>
           {Object.keys(data.socialSignup.redirect_uri).map((provider) => {
             const redirect = data.socialSignup.redirect_uri[provider];
             return (
               <Button
-                variant="outlined"
+                variant="contained"
+                color="secondary"
                 fullWidth={true}
                 onClick={() => {
                   socialLogin(redirect);

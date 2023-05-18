@@ -1,12 +1,13 @@
 import { FC } from "react";
 import { useFormik } from "formik";
 import * as yup from "yup";
-import { Button, Stack, TextField, Typography } from "@mui/material";
+import { Stack, TextField, Typography } from "@mui/material";
 
 import { FlowStep } from "@pangeacyber/react-auth";
 
 import { ViewComponentProps } from "@src/views/AuthFlow/types";
 import ErrorMessage from "../ErrorMessage";
+import Button from "@src/components/core/Button";
 
 const VerifyPasswordView: FC<ViewComponentProps> = ({
   options,
@@ -40,9 +41,13 @@ const VerifyPasswordView: FC<ViewComponentProps> = ({
   return (
     <Stack gap={2}>
       <Stack>
-        <Typography variant="h6">Log in</Typography>
+        <Typography variant="h6" mb={4}>
+          Welcome back!
+        </Typography>
         {options.showEmail && (
-          <Typography variant="caption">{data.email}</Typography>
+          <Typography variant="body2" sx={{ textAlign: "left" }}>
+            Enter password for {data.email}
+          </Typography>
         )}
       </Stack>
       <form onSubmit={formik.handleSubmit}>
@@ -64,19 +69,21 @@ const VerifyPasswordView: FC<ViewComponentProps> = ({
             variant="contained"
             type="submit"
             disabled={loading}
+            fullWidth={true}
           >
-            {options.submitLabel}
+            Sign in
+            {/* {options.submitLabel} */}
           </Button>
-          {options.showReset && (
-            <Button color="primary" variant="outlined" onClick={reset}>
-              {options.resetLabel}
-            </Button>
-          )}
         </Stack>
-        <Stack direction="row" gap={2} mt={2}>
+        <Stack direction="row" justifyContent="center" gap={2} mt={2}>
           <Button variant="text" onClick={resetPassword}>
             Forgot your password?
           </Button>
+          {options.showReset && (
+            <Button variant="text" onClick={reset}>
+              {options.resetLabel}
+            </Button>
+          )}
         </Stack>
       </form>
     </Stack>

@@ -1,12 +1,13 @@
 import { FC, useEffect, useState } from "react";
 import { useFormik } from "formik";
 import * as yup from "yup";
-import { Button, Stack, Typography } from "@mui/material";
+import { Stack, Typography } from "@mui/material";
 
 import { FlowStep } from "@pangeacyber/react-auth";
 
 import { ViewComponentProps } from "@src/views/AuthFlow/types";
 import CodeField from "@src/components/fields/CodeField";
+import Button from "@src/components/core/Button";
 import ErrorMessage from "../ErrorMessage";
 
 const EnrollMfaCompleteView: FC<ViewComponentProps> = ({
@@ -72,12 +73,14 @@ const EnrollMfaCompleteView: FC<ViewComponentProps> = ({
   return (
     <Stack gap={2}>
       <Stack>
-        <Typography variant="h6">Enroll MFA</Typography>
+        <Typography variant="h6" mb={4}>
+          Enroll MFA
+        </Typography>
         <Typography component="div" variant="body1">
           {mfaEnrollContent(data?.selectedMfa || "")}
         </Typography>
         {options.showEmail && (
-          <Typography variant="caption">{data.email}</Typography>
+          <Typography variant="body2">{data.email}</Typography>
         )}
         {qrCode && (
           <div className="auth-flow-qr-code">
@@ -107,11 +110,14 @@ const EnrollMfaCompleteView: FC<ViewComponentProps> = ({
             variant="contained"
             type="submit"
             disabled={loading}
+            fullWidth={true}
           >
             {options.submitLabel}
           </Button>
+        </Stack>
+        <Stack direction="row" gap={2} mt={2}>
           {options.showReset && (
-            <Button color="primary" variant="outlined" onClick={reset}>
+            <Button variant="text" onClick={reset}>
               {options.resetLabel}
             </Button>
           )}

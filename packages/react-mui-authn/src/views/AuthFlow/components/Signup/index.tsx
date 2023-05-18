@@ -1,11 +1,12 @@
 import { FC } from "react";
 import { useFormik } from "formik";
 import * as yup from "yup";
-import { Button, Stack, TextField, Typography } from "@mui/material";
+import { Stack, TextField, Typography } from "@mui/material";
 
 import { FlowStep } from "@pangeacyber/react-auth";
 
 import { ViewComponentProps } from "@src/views/AuthFlow/types";
+import Button from "@src/components/core/Button";
 import ErrorMessage from "../ErrorMessage";
 
 const SignupView: FC<ViewComponentProps> = ({
@@ -40,9 +41,11 @@ const SignupView: FC<ViewComponentProps> = ({
   return (
     <Stack gap={2}>
       <Stack>
-        <Typography variant="h6">Signup</Typography>
+        <Typography variant="h6" mb={4}>
+          Signup
+        </Typography>
         {options.showEmail && (
-          <Typography variant="caption">{data.email}</Typography>
+          <Typography variant="body2">{data.email}</Typography>
         )}
       </Stack>
       <form onSubmit={formik.handleSubmit}>
@@ -85,12 +88,16 @@ const SignupView: FC<ViewComponentProps> = ({
             color="primary"
             variant="contained"
             type="submit"
+            fullWidth={true}
             disabled={loading}
           >
-            {options.submitLabel}
+            Create account
+            {/* {options.submitLabel} */}
           </Button>
+        </Stack>
+        <Stack direction="row" justifyContent="center" gap={2} mt={2}>
           {options.showReset && (
-            <Button color="primary" variant="outlined" onClick={reset}>
+            <Button variant="text" onClick={reset}>
               {options.resetLabel}
             </Button>
           )}
