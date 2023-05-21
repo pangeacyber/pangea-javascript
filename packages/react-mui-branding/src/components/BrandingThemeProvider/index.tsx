@@ -1,4 +1,4 @@
-import { FC, useMemo, ReactNode } from "react";
+import { FC, useMemo } from "react";
 
 import { ThemeProviderProps } from "@mui/material/styles/ThemeProvider";
 import { ThemeProvider, ThemeOptions, createTheme } from "@mui/material/styles";
@@ -13,7 +13,7 @@ export interface BrandingThemeProviderProps {
   config?: Branding.Config;
   themeOptions?: Partial<ThemeOptions>;
   ThemeProviderProps?: Partial<ThemeProviderProps>;
-  children?: ReactNode;
+  children?: JSX.Element;
 }
 
 const BrandingThemeProvider: FC<BrandingThemeProviderProps> = ({
