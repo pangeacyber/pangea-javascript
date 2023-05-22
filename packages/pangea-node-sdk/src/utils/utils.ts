@@ -1,3 +1,5 @@
+import CryptoJS from "crypto-js";
+
 function _orderKeys(obj: Object, firstLevel: boolean) {
   const orderedEntries = Object.entries(obj).sort((a, b) => a[0].localeCompare(b[0]));
   orderedEntries.forEach((value) => {
@@ -31,6 +33,22 @@ export function b64toStr(data: string) {
 export function canonicalizeEvent(obj: Object) {
   const ordererObj = _orderKeys(obj, false);
   return JSON.stringify(ordererObj);
+}
+
+export function hashSHA256(data: string) {
+  var sha256 = CryptoJS.algo.SHA256.create();
+  sha256.update(data);
+  return sha256.finalize().toString();
+}
+
+export function hashSHA1(data: string) {
+  var sha1 = CryptoJS.algo.SHA1.create();
+  sha1.update(data);
+  return sha1.finalize().toString();
+}
+
+export function getHashPrefix(hash: string, len: number = 5) {
+  return hash.substring(0, len);
 }
 
 export const TestEnvironment = {
