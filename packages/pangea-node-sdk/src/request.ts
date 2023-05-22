@@ -118,10 +118,12 @@ class PangeaRequest {
 
   getUrl(path: string): string {
     let url;
+    const schema = this.config?.insecure === true ? "http://" : "https://";
+
     if (this.config?.environment == ConfigEnv.LOCAL) {
-      url = `https://${this.config.domain}/${path}`;
+      url = `${schema}${this.config.domain}/${path}`;
     } else {
-      url = `https://${this.serviceName}.${this.config.domain}/${path}`;
+      url = `${schema}${this.serviceName}.${this.config.domain}/${path}`;
     }
     return url;
   }
