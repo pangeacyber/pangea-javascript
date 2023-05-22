@@ -25,7 +25,7 @@ const VerifyCaptchaView: FC<ViewComponentProps> = ({
   return (
     <Stack gap={2}>
       <Stack>
-        <Typography variant="h6" mb={4}>
+        <Typography variant="h6" mb={3}>
           Prove you're human
         </Typography>
         {options.showEmail && (

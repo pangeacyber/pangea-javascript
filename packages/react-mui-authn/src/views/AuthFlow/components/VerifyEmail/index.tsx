@@ -26,7 +26,7 @@ const VerifyEmailView: FC<ViewComponentProps> = ({
   return (
     <Stack gap={2}>
       <Stack>
-        <Typography variant="h6" mb={4}>
+        <Typography variant="h6" mb={3}>
           Verify your email
         </Typography>
         {options.showEmail && (
