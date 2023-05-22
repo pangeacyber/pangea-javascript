@@ -44,9 +44,11 @@ const ResetPasswordView: FC<ViewComponentProps> = ({
     return (
       <Stack gap={2}>
         <Stack>
-          <Typography variant="h6">Reset Password</Typography>
+          <Typography variant="h6" mb={3}>
+            Reset Password
+          </Typography>
           {options.showEmail && (
-            <Typography variant="caption">{data.email}</Typography>
+            <Typography variant="body2">{data.email}</Typography>
           )}
         </Stack>
         <Typography variant="body1">

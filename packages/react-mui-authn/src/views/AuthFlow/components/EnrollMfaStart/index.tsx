@@ -48,7 +48,7 @@ const EnrollMfaStartView: FC<ViewComponentProps> = ({
   return (
     <Stack gap={2}>
       <Stack>
-        <Typography variant="h6" mb={4}>
+        <Typography variant="h6" mb={3}>
           Enroll a Phone Number for SMS 2FA
         </Typography>
         {options.showEmail && (

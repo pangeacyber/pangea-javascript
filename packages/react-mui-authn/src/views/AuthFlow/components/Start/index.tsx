@@ -82,7 +82,7 @@ const StartView: FC<ViewComponentProps> = ({
 
   return (
     <Stack gap={2}>
-      <Typography variant="h6" mb={4}>
+      <Typography variant="h6" mb={3}>
         Log in or signup
       </Typography>
       <form onSubmit={formik.handleSubmit}>
