@@ -88,10 +88,10 @@ export const ComponentAuthProvider: FC<ComponentAuthProviderProps> = ({
     if (result.user) {
       setUser(result.user);
       setAuthenticated(true);
-      setLoading(false);
     } else {
       logout();
     }
+    setLoading(false);
   }, []);
 
   const loadingCallback = useCallback((state: boolean) => {
