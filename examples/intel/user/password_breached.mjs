@@ -35,16 +35,15 @@ const userIntel = new UserIntelService(String(token), config);
 
     // This auxiliary function analyze service provider raw data to search for full hash in their registers
     const status = UserIntelService.isPasswordBreached(response, hash);
-    if(status == Intel.User.Password.PasswordStatus.BREACHED){
+    if (status == Intel.User.Password.PasswordStatus.BREACHED) {
       console.log(`Password '${password}' has been breached`);
-    }
-    else if(status == Intel.User.Password.PasswordStatus.UNBREACHED){
+    } else if (status == Intel.User.Password.PasswordStatus.UNBREACHED) {
       console.log(`Password '${password}' has not been breached`);
-    }
-    else if(status == Intel.User.Password.PasswordStatus.INCONCLUSIVE){
-      console.log(`Not enough information to confirm if password '${password}' has been or has not been breached.`);
-    }
-    else {
+    } else if (status == Intel.User.Password.PasswordStatus.INCONCLUSIVE) {
+      console.log(
+        `Not enough information to confirm if password '${password}' has been or has not been breached.`
+      );
+    } else {
       console.log(`Unknown status: ${status}`);
     }
   } catch (e) {
