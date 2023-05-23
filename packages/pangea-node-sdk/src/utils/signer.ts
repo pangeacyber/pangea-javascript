@@ -1,6 +1,9 @@
 import { KeyObject, createPrivateKey, createPublicKey, sign, verify } from "node:crypto";
 import fs from "fs";
 import { Vault } from "../types.js";
+import { PangeaErrors } from "errors.js";
+
+const allowedKeyTypes = ["ed25519"];
 
 /**
  * Signer class to sign event in AuditService
@@ -21,6 +24,14 @@ export class Signer {
    * const signature = signer.sign("This is my message to sign")
    */
   sign(data: string): string {
+    if (
+      !this.privateKey.asymmetricKeyType ||
+      !allowedKeyTypes.includes(this.privateKey.asymmetricKeyType)
+    ) {
+      throw new PangeaErrors.PangeaError(
+        `Key type not supported: ${this.privateKey.asymmetricKeyType}`
+      );
+    }
     const bytes = Buffer.from(data);
     const signature = sign(null, bytes, this.privateKey);
     return signature.toString("base64");
@@ -41,18 +52,8 @@ export class Signer {
 
   getAlgorithm(): string | undefined {
     switch (this.privateKey.asymmetricKeyType) {
-      case "rsa":
-        return Vault.AsymmetricAlgorithm.RSA2048_PKCS1V15_SHA256;
-      case "rsa-pss":
-        return Vault.AsymmetricAlgorithm.RSA2048_PSS_SHA256;
       case "ed25519":
         return Vault.AsymmetricAlgorithm.Ed25519;
-      case "dsa":
-      case "ec":
-      case "ed448":
-      case "x25519":
-      case "x448":
-      case undefined:
       default:
         return undefined;
     }
