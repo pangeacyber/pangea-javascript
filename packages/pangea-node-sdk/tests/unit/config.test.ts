@@ -54,3 +54,11 @@ it("insecure default, environment default", async () => {
   const url = audit.request.getUrl(path);
   expect(url).toBe("https://" + serviceSubdomain + domain + "/" + path);
 });
+
+it("fqdn domain", async () => {
+  const fqdnDomain = "https://myfqdndomain.net";
+  const config = new PangeaConfig({ domain: fqdnDomain });
+  const audit = new AuditService(token, config);
+  const url = audit.request.getUrl(path);
+  expect(url).toBe(fqdnDomain + "/" + path);
+});
