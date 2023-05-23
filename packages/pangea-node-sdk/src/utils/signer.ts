@@ -1,5 +1,6 @@
-import { KeyObject, createPrivateKey, createPublicKey, sign, verify, getHashes } from "node:crypto";
+import { KeyObject, createPrivateKey, createPublicKey, sign, verify } from "node:crypto";
 import fs from "fs";
+import { Vault } from "../types.js";
 
 /**
  * Signer class to sign event in AuditService
@@ -36,6 +37,25 @@ export class Signer {
     const pubKey = createPublicKey(this.privateKey);
     const pem = pubKey.export({ format: "pem", type: "spki" });
     return String(pem);
+  }
+
+  getAlgorithm(): string | undefined {
+    switch (this.privateKey.asymmetricKeyType) {
+      case "rsa":
+        return Vault.AsymmetricAlgorithm.RSA2048_PKCS1V15_SHA256;
+      case "rsa-pss":
+        return Vault.AsymmetricAlgorithm.RSA2048_PSS_SHA256;
+      case "ed25519":
+        return Vault.AsymmetricAlgorithm.Ed25519;
+      case "dsa":
+      case "ec":
+      case "ed448":
+      case "x25519":
+      case "x448":
+      case undefined:
+      default:
+        return undefined;
+    }
   }
 }
 
