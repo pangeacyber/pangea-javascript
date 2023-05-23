@@ -1,53 +1,19 @@
 import { FC } from "react";
 import { useFormik } from "formik";
 import * as yup from "yup";
-import { Box, Divider, Stack, TextField, Typography } from "@mui/material";
+import { Box, Stack, TextField, Typography } from "@mui/material";
 
 import { FlowStep } from "@pangeacyber/react-auth";
 
 import { ViewComponentProps } from "@src/views/AuthFlow/types";
+import { getProviderIcon, getProviderLabel } from "@src/views/AuthFlow/utils";
 import Button from "@src/components/core/Button";
-import GoogleIcon from "@src/components/Icons/google";
-import GitHubIcon from "@src/components/Icons/github";
-import MicrosoftIcon from "@src/components/Icons/microsoft";
-import FacebookIcon from "@src/components/Icons/facebook";
 import ErrorMessage from "../ErrorMessage";
-import GoogleIcon from "@src/components/Icons/google";
-import GitHubIcon from "@src/components/Icons/github";
-import MicrosoftIcon from "@src/components/Icons/microsoft";
-import FacebookIcon from "@src/components/Icons/facebook";
 
-const getProviderIcon = (provider: string) => {
-  switch (provider) {
-    case "google":
-      return <GoogleIcon />;
-    case "github":
-      return <GitHubIcon />;
-    case "microsoftonline":
-      return <MicrosoftIcon />;
-    case "facebook":
-      return <FacebookIcon />;
-    default:
-      return <></>;
-  }
-};
-
-const getProviderLabel = (provider: string) => {
-  switch (provider) {
-    case "google":
-      return "Google";
-    case "github":
-      return "GitHub";
-    case "microsoftonline":
-      return "Microsoft";
-    case "facebook":
-      return "Facebook";
-    case "webauthn":
-      return "WebAuthn";
-    default:
-      return provider;
-  }
-};
+interface Provider {
+  provider: string;
+  redirect_uri: string;
+}
 
 const StartView: FC<ViewComponentProps> = ({
   options,
@@ -110,27 +76,26 @@ const StartView: FC<ViewComponentProps> = ({
           </Button>
         </Stack>
       </form>
-      {data.socialSignup?.redirect_uri && (
+      {data.socialSignup?.length > 0 && (
         <Stack gap={2}>
-          {Object.keys(data.socialSignup.redirect_uri).map((provider) => {
-            const redirect = data.socialSignup.redirect_uri[provider];
+          {data.socialSignup.map((provider: Provider) => {
             return (
               <Button
                 variant="contained"
                 color="secondary"
                 fullWidth={true}
                 onClick={() => {
-                  socialLogin(redirect);
+                  socialLogin(provider.redirect_uri);
                 }}
-                key={provider}
+                key={provider.provider}
               >
                 {options.showSocialIcons && (
                   <>
-                    {getProviderIcon(provider)}
+                    {getProviderIcon(provider.provider)}
                     <Box component="span" sx={{ marginRight: 1 }} />
                   </>
                 )}
-                Continue with {getProviderLabel(provider)}
+                Continue with {getProviderLabel(provider.provider)}
               </Button>
             );
           })}
