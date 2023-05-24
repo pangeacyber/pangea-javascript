@@ -55,10 +55,10 @@ it("insecure default, environment default", async () => {
   expect(url).toBe("https://" + serviceSubdomain + domain + "/" + path);
 });
 
-it("fqdn domain", async () => {
-  const fqdnDomain = "https://myfqdndomain.net";
-  const config = new PangeaConfig({ domain: fqdnDomain });
+it("url domain", async () => {
+  const urlDomain = "https://myurldomain.net";
+  const config = new PangeaConfig({ domain: urlDomain });
   const audit = new AuditService(token, config);
   const url = audit.request.getUrl(path);
-  expect(url).toBe(fqdnDomain + "/" + path);
+  expect(url).toBe(urlDomain + "/" + path);
 });
