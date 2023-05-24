@@ -1,7 +1,7 @@
 import { KeyObject, createPrivateKey, createPublicKey, sign, verify } from "node:crypto";
 import fs from "fs";
 import { Vault } from "../types.js";
-import { PangeaErrors } from "errors.js";
+import { PangeaErrors } from "../errors.js";
 
 const allowedKeyTypes = ["ed25519"];
 
