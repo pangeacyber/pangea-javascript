@@ -1288,7 +1288,7 @@ export namespace AuthN {
 
     export interface ListResult {
       users: UserItem[];
-      last: string;
+      last?: string;
       count: number;
     }
 
