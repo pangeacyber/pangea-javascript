@@ -11,6 +11,10 @@ const delay = async (ms: number) =>
     setTimeout(resolve, ms);
   });
 
+interface request extends Object {
+  config_id?: string;
+}
+
 class PangeaRequest {
   private serviceName: string;
   private token: string;
@@ -30,8 +34,12 @@ class PangeaRequest {
     this.extraHeaders = {};
   }
 
-  async post(endpoint: string, data: object): Promise<PangeaResponse<any>> {
+  async post(endpoint: string, data: request): Promise<PangeaResponse<any>> {
     const url = this.getUrl(endpoint);
+    if (this.config.configID && data.config_id === undefined) {
+      data.config_id = this.config.configID;
+    }
+
     const options: Options = {
       headers: this.getHeaders(),
       json: data,
