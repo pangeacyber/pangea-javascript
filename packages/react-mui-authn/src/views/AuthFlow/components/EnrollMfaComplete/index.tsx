@@ -1,16 +1,23 @@
 import { FC, useEffect, useState } from "react";
 import { useFormik } from "formik";
 import * as yup from "yup";
-import { Button, Stack, Typography } from "@mui/material";
+import { Stack, Typography } from "@mui/material";
 
-import { useAuthFlow, FlowStep } from "@pangeacyber/react-auth";
+import { FlowStep } from "@pangeacyber/react-auth";
 
 import { ViewComponentProps } from "@src/views/AuthFlow/types";
 import CodeField from "@src/components/fields/CodeField";
+import Button from "@src/components/core/Button";
 import ErrorMessage from "../ErrorMessage";
 
-const EnrollMfaCompleteView: FC<ViewComponentProps> = ({ options }) => {
-  const { callNext, reset, flowData, loading, error } = useAuthFlow();
+const EnrollMfaCompleteView: FC<ViewComponentProps> = ({
+  options,
+  data,
+  loading,
+  error,
+  next,
+  reset,
+}) => {
   const [qrCode, setQrCode] = useState<string>("");
 
   const mfaEnrollContent = (provider: string) => {
@@ -33,10 +40,10 @@ const EnrollMfaCompleteView: FC<ViewComponentProps> = ({ options }) => {
   };
 
   useEffect(() => {
-    if (flowData.selectedMfa === "totp" && flowData.qrCode) {
-      setQrCode(flowData.qrCode);
+    if (data.selectedMfa === "totp" && data.qrCode) {
+      setQrCode(data.qrCode);
     }
-  }, [flowData.selectedMfa, flowData.qrCode]);
+  }, [data.selectedMfa, data.qrCode]);
 
   const validationSchema = yup.object({
     code: yup
@@ -55,23 +62,25 @@ const EnrollMfaCompleteView: FC<ViewComponentProps> = ({ options }) => {
       const payload = {
         code: values.code,
       };
-      callNext(FlowStep.ENROLL_MFA_COMPLETE, payload);
+      next(FlowStep.ENROLL_MFA_COMPLETE, payload);
     },
   });
 
   const selectMfaMethod = () => {
-    callNext(FlowStep.ENROLL_MFA_SELECT, { cancel: true });
+    next(FlowStep.ENROLL_MFA_SELECT, { cancel: true });
   };
 
   return (
     <Stack gap={2}>
       <Stack>
-        <Typography variant="h6">Enroll MFA</Typography>
+        <Typography variant="h6" mb={3}>
+          Enroll MFA
+        </Typography>
         <Typography component="div" variant="body1">
-          {mfaEnrollContent(flowData?.selectedMfa || "")}
+          {mfaEnrollContent(data?.selectedMfa || "")}
         </Typography>
         {options.showEmail && (
-          <Typography variant="caption">{flowData.email}</Typography>
+          <Typography variant="body2">{data.email}</Typography>
         )}
         {qrCode && (
           <div className="auth-flow-qr-code">
@@ -87,7 +96,7 @@ const EnrollMfaCompleteView: FC<ViewComponentProps> = ({ options }) => {
             label: "Code",
           }}
         />
-        {flowData?.mfaProviders && flowData?.mfaProviders?.length > 1 && (
+        {data?.mfaProviders && data?.mfaProviders?.length > 1 && (
           <Stack direction="row" mt={3} mb={3}>
             <Button variant="text" onClick={selectMfaMethod}>
               Choose another MFA method
@@ -101,11 +110,14 @@ const EnrollMfaCompleteView: FC<ViewComponentProps> = ({ options }) => {
             variant="contained"
             type="submit"
             disabled={loading}
+            fullWidth={true}
           >
             {options.submitLabel}
           </Button>
+        </Stack>
+        <Stack direction="row" gap={2} mt={2}>
           {options.showReset && (
-            <Button color="primary" variant="outlined" onClick={reset}>
+            <Button variant="text" onClick={reset}>
               {options.resetLabel}
             </Button>
           )}

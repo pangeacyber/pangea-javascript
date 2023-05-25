@@ -22,10 +22,11 @@ const DEAULT_OPTIONS: AuthFlowViewOptions = {
   showEmail: true,
   showReset: true,
   resetLabel: "Start Over",
+  showSocialIcons: true,
 };
 
 const AuthFlowView: FC<AuthFlowViewProps> = ({ options, components }) => {
-  const { step } = useAuthFlow();
+  const { step, flowData, loading, error, callNext, reset } = useAuthFlow();
 
   const viewOptions = {
     ...DEAULT_OPTIONS,
@@ -34,56 +35,166 @@ const AuthFlowView: FC<AuthFlowViewProps> = ({ options, components }) => {
 
   switch (step) {
     case FlowStep.START:
-      return components?.EnrollMfaStart || <StartView options={viewOptions} />;
+      return (
+        components?.EnrollMfaStart || (
+          <StartView
+            options={viewOptions}
+            data={flowData}
+            loading={loading}
+            error={error}
+            next={callNext}
+          />
+        )
+      );
     case FlowStep.SIGNUP:
-      return components?.Signup || <SignupView options={viewOptions} />;
+      return (
+        components?.Signup || (
+          <SignupView
+            options={viewOptions}
+            data={flowData}
+            loading={loading}
+            error={error}
+            next={callNext}
+            reset={reset}
+          />
+        )
+      );
     case FlowStep.VERIFY_PASSWORD:
       return (
         components?.VerifyPassword || (
-          <VerifyPasswordView options={viewOptions} />
+          <VerifyPasswordView
+            options={viewOptions}
+            data={flowData}
+            loading={loading}
+            error={error}
+            next={callNext}
+            reset={reset}
+          />
         )
       );
     case FlowStep.VERIFY_SOCIAL:
       return (
-        components?.VerifySocial || <VerifySocialView options={viewOptions} />
+        components?.VerifySocial || (
+          <VerifySocialView
+            options={viewOptions}
+            data={flowData}
+            loading={loading}
+            error={error}
+            next={callNext}
+            reset={reset}
+          />
+        )
       );
     case FlowStep.VERIFY_EMAIL:
       return (
-        components?.VerifyEmail || <VerifyEmailView options={viewOptions} />
+        components?.VerifyEmail || (
+          <VerifyEmailView
+            options={viewOptions}
+            data={flowData}
+            loading={loading}
+            error={error}
+            next={callNext}
+            reset={reset}
+          />
+        )
       );
     case FlowStep.VERIFY_CAPTCHA:
       return (
-        components?.VerifyCaptcha || <VerifyCaptchaView options={viewOptions} />
+        components?.VerifyCaptcha || (
+          <VerifyCaptchaView
+            options={viewOptions}
+            data={flowData}
+            loading={loading}
+            error={error}
+            next={callNext}
+            reset={reset}
+          />
+        )
       );
     case FlowStep.ENROLL_MFA_START:
       return (
         components?.EnrollMfaStart || (
-          <EnrollMfaStartView options={viewOptions} />
+          <EnrollMfaStartView
+            options={viewOptions}
+            data={flowData}
+            loading={loading}
+            error={error}
+            next={callNext}
+            reset={reset}
+          />
         )
       );
     case FlowStep.ENROLL_MFA_COMPLETE:
       return (
         components?.EnrollMfaComplete || (
-          <EnrollMfaCompleteView options={viewOptions} />
+          <EnrollMfaCompleteView
+            options={viewOptions}
+            data={flowData}
+            loading={loading}
+            error={error}
+            next={callNext}
+            reset={reset}
+          />
         )
       );
     case FlowStep.ENROLL_MFA_SELECT:
     case FlowStep.VERIFY_MFA_SELECT:
-      return components?.SelectMfa || <SelectMfaView options={viewOptions} />;
+      return (
+        components?.SelectMfa || (
+          <SelectMfaView
+            options={viewOptions}
+            data={flowData}
+            loading={loading}
+            error={error}
+            next={callNext}
+            reset={reset}
+          />
+        )
+      );
     case FlowStep.VERIFY_MFA_START:
     case FlowStep.VERIFY_MFA_COMPLETE:
       return (
         components?.VerifyMfaComplete || (
-          <VerifyMfaCompleteView options={viewOptions} />
+          <VerifyMfaCompleteView
+            options={viewOptions}
+            data={flowData}
+            loading={loading}
+            error={error}
+            next={callNext}
+            reset={reset}
+          />
         )
       );
     case FlowStep.RESET_PASSWORD:
       return (
-        components?.ResetPassword || <ResetPasswordView options={viewOptions} />
+        components?.ResetPassword || (
+          <ResetPasswordView
+            options={viewOptions}
+            data={flowData}
+            loading={loading}
+            error={error}
+            next={callNext}
+            reset={reset}
+          />
+        )
       );
     default:
       return <></>;
   }
 };
+
+export {
+  EnrollMfaCompleteView,
+  EnrollMfaStartView,
+  ResetPasswordView,
+  SelectMfaView,
+  SignupView,
+  StartView,
+  VerifyCaptchaView,
+  VerifyEmailView,
+  VerifyMfaCompleteView,
+  VerifyPasswordView,
+  VerifySocialView,
+} from "./components";
 
 export default AuthFlowView;

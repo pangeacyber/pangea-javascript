@@ -13,7 +13,7 @@ import { Intel } from "../../src/types";
 import fs from "fs";
 import { PangeaErrors } from "../../src";
 
-const testEnvironment = TestEnvironment.LIVE;
+const testEnvironment = TestEnvironment.DEVELOP;
 
 const token = getTestToken(testEnvironment);
 const testHost = getTestDomain(testEnvironment);
@@ -202,13 +202,21 @@ it("IP is proxy with default provider should succeed", async () => {
   expect(response.result.data.is_proxy).toBeTruthy();
 });
 
-it("IP reputation should succeed", async () => {
+it("IP reputation should succeed. Crowdstrike provider", async () => {
   const options = { provider: "crowdstrike", verbose: true, raw: true };
   const response = await ipIntel.reputation("93.231.182.110", options);
 
   expect(response.status).toBe("Success");
   expect(response.result.data).toBeDefined();
   expect(response.result.data.verdict).toBe("malicious");
+});
+
+it("IP reputation should succeed. Cymru provider", async () => {
+  const options = { provider: "cymru", verbose: true, raw: true };
+  const response = await ipIntel.reputation("93.231.182.110", options);
+
+  expect(response.status).toBe("Success");
+  expect(response.result.data).toBeDefined();
 });
 
 it("URL lookup should succeed", async () => {

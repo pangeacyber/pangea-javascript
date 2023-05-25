@@ -1,16 +1,27 @@
 import { FC } from "react";
 import { useFormik } from "formik";
 import * as yup from "yup";
-import { Button, Divider, Stack, TextField, Typography } from "@mui/material";
+import { Box, Stack, TextField, Typography } from "@mui/material";
 
-import { useAuthFlow, FlowStep } from "@pangeacyber/react-auth";
+import { FlowStep } from "@pangeacyber/react-auth";
 
 import { ViewComponentProps } from "@src/views/AuthFlow/types";
+import { getProviderIcon, getProviderLabel } from "@src/views/AuthFlow/utils";
+import Button from "@src/components/core/Button";
 import ErrorMessage from "../ErrorMessage";
 
-const StartView: FC<ViewComponentProps> = ({ options }) => {
-  const { callNext, flowData, loading, error } = useAuthFlow();
+interface Provider {
+  provider: string;
+  redirect_uri: string;
+}
 
+const StartView: FC<ViewComponentProps> = ({
+  options,
+  data,
+  loading,
+  error,
+  next,
+}) => {
   const socialLogin = (redirect: string) => {
     window.location.href = redirect;
   };
@@ -31,13 +42,15 @@ const StartView: FC<ViewComponentProps> = ({ options }) => {
       const payload = {
         ...values,
       };
-      callNext(FlowStep.START, payload);
+      next(FlowStep.START, payload);
     },
   });
 
   return (
     <Stack gap={2}>
-      <Typography variant="h6">Log in or signup</Typography>
+      <Typography variant="h6" mb={3}>
+        Log in or signup
+      </Typography>
       <form onSubmit={formik.handleSubmit}>
         <TextField
           fullWidth
@@ -50,33 +63,40 @@ const StartView: FC<ViewComponentProps> = ({ options }) => {
           helperText={formik.touched.email && formik.errors.email}
         />
         {error && <ErrorMessage response={error} />}
-        <Stack direction="row" gap={2} mt={2}>
+        <Stack direction="row" gap={2} mt={2} mb={2}>
           <Button
             color="primary"
             variant="contained"
             type="submit"
             disabled={loading}
+            fullWidth={true}
           >
-            {options.submitLabel}
+            Continue with email
+            {/* {options.submitLabel} */}
           </Button>
         </Stack>
       </form>
-      {flowData.passwordSignup && flowData.socialSignup && <Divider />}
-      {flowData.socialSignup?.redirect_uri && (
+      {data.socialSignup?.length > 0 && (
         <Stack gap={2}>
-          {Object.keys(flowData.socialSignup.redirect_uri).map((provider) => {
-            const redirect = flowData.socialSignup.redirect_uri[provider];
+          {data.socialSignup.map((provider: Provider) => {
             return (
-              <div key={provider}>
-                <Button
-                  variant="outlined"
-                  onClick={() => {
-                    socialLogin(redirect);
-                  }}
-                >
-                  Continue with {provider}
-                </Button>
-              </div>
+              <Button
+                variant="contained"
+                color="secondary"
+                fullWidth={true}
+                onClick={() => {
+                  socialLogin(provider.redirect_uri);
+                }}
+                key={provider.provider}
+              >
+                {options.showSocialIcons && (
+                  <>
+                    {getProviderIcon(provider.provider)}
+                    <Box component="span" sx={{ marginRight: 1 }} />
+                  </>
+                )}
+                Continue with {getProviderLabel(provider.provider)}
+              </Button>
             );
           })}
         </Stack>

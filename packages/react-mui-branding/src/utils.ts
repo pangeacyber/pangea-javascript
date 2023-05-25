@@ -47,15 +47,18 @@ export const getBrandingThemeOptions = (
           },
         },
       },
+      MuiFormControl: {
+        defaultProps: {
+          size: config?.density === "comfortable" ? "medium" : "small",
+        },
+      },
       MuiInputLabel: {
         defaultProps: {
           size: config?.density === "comfortable" ? "normal" : "small",
         },
         styleOverrides: {
           root: {
-            "&.MuiInputLabel-sizeSmall[data-shrink='false']": {
-              transform: "translate(14px, 11px) scale(1)",
-            },
+            backgroundColor: "transparent",
           },
         },
       },

@@ -1,16 +1,22 @@
 import { FC } from "react";
 import { useFormik } from "formik";
 import * as yup from "yup";
-import { Button, Stack, TextField, Typography } from "@mui/material";
+import { Stack, TextField, Typography } from "@mui/material";
 
-import { useAuthFlow, FlowStep } from "@pangeacyber/react-auth";
+import { FlowStep } from "@pangeacyber/react-auth";
 
 import { ViewComponentProps } from "@src/views/AuthFlow/types";
+import Button from "@src/components/core/Button";
 import ErrorMessage from "../ErrorMessage";
 
-const SignupView: FC<ViewComponentProps> = ({ options }) => {
-  const { callNext, reset, flowData, loading, error } = useAuthFlow();
-
+const SignupView: FC<ViewComponentProps> = ({
+  options,
+  data,
+  loading,
+  error,
+  next,
+  reset,
+}) => {
   const validationSchema = yup.object({
     firstName: yup.string().required("First name is required"),
     lastName: yup.string().required("First name is required"),
@@ -28,16 +34,18 @@ const SignupView: FC<ViewComponentProps> = ({ options }) => {
       const payload = {
         ...values,
       };
-      callNext(FlowStep.SIGNUP_PASSWORD, payload);
+      next(FlowStep.SIGNUP_PASSWORD, payload);
     },
   });
 
   return (
     <Stack gap={2}>
       <Stack>
-        <Typography variant="h6">Signup</Typography>
+        <Typography variant="h6" mb={3}>
+          Signup
+        </Typography>
         {options.showEmail && (
-          <Typography variant="caption">{flowData.email}</Typography>
+          <Typography variant="body2">{data.email}</Typography>
         )}
       </Stack>
       <form onSubmit={formik.handleSubmit}>
@@ -80,12 +88,16 @@ const SignupView: FC<ViewComponentProps> = ({ options }) => {
             color="primary"
             variant="contained"
             type="submit"
+            fullWidth={true}
             disabled={loading}
           >
-            {options.submitLabel}
+            Create account
+            {/* {options.submitLabel} */}
           </Button>
+        </Stack>
+        <Stack direction="row" justifyContent="center" gap={2} mt={2}>
           {options.showReset && (
-            <Button color="primary" variant="outlined" onClick={reset}>
+            <Button variant="text" onClick={reset}>
               {options.resetLabel}
             </Button>
           )}

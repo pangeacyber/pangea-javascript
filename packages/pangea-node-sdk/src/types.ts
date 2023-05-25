@@ -6,11 +6,12 @@ import { Signer } from "utils/signer";
 export interface ConfigOptions {
   domain?: string;
   environment?: ConfigEnv;
+  insecure?: boolean;
   requestRetries?: number;
   requestTimeout?: number;
   queuedRetryEnabled?: boolean;
   pollResultTimeoutMs?: number;
-  aqueuedRetries?: number;
+  queuedRetries?: number;
   customUserAgent?: string;
 }
 

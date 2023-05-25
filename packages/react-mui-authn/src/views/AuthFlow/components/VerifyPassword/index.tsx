@@ -1,16 +1,22 @@
 import { FC } from "react";
 import { useFormik } from "formik";
 import * as yup from "yup";
-import { Button, Stack, TextField, Typography } from "@mui/material";
+import { Stack, TextField, Typography } from "@mui/material";
 
-import { useAuthFlow, FlowStep } from "@pangeacyber/react-auth";
+import { FlowStep } from "@pangeacyber/react-auth";
 
 import { ViewComponentProps } from "@src/views/AuthFlow/types";
 import ErrorMessage from "../ErrorMessage";
+import Button from "@src/components/core/Button";
 
-const VerifyPasswordView: FC<ViewComponentProps> = ({ options }) => {
-  const { callNext, reset, flowData, loading, error } = useAuthFlow();
-
+const VerifyPasswordView: FC<ViewComponentProps> = ({
+  options,
+  data,
+  loading,
+  error,
+  next,
+  reset,
+}) => {
   const validationSchema = yup.object({
     password: yup.string().required("Password is required"),
   });
@@ -24,20 +30,24 @@ const VerifyPasswordView: FC<ViewComponentProps> = ({ options }) => {
       const payload = {
         ...values,
       };
-      callNext(FlowStep.VERIFY_PASSWORD, payload);
+      next(FlowStep.VERIFY_PASSWORD, payload);
     },
   });
 
   const resetPassword = () => {
-    callNext(FlowStep.VERIFY_PASSWORD, { reset: true });
+    next(FlowStep.VERIFY_PASSWORD, { reset: true });
   };
 
   return (
     <Stack gap={2}>
       <Stack>
-        <Typography variant="h6">Log in</Typography>
+        <Typography variant="h6" mb={3}>
+          Welcome back!
+        </Typography>
         {options.showEmail && (
-          <Typography variant="caption">{flowData.email}</Typography>
+          <Typography variant="body2" sx={{ textAlign: "left" }}>
+            Enter password for {data.email}
+          </Typography>
         )}
       </Stack>
       <form onSubmit={formik.handleSubmit}>
@@ -59,19 +69,21 @@ const VerifyPasswordView: FC<ViewComponentProps> = ({ options }) => {
             variant="contained"
             type="submit"
             disabled={loading}
+            fullWidth={true}
           >
-            {options.submitLabel}
+            Sign in
+            {/* {options.submitLabel} */}
           </Button>
-          {options.showReset && (
-            <Button color="primary" variant="outlined" onClick={reset}>
-              {options.resetLabel}
-            </Button>
-          )}
         </Stack>
-        <Stack direction="row" gap={2} mt={2}>
+        <Stack direction="row" justifyContent="center" gap={2} mt={2}>
           <Button variant="text" onClick={resetPassword}>
             Forgot your password?
           </Button>
+          {options.showReset && (
+            <Button variant="text" onClick={reset}>
+              {options.resetLabel}
+            </Button>
+          )}
         </Stack>
       </form>
     </Stack>

@@ -109,7 +109,7 @@ export class FileIntelService extends BaseService {
    * @deprecated Since version 1.2.0. Use filepathReputation instead.
    * @summary Reputation, from file path
    * @description Retrieve file reputation from a provider, using the file's hash.
-   * @param {String} fileHash - Hash of the file to be looked up
+   * @param {String} filepath - Path to the file to be looked up
    * @param {Object} options - An object of optional parameters. Parameters supported:
    *   - provider {String} - Use reputation data from this provider: "reversinglabs".
    *   Default provider defined by the configuration.
@@ -143,7 +143,7 @@ export class FileIntelService extends BaseService {
    * @summary Reputation, from file path
    * @description Retrieve file reputation from a provider, using the file's hash.
    * @operationId file_intel_post_v1_reputation
-   * @param {String} fileHash - Hash of the file to be looked up
+   * @param {String} filepath - Path to the file to be looked up
    * @param {Object} options - An object of optional parameters. Parameters supported:
    *   - provider {String} - Use reputation data from this provider: "reversinglabs".
    *   Default provider defined by the configuration.
@@ -214,7 +214,7 @@ export class DomainIntelService extends BaseService {
    * @description Retrieve reputation for a domain from a provider, including an optional detailed report.
    * @param {String} domain - Domain address to be looked up.
    * @param {Object} options - An object of optional parameters. Parameters supported:
-   *   - provider {String} - Use reputation data from these providers: "reversinglabs" or "domaintools".
+   *   - provider {String} - Use reputation data from these providers: "crowdstrike" or "domaintools".
    *   Default provider defined by the configuration.
    *   - verbose {Boolean} - Echo the API parameters in the response. Default: verbose=false.
    *   - raw {Boolean} - Include raw data from this provider. Default: raw=false.
@@ -240,7 +240,7 @@ export class DomainIntelService extends BaseService {
    * @operationId domain_intel_post_v1_reputation
    * @param {String} domain - The domain to be looked up.
    * @param {Object} options - An object of optional parameters. Parameters supported:
-   *   - provider {String} - Use reputation data from these providers: "reversinglabs" or "domaintools".
+   *   - provider {String} - Use reputation data from these providers: "crowdstrike" or "domaintools".
    *   Default provider defined by the configuration.
    *   - verbose {Boolean} - Echo the API parameters in the response. Default: verbose=false.
    *   - raw {Boolean} - Include raw data from this provider. Default: raw=false.
@@ -346,7 +346,7 @@ export class IPIntelService extends BaseService {
    * const response = await ipIntel.reputation(
    *   "1.1.1.1",
    *   {
-   *     provider: "reversinglabs"
+   *     provider: "crowdstrike"
    *   }
    * );
    * ```
@@ -544,7 +544,7 @@ export class URLIntelService extends BaseService {
    * @returns {Promise} - A promise representing an async call to the lookup endpoint.
    * @example
    * const options = {
-   *   provider: "reversinglabs"
+   *   provider: "crowdstrike"
    * };
    *
    * const response = await urlIntel.lookup(
@@ -580,7 +580,7 @@ export class URLIntelService extends BaseService {
    * const response = await urlIntel.reputation(
    *   "http://113.235.101.11:54384,
    *   {
-   *     provider: "reversinglabs"
+   *     provider: "crowdstrike"
    *   }
    * );
    * ```

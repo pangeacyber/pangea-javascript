@@ -13,10 +13,10 @@ const config = new PangeaConfig({ domain: testHost });
 const authn = new AuthNService(token, config);
 
 const RANDOM_VALUE = new Date().getTime().toString();
-const EMAIL_TEST = `andres.tournour+test${RANDOM_VALUE}@pangea.cloud`;
-const EMAIL_DELETE = `andres.tournour+delete${RANDOM_VALUE}@pangea.cloud`;
-const EMAIL_INVITE_DELETE = `andres.tournour+invite_del${RANDOM_VALUE}@pangea.cloud`;
-const EMAIL_INVITE_KEEP = `andres.tournour+invite_keep${RANDOM_VALUE}@pangea.cloud`;
+const EMAIL_TEST = `user.email+test${RANDOM_VALUE}@pangea.cloud`;
+const EMAIL_DELETE = `user.email+delete${RANDOM_VALUE}@pangea.cloud`;
+const EMAIL_INVITE_DELETE = `user.email+invite_del${RANDOM_VALUE}@pangea.cloud`;
+const EMAIL_INVITE_KEEP = `user.email+invite_keep${RANDOM_VALUE}@pangea.cloud`;
 const PASSWORD_OLD = "My1s+Password";
 const PASSWORD_NEW = "My1s+Password_new";
 const PROFILE_OLD = { name: "User name", country: "Argentina" };
