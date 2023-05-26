@@ -195,6 +195,7 @@ export {
   VerifyMfaCompleteView,
   VerifyPasswordView,
   VerifySocialView,
+  ErrorMessage,
 } from "./components";
 
 export default AuthFlowView;
