@@ -1,5 +1,6 @@
-import { Typography } from "@mui/material";
 import { FC } from "react";
+import { Typography } from "@mui/material";
+
 import { FieldComponentProps } from "../types";
 import CodeInput from "./CodeInput";
 

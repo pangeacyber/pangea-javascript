@@ -1,7 +1,8 @@
 import { FC } from "react";
 import { useFormik } from "formik";
 import * as yup from "yup";
-import { Box, Stack, TextField, Typography } from "@mui/material";
+import { Box, Divider, Stack, TextField, Typography } from "@mui/material";
+import { useTheme } from "@mui/material/styles";
 
 import { FlowStep } from "@pangeacyber/react-auth";
 
@@ -22,6 +23,7 @@ const StartView: FC<ViewComponentProps> = ({
   error,
   next,
 }) => {
+  const theme = useTheme();
   const socialLogin = (redirect: string) => {
     window.location.href = redirect;
   };
@@ -49,33 +51,49 @@ const StartView: FC<ViewComponentProps> = ({
   return (
     <Stack gap={2}>
       <Typography variant="h6" mb={3}>
-        Log in or signup
+        Log in or Sign up
       </Typography>
-      <form onSubmit={formik.handleSubmit}>
-        <TextField
-          fullWidth
-          id="email"
-          name="email"
-          label="Email"
-          value={formik.values.email}
-          onChange={formik.handleChange}
-          error={formik.touched.email && Boolean(formik.errors.email)}
-          helperText={formik.touched.email && formik.errors.email}
-        />
-        {error && <ErrorMessage response={error} />}
-        <Stack direction="row" gap={2} mt={2} mb={2}>
-          <Button
-            color="primary"
-            variant="contained"
-            type="submit"
-            disabled={loading}
-            fullWidth={true}
-          >
-            Continue with email
-            {/* {options.submitLabel} */}
-          </Button>
-        </Stack>
-      </form>
+      {data.passwordSignup && (
+        <form onSubmit={formik.handleSubmit}>
+          <TextField
+            fullWidth
+            id="email"
+            name="email"
+            label="Email"
+            value={formik.values.email}
+            onChange={formik.handleChange}
+            error={formik.touched.email && Boolean(formik.errors.email)}
+            helperText={formik.touched.email && formik.errors.email}
+          />
+          {error && <ErrorMessage response={error} />}
+          <Stack direction="row" gap={2} mt={2}>
+            <Button
+              color="primary"
+              variant="contained"
+              type="submit"
+              disabled={loading}
+              fullWidth={true}
+            >
+              Continue with email
+              {/* {options.submitLabel} */}
+            </Button>
+          </Stack>
+        </form>
+      )}
+      {data.passwordSignup && data.socialSignup?.length > 0 && (
+        <Box width="100%">
+          <Divider>
+            <Typography
+              variant="overline"
+              sx={{
+                color: theme.palette.divider,
+              }}
+            >
+              Other ways to Log in
+            </Typography>
+          </Divider>
+        </Box>
+      )}
       {data.socialSignup?.length > 0 && (
         <Stack gap={2}>
           {data.socialSignup.map((provider: Provider) => {

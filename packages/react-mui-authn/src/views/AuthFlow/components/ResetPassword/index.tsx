@@ -1,13 +1,14 @@
 import { FC } from "react";
 import { useFormik } from "formik";
 import * as yup from "yup";
-import { Stack, TextField, Typography } from "@mui/material";
+import { Box, Stack, TextField, Typography } from "@mui/material";
 
 import { FlowStep } from "@pangeacyber/react-auth";
 
 import { ViewComponentProps } from "@src/views/AuthFlow/types";
 import Button from "@src/components/core/Button";
 import ErrorMessage from "../ErrorMessage";
+import PasswordField from "@src/components/fields/PasswordField";
 
 const ResetPasswordView: FC<ViewComponentProps> = ({
   options,
@@ -51,17 +52,17 @@ const ResetPasswordView: FC<ViewComponentProps> = ({
             <Typography variant="body2">{data.email}</Typography>
           )}
         </Stack>
-        <Typography variant="body1">
+        <Typography variant="body2">
           An email message has been sent to your inbox, click the link to reset
           your password.
         </Typography>
         {error && <ErrorMessage response={error} />}
-        <Stack direction="row" gap={2} mt={2}>
-          <Button variant="contained" color="secondary" onClick={cancelReset}>
+        <Stack direction="row" justifyContent="center" gap={2} mt={2}>
+          <Button variant="text" onClick={cancelReset}>
             Cancel Reset
           </Button>
           {options.showReset && (
-            <Button variant="outlined" color="secondary" onClick={reset}>
+            <Button variant="text" onClick={reset}>
               {options.resetLabel}
             </Button>
           )}
@@ -79,18 +80,14 @@ const ResetPasswordView: FC<ViewComponentProps> = ({
         <Typography variant="body2">{data.email}</Typography>
       </Stack>
       <form onSubmit={formik.handleSubmit}>
-        <TextField
-          fullWidth
-          id="password"
-          name="password"
-          label="Password"
-          type="password"
-          value={formik.values.password}
-          onChange={formik.handleChange}
-          error={formik.touched.password && Boolean(formik.errors.password)}
-          helperText={formik.touched.password && formik.errors.password}
-          sx={{ marginTop: 1 }}
-        />
+        <Box sx={{ mt: 1 }}>
+          <PasswordField
+            name="password"
+            label="Password"
+            formik={formik}
+            policy={data.passwordPolicy}
+          />
+        </Box>
         {error && <ErrorMessage response={error} />}
         <Stack direction="row" gap={2} mt={2}>
           <Button

@@ -33,7 +33,7 @@ const VerifyEmailView: FC<ViewComponentProps> = ({
           <Typography variant="body2">{data.email}</Typography>
         )}
       </Stack>
-      <Typography variant="body1">
+      <Typography variant="body2">
         An email message has been sent to your inbox.
       </Typography>
       {error && <ErrorMessage response={error} />}
@@ -42,7 +42,7 @@ const VerifyEmailView: FC<ViewComponentProps> = ({
           Resend Email
         </Button>
         {options.showReset && (
-          <Button color="primary" variant="outlined" onClick={reset}>
+          <Button variant="text" onClick={reset}>
             {options.resetLabel}
           </Button>
         )}
