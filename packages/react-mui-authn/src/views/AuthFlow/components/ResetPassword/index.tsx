@@ -44,16 +44,11 @@ const ResetPasswordView: FC<ViewComponentProps> = ({
   if (!cbParams) {
     return (
       <Stack gap={2}>
-        <Stack>
-          <Typography variant="h6" mb={3}>
-            Reset Password
-          </Typography>
-          {options.showEmail && (
-            <Typography variant="body2">{data.email}</Typography>
-          )}
-        </Stack>
+        <Typography variant="h6" mb={1}>
+          Reset Password
+        </Typography>
         <Typography variant="body2">
-          An email message has been sent to your inbox, click the link to reset
+          An email message has been sent {data.email}, click the link to reset
           your password.
         </Typography>
         {error && <ErrorMessage response={error} />}

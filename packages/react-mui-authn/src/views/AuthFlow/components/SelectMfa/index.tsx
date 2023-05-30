@@ -17,7 +17,9 @@ const SelectMfaView: FC<ViewComponentProps> = ({
 }) => {
   const nextStep =
     step === FlowStep.ENROLL_MFA_SELECT
-      ? FlowStep.ENROLL_MFA_COMPLETE
+      ? data.selectedMfa === "sms_otp"
+        ? FlowStep.ENROLL_MFA_START
+        : FlowStep.ENROLL_MFA_COMPLETE
       : FlowStep.VERIFY_MFA_COMPLETE;
 
   const selectProvider = (provider: string) => {
@@ -43,14 +45,9 @@ const SelectMfaView: FC<ViewComponentProps> = ({
 
   return (
     <Stack gap={2}>
-      <Stack>
-        <Typography variant="h6" mb={3}>
-          Select MFA method
-        </Typography>
-        {options.showEmail && (
-          <Typography variant="body2">{data.email}</Typography>
-        )}
-      </Stack>
+      <Typography variant="h6" mb={1}>
+        Select MFA method
+      </Typography>
       <Stack gap={2}>
         {data.mfaProviders?.map((provider: string) => {
           return (

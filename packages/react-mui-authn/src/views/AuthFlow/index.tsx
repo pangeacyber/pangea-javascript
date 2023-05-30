@@ -142,6 +142,7 @@ const AuthFlowView: FC<AuthFlowViewProps> = ({ options, components }) => {
       return (
         components?.SelectMfa || (
           <SelectMfaView
+            step={step}
             options={viewOptions}
             data={flowData}
             loading={loading}

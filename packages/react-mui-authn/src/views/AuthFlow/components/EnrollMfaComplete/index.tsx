@@ -1,7 +1,7 @@
 import { FC, useEffect, useState } from "react";
 import { useFormik } from "formik";
 import * as yup from "yup";
-import { Stack, Typography } from "@mui/material";
+import { Box, Stack, Typography } from "@mui/material";
 
 import { FlowStep } from "@pangeacyber/react-auth";
 
@@ -28,7 +28,7 @@ const EnrollMfaCompleteView: FC<ViewComponentProps> = ({
         return <p>Enter the code sent to your email</p>;
       case "totp":
         return (
-          <ul>
+          <ul style={{ listStyle: "circle" }}>
             <li>Open the Authenticator app</li>
             <li>Scan the QR Code below in the app</li>
             <li>Enter the code from your Authenticator app</li>
@@ -73,19 +73,16 @@ const EnrollMfaCompleteView: FC<ViewComponentProps> = ({
   return (
     <Stack gap={2}>
       <Stack>
-        <Typography variant="h6" mb={3}>
+        <Typography variant="h6" mb={1}>
           Enroll MFA
         </Typography>
-        <Typography component="div" variant="body1">
+        <Typography component="div" variant="body2">
           {mfaEnrollContent(data?.selectedMfa || "")}
         </Typography>
-        {options.showEmail && (
-          <Typography variant="body2">{data.email}</Typography>
-        )}
         {qrCode && (
-          <div className="auth-flow-qr-code">
+          <Box className="auth-flow-qr-code" sx={{ textAlign: "center" }}>
             <img src={qrCode} alt="TOTP QR CODE" />
-          </div>
+          </Box>
         )}
       </Stack>
       <form onSubmit={formik.handleSubmit}>
@@ -96,13 +93,6 @@ const EnrollMfaCompleteView: FC<ViewComponentProps> = ({
             label: "Code",
           }}
         />
-        {data?.mfaProviders && data?.mfaProviders?.length > 1 && (
-          <Stack direction="row" mt={3} mb={3}>
-            <Button variant="text" onClick={selectMfaMethod}>
-              Choose another MFA method
-            </Button>
-          </Stack>
-        )}
         {error && <ErrorMessage response={error} />}
         <Stack direction="row" gap={2} mt={2}>
           <Button
@@ -115,7 +105,12 @@ const EnrollMfaCompleteView: FC<ViewComponentProps> = ({
             {options.submitLabel}
           </Button>
         </Stack>
-        <Stack direction="row" gap={2} mt={2}>
+        <Stack direction="row" justifyContent="center" gap={2} mt={2}>
+          {data?.mfaProviders && data?.mfaProviders?.length > 1 && (
+            <Button variant="text" onClick={selectMfaMethod}>
+              Choose another MFA method
+            </Button>
+          )}
           {options.showReset && (
             <Button variant="text" onClick={reset}>
               {options.resetLabel}

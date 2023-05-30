@@ -48,6 +48,7 @@ const PasswordField: FC<Props> = ({ name, label, formik, policy }) => {
       <FormControl
         variant="outlined"
         fullWidth
+        error={Boolean(formik.touched[name] && formik.errors[name])}
         onFocus={openTooltip}
         onBlur={closeTooltip}
       >

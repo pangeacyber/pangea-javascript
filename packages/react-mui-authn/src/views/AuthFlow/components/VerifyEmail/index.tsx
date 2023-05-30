@@ -25,16 +25,11 @@ const VerifyEmailView: FC<ViewComponentProps> = ({
 
   return (
     <Stack gap={2}>
-      <Stack>
-        <Typography variant="h6" mb={3}>
-          Verify your email
-        </Typography>
-        {options.showEmail && (
-          <Typography variant="body2">{data.email}</Typography>
-        )}
-      </Stack>
+      <Typography variant="h6" mb={1}>
+        Verify your email
+      </Typography>
       <Typography variant="body2">
-        An email message has been sent to your inbox.
+        An email message has been sent to {data.email}.
       </Typography>
       {error && <ErrorMessage response={error} />}
       <Stack direction="row" justifyContent="center" gap={2} mt={2}>
