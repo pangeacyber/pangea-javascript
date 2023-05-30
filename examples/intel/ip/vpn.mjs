@@ -13,7 +13,7 @@ const ipIntel = new IPIntelService(String(token), config);
   const options = { provider: "digitalelement", verbose: true, raw: true };
   try {
     const response = await ipIntel.isVPN("2.56.189.74", options);
-    if(response.result.data.is_vpn === true){
+    if (response.result.data.is_vpn === true) {
       console.log("IP is a VPN");
     } else {
       console.log("IP is not a VPN");

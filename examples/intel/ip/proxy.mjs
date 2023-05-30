@@ -13,12 +13,11 @@ const ipIntel = new IPIntelService(String(token), config);
   const options = { provider: "digitalelement", verbose: true, raw: true };
   try {
     const response = await ipIntel.isProxy("34.201.32.172", options);
-    if(response.result.data.is_proxy === true){
+    if (response.result.data.is_proxy === true) {
       console.log("IP is a proxy");
     } else {
       console.log("IP is not a proxy");
     }
-
   } catch (e) {
     if (e instanceof PangeaErrors.APIError) {
       console.log("Error", e.summary, e.errors);

@@ -13,7 +13,7 @@ const ipIntel = new IPIntelService(String(token), config);
   const options = { provider: "digitalelement", verbose: true, raw: true };
   try {
     const response = await ipIntel.getDomain("24.235.114.61", options);
-    if(response.result.data.domain_found === true){      
+    if (response.result.data.domain_found === true) {
       console.log("IP's domain is:", response.result.data.domain);
     } else {
       console.log("IP's domain not found");
