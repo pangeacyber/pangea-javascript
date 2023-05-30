@@ -1,6 +1,11 @@
 /* eslint-disable no-console */
 
-import { PangeaConfig, URLIntelService, PangeaErrors, DomainIntelService} from "pangea-node-sdk";
+import {
+  PangeaConfig,
+  URLIntelService,
+  PangeaErrors,
+  DomainIntelService,
+} from "pangea-node-sdk";
 
 const domain = process.env.PANGEA_DOMAIN;
 const token = process.env.PANGEA_INTEL_TOKEN;
@@ -9,15 +14,15 @@ const urlIntel = new URLIntelService(String(token), config);
 const domainIntel = new DomainIntelService(String(token), config);
 
 const defangedSchemes = {
-  'http:': 'hxxp:',
-  'https:': 'hxxps:',
-}
+  "http:": "hxxp:",
+  "https:": "hxxps:",
+};
 
 function defangURL(urlString) {
   const url = new URL(urlString);
   const defangedScheme = defangedSchemes[url.protocol];
-  if(defangedScheme){
-    return urlString.replace(url.protocol, defangedScheme)
+  if (defangedScheme) {
+    return urlString.replace(url.protocol, defangedScheme);
   }
   return urlString;
 }
@@ -33,23 +38,17 @@ function getDomain(urlString) {
 
   try {
     let options = { provider: "crowdstrike", verbose: true, raw: true };
-    let response = await urlIntel.reputation(
-      url,
-      options
-    );
-    if( response.result.data.verdict == 'malicious') {
-      console.log("Defanged URL: ", defangURL(url))
+    let response = await urlIntel.reputation(url, options);
+    if (response.result.data.verdict == "malicious") {
+      console.log("Defanged URL: ", defangURL(url));
     } else {
       const domain = getDomain(url);
       options = { provider: "domaintools", verbose: true, raw: true };
-      response = await domainIntel.reputation(
-        domain,
-        options
-        );
-      if( response.result.data.verdict == 'malicious') {
-        console.log("Defanged URL: ", defangURL(url))
+      response = await domainIntel.reputation(domain, options);
+      if (response.result.data.verdict == "malicious") {
+        console.log("Defanged URL: ", defangURL(url));
       } else {
-        console.log("URL seems to be secure: ", url)
+        console.log("URL seems to be secure: ", url);
       }
     }
   } catch (e) {
