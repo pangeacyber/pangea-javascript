@@ -4,6 +4,7 @@ import PangeaConfig from "../config.js";
 import { Intel } from "../types.js";
 import { createHash } from "node:crypto";
 import { readFileSync } from "node:fs";
+import { PangeaErrors } from "../errors.js";
 
 const hashType = "sha256";
 
@@ -680,5 +681,29 @@ export class UserIntelService extends BaseService {
     Object.assign(data, options);
 
     return this.post("password/breached", data);
+  }
+
+  static isPasswordBreached(
+    response: PangeaResponse<Intel.User.User.BreachedResult>,
+    hash: string
+  ): Intel.User.Password.PasswordStatus {
+    if (response.result.raw_data === undefined) {
+      throw new PangeaErrors.PangeaError(
+        "Need raw data to check if hash is breached. Send request with raw=true"
+      );
+    }
+
+    const hashData = response.result.raw_data[hash];
+    if (hashData != undefined) {
+      // If hash is present in raw data, it's because it was breached
+      return Intel.User.Password.PasswordStatus.BREACHED;
+    } else if (Object.keys(response.result.raw_data).length >= 1000) {
+      // If it's not present, should check if I have all breached hash
+      // Server will return a maximum of 1000 hash, so if breached count is greater than that,
+      // I can't conclude is password is or is not breached
+      return Intel.User.Password.PasswordStatus.INCONCLUSIVE;
+    } else {
+      return Intel.User.Password.PasswordStatus.UNBREACHED;
+    }
   }
 }
