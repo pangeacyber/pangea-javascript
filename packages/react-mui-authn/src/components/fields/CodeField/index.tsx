@@ -10,6 +10,7 @@ const CodeField: FC<FieldComponentProps> = ({ name, formik }) => {
       <CodeInput
         value={formik?.values[name] ?? ""}
         onFinish={() => {
+          console.log("onFinish, submitForm");
           formik?.submitForm();
         }}
         onChange={(value) => {

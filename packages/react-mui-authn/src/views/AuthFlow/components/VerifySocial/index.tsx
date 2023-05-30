@@ -15,7 +15,7 @@ const VerifySocialView: FC<ViewComponentProps> = ({ options, data, reset }) => {
 
   return (
     <Stack gap={2}>
-      <Typography variant="h6" mb={3}>
+      <Typography variant="h6" mb={1}>
         Login with Social Authentication
       </Typography>
       <Box>

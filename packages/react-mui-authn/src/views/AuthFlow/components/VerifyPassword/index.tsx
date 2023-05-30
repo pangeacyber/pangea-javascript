@@ -1,12 +1,13 @@
 import { FC } from "react";
 import { useFormik } from "formik";
 import * as yup from "yup";
-import { Stack, TextField, Typography } from "@mui/material";
+import { Stack, Typography } from "@mui/material";
 
 import { FlowStep } from "@pangeacyber/react-auth";
 
 import { ViewComponentProps } from "@src/views/AuthFlow/types";
 import ErrorMessage from "../ErrorMessage";
+import SocialOptions from "@src/views/AuthFlow/components/common/SocialOptions";
 import Button from "@src/components/core/Button";
 import PasswordField from "@src/components/fields/PasswordField";
 
@@ -39,20 +40,20 @@ const VerifyPasswordView: FC<ViewComponentProps> = ({
     next(FlowStep.VERIFY_PASSWORD, { reset: true });
   };
 
+  const resetLabel = data.invite ? "Cancel" : options.resetLabel;
+
   return (
     <Stack gap={2}>
       <Stack>
-        <Typography variant="h6" mb={3}>
+        <Typography variant="h6" mb={1}>
           Welcome back!
         </Typography>
-        {options.showEmail && (
-          <Typography
-            variant="body2"
-            sx={{ textAlign: "left", wordBreak: "break-word" }}
-          >
-            Enter password for {data.email}
-          </Typography>
-        )}
+        <Typography
+          variant="body2"
+          sx={{ textAlign: "left", wordBreak: "break-word" }}
+        >
+          Enter password for {data.email}
+        </Typography>
       </Stack>
       <form onSubmit={formik.handleSubmit}>
         <PasswordField name="password" label="Password" formik={formik} />
@@ -70,16 +71,19 @@ const VerifyPasswordView: FC<ViewComponentProps> = ({
           </Button>
         </Stack>
         <Stack direction="row" justifyContent="center" gap={2} mt={2}>
-          <Button variant="text" onClick={resetPassword}>
-            Forgot your password?
-          </Button>
+          {!data.invite && (
+            <Button variant="text" onClick={resetPassword}>
+              Forgot your password?
+            </Button>
+          )}
           {options.showReset && (
             <Button variant="text" onClick={reset}>
-              {options.resetLabel}
+              {resetLabel}
             </Button>
           )}
         </Stack>
       </form>
+      {data.invite && <SocialOptions data={data} options={options} />}
     </Stack>
   );
 };

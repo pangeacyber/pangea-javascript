@@ -56,14 +56,9 @@ const VerifyMfaCompleteView: FC<ViewComponentProps> = ({
 
   return (
     <Stack gap={2}>
-      <Stack>
-        <Typography variant="h6" mb={3}>
-          Enter {provider} Code
-        </Typography>
-        {options.showEmail && (
-          <Typography variant="body2">{data.email}</Typography>
-        )}
-      </Stack>
+      <Typography variant="h6" mb={1}>
+        Enter {provider} Code
+      </Typography>
       <form onSubmit={formik.handleSubmit}>
         <CodeField
           name="code"
@@ -72,13 +67,6 @@ const VerifyMfaCompleteView: FC<ViewComponentProps> = ({
             label: "Code",
           }}
         />
-        {data?.mfaProviders && data?.mfaProviders?.length > 1 && (
-          <Stack direction="row" mt={3} mb={3}>
-            <Button variant="text" onClick={selectMfaMethod}>
-              Choose another way
-            </Button>
-          </Stack>
-        )}
         {error && <ErrorMessage response={error} />}
         <Stack direction="row" gap={2} mt={2}>
           <Button
@@ -92,6 +80,11 @@ const VerifyMfaCompleteView: FC<ViewComponentProps> = ({
           </Button>
         </Stack>
         <Stack direction="row" justifyContent="center" gap={2} mt={2}>
+          {data?.mfaProviders && data?.mfaProviders?.length > 1 && (
+            <Button variant="text" onClick={selectMfaMethod}>
+              Choose another way
+            </Button>
+          )}
           <Button variant="text" onClick={reset}>
             {options.resetLabel}
           </Button>

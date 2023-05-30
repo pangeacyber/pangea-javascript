@@ -1,13 +1,13 @@
 import { FC } from "react";
 import { useFormik } from "formik";
 import * as yup from "yup";
-import { Box, Divider, Stack, TextField, Typography } from "@mui/material";
+import { Box, Stack, TextField, Typography } from "@mui/material";
 import { useTheme } from "@mui/material/styles";
 
 import { FlowStep } from "@pangeacyber/react-auth";
 
 import { ViewComponentProps } from "@src/views/AuthFlow/types";
-import { getProviderIcon, getProviderLabel } from "@src/views/AuthFlow/utils";
+import SocialOptions from "@src/views/AuthFlow/components/common/SocialOptions";
 import Button from "@src/components/core/Button";
 import ErrorMessage from "../ErrorMessage";
 
@@ -24,10 +24,6 @@ const StartView: FC<ViewComponentProps> = ({
   next,
 }) => {
   const theme = useTheme();
-  const socialLogin = (redirect: string) => {
-    window.location.href = redirect;
-  };
-
   const validationSchema = yup.object({
     email: yup
       .string()
@@ -50,7 +46,7 @@ const StartView: FC<ViewComponentProps> = ({
 
   return (
     <Stack gap={2}>
-      <Typography variant="h6" mb={3}>
+      <Typography variant="h6" mb={1}>
         Log in or Sign up
       </Typography>
       {data.passwordSignup && (
@@ -75,50 +71,11 @@ const StartView: FC<ViewComponentProps> = ({
               fullWidth={true}
             >
               Continue with email
-              {/* {options.submitLabel} */}
             </Button>
           </Stack>
         </form>
       )}
-      {data.passwordSignup && data.socialSignup?.length > 0 && (
-        <Box width="100%">
-          <Divider>
-            <Typography
-              variant="overline"
-              sx={{
-                color: theme.palette.divider,
-              }}
-            >
-              Other ways to Log in
-            </Typography>
-          </Divider>
-        </Box>
-      )}
-      {data.socialSignup?.length > 0 && (
-        <Stack gap={2}>
-          {data.socialSignup.map((provider: Provider) => {
-            return (
-              <Button
-                variant="contained"
-                color="secondary"
-                fullWidth={true}
-                onClick={() => {
-                  socialLogin(provider.redirect_uri);
-                }}
-                key={provider.provider}
-              >
-                {options.showSocialIcons && (
-                  <>
-                    {getProviderIcon(provider.provider)}
-                    <Box component="span" sx={{ marginRight: 1 }} />
-                  </>
-                )}
-                Continue with {getProviderLabel(provider.provider)}
-              </Button>
-            );
-          })}
-        </Stack>
-      )}
+      <SocialOptions data={data} options={options} />
     </Stack>
   );
 };

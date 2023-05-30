@@ -46,16 +46,12 @@ const SignupView: FC<SignupViewProps> = ({
 
   return (
     <Stack gap={2}>
-      <Stack>
-        <Typography variant="h6" mb={3}>
-          Signup
-        </Typography>
-        {options.showEmail && (
-          <Typography variant="body2" sx={{ wordBreak: "break-word" }}>
-            Create an account with {data.email}
-          </Typography>
-        )}
-      </Stack>
+      <Typography variant="h6" mb={1}>
+        Signup
+      </Typography>
+      <Typography variant="body2" sx={{ wordBreak: "break-word" }}>
+        Create an account with {data.email}
+      </Typography>
       <form onSubmit={formik.handleSubmit}>
         <TextField
           fullWidth
