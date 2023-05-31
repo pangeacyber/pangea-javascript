@@ -502,7 +502,7 @@ it("custom log an event, local sign and verify", async () => {
   const searchEvent = respSearch.result.events[0];
   expect(searchEvent.signature_verification).toBe("pass");
   expect(searchEvent.envelope.public_key).toBe(
-    String.raw`{"key":"-----BEGIN PUBLIC KEY-----\nMCowBQYDK2VwAyEAlvOyDMpK2DQ16NI8G41yINl01wMHzINBahtDPoh4+mE=\n-----END PUBLIC KEY-----\n"}`
+    String.raw`{"algorithm":"ED25519","key":"-----BEGIN PUBLIC KEY-----\nMCowBQYDK2VwAyEAlvOyDMpK2DQ16NI8G41yINl01wMHzINBahtDPoh4+mE=\n-----END PUBLIC KEY-----\n"}`
   );
 });
 

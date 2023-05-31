@@ -1,5 +1,5 @@
 import PangeaConfig from "../../src/config";
-import { it, expect } from "@jest/globals";
+import { it, expect, jest } from "@jest/globals";
 import { TestEnvironment, getTestDomain, getTestToken } from "../../src/utils/utils";
 import {
   FileIntelService,
@@ -169,6 +169,7 @@ it("User breached by phone should succeed", async () => {
   expect(response.result.data.breach_count).toBeGreaterThan(0);
 });
 
+jest.setTimeout(10000);
 it("User breached by email should succeed", async () => {
   const request = {
     email: "test@example.com",
