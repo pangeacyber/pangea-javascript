@@ -1,20 +1,29 @@
 import { FC } from "react";
 import { useFormik } from "formik";
 import * as yup from "yup";
-import { Button, Divider, Stack, TextField, Typography } from "@mui/material";
+import { Box, Stack, TextField, Typography } from "@mui/material";
+import { useTheme } from "@mui/material/styles";
 
-import { useAuthFlow, FlowStep } from "@pangeacyber/react-auth";
+import { FlowStep } from "@pangeacyber/react-auth";
 
 import { ViewComponentProps } from "@src/views/AuthFlow/types";
+import SocialOptions from "@src/views/AuthFlow/components/common/SocialOptions";
+import Button from "@src/components/core/Button";
 import ErrorMessage from "../ErrorMessage";
 
-const StartView: FC<ViewComponentProps> = ({ options }) => {
-  const { callNext, flowData, loading, error } = useAuthFlow();
+interface Provider {
+  provider: string;
+  redirect_uri: string;
+}
 
-  const socialLogin = (redirect: string) => {
-    window.location.href = redirect;
-  };
-
+const StartView: FC<ViewComponentProps> = ({
+  options,
+  data,
+  loading,
+  error,
+  next,
+}) => {
+  const theme = useTheme();
   const validationSchema = yup.object({
     email: yup
       .string()
@@ -31,56 +40,42 @@ const StartView: FC<ViewComponentProps> = ({ options }) => {
       const payload = {
         ...values,
       };
-      callNext(FlowStep.START, payload);
+      next(FlowStep.START, payload);
     },
   });
 
   return (
     <Stack gap={2}>
-      <Typography variant="h6">Log in or signup</Typography>
-      <form onSubmit={formik.handleSubmit}>
-        <TextField
-          fullWidth
-          id="email"
-          name="email"
-          label="Email"
-          value={formik.values.email}
-          onChange={formik.handleChange}
-          error={formik.touched.email && Boolean(formik.errors.email)}
-          helperText={formik.touched.email && formik.errors.email}
-        />
-        {error && <ErrorMessage response={error} />}
-        <Stack direction="row" gap={2} mt={2}>
-          <Button
-            color="primary"
-            variant="contained"
-            type="submit"
-            disabled={loading}
-          >
-            {options.submitLabel}
-          </Button>
-        </Stack>
-      </form>
-      {flowData.passwordSignup && flowData.socialSignup && <Divider />}
-      {flowData.socialSignup?.redirect_uri && (
-        <Stack gap={2}>
-          {Object.keys(flowData.socialSignup.redirect_uri).map((provider) => {
-            const redirect = flowData.socialSignup.redirect_uri[provider];
-            return (
-              <div key={provider}>
-                <Button
-                  variant="outlined"
-                  onClick={() => {
-                    socialLogin(redirect);
-                  }}
-                >
-                  Continue with {provider}
-                </Button>
-              </div>
-            );
-          })}
-        </Stack>
+      <Typography variant="h6" mb={1}>
+        Log in or Sign up
+      </Typography>
+      {data.passwordSignup && (
+        <form onSubmit={formik.handleSubmit}>
+          <TextField
+            fullWidth
+            id="email"
+            name="email"
+            label="Email"
+            value={formik.values.email}
+            onChange={formik.handleChange}
+            error={formik.touched.email && Boolean(formik.errors.email)}
+            helperText={formik.touched.email && formik.errors.email}
+          />
+          {error && <ErrorMessage response={error} />}
+          <Stack direction="row" gap={2} mt={2}>
+            <Button
+              color="primary"
+              variant="contained"
+              type="submit"
+              disabled={loading}
+              fullWidth={true}
+            >
+              Continue with email
+            </Button>
+          </Stack>
+        </form>
       )}
+      <SocialOptions data={data} options={options} />
     </Stack>
   );
 };

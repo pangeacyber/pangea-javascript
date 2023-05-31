@@ -1,9 +1,13 @@
+import { FlowStep } from "@pangeacyber/react-auth";
+
 // Options for customizing AuthFlowView components
 export interface AuthFlowViewOptions {
   submitLabel?: string;
   showEmail?: boolean;
   showReset?: boolean;
   resetLabel?: string;
+  showSocialIcons?: boolean;
+  brandName?: string;
 }
 
 // Pass custom components to AuthFlow
@@ -28,4 +32,14 @@ export interface AuthFlowViewProps {
 
 export interface ViewComponentProps {
   options: AuthFlowViewOptions;
+  data: any;
+  loading: boolean;
+  error: any;
+  next: (path: FlowStep, payload: any) => void;
+  reset?: () => void;
+  step?: FlowStep;
+  cbParams?: {
+    state: string;
+    code: string;
+  };
 }

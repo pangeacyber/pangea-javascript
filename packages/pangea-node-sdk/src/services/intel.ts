@@ -4,6 +4,7 @@ import PangeaConfig from "@src/config.js";
 import { Intel } from "@src/types.js";
 import { createHash } from "node:crypto";
 import { readFileSync } from "node:fs";
+import { PangeaErrors } from "../errors.js";
 
 const hashType = "sha256";
 
@@ -77,7 +78,7 @@ export class FileIntelService extends BaseService {
    * @summary Reputation, from file path
    * @description Retrieve file reputation from a provider, using the file's hash.
    * @operationId file_intel_post_v1_reputation
-   * @param {String} fileHash - Hash of the file to be looked up
+   * @param {String} filepath - Path to the file to be looked up
    * @param {Object} options - An object of optional parameters. Parameters supported:
    *   - provider {String} - Use reputation data from this provider: "reversinglabs".
    *   Default provider defined by the configuration.
@@ -148,7 +149,7 @@ export class DomainIntelService extends BaseService {
    * @operationId domain_intel_post_v1_reputation
    * @param {String} domain - The domain to be looked up.
    * @param {Object} options - An object of optional parameters. Parameters supported:
-   *   - provider {String} - Use reputation data from these providers: "reversinglabs" or "domaintools".
+   *   - provider {String} - Use reputation data from these providers: "crowdstrike" or "domaintools".
    *   Default provider defined by the configuration.
    *   - verbose {Boolean} - Echo the API parameters in the response. Default: verbose=false.
    *   - raw {Boolean} - Include raw data from this provider. Default: raw=false.
@@ -221,7 +222,7 @@ export class IPIntelService extends BaseService {
    * const response = await ipIntel.reputation(
    *   "1.1.1.1",
    *   {
-   *     provider: "reversinglabs"
+   *     provider: "crowdstrike"
    *   }
    * );
    * ```
@@ -428,7 +429,7 @@ export class URLIntelService extends BaseService {
    * const response = await urlIntel.reputation(
    *   "http://113.235.101.11:54384,
    *   {
-   *     provider: "reversinglabs"
+   *     provider: "crowdstrike"
    *   }
    * );
    * ```
@@ -528,5 +529,29 @@ export class UserIntelService extends BaseService {
     Object.assign(data, options);
 
     return this.post("password/breached", data);
+  }
+
+  static isPasswordBreached(
+    response: PangeaResponse<Intel.User.User.BreachedResult>,
+    hash: string
+  ): Intel.User.Password.PasswordStatus {
+    if (response.result.raw_data === undefined) {
+      throw new PangeaErrors.PangeaError(
+        "Need raw data to check if hash is breached. Send request with raw=true"
+      );
+    }
+
+    const hashData = response.result.raw_data[hash];
+    if (hashData != undefined) {
+      // If hash is present in raw data, it's because it was breached
+      return Intel.User.Password.PasswordStatus.BREACHED;
+    } else if (Object.keys(response.result.raw_data).length >= 1000) {
+      // If it's not present, should check if I have all breached hash
+      // Server will return a maximum of 1000 hash, so if breached count is greater than that,
+      // I can't conclude is password is or is not breached
+      return Intel.User.Password.PasswordStatus.INCONCLUSIVE;
+    } else {
+      return Intel.User.Password.PasswordStatus.UNBREACHED;
+    }
   }
 }

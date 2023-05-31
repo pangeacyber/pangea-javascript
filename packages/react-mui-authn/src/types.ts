@@ -50,3 +50,11 @@ export interface FieldComponentProps {
   variant?: "standard" | "outlined";
   disabled?: boolean;
 }
+
+export interface PasswordPolicy {
+  password_chars_min?: number;
+  password_lower_min?: number;
+  password_upper_min?: number;
+  password_punct_min?: number;
+  password_number_min?: number;
+}

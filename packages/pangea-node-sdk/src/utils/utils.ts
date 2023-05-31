@@ -1,3 +1,5 @@
+import CryptoJS from "crypto-js";
+
 function orderKeysRecursive(obj: Object) {
   const orderedEntries = Object.entries(obj).sort((a, b) => a[0].localeCompare(b[0]));
   orderedEntries.forEach((value) => {
@@ -51,6 +53,22 @@ export function strToB64(data: string) {
 
 export function b64toStr(data: string) {
   return Buffer.from(data, "base64").toString("utf8");
+}
+
+export function hashSHA256(data: string) {
+  var sha256 = CryptoJS.algo.SHA256.create();
+  sha256.update(data);
+  return sha256.finalize().toString();
+}
+
+export function hashSHA1(data: string) {
+  var sha1 = CryptoJS.algo.SHA1.create();
+  sha1.update(data);
+  return sha1.finalize().toString();
+}
+
+export function getHashPrefix(hash: string, len: number = 5) {
+  return hash.substring(0, len);
 }
 
 export const TestEnvironment = {

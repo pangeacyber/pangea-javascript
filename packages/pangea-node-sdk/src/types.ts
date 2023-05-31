@@ -6,16 +6,21 @@ import { Signer } from "./utils/signer";
 export interface ConfigOptions {
   domain?: string;
   environment?: ConfigEnv;
+  insecure?: boolean;
   requestRetries?: number;
   requestTimeout?: number;
   queuedRetryEnabled?: boolean;
-  aqueuedRetries?: number;
+  queuedRetries?: number;
   customUserAgent?: string;
 }
 
 export enum ConfigEnv {
   LOCAL = "local",
   PRODUCTION = "production",
+}
+
+export interface Dictionary {
+  [key: string]: string | boolean | number | Dictionary;
 }
 
 /**
@@ -293,8 +298,8 @@ export namespace Intel {
   }
 
   export interface CommonResult {
-    parameter?: Object;
-    raw_data?: Object;
+    parameter?: Dictionary;
+    raw_data?: Dictionary;
   }
 
   export namespace User {
@@ -344,6 +349,12 @@ export namespace Intel {
       export interface BreachedRequest extends BreachedOptions {
         hash_type: string;
         hash_prefix: string;
+      }
+
+      export enum PasswordStatus {
+        BREACHED,
+        UNBREACHED,
+        INCONCLUSIVE,
       }
     }
   }
@@ -1259,7 +1270,7 @@ export namespace AuthN {
 
     export interface ListResult {
       users: UserItem[];
-      last: string;
+      last?: string;
       count: number;
     }
 

@@ -21,11 +21,6 @@ export const REFRESH_CHECK_THRESHOLD = 10;
 export const JWKS_CACHE_KEY = "jwks-cache";
 export const JWKS_EXPIRE = 60 * 60 * 24; // 24 hours in seconds
 
-interface JwksCache {
-  keySet: jose.JSONWebKeySet;
-  expire: string;
-}
-
 export const useValidateToken = (
   client: AuthNClient,
   options: AuthOptions,
@@ -165,11 +160,14 @@ export const useRefresh = (
   const intervalId = useRef<number | null>(null);
 
   useEffect(() => {
-    // event handler to start/stop refresh checker
-    document.addEventListener("visibilitychange", checkVisibility);
+    // event handlers to start/stop refresh checker
+    window.addEventListener("focus", onFocus);
+    window.addEventListener("blur", onBlur);
 
     return () => {
-      document.removeEventListener("visibilitychange", checkVisibility);
+      window.removeEventListener("focus", onFocus);
+      window.removeEventListener("blur", onBlur);
+
       if (intervalId.current) {
         clearInterval(intervalId.current);
         intervalId.current = null;
@@ -177,22 +175,23 @@ export const useRefresh = (
     };
   }, []);
 
-  const checkVisibility = useCallback(() => {
-    if (document.hidden) {
-      if (intervalId.current) {
-        clearInterval(intervalId.current);
-        intervalId.current = null;
-      }
-    } else {
-      loadingCallback(true);
-      checkTokenLife();
-      loadingCallback(false);
-      startTokenWatch();
+  const onBlur = useCallback(() => {
+    if (intervalId.current) {
+      clearInterval(intervalId.current);
+      intervalId.current = null;
     }
+  }, []);
+
+  const onFocus = useCallback(() => {
+    loadingCallback(true);
+    checkTokenLife();
+    loadingCallback(false);
+    startTokenWatch();
   }, []);
 
   const checkTokenLife = useCallback(() => {
     const tokenExpire = getTokenExpire(options);
+
     if (tokenExpire && isTokenExpiring(tokenExpire)) {
       refresh();
     }

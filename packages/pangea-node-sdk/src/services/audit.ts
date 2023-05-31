@@ -80,12 +80,14 @@ class AuditService extends BaseService {
       const signer = options.signer;
       const signature = signer.sign(canonicalizeEvent(event));
       const pubKey = signer.getPublicKey();
+      const algorithm = signer.getAlgorithm();
 
       let publicKeyInfo: { [key: string]: any } = {};
       if (options.publicKeyInfo) {
         Object.assign(publicKeyInfo, options.publicKeyInfo);
       }
       publicKeyInfo["key"] = pubKey;
+      publicKeyInfo["algorithm"] = algorithm;
 
       data.signature = signature;
       data.public_key = JSON.stringify(publicKeyInfo);

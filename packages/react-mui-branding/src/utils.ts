@@ -47,15 +47,18 @@ export const getBrandingThemeOptions = (
           },
         },
       },
+      MuiFormControl: {
+        defaultProps: {
+          size: config?.density === "comfortable" ? "medium" : "small",
+        },
+      },
       MuiInputLabel: {
         defaultProps: {
           size: config?.density === "comfortable" ? "normal" : "small",
         },
         styleOverrides: {
           root: {
-            "&.MuiInputLabel-sizeSmall[data-shrink='false']": {
-              transform: "translate(14px, 11px) scale(1)",
-            },
+            backgroundColor: "transparent",
           },
         },
       },
@@ -208,6 +211,7 @@ export const getBrandingThemeOptions = (
         primary: getColor(config?.text_primary_color),
         secondary: getColor(config?.text_secondary_color),
       },
+      divider: config?.text_secondary_color,
     },
   };
 
