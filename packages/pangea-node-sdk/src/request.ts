@@ -1,4 +1,4 @@
-import got, { Options, HTTPError } from "got";
+import got, { OptionsInit, HTTPError } from "got";
 import type { Headers, Response } from "got";
 
 import PangeaConfig, { version } from "./config.js";
@@ -32,7 +32,7 @@ class PangeaRequest {
 
   async post(endpoint: string, data: object): Promise<PangeaResponse<any>> {
     const url = this.getUrl(endpoint);
-    const options: Options = {
+    const options: OptionsInit = {
       headers: this.getHeaders(),
       json: data,
       retry: { limit: this.config.requestRetries },
@@ -62,7 +62,7 @@ class PangeaRequest {
   async get(endpoint: string, path: string): Promise<PangeaResponse<any>> {
     const fullPath = !path ? endpoint : `${endpoint}/${path}`;
     const url = this.getUrl(fullPath);
-    const options: Options = {
+    const options: OptionsInit = {
       headers: this.getHeaders(),
       retry: { limit: this.config.requestRetries },
       responseType: "json",
@@ -178,7 +178,9 @@ class PangeaRequest {
         throw new PangeaErrors.ForbiddenVaultOperation(response.summary, response);
       case "NotFound":
         throw new PangeaErrors.NotFound(
-          response.gotResponse?.requestUrl !== undefined ? response.gotResponse.requestUrl : "",
+          response.gotResponse?.requestUrl !== undefined
+            ? response.gotResponse.requestUrl.href
+            : "",
           response
         );
       case "InternalError":

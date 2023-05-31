@@ -1,7 +1,7 @@
 // Copyright 2021 Pangea Cyber Corporation
 // Author: Pangea Cyber Corporation
 
-import got, { Options } from "got";
+import got, { OptionsInit } from "got";
 import type { Response } from "got";
 
 import { Audit } from "../types.js";
@@ -48,7 +48,7 @@ export const getArweavePublishedRoots = async (
 }
     `;
 
-  const options: Options = {
+  const options: OptionsInit = {
     json: { query },
     responseType: "json",
   };
