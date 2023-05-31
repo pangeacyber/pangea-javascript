@@ -7,7 +7,6 @@ import { FlowStep } from "@pangeacyber/react-auth";
 
 import { ViewComponentProps } from "@src/views/AuthFlow/types";
 import ErrorMessage from "../ErrorMessage";
-import SocialOptions from "@src/views/AuthFlow/components/common/SocialOptions";
 import Button from "@src/components/core/Button";
 import PasswordField from "@src/components/fields/PasswordField";
 
@@ -40,8 +39,6 @@ const VerifyPasswordView: FC<ViewComponentProps> = ({
     next(FlowStep.VERIFY_PASSWORD, { reset: true });
   };
 
-  const resetLabel = data.invite ? "Cancel" : options.resetLabel;
-
   return (
     <Stack gap={2}>
       <Stack>
@@ -67,23 +64,19 @@ const VerifyPasswordView: FC<ViewComponentProps> = ({
             fullWidth={true}
           >
             Sign in
-            {/* {options.submitLabel} */}
           </Button>
         </Stack>
         <Stack direction="row" justifyContent="center" gap={2} mt={2}>
-          {!data.invite && (
-            <Button variant="text" onClick={resetPassword}>
-              Forgot your password?
-            </Button>
-          )}
+          <Button variant="text" onClick={resetPassword}>
+            Forgot your password?
+          </Button>
           {options.showReset && (
             <Button variant="text" onClick={reset}>
-              {resetLabel}
+              {options.resetLabel}
             </Button>
           )}
         </Stack>
       </form>
-      {data.invite && <SocialOptions data={data} options={options} />}
     </Stack>
   );
 };

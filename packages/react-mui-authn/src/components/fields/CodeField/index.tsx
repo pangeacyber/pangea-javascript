@@ -10,12 +10,15 @@ const CodeField: FC<FieldComponentProps> = ({ name, formik }) => {
       <CodeInput
         value={formik?.values[name] ?? ""}
         onFinish={() => {
-          console.log("onFinish, submitForm");
           formik?.submitForm();
         }}
         onChange={(value) => {
           formik?.setFieldValue(name, value);
-          if (!formik?.touched[name] && !!formik?.values[name]) {
+          if (
+            !formik?.touched[name] &&
+            !!formik?.values[name] &&
+            !formik?.isSubmitting
+          ) {
             formik?.setFieldTouched(name, true);
           }
         }}

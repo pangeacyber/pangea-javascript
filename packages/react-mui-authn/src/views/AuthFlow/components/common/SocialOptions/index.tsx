@@ -24,7 +24,7 @@ const SocialOptions: FC<Props> = ({ data, options }) => {
   };
 
   return (
-    <>
+    <Stack gap={2}>
       {data.passwordSignup && data.socialSignup?.length > 0 && (
         <Box width="100%">
           <Divider>
@@ -64,7 +64,7 @@ const SocialOptions: FC<Props> = ({ data, options }) => {
           })}
         </Stack>
       )}
-    </>
+    </Stack>
   );
 };
 

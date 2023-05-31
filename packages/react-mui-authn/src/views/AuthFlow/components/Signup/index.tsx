@@ -6,6 +6,7 @@ import { Box, Stack, TextField, Typography } from "@mui/material";
 import { FlowStep } from "@pangeacyber/react-auth";
 
 import { ViewComponentProps } from "@src/views/AuthFlow/types";
+import SocialOptions from "@src/views/AuthFlow/components/common/SocialOptions";
 import Button from "@src/components/core/Button";
 import PasswordField from "@src/components/fields/PasswordField";
 import ErrorMessage from "../ErrorMessage";
@@ -43,6 +44,8 @@ const SignupView: FC<SignupViewProps> = ({
       next(FlowStep.SIGNUP_PASSWORD, payload);
     },
   });
+
+  const resetLabel = data.invite ? "Cancel" : options.resetLabel;
 
   return (
     <Stack gap={2}>
@@ -95,14 +98,15 @@ const SignupView: FC<SignupViewProps> = ({
             Create account
           </Button>
         </Stack>
-        <Stack direction="row" justifyContent="center" gap={2} mt={2}>
-          {options.showReset && (
-            <Button variant="text" onClick={reset}>
-              {options.resetLabel}
-            </Button>
-          )}
-        </Stack>
       </form>
+      {data.invite && <SocialOptions data={data} options={options} />}
+      {(options.showReset || data.invite) && (
+        <Stack direction="row" justifyContent="center" gap={2} mt={2}>
+          <Button variant="text" onClick={reset}>
+            {resetLabel}
+          </Button>
+        </Stack>
+      )}
     </Stack>
   );
 };
