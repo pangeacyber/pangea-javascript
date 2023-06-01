@@ -1,5 +1,5 @@
 import PangeaConfig from "../../src/config";
-import { it, expect } from "@jest/globals";
+import { it, expect, jest } from "@jest/globals";
 import { TestEnvironment, getTestDomain, getTestToken } from "../../src/utils/utils";
 import {
   FileIntelService,
@@ -272,6 +272,7 @@ it("User breached by username should succeed", async () => {
   expect(response.result.data.breach_count).toBeGreaterThan(0);
 });
 
+jest.setTimeout(10000);
 it("User breached by ip should succeed", async () => {
   const request = { ip: "192.168.140.37", provider: "spycloud", verbose: true, raw: true };
   const response = await userIntel.userBreached(request);
