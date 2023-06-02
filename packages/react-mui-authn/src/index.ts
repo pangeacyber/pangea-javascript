@@ -4,8 +4,13 @@ export { default as OtpView } from "./views/Otp";
 export { default as MessageView } from "./views/Message";
 export { default as AuthFlowView } from "./views/AuthFlow";
 
-export { default as Panel } from "@src/components/core/Panel";
-export { default as Button } from "@src/components/core/Button";
+export {
+  Button,
+  Panel,
+  PasswordRequirements,
+  CodeField,
+  PasswordField,
+} from "@src/components";
 
 import {
   EnrollMfaCompleteView as EnrollMfaCompleteFlowView,
@@ -19,6 +24,7 @@ import {
   VerifyMfaCompleteView as VerifyMfaCompleteFlowView,
   VerifyPasswordView as VerifyPasswordFlowView,
   VerifySocialView as VerifySocialFlowView,
+  ErrorMessage as FlowErrorMessage,
 } from "@src/views/AuthFlow";
 
 export {
@@ -33,6 +39,7 @@ export {
   VerifyMfaCompleteFlowView,
   VerifyPasswordFlowView,
   VerifySocialFlowView,
+  FlowErrorMessage,
 };
 
 export {

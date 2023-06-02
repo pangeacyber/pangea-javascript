@@ -7,6 +7,7 @@ export interface AuthFlowViewOptions {
   showReset?: boolean;
   resetLabel?: string;
   showSocialIcons?: boolean;
+  brandName?: string;
 }
 
 // Pass custom components to AuthFlow

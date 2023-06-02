@@ -1,5 +1,6 @@
-import { Typography } from "@mui/material";
 import { FC } from "react";
+import { Typography } from "@mui/material";
+
 import { FieldComponentProps } from "../types";
 import CodeInput from "./CodeInput";
 
@@ -13,7 +14,11 @@ const CodeField: FC<FieldComponentProps> = ({ name, formik }) => {
         }}
         onChange={(value) => {
           formik?.setFieldValue(name, value);
-          if (!formik?.touched[name] && !!formik?.values[name]) {
+          if (
+            !formik?.touched[name] &&
+            !!formik?.values[name] &&
+            !formik?.isSubmitting
+          ) {
             formik?.setFieldTouched(name, true);
           }
         }}

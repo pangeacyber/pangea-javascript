@@ -2,11 +2,12 @@ import { FC } from "react";
 import { useFormik } from "formik";
 import * as yup from "yup";
 import { Box, Stack, TextField, Typography } from "@mui/material";
+import { useTheme } from "@mui/material/styles";
 
 import { FlowStep } from "@pangeacyber/react-auth";
 
 import { ViewComponentProps } from "@src/views/AuthFlow/types";
-import { getProviderIcon, getProviderLabel } from "@src/views/AuthFlow/utils";
+import SocialOptions from "@src/views/AuthFlow/components/common/SocialOptions";
 import Button from "@src/components/core/Button";
 import ErrorMessage from "../ErrorMessage";
 
@@ -22,10 +23,7 @@ const StartView: FC<ViewComponentProps> = ({
   error,
   next,
 }) => {
-  const socialLogin = (redirect: string) => {
-    window.location.href = redirect;
-  };
-
+  const theme = useTheme();
   const validationSchema = yup.object({
     email: yup
       .string()
@@ -48,59 +46,36 @@ const StartView: FC<ViewComponentProps> = ({
 
   return (
     <Stack gap={2}>
-      <Typography variant="h6" mb={3}>
-        Log in or signup
+      <Typography variant="h6" mb={1}>
+        Log in or Sign up
       </Typography>
-      <form onSubmit={formik.handleSubmit}>
-        <TextField
-          fullWidth
-          id="email"
-          name="email"
-          label="Email"
-          value={formik.values.email}
-          onChange={formik.handleChange}
-          error={formik.touched.email && Boolean(formik.errors.email)}
-          helperText={formik.touched.email && formik.errors.email}
-        />
-        {error && <ErrorMessage response={error} />}
-        <Stack direction="row" gap={2} mt={2} mb={2}>
-          <Button
-            color="primary"
-            variant="contained"
-            type="submit"
-            disabled={loading}
-            fullWidth={true}
-          >
-            Continue with email
-            {/* {options.submitLabel} */}
-          </Button>
-        </Stack>
-      </form>
-      {data.socialSignup?.length > 0 && (
-        <Stack gap={2}>
-          {data.socialSignup.map((provider: Provider) => {
-            return (
-              <Button
-                variant="contained"
-                color="secondary"
-                fullWidth={true}
-                onClick={() => {
-                  socialLogin(provider.redirect_uri);
-                }}
-                key={provider.provider}
-              >
-                {options.showSocialIcons && (
-                  <>
-                    {getProviderIcon(provider.provider)}
-                    <Box component="span" sx={{ marginRight: 1 }} />
-                  </>
-                )}
-                Continue with {getProviderLabel(provider.provider)}
-              </Button>
-            );
-          })}
-        </Stack>
+      {data.passwordSignup && (
+        <form onSubmit={formik.handleSubmit}>
+          <TextField
+            fullWidth
+            id="email"
+            name="email"
+            label="Email"
+            value={formik.values.email}
+            onChange={formik.handleChange}
+            error={formik.touched.email && Boolean(formik.errors.email)}
+            helperText={formik.touched.email && formik.errors.email}
+          />
+          {error && <ErrorMessage response={error} />}
+          <Stack direction="row" gap={2} mt={2}>
+            <Button
+              color="primary"
+              variant="contained"
+              type="submit"
+              disabled={loading}
+              fullWidth={true}
+            >
+              Continue with email
+            </Button>
+          </Stack>
+        </form>
       )}
+      <SocialOptions data={data} options={options} />
     </Stack>
   );
 };

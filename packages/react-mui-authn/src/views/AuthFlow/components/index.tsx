@@ -9,3 +9,4 @@ export { default as VerifyEmailView } from "./VerifyEmail";
 export { default as VerifyMfaCompleteView } from "./VerifyMfaComplete";
 export { default as VerifyPasswordView } from "./VerifyPassword";
 export { default as VerifySocialView } from "./VerifySocial";
+export { default as ErrorMessage } from "./ErrorMessage";

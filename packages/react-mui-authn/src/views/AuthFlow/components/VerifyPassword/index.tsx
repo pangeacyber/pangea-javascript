@@ -1,13 +1,14 @@
 import { FC } from "react";
 import { useFormik } from "formik";
 import * as yup from "yup";
-import { Stack, TextField, Typography } from "@mui/material";
+import { Stack, Typography } from "@mui/material";
 
 import { FlowStep } from "@pangeacyber/react-auth";
 
 import { ViewComponentProps } from "@src/views/AuthFlow/types";
 import ErrorMessage from "../ErrorMessage";
 import Button from "@src/components/core/Button";
+import PasswordField from "@src/components/fields/PasswordField";
 
 const VerifyPasswordView: FC<ViewComponentProps> = ({
   options,
@@ -41,27 +42,18 @@ const VerifyPasswordView: FC<ViewComponentProps> = ({
   return (
     <Stack gap={2}>
       <Stack>
-        <Typography variant="h6" mb={3}>
+        <Typography variant="h6" mb={1}>
           Welcome back!
         </Typography>
-        {options.showEmail && (
-          <Typography variant="body2" sx={{ textAlign: "left" }}>
-            Enter password for {data.email}
-          </Typography>
-        )}
+        <Typography
+          variant="body2"
+          sx={{ textAlign: "left", wordBreak: "break-word" }}
+        >
+          Enter password for {data.email}
+        </Typography>
       </Stack>
       <form onSubmit={formik.handleSubmit}>
-        <TextField
-          fullWidth
-          id="password"
-          name="password"
-          label="Password"
-          type="password"
-          value={formik.values.password}
-          onChange={formik.handleChange}
-          error={formik.touched.password && Boolean(formik.errors.password)}
-          helperText={formik.touched.password && formik.errors.password}
-        />
+        <PasswordField name="password" label="Password" formik={formik} />
         {error && <ErrorMessage response={error} />}
         <Stack direction="row" gap={2} mt={2}>
           <Button
@@ -72,7 +64,6 @@ const VerifyPasswordView: FC<ViewComponentProps> = ({
             fullWidth={true}
           >
             Sign in
-            {/* {options.submitLabel} */}
           </Button>
         </Stack>
         <Stack direction="row" justifyContent="center" gap={2} mt={2}>
