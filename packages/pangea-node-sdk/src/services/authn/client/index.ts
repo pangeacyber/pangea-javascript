@@ -13,7 +13,7 @@ export default class Client extends BaseService {
   clientToken: ClientToken;
 
   constructor(token: string, config: PangeaConfig) {
-    super("authn", token, config);
+    super("authn", token, config, false);
     this.apiVersion = "v1";
 
     this.session = new ClientSession(token, config);

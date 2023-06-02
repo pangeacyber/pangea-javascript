@@ -14,7 +14,7 @@ export default class Flow extends BaseService {
   reset: FlowReset;
 
   constructor(token: string, config: PangeaConfig) {
-    super("authn", token, config);
+    super("authn", token, config, false);
     this.apiVersion = "v1";
 
     this.enroll = new FlowEnroll(token, config);

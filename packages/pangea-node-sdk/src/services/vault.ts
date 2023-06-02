@@ -9,7 +9,7 @@ import { Vault } from "../types.js";
  */
 class VaultService extends BaseService {
   constructor(token: string, config: PangeaConfig) {
-    super("vault", token, config);
+    super("vault", token, config, false);
     this.apiVersion = "v1";
   }
 

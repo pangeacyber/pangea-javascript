@@ -9,7 +9,7 @@ export default class FlowVerify extends BaseService {
   mfa: FlowVerifyMFA;
 
   constructor(token: string, config: PangeaConfig) {
-    super("authn", token, config);
+    super("authn", token, config, false);
     this.apiVersion = "v1";
 
     this.mfa = new FlowVerifyMFA(token, config);

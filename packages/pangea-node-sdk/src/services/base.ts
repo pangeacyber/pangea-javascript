@@ -4,10 +4,11 @@ import PangeaResponse from "../response.js";
 
 class BaseService {
   protected serviceName: string;
+  protected supportMultiConfig: boolean;
   protected token: string;
   protected apiVersion: string;
   protected config: PangeaConfig;
-  request: PangeaRequest;
+  protected request: PangeaRequest;
 
   /*
   Required:
@@ -17,16 +18,22 @@ class BaseService {
   Optional:
     - config: a PangeaConfig object, uses defaults if non passed
   */
-  constructor(serviceName: string, token: string, config: PangeaConfig) {
+  constructor(
+    serviceName: string,
+    token: string,
+    config: PangeaConfig,
+    supportMultiConfig: boolean = false
+  ) {
     if (!serviceName) throw new Error("A serviceName is required");
     if (!token) throw new Error("A token is required");
 
     this.serviceName = serviceName;
     this.apiVersion = "v1";
     this.token = token;
+    this.supportMultiConfig = supportMultiConfig;
 
     this.config = new PangeaConfig({ ...config }) || new PangeaConfig();
-    this.request = new PangeaRequest(this.serviceName, this.token, config);
+    this.request = new PangeaRequest(this.serviceName, this.token, config, supportMultiConfig);
   }
 
   async get(endpoint: string, path: string): Promise<PangeaResponse<any>> {

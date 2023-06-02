@@ -5,7 +5,7 @@ import { AuthN } from "../../../types.js";
 
 export default class UserInvites extends BaseService {
   constructor(token: string, config: PangeaConfig) {
-    super("authn", token, config);
+    super("authn", token, config, false);
     this.apiVersion = "v1";
   }
 

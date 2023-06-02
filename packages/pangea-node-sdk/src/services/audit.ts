@@ -27,7 +27,7 @@ class AuditService extends BaseService {
   tenantID: string | undefined;
 
   constructor(token: string, config: PangeaConfig, tenantID: string | undefined = undefined) {
-    super("audit", token, config);
+    super("audit", token, config, true);
     this.publishedRoots = {};
     this.publishedRoots = {};
     this.apiVersion = "v1";
