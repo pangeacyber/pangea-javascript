@@ -34,7 +34,7 @@ const EnrollMfaStartView: FC<ViewComponentProps> = ({
     validationSchema: validationSchema,
     onSubmit: (values) => {
       const payload = {
-        mfaProvider: data.selectedMfa,
+        mfaProvider: "sms_otp",
         ...values,
       };
       next(FlowStep.ENROLL_MFA_START, payload);
