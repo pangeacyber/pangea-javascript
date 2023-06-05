@@ -29,7 +29,11 @@ const VerifyCaptchaView: FC<ViewComponentProps> = ({
           Prove you're human
         </Typography>
       </Stack>
-      <ReCAPTCHA sitekey={data.recaptchaKey} onChange={handleChange} />
+      <ReCAPTCHA
+        sitekey={data.recaptchaKey}
+        onChange={handleChange}
+        className="recaptcha"
+      />
       {error && <ErrorMessage response={error} />}
       {options.showReset && (
         <Stack direction="row" justifyContent="center" gap={2} mt={2}>
