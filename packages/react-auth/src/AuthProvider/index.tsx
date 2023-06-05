@@ -199,6 +199,8 @@ export const AuthProvider: FC<AuthProviderProps> = ({
         refresh();
       } else {
         // if token has not expired, validate that it's still good
+        setLoading(false);
+        setAuthenticated(true);
         validate(token);
       }
 

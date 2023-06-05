@@ -29,7 +29,7 @@ export enum FlowStep {
   ENROLL_MFA_SELECT = "enroll/mfa/select", // UI-only state
   ENROLL_MFA_START = "enroll/mfa/start",
   ENROLL_MFA_COMPLETE = "enroll/mfa/complete",
-  VERIFY_MFA_SELECT = "verify/mfa/select",
+  VERIFY_MFA_SELECT = "verify/mfa/select", // UI-only state
   VERIFY_MFA_START = "verify/mfa/start",
   VERIFY_MFA_COMPLETE = "verify/mfa/complete",
   RESET_PASSWORD = "reset/password",
