@@ -1,5 +1,4 @@
 import { default as _PangeaConfig } from "./config.js";
-import { default as _PangeaClient } from "./client.js";
 import { default as _PangeaRequest } from "./request.js";
 import { default as _PangeaResponse } from "./response.js";
 
@@ -14,7 +13,6 @@ export * from "./errors.js";
 export { hashSHA256, hashSHA1, getHashPrefix, b64toStr, strToB64 } from "./utils/utils.js";
 
 export const PangeaConfig = _PangeaConfig;
-export const PangeaClient = _PangeaClient;
 export const PangeaRequest = _PangeaRequest;
 export const PangeaResponse = _PangeaResponse;
 
