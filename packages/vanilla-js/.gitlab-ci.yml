@@ -1,0 +1,26 @@
+.vanilla_js_base:
+  image: node
+  before_script:
+    - cd packages/vanilla-js
+    - yarn install
+    - apt-get -qq update
+    - apt-get install -y jq
+  cache:
+    - key:
+        files:
+          - yarn.lock
+      paths:
+        - node_modules
+
+publish_vanilla_js:
+  extends: .vanilla_js_base
+  stage: Publish
+  script:
+    - cp ../../scripts/publish.sh .
+    - echo "${NPMRC}" > .npmrc && ./publish.sh && rm .npmrc
+    - rm publish.sh
+  rules:
+    - if: $CI_COMMIT_BRANCH == "main"
+      changes:
+        - packages/vanilla-js/**/*
+      when: on_success

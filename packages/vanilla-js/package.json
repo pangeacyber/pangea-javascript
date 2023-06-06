@@ -1,0 +1,28 @@
+{
+  "name": "@pangeacyber/vanilla-js",
+  "version": "0.0.1",
+  "main": "dist/cjs/index.js",
+  "module": "dist/esm/index.js",
+  "types": "dist/index.d.ts",
+  "repository": "https://github.com/pangeacyber/pangea-javascript.git",
+  "author": "Pangea (https://pangea.cloud)",
+  "scripts": {
+    "build": "rollup -c",
+    "lint": "npx prettier --check .",
+    "prettier:fix": "npx prettier . -w"
+  },
+  "devDependencies": {
+    "@rollup/plugin-babel": "^6.0.3",
+    "@rollup/plugin-commonjs": "^25.0.0",
+    "@rollup/plugin-json": "^6.0.0",
+    "@rollup/plugin-node-resolve": "^15.1.0",
+    "@rollup/plugin-typescript": "^11.1.1",
+    "rollup": "^3.23.1",
+    "rollup-plugin-dts": "^5.3.0",
+    "rollup-plugin-peer-deps-external": "^2.2.4",
+    "rollup-plugin-polyfill-node": "^0.12.0"
+  },
+  "dependencies": {
+    "axios": "^1.4.0"
+  }
+}
