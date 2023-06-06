@@ -1,6 +1,6 @@
 {
   "name": "pangea-node-sdk",
-  "version": "1.8.0",
+  "version": "1.9.0",
   "main": "dist/cjs/index.js",
   "module": "dist/mjs/index.js",
   "exports": {
@@ -16,7 +16,7 @@
   "dependencies": {
     "crypto-js": "^4.1.1",
     "form-data": "^4.0.0",
-    "got": "11.8.5",
+    "got": "11.8.6",
     "merkle-tools": "^1.4.1"
   },
   "devDependencies": {

@@ -24,6 +24,10 @@ export enum ConfigEnv {
   PRODUCTION = "production",
 }
 
+export interface Dictionary {
+  [key: string]: string | boolean | number | Dictionary;
+}
+
 /**
  * Secure Audit interface definitions
  */
@@ -336,8 +340,8 @@ export namespace Intel {
   }
 
   export interface CommonResult {
-    parameter?: Object;
-    raw_data?: Object;
+    parameter?: Dictionary;
+    raw_data?: Dictionary;
   }
 
   export interface Response extends CommonResult {
@@ -395,6 +399,12 @@ export namespace Intel {
       export interface BreachedRequest extends BreachedOptions {
         hash_type: string;
         hash_prefix: string;
+      }
+
+      export enum PasswordStatus {
+        BREACHED,
+        UNBREACHED,
+        INCONCLUSIVE,
       }
     }
   }
@@ -1310,7 +1320,7 @@ export namespace AuthN {
 
     export interface ListResult {
       users: UserItem[];
-      last: string;
+      last?: string;
       count: number;
     }
 

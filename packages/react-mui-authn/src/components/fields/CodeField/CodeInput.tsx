@@ -105,6 +105,12 @@ const CodeInput: FC<CodeInputProps> = ({
     }
   };
 
+  const handleKeyUp = () => {
+    if (Object.values(values).filter((v) => !!v).length === length) {
+      onFinish();
+    }
+  };
+
   const handlePaste = (e: React.ClipboardEvent) => {
     const clip = e.clipboardData.getData("text");
     if (!/\d{6}/.test(clip)) return;
@@ -152,6 +158,7 @@ const CodeInput: FC<CodeInputProps> = ({
             autoFocus={inputId === 0}
             value={values[inputId] || ""}
             key={`code-input-${inputId}`}
+            onKeyUp={() => handleKeyUp()}
             onKeyDown={(e) => handleKeyDown(inputId, e)}
             onChange={(e) => handleChange(inputId, e)}
             onPaste={(e) => handlePaste(e)}

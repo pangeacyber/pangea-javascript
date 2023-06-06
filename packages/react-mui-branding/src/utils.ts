@@ -211,6 +211,7 @@ export const getBrandingThemeOptions = (
         primary: getColor(config?.text_primary_color),
         secondary: getColor(config?.text_secondary_color),
       },
+      divider: config?.text_secondary_color,
     },
   };
 

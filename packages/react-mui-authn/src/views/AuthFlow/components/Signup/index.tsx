@@ -1,21 +1,28 @@
-import { FC } from "react";
+import { FC, ReactElement } from "react";
 import { useFormik } from "formik";
 import * as yup from "yup";
-import { Stack, TextField, Typography } from "@mui/material";
+import { Box, Stack, TextField, Typography } from "@mui/material";
 
 import { FlowStep } from "@pangeacyber/react-auth";
 
 import { ViewComponentProps } from "@src/views/AuthFlow/types";
+import SocialOptions from "@src/views/AuthFlow/components/common/SocialOptions";
 import Button from "@src/components/core/Button";
+import PasswordField from "@src/components/fields/PasswordField";
 import ErrorMessage from "../ErrorMessage";
 
-const SignupView: FC<ViewComponentProps> = ({
+interface SignupViewProps extends ViewComponentProps {
+  disclaimer?: ReactElement;
+}
+
+const SignupView: FC<SignupViewProps> = ({
   options,
   data,
   loading,
   error,
   next,
   reset,
+  disclaimer,
 }) => {
   const validationSchema = yup.object({
     firstName: yup.string().required("First name is required"),
@@ -38,16 +45,16 @@ const SignupView: FC<ViewComponentProps> = ({
     },
   });
 
+  const resetLabel = data.invite ? "Cancel" : options.resetLabel;
+
   return (
     <Stack gap={2}>
-      <Stack>
-        <Typography variant="h6" mb={3}>
-          Signup
-        </Typography>
-        {options.showEmail && (
-          <Typography variant="body2">{data.email}</Typography>
-        )}
-      </Stack>
+      <Typography variant="h6" mb={1}>
+        Signup
+      </Typography>
+      <Typography variant="body2" sx={{ wordBreak: "break-word" }}>
+        Create an account with {data.email}
+      </Typography>
       <form onSubmit={formik.handleSubmit}>
         <TextField
           fullWidth
@@ -70,18 +77,15 @@ const SignupView: FC<ViewComponentProps> = ({
           helperText={formik.touched.lastName && formik.errors.lastName}
           sx={{ marginTop: 1 }}
         />
-        <TextField
-          fullWidth
-          id="password"
-          name="password"
-          label="Password"
-          type="password"
-          value={formik.values.password}
-          onChange={formik.handleChange}
-          error={formik.touched.password && Boolean(formik.errors.password)}
-          helperText={formik.touched.password && formik.errors.password}
-          sx={{ marginTop: 1 }}
-        />
+        <Box sx={{ mt: 1 }}>
+          <PasswordField
+            name="password"
+            label="Password"
+            formik={formik}
+            policy={data.passwordPolicy}
+          />
+        </Box>
+        {disclaimer && <>{disclaimer}</>}
         {error && <ErrorMessage response={error} />}
         <Stack direction="row" gap={2} mt={2}>
           <Button
@@ -92,17 +96,17 @@ const SignupView: FC<ViewComponentProps> = ({
             disabled={loading}
           >
             Create account
-            {/* {options.submitLabel} */}
           </Button>
         </Stack>
-        <Stack direction="row" justifyContent="center" gap={2} mt={2}>
-          {options.showReset && (
-            <Button variant="text" onClick={reset}>
-              {options.resetLabel}
-            </Button>
-          )}
-        </Stack>
       </form>
+      {data.invite && <SocialOptions data={data} options={options} />}
+      {(options.showReset || data.invite) && (
+        <Stack direction="row" justifyContent="center" gap={2} mt={2}>
+          <Button variant="text" onClick={reset}>
+            {resetLabel}
+          </Button>
+        </Stack>
+      )}
     </Stack>
   );
 };
