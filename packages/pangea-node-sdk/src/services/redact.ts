@@ -39,9 +39,7 @@ class RedactService extends BaseService {
       text: text,
     };
 
-    if (options?.debug) input.debug = options.debug;
-    if (options?.rules) input.rules = options.rules;
-
+    Object.assign(input, options);
     return this.post("redact", input);
   }
 
@@ -74,11 +72,7 @@ class RedactService extends BaseService {
       data: data,
     };
 
-    if (options?.debug) input.debug = options.debug;
-    if (options?.rules) input.rules = options.rules;
-    if (options?.jsonp) input.jsonp = options.jsonp;
-    if (options?.format) input.format = options.format;
-
+    Object.assign(input, options);
     return this.post("redact_structured", input);
   }
 }

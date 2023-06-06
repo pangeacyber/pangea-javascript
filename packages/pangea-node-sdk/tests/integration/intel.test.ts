@@ -1,6 +1,6 @@
 import PangeaConfig from "../../src/config";
 import { it, expect, jest } from "@jest/globals";
-import { TestEnvironment, getTestDomain, getTestToken } from "../../src/utils/utils";
+import { TestEnvironment, getHashPrefix, getTestDomain, getTestToken } from "../../src/utils/utils";
 import {
   FileIntelService,
   DomainIntelService,
@@ -9,6 +9,7 @@ import {
   UserIntelService,
 } from "../../src";
 import { Intel } from "../../src/types";
+import { hashSHA256 } from "../../src/utils/utils";
 
 const testEnvironment = TestEnvironment.LIVE;
 
@@ -200,6 +201,7 @@ it("User breached by username should succeed", async () => {
   expect(response.result.data.breach_count).toBeGreaterThan(0);
 });
 
+jest.setTimeout(10000);
 it("User breached by ip should succeed", async () => {
   const request = { ip: "192.168.140.37", provider: "spycloud", verbose: true, raw: true };
   const response = await userIntel.userBreached(request);
@@ -238,4 +240,21 @@ it("User password breached with default provider should succeed", async () => {
   expect(response.result.data).toBeDefined();
   expect(response.result.data.found_in_breach).toBe(true);
   expect(response.result.data.breach_count).toBeGreaterThan(0);
+});
+
+it("User password breached complete workflow", async () => {
+  const password = "admin123";
+  const hash = hashSHA256(password);
+  const hashPrefix = getHashPrefix(hash);
+
+  const options = { verbose: true, raw: true };
+  const response = await userIntel.passwordBreached(Intel.HashType.SHA256, hashPrefix, options);
+
+  expect(response.status).toBe("Success");
+  expect(response.result.data).toBeDefined();
+  expect(response.result.data.found_in_breach).toBe(true);
+  expect(response.result.data.breach_count).toBeGreaterThan(0);
+
+  const status = UserIntelService.isPasswordBreached(response, hash);
+  expect(status).toBe(Intel.User.Password.PasswordStatus.BREACHED);
 });
