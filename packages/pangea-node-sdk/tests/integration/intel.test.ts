@@ -387,7 +387,7 @@ it("File Scan async and poll result", async () => {
   }
 
   // Wait until result could be ready
-  await delay(60 * 1000);
+  await delay(120 * 1000);
   const request_id = exception?.request_id || "";
   const response = await fileScan.pollResult(request_id);
   expect(response.status).toBe("Success");
