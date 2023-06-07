@@ -66,17 +66,17 @@ const VerifyPasswordView: FC<ViewComponentProps> = ({
             Sign in
           </Button>
         </Stack>
-        <Stack direction="row" justifyContent="center" gap={2} mt={2}>
-          <Button variant="text" onClick={resetPassword}>
-            Forgot your password?
-          </Button>
-          {options.showReset && (
-            <Button variant="text" onClick={reset}>
-              {options.resetLabel}
-            </Button>
-          )}
-        </Stack>
       </form>
+      <Stack direction="row" justifyContent="center" gap={2}>
+        <Button variant="text" onClick={resetPassword}>
+          Forgot your password?
+        </Button>
+        {options.showReset && (
+          <Button variant="text" onClick={reset}>
+            {options.resetLabel}
+          </Button>
+        )}
+      </Stack>
     </Stack>
   );
 };

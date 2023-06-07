@@ -32,7 +32,7 @@ const VerifyEmailView: FC<ViewComponentProps> = ({
         An email message has been sent to {data.email}.
       </Typography>
       {error && <ErrorMessage response={error} />}
-      <Stack direction="row" justifyContent="center" gap={2} mt={2}>
+      <Stack direction="row" justifyContent="center" gap={2}>
         <Button variant="text" onClick={resendEmail} disabled={loading}>
           Resend Email
         </Button>

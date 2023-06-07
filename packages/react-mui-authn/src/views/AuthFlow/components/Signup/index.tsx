@@ -8,7 +8,9 @@ import { FlowStep } from "@pangeacyber/react-auth";
 import { ViewComponentProps } from "@src/views/AuthFlow/types";
 import SocialOptions from "@src/views/AuthFlow/components/common/SocialOptions";
 import Button from "@src/components/core/Button";
-import PasswordField from "@src/components/fields/PasswordField";
+import PasswordField, {
+  checkPassword,
+} from "@src/components/fields/PasswordField";
 import ErrorMessage from "../ErrorMessage";
 
 interface SignupViewProps extends ViewComponentProps {
@@ -25,9 +27,16 @@ const SignupView: FC<SignupViewProps> = ({
   disclaimer,
 }) => {
   const validationSchema = yup.object({
-    firstName: yup.string().required("First name is required"),
-    lastName: yup.string().required("First name is required"),
-    password: yup.string().min(8, "Must be at least 8 characters"),
+    firstName: yup.string().required("Required"),
+    lastName: yup.string().required("Required"),
+    password: yup
+      .string()
+      .required("Required")
+      .test(
+        "password-requirements",
+        "Password must meet requirements",
+        checkPassword
+      ),
   });
 
   const formik = useFormik({
@@ -101,7 +110,7 @@ const SignupView: FC<SignupViewProps> = ({
       </form>
       {data.invite && <SocialOptions data={data} options={options} />}
       {(options.showReset || data.invite) && (
-        <Stack direction="row" justifyContent="center" gap={2} mt={2}>
+        <Stack direction="row" justifyContent="center" gap={2}>
           <Button variant="text" onClick={reset}>
             {resetLabel}
           </Button>

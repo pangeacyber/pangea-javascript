@@ -36,7 +36,7 @@ const VerifyCaptchaView: FC<ViewComponentProps> = ({
       />
       {error && <ErrorMessage response={error} />}
       {options.showReset && (
-        <Stack direction="row" justifyContent="center" gap={2} mt={2}>
+        <Stack direction="row" justifyContent="center" gap={2}>
           <Button color="primary" variant="text" onClick={reset}>
             {options.resetLabel}
           </Button>

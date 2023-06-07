@@ -1,8 +1,7 @@
 import { FC } from "react";
 import { useFormik } from "formik";
 import * as yup from "yup";
-import { Box, Stack, TextField, Typography } from "@mui/material";
-import { useTheme } from "@mui/material/styles";
+import { Stack, TextField, Typography } from "@mui/material";
 
 import { FlowStep } from "@pangeacyber/react-auth";
 
@@ -11,11 +10,6 @@ import SocialOptions from "@src/views/AuthFlow/components/common/SocialOptions";
 import Button from "@src/components/core/Button";
 import ErrorMessage from "../ErrorMessage";
 
-interface Provider {
-  provider: string;
-  redirect_uri: string;
-}
-
 const StartView: FC<ViewComponentProps> = ({
   options,
   data,
@@ -23,12 +17,8 @@ const StartView: FC<ViewComponentProps> = ({
   error,
   next,
 }) => {
-  const theme = useTheme();
   const validationSchema = yup.object({
-    email: yup
-      .string()
-      .email("Enter a valid email")
-      .required("Email is required"),
+    email: yup.string().email("Enter a valid email").required("Required"),
   });
 
   const formik = useFormik({
@@ -44,6 +34,20 @@ const StartView: FC<ViewComponentProps> = ({
     },
   });
 
+  if (loading) {
+    return (
+      <Stack
+        alignItems="center"
+        justifyContent="center"
+        sx={{ minHeight: "200px" }}
+      >
+        <Typography variant="body2" textAlign="center">
+          Initializing...
+        </Typography>
+      </Stack>
+    );
+  }
+
   return (
     <Stack gap={2}>
       <Typography variant="h6" mb={1}>
@@ -56,6 +60,8 @@ const StartView: FC<ViewComponentProps> = ({
             id="email"
             name="email"
             label="Email"
+            autoCapitalize="none"
+            autoCorrect="off"
             value={formik.values.email}
             onChange={formik.handleChange}
             error={formik.touched.email && Boolean(formik.errors.email)}
