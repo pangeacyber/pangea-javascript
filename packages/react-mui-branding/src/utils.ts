@@ -29,6 +29,9 @@ export const getBrandingThemeOptions = (
         fontSize: config?.body_font_size,
         fontWeight: config?.body_font_weight,
       },
+      overline: {
+        fontWeight: "500", /// TODO: Should this been a setting?
+      },
     },
     components: {
       MuiButton: {
@@ -43,6 +46,11 @@ export const getBrandingThemeOptions = (
               color: config?.text_contrast_color,
               backgroundColor: config?.primary_color,
               opacity: "0.75",
+            },
+          },
+          text: {
+            "&:hover": {
+              backgroundColor: "transparent",
             },
           },
         },
@@ -67,6 +75,10 @@ export const getBrandingThemeOptions = (
           root: {
             label: {
               color: config?.input_text_color,
+            },
+            input: {
+              fontSize: config?.body_font_size,
+              fontWeight: config?.body_font_weight,
             },
           },
         },
@@ -212,6 +224,10 @@ export const getBrandingThemeOptions = (
         secondary: getColor(config?.text_secondary_color),
       },
       divider: config?.text_secondary_color,
+      background: {
+        default: getColor(config?.bg_color),
+        paper: getColor(config?.panel_bg_color),
+      },
     },
   };
 
