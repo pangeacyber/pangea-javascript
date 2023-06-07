@@ -22,7 +22,7 @@ export const getProviderIcon = (provider: string) => {
   }
 };
 
-export const getProviderLabel = (provider: string) => {
+export const getProviderLabel = (provider: string): string => {
   switch (provider) {
     case "google":
       return "Google";
@@ -36,5 +36,17 @@ export const getProviderLabel = (provider: string) => {
       return "WebAuthn";
     default:
       return provider;
+  }
+};
+
+export const getOtpTitle = (provider: string): string => {
+  if (provider === "sms_otp") {
+    return "SMS";
+  } else if (provider === "email_otp") {
+    return "Email";
+  } else if (provider === "totp") {
+    return "Authenticator App";
+  } else {
+    return provider;
   }
 };

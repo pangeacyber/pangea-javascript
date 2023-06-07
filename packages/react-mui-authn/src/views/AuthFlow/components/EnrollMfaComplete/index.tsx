@@ -9,6 +9,7 @@ import { ViewComponentProps } from "@src/views/AuthFlow/types";
 import CodeField from "@src/components/fields/CodeField";
 import Button from "@src/components/core/Button";
 import ErrorMessage from "../ErrorMessage";
+import { getOtpTitle } from "@src/views/AuthFlow/utils";
 
 const EnrollMfaCompleteView: FC<ViewComponentProps> = ({
   options,
@@ -72,10 +73,10 @@ const EnrollMfaCompleteView: FC<ViewComponentProps> = ({
 
   return (
     <Stack gap={2}>
-      <Stack>
-        <Typography variant="h6" mb={1}>
-          Enroll MFA
-        </Typography>
+      <Typography variant="h6">
+        Enroll {getOtpTitle(data?.selectedMfa)} MFA
+      </Typography>
+      <Stack gap={1}>
         <Typography component="div" variant="body2">
           {mfaEnrollContent(data?.selectedMfa || "")}
         </Typography>
@@ -86,15 +87,15 @@ const EnrollMfaCompleteView: FC<ViewComponentProps> = ({
         )}
       </Stack>
       <form onSubmit={formik.handleSubmit}>
-        <CodeField
-          name="code"
-          formik={formik}
-          field={{
-            label: "Code",
-          }}
-        />
-        {error && <ErrorMessage response={error} />}
-        <Stack direction="row" gap={2} mt={2}>
+        <Stack gap={1}>
+          <CodeField
+            name="code"
+            formik={formik}
+            field={{
+              label: "Code",
+            }}
+          />
+          {error && <ErrorMessage response={error} />}
           <Button
             color="primary"
             variant="contained"
@@ -105,19 +106,23 @@ const EnrollMfaCompleteView: FC<ViewComponentProps> = ({
             {options.submitLabel}
           </Button>
         </Stack>
-        <Stack direction="row" justifyContent="center" gap={2}>
-          {data?.mfaProviders && data?.mfaProviders?.length > 1 && (
-            <Button variant="text" onClick={selectMfaMethod}>
-              Choose another MFA method
-            </Button>
-          )}
-          {options.showReset && (
-            <Button variant="text" onClick={reset}>
-              {options.resetLabel}
-            </Button>
-          )}
-        </Stack>
       </form>
+      <Stack
+        direction={{ xs: "column", sm: "row" }}
+        justifyContent="center"
+        gap={{ xs: 0, sm: 1 }}
+      >
+        {data?.mfaProviders && data?.mfaProviders?.length > 1 && (
+          <Button variant="text" onClick={selectMfaMethod}>
+            Choose another MFA method
+          </Button>
+        )}
+        {options.showReset && (
+          <Button variant="text" onClick={reset}>
+            {options.resetLabel}
+          </Button>
+        )}
+      </Stack>
     </Stack>
   );
 };

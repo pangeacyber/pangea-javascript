@@ -15,40 +15,52 @@ const VerifySocialView: FC<ViewComponentProps> = ({ options, data, reset }) => {
 
   return (
     <Stack gap={2}>
-      <Typography variant="h6" mb={1}>
-        Login with Social Authentication
-      </Typography>
-      <Box>
-        <Typography variant="body2" component="span">
-          The email
-        </Typography>{" "}
-        <Typography variant="body2" component="span" sx={{ fontWeight: "400" }}>
-          {data.email}
-        </Typography>{" "}
-        <Typography variant="body2" component="span">
-          is registered with
-        </Typography>{" "}
-        <Typography variant="body2" component="span" sx={{ fontWeight: "400" }}>
-          {getProviderLabel(providerName)}.
-        </Typography>
-      </Box>
-      <Button
-        variant="contained"
-        color="secondary"
-        fullWidth={true}
-        onClick={() => {
-          socialLogin(redirectUri);
-        }}
+      <Typography variant="h6">Login with Social Authentication</Typography>
+      <Stack gap={1}>
+        <Box>
+          <Typography variant="body2" component="span">
+            The email
+          </Typography>{" "}
+          <Typography
+            variant="body2"
+            component="span"
+            sx={{ fontWeight: "400" }}
+          >
+            {data.email}
+          </Typography>{" "}
+          <Typography variant="body2" component="span">
+            is registered with
+          </Typography>{" "}
+          <Typography
+            variant="body2"
+            component="span"
+            sx={{ fontWeight: "400" }}
+          >
+            {getProviderLabel(providerName)}.
+          </Typography>
+        </Box>
+        <Button
+          variant="contained"
+          color="secondary"
+          fullWidth={true}
+          onClick={() => {
+            socialLogin(redirectUri);
+          }}
+        >
+          {options.showSocialIcons && (
+            <>
+              {getProviderIcon(providerName)}
+              <Box component="span" sx={{ marginRight: 1 }} />
+            </>
+          )}
+          Continue with {getProviderLabel(providerName)}
+        </Button>
+      </Stack>
+      <Stack
+        direction={{ xs: "column", sm: "row" }}
+        justifyContent="center"
+        gap={{ xs: 0, sm: 1 }}
       >
-        {options.showSocialIcons && (
-          <>
-            {getProviderIcon(providerName)}
-            <Box component="span" sx={{ marginRight: 1 }} />
-          </>
-        )}
-        Continue with {getProviderLabel(providerName)}
-      </Button>
-      <Stack direction="row" justifyContent="center" gap={2}>
         {options.showReset && (
           <Button variant="text" onClick={reset}>
             {options.resetLabel}

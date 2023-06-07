@@ -23,16 +23,38 @@ const VerifyEmailView: FC<ViewComponentProps> = ({
     });
   };
 
+  const checkFlow = () => {
+    // TODO: Update once AuthNClient is updated
+    // next(FlowStep.FLOW_GET);
+  };
+
   return (
     <Stack gap={2}>
-      <Typography variant="h6" mb={1}>
-        Verify your email
-      </Typography>
-      <Typography variant="body2">
-        An email message has been sent to {data.email}.
-      </Typography>
-      {error && <ErrorMessage response={error} />}
-      <Stack direction="row" justifyContent="center" gap={2}>
+      <Typography variant="h6">Verify your email</Typography>
+      <Stack gap={1}>
+        <Typography variant="body2">
+          An email message has been sent to {data.email}, click the link in the
+          message to continue.
+        </Typography>
+        <Typography variant="body2">
+          If you open the link in a different browser, return here and click the
+          button below.
+        </Typography>
+        {error && <ErrorMessage response={error} />}
+        <Button
+          variant="contained"
+          color="primary"
+          onClick={checkFlow}
+          disabled={loading}
+        >
+          Verification Complete
+        </Button>
+      </Stack>
+      <Stack
+        direction={{ xs: "column", sm: "row" }}
+        justifyContent="center"
+        gap={{ xs: 0, sm: 1 }}
+      >
         <Button variant="text" onClick={resendEmail} disabled={loading}>
           Resend Email
         </Button>

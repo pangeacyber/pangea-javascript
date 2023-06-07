@@ -1,4 +1,4 @@
-import { FC } from "react";
+import { FC, ReactElement } from "react";
 import { useFormik } from "formik";
 import * as yup from "yup";
 import { Stack, TextField, Typography } from "@mui/material";
@@ -10,12 +10,17 @@ import SocialOptions from "@src/views/AuthFlow/components/common/SocialOptions";
 import Button from "@src/components/core/Button";
 import ErrorMessage from "../ErrorMessage";
 
-const StartView: FC<ViewComponentProps> = ({
+interface StartViewProps extends ViewComponentProps {
+  disclaimer?: ReactElement;
+}
+
+const StartView: FC<StartViewProps> = ({
   options,
   data,
   loading,
   error,
   next,
+  disclaimer,
 }) => {
   const validationSchema = yup.object({
     email: yup.string().email("Enter a valid email").required("Required"),
@@ -41,34 +46,41 @@ const StartView: FC<ViewComponentProps> = ({
         justifyContent="center"
         sx={{ minHeight: "200px" }}
       >
-        <Typography variant="body2" textAlign="center">
-          Initializing...
-        </Typography>
+        <Typography variant="body2">Initializing...</Typography>
+      </Stack>
+    );
+  } else if (!data.passwordSignup && !(data.socialSignup?.length > 0)) {
+    return (
+      <Stack
+        alignItems="center"
+        justifyContent="center"
+        sx={{ minHeight: "200px" }}
+      >
+        <Typography variant="body2">Initializing...</Typography>
       </Stack>
     );
   }
 
   return (
     <Stack gap={2}>
-      <Typography variant="h6" mb={1}>
-        Log in or Sign up
-      </Typography>
+      <Typography variant="h6">Log in or Sign up</Typography>
       {data.passwordSignup && (
         <form onSubmit={formik.handleSubmit}>
-          <TextField
-            fullWidth
-            id="email"
-            name="email"
-            label="Email"
-            autoCapitalize="none"
-            autoCorrect="off"
-            value={formik.values.email}
-            onChange={formik.handleChange}
-            error={formik.touched.email && Boolean(formik.errors.email)}
-            helperText={formik.touched.email && formik.errors.email}
-          />
-          {error && <ErrorMessage response={error} />}
-          <Stack direction="row" gap={2} mt={2}>
+          <Stack gap={1}>
+            <TextField
+              fullWidth
+              id="email"
+              name="email"
+              label="Email"
+              autoCapitalize="none"
+              autoCorrect="off"
+              value={formik.values.email}
+              onChange={formik.handleChange}
+              error={formik.touched.email && Boolean(formik.errors.email)}
+              helperText={formik.touched.email && formik.errors.email}
+            />
+            {error && <ErrorMessage response={error} />}
+
             <Button
               color="primary"
               variant="contained"
@@ -82,6 +94,7 @@ const StartView: FC<ViewComponentProps> = ({
         </form>
       )}
       <SocialOptions data={data} options={options} />
+      {disclaimer && <>{disclaimer}</>}
     </Stack>
   );
 };
