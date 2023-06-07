@@ -37,7 +37,7 @@ const ErrorMessage: FC<Props> = ({ response }) => {
     );
 
   return (
-    <Stack mt={2} textAlign="center" className="flow-errors">
+    <Stack textAlign="center" className="flow-errors">
       {errorContent}
     </Stack>
   );

@@ -1,4 +1,4 @@
-import { FC } from "react";
+import { FC, useEffect, useState } from "react";
 import { useFormik } from "formik";
 import * as yup from "yup";
 import { Box, Stack, TextField, Typography } from "@mui/material";
@@ -13,14 +13,13 @@ import PasswordField, {
 } from "@src/components/fields/PasswordField";
 
 const ResetPasswordView: FC<ViewComponentProps> = ({
-  options,
   data,
   loading,
   error,
-  cbParams,
   next,
   reset,
 }) => {
+  const [status, setStatus] = useState<any>();
   const validationSchema = yup.object({
     password: yup
       .string()
@@ -49,25 +48,30 @@ const ResetPasswordView: FC<ViewComponentProps> = ({
     next(FlowStep.RESET_PASSWORD, { cancel: true });
   };
 
+  useEffect(() => {
+    setStatus(error);
+  }, [error]);
+
   return (
     <Stack gap={2}>
       <Stack>
-        <Typography variant="h6" mb={4}>
-          Reset Password
-        </Typography>
+        <Typography variant="h6">Reset Password</Typography>
         <Typography variant="body2">{data.email}</Typography>
       </Stack>
-      <form onSubmit={formik.handleSubmit}>
-        <Box sx={{ mt: 1 }}>
+      <form
+        onSubmit={formik.handleSubmit}
+        onFocus={() => {
+          setStatus(undefined);
+        }}
+      >
+        <Stack gap={1}>
           <PasswordField
             name="password"
             label="Password"
             formik={formik}
             policy={data.passwordPolicy}
           />
-        </Box>
-        {error && <ErrorMessage response={error} />}
-        <Stack direction="row" gap={2} mt={2}>
+          {error && <ErrorMessage response={error} />}
           <Button
             color="primary"
             variant="contained"
@@ -78,15 +82,19 @@ const ResetPasswordView: FC<ViewComponentProps> = ({
             Submit
           </Button>
         </Stack>
-        <Stack direction="row" justifyContent="center" gap={2}>
-          <Button variant="text" onClick={cancelReset}>
-            Cancel Reset
-          </Button>
-          <Button variant="text" onClick={reset}>
-            Start Over
-          </Button>
-        </Stack>
       </form>
+      <Stack
+        direction={{ xs: "column", sm: "row" }}
+        justifyContent="center"
+        gap={{ xs: 0, sm: 1 }}
+      >
+        <Button variant="text" onClick={cancelReset}>
+          Cancel Reset
+        </Button>
+        <Button variant="text" onClick={reset}>
+          Start Over
+        </Button>
+      </Stack>
     </Stack>
   );
 };
