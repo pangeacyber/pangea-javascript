@@ -8,7 +8,9 @@ import { FlowStep } from "@pangeacyber/react-auth";
 import { ViewComponentProps } from "@src/views/AuthFlow/types";
 import Button from "@src/components/core/Button";
 import ErrorMessage from "../ErrorMessage";
-import PasswordField from "@src/components/fields/PasswordField";
+import PasswordField, {
+  checkPassword,
+} from "@src/components/fields/PasswordField";
 
 const ResetPasswordView: FC<ViewComponentProps> = ({
   options,
@@ -20,7 +22,14 @@ const ResetPasswordView: FC<ViewComponentProps> = ({
   reset,
 }) => {
   const validationSchema = yup.object({
-    password: yup.string().min(8, "Must be at least 8 characters"),
+    password: yup
+      .string()
+      .required("Required")
+      .test(
+        "password-requirements",
+        "Password must meet requirements",
+        checkPassword
+      ),
   });
 
   const formik = useFormik({
@@ -39,32 +48,6 @@ const ResetPasswordView: FC<ViewComponentProps> = ({
   const cancelReset = () => {
     next(FlowStep.RESET_PASSWORD, { cancel: true });
   };
-
-  // TODO: This should be a separate flow state
-  if (!cbParams) {
-    return (
-      <Stack gap={2}>
-        <Typography variant="h6" mb={1}>
-          Reset Password
-        </Typography>
-        <Typography variant="body2">
-          An email message has been sent {data.email}, click the link to reset
-          your password.
-        </Typography>
-        {error && <ErrorMessage response={error} />}
-        <Stack direction="row" justifyContent="center" gap={2} mt={2}>
-          <Button variant="text" onClick={cancelReset}>
-            Cancel Reset
-          </Button>
-          {options.showReset && (
-            <Button variant="text" onClick={reset}>
-              {options.resetLabel}
-            </Button>
-          )}
-        </Stack>
-      </Stack>
-    );
-  }
 
   return (
     <Stack gap={2}>
@@ -95,7 +78,7 @@ const ResetPasswordView: FC<ViewComponentProps> = ({
             Submit
           </Button>
         </Stack>
-        <Stack direction="row" justifyContent="center" gap={2} mt={2}>
+        <Stack direction="row" justifyContent="center" gap={2}>
           <Button variant="text" onClick={cancelReset}>
             Cancel Reset
           </Button>

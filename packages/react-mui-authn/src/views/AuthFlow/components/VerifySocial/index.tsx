@@ -48,7 +48,7 @@ const VerifySocialView: FC<ViewComponentProps> = ({ options, data, reset }) => {
         )}
         Continue with {getProviderLabel(providerName)}
       </Button>
-      <Stack direction="row" justifyContent="center" gap={2} mt={2}>
+      <Stack direction="row" justifyContent="center" gap={2}>
         {options.showReset && (
           <Button variant="text" onClick={reset}>
             {options.resetLabel}

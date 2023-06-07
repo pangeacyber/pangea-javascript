@@ -105,7 +105,7 @@ const EnrollMfaCompleteView: FC<ViewComponentProps> = ({
             {options.submitLabel}
           </Button>
         </Stack>
-        <Stack direction="row" justifyContent="center" gap={2} mt={2}>
+        <Stack direction="row" justifyContent="center" gap={2}>
           {data?.mfaProviders && data?.mfaProviders?.length > 1 && (
             <Button variant="text" onClick={selectMfaMethod}>
               Choose another MFA method
