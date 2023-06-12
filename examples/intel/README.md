@@ -1,12 +1,8 @@
 # Pangea Intel Services Examples
 
-Setup
+## Setup
 
-```
-% npm install
-% export PANGEA_INTEL_TOKEN=<PANGEA-DOMAIN-INTEL-TOKEN>
-% export PANGEA_DOMAIN="aws.us.pangea.cloud"    // Check this url in your project config page
-```
+Set up environment variables ([Instructions](https://pangea.cloud/docs/getting-started/integrate/#set-environment-variables)) `PANGEA_INTEL_TOKEN` and `PANGEA_DOMAIN` with your project token configured on Pangea User Console (token should have access to Intel services [Instructions](https://pangea.cloud/docs/getting-started/configure-services/#configure-a-pangea-service)) and with your pangea domain.
 
 Run examples
 

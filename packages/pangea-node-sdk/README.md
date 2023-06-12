@@ -31,43 +31,13 @@ npm install pangea-node-sdk
 
 ## Usage
 
-Check our interactive guide on https://pangea.cloud/docs/getting-started/integrate/
+For samples apps look at [/examples](https://github.com/pangeacyber/pangea-javascript/tree/main/examples) folder in this repository. There you will find basic samples apps for each services supported on this SDK. Each service folder has a README.md with intructions to install, setup and run.
 
-```js
-import { PangeaConfig, AuditService } from "pangea-node-sdk";
+## Reporting issues and new features
 
-const domain = process.env.PANGEA_DOMAIN;
-const token = process.env.PANGEA_TOKEN;
-const config = new PangeaConfig({ domain: domain });
-const audit = new AuditService(token, config);
-
-// log an audit event
-const data = {
-  actor: "user@mail.com",
-  action: "update",
-  status: "success",
-  message: "delete record",
-};
-const logResponse = await audit.log(data);
-
-// search an audit log
-const searchResponse = await audit.search("message:delete", {
-  limit: 10,
-  verify: true,
-});
-
-searchResponse.result.events.forEach((row) => {
-  console.log(
-    row.event.received_at,
-    row.event.actor,
-    row.event.action,
-    row.event.status,
-    row.event.message,
-    row.event.membership_proof,
-    row.event.consistency_proof
-  );
-});
-```
+If faced some issue using or testing this SDK or a new feature request feel free to open an issue [clicking here](https://github.com/pangeacyber/pangea-javascript/issues).
+We would need you to provide some basic information like what SDK's version you are using, stack trace if you got it, framework used, and steps to reproduce the issue.
+Also feel free to contact [Pangea support](mailto:support@pangea.cloud) by email or send us a message on [Slack](https://pangea.cloud/join-slack/)
 
 ## Contributing
 
@@ -77,31 +47,6 @@ Future support is incoming.
 To install our linters, simply run `./dev/setup_repo.sh`
 These linters will run on every `git commit` operation.
 
-## Generate SDK Documentation
+### Send a PR
 
-### Overview
-
-Throughout the SDK, there are jsdoc strings that serve as the source of our SDK docs.
-
-The documentation pipeline here looks like:
-
-1. Write jsdoc strings throughout your code. Please refer to existing jsdoc strings as an example of what and how to document.
-1. Make your pull request.
-1. After the pull request is merged, go ahead and run `yarn generate:docs` to generate the JSON docs uses for rendering.
-1. Copy the contents of the file `docs.json` and overwrite the existing `js_sdk.json` file in the docs repo. File is located in `platform/docs/sdk/js_sdk.json` in the Pangea monorepo. Save this and make a merge request to update the Python SDK docs in the Pangea monorepo.
-
-### Running the autogen sdk doc script
-
-Make sure you have all the dependencies installed. From the root of the `node-pangea` repo run:
-
-```shell
-yarn install
-```
-
-Now run the script
-
-```shell
-yarn run generate:docs
-```
-
-That will output a new file: `docs.json` at the root of the Node.js SDK repo.
+If you would like to [send a PR](https://github.com/pangeacyber/pangea-javascript/pulls) including a new feature or fixing a bug in code or an error in documents we will really appreciate it and after review and approval you will be included in our [contributors list](./CONTRIBUTING.md)
