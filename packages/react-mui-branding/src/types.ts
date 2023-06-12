@@ -19,7 +19,7 @@ export namespace Branding {
   }
 
   export interface AuthBrandingConfig {
-    authn_show_name: boolean;
+    authn_show_name: "yes" | "no"; // FIXME: This should be a boolean
     authn_show_social_icons: boolean;
     login_heading: string;
     login_button_label: string;

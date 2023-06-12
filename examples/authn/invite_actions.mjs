@@ -1,6 +1,6 @@
 /* eslint-disable no-console */
 
-import { PangeaConfig, AuthNService, PangeaErrors } from "pangea-node-sdk";
+import { PangeaConfig, AuthNService, PangeaErrors, AuthN } from "pangea-node-sdk";
 
 const token = process.env.PANGEA_AUTHN_TOKEN;
 const config = new PangeaConfig({ domain: process.env.PANGEA_DOMAIN });
