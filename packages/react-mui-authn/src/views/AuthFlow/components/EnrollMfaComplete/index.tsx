@@ -50,8 +50,9 @@ const EnrollMfaCompleteView: FC<ViewComponentProps> = ({
     code: yup
       .string()
       .required("Code is required")
-      .matches(/^[0-9]+$/, "Must be only digits")
-      .length(6, "Code must be 6 digits"),
+      .matches(/^[0-9]+$/, "Must be only digits"),
+    // Skip checking length validation. As it is auto-check by enforcing 6 input boxes
+    // .length(6, "Code must be 6 digits"),
   });
 
   const formik = useFormik({

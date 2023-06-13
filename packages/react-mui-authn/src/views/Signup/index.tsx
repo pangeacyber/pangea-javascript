@@ -22,7 +22,7 @@ const SignupView: FC<SignupViewComponentProps> = ({
     <AuthNPanel
       logoUrl={config?.brand_page_logo}
       logoHeight={config?.brand_logo_height}
-      brandName={config?.authn_show_name ? config?.brand_name : ""}
+      brandName={config?.authn_show_name === "yes" ? config?.brand_name : ""}
       bgColor={config?.bg_color}
       bgImage={config?.bg_image}
       density={config?.density}

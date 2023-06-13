@@ -114,10 +114,11 @@ const VerificationModal: FC<VerificationModalProps> = ({
     ]),
   };
 
-  const verificationArtifacts = () => {
+  const verificationArtifacts = (isEmbedded: boolean = false) => {
     // Replacing \\n is for the public_key which is embed
     // inside a dictionary that is expressed as a string...
 
+    if (!isEmbedded) return JSON.stringify(artifacts);
     return JSON.stringify(artifacts)
       .replace(/'/g, "\\'")
       .replace(/\\"/g, '\\\\"')
@@ -125,7 +126,9 @@ const VerificationModal: FC<VerificationModalProps> = ({
   };
 
   const verificationCmd = () => {
-    return `echo $'${verificationArtifacts()}' | python -m pangea.verify_audit`;
+    return `echo $'${verificationArtifacts(
+      true
+    )}' | python -m pangea.verify_audit`;
   };
 
   return (
