@@ -85,8 +85,8 @@ export const getSessionTokenValues = (options: AuthOptions) => {
 
   const data: SessionData = getSessionData(options);
   return [
-    data?.user?.refresh_token?.token || "",
-    data?.user?.refresh_token?.expire || "",
+    data?.user?.active_token?.token || "",
+    data?.user?.active_token?.expire || "",
   ];
 };
 
@@ -118,7 +118,8 @@ export const getTokenFromCookie = (name: string): string => {
   Token refresh functions
 */
 
-// Get the expire value of the session token, from cookie or storage
+// Get the expire value of the user session token, from cookie or storage
+// Check the user token expiration as we need to be able to refresh it
 export const getTokenExpire = (options: AuthOptions) => {
   if (options.useCookie) {
     const [_, expire] = getTokenCookieFields(options.cookieName as string);
@@ -126,7 +127,7 @@ export const getTokenExpire = (options: AuthOptions) => {
   } else {
     const sessionData: SessionData = getSessionData(options);
     const user: AuthUser | undefined = sessionData.user;
-    return user?.refresh_token?.expire || "";
+    return user?.active_token?.expire || "";
   }
 };
 
