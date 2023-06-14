@@ -143,6 +143,11 @@ export const ComponentAuthProvider: FC<ComponentAuthProviderProps> = ({
 
       if (success) {
         setLoggedOut();
+      } else if (
+        response?.status === "ExpiredToken" ||
+        response?.status === "InvalidToken"
+      ) {
+        setLoggedOut();
       } else {
         setError(response);
       }

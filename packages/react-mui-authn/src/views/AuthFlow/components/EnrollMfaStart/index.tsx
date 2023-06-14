@@ -34,7 +34,7 @@ const EnrollMfaStartView: FC<ViewComponentProps> = ({
     validationSchema: validationSchema,
     onSubmit: (values) => {
       const payload = {
-        mfaProvider: data.selectedMfa,
+        mfaProvider: "sms_otp",
         ...values,
       };
       next(FlowStep.ENROLL_MFA_START, payload);
@@ -48,26 +48,24 @@ const EnrollMfaStartView: FC<ViewComponentProps> = ({
   return (
     <Stack gap={2}>
       <Stack>
-        <Typography variant="h6" mb={1}>
-          Enroll a Phone Number for SMS 2FA
-        </Typography>
+        <Typography variant="h6">Enroll a Phone Number for SMS 2FA</Typography>
       </Stack>
       <form onSubmit={formik.handleSubmit}>
-        <TextField
-          fullWidth
-          id="phoneNumber"
-          name="phoneNumber"
-          label="Phone Number"
-          type="text"
-          value={formik.values.phoneNumber}
-          onChange={formik.handleChange}
-          error={
-            formik.touched.phoneNumber && Boolean(formik.errors.phoneNumber)
-          }
-          helperText={formik.touched.phoneNumber && formik.errors.phoneNumber}
-        />
-        {error && <ErrorMessage response={error} />}
-        <Stack direction="row" gap={2} mt={2}>
+        <Stack gap={1}>
+          <TextField
+            fullWidth
+            id="phoneNumber"
+            name="phoneNumber"
+            label="Phone Number"
+            type="text"
+            value={formik.values.phoneNumber}
+            onChange={formik.handleChange}
+            error={
+              formik.touched.phoneNumber && Boolean(formik.errors.phoneNumber)
+            }
+            helperText={formik.touched.phoneNumber && formik.errors.phoneNumber}
+          />
+          {error && <ErrorMessage response={error} />}
           <Button
             color="primary"
             variant="contained"
@@ -78,19 +76,23 @@ const EnrollMfaStartView: FC<ViewComponentProps> = ({
             {options.submitLabel}
           </Button>
         </Stack>
-        <Stack direction="row" justifyContent="center" gap={2} mt={2}>
-          {data?.mfaProviders && data?.mfaProviders?.length > 1 && (
-            <Button variant="text" onClick={selectMfaMethod}>
-              Choose another MFA method
-            </Button>
-          )}
-          {options.showReset && (
-            <Button variant="text" onClick={reset}>
-              {options.resetLabel}
-            </Button>
-          )}
-        </Stack>
       </form>
+      <Stack
+        direction={{ xs: "column", sm: "row" }}
+        justifyContent="center"
+        gap={{ xs: 0, sm: 1 }}
+      >
+        {data?.mfaProviders && data?.mfaProviders?.length > 1 && (
+          <Button variant="text" onClick={selectMfaMethod}>
+            Choose another MFA method
+          </Button>
+        )}
+        {options.showReset && (
+          <Button variant="text" onClick={reset}>
+            {options.resetLabel}
+          </Button>
+        )}
+      </Stack>
     </Stack>
   );
 };

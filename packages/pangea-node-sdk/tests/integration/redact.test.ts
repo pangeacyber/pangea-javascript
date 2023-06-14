@@ -15,7 +15,7 @@ it("redact a data string", async () => {
 
   const response = await redact.redact(data);
   expect(response.status).toBe("Success");
-  expect(response.result).toMatchObject(expected);
+  expect(response.result).toEqual(expected);
 });
 
 it("redact a data string without result", async () => {
@@ -24,7 +24,7 @@ it("redact a data string without result", async () => {
 
   const response = await redact.redact(data, { return_result: false });
   expect(response.status).toBe("Success");
-  expect(response.result).toMatchObject(expected);
+  expect(response.result).toEqual(expected);
 });
 
 it("redact a data object", async () => {
@@ -33,7 +33,7 @@ it("redact a data object", async () => {
 
   const response = await redact.redactStructured(data);
   expect(response.status).toBe("Success");
-  expect(response.result).toMatchObject(expected);
+  expect(response.result).toEqual(expected);
 });
 
 it("redact a data object without result", async () => {
@@ -42,7 +42,7 @@ it("redact a data object without result", async () => {
 
   const response = await redact.redactStructured(data, { return_result: false });
   expect(response.status).toBe("Success");
-  expect(response.result).toMatchObject(expected);
+  expect(response.result).toEqual(expected);
 });
 
 it("plain redact with object should fail", async () => {
@@ -51,10 +51,12 @@ it("plain redact with object should fail", async () => {
   try {
     // @ts-expect-error
     const response = await redact.redact(data);
+    expect(false).toBeTruthy();
   } catch (e) {
     expect(e).toBeInstanceOf(PangeaErrors.ValidationError);
     if (e instanceof PangeaErrors.ValidationError) {
       expect(e.errors.length).toBe(1);
+      expect(e.toString()).toBeDefined();
     }
   }
 });

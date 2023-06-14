@@ -27,17 +27,17 @@ const ErrorMessage: FC<Props> = ({ response }) => {
         })}
       </>
     ) : response.result?.error ? (
-      <Typography variant="body1" color="error">
+      <Typography variant="body2" color="error">
         {response.result.error}
       </Typography>
     ) : (
-      <Typography variant="body1" color="error">
+      <Typography variant="body2" color="error">
         {response.summary}
       </Typography>
     );
 
   return (
-    <Stack mt={2} className="flow-errors">
+    <Stack textAlign="center" className="flow-errors">
       {errorContent}
     </Stack>
   );

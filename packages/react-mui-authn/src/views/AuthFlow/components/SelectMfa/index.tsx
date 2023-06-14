@@ -17,17 +17,11 @@ const SelectMfaView: FC<ViewComponentProps> = ({
 }) => {
   const nextStep =
     step === FlowStep.ENROLL_MFA_SELECT
-      ? data.selectedMfa === "sms_otp"
-        ? FlowStep.ENROLL_MFA_START
-        : FlowStep.ENROLL_MFA_COMPLETE
-      : FlowStep.VERIFY_MFA_COMPLETE;
+      ? FlowStep.ENROLL_MFA_START
+      : FlowStep.VERIFY_MFA_START;
 
   const selectProvider = (provider: string) => {
-    if (data.cancelMfa) {
-      next(nextStep, { mfaProvider: provider, cancel: true });
-    } else {
-      next(FlowStep.ENROLL_MFA_START, { mfaProvider: provider });
-    }
+    next(nextStep, { mfaProvider: provider });
   };
 
   const selectMfaContent = (provider: string) => {
@@ -39,16 +33,14 @@ const SelectMfaView: FC<ViewComponentProps> = ({
       case "totp":
         return <p>Verify with an Authenticator App</p>;
       default:
-        return <p>Send a code by {provider}</p>;
+        return <p>Send a code via {provider}</p>;
     }
   };
 
   return (
     <Stack gap={2}>
-      <Typography variant="h6" mb={1}>
-        Select MFA method
-      </Typography>
-      <Stack gap={2}>
+      <Typography variant="h6">Select an MFA method</Typography>
+      <Stack gap={1}>
         {data.mfaProviders?.map((provider: string) => {
           return (
             <Button
@@ -61,10 +53,10 @@ const SelectMfaView: FC<ViewComponentProps> = ({
             </Button>
           );
         })}
+        {error && <ErrorMessage response={error} />}
       </Stack>
-      {error && <ErrorMessage response={error} />}
       {options.showReset && (
-        <Stack direction="row" justifyContent="center" gap={2} mt={2}>
+        <Stack direction="row" justifyContent="center" gap={1}>
           <Button variant="text" onClick={reset}>
             {options.resetLabel}
           </Button>

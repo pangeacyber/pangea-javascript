@@ -30,7 +30,7 @@ export const BROWSERFLIX: any = {
   button_border_radius: "0px",
   panel_border_radius: "0px",
   panel_box_shadow: "0px 8px 24px rgba(0, 0, 0, 0.16)",
-  authn_show_name: false,
+  authn_show_name: "no",
   authn_show_social_icons: false,
   login_heading: "Sign in",
   login_button_label: "Sign in",

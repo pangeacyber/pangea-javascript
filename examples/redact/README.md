@@ -1,15 +1,12 @@
 # Pangea Redact Service Example
 
-Setup
+## Setup
+
+Set up environment variables ([Instructions](https://pangea.cloud/docs/getting-started/integrate/#set-environment-variables)) `PANGEA_REDACT_TOKEN` and `PANGEA_DOMAIN` with your project token configured on Pangea User Console (token should have access to Redact service [Instructions](https://pangea.cloud/docs/getting-started/configure-services/#configure-a-pangea-service)) and with your pangea domain.
+
+## Run example
 
 ```
-% npm install
-% export PANGEA_REDACT_TOKEN=<PANGEA-REDACT-TOKEN>
-% export PANGEA_DOMAIN="aws.us.pangea.cloud"    // Check this url in your project config page
-```
-
-Run example
-
-```
-% node text.mjs
+yarn install
+node text.mjs
 ```

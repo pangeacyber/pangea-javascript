@@ -1,16 +1,13 @@
 # Pangea Embargo Service Examples
 
-Setup
+## Setup
+
+Set up environment variables ([Instructions](https://pangea.cloud/docs/getting-started/integrate/#set-environment-variables)) `PANGEA_EMBARGO_TOKEN` and `PANGEA_DOMAIN` with your project token configured on Pangea User Console (token should have access to Embargo service [Instructions](https://pangea.cloud/docs/getting-started/configure-services/#configure-a-pangea-service)) and with your pangea domain.
+
+## Run examples
 
 ```
-% npm install
-% export PANGEA_EMBARGO_TOKEN=<PANGEA-EMBARGO-TOKEN>
-% export PANGEA_DOMAIN="aws.us.pangea.cloud"    // Check this url in your project config page
-```
-
-Run examples
-
-```
-% node ipCheck.mjs
-% node isoCheck.mjs
+yarn install
+node ipCheck.mjs
+node isoCheck.mjs
 ```

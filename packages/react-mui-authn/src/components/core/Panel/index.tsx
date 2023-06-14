@@ -60,7 +60,7 @@ const AuthNPanel: FC<PanelProps> = ({
           ...panelStyles,
         }}
       >
-        <Stack spacing={2} mb={2}>
+        <Stack spacing={2} mb={2} textAlign="center">
           <>
             <LogoBox url={logoUrl} height={logoHeight} />
             {brandName && <Typography variant="h6">{brandName}</Typography>}

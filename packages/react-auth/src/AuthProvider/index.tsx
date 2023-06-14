@@ -26,7 +26,13 @@ import {
   DEFAULT_COOKIE_OPTIONS,
 } from "@src/shared/session";
 
-import { APIResponse, AuthConfig, AuthUser, AppState } from "@src/types";
+import {
+  APIResponse,
+  AuthConfig,
+  AuthUser,
+  AppState,
+  SessionData,
+} from "@src/types";
 
 import { AuthOptions, CookieOptions, VerifyResponse } from "../shared/types";
 
@@ -198,7 +204,14 @@ export const AuthProvider: FC<AuthProviderProps> = ({
       if (expire && isTokenExpiring(expire)) {
         refresh();
       } else {
-        // if token has not expired, validate that it's still good
+        const data: SessionData = getSessionData(options);
+        if (!!data.user) {
+          // if token has not expired, validate that it's still good
+          // Leave loading as true to allow user to still wait for a validated token
+          setAuthenticated(true);
+          setUser(data.user);
+        }
+
         validate(token);
       }
 
@@ -311,6 +324,11 @@ export const AuthProvider: FC<AuthProviderProps> = ({
         const { success, response } = await client.logout(userToken);
 
         if (success) {
+          setLoggedOut();
+        } else if (
+          response?.status === "ExpiredToken" ||
+          response?.status === "InvalidToken"
+        ) {
           setLoggedOut();
         } else {
           setError(response.summary);
