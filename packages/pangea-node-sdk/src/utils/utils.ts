@@ -60,7 +60,7 @@ export const TestEnvironment = {
 function loadEnvVar(name: string) {
   const value = process.env[name];
   if (value === undefined) {
-    throw new Error(`${name} environment variable is not set`);
+    throw new Error(`${name} environment variable need to be set`);
   }
   return value;
 }
