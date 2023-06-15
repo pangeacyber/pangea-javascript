@@ -57,27 +57,35 @@ export const TestEnvironment = {
   STAGING: "STG",
 };
 
+function loadEnvVar(name: string) {
+  const value = process.env[name];
+  if (value === undefined) {
+    throw new Error(`${name} environment variable is not set`);
+  }
+  return value;
+}
+
 export function getTestDomain(environment: string) {
   const name = "PANGEA_INTEGRATION_DOMAIN_" + environment;
-  return process.env[name] || "";
+  return loadEnvVar(name);
 }
 
 export function getTestToken(environment: string) {
   const name = "PANGEA_INTEGRATION_TOKEN_" + environment;
-  return process.env[name] || "";
+  return loadEnvVar(name);
 }
 
 export function getVaultSignatureTestToken(environment: string) {
   const name = "PANGEA_INTEGRATION_VAULT_TOKEN_" + environment;
-  return process.env[name] || "";
+  return loadEnvVar(name);
 }
 
 export function getMultiConfigTestToken(environment: string) {
   const name = "PANGEA_INTEGRATION_MULTI_CONFIG_TOKEN_" + environment;
-  return process.env[name] || "";
+  return loadEnvVar(name);
 }
 
 export function getConfigID(environment: string, service: string, configNumber: number) {
   const name = `PANGEA_${service.toUpperCase()}_CONFIG_ID_${configNumber}_` + environment;
-  return process.env[name] || "";
+  return loadEnvVar(name);
 }
