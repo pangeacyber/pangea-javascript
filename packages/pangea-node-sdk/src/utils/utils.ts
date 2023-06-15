@@ -71,3 +71,13 @@ export function getVaultSignatureTestToken(environment: string) {
   const name = "PANGEA_INTEGRATION_VAULT_TOKEN_" + environment;
   return process.env[name] || "";
 }
+
+export function getMultiConfigTestToken(environment: string) {
+  const name = "PANGEA_INTEGRATION_MULTI_CONFIG_TOKEN_" + environment;
+  return process.env[name] || "";
+}
+
+export function getConfigID(environment: string, service: string, configNumber: number) {
+  const name = `PANGEA_${service.toUpperCase()}_CONFIG_ID_${configNumber}_` + environment;
+  return process.env[name] || "";
+}
