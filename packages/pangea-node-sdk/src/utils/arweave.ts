@@ -4,7 +4,7 @@
 import got, { Options } from "got";
 import type { Response } from "got";
 
-import { Audit } from "@src/types.js";
+import { Audit } from "../types.js";
 
 const ARWEAVE_BASE_URL = "https://arweave.net";
 const ARWEAVE_GRAPHQL_URL = `${ARWEAVE_BASE_URL}/graphql`;
