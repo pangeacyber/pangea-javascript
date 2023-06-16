@@ -11,7 +11,7 @@ const delay = async (ms: number) =>
     setTimeout(resolve, ms);
   });
 
-interface request extends Object {
+interface Request extends Object {
   config_id?: string;
 }
 
@@ -40,7 +40,7 @@ class PangeaRequest {
     this.checkConfigID = checkConfigID;
   }
 
-  async post(endpoint: string, data: request): Promise<PangeaResponse<any>> {
+  async post(endpoint: string, data: Request): Promise<PangeaResponse<any>> {
     const url = this.getUrl(endpoint);
     if (this.checkConfigID && this.config.configID && data.config_id === undefined) {
       data.config_id = this.config.configID;
