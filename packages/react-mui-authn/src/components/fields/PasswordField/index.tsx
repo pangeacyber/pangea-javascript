@@ -6,10 +6,13 @@ import {
   InputAdornment,
   InputLabel,
   OutlinedInput,
+  FormHelperText,
 } from "@mui/material";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
 import useMediaQuery from "@mui/material/useMediaQuery";
+import { useTheme } from "@mui/material/styles";
 
+import { validatePassword } from "@src/utils";
 import PasswordRequirements from "@src/components/core/PasswordRequirements";
 
 export interface Props {
@@ -19,7 +22,14 @@ export interface Props {
   policy?: any;
 }
 
+// password requirements validator for yup
+export const checkPassword = (value: string | undefined) => {
+  const matches = validatePassword(value || "");
+  return Object.keys(matches).length === 0;
+};
+
 const PasswordField: FC<Props> = ({ name, label, formik, policy }) => {
+  const theme = useTheme();
   const tooltipTop = useMediaQuery("(max-width:1500px)");
   const [showPassword, setShowPassword] = useState<boolean>(false);
   const [tooltipAnchor, setTooltipAnchor] = useState<null | HTMLElement>(null);
@@ -48,7 +58,7 @@ const PasswordField: FC<Props> = ({ name, label, formik, policy }) => {
       <FormControl
         variant="outlined"
         fullWidth
-        error={Boolean(formik.touched[name] && formik.errors[name])}
+        error={Boolean(formik.touched[name] && Boolean(formik.errors[name]))}
         onFocus={openTooltip}
         onBlur={closeTooltip}
       >
@@ -57,6 +67,7 @@ const PasswordField: FC<Props> = ({ name, label, formik, policy }) => {
           id={`outlined-adornment-${name}`}
           name={name}
           type={showPassword ? "text" : "password"}
+          error={formik.touched[name] && formik.errors[name]}
           onChange={formik.handleChange}
           endAdornment={
             <InputAdornment position="end">
@@ -73,6 +84,9 @@ const PasswordField: FC<Props> = ({ name, label, formik, policy }) => {
           value={formik.values[name]}
           label={label}
         />
+        {formik.errors[name] && (
+          <FormHelperText error>{formik.errors[name]}</FormHelperText>
+        )}
       </FormControl>
       <Popper
         open={tooltipOpen}
@@ -80,6 +94,7 @@ const PasswordField: FC<Props> = ({ name, label, formik, policy }) => {
         disablePortal={true}
         placement={tooltipTop ? "top" : "right"}
         sx={{
+          backgroundColor: theme.palette.background.paper,
           zIndex: "100",
         }}
         modifiers={[

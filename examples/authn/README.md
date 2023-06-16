@@ -1,15 +1,12 @@
 # Pangea Vault Service Example
 
-Setup
+## Setup
+
+Set up environment variables ([Instructions](https://pangea.cloud/docs/getting-started/integrate/#set-environment-variables)) `PANGEA_AUTHN_TOKEN` and `PANGEA_DOMAIN` with your project token configured on Pangea User Console (token should have access to AuthN service [Instructions](https://pangea.cloud/docs/getting-started/configure-services/#configure-a-pangea-service)) and with your pangea domain.
+
+## Run example
 
 ```
-% npm install
-% export PANGEA_AUTHN_TOKEN=<PANGEA-AUDIT-TOKEN>
-% export PANGEA_DOMAIN="aws.us.pangea.cloud"    // Check this url in your project config page
-```
-
-Run example
-
-```
-% node user_actions.mjs
+yarn install
+node user_actions.mjs
 ```
