@@ -74,7 +74,7 @@ The AuditLogViewer component accepts the following props:
   - domain: string;
 - schema (optional): An object representing the audit schema. With Audit Service custom schema support, you can change the expected Audit schema. This will control what fields are rendered.
 
-For a deeper dive into the Prop interface check the source code here(https://github.com/pangeacyber/pangea-javascript/blob/main/packages/react-mui-audit-log-viewer/src/AuditLogViewer.tsx)
+For a deeper dive into the Prop interface check the source code [here](https://github.com/pangeacyber/pangea-javascript/blob/main/packages/react-mui-audit-log-viewer/src/AuditLogViewer.tsx)
 
 ### Example
 
@@ -112,9 +112,9 @@ const MyComponent: React.FC = () => {
 
 ### Customization
 
-The AuditLogViewer component uses the Material-UI component library, so styling of the component can be controlled through a MUI Theme. See Theming documentation here(https://mui.com/material-ui/customization/theming/)
+The AuditLogViewer component uses the Material-UI component library, so styling of the component can be controlled through a MUI Theme. See Theming documentation [here](https://mui.com/material-ui/customization/theming/)
 
-What to apply your Pangea branding to your end application? Check out the `@pangeacyber/react-mui-branding` NPM package here(https://github.com/pangeacyber/pangea-javascript/tree/main/packages/react-mui-branding). The BrandingThemeProvider can fetch your Pangea Projects Branding and apply the styling to a Material-UI Theme.
+What to apply your Pangea branding to your end application? Check out the `@pangeacyber/react-mui-branding` NPM package [here](https://github.com/pangeacyber/pangea-javascript/tree/main/packages/react-mui-branding). The BrandingThemeProvider can fetch your Pangea Projects Branding and apply the styling to a Material-UI Theme.
 
 ## API Reference
 
