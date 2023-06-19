@@ -121,7 +121,7 @@ VerificationAuditLogViewer.args = {
   onSearch: async (body) => {
     return axios
       .post(
-        "https://audit.dev.aws.pangea.cloud/v1/search",
+        `https://audit.${process.env.STORYBOOK_SERVICE_DOMAIN}/v1/search`,
         { ...body },
         {
           headers: {
@@ -139,7 +139,7 @@ VerificationAuditLogViewer.args = {
   onPageChange: async (body) => {
     return axios
       .post(
-        "https://audit.dev.aws.pangea.cloud/v1/results",
+        `https://audit.${process.env.STORYBOOK_SERVICE_DOMAIN}/v1/results`,
         { ...body },
         {
           headers: {
@@ -158,7 +158,7 @@ VerificationAuditLogViewer.args = {
     onFetchRoot: async (body) => {
       return axios
         .post(
-          "https://audit.dev.aws.pangea.cloud/v1/root",
+          `https://audit.${process.env.STORYBOOK_SERVICE_DOMAIN}/v1/root`,
           { ...body },
           {
             headers: {
