@@ -2,17 +2,13 @@ import PangeaConfig from "../config.js";
 import PangeaRequest from "../request.js";
 import PangeaResponse from "../response.js";
 
-export interface BaseServiceOptions {
-  isMultiConfigSupported?: boolean;
-}
-
 class BaseService {
   protected serviceName: string;
-  protected isMultiConfigSupported: boolean;
+  protected isMultiConfigSupported: boolean = false;
   protected token: string;
   protected apiVersion: string;
   protected config: PangeaConfig;
-  protected request: PangeaRequest;
+  protected request_: PangeaRequest | undefined = undefined;
 
   /*
   Required:
@@ -22,12 +18,7 @@ class BaseService {
   Optional:
     - config: a PangeaConfig object, uses defaults if non passed
   */
-  constructor(
-    serviceName: string,
-    token: string,
-    config: PangeaConfig,
-    options: BaseServiceOptions = {}
-  ) {
+  constructor(serviceName: string, token: string, config: PangeaConfig) {
     if (!serviceName) throw new Error("A serviceName is required");
     if (!token) throw new Error("A token is required");
 
@@ -35,15 +26,7 @@ class BaseService {
     this.apiVersion = "v1";
     this.token = token;
 
-    this.isMultiConfigSupported =
-      options.isMultiConfigSupported === undefined ? false : options.isMultiConfigSupported;
     this.config = new PangeaConfig({ ...config }) || new PangeaConfig();
-    this.request = new PangeaRequest(
-      this.serviceName,
-      this.token,
-      config,
-      this.isMultiConfigSupported
-    );
   }
 
   async get(endpoint: string, path: string): Promise<PangeaResponse<any>> {
@@ -54,6 +37,18 @@ class BaseService {
   async post(endpoint: string, data: object): Promise<PangeaResponse<any>> {
     const fullpath = `${this.apiVersion}/${endpoint}`;
     return await this.request.post(fullpath, data);
+  }
+
+  get request(): PangeaRequest {
+    if (this.request_ === undefined) {
+      this.request_ = new PangeaRequest(
+        this.serviceName,
+        this.token,
+        this.config,
+        this.isMultiConfigSupported
+      );
+    }
+    return this.request_;
   }
 }
 
