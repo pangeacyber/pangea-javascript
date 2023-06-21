@@ -40,14 +40,17 @@ class BaseService {
   }
 
   get request(): PangeaRequest {
-    if (this.request_ === undefined) {
-      this.request_ = new PangeaRequest(
-        this.serviceName,
-        this.token,
-        this.config,
-        this.isMultiConfigSupported
-      );
+    if (this.request_) {
+      return this.request_;
     }
+
+    this.request_ = new PangeaRequest(
+      this.serviceName,
+      this.token,
+      this.config,
+      this.isMultiConfigSupported
+    );
+
     return this.request_;
   }
 }
