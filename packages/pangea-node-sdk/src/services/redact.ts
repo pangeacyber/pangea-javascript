@@ -9,7 +9,7 @@ import { Redact } from "../types.js";
  */
 class RedactService extends BaseService {
   constructor(token: string, config: PangeaConfig) {
-    super("redact", token, config, false);
+    super("redact", token, config);
     this.apiVersion = "v1";
   }
 

@@ -34,7 +34,7 @@ const hashType = "sha256";
  */
 export class FileIntelService extends BaseService {
   constructor(token: string, config: PangeaConfig) {
-    super("file-intel", token, config, false);
+    super("file-intel", token, config);
     this.apiVersion = "v1";
   }
 
@@ -205,7 +205,7 @@ export class FileIntelService extends BaseService {
  */
 export class DomainIntelService extends BaseService {
   constructor(token: string, config: PangeaConfig) {
-    super("domain-intel", token, config, false);
+    super("domain-intel", token, config);
     this.apiVersion = "v1";
   }
 
@@ -294,7 +294,7 @@ export class DomainIntelService extends BaseService {
  */
 export class IPIntelService extends BaseService {
   constructor(token: string, config: PangeaConfig) {
-    super("ip-intel", token, config, false);
+    super("ip-intel", token, config);
     this.apiVersion = "v1";
   }
 
@@ -528,7 +528,7 @@ export class IPIntelService extends BaseService {
  */
 export class URLIntelService extends BaseService {
   constructor(token: string, config: PangeaConfig) {
-    super("url-intel", token, config, false);
+    super("url-intel", token, config);
     this.apiVersion = "v1";
   }
 
@@ -628,7 +628,7 @@ export class URLIntelService extends BaseService {
  */
 export class UserIntelService extends BaseService {
   constructor(token: string, config: PangeaConfig) {
-    super("user-intel", token, config, false);
+    super("user-intel", token, config);
     this.apiVersion = "v1";
   }
 

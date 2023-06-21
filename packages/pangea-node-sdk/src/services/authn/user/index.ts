@@ -14,7 +14,7 @@ export default class User extends BaseService {
   mfa: UserMFA;
 
   constructor(token: string, config: PangeaConfig) {
-    super("authn", token, config, false);
+    super("authn", token, config);
     this.apiVersion = "v1";
 
     this.profile = new UserProfile(token, config);

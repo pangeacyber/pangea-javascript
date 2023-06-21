@@ -9,7 +9,7 @@ import { Embargo } from "../types.js";
  */
 class EmbargoService extends BaseService {
   constructor(token: string, config: PangeaConfig) {
-    super("embargo", token, config, false);
+    super("embargo", token, config);
     this.apiVersion = "v1";
   }
 

@@ -5,7 +5,7 @@ import { AuthN } from "../../../types.js";
 
 export default class ClientSession extends BaseService {
   constructor(token: string, config: PangeaConfig) {
-    super("authn", token, config, false);
+    super("authn", token, config);
     this.apiVersion = "v1";
   }
 

@@ -16,7 +16,7 @@ export default class AuthNService extends BaseService {
   session: Session;
 
   constructor(token: string, config: PangeaConfig) {
-    super("authn", token, config, false);
+    super("authn", token, config);
     this.apiVersion = "v1";
 
     this.user = new User(token, config);

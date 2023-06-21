@@ -20,14 +20,14 @@ class PangeaRequest {
   private token: string;
   private config: PangeaConfig;
   private extraHeaders: Object;
-  private checkConfigID: boolean;
+  private isMultiConfigSupported: boolean;
   private userAgent: string = "";
 
   constructor(
     serviceName: string,
     token: string,
     config: PangeaConfig,
-    checkConfigID: boolean = false
+    isMultiConfigSupported: boolean = false
   ) {
     if (!serviceName) throw new Error("A serviceName is required");
     if (!token) throw new Error("A token is required");
@@ -37,12 +37,12 @@ class PangeaRequest {
     this.config = new PangeaConfig({ ...config });
     this.setCustomUserAgent(config.customUserAgent);
     this.extraHeaders = {};
-    this.checkConfigID = checkConfigID;
+    this.isMultiConfigSupported = isMultiConfigSupported;
   }
 
   async post(endpoint: string, data: Request): Promise<PangeaResponse<any>> {
     const url = this.getUrl(endpoint);
-    if (this.checkConfigID && this.config.configID && data.config_id === undefined) {
+    if (this.isMultiConfigSupported && this.config.configID && data.config_id === undefined) {
       data.config_id = this.config.configID;
     }
 

@@ -2,9 +2,13 @@ import PangeaConfig from "../config.js";
 import PangeaRequest from "../request.js";
 import PangeaResponse from "../response.js";
 
+export interface BaseServiceOptions {
+  isMultiConfigSupported?: boolean;
+}
+
 class BaseService {
   protected serviceName: string;
-  protected supportMultiConfig: boolean;
+  protected isMultiConfigSupported: boolean;
   protected token: string;
   protected apiVersion: string;
   protected config: PangeaConfig;
@@ -22,7 +26,7 @@ class BaseService {
     serviceName: string,
     token: string,
     config: PangeaConfig,
-    supportMultiConfig: boolean = false
+    options: BaseServiceOptions = {}
   ) {
     if (!serviceName) throw new Error("A serviceName is required");
     if (!token) throw new Error("A token is required");
@@ -30,10 +34,16 @@ class BaseService {
     this.serviceName = serviceName;
     this.apiVersion = "v1";
     this.token = token;
-    this.supportMultiConfig = supportMultiConfig;
 
+    this.isMultiConfigSupported =
+      options.isMultiConfigSupported === undefined ? false : options.isMultiConfigSupported;
     this.config = new PangeaConfig({ ...config }) || new PangeaConfig();
-    this.request = new PangeaRequest(this.serviceName, this.token, config, supportMultiConfig);
+    this.request = new PangeaRequest(
+      this.serviceName,
+      this.token,
+      config,
+      this.isMultiConfigSupported
+    );
   }
 
   async get(endpoint: string, path: string): Promise<PangeaResponse<any>> {
