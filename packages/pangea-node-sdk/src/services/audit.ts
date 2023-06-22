@@ -30,6 +30,7 @@ class AuditService extends BaseService {
     super("audit", token, config);
     this.publishedRoots = {};
     this.publishedRoots = {};
+    this.isMultiConfigSupported = true;
     this.apiVersion = "v1";
     this.prevUnpublishedRootHash = undefined;
     this.tenantID = tenantID;
