@@ -13,7 +13,7 @@ const audit = new AuditService(token, config);
 
   try {
     console.log("Logging: %s", data.message);
-    const logResponse = await audit.log(data, {verbose: true});
+    const logResponse = await audit.log(data, { verbose: true });
     console.log("Response: %s", logResponse.result);
   } catch (err) {
     if (err instanceof PangeaErrors.APIError) {

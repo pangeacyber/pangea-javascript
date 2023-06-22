@@ -13,7 +13,7 @@ const vault = new VaultService(token, config);
   try {
     console.log("Store...");
     // Name should be unique
-    const name = "Node rotate example " + Date.now()
+    const name = "Node rotate example " + Date.now();
     const storeResponse = await vault.secretStore(secretV1, name);
     console.log("Response: %s", storeResponse.result);
     const id = storeResponse.result.id;

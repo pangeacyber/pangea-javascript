@@ -15,7 +15,7 @@ const vault = new VaultService(token, config);
   try {
     console.log("Create...");
     // Name should be unique
-    const name = "Node encrypt example " + Date.now()
+    const name = "Node encrypt example " + Date.now();
     const createRespose = await vault.asymmetricGenerate(
       Vault.AsymmetricAlgorithm.Ed25519,
       Vault.KeyPurpose.SIGNING,
