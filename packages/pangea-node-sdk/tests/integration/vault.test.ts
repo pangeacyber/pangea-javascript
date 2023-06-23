@@ -390,7 +390,6 @@ async function asymGenerateParams(
   return getResp.result.id ? getResp.result.id : "";
 }
 
-jest.setTimeout(60000);
 it("Ed25519 signing generate all params", async () => {
   const algorithm = Vault.AsymmetricAlgorithm.Ed25519;
   const purpose = Vault.KeyPurpose.SIGNING;
@@ -404,7 +403,6 @@ it("Ed25519 signing generate all params", async () => {
   }
 });
 
-jest.setTimeout(60000);
 it("Ed25519 default store", async () => {
   const name = getName("Ed25519defaultStore");
   const genResp = await vault.asymmetricStore(
@@ -419,7 +417,6 @@ it("Ed25519 default store", async () => {
   expect(genResp.result.id).toBeDefined();
 });
 
-jest.setTimeout(60000);
 it("AES default store", async () => {
   const name = getName("AESdefaultStore");
   const genResp = await vault.symmetricStore(
@@ -433,7 +430,6 @@ it("AES default store", async () => {
   expect(genResp.result.id).toBeDefined();
 });
 
-jest.setTimeout(60000);
 it("AES encrypting generate all params", async () => {
   const algorithm = Vault.SymmetricAlgorithm.AES128_CFB;
   const purpose = Vault.KeyPurpose.ENCRYPTION;
@@ -447,7 +443,6 @@ it("AES encrypting generate all params", async () => {
   }
 });
 
-jest.setTimeout(60000);
 it("RSA encrypting generate all params", async () => {
   const algorithm = Vault.AsymmetricAlgorithm.RSA2048_OAEP_SHA256;
   const purpose = Vault.KeyPurpose.ENCRYPTION;
@@ -461,7 +456,6 @@ it("RSA encrypting generate all params", async () => {
   }
 });
 
-jest.setTimeout(60000);
 it("Ed25519 signing life cycle", async () => {
   const algorithm = Vault.AsymmetricAlgorithm.Ed25519;
   const purpose = Vault.KeyPurpose.SIGNING;
@@ -475,7 +469,6 @@ it("Ed25519 signing life cycle", async () => {
   }
 });
 
-jest.setTimeout(60000);
 it("RSA encrypting life cycle", async () => {
   const algorithm = Vault.AsymmetricAlgorithm.RSA2048_OAEP_SHA256;
   const purpose = Vault.KeyPurpose.ENCRYPTION;
@@ -490,7 +483,6 @@ it("RSA encrypting life cycle", async () => {
   }
 });
 
-jest.setTimeout(60000);
 it("AES encrypting life cycle", async () => {
   const algorithm = Vault.SymmetricAlgorithm.AES;
   const purpose = Vault.KeyPurpose.ENCRYPTION;
@@ -504,7 +496,6 @@ it("AES encrypting life cycle", async () => {
   }
 });
 
-jest.setTimeout(60000);
 it("JWT asymmetric signing life cycle", async () => {
   const algorithms = [
     Vault.AsymmetricAlgorithm.ES256,
@@ -524,7 +515,6 @@ it("JWT asymmetric signing life cycle", async () => {
   });
 });
 
-jest.setTimeout(60000);
 it("JWT symmetric signing life cycle", async () => {
   const algorithm = Vault.SymmetricAlgorithm.HS256;
   const purpose = Vault.KeyPurpose.JWT;
