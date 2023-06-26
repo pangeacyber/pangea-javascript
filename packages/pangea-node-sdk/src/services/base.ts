@@ -4,10 +4,11 @@ import PangeaResponse from "../response.js";
 
 class BaseService {
   protected serviceName: string;
+  protected isMultiConfigSupported: boolean = false;
   protected token: string;
   protected apiVersion: string;
   protected config: PangeaConfig;
-  request: PangeaRequest;
+  protected request_: PangeaRequest | undefined = undefined;
 
   /*
   Required:
@@ -26,7 +27,6 @@ class BaseService {
     this.token = token;
 
     this.config = new PangeaConfig({ ...config }) || new PangeaConfig();
-    this.request = new PangeaRequest(this.serviceName, this.token, config);
   }
 
   async get(endpoint: string, path: string): Promise<PangeaResponse<any>> {
@@ -37,6 +37,21 @@ class BaseService {
   async post(endpoint: string, data: object): Promise<PangeaResponse<any>> {
     const fullpath = `${this.apiVersion}/${endpoint}`;
     return await this.request.post(fullpath, data);
+  }
+
+  get request(): PangeaRequest {
+    if (this.request_) {
+      return this.request_;
+    }
+
+    this.request_ = new PangeaRequest(
+      this.serviceName,
+      this.token,
+      this.config,
+      this.isMultiConfigSupported
+    );
+
+    return this.request_;
   }
 }
 

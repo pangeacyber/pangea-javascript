@@ -10,6 +10,8 @@ import {
   getTestToken,
   getVaultSignatureTestToken,
   getCustomSchemaTestToken,
+  getMultiConfigTestToken,
+  getConfigID,
 } from "../../src/utils/utils";
 
 const ACTOR = "node-sdk";
@@ -51,9 +53,11 @@ const environment = TestEnvironment.DEVELOP;
 const token = getTestToken(environment);
 const tokenVault = getVaultSignatureTestToken(environment);
 const tokenCustomSchema = getCustomSchemaTestToken(environment);
+const tokenGeneral = getTestToken(environment);
+const tokenMultiConfig = getMultiConfigTestToken(environment);
 const domain = getTestDomain(environment);
 const config = new PangeaConfig({ domain: domain, customUserAgent: "sdk-test" });
-const audit = new AuditService(token, config);
+const auditGeneral = new AuditService(tokenGeneral, config);
 const auditVault = new AuditService(tokenVault, config);
 const auditWithTenantId = new AuditService(token, config, "mytenantid");
 const auditCustomSchema = new AuditService(tokenCustomSchema, config);
@@ -64,7 +68,7 @@ it("log an audit event. no verbose", async () => {
     message: MSG_NO_SIGNED,
     status: MSG_NO_SIGNED,
   };
-  const response = await audit.log(event);
+  const response = await auditGeneral.log(event);
 
   expect(response.status).toBe("Success");
   expect(typeof response.result.hash).toBe("string");
@@ -87,7 +91,7 @@ it("log an audit event. verbose but no verify", async () => {
     verbose: true, // set verbose to true
   };
 
-  const response = await audit.log(event, options);
+  const response = await auditGeneral.log(event, options);
 
   expect(response.status).toBe("Success");
   expect(typeof response.result.hash).toBe("string");
@@ -124,7 +128,7 @@ it("log an audit event with tenant_id", async () => {
 });
 
 it("log an audit event. verbose and verify", async () => {
-  const newAudit = new AuditService(token, config);
+  const newAudit = new AuditService(tokenGeneral, config);
 
   const event: Audit.Event = {
     actor: ACTOR,
@@ -167,7 +171,7 @@ it("log an audit event in JSON format", async () => {
     old: JSON_OLD_DATA,
   };
 
-  const response = await audit.log(event, options);
+  const response = await auditGeneral.log(event, options);
 
   expect(response.status).toBe("Success");
   expect(typeof response.result.hash).toBe("string");
@@ -187,7 +191,7 @@ it("log an audit event in JSON format", async () => {
     max_results: maxResults,
   };
 
-  const respSearch = await audit.search(query, queryOptions, searchOptions);
+  const respSearch = await auditGeneral.search(query, queryOptions, searchOptions);
   expect(respSearch.result.count).toBe(maxResults);
 
   respSearch.result.events.forEach((record, index) => {
@@ -209,7 +213,7 @@ it("log an event, local sign and verify", async () => {
     old: "Old",
   };
 
-  const respLog = await audit.log(event, {
+  const respLog = await auditGeneral.log(event, {
     verbose: true,
     signer: signer,
   });
@@ -221,7 +225,7 @@ it("log an event, local sign and verify", async () => {
     limit: 1,
   };
 
-  const respSearch = await audit.search(query, queryOptions, {});
+  const respSearch = await auditGeneral.search(query, queryOptions, {});
   const searchEvent = respSearch.result.events[0];
   expect(searchEvent.signature_verification).toBe("pass");
   expect(searchEvent.envelope.public_key).toBe(
@@ -253,7 +257,7 @@ it("log an event, local sign and tenant id", async () => {
     limit: 1,
   };
 
-  const respSearch = await audit.search(query, queryOptions, {});
+  const respSearch = await auditGeneral.search(query, queryOptions, {});
   const searchEvent = respSearch.result.events[0];
   expect(searchEvent.signature_verification).toBe("pass");
   expect(searchEvent.envelope.public_key).toBe(
@@ -291,7 +295,7 @@ it("log JSON event, sign and verify", async () => {
     old: JSON_OLD_DATA,
   };
 
-  const respLog = await audit.log(event, {
+  const respLog = await auditGeneral.log(event, {
     verbose: true,
     signer: signer,
   });
@@ -304,7 +308,7 @@ it("log JSON event, sign and verify", async () => {
     limit: 1,
   };
 
-  const respSearch = await audit.search(query, queryOptions, {});
+  const respSearch = await auditGeneral.search(query, queryOptions, {});
   const searchEvent = respSearch.result.events[0];
   expect(searchEvent.signature_verification).toBe("pass");
   expect(searchEvent.envelope.public_key).toBe(
@@ -572,7 +576,7 @@ it("search audit log and verify signature", async () => {
     order: "asc",
   };
 
-  const response = await audit.search(query, queryOptions, {});
+  const response = await auditGeneral.search(query, queryOptions, {});
 
   expect(response.status).toBe("Success");
   expect(response.result.events.length).toBeLessThanOrEqual(limit);
@@ -596,7 +600,7 @@ it("search audit log and verify consistency", async () => {
     max_results: maxResults,
   };
 
-  let response = await audit.search(query, queryOptions, options);
+  let response = await auditGeneral.search(query, queryOptions, options);
   expect(response.status).toBe("Success");
   expect(response.result.events.length).toBeLessThanOrEqual(limit);
   response.result.events.forEach((record, index) => {
@@ -606,7 +610,7 @@ it("search audit log and verify consistency", async () => {
 
   queryOptions.order = "desc"; // Newest events should not pass consistency proof
 
-  response = await audit.search(query, queryOptions, options);
+  response = await auditGeneral.search(query, queryOptions, options);
 
   expect(response.status).toBe("Success");
   expect(response.result.events.length).toBeLessThanOrEqual(limit);
@@ -626,7 +630,7 @@ it("search audit log and skip consistency verification", async () => {
     order: "asc",
   };
 
-  const response = await audit.search(query, queryOptions, {});
+  const response = await auditGeneral.search(query, queryOptions, {});
 
   expect(response.status).toBe("Success");
   expect(response.result.events.length).toBeLessThanOrEqual(limit);
@@ -650,7 +654,7 @@ it("results audit log with search verbose", async () => {
     verbose: true,
   };
 
-  const searchResponse = await audit.search(query, queryOptions, {});
+  const searchResponse = await auditGeneral.search(query, queryOptions, {});
   expect(searchResponse.status).toBe("Success");
   expect(searchResponse.result.events.length).toBeLessThanOrEqual(searchLimit);
   searchResponse.result.events.forEach((record, index) => {
@@ -664,7 +668,7 @@ it("results audit log with search verbose", async () => {
   };
   const resultsLimit = 2;
 
-  let resultsResponse = await audit.results(
+  let resultsResponse = await auditGeneral.results(
     searchResponse.result.id,
     resultsLimit,
     0,
@@ -680,7 +684,7 @@ it("results audit log with search verbose", async () => {
   // Now we are going to skip consistency verification
   resultsOptions.verifyConsistency = false;
 
-  resultsResponse = await audit.results(
+  resultsResponse = await auditGeneral.results(
     searchResponse.result.id,
     resultsLimit,
     resultsLimit,
@@ -707,7 +711,7 @@ it("results audit log with search no verbose", async () => {
     verbose: false,
   };
 
-  const searchResponse = await audit.search(query, queryOptions, {});
+  const searchResponse = await auditGeneral.search(query, queryOptions, {});
   expect(searchResponse.status).toBe("Success");
   expect(searchResponse.result.events.length).toBeLessThanOrEqual(searchLimit);
   searchResponse.result.events.forEach((record, index) => {
@@ -721,7 +725,7 @@ it("results audit log with search no verbose", async () => {
   };
   const resultsLimit = 2;
 
-  let resultsResponse = await audit.results(
+  let resultsResponse = await auditGeneral.results(
     searchResponse.result.id,
     resultsLimit,
     0,
@@ -737,7 +741,7 @@ it("results audit log with search no verbose", async () => {
   // Now we are going to skip consistency verification
   resultsOptions.verifyConsistency = false;
 
-  resultsResponse = await audit.results(
+  resultsResponse = await auditGeneral.results(
     searchResponse.result.id,
     resultsLimit,
     resultsLimit,
@@ -752,7 +756,7 @@ it("results audit log with search no verbose", async () => {
 });
 
 it("get audit root", async () => {
-  const response = await audit.root();
+  const response = await auditGeneral.root();
   expect(response.status).toBe("Success");
   expect(response.result.data).toEqual(
     expect.objectContaining({
@@ -767,7 +771,7 @@ it("get audit root", async () => {
 
 it("get audit root with tree size", async () => {
   const treeSize = 1;
-  const response = await audit.root(treeSize);
+  const response = await auditGeneral.root(treeSize);
   expect(response.status).toBe("Success");
   expect(response.result.data).toEqual(
     expect.objectContaining({
@@ -786,7 +790,7 @@ it("fail if empty message", async () => {
     message: "",
   };
   try {
-    const response = await audit.log(event);
+    const response = await auditGeneral.log(event);
   } catch (e) {
     expect(e).toBeInstanceOf(PangeaErrors.ValidationError);
     if (e instanceof PangeaErrors.ValidationError) {
@@ -812,4 +816,73 @@ it("fail bad auth token", async () => {
       expect(e.summary).toBe("Not authorized to access this resource");
     }
   }
+});
+
+it("log multi config 1. no verbose", async () => {
+  const configID = getConfigID(environment, "audit", 1);
+  const config = new PangeaConfig({
+    domain: domain,
+    customUserAgent: "sdk-test",
+    configID: configID,
+  });
+  const audit = new AuditService(tokenMultiConfig, config);
+
+  const event: Audit.Event = {
+    actor: ACTOR,
+    message: MSG_NO_SIGNED,
+    status: MSG_NO_SIGNED,
+  };
+  const response = await audit.log(event);
+
+  expect(response.status).toBe("Success");
+  expect(typeof response.result.hash).toBe("string");
+  expect(response.result.envelope).toBeUndefined();
+  expect(response.result.consistency_proof).toBeUndefined();
+  expect(response.result.membership_proof).toBeUndefined();
+  expect(response.result.consistency_verification).toBeUndefined();
+  expect(response.result.membership_verification).toBeUndefined();
+  expect(response.result.signature_verification).toBe("none");
+});
+
+it("log multi config 2. no verbose", async () => {
+  const configID = getConfigID(environment, "audit", 2);
+  const config = new PangeaConfig({
+    domain: domain,
+    customUserAgent: "sdk-test",
+    configID: configID,
+  });
+  const audit = new AuditService(tokenMultiConfig, config);
+
+  const event: Audit.Event = {
+    actor: ACTOR,
+    message: MSG_NO_SIGNED,
+    status: MSG_NO_SIGNED,
+  };
+  const response = await audit.log(event);
+
+  expect(response.status).toBe("Success");
+  expect(typeof response.result.hash).toBe("string");
+  expect(response.result.envelope).toBeUndefined();
+  expect(response.result.consistency_proof).toBeUndefined();
+  expect(response.result.membership_proof).toBeUndefined();
+  expect(response.result.consistency_verification).toBeUndefined();
+  expect(response.result.membership_verification).toBeUndefined();
+  expect(response.result.signature_verification).toBe("none");
+});
+
+it("log multi config token, without config id ", async () => {
+  const config = new PangeaConfig({ domain: domain, customUserAgent: "sdk-test" });
+  const audit = new AuditService(tokenMultiConfig, config);
+
+  const event: Audit.Event = {
+    actor: ACTOR,
+    message: MSG_NO_SIGNED,
+    status: MSG_NO_SIGNED,
+  };
+
+  const t = async () => {
+    const response = await audit.log(event);
+  };
+
+  await expect(t()).rejects.toThrow(PangeaErrors.APIError);
 });

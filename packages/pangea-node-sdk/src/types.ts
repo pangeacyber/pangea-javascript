@@ -6,6 +6,7 @@ import { Signer } from "./utils/signer";
 export interface ConfigOptions {
   domain?: string;
   environment?: ConfigEnv;
+  configID?: string;
   insecure?: boolean;
   requestRetries?: number;
   requestTimeout?: number;
