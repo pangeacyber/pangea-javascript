@@ -32,7 +32,7 @@ const JSON_OLD_DATA = {
   ct6: "cm6",
 };
 
-const environment = TestEnvironment.DEVELOP;
+const environment = TestEnvironment.LIVE;
 const tokenGeneral = getTestToken(environment);
 const tokenVault = getVaultSignatureTestToken(environment);
 const tokenMultiConfig = getMultiConfigTestToken(environment);
