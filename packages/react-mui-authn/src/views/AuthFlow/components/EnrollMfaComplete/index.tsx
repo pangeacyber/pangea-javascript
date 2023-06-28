@@ -29,7 +29,7 @@ const EnrollMfaCompleteView: FC<ViewComponentProps> = ({
         return <p>Enter the code sent to your email</p>;
       case "totp":
         return (
-          <ul style={{ listStyle: "circle" }}>
+          <ul style={{ listStyle: "circle", textAlign: "left" }}>
             <li>Open the Authenticator app</li>
             <li>Scan the QR Code below in the app</li>
             <li>Enter the code from your Authenticator app</li>
