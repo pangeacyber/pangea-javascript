@@ -1,4 +1,4 @@
-import { Signer } from "./utils/signer";
+import { Signer } from "./utils/signer.js";
 
 /**
  * PangeaConfig options

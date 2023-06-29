@@ -23,7 +23,10 @@ const decodeHash = (value: string): CryptoJS.lib.WordArray => {
   return CryptoJS.enc.Hex.parse(value);
 };
 
-const hashPair = (hash1: CryptoJS.lib.WordArray, hash2: CryptoJS.lib.WordArray): string => {
+const hashPair = (
+  hash1: CryptoJS.lib.WordArray | string,
+  hash2: CryptoJS.lib.WordArray | string
+): string => {
   var sha256 = CryptoJS.algo.SHA256.create();
 
   sha256.update(hash1);
@@ -31,8 +34,6 @@ const hashPair = (hash1: CryptoJS.lib.WordArray, hash2: CryptoJS.lib.WordArray):
 
   return sha256.finalize().toString();
 };
-
-type Hash = string;
 
 interface ProofItem {
   side: string;
@@ -53,7 +54,7 @@ const decodeProof = (data: string): ProofItem[] => {
     const parts = item.split(":");
     proof.push({
       side: parts[0] == "l" ? "left" : "right",
-      nodeHash: decodeHash(parts[1]),
+      nodeHash: decodeHash(parts[1] || ""),
     });
   });
   return proof;
@@ -89,7 +90,7 @@ const decodeRootProof = (data: string[]): RootProofItem[] => {
     const [nodeHash, ...proofData] = item.split(",");
 
     rootProof.push({
-      nodeHash: decodeHash(nodeHash.split(":")[1]),
+      nodeHash: decodeHash(nodeHash?.split(":")[1] || ""),
       proof: decodeProof(proofData.join(",")),
     });
   });
@@ -103,10 +104,10 @@ const verifyLogProof = (
 ): boolean => {
   let nodeHash = initialNodeHash;
   for (let idx = 0; idx < proofs.length; idx++) {
-    const proofHash = proofs[idx].nodeHash;
+    const proofHash = proofs[idx]?.nodeHash || "";
 
     nodeHash = decodeHash(
-      proofs[idx].side === "left" ? hashPair(proofHash, nodeHash) : hashPair(nodeHash, proofHash)
+      proofs[idx]?.side === "left" ? hashPair(proofHash, nodeHash) : hashPair(nodeHash, proofHash)
     );
   }
 
@@ -200,7 +201,7 @@ const verifyConsistencyProof = ({
   const newRootHash = decodeHash(newRootEncHash);
   const proofs = decodeRootProof(consistencyProof);
 
-  let rootHash = proofs[0].nodeHash;
+  let rootHash = proofs[0]?.nodeHash || "";
   proofs.forEach((rootProof, idx) => {
     if (idx === 0) return;
     rootHash = decodeHash(hashPair(rootProof.nodeHash, rootHash));
@@ -213,7 +214,7 @@ const verifyConsistencyProof = ({
   for (var idx = 0; idx < proofs.length; idx++) {
     const rootProof = proofs[idx];
 
-    if (!verifyLogProof(rootProof.nodeHash, newRootHash, rootProof.proof)) {
+    if (!rootProof || !verifyLogProof(rootProof.nodeHash, newRootHash, rootProof.proof)) {
       return false;
     }
   }

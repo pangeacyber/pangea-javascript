@@ -1,4 +1,4 @@
-import { Audit } from "../src/types.js";
+import { Audit } from "@src/types.js";
 import { PangeaResponse } from "./response.js";
 
 export namespace PangeaErrors {
@@ -59,7 +59,7 @@ export namespace PangeaErrors {
       return this.response.result?.errors || ([] as ErrorField[]);
     }
 
-    toString(): string {
+    override toString(): string {
       let ret = "Summary: ";
       ret += this.response.summary + "\n";
       (this.response.result?.errors || []).forEach((ef) => {

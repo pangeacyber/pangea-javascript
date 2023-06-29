@@ -1,7 +1,7 @@
 import PangeaResponse from "@src/response.js";
 import BaseService from "./base.js";
 import PangeaConfig from "@src/config.js";
-import { Vault } from "../types.js";
+import { Vault } from "@src/types.js";
 
 /**
  * VaultService class provides methods for interacting with the Vault Service

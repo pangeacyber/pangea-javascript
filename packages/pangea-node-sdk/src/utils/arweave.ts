@@ -87,7 +87,7 @@ export const getArweavePublishedRoots = async (
   for (let idx = 0; idx < treeSizes.length; idx++) {
     const treeSize = treeSizes[idx];
 
-    if (!(treeSize in publishedRoots)) {
+    if (treeSize && !(treeSize in publishedRoots)) {
       const root = await fetchRoot(treeSize).catch((err) => {
         console.log("Failed to fetch server roots", err);
       });

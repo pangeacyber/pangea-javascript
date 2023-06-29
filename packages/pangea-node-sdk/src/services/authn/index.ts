@@ -1,5 +1,5 @@
-import BaseService from "../base.js";
-import PangeaConfig from "../../config.js";
+import BaseService from "@src/services/base.js";
+import PangeaConfig from "@src/config.js";
 import User from "./user/index.js";
 import Flow from "./flow/index.js";
 import Client from "./client/index.js";
