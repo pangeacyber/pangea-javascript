@@ -6,12 +6,14 @@ import UserProfile from "./profile.js";
 import UserInvites from "./invites.js";
 import UserLogin from "./login.js";
 import UserMFA from "./mfa.js";
+import UserPassword from "./password.js";
 
 export default class User extends BaseService {
   profile: UserProfile;
   invites: UserInvites;
   login: UserLogin;
   mfa: UserMFA;
+  password: UserPassword;
 
   constructor(token: string, config: PangeaConfig) {
     super("authn", token, config);
@@ -21,6 +23,7 @@ export default class User extends BaseService {
     this.invites = new UserInvites(token, config);
     this.login = new UserLogin(token, config);
     this.mfa = new UserMFA(token, config);
+    this.password = new UserPassword(token, config);
   }
 
   // authn::/v1/user/delete

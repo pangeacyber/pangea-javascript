@@ -42,6 +42,7 @@ const auditGeneral = new AuditService(tokenGeneral, config);
 const auditVault = new AuditService(tokenVault, config);
 const auditWithTenantId = new AuditService(tokenGeneral, config, "mytenantid");
 
+jest.setTimeout(60000);
 it("log an audit event. no verbose", async () => {
   const event: Audit.Event = {
     actor: ACTOR,
@@ -334,7 +335,6 @@ it("log JSON event, vault sign and verify", async () => {
   expect(searchEvent.signature_verification).toBe("pass");
 });
 
-jest.setTimeout(20000);
 it("search audit log and verify signature", async () => {
   const query = "message:" + MSG_SIGNED_LOCAL + " status:" + STATUS_SIGNED;
   const limit = 2;
@@ -353,7 +353,6 @@ it("search audit log and verify signature", async () => {
   });
 });
 
-jest.setTimeout(60000);
 it("search audit log and verify consistency", async () => {
   const query = 'message:""';
   const limit = 2;
@@ -388,7 +387,6 @@ it("search audit log and verify consistency", async () => {
   });
 });
 
-jest.setTimeout(20000);
 it("search audit log and skip consistency verification", async () => {
   const query = "message:" + MSG_SIGNED_LOCAL;
   const limit = 2;
@@ -409,7 +407,6 @@ it("search audit log and skip consistency verification", async () => {
   });
 });
 
-jest.setTimeout(20000);
 it("results audit log with search verbose", async () => {
   const query = 'message:""';
   const searchLimit = 2;
@@ -466,7 +463,6 @@ it("results audit log with search verbose", async () => {
   });
 });
 
-jest.setTimeout(20000);
 it("results audit log with search no verbose", async () => {
   const query = 'message:""';
   const searchLimit = 2;

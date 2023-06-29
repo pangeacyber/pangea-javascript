@@ -23,7 +23,7 @@ const PROFILE_OLD = { name: "User name", country: "Argentina" };
 const PROFILE_NEW = { age: "18" };
 let USER_ID; // Will be set once user is created
 
-jest.setTimeout(20000);
+jest.setTimeout(60000);
 it("User actions test", async () => {
   // Create
   const createResp = await authn.user.create(EMAIL_TEST, PASSWORD_OLD, AuthN.IDProvider.PASSWORD);
@@ -49,16 +49,27 @@ it("User actions test", async () => {
   expect(deleteResp.result).toStrictEqual({});
 
   // Login
-  const loginResp = await authn.user.login.password(EMAIL_TEST, PASSWORD_OLD);
+  let loginResp = await authn.user.login.password(EMAIL_TEST, PASSWORD_OLD);
   expect(loginResp.status).toBe("Success");
   expect(loginResp.result.active_token).toBeDefined();
   expect(loginResp.result.refresh_token).toBeDefined();
-  const userToken = loginResp.result.active_token?.token || "";
+  let userToken = loginResp.result.active_token?.token || "";
+
+  // Verify
+  const verifyResp = await authn.user.verify(AuthN.IDProvider.PASSWORD, EMAIL_TEST, PASSWORD_OLD);
+  expect(verifyResp.status).toBe("Success");
 
   // Update password
   const passUpdateResp = await authn.client.password.change(userToken, PASSWORD_OLD, PASSWORD_NEW);
   expect(passUpdateResp.status).toBe("Success");
   expect(passUpdateResp.result).toStrictEqual({});
+
+  // Reset password
+  const passResetResp = await authn.user.password.reset({
+    user_id: USER_ID,
+    new_password: PASSWORD_NEW,
+  });
+  expect(passResetResp.status).toBe("Success");
 
   // Get profile by email
   let getResp = await authn.user.profile.getProfile({ email: EMAIL_TEST });
@@ -95,12 +106,94 @@ it("User actions test", async () => {
   Object.assign(finalProfile, PROFILE_NEW);
   expect(updateResp2.result.profile).toStrictEqual(finalProfile);
 
-  const listResp2 = await authn.user.list({});
-  expect(listResp2.status).toBe("Success");
-  expect(listResp2.result.users.length).toBeGreaterThan(0);
+  // Check token
+  const checkResp = await authn.client.clientToken.check(userToken);
+  expect(checkResp.status).toBe("Success");
+
+  // Refresh
+  loginResp = await authn.client.session.refresh(loginResp.result.refresh_token.token, {
+    user_token: userToken,
+  });
+  expect(loginResp.status).toBe("Success");
+  expect(loginResp.result.active_token).toBeDefined();
+  expect(loginResp.result.refresh_token).toBeDefined();
+  userToken = loginResp.result.active_token?.token || "";
+
+  // Client session logout
+  let logoutResp = await authn.client.session.logout(userToken);
+  expect(logoutResp.status).toBe("Success");
+
+  // New login
+  loginResp = await authn.user.login.password(EMAIL_TEST, PASSWORD_NEW);
+  expect(loginResp.status).toBe("Success");
+  expect(loginResp.result.active_token).toBeDefined();
+  expect(loginResp.result.refresh_token).toBeDefined();
+  userToken = loginResp.result.active_token?.token || "";
+
+  // Session logout
+  logoutResp = await authn.session.logout(userToken);
+  expect(logoutResp.status).toBe("Success");
+
+  // New login
+  loginResp = await authn.user.login.password(EMAIL_TEST, PASSWORD_NEW);
+  expect(loginResp.status).toBe("Success");
+  expect(loginResp.result.active_token).toBeDefined();
+  expect(loginResp.result.refresh_token).toBeDefined();
+  userToken = loginResp.result.active_token?.token || "";
+
+  // List sessions
+  let listSessionsResp = await authn.session.list();
+  expect(listSessionsResp.status).toBe("Success");
+  expect(listSessionsResp.result.sessions.length).toBeGreaterThan(0);
+
+  // Invalite sessions
+  listSessionsResp.result.sessions.forEach((session) => {
+    try {
+      authn.session.invalidate(session.id);
+    } catch (e) {
+      console.log(`Failed to invalidate session_id[${session.id}]`);
+      e instanceof PangeaErrors.APIError ? console.log(e.toString()) : console.log(e);
+    }
+  });
+
+  // new login
+  loginResp = await authn.user.login.password(EMAIL_TEST, PASSWORD_NEW);
+  expect(loginResp.status).toBe("Success");
+  expect(loginResp.result.active_token).toBeDefined();
+  expect(loginResp.result.refresh_token).toBeDefined();
+  userToken = loginResp.result.active_token?.token || "";
+
+  // List client sessions
+  listSessionsResp = await authn.client.session.list(userToken);
+  expect(listSessionsResp.status).toBe("Success");
+  expect(listSessionsResp.result.sessions.length).toBeGreaterThan(0);
+
+  // Invalite sessions
+  listSessionsResp.result.sessions.forEach((session) => {
+    try {
+      authn.client.session.invalidate(userToken, session.id);
+    } catch (e) {
+      console.log(`Failed to invalidate session_id[${session.id}] token[${userToken}]`);
+      e instanceof PangeaErrors.APIError ? console.log(e.toString()) : console.log(e);
+    }
+  });
+
+  // List users
+  const listResp = await authn.user.list({});
+  expect(listResp.status).toBe("Success");
+  expect(listResp.result.users.length).toBeGreaterThan(0);
+
+  // Delete users
+  listResp.result.users.forEach((user) => {
+    try {
+      authn.user.delete({ id: user.id });
+    } catch (e) {
+      console.log("Failed to delete user id: ", user.id);
+      e instanceof PangeaErrors.APIError ? console.log(e.toString()) : console.log(e);
+    }
+  });
 });
 
-jest.setTimeout(20000);
 it("Invite actions test", async () => {
   try {
     // Invite
