@@ -33,7 +33,7 @@
     "tsc-alias": "^1.8.6",
     "typedoc": "^0.24.8",
     "typedoc-plugin-missing-exports": "^2.0.0",
-    "typescript": "^4.7.4"
+    "typescript": "^5.1.6"
   },
   "scripts": {
     "test": "NODE_OPTIONS=--experimental-vm-modules npx jest --runInBand --detectOpenHandles --forceExit",
