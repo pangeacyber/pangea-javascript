@@ -42,8 +42,7 @@
     "lint": "npx prettier --check . && npx eslint --ext .ts",
     "prettier:fix": "npx prettier . -w",
     "generate:docs": "typedoc src/index.ts --json ./docs.json --tsconfig ./tsconfig.json --exclude 'node_modules/**'",
-    "build": "rm -fr dist/* && tsc -p tsconfig.json && tsc-alias -p tsconfig.json",
-    "prepare": "npm run build"
+    "build": "rm -fr dist/* && tsc -p tsconfig.json && tsc-alias -p tsconfig.json"
   },
   "files": [
     "dist"
