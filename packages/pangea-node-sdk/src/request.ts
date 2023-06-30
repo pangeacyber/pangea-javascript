@@ -192,7 +192,9 @@ class PangeaRequest {
         throw new PangeaErrors.ForbiddenVaultOperation(response.summary, response);
       case "NotFound":
         throw new PangeaErrors.NotFound(
-          response.gotResponse?.requestUrl !== undefined ? response.gotResponse.requestUrl : "",
+          response.gotResponse?.requestUrl !== undefined
+            ? response.gotResponse.requestUrl.toString()
+            : "",
           response
         );
       case "InternalError":

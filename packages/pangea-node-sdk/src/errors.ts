@@ -59,7 +59,7 @@ export namespace PangeaErrors {
       return this.response.result?.errors || ([] as ErrorField[]);
     }
 
-    override toString(): string {
+    toString(): string {
       let ret = "Summary: ";
       ret += this.response.summary + "\n";
       (this.response.result?.errors || []).forEach((ef) => {

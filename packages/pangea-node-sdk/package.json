@@ -1,19 +1,17 @@
 {
   "name": "pangea-node-sdk",
-  "version": "1.9.1a",
-  "main": "dist/cjs/index.js",
-  "module": "dist/mjs/index.js",
+  "version": "1.9.1",
   "type": "module",
-	"exports": {
-		"types": "./dist/src/index.d.ts",
-		"default": "./dist/src/index.js"
-	},
+  "exports": {
+    "types": "./dist/index.d.ts",
+    "default": "./dist/index.js"
+  },
   "repository": "git@github.com:pangeacyber/pangea-javascript.git",
   "author": "Glenn Gallien <glenn.gallien@pangea.cloud>",
   "license": "MIT",
   "dependencies": {
     "crypto-js": "^4.1.1",
-    "got": "^11.8.6",
+    "got": "^13.0.0",
     "merkle-tools": "^1.4.1"
   },
   "devDependencies": {
@@ -33,6 +31,7 @@
     "prettier": "^2.6.0",
     "ts-jest": "^28.0.7",
     "ts-node": "^9.1.1",
+    "tsc-alias": "^1.8.6",
     "typedoc": "^0.23.14",
     "typedoc-plugin-missing-exports": "^1.0.0",
     "typescript": "^4.7.4"
@@ -44,8 +43,8 @@
     "lint": "npx prettier --check . && npx eslint --ext .ts",
     "prettier:fix": "npx prettier . -w",
     "generate:docs": "typedoc src/index.ts --json ./docs.json --tsconfig ./tsconfig.json --exclude 'node_modules/**'",
-    "build": "rm -fr dist/* && tsc",
-		"prepare": "npm run build"    
+    "build": "rm -fr dist/* && tsc -p tsconfig.json && tsc-alias -p tsconfig.json",
+    "prepare": "npm run build"
   },
   "files": [
     "dist"
