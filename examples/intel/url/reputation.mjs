@@ -16,7 +16,7 @@ const urlIntel = new URLIntelService(String(token), config);
       "http://113.235.101.11:54384",
       options
     );
-    console.log(response.result);
+    console.log("Result: ", response.result.data);
   } catch (e) {
     if (e instanceof PangeaErrors.APIError) {
       console.log("Error", e.summary, e.errors);
