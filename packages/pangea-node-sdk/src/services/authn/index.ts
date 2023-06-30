@@ -9,7 +9,7 @@ import Session from "./session.js";
  * AuthnService class provides methods for interacting with the AuthN Service
  * @extends BaseService
  */
-export default class AuthNService extends BaseService {
+class AuthNService extends BaseService {
   user: User;
   flow: Flow;
   client: Client;
@@ -25,3 +25,5 @@ export default class AuthNService extends BaseService {
     this.session = new Session(token, config);
   }
 }
+
+export default AuthNService;

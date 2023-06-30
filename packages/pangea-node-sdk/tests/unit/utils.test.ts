@@ -1,5 +1,5 @@
 import { it, expect } from "@jest/globals";
-import { hashSHA1, hashSHA256, getHashPrefix, strToB64, b64toStr } from "../../src/index.js";
+import { hashSHA1, hashSHA256, getHashPrefix, strToB64, b64toStr } from "@src/index.js";
 
 it("Hash functions", async () => {
   const msg = "texttohash";
