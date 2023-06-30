@@ -47,6 +47,7 @@ it("file reputation with filepath should faild", async () => {
 
   try {
     const response = await fileIntel.filepathReputation("./not/a/real/path/file.txt", options);
+    expect(response).toBeFalsy();
   } catch (e: unknown) {
     // @ts-ignore
     expect(e.code).toBe("ENOENT");

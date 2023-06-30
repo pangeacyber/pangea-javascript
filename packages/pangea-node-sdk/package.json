@@ -36,9 +36,9 @@
     "typescript": "^4.7.4"
   },
   "scripts": {
-    "test": "NODE_OPTIONS=--experimental-vm-modules npx jest",
-    "test:unit": "NODE_OPTIONS=--experimental-vm-modules npx jest --testPathPattern=tests/unit",
-    "test:integration": "NODE_OPTIONS=--experimental-vm-modules npx jest --testPathPattern=tests/integration",
+    "test": "NODE_OPTIONS=--experimental-vm-modules npx jest --runInBand",
+    "test:unit": "NODE_OPTIONS=--experimental-vm-modules npx jest --runInBand --testPathPattern=tests/unit",
+    "test:integration": "NODE_OPTIONS=--experimental-vm-modules npx jest --runInBand --testPathPattern=tests/integration",
     "lint": "npx prettier --check . && npx eslint --ext .ts",
     "prettier:fix": "npx prettier . -w",
     "generate:docs": "typedoc src/index.ts --json ./docs.json --tsconfig ./tsconfig.prod.json --exclude 'node_modules/**'",

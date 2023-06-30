@@ -8,7 +8,7 @@ const config = new PangeaConfig({});
 
 it("base service success", async () => {
   const base = new BaseService(serviceName, token, config);
-  expect(base).toBeTruthy();
+  expect(base).toBeDefined();
 });
 
 it("base service with no token fails", async () => {
