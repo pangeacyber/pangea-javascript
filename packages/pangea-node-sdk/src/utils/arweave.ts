@@ -48,10 +48,10 @@ export const getArweavePublishedRoots = async (
 }
     `;
 
-  const options: Options = {
+  const options = new Options({
     json: { query },
     responseType: "json",
-  };
+  });
   const response = (await got.post(ARWEAVE_GRAPHQL_URL, options)) as Response;
   if (response.statusCode !== 200) return {};
 

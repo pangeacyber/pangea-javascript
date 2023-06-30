@@ -41,7 +41,7 @@
     "test:integration": "NODE_OPTIONS=--experimental-vm-modules npx jest --runInBand --detectOpenHandles --forceExit --testPathPattern=tests/integration",
     "lint": "npx prettier --check . && npx eslint --ext .ts",
     "prettier:fix": "npx prettier . -w",
-    "generate:docs": "typedoc src/index.ts --json ./docs.json --tsconfig ./tsconfig.prod.json --exclude 'node_modules/**'",
+    "generate:docs": "typedoc src/index.ts --json ./docs.json --tsconfig ./tsconfig.prod.json",
     "build": "rm -fr dist/* && tsc -p tsconfig.prod.json && tsc-alias -p tsconfig.prod.json"
   },
   "files": [
