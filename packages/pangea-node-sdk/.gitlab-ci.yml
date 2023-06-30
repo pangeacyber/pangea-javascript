@@ -38,16 +38,16 @@ lint_pangea_node_sdk:
   script:
     - yarn lint
 
-# generate_docs:
-#   extends: .pangea_node_sdk_base
-#   stage: Lint
-#   script:
-#     - yarn generate:docs
-#   artifacts:
-#     expire_in: 1 month
-#     expose_as: js_sdk
-#     paths: ["packages/pangea-node-sdk/docs.json"]
-#     when: on_success
+generate_docs:
+  extends: .pangea_node_sdk_base
+  stage: Lint
+  script:
+    - yarn generate:docs
+  artifacts:
+    expire_in: 1 month
+    expose_as: js_sdk
+    paths: ["packages/pangea-node-sdk/docs.json"]
+    when: on_success
 
 test_pangea_node_sdk:
   extends: .pangea_node_sdk_base
