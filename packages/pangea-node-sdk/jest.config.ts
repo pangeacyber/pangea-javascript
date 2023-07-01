@@ -10,7 +10,7 @@ const jestConfig: JestConfigWithTsJest = {
     "^@src/(.*)\\.js$": "<rootDir>/src/$1.ts",
     "^(\\.{1,2}/.*)\\.js$": "$1",
   },
-  bail: true,
+  bail: false,
   verbose: true,
   coverageDirectory: "./coverage/",
 };
