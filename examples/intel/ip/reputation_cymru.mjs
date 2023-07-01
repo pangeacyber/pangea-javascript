@@ -13,7 +13,7 @@ const ipIntel = new IPIntelService(String(token), config);
   const options = { provider: "cymru", verbose: true, raw: true };
   try {
     const response = await ipIntel.reputation("93.231.182.110", options);
-    console.log(response.result);
+    console.log("Result: ", response.result.data);
   } catch (e) {
     if (e instanceof PangeaErrors.APIError) {
       console.log("Error", e.summary, e.errors);

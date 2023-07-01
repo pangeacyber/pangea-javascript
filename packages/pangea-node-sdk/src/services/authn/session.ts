@@ -33,7 +33,7 @@ export default class Session extends BaseService {
    * @summary List session (service token)
    * @description List sessions.
    * @operationId authn_post_v1_session_list
-   * @param {AuthN.Session.ListRequest} options - An object of options:
+   * @param {AuthN.Session.ListRequest} request - An object of options:
    *   - filter (object): A filter object
    *   - last (string): Reflected value from a previous response to obtain the next page of results.
    *   - order (string): Order results asc(ending) or desc(ending).
@@ -50,22 +50,8 @@ export default class Session extends BaseService {
    * });
    * ```
    */
-  list({
-    filter,
-    last,
-    order,
-    order_by,
-    size,
-  }: AuthN.Session.ListRequest): Promise<PangeaResponse<AuthN.Session.ListResult>> {
-    const data: AuthN.Session.ListRequest = {};
-
-    if (filter) data.filter = filter;
-    if (last) data.last = last;
-    if (order) data.order = order;
-    if (order_by) data.order_by = order_by;
-    if (typeof size === "number") data.size = size;
-
-    return this.post("session/list", data);
+  list(request: AuthN.Session.ListRequest = {}): Promise<PangeaResponse<AuthN.Session.ListResult>> {
+    return this.post("session/list", request);
   }
 
   // authn::/v1/session/logout

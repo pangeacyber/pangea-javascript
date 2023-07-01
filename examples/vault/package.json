@@ -1,6 +1,6 @@
 {
   "name": "vault_examples",
-  "version": "1.0.0",
+  "version": "2.0.0",
   "description": "Pangea Vault examples",
   "main": "index.js",
   "scripts": {
@@ -9,6 +9,6 @@
   "author": "Pangea",
   "license": "MIT",
   "dependencies": {
-    "pangea-node-sdk": "^1.6.0"
+    "pangea-node-sdk": "^2.0.0"
   }
 }

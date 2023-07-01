@@ -60,18 +60,12 @@ export default class ClientSession extends BaseService {
    */
   list(
     token: string,
-    { filter, last, order, order_by, size }: AuthN.Client.Session.ListOptions
+    options: AuthN.Client.Session.ListOptions = {}
   ): Promise<PangeaResponse<AuthN.Session.ListResult>> {
     const data: AuthN.Client.Session.ListRequest = {
       token,
     };
-
-    if (filter) data.filter = filter;
-    if (last) data.last = last;
-    if (order) data.order = order;
-    if (order_by) data.order_by = order_by;
-    if (typeof size === "number") data.size = size;
-
+    Object.assign(data, options);
     return this.post("client/session/list", data);
   }
 
