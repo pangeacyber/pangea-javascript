@@ -1,4 +1,4 @@
-import { FC } from "react";
+import { FC, useEffect, useState } from "react";
 import { useFormik } from "formik";
 import * as yup from "yup";
 import { Box, Stack, TextField, Typography } from "@mui/material";
@@ -8,19 +8,27 @@ import { FlowStep } from "@pangeacyber/react-auth";
 import { ViewComponentProps } from "@src/views/AuthFlow/types";
 import Button from "@src/components/core/Button";
 import ErrorMessage from "../ErrorMessage";
-import PasswordField from "@src/components/fields/PasswordField";
+import PasswordField, {
+  checkPassword,
+} from "@src/components/fields/PasswordField";
 
 const ResetPasswordView: FC<ViewComponentProps> = ({
-  options,
   data,
   loading,
   error,
-  cbParams,
   next,
   reset,
 }) => {
+  const [status, setStatus] = useState<any>();
   const validationSchema = yup.object({
-    password: yup.string().min(8, "Must be at least 8 characters"),
+    password: yup
+      .string()
+      .required("Required")
+      .test(
+        "password-requirements",
+        "Password must meet requirements",
+        checkPassword
+      ),
   });
 
   const formik = useFormik({
@@ -40,51 +48,30 @@ const ResetPasswordView: FC<ViewComponentProps> = ({
     next(FlowStep.RESET_PASSWORD, { cancel: true });
   };
 
-  // TODO: This should be a separate flow state
-  if (!cbParams) {
-    return (
-      <Stack gap={2}>
-        <Typography variant="h6" mb={1}>
-          Reset Password
-        </Typography>
-        <Typography variant="body2">
-          An email message has been sent {data.email}, click the link to reset
-          your password.
-        </Typography>
-        {error && <ErrorMessage response={error} />}
-        <Stack direction="row" justifyContent="center" gap={2} mt={2}>
-          <Button variant="text" onClick={cancelReset}>
-            Cancel Reset
-          </Button>
-          {options.showReset && (
-            <Button variant="text" onClick={reset}>
-              {options.resetLabel}
-            </Button>
-          )}
-        </Stack>
-      </Stack>
-    );
-  }
+  useEffect(() => {
+    setStatus(error);
+  }, [error]);
 
   return (
     <Stack gap={2}>
       <Stack>
-        <Typography variant="h6" mb={4}>
-          Reset Password
-        </Typography>
+        <Typography variant="h6">Reset Password</Typography>
         <Typography variant="body2">{data.email}</Typography>
       </Stack>
-      <form onSubmit={formik.handleSubmit}>
-        <Box sx={{ mt: 1 }}>
+      <form
+        onSubmit={formik.handleSubmit}
+        onFocus={() => {
+          setStatus(undefined);
+        }}
+      >
+        <Stack gap={1}>
           <PasswordField
             name="password"
             label="Password"
             formik={formik}
             policy={data.passwordPolicy}
           />
-        </Box>
-        {error && <ErrorMessage response={error} />}
-        <Stack direction="row" gap={2} mt={2}>
+          {error && <ErrorMessage response={error} />}
           <Button
             color="primary"
             variant="contained"
@@ -95,15 +82,19 @@ const ResetPasswordView: FC<ViewComponentProps> = ({
             Submit
           </Button>
         </Stack>
-        <Stack direction="row" justifyContent="center" gap={2} mt={2}>
-          <Button variant="text" onClick={cancelReset}>
-            Cancel Reset
-          </Button>
-          <Button variant="text" onClick={reset}>
-            Start Over
-          </Button>
-        </Stack>
       </form>
+      <Stack
+        direction={{ xs: "column", sm: "row" }}
+        justifyContent="center"
+        gap={{ xs: 0, sm: 1 }}
+      >
+        <Button variant="text" onClick={cancelReset}>
+          Cancel Reset
+        </Button>
+        <Button variant="text" onClick={reset}>
+          Start Over
+        </Button>
+      </Stack>
     </Stack>
   );
 };

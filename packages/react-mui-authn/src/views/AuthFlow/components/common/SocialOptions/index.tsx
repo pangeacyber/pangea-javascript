@@ -34,13 +34,13 @@ const SocialOptions: FC<Props> = ({ data, options }) => {
                 color: theme.palette.divider,
               }}
             >
-              Other ways to Log in
+              Other ways
             </Typography>
           </Divider>
         </Box>
       )}
       {data.socialSignup?.length > 0 && (
-        <Stack gap={2}>
+        <Stack gap={1}>
           {data.socialSignup.map((provider: Provider) => {
             return (
               <Button

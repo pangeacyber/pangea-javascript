@@ -5,10 +5,11 @@ import { PostOptions } from "types.js";
 
 class BaseService {
   protected serviceName: string;
+  protected isMultiConfigSupported: boolean = false;
   protected token: string;
   protected apiVersion: string;
   protected config: PangeaConfig;
-  request: PangeaRequest;
+  protected request_: PangeaRequest | undefined = undefined;
 
   /*
   Required:
@@ -27,7 +28,6 @@ class BaseService {
     this.token = token;
 
     this.config = new PangeaConfig({ ...config }) || new PangeaConfig();
-    this.request = new PangeaRequest(this.serviceName, this.token, config);
   }
 
   async get(endpoint: string): Promise<PangeaResponse<any>> {
@@ -56,6 +56,21 @@ class BaseService {
 
   async pollResult(request_id: string): Promise<PangeaResponse<any>> {
     return await this.request.pollResult(request_id, true);
+  }
+
+  get request(): PangeaRequest {
+    if (this.request_) {
+      return this.request_;
+    }
+
+    this.request_ = new PangeaRequest(
+      this.serviceName,
+      this.token,
+      this.config,
+      this.isMultiConfigSupported
+    );
+
+    return this.request_;
   }
 }
 

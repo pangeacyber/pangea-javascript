@@ -14,31 +14,44 @@ const delay = async (ms: number) =>
     setTimeout(resolve, ms);
   });
 
+interface Request extends Object {
+  config_id?: string;
+}
+
 class PangeaRequest {
   private serviceName: string;
   private token: string;
   private config: PangeaConfig;
   private extraHeaders: Object;
-  private userAgent: string;
+  private isMultiConfigSupported: boolean;
+  private userAgent: string = "";
 
-  constructor(serviceName: string, token: string, config: PangeaConfig) {
+  constructor(
+    serviceName: string,
+    token: string,
+    config: PangeaConfig,
+    isMultiConfigSupported: boolean = false
+  ) {
     if (!serviceName) throw new Error("A serviceName is required");
     if (!token) throw new Error("A token is required");
 
     this.serviceName = serviceName;
     this.token = token;
     this.config = new PangeaConfig({ ...config });
-    this.userAgent = "";
     this.setCustomUserAgent(config.customUserAgent);
     this.extraHeaders = {};
+    this.isMultiConfigSupported = isMultiConfigSupported;
   }
 
   async post(
     endpoint: string,
-    data: object,
+    data: Request,
     options: PostOptions = {}
   ): Promise<PangeaResponse<any>> {
     const url = this.getUrl(endpoint);
+    if (this.isMultiConfigSupported && this.config.configID && data.config_id === undefined) {
+      data.config_id = this.config.configID;
+    }
     const request: Options = {
       headers: this.getHeaders(),
       json: data,

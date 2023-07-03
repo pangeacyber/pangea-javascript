@@ -37,16 +37,13 @@ export default class UserLogin extends BaseService {
   password(
     email: string,
     password: string,
-    { extra_profile }: AuthN.User.Login.PasswordOptions = {}
+    options: AuthN.User.Login.PasswordOptions = {}
   ): Promise<PangeaResponse<AuthN.User.Login.LoginResult>> {
     const data: AuthN.User.Login.PasswordRequest = {
       email: email,
       password: password,
     };
-
-    if (typeof extra_profile === "object" && extra_profile !== null) {
-      data.extra_profile = extra_profile;
-    }
+    Object.assign(data, options);
 
     return this.post("user/login/password", data);
   }
@@ -82,17 +79,14 @@ export default class UserLogin extends BaseService {
     provider: AuthN.IDProvider,
     email: string,
     socialID: string,
-    { extra_profile }: AuthN.User.Login.SocialOptions = {}
+    options: AuthN.User.Login.SocialOptions = {}
   ): Promise<PangeaResponse<AuthN.User.Login.LoginResult>> {
     const data: AuthN.User.Login.SocialRequest = {
       provider: provider,
       email: email,
       social_id: socialID,
     };
-
-    if (typeof extra_profile === "object" && extra_profile !== null) {
-      data.extra_profile = extra_profile;
-    }
+    Object.assign(data, options);
 
     return this.post("user/login/social", data);
   }

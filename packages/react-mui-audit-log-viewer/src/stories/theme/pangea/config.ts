@@ -30,7 +30,7 @@ export const PANGEA: any = {
   login_social_heading: "Other ways to sign in",
   name: "Tmp 1",
   otp_button_label: "Submit",
-  otp_font_size: "",
+  otp_font_size: "42px",
   panel_bg_color: "#FFFFFF",
   panel_border_radius: "8px",
   panel_box_shadow: "0px 8px 24px rgba(0, 0, 0, 0.16)",
