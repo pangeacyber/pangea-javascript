@@ -1,8 +1,8 @@
-import PangeaConfig from "../../src/config";
-import EmbargoService from "../../src/services/embargo";
-import { PangeaErrors } from "../../src/errors";
+import PangeaConfig from "../../src/config.js";
+import EmbargoService from "../../src/services/embargo.js";
+import { PangeaErrors } from "../../src/errors.js";
 import { it, expect } from "@jest/globals";
-import { TestEnvironment, getTestDomain, getTestToken } from "../../src/utils/utils";
+import { TestEnvironment, getTestDomain, getTestToken } from "../../src/utils/utils.js";
 
 const token = getTestToken(TestEnvironment.LIVE);
 const testHost = getTestDomain(TestEnvironment.LIVE);

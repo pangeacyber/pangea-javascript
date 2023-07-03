@@ -1,15 +1,20 @@
-import PangeaConfig from "../../src/config";
+import PangeaConfig from "../../src/config.js";
 import { it, expect, jest } from "@jest/globals";
-import { TestEnvironment, getHashPrefix, getTestDomain, getTestToken } from "../../src/utils/utils";
+import {
+  TestEnvironment,
+  getHashPrefix,
+  getTestDomain,
+  getTestToken,
+} from "../../src/utils/utils.js";
 import {
   FileIntelService,
   DomainIntelService,
   IPIntelService,
   URLIntelService,
   UserIntelService,
-} from "../../src";
-import { Intel } from "../../src/types";
-import { hashSHA256 } from "../../src/utils/utils";
+} from "../../src/index.js";
+import { Intel } from "../../src/types.js";
+import { hashSHA256 } from "../../src/utils/utils.js";
 
 const testEnvironment = TestEnvironment.LIVE;
 

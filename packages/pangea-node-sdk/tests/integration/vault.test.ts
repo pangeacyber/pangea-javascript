@@ -1,10 +1,10 @@
-import PangeaConfig from "../../src/config";
-import VaultService from "../../src/services/vault";
-import { Vault } from "../../src/types";
+import PangeaConfig from "../../src/config.js";
+import VaultService from "../../src/services/vault.js";
+import { Vault } from "../../src/types.js";
 import { jest, it, expect } from "@jest/globals";
-import { PangeaErrors } from "../../src/errors";
-import { strToB64 } from "../../src/utils/utils";
-import { TestEnvironment, getTestDomain, getTestToken } from "../../src/utils/utils";
+import { PangeaErrors } from "../../src/errors.js";
+import { strToB64 } from "../../src/utils/utils.js";
+import { TestEnvironment, getTestDomain, getTestToken } from "../../src/utils/utils.js";
 
 const environment = TestEnvironment.LIVE;
 const token = getTestToken(environment);

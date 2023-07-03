@@ -1,9 +1,9 @@
-import PangeaConfig from "../../src/config";
-import AuditService from "../../src/services/audit";
-import { Audit } from "../../src/types";
-import { Signer } from "../../src/utils/signer";
+import PangeaConfig from "../../src/config.js";
+import AuditService from "../../src/services/audit.js";
+import { Audit } from "../../src/types.js";
+import { Signer } from "../../src/utils/signer.js";
 import { jest, it, expect } from "@jest/globals";
-import { PangeaErrors } from "../../src/errors";
+import { PangeaErrors } from "../../src/errors.js";
 import {
   TestEnvironment,
   getTestDomain,
@@ -12,7 +12,7 @@ import {
   getCustomSchemaTestToken,
   getMultiConfigTestToken,
   getConfigID,
-} from "../../src/utils/utils";
+} from "../../src/utils/utils.js";
 
 const ACTOR = "node-sdk";
 const MSG_NO_SIGNED = "test-message";
