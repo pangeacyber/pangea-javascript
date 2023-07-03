@@ -11,6 +11,7 @@ class PangeaConfig {
   requestTimeout: number = 5000;
   queuedRetryEnabled: boolean = true;
   queuedRetries: number = 4;
+  pollResultTimeoutMs: number = 60 * 1000;
   customUserAgent: string | undefined = "";
 
   constructor(options?: ConfigOptions) {

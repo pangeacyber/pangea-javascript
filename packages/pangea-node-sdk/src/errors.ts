@@ -149,6 +149,17 @@ export namespace PangeaErrors {
     }
   }
 
+  // Accepted request exception. Async response
+  export class AcceptedRequestException extends APIError {
+    request_id: string;
+    constructor(response: PangeaResponse<any>) {
+      const message = `summary: ${response.summary}. request_id: ${response.request_id}.`;
+      super(message, response);
+      this.request_id = response.request_id;
+      this.name = "InternalServerError";
+    }
+  }
+
   // Service is not currently available
   export class ServiceNotAvailableError extends APIError {
     constructor(message: string, response: PangeaResponse<any>) {

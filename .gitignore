@@ -3,5 +3,6 @@ node_modules
 *.code-workspace
 *.DS_Store
 .env
+*.exe
 examples/*/yarn.lock
 pangea-node-sdk-*.tgz

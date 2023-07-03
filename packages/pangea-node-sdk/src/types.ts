@@ -11,8 +11,13 @@ export interface ConfigOptions {
   requestRetries?: number;
   requestTimeout?: number;
   queuedRetryEnabled?: boolean;
+  pollResultTimeoutMs?: number;
   queuedRetries?: number;
   customUserAgent?: string;
+}
+
+export interface PostOptions {
+  pollResultSync?: boolean;
 }
 
 export enum ConfigEnv {
@@ -219,7 +224,7 @@ export namespace Intel {
     provider?: string;
   }
 
-  export interface ReputationResult {
+  export interface ReputationResult extends CommonResult {
     data: {
       category: string[];
       score: number;
