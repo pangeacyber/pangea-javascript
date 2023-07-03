@@ -4,7 +4,7 @@
 import got, { Options } from "got";
 import type { Response } from "got";
 
-import { Audit } from "../types.js";
+import { Audit } from "@src/types.js";
 
 const ARWEAVE_BASE_URL = "https://arweave.net";
 const ARWEAVE_GRAPHQL_URL = `${ARWEAVE_BASE_URL}/graphql`;
@@ -48,10 +48,10 @@ export const getArweavePublishedRoots = async (
 }
     `;
 
-  const options: Options = {
+  const options = new Options({
     json: { query },
     responseType: "json",
-  };
+  });
   const response = (await got.post(ARWEAVE_GRAPHQL_URL, options)) as Response;
   if (response.statusCode !== 200) return {};
 
@@ -87,7 +87,7 @@ export const getArweavePublishedRoots = async (
   for (let idx = 0; idx < treeSizes.length; idx++) {
     const treeSize = treeSizes[idx];
 
-    if (!(treeSize in publishedRoots)) {
+    if (treeSize && !(treeSize in publishedRoots)) {
       const root = await fetchRoot(treeSize).catch((err) => {
         console.log("Failed to fetch server roots", err);
       });

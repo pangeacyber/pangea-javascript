@@ -1,8 +1,8 @@
-import PangeaResponse from "../response.js";
+import PangeaResponse from "@src/response.js";
 import BaseService from "./base.js";
-import PangeaConfig from "../config.js";
-import { Audit } from "../types.js";
-import { PublishedRoots, getArweavePublishedRoots } from "../utils/arweave.js";
+import PangeaConfig from "@src/config.js";
+import { Audit } from "@src/types.js";
+import { PublishedRoots, getArweavePublishedRoots } from "@src/utils/arweave.js";
 import {
   verifyRecordConsistencyProof,
   verifyLogHash,
@@ -10,9 +10,9 @@ import {
   verifyRecordMembershipProof,
   verifySignature,
   verifyLogConsistencyProof,
-} from "../utils/verification.js";
-import { canonicalizeEvent, eventOrderAndStringifySubfields } from "../utils/utils.js";
-import { PangeaErrors } from "../errors.js";
+} from "@src/utils/verification.js";
+import { canonicalizeEvent, eventOrderAndStringifySubfields } from "@src/utils/utils.js";
+import { PangeaErrors } from "@src/errors.js";
 
 /**
  * AuditService class provides methods for interacting with the Audit Service

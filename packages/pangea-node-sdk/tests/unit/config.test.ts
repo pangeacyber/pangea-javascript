@@ -1,8 +1,7 @@
-import PangeaConfig from "../../src/config";
-import AuditService from "../../src/services/audit";
-import { ConfigEnv } from "../../src/types";
-import { jest, it, expect } from "@jest/globals";
-import PangeaRequest from "../../src/request";
+import PangeaConfig from "@src/config.js";
+import { ConfigEnv } from "@src/types.js";
+import { it, expect } from "@jest/globals";
+import PangeaRequest from "@src/request.js";
 
 const token = "faketoken";
 const domain = "domain.test";

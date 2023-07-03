@@ -23,7 +23,6 @@ const MSG_CUSTOM_SCHEMA_NO_SIGNED = "node-sdk-custom-schema-no-signed";
 const JSON_CUSTOM_SCHEMA_NO_SIGNED = "node-sdk-json-custom-schema-no-signed";
 const MSG_CUSTOM_SCHEMA_SIGNED_LOCAL = "node-sdk-custom-schema-sign-local";
 const JSON_CUSTOM_SCHEMA_SIGNED_LOCAL = "node-sdk-json-custom-schema-sign-local";
-const MSG_CUSTOM_SCHEMA_SIGNED_VAULT = "node-sdk-custom-schema-sign-vault";
 const STATUS_NO_SIGNED = "no-signed";
 const STATUS_SIGNED = "signed";
 const LONG_FIELD =
@@ -194,7 +193,7 @@ it("log an audit event in JSON format", async () => {
   const respSearch = await auditGeneral.search(query, queryOptions, searchOptions);
   expect(respSearch.result.count).toBe(maxResults);
 
-  respSearch.result.events.forEach((record, index) => {
+  respSearch.result.events.forEach((record) => {
     expect(record.membership_verification).toBe("pass");
     expect(record.signature_verification).toBe("none");
     expect(record.consistency_verification).toBe("none");
@@ -227,8 +226,8 @@ it("log an event, local sign and verify", async () => {
 
   const respSearch = await auditGeneral.search(query, queryOptions, {});
   const searchEvent = respSearch.result.events[0];
-  expect(searchEvent.signature_verification).toBe("pass");
-  expect(searchEvent.envelope.public_key).toBe(
+  expect(searchEvent?.signature_verification).toBe("pass");
+  expect(searchEvent?.envelope.public_key).toBe(
     String.raw`{"algorithm":"ED25519","key":"-----BEGIN PUBLIC KEY-----\nMCowBQYDK2VwAyEAlvOyDMpK2DQ16NI8G41yINl01wMHzINBahtDPoh4+mE=\n-----END PUBLIC KEY-----\n"}`
   );
 });
@@ -259,8 +258,8 @@ it("log an event, local sign and tenant id", async () => {
 
   const respSearch = await auditGeneral.search(query, queryOptions, {});
   const searchEvent = respSearch.result.events[0];
-  expect(searchEvent.signature_verification).toBe("pass");
-  expect(searchEvent.envelope.public_key).toBe(
+  expect(searchEvent?.signature_verification).toBe("pass");
+  expect(searchEvent?.envelope.public_key).toBe(
     String.raw`{"algorithm":"ED25519","key":"-----BEGIN PUBLIC KEY-----\nMCowBQYDK2VwAyEAlvOyDMpK2DQ16NI8G41yINl01wMHzINBahtDPoh4+mE=\n-----END PUBLIC KEY-----\n"}`
   );
 });
@@ -310,8 +309,8 @@ it("log JSON event, sign and verify", async () => {
 
   const respSearch = await auditGeneral.search(query, queryOptions, {});
   const searchEvent = respSearch.result.events[0];
-  expect(searchEvent.signature_verification).toBe("pass");
-  expect(searchEvent.envelope.public_key).toBe(
+  expect(searchEvent?.signature_verification).toBe("pass");
+  expect(searchEvent?.envelope.public_key).toBe(
     String.raw`{"algorithm":"ED25519","key":"-----BEGIN PUBLIC KEY-----\nMCowBQYDK2VwAyEAlvOyDMpK2DQ16NI8G41yINl01wMHzINBahtDPoh4+mE=\n-----END PUBLIC KEY-----\n"}`
   );
 });
@@ -346,7 +345,7 @@ it("log JSON event, vault sign and verify", async () => {
 
   const respSearch = await auditVault.search(query, queryOptions, {});
   const searchEvent = respSearch.result.events[0];
-  expect(searchEvent.signature_verification).toBe("pass");
+  expect(searchEvent?.signature_verification).toBe("pass");
 });
 
 // Custom schema tests
@@ -472,7 +471,7 @@ it("custom schema log an audit event in JSON format", async () => {
   const respSearch = await auditCustomSchema.search(query, queryOptions, searchOptions);
   expect(respSearch.result.count).toBe(maxResults);
 
-  respSearch.result.events.forEach((record, index) => {
+  respSearch.result.events.forEach((record) => {
     expect(record.membership_verification).toBe("pass");
     expect(record.signature_verification).toBe("none");
     expect(record.consistency_verification).toBe("none");
@@ -504,8 +503,8 @@ it("custom log an event, local sign and verify", async () => {
 
   const respSearch = await auditCustomSchema.search(query, queryOptions, {});
   const searchEvent = respSearch.result.events[0];
-  expect(searchEvent.signature_verification).toBe("pass");
-  expect(searchEvent.envelope.public_key).toBe(
+  expect(searchEvent?.signature_verification).toBe("pass");
+  expect(searchEvent?.envelope.public_key).toBe(
     String.raw`{"algorithm":"ED25519","key":"-----BEGIN PUBLIC KEY-----\nMCowBQYDK2VwAyEAlvOyDMpK2DQ16NI8G41yINl01wMHzINBahtDPoh4+mE=\n-----END PUBLIC KEY-----\n"}`
   );
 });
@@ -559,7 +558,7 @@ it("custom schema log an audit event in JSON format, local sign and verify", asy
   const respSearch = await auditCustomSchema.search(query, queryOptions, searchOptions);
   expect(respSearch.result.count).toBe(maxResults);
 
-  respSearch.result.events.forEach((record, index) => {
+  respSearch.result.events.forEach((record) => {
     expect(record.membership_verification).toBe("pass");
     expect(record.signature_verification).toBe("none");
     expect(record.consistency_verification).toBe("none");
@@ -580,7 +579,7 @@ it("search audit log and verify signature", async () => {
 
   expect(response.status).toBe("Success");
   expect(response.result.events.length).toBeLessThanOrEqual(limit);
-  response.result.events.forEach((record, index) => {
+  response.result.events.forEach((record) => {
     expect(record.signature_verification).toBe("pass");
   });
 });
@@ -602,7 +601,7 @@ it("search audit log and verify consistency", async () => {
   let response = await auditGeneral.search(query, queryOptions, options);
   expect(response.status).toBe("Success");
   expect(response.result.events.length).toBeLessThanOrEqual(limit);
-  response.result.events.forEach((record, index) => {
+  response.result.events.forEach((record) => {
     expect(record.consistency_verification).toBe("pass"); // Oldest events should pass
     expect(record.membership_verification).toBe("pass");
   });
@@ -613,7 +612,7 @@ it("search audit log and verify consistency", async () => {
 
   expect(response.status).toBe("Success");
   expect(response.result.events.length).toBeLessThanOrEqual(limit);
-  response.result.events.forEach((record, index) => {
+  response.result.events.forEach((record) => {
     expect(record.consistency_verification).toBe("none"); // Newest events should not pass
     expect(record.membership_verification).toBe("pass");
   });
@@ -632,7 +631,7 @@ it("search audit log and skip consistency verification", async () => {
 
   expect(response.status).toBe("Success");
   expect(response.result.events.length).toBeLessThanOrEqual(limit);
-  response.result.events.forEach((record, index) => {
+  response.result.events.forEach((record) => {
     expect(record.membership_verification).toBeUndefined(); // If not set verifyConsistency this remain undefined
     expect(record.consistency_verification).toBeUndefined();
     expect(record.signature_verification).toBe("pass");
@@ -654,7 +653,7 @@ it("results audit log with search verbose", async () => {
   const searchResponse = await auditGeneral.search(query, queryOptions, {});
   expect(searchResponse.status).toBe("Success");
   expect(searchResponse.result.events.length).toBeLessThanOrEqual(searchLimit);
-  searchResponse.result.events.forEach((record, index) => {
+  searchResponse.result.events.forEach((record) => {
     expect(record.membership_verification).toBeUndefined(); // If not set verifyConsistency this remain undefined
     expect(record.consistency_verification).toBeUndefined();
   });
@@ -673,7 +672,7 @@ it("results audit log with search verbose", async () => {
   );
   expect(resultsResponse.status).toBe("Success");
   expect(resultsResponse.result.events.length).toEqual(resultsLimit);
-  resultsResponse.result.events.forEach((record, index) => {
+  resultsResponse.result.events.forEach((record) => {
     expect(record.membership_verification).toBe("pass");
     expect(record.consistency_verification).toBe("pass");
   });
@@ -689,7 +688,7 @@ it("results audit log with search verbose", async () => {
   );
   expect(resultsResponse.status).toBe("Success");
   expect(resultsResponse.result.events.length).toEqual(resultsLimit);
-  resultsResponse.result.events.forEach((record, index) => {
+  resultsResponse.result.events.forEach((record) => {
     expect(record.membership_verification).toBeUndefined();
     expect(record.consistency_verification).toBeUndefined();
   });
@@ -710,7 +709,7 @@ it("results audit log with search no verbose", async () => {
   const searchResponse = await auditGeneral.search(query, queryOptions, {});
   expect(searchResponse.status).toBe("Success");
   expect(searchResponse.result.events.length).toBeLessThanOrEqual(searchLimit);
-  searchResponse.result.events.forEach((record, index) => {
+  searchResponse.result.events.forEach((record) => {
     expect(record.membership_verification).toBeUndefined(); // If not set verifyConsistency this remain undefined
     expect(record.consistency_verification).toBeUndefined();
   });
@@ -729,7 +728,7 @@ it("results audit log with search no verbose", async () => {
   );
   expect(resultsResponse.status).toBe("Success");
   expect(resultsResponse.result.events.length).toEqual(resultsLimit);
-  resultsResponse.result.events.forEach((record, index) => {
+  resultsResponse.result.events.forEach((record) => {
     expect(record.membership_verification).toBe("none"); // It should be none because it does not have enought information
     expect(record.consistency_verification).toBe("none");
   });
@@ -745,7 +744,7 @@ it("results audit log with search no verbose", async () => {
   );
   expect(resultsResponse.status).toBe("Success");
   expect(resultsResponse.result.events.length).toEqual(resultsLimit);
-  resultsResponse.result.events.forEach((record, index) => {
+  resultsResponse.result.events.forEach((record) => {
     expect(record.membership_verification).toBeUndefined();
     expect(record.consistency_verification).toBeUndefined();
   });
@@ -786,7 +785,7 @@ it("fail if empty message", async () => {
     message: "",
   };
   try {
-    const response = await auditGeneral.log(event);
+    await auditGeneral.log(event);
   } catch (e) {
     expect(e).toBeInstanceOf(PangeaErrors.ValidationError);
     if (e instanceof PangeaErrors.ValidationError) {
@@ -804,6 +803,7 @@ it("fail bad auth token", async () => {
   };
   try {
     const response = await badaudit.log(event);
+    expect(response).toBeFalsy();
   } catch (e) {
     expect(e).toBeInstanceOf(PangeaErrors.UnauthorizedError);
     if (e instanceof PangeaErrors.UnauthorizedError) {
@@ -878,6 +878,7 @@ it("log multi config token, without config id ", async () => {
 
   const t = async () => {
     const response = await audit.log(event);
+    expect(response).toBeFalsy();
   };
 
   await expect(t()).rejects.toThrow(PangeaErrors.APIError);

@@ -46,12 +46,12 @@ class PangeaRequest {
       data.config_id = this.config.configID;
     }
 
-    const options: Options = {
+    const options = new Options({
       headers: this.getHeaders(),
       json: data,
       retry: { limit: this.config.requestRetries },
       responseType: "json",
-    };
+    });
 
     try {
       const apiCall = (await got.post(url, options)) as Response;
@@ -76,11 +76,11 @@ class PangeaRequest {
   async get(endpoint: string, path: string): Promise<PangeaResponse<any>> {
     const fullPath = !path ? endpoint : `${endpoint}/${path}`;
     const url = this.getUrl(fullPath);
-    const options: Options = {
+    const options = new Options({
       headers: this.getHeaders(),
       retry: { limit: this.config.requestRetries },
       responseType: "json",
-    };
+    });
 
     try {
       const response = (await got.get(url, options)) as Response;
@@ -192,7 +192,9 @@ class PangeaRequest {
         throw new PangeaErrors.ForbiddenVaultOperation(response.summary, response);
       case "NotFound":
         throw new PangeaErrors.NotFound(
-          response.gotResponse?.requestUrl !== undefined ? response.gotResponse.requestUrl : "",
+          response.gotResponse?.requestUrl !== undefined
+            ? response.gotResponse.requestUrl.toString()
+            : "",
           response
         );
       case "InternalError":
