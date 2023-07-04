@@ -1,5 +1,8 @@
 import got, { Options, HTTPError } from "got";
 import type { Headers, Response } from "got";
+import FormData from "form-data";
+import fs from "fs";
+import { PostOptions } from "./types.js";
 
 import PangeaConfig, { version } from "./config.js";
 import { ConfigEnv } from "./types.js";
@@ -40,29 +43,71 @@ class PangeaRequest {
     this.isMultiConfigSupported = isMultiConfigSupported;
   }
 
-  async post(endpoint: string, data: Request): Promise<PangeaResponse<any>> {
-    const url = this.getUrl(endpoint);
+  checkConfigID(data: Request) {
     if (this.isMultiConfigSupported && this.config.configID && data.config_id === undefined) {
       data.config_id = this.config.configID;
     }
+  }
 
-    const options = new Options({
+  async post(
+    endpoint: string,
+    data: Request,
+    options: PostOptions = {}
+  ): Promise<PangeaResponse<any>> {
+    const url = this.getUrl(endpoint);
+    this.checkConfigID(data);
+    const request = new Options({
       headers: this.getHeaders(),
       json: data,
       retry: { limit: this.config.requestRetries },
       responseType: "json",
     });
 
-    try {
-      const apiCall = (await got.post(url, options)) as Response;
+    return await this.doPost(url, request, options);
+  }
 
-      if (apiCall.statusCode === 202 && this.config.queuedRetryEnabled) {
-        const body = apiCall.body as ResponseObject<any>;
-        const request_id = body?.request_id;
-        const response = await this.handleAsync(request_id);
-        return this.checkResponse(response);
+  async postMultipart(
+    endpoint: string,
+    data: Request,
+    filepath: string,
+    options: PostOptions = {}
+  ): Promise<PangeaResponse<any>> {
+    const url = this.getUrl(endpoint);
+    const form = new FormData();
+    this.checkConfigID(data);
+
+    form.append("request", JSON.stringify(data), { contentType: "application/json" });
+    form.append("upload", fs.createReadStream(filepath), {
+      contentType: "application/octet-stream",
+    });
+
+    const request = new Options({
+      headers: this.getHeaders(),
+      body: form,
+      retry: { limit: this.config.requestRetries },
+      responseType: "json",
+    });
+
+    return await this.doPost(url, request, options);
+  }
+
+  private async doPost(
+    url: string,
+    request: object,
+    options: PostOptions = {}
+  ): Promise<PangeaResponse<any>> {
+    try {
+      const apiCall = (await got.post(url, request)) as Response;
+
+      let pangeaResponse = new PangeaResponse(apiCall);
+      if (pangeaResponse.gotResponse?.statusCode === 202 && this.config.queuedRetryEnabled) {
+        if (options.pollResultSync) {
+          pangeaResponse = await this.handleAsync(pangeaResponse);
+        }
+
+        return this.checkResponse(pangeaResponse);
       }
-      return this.checkResponse(new PangeaResponse(apiCall));
+      return this.checkResponse(pangeaResponse);
     } catch (error) {
       if (error instanceof HTTPError) {
         // This MUST throw and error
@@ -73,9 +118,8 @@ class PangeaRequest {
     }
   }
 
-  async get(endpoint: string, path: string): Promise<PangeaResponse<any>> {
-    const fullPath = !path ? endpoint : `${endpoint}/${path}`;
-    const url = this.getUrl(fullPath);
+  async get(endpoint: string, checkResponse: boolean = true): Promise<PangeaResponse<any>> {
+    const url = this.getUrl(endpoint);
     const options = new Options({
       headers: this.getHeaders(),
       retry: { limit: this.config.requestRetries },
@@ -84,38 +128,55 @@ class PangeaRequest {
 
     try {
       const response = (await got.get(url, options)) as Response;
-      return this.checkResponse(new PangeaResponse(response));
+      const pangeaResponse = new PangeaResponse(response);
+      return checkResponse ? this.checkResponse(pangeaResponse) : pangeaResponse;
     } catch (error) {
       if (error instanceof HTTPError) {
         // This MUST throw and error
-        return this.checkResponse(new PangeaResponse(error.response));
+        const pangeaResponse = new PangeaResponse(error.response);
+        return checkResponse ? this.checkResponse(pangeaResponse) : pangeaResponse;
       }
       // TODO: add handling of lower level errors?
       throw error;
     }
   }
 
-  async handleAsync(requestId: string): Promise<PangeaResponse<any>> {
-    let retryCount = 0;
+  private getDelay(retryCount: number, start: number): number {
+    let delay = retryCount * retryCount * 1000;
+    const now = Date.now();
+    if (now + delay > start + this.config.pollResultTimeoutMs) {
+      delay = start + this.config.pollResultTimeoutMs - now;
+    }
 
-    while (retryCount < this.config.queuedRetries) {
+    return delay;
+  }
+
+  private reachTimeout(start: number): boolean {
+    const now = Date.now();
+    return start + this.config.pollResultTimeoutMs <= now;
+  }
+
+  async pollResult(requestId: string, checkResponse: boolean = true): Promise<PangeaResponse<any>> {
+    const path = `request/${requestId}`;
+    // eslint-disable-next-line no-await-in-loop
+    return await this.get(path, checkResponse);
+  }
+
+  async handleAsync(pangeaResponse: PangeaResponse<any>): Promise<PangeaResponse<any>> {
+    let retryCount = 0;
+    const start = Date.now();
+    const body = pangeaResponse.gotResponse?.body as ResponseObject<any>;
+    const requestId = body?.request_id;
+
+    while (pangeaResponse.gotResponse?.statusCode === 202 && !this.reachTimeout(start)) {
       retryCount += 1;
-      const waitTime = retryCount * retryCount * 500;
+      const waitTime = this.getDelay(retryCount, start);
 
       // eslint-disable-next-line no-await-in-loop
       await delay(waitTime);
-      // eslint-disable-next-line no-await-in-loop
-      const response = await this.get("request", requestId);
-
-      if (!(response.gotResponse?.statusCode === 202 && retryCount < this.config.queuedRetries)) {
-        return response;
-      }
+      pangeaResponse = await this.pollResult(requestId, false);
     }
-
-    console.log("This should never be reached. But it did.");
-    // this should never be reached     // FIXME: Why not?
-    // @ts-ignore
-    return response;
+    return pangeaResponse;
   }
 
   setExtraHeaders(headers: any): any {
@@ -150,7 +211,6 @@ class PangeaRequest {
   getHeaders(): Headers {
     const headers = {};
     const pangeaHeaders = {
-      "Content-Type": "application/json",
       "User-Agent": this.userAgent,
       Authorization: `Bearer ${this.token}`,
     };
@@ -163,7 +223,7 @@ class PangeaRequest {
     return headers;
   }
 
-  checkResponse(response: PangeaResponse<any>) {
+  private checkResponse(response: PangeaResponse<any>) {
     if (response.success) {
       return response;
     }
@@ -199,6 +259,8 @@ class PangeaRequest {
         );
       case "InternalError":
         throw new PangeaErrors.InternalServerError(response);
+      case "Accepted":
+        throw new PangeaErrors.AcceptedRequestException(response);
       default:
         throw new PangeaErrors.APIError(response.status, response);
     }
