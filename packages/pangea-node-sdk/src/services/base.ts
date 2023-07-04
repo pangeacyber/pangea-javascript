@@ -1,6 +1,7 @@
 import PangeaConfig from "../config.js";
 import PangeaRequest from "../request.js";
 import PangeaResponse from "../response.js";
+import { PostOptions } from "types.js";
 
 class BaseService {
   protected serviceName: string;
@@ -29,14 +30,32 @@ class BaseService {
     this.config = new PangeaConfig({ ...config }) || new PangeaConfig();
   }
 
-  async get(endpoint: string, path: string): Promise<PangeaResponse<any>> {
-    const fullpath = `${this.apiVersion}/${path}`;
-    return await this.request.get(endpoint, fullpath);
+  async get(endpoint: string): Promise<PangeaResponse<any>> {
+    const fullpath = `${this.apiVersion}/${endpoint}`;
+    return await this.request.get(fullpath);
   }
 
-  async post(endpoint: string, data: object): Promise<PangeaResponse<any>> {
+  async post(
+    endpoint: string,
+    data: object,
+    options: PostOptions = {}
+  ): Promise<PangeaResponse<any>> {
     const fullpath = `${this.apiVersion}/${endpoint}`;
-    return await this.request.post(fullpath, data);
+    return await this.request.post(fullpath, data, options);
+  }
+
+  async postMultipart(
+    endpoint: string,
+    data: object,
+    filepath: string,
+    options: PostOptions = {}
+  ): Promise<PangeaResponse<any>> {
+    const fullpath = `${this.apiVersion}/${endpoint}`;
+    return await this.request.postMultipart(fullpath, data, filepath, options);
+  }
+
+  async pollResult(request_id: string): Promise<PangeaResponse<any>> {
+    return await this.request.pollResult(request_id, true);
   }
 
   get request(): PangeaRequest {
