@@ -7,10 +7,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [2.0.0] - Unreleased
 
-# Added
-
-- Audit.Log options: Remove signMode due to vault signing is done by token
-
 # Changed
 
 - Event interface is now a key:object map
@@ -20,6 +16,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 # Removed
 
 - Intel services all deprecated methods
+- Audit.Log options: Remove signMode due to vault signing is done by token
 
 ## [1.10.0] - 2023-06-26
 
