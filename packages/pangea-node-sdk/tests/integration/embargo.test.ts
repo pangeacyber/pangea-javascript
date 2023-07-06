@@ -1,8 +1,8 @@
-import PangeaConfig from "../../src/config";
-import EmbargoService from "../../src/services/embargo";
-import { PangeaErrors } from "../../src/errors";
+import PangeaConfig from "../../src/config.js";
+import EmbargoService from "../../src/services/embargo.js";
+import { PangeaErrors } from "../../src/errors.js";
 import { it, expect } from "@jest/globals";
-import { TestEnvironment, getTestDomain, getTestToken } from "../../src/utils/utils";
+import { TestEnvironment, getTestDomain, getTestToken } from "../../src/utils/utils.js";
 
 const token = getTestToken(TestEnvironment.LIVE);
 const testHost = getTestDomain(TestEnvironment.LIVE);
@@ -44,6 +44,7 @@ it("check ISO for Cuba", async () => {
 it("wrong IP format fails. Empty string", async () => {
   try {
     const response = await embargo.ipCheck("");
+    expect(response).toBeFalsy();
   } catch (e) {
     expect(e).toBeInstanceOf(PangeaErrors.ValidationError);
     if (e instanceof PangeaErrors.ValidationError) {
@@ -57,6 +58,7 @@ it("wrong IP format fails. Empty string", async () => {
 it("wrong IP format fails. Not numeric values", async () => {
   try {
     const response = await embargo.ipCheck("thisisnotanIP");
+    expect(response).toBeFalsy();
   } catch (e) {
     expect(e).toBeInstanceOf(PangeaErrors.ValidationError);
     if (e instanceof PangeaErrors.ValidationError) {
@@ -70,6 +72,7 @@ it("wrong IP format fails. Not numeric values", async () => {
 it("wrong IP format fails. Missing part", async () => {
   try {
     const response = await embargo.ipCheck("213.24.238");
+    expect(response).toBeFalsy();
   } catch (e) {
     expect(e).toBeInstanceOf(PangeaErrors.ValidationError);
     if (e instanceof PangeaErrors.ValidationError) {
@@ -83,6 +86,7 @@ it("wrong IP format fails. Missing part", async () => {
 it("wrong IP format fails. Out of range", async () => {
   try {
     const response = await embargo.ipCheck("213.24.238.300");
+    expect(response).toBeFalsy();
   } catch (e) {
     expect(e).toBeInstanceOf(PangeaErrors.ValidationError);
     if (e instanceof PangeaErrors.ValidationError) {
@@ -99,6 +103,7 @@ it("bad Auth token", async () => {
 
   try {
     const response = await badembargo.ipCheck("213.24.238.26");
+    expect(response).toBeFalsy();
   } catch (e) {
     expect(e).toBeInstanceOf(PangeaErrors.UnauthorizedError);
     if (e instanceof PangeaErrors.UnauthorizedError) {

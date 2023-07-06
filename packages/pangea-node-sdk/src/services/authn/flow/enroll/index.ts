@@ -1,5 +1,5 @@
-import PangeaConfig from "../../../../config.js";
-import BaseService from "../../../base.js";
+import PangeaConfig from "@src/config.js";
+import BaseService from "@src/services/base.js";
 
 import FlowEnrollMFA from "./mfa.js";
 

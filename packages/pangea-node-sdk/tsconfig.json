@@ -1,12 +1,39 @@
 {
-  "extends": "./tsconfig-base.json",
   "compilerOptions": {
-    "module": "esnext",
-    "outDir": "dist/mjs",
-    "target": "esnext",
+    "outDir": "dist",
+    "module": "ES2020",
+    "moduleResolution": "nodenext",
+    "moduleDetection": "force",
+    "target": "ES2020", // Node.js 14
+    "esModuleInterop": true,
+    "lib": ["ES2020"],
+    "allowSyntheticDefaultImports": true, // To provide backwards compatibility, Node.js allows you to import most CommonJS packages with a default import. This flag tells TypeScript that it's okay to use import on CommonJS modules.
+    "resolveJsonModule": false, // ESM doesn't yet support JSON modules.
+    "declaration": true,
+    "pretty": true,
+    "newLine": "lf",
+    "stripInternal": true,
+    "strict": true,
+    "noImplicitReturns": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "noFallthroughCasesInSwitch": true,
+    "noUncheckedIndexedAccess": true,
+    "noEmitOnError": true,
+    "useDefineForClassFields": true,
+    "forceConsistentCasingInFileNames": true,
+    "skipLibCheck": true,
+    "isolatedModules": false,
+    "baseUrl": ".",
     "paths": {
-      "@src/*": ["src/*"],
-      "@services/*": ["src/services/*"]
+      "@src/*": ["./src/*"]
     }
+  },
+  "types": ["@types/jest"],
+  "include": ["src", "tests"],
+  "ts-node": {
+    "transpileOnly": true,
+    "files": true,
+    "experimentalResolver": true
   }
 }

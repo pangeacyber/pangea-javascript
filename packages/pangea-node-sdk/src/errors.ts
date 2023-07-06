@@ -1,4 +1,4 @@
-import { Audit } from "types.js";
+import { Audit } from "@src/types.js";
 import { PangeaResponse } from "./response.js";
 
 export namespace PangeaErrors {
@@ -156,7 +156,7 @@ export namespace PangeaErrors {
       const message = `summary: ${response.summary}. request_id: ${response.request_id}.`;
       super(message, response);
       this.request_id = response.request_id;
-      this.name = "InternalServerError";
+      this.name = "AcceptedRequestException";
     }
   }
 

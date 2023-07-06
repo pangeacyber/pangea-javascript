@@ -1,8 +1,8 @@
-import PangeaResponse from "../response.js";
+import PangeaResponse from "@src/response.js";
 import BaseService from "./base.js";
-import PangeaConfig from "../config.js";
-import { Audit } from "../types.js";
-import { PublishedRoots, getArweavePublishedRoots } from "../utils/arweave.js";
+import PangeaConfig from "@src/config.js";
+import { Audit } from "@src/types.js";
+import { PublishedRoots, getArweavePublishedRoots } from "@src/utils/arweave.js";
 import {
   verifyRecordConsistencyProof,
   verifyLogHash,
@@ -10,12 +10,9 @@ import {
   verifyRecordMembershipProof,
   verifySignature,
   verifyLogConsistencyProof,
-} from "../utils/verification.js";
-import { canonicalizeEvent } from "../utils/utils.js";
-import { PangeaErrors } from "../errors.js";
-
-const SupportedFields = ["actor", "action", "status", "source", "target", "timestamp", "tenant_id"];
-const SupportedJSONFields = ["message", "new", "old"];
+} from "@src/utils/verification.js";
+import { canonicalizeEvent, eventOrderAndStringifySubfields } from "@src/utils/utils.js";
+import { PangeaErrors } from "@src/errors.js";
 
 /**
  * AuditService class provides methods for interacting with the Audit Service
@@ -69,44 +66,20 @@ class AuditService extends BaseService {
    * ```
    */
   async log(
-    content: Audit.Event,
+    event: Audit.Event,
     options: Audit.LogOptions = {}
   ): Promise<PangeaResponse<Audit.LogResponse>> {
-    const event: Audit.Event = {
-      message: "",
-    };
-
-    SupportedFields.forEach((key) => {
-      if (key in content) {
-        // @ts-ignore
-        event[key] = content[key];
-      }
-    });
-
-    SupportedJSONFields.forEach((key) => {
-      if (key in content) {
-        // @ts-ignore
-        event[key] =
-          // @ts-ignore
-          content[key] instanceof Object
-            ? // @ts-ignore
-              JSON.stringify(content[key])
-            : // @ts-ignore
-              (event[key] = content[key]);
-      }
-    });
-
-    // Always overwrite tenant_id field
-    if (this.tenantID !== undefined) {
+    // Set tenant_id field if unset
+    if (event.tenant_id === undefined && this.tenantID !== undefined) {
       event.tenant_id = this.tenantID;
     }
 
+    event = eventOrderAndStringifySubfields(event);
     const data: Audit.LogData = { event: event };
 
-    if (options.signer && options.signMode == Audit.SignOptions.Local) {
+    if (options.signer) {
       const signer = options.signer;
-      const eventJson = canonicalizeEvent(event);
-      const signature = signer.sign(eventJson);
+      const signature = signer.sign(canonicalizeEvent(event));
       const pubKey = signer.getPublicKey();
       const algorithm = signer.getAlgorithm();
 
@@ -282,7 +255,7 @@ class AuditService extends BaseService {
    * const response = audit.root(7);
    * ```
    */
-  root(size: number = 0): Promise<PangeaResponse<Audit.RootResponse>> {
+  root(size: number = 0): Promise<PangeaResponse<Audit.RootResult>> {
     const data: Audit.RootParams = {};
 
     if (size > 0) {

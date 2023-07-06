@@ -1,8 +1,8 @@
-import PangeaConfig from "../../src/config";
-import { PangeaErrors } from "../../src/errors";
-import RedactService from "../../src/services/redact";
+import PangeaConfig from "../../src/config.js";
+import { PangeaErrors } from "../../src/errors.js";
+import RedactService from "../../src/services/redact.js";
 import { it, expect } from "@jest/globals";
-import { TestEnvironment, getTestDomain, getTestToken } from "../../src/utils/utils";
+import { TestEnvironment, getTestDomain, getTestToken } from "../../src/utils/utils.js";
 
 const token = getTestToken(TestEnvironment.LIVE);
 const testHost = getTestDomain(TestEnvironment.LIVE);

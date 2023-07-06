@@ -1,9 +1,9 @@
-import PangeaConfig from "../../src/config";
-import AuthNService from "../../src/services/authn";
+import PangeaConfig from "../../src/config.js";
+import AuthNService from "../../src/services/authn/index.js";
 import { it, expect, jest } from "@jest/globals";
-import { PangeaErrors } from "../../src/errors";
-import { TestEnvironment, getTestDomain, getTestToken } from "../../src/utils/utils";
-import { AuthN } from "../../src/types";
+import { PangeaErrors } from "../../src/errors.js";
+import { TestEnvironment, getTestDomain, getTestToken } from "../../src/utils/utils.js";
+import { AuthN } from "../../src/types.js";
 
 const environment = TestEnvironment.LIVE;
 const token = getTestToken(environment);

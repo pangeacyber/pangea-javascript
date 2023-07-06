@@ -1,5 +1,5 @@
-import PangeaConfig from "../../src/config.js";
-import AuditService from "../../src/services/audit.js";
+import PangeaConfig from "@src/config.js";
+import AuditService from "@src/services/audit.js";
 import { it, expect } from "@jest/globals";
 
 it("is really a test", async () => {
