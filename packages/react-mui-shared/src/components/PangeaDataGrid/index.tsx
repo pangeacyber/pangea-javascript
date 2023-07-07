@@ -69,6 +69,7 @@ export interface PangeaDataGridProps<
     conditionalOptions?: ConditionalOption[];
     Filters?: FilterFormProps<FiltersObj>;
     EndFilterButton?: FC<FilterFormProps<FiltersObj>>;
+    EndBarComponent?: ReactNode;
   };
   // Optional easy to add action column. Always inserted after all columns
   //    Action column could also always

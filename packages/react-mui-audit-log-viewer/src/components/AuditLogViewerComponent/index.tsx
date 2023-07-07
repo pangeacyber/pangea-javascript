@@ -80,7 +80,7 @@ const AuditLogViewerComponent: FC<ViewerProps> = ({
         setQuery(newQuery);
       }
     },
-    [query, setQuery]
+    [query, setQuery, body]
   );
 
   return (

@@ -122,7 +122,7 @@ VerificationAuditLogViewer.args = {
     return axios
       .post(
         `https://audit.${process.env.STORYBOOK_SERVICE_DOMAIN}/v1/search`,
-        { ...body },
+        { ...body, verify_signature: true },
         {
           headers: {
             Authorization: `Bearer ${process.env.STORYBOOK_PANGEA_TOKEN}`,
@@ -140,7 +140,7 @@ VerificationAuditLogViewer.args = {
     return axios
       .post(
         `https://audit.${process.env.STORYBOOK_SERVICE_DOMAIN}/v1/results`,
-        { ...body },
+        { ...body, verify_signature: true },
         {
           headers: {
             Authorization: `Bearer ${process.env.STORYBOOK_PANGEA_TOKEN}`,

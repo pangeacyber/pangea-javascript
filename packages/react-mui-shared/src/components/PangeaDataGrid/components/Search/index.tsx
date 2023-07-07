@@ -1,4 +1,4 @@
-import { FC, useRef, useState } from "react";
+import { FC, ReactNode, useRef, useState } from "react";
 import FilterAltOutlinedIcon from "@mui/icons-material/FilterAltOutlined";
 
 import {
@@ -28,6 +28,7 @@ interface SearchProps<FiltersObj> {
   Filters?: FilterFormProps<FiltersObj>;
   ColumnsPopoutProps?: ColumnsPopoutProps;
   EndFilterButton?: FC<FilterFormProps<FiltersObj>>;
+  EndBarComponent?: ReactNode;
 }
 
 const Search = <
@@ -41,6 +42,7 @@ const Search = <
   Filters,
   ColumnsPopoutProps,
   EndFilterButton,
+  EndBarComponent,
 }: SearchProps<FiltersObj>): JSX.Element => {
   const [query_, setQuery_] = useInternalState(query, onChange);
   const searchRef = useRef<HTMLDivElement | null>(null);
@@ -108,6 +110,7 @@ const Search = <
           Search
         </Button>
         {!!ColumnsPopoutProps && <ColumnsPopout {...ColumnsPopoutProps} />}
+        {!!EndBarComponent && EndBarComponent}
       </Stack>
       {!!Filters && Filters.showFilterChips && (
         <FiltersBar<FiltersObj> {...Filters} />
