@@ -787,6 +787,13 @@ class VaultService extends BaseService {
     };
     return this.post("key/verify/jwt", data);
   }
+
+  // FIXME: Add docs
+  async folderCreate(
+    request: Vault.Folder.CreateRequest
+  ): Promise<PangeaResponse<Vault.Folder.CreateResult>> {
+    return this.post("folder/create", request);
+  }
 }
 
 export default VaultService;

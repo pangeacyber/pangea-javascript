@@ -528,3 +528,48 @@ it("JWT symmetric signing life cycle", async () => {
     expect(false).toBeTruthy();
   }
 });
+
+it("Folder endpoint", async () => {
+  const FOLDER_PARENT = "test_parent_folder_" + TIME;
+  const FOLDER_NAME = "test_folder_name";
+  const FOLDER_NAME_NEW = "test_folder_name_new";
+
+  // Create parent
+  const createParentResp = await vault.folderCreate({
+    name: FOLDER_PARENT,
+    folder: "/",
+  });
+  expect(createParentResp.result.id).toBeDefined();
+
+  // Create folder
+  const createFolderResp = await vault.folderCreate({
+    name: FOLDER_NAME,
+    folder: FOLDER_PARENT,
+  });
+  expect(createFolderResp.result.id).toBeDefined();
+
+  // Update name
+  const updateFolderResp = await vault.update(createFolderResp.result.id, {
+    name: FOLDER_NAME_NEW,
+  });
+  expect(createFolderResp.result.id).toBe(updateFolderResp.result.id);
+
+  // List
+  const listResp = await vault.list({
+    filter: {
+      folder: FOLDER_PARENT,
+    },
+  });
+  expect(listResp.result.count).toBe(1);
+  expect(createFolderResp.result.id).toBe(listResp.result.items[0]?.id);
+  expect("folder").toBe(listResp.result.items[0]?.type);
+  expect(FOLDER_NAME_NEW).toBe(listResp.result.items[0]?.name);
+
+  // Delete
+  const deleteResp = await vault.delete(createFolderResp.result.id);
+  expect(createFolderResp.result.id).toBe(deleteResp.result.id);
+
+  // Delete parent folder
+  const deleteParentResp = await vault.delete(createParentResp.result.id);
+  expect(createParentResp.result.id).toBe(deleteParentResp.result.id);
+});

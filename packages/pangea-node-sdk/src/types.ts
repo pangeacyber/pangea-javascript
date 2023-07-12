@@ -488,7 +488,7 @@ export namespace Vault {
 
   export interface ItemData {
     type: string;
-    id?: string;
+    id: string;
     item_state?: string;
     current_version?: ItemVersionData;
     name?: string;
@@ -855,6 +855,19 @@ export namespace Vault {
       version?: number;
       algorithm: string;
       plain_text: string;
+    }
+  }
+
+  export namespace Folder {
+    export interface CreateRequest {
+      name: string;
+      folder: string;
+      metadata?: Metadata;
+      tags?: Tags;
+    }
+
+    export interface CreateResult {
+      id: string;
     }
   }
 }
