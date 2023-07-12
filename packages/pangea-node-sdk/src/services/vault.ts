@@ -788,7 +788,20 @@ class VaultService extends BaseService {
     return this.post("key/verify/jwt", data);
   }
 
-  // FIXME: Add docs
+  /**
+   * @summary Create
+   * @description Creates a folder.
+   * @operationId vault_post_v1_folder_create
+   * @param {Vault.Folder.CreateRequest} request - An object representing request to /folder/create endpoint
+   * @returns {Promise} - A promise representing an async call to the folder create endpoint
+   * @example
+   * ```js
+   * const createParentResp = await vault.folderCreate({
+   *  name: "folder_name",
+   *  folder: "parent/folder/name",
+   * });
+   * ```
+   */
   async folderCreate(
     request: Vault.Folder.CreateRequest
   ): Promise<PangeaResponse<Vault.Folder.CreateResult>> {
