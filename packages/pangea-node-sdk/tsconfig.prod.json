@@ -3,6 +3,6 @@
   "include": ["src"],
   "typedocOptions": {
     "entryPoints": ["src/index.ts", "src/services/**/*.ts"],
-    "json": "docs.json",
+    "json": "docs.json"
   }
 }
