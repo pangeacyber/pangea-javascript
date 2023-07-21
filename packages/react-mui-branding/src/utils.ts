@@ -102,6 +102,7 @@ export const getBrandingThemeOptions = (
             borderRadius: config?.input_border_radius ?? "8px",
             backgroundColor: config?.input_bg_color,
             input: {
+              height: config?.density === "comfortable" ? "1.2em" : "initial",
               color: config?.input_text_color,
             },
           },
@@ -110,6 +111,10 @@ export const getBrandingThemeOptions = (
       MuiFormLabel: {
         styleOverrides: {
           root: {
+            lineHeight: config?.density === "comfortable" ? "1.2em" : "initial",
+            "&.MuiInputLabel-shrink": {
+              lineHeight: "1.4375em",
+            },
             "&.Mui-focused": {
               color: config?.text_primary_color,
             },
