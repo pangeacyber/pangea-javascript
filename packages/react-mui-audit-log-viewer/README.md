@@ -83,6 +83,7 @@ The following is brief example for how to initialize the AuditLogViewer componen
 ```jsx
 import React from "react";
 import {
+  Audit,
   AuditLogViewerProps,
   AuditLogViewer,
 } from "@pangeacyber/react-mui-audit-log-viewer";
