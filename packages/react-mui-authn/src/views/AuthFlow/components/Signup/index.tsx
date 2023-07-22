@@ -1,7 +1,7 @@
 import { FC } from "react";
 import { useFormik } from "formik";
 import * as yup from "yup";
-import { Box, Stack, TextField, Typography } from "@mui/material";
+import { Stack, TextField, Typography } from "@mui/material";
 
 import { FlowStep } from "@pangeacyber/react-auth";
 
@@ -54,7 +54,7 @@ const SignupView: FC<ViewComponentProps> = ({
   return (
     <Stack gap={2}>
       <Typography variant="h6">Signup</Typography>
-      <Typography variant="body2" sx={{ wordBreak: "break-word" }}>
+      <Typography variant="body2" mb={1} sx={{ wordBreak: "break-word" }}>
         Create an account with {data.email}
       </Typography>
       <form onSubmit={formik.handleSubmit}>
@@ -68,6 +68,7 @@ const SignupView: FC<ViewComponentProps> = ({
             onChange={formik.handleChange}
             error={formik.touched.firstName && Boolean(formik.errors.firstName)}
             helperText={formik.touched.firstName && formik.errors.firstName}
+            autoComplete="given-name"
           />
           <TextField
             fullWidth
@@ -78,6 +79,7 @@ const SignupView: FC<ViewComponentProps> = ({
             onChange={formik.handleChange}
             error={formik.touched.lastName && Boolean(formik.errors.lastName)}
             helperText={formik.touched.lastName && formik.errors.lastName}
+            autoComplete="family-name"
           />
           <PasswordField
             name="password"

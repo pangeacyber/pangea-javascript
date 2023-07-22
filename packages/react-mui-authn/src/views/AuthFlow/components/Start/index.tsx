@@ -78,6 +78,7 @@ const StartView: FC<StartViewProps> = ({
               onChange={formik.handleChange}
               error={formik.touched.email && Boolean(formik.errors.email)}
               helperText={formik.touched.email && formik.errors.email}
+              autoComplete="email"
             />
             {error && <ErrorMessage response={error} />}
 

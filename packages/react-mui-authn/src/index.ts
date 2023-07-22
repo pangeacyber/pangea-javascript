@@ -15,6 +15,8 @@ export {
 import {
   EnrollMfaCompleteView as EnrollMfaCompleteFlowView,
   EnrollMfaStartView as EnrollMfaStartFlowView,
+  InvalidAuthView as InvalidAuthFlowView,
+  InvalidStateView as InvalidStateFlowView,
   ResetPasswordView as ResetPasswordFlowView,
   SelectMfaView as SelectMfaFlowView,
   SignupView as SignupFlowView,
@@ -30,6 +32,8 @@ import {
 export {
   EnrollMfaCompleteFlowView,
   EnrollMfaStartFlowView,
+  InvalidAuthFlowView,
+  InvalidStateFlowView,
   ResetPasswordFlowView,
   SelectMfaFlowView,
   SignupFlowView,
