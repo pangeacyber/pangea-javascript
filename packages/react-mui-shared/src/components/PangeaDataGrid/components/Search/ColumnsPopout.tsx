@@ -1,4 +1,11 @@
-import { FC, useState, useRef, CSSProperties, useEffect } from "react";
+import {
+  FC,
+  useState,
+  useRef,
+  CSSProperties,
+  useEffect,
+  ReactNode,
+} from "react";
 import { useTheme } from "@mui/material/styles";
 import {
   DragDropContext,
