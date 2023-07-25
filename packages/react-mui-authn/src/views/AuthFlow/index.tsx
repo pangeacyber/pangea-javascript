@@ -187,6 +187,8 @@ const AuthFlowView: FC<AuthFlowViewProps> = ({ options, components }) => {
 export {
   EnrollMfaCompleteView,
   EnrollMfaStartView,
+  InvalidAuthView,
+  InvalidStateView,
   ResetPasswordView,
   SelectMfaView,
   SignupView,

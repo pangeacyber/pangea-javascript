@@ -1,6 +1,6 @@
 {
   "name": "pangea-node-sdk",
-  "version": "2.0.0",
+  "version": "2.1.0",
   "type": "module",
   "exports": {
     "types": "./dist/index.d.ts",
@@ -11,8 +11,8 @@
   "license": "MIT",
   "dependencies": {
     "crypto-js": "^4.1.1",
-    "got": "^13.0.0",
     "form-data": "^4.0.0",
+    "got": "^13.0.0",
     "merkle-tools": "^1.4.1"
   },
   "devDependencies": {
@@ -33,7 +33,6 @@
     "ts-node": "^9.1.1",
     "tsc-alias": "^1.8.6",
     "typedoc": "^0.24.8",
-    "typedoc-plugin-missing-exports": "^2.0.0",
     "typescript": "^5.1.6"
   },
   "scripts": {
@@ -42,7 +41,7 @@
     "test:integration": "NODE_OPTIONS=--experimental-vm-modules npx jest --testPathPattern=tests/integration",
     "lint": "npx prettier --check . && npx eslint --ext .ts",
     "prettier:fix": "npx prettier . -w",
-    "generate:docs": "typedoc src/index.ts --json ./docs.json --tsconfig ./tsconfig.prod.json",
+    "generate:docs": "typedoc --tsconfig ./tsconfig.prod.json",
     "build": "rm -fr dist/* && tsc -p tsconfig.prod.json && tsc-alias -p tsconfig.prod.json"
   },
   "files": [

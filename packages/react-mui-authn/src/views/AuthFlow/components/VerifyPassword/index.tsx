@@ -48,7 +48,7 @@ const VerifyPasswordView: FC<ViewComponentProps> = ({
     <Stack gap={2}>
       <Typography variant="h6">Welcome back!</Typography>
       <Stack gap={1}>
-        <Typography variant="body2" sx={{ wordBreak: "break-word" }}>
+        <Typography variant="body2" mb={1} sx={{ wordBreak: "break-word" }}>
           Enter password for {data.email}
         </Typography>
         <form

@@ -57,7 +57,7 @@ const PasswordRequirements: FC<Props> = ({
 }) => {
   const theme = useTheme();
   const position = positionTop ? "top" : "right";
-  const passwordErrors = validatePassword(value);
+  const passwordErrors = validatePassword(value, policy);
   const passwordChecks = [
     { key: "upper", label: "Uppercase" },
     { key: "lower", label: "Lowercase" },

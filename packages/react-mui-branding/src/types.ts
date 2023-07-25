@@ -63,6 +63,7 @@ export namespace Branding {
     header_font_weight: FontWeight;
     body_font_size: FontSize;
     body_font_weight: FontWeight;
+    overline_font_size: FontWeight;
 
     input_bg_color: Color;
     input_text_color: Color;

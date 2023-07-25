@@ -69,6 +69,7 @@ const PasswordField: FC<Props> = ({ name, label, formik, policy }) => {
           type={showPassword ? "text" : "password"}
           error={formik.touched[name] && formik.errors[name]}
           onChange={formik.handleChange}
+          autoComplete={policy ? "new-password" : "current-password"}
           endAdornment={
             <InputAdornment position="end">
               <IconButton
