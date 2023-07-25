@@ -68,6 +68,19 @@ export interface AuthProviderProps {
   cookieOptions?: CookieOptions;
 
   /**
+   * redirectUri: optional string
+   *
+   * When passed in, <AuthProvider /> will use this value as
+   * redirect URI when going through the login/logout flow
+   *
+   * Default is window.location.origin
+   *
+   * @example
+   * redirectUri="https://my.domain.com"
+   */
+  redirectUri?: string;
+
+  /**
    * redirectPathname: optional string
    *
    * When passed in, <AuthProvider /> will append this pathname to the
@@ -123,6 +136,7 @@ export const AuthProvider: FC<AuthProviderProps> = ({
   config,
   onLogin,
   cookieOptions = { useCookie: false },
+  redirectUri,
   redirectPathname,
   redirectOnLogout = false,
   useStrictStateCheck = true,
@@ -140,7 +154,6 @@ export const AuthProvider: FC<AuthProviderProps> = ({
   // For local development, use port 4000 for API and 4001 for hosted UI
   const slashRe = /\/$/;
   const loginURL = `${loginUrl.replace(slashRe, "")}/authorize`;
-  const signupURL = `${loginUrl.replace(slashRe, "")}/signup`;
   const logoutURL = `${loginUrl.replace(slashRe, "")}/logout`;
 
   const options: AuthOptions = {
@@ -280,17 +293,17 @@ export const AuthProvider: FC<AuthProviderProps> = ({
     storageAPI.setItem(STATE_DATA_KEY, stateCode);
     storageAPI.setItem(LAST_PATH_KEY, `${location.pathname}${location.search}`);
 
-    let redirectUri = location.origin;
+    let localRedirectUri = redirectUri || location.origin;
     if (typeof redirectPathname === "string") {
-      redirectUri += redirectPathname;
+      localRedirectUri += redirectPathname;
     }
 
     const query = new URLSearchParams("");
-    query.append("redirect_uri", redirectUri);
+    query.append("redirect_uri", localRedirectUri);
     query.append("state", stateCode);
 
     const queryParams = query.toString();
-    const redirectTo = urlParams.get("signup") ? signupURL : loginURL;
+    const redirectTo = loginURL;
     const url = queryParams ? `${redirectTo}?${queryParams}` : redirectTo;
 
     window.location.replace(url);
@@ -301,14 +314,14 @@ export const AuthProvider: FC<AuthProviderProps> = ({
 
     // redirect to the hosted page
     if (redirectOnLogout) {
-      let redirectUri = location.origin;
+      let localRedirectUri = redirectUri || location.origin;
 
       if (typeof redirectPathname === "string") {
-        redirectUri += redirectPathname;
+        localRedirectUri += redirectPathname;
       }
 
       const query = {
-        redirectUri,
+        localRedirectUri,
         state: stateCode,
       };
       const url = `${logoutURL}?${toUrlEncoded(query)}`;
