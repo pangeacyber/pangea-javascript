@@ -30,7 +30,9 @@ const SignupView: FC<ViewComponentProps> = ({
       .test(
         "password-requirements",
         "Password must meet requirements",
-        checkPassword
+        (value) => {
+          return checkPassword(value, data.passwordPolicy);
+        }
       ),
   });
 
