@@ -23,6 +23,8 @@ export type AuthFlowComponents = {
   VerifyMfaComplete?: JSX.Element;
   VerifyPassword?: JSX.Element;
   VerifySocial?: JSX.Element;
+  InvalidState?: JSX.Element;
+  InvalidAuth?: JSX.Element;
 };
 
 export interface AuthFlowViewProps {
