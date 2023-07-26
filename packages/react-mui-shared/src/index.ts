@@ -16,5 +16,8 @@ export { default as ConditionalAutocomplete } from "./components/ConditionalAuto
 export { default as PopoutCard } from "./components/PopoutCard";
 export { default as TimeRangeSelect } from "./components/TimeRangeSelect";
 
+/* Exported utils */
+export { getISO } from "./utils";
+
 /* Exported hooks */
 export { useInternalState } from "./utils/hooks";

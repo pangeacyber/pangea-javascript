@@ -8,7 +8,7 @@ import { GridBaseColDef } from "@mui/x-data-grid/internals";
 import { ReactNode } from "react";
 
 export namespace PDG {
-  export type FieldType = "string" | "date" | "dateTime";
+  export type FieldType = "string" | "date" | "dateTime" | "stringDateTime";
 
   export interface CellProps {
     params: GridRenderCellParams;
