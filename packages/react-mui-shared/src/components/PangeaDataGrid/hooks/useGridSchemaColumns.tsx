@@ -10,6 +10,7 @@ const CELL_TYPE_MAP: Partial<Record<PDG.FieldType, FC<PDG.CellProps>>> = {
   string: TextCell,
   date: DateCell,
   dateTime: DateTimeCell,
+  stringDateTime: DateTimeCell,
 };
 
 const constructGridColumnsFromFields = (
