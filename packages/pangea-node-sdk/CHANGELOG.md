@@ -5,6 +5,25 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.1.0] - 2023-07-14
+
+# Added
+
+- Vault /folder/create endpoint support
+
+## [2.0.0] - 2023-07-06
+
+# Changed
+
+- Event interface is now a key:object map
+- Rename some result interfaces with "result" postfix
+- Create new Intel request/result interfaces per service
+
+# Removed
+
+- Intel services all deprecated methods
+- Audit.Log options: Remove signMode due to vault signing is done by token
+
 ## [1.10.0] - 2023-06-26
 
 # Added
@@ -158,7 +177,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Domain Intel client
 - Redact client
 
-[unreleased]: https://github.com/pangeacyber/pangea-javascript/compare/v1.10.0...main
+[unreleased]: https://github.com/pangeacyber/pangea-javascript/compare/v2.1.0...main
+[2.1.0]: https://github.com/pangeacyber/pangea-javascript/compare/v2.0.0...v2.1.0
+[2.0.0]: https://github.com/pangeacyber/pangea-javascript/compare/v1.10.0...v2.0.0
 [1.10.0]: https://github.com/pangeacyber/pangea-javascript/compare/v1.9.1...v1.10.0
 [1.9.1]: https://github.com/pangeacyber/pangea-javascript/compare/v1.9.0...v1.9.1
 [1.9.0]: https://github.com/pangeacyber/pangea-javascript/compare/v1.8.0...v1.9.0

@@ -1,7 +1,7 @@
-import PangeaConfig from "../config.js";
-import PangeaRequest from "../request.js";
-import PangeaResponse from "../response.js";
-import { PostOptions } from "types.js";
+import PangeaConfig from "@src/config.js";
+import PangeaRequest from "@src/request.js";
+import PangeaResponse from "@src/response.js";
+import { PostOptions } from "@src/types.js";
 
 class BaseService {
   protected serviceName: string;

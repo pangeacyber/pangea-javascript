@@ -1,7 +1,7 @@
-import PangeaResponse from "../response.js";
+import PangeaResponse from "@src/response.js";
 import BaseService from "./base.js";
-import PangeaConfig from "../config.js";
-import { Redact } from "../types.js";
+import PangeaConfig from "@src/config.js";
+import { Redact } from "@src/types.js";
 
 /**
  * RedactService class provides methods for interacting with the Redact Service
@@ -34,7 +34,7 @@ class RedactService extends BaseService {
   redact(
     text: string,
     options: Redact.TextOptions = {}
-  ): Promise<PangeaResponse<Redact.BaseResponse>> {
+  ): Promise<PangeaResponse<Redact.TextResult>> {
     let input: Redact.TextParams = {
       text: text,
     };
@@ -67,7 +67,7 @@ class RedactService extends BaseService {
   redactStructured(
     data: object,
     options: Redact.StructuredOptions = {}
-  ): Promise<PangeaResponse<Redact.StructuredResponse>> {
+  ): Promise<PangeaResponse<Redact.StructuredResult>> {
     let input: Redact.StructuredParams = {
       data: data,
     };

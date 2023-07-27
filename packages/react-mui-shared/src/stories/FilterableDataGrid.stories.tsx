@@ -3,10 +3,12 @@ import keyBy from "lodash/keyBy";
 import mapValues from "lodash/mapValues";
 
 import { IconButton, Stack, Typography } from "@mui/material";
+import { ThemeProvider, createTheme } from "@mui/material/styles";
 import CloseIcon from "@mui/icons-material/Close";
 import { ComponentStory, ComponentMeta } from "@storybook/react";
 
 import PangeaDataGrid, {
+  LinedPangeaDataGrid,
   PangeaDataGridProps,
 } from "../components/PangeaDataGrid";
 import { Show, SHOWS } from "./data/television";
@@ -14,13 +16,13 @@ import { TextCell } from "../components/PangeaDataGrid/cells";
 
 export default {
   title: "PangeaDataGrid",
-  component: PangeaDataGrid,
+  component: LinedPangeaDataGrid,
   argTypes: {
     name: {
       type: "string",
     },
   },
-} as ComponentMeta<typeof PangeaDataGrid>;
+} as ComponentMeta<typeof LinedPangeaDataGrid>;
 
 const PreviewPanel = ({ data, onClose }) => {
   return (
@@ -45,52 +47,68 @@ const PreviewPanel = ({ data, onClose }) => {
   );
 };
 
-const Template: ComponentStory<typeof PangeaDataGrid> = (args) => {
+const Template: ComponentStory<typeof LinedPangeaDataGrid> = (args) => {
   const [query, setQuery] = useState("");
   const [filters, setFilters] = useState({});
+
+  const [previewId, setPreviewId] = useState("2");
 
   // @ts-ignore
   const [data, setData] = useState<Show[]>(args.data);
 
   return (
-    <PangeaDataGrid
-      {...args}
-      data={data}
-      ColumnCustomization={{
-        visibilityModel: mapValues(
-          keyBy(args.columns ?? [], "field"),
-          () => true
-        ),
-      }}
-      Search={{
-        query,
-        placeholder: "Search here...",
-        onChange: setQuery,
-        Filters: {
-          filters,
-          onFilterChange: setFilters,
-          options: {
-            title: {
-              label: "Title",
-            },
+    <ThemeProvider theme={createTheme({})}>
+      <LinedPangeaDataGrid
+        {...args}
+        data={data}
+        ActionColumn={{
+          render: () => "Hello",
+          isPinned: true,
+          GridColDef: {
+            renderHeader: () => "Testing",
           },
-          showFilterChips: true,
-        },
-        conditionalOptions: [
-          {
-            match: () => true,
-            options: [
-              {
-                value: "cheese:",
-                label: "Cheesy",
+        }}
+        ColumnCustomization={{
+          visibilityModel: mapValues(
+            keyBy(args.columns ?? [], "field"),
+            () => true
+          ),
+          position: "inline",
+        }}
+        Search={{
+          query,
+          placeholder: "Search here...",
+          onChange: setQuery,
+          Filters: {
+            filters,
+            onFilterChange: setFilters,
+            options: {
+              title: {
+                label: "Title",
               },
-            ],
+            },
+            showFilterChips: true,
           },
-        ],
-      }}
-      PreviewPanel={PreviewPanel}
-      previewId={2}
-    />
+          conditionalOptions: [
+            {
+              match: () => true,
+              options: [
+                {
+                  value: "cheese:",
+                  label: "Cheesy",
+                },
+              ],
+            },
+          ],
+        }}
+        PreviewPanel={{
+          component: PreviewPanel,
+          width: "350px",
+          position: "fullHeight",
+        }}
+        previewId={previewId}
+      />
+    </ThemeProvider>
   );
 };
 
@@ -108,7 +126,6 @@ FilterableDataGrid.args = {
     },
     {
       field: "description",
-      flex: 10,
       description: "Field: testing. Hi there",
       renderCell: (params) => <TextCell params={params} />,
     },

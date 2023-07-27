@@ -43,45 +43,50 @@ class PangeaRequest {
     this.isMultiConfigSupported = isMultiConfigSupported;
   }
 
+  checkConfigID(data: Request) {
+    if (this.isMultiConfigSupported && this.config.configID && data.config_id === undefined) {
+      data.config_id = this.config.configID;
+    }
+  }
+
   async post(
     endpoint: string,
     data: Request,
     options: PostOptions = {}
   ): Promise<PangeaResponse<any>> {
     const url = this.getUrl(endpoint);
-    if (this.isMultiConfigSupported && this.config.configID && data.config_id === undefined) {
-      data.config_id = this.config.configID;
-    }
-    const request: Options = {
+    this.checkConfigID(data);
+    const request = new Options({
       headers: this.getHeaders(),
       json: data,
       retry: { limit: this.config.requestRetries },
       responseType: "json",
-    };
+    });
 
     return await this.doPost(url, request, options);
   }
 
   async postMultipart(
     endpoint: string,
-    data: object,
+    data: Request,
     filepath: string,
     options: PostOptions = {}
   ): Promise<PangeaResponse<any>> {
     const url = this.getUrl(endpoint);
     const form = new FormData();
+    this.checkConfigID(data);
 
     form.append("request", JSON.stringify(data), { contentType: "application/json" });
     form.append("upload", fs.createReadStream(filepath), {
       contentType: "application/octet-stream",
     });
 
-    const request: Options = {
+    const request = new Options({
       headers: this.getHeaders(),
       body: form,
       retry: { limit: this.config.requestRetries },
       responseType: "json",
-    };
+    });
 
     return await this.doPost(url, request, options);
   }
@@ -115,11 +120,11 @@ class PangeaRequest {
 
   async get(endpoint: string, checkResponse: boolean = true): Promise<PangeaResponse<any>> {
     const url = this.getUrl(endpoint);
-    const options: Options = {
+    const options = new Options({
       headers: this.getHeaders(),
       retry: { limit: this.config.requestRetries },
       responseType: "json",
-    };
+    });
 
     try {
       const response = (await got.get(url, options)) as Response;
@@ -247,7 +252,9 @@ class PangeaRequest {
         throw new PangeaErrors.ForbiddenVaultOperation(response.summary, response);
       case "NotFound":
         throw new PangeaErrors.NotFound(
-          response.gotResponse?.requestUrl !== undefined ? response.gotResponse.requestUrl : "",
+          response.gotResponse?.requestUrl !== undefined
+            ? response.gotResponse.requestUrl.toString()
+            : "",
           response
         );
       case "InternalError":

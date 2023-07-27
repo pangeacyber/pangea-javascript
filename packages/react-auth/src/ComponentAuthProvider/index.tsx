@@ -126,6 +126,7 @@ export const ComponentAuthProvider: FC<ComponentAuthProviderProps> = ({
         refresh();
       } else {
         // if token has not expired, validate that it's still good
+        setAuthenticated(true);
         validate(token);
       }
 

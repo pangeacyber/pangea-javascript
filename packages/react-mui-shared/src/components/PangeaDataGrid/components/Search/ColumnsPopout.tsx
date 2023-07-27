@@ -1,4 +1,11 @@
-import { FC, useState, useRef, CSSProperties, useEffect } from "react";
+import {
+  FC,
+  useState,
+  useRef,
+  CSSProperties,
+  useEffect,
+  ReactNode,
+} from "react";
 import { useTheme } from "@mui/material/styles";
 import {
   DragDropContext,
@@ -61,6 +68,18 @@ export interface Visibility {
     label: string;
   };
 }
+
+export const ColumnsPopoutHeader: FC<{
+  columnsPopoutProps: ColumnsPopoutProps;
+  children: ReactNode;
+}> = ({ columnsPopoutProps, children }) => {
+  return (
+    <Stack direction="row" alignItems="center" spacing={2}>
+      {children}
+      <ColumnsPopout {...columnsPopoutProps} />
+    </Stack>
+  );
+};
 
 export interface ColumnsPopoutProps {
   order: string[];

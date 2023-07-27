@@ -76,13 +76,13 @@ export interface TimeRangeObject {
   active?: "after" | "before" | "between" | "since";
 }
 
-interface Props {
+export interface TimeRangeSelectProps {
   value: TimeRangeObject;
   setValue: (value: TimeRangeObject) => void;
   ButtonProps?: Partial<ButtonProps>;
 }
 
-const TimeRangeSelect: FC<Props> = ({
+const TimeRangeSelect: FC<TimeRangeSelectProps> = ({
   value: parentValue,
   setValue,
   ButtonProps = {},
@@ -96,15 +96,6 @@ const TimeRangeSelect: FC<Props> = ({
   }, [parentValue]);
 
   const buttonRef = useRef(null);
-
-  const Tab = (props: any) => (
-    <TimeRangeTab
-      {...props}
-      value={value}
-      setValue={setValue}
-      setOpen={setOpen}
-    />
-  );
 
   const displayValue = getDisplayValue(parentValue);
   return (
@@ -145,7 +136,13 @@ const TimeRangeSelect: FC<Props> = ({
             }}
           />
           <BasicTabs defaultTab={parentValue.active ?? "since"}>
-            <Tab label="Relative" id="since">
+            <TimeRangeTab
+              label="Relative"
+              id="since"
+              value={value}
+              setValue={setValue}
+              setOpen={setOpen}
+            >
               <RelativeDateRangeField
                 name="since"
                 label="From the last"
@@ -162,8 +159,14 @@ const TimeRangeSelect: FC<Props> = ({
                   RelativeRange.Second,
                 ]}
               />
-            </Tab>
-            <Tab label="Between" id="between">
+            </TimeRangeTab>
+            <TimeRangeTab
+              label="Between"
+              id="between"
+              value={value}
+              setValue={setValue}
+              setOpen={setOpen}
+            >
               <Stack direction="row" spacing={2} alignItems="center">
                 <DateTimeField
                   name="beginning"
@@ -178,8 +181,14 @@ const TimeRangeSelect: FC<Props> = ({
                   setValue={(before) => setInternalValue({ ...value, before })}
                 />
               </Stack>
-            </Tab>
-            <Tab label="Before" id="before">
+            </TimeRangeTab>
+            <TimeRangeTab
+              label="Before"
+              id="before"
+              value={value}
+              setValue={setValue}
+              setOpen={setOpen}
+            >
               <Stack direction="row">
                 <DateTimeField
                   name="end"
@@ -188,8 +197,14 @@ const TimeRangeSelect: FC<Props> = ({
                   setValue={(before) => setInternalValue({ ...value, before })}
                 />
               </Stack>
-            </Tab>
-            <Tab label="After" id="after">
+            </TimeRangeTab>
+            <TimeRangeTab
+              label="After"
+              id="after"
+              value={value}
+              setValue={setValue}
+              setOpen={setOpen}
+            >
               <Stack direction="row">
                 <DateTimeField
                   name="beginning"
@@ -198,7 +213,7 @@ const TimeRangeSelect: FC<Props> = ({
                   setValue={(after) => setInternalValue({ ...value, after })}
                 />
               </Stack>
-            </Tab>
+            </TimeRangeTab>
           </BasicTabs>
         </Stack>
       </PopperCard>

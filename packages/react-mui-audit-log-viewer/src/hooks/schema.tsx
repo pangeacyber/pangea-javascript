@@ -152,7 +152,7 @@ export const useSchema = (
 };
 
 const COLUMN_TYPE_MAP = {
-  [Audit.SchemaFieldType.DateTime]: "dateTime",
+  [Audit.SchemaFieldType.DateTime]: "stringDateTime",
 };
 
 export const useAuditColumns = <Event,>(

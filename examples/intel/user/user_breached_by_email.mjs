@@ -13,7 +13,7 @@ const userIntel = new UserIntelService(String(token), config);
   const request = { email: "test@example.com", verbose: true, raw: true };
   try {
     const response = await userIntel.userBreached(request);
-    console.log(response.result);
+    console.log("Result: ", response.result.data);
   } catch (e) {
     if (e instanceof PangeaErrors.APIError) {
       console.log("Error", e.summary, e.errors);

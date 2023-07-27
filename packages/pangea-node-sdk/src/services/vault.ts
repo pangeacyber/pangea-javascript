@@ -1,7 +1,7 @@
-import PangeaResponse from "../response.js";
+import PangeaResponse from "@src/response.js";
 import BaseService from "./base.js";
-import PangeaConfig from "../config.js";
-import { Vault } from "../types.js";
+import PangeaConfig from "@src/config.js";
+import { Vault } from "@src/types.js";
 
 /**
  * VaultService class provides methods for interacting with the Vault Service
@@ -786,6 +786,26 @@ class VaultService extends BaseService {
       jws: jws,
     };
     return this.post("key/verify/jwt", data);
+  }
+
+  /**
+   * @summary Create
+   * @description Creates a folder.
+   * @operationId vault_post_v1_folder_create
+   * @param {Vault.Folder.CreateRequest} request - An object representing request to /folder/create endpoint
+   * @returns {Promise} - A promise representing an async call to the folder create endpoint
+   * @example
+   * ```js
+   * const createParentResp = await vault.folderCreate({
+   *  name: "folder_name",
+   *  folder: "parent/folder/name",
+   * });
+   * ```
+   */
+  async folderCreate(
+    request: Vault.Folder.CreateRequest
+  ): Promise<PangeaResponse<Vault.Folder.CreateResult>> {
+    return this.post("folder/create", request);
   }
 }
 

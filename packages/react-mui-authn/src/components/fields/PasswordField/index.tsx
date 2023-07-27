@@ -23,8 +23,8 @@ export interface Props {
 }
 
 // password requirements validator for yup
-export const checkPassword = (value: string | undefined) => {
-  const matches = validatePassword(value || "");
+export const checkPassword = (value: string | undefined, policy: any) => {
+  const matches = validatePassword(value || "", policy);
   return Object.keys(matches).length === 0;
 };
 
@@ -69,6 +69,7 @@ const PasswordField: FC<Props> = ({ name, label, formik, policy }) => {
           type={showPassword ? "text" : "password"}
           error={formik.touched[name] && formik.errors[name]}
           onChange={formik.handleChange}
+          autoComplete={policy ? "new-password" : "current-password"}
           endAdornment={
             <InputAdornment position="end">
               <IconButton
