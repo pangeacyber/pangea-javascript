@@ -23,6 +23,10 @@ const SocialOptions: FC<Props> = ({ data, options }) => {
     window.location.href = redirect;
   };
 
+  if (!data.socialSignup?.length) {
+    return null;
+  }
+
   return (
     <Stack gap={2}>
       {data.passwordSignup && data.socialSignup?.length > 0 && (

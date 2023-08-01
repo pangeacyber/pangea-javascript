@@ -106,12 +106,7 @@ const SignupView: FC<SignupViewProps> = ({
           </Button>
         </Stack>
       </form>
-      {data.invite && (
-        <>
-          <SocialOptions data={data} options={options} />
-          {disclaimer}
-        </>
-      )}
+      {data.invite && <SocialOptions data={data} options={options} />}
       {(options.showReset || data.invite) && (
         <Stack direction="row" justifyContent="center" gap={1}>
           <Button variant="text" onClick={reset}>
@@ -119,6 +114,7 @@ const SignupView: FC<SignupViewProps> = ({
           </Button>
         </Stack>
       )}
+      {disclaimer && <>{disclaimer}</>}
     </Stack>
   );
 };

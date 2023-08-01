@@ -47,3 +47,12 @@ export const hex2rgba = (hex: string, alpha = 1) => {
   const [r, g, b] = hex.match(/[0-9A-Fa-f]{2}/g).map((x) => parseInt(x, 16));
   return `rgba(${r},${g},${b},${alpha})`;
 };
+
+export const isJSON = (content: string): boolean => {
+  try {
+    JSON.parse(content);
+    return true;
+  } catch {
+    return false;
+  }
+};
