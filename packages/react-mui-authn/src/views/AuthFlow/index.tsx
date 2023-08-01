@@ -187,6 +187,7 @@ const AuthFlowView: FC<AuthFlowViewProps> = ({ options, components }) => {
 export {
   EnrollMfaCompleteView,
   EnrollMfaStartView,
+  EulaAcceptView,
   InvalidAuthView,
   InvalidStateView,
   ResetPasswordView,
@@ -199,6 +200,7 @@ export {
   VerifyPasswordView,
   VerifySocialView,
   ErrorMessage,
+  Disclaimer,
 } from "./components";
 
 export default AuthFlowView;
