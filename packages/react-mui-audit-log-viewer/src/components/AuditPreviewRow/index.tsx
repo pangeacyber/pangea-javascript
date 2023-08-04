@@ -33,7 +33,7 @@ const getFieldComponent = (field: Audit.SchemaField): FC<StringFieldProps> => {
     return DateTimeField;
   }
 
-  if (field.type === "string") {
+  if (field.type === "string" || field.type === "string-unindexed") {
     return StringJsonField;
   }
 
