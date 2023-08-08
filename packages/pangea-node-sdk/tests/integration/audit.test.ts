@@ -342,6 +342,7 @@ it("search audit log and verify signature", async () => {
   const queryOptions: Audit.SearchParamsOptions = {
     limit: limit,
     order: "asc",
+    start: "7d",
   };
 
   const response = await auditGeneral.search(query, queryOptions, {});
@@ -365,6 +366,7 @@ it("search audit log and verify consistency", async () => {
     limit: limit,
     order: "asc", // Oldest events should have consistency proofs
     max_results: maxResults,
+    start: "7d",
   };
 
   let response = await auditGeneral.search(query, queryOptions, options);
@@ -394,6 +396,7 @@ it("search audit log and skip consistency verification", async () => {
   const queryOptions: Audit.SearchParamsOptions = {
     limit: limit,
     order: "asc",
+    start: "7d",
   };
 
   const response = await auditGeneral.search(query, queryOptions, {});
@@ -417,6 +420,7 @@ it("results audit log with search verbose", async () => {
     max_results: searchMaxResults,
     order: "asc",
     verbose: true,
+    start: "7d",
   };
 
   const searchResponse = await auditGeneral.search(query, queryOptions, {});
@@ -473,6 +477,7 @@ it("results audit log with search no verbose", async () => {
     max_results: searchMaxResults,
     order: "asc",
     verbose: false,
+    start: "7d",
   };
 
   const searchResponse = await auditGeneral.search(query, queryOptions, {});

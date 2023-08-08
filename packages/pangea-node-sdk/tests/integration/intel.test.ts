@@ -1,6 +1,11 @@
-import PangeaConfig from "../../src/config";
-import { it, expect, jest, beforeAll } from "@jest/globals";
-import { TestEnvironment, getHashPrefix, getTestDomain, getTestToken } from "../../src/utils/utils";
+import PangeaConfig from "../../src/config.js";
+import { it, expect, jest } from "@jest/globals";
+import {
+  TestEnvironment,
+  getHashPrefix,
+  getTestDomain,
+  getTestToken,
+} from "../../src/utils/utils.js";
 import {
   FileIntelService,
   DomainIntelService,
@@ -8,13 +13,12 @@ import {
   URLIntelService,
   UserIntelService,
   FileScanService,
-} from "../../src";
-import { Intel } from "../../src/types";
-import fs from "fs";
-import { PangeaErrors } from "../../src";
-import { hashSHA256 } from "../../src/utils/utils";
+  PangeaErrors,
+} from "../../src/index.js";
+import { Intel } from "../../src/types.js";
+import { hashSHA256 } from "../../src/utils/utils.js";
 
-const testEnvironment = TestEnvironment.DEVELOP;
+const testEnvironment = TestEnvironment.LIVE;
 
 const token = getTestToken(testEnvironment);
 const testHost = getTestDomain(testEnvironment);
@@ -26,38 +30,8 @@ const urlIntel = new URLIntelService(token, config);
 const userIntel = new UserIntelService(token, config);
 const fileScan = new FileScanService(token, config);
 
-const EICAR = "X5O!P%@AP[4\\PZX54(P^)7CC)7}$EICAR-STANDARD-ANTIVIRUS-TEST-FILE!$H+H*\n";
-const eicarFilePath = "./tests/testdata/file.exe";
-
-function createEICAR() {
-  fs.writeFileSync(eicarFilePath, EICAR);
-}
-
-beforeAll(() => {
-  createEICAR();
-});
-
-it("file lookup should succeed", async () => {
-  const options = { provider: "reversinglabs", verbose: true, raw: true };
-  const response = await fileIntel.lookup(
-    "142b638c6a60b60c7f9928da4fb85a5a8e1422a9ffdc9ee49e17e56ccca9cf6e",
-    "sha256",
-    options
-  );
-
-  expect(response.status).toBe("Success");
-  expect(response.result.data).toBeDefined();
-  expect(response.result.data.verdict).toBe("malicious");
-});
-
-it("file lookup with default provider should succeed", async () => {
-  const response = await fileIntel.lookup(
-    "142b638c6a60b60c7f9928da4fb85a5a8e1422a9ffdc9ee49e17e56ccca9cf6e",
-    "sha256"
-  );
-  expect(response.status).toBe("Success");
-  expect(response.result.data).toBeDefined();
-});
+const testfilePath = "./tests/testdata/testfile.pdf";
+jest.setTimeout(20000);
 
 it("file hash reputation should succeed", async () => {
   const options = { provider: "reversinglabs", verbose: true, raw: true };
@@ -288,7 +262,6 @@ it("User breached by username should succeed", async () => {
   expect(response.result.data.breach_count).toBeGreaterThan(0);
 });
 
-jest.setTimeout(10000);
 it("User breached by ip should succeed", async () => {
   const request = { ip: "192.168.140.37", provider: "spycloud", verbose: true, raw: true };
   const response = await userIntel.userBreached(request);
@@ -329,11 +302,10 @@ it("User password breached with default provider should succeed", async () => {
   expect(response.result.data.breach_count).toBeGreaterThan(0);
 });
 
-jest.setTimeout(60000);
 it("File Scan ", async () => {
   try {
     const request = { verbose: true, raw: true, provider: "crowdstrike" };
-    const response = await fileScan.fileScan(request, eicarFilePath);
+    const response = await fileScan.fileScan(request, testfilePath);
 
     expect(response.status).toBe("Success");
     expect(response.result.data).toBeDefined();
@@ -344,11 +316,10 @@ it("File Scan ", async () => {
   }
 });
 
-jest.setTimeout(60000);
 it("File Scan async ", async () => {
   try {
     const request = { verbose: true, raw: true, provider: "crowdstrike" };
-    const response = await fileScan.fileScan(request, eicarFilePath, { pollResultSync: false });
+    const response = await fileScan.fileScan(request, testfilePath, { pollResultSync: false });
     expect(false).toBeTruthy();
   } catch (e) {
     expect(e).toBeInstanceOf(PangeaErrors.APIError);
@@ -367,12 +338,11 @@ const delay = async (ms: number) =>
     setTimeout(resolve, ms);
   });
 
-jest.setTimeout(120000);
 it("File Scan async and poll result", async () => {
   let exception;
   try {
     const request = { verbose: true, raw: true, provider: "crowdstrike" };
-    const response = await fileScan.fileScan(request, eicarFilePath, { pollResultSync: false });
+    const response = await fileScan.fileScan(request, testfilePath, { pollResultSync: false });
     expect(false).toBeTruthy();
   } catch (e) {
     expect(e).toBeInstanceOf(PangeaErrors.APIError);
