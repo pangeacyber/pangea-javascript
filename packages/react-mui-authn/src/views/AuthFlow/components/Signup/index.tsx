@@ -1,4 +1,4 @@
-import { FC } from "react";
+import { FC, ReactElement } from "react";
 import { useFormik } from "formik";
 import * as yup from "yup";
 import { Stack, TextField, Typography } from "@mui/material";
@@ -13,13 +13,18 @@ import PasswordField, {
 } from "@src/components/fields/PasswordField";
 import ErrorMessage from "../ErrorMessage";
 
-const SignupView: FC<ViewComponentProps> = ({
+interface SignupViewProps extends ViewComponentProps {
+  disclaimer?: ReactElement;
+}
+
+const SignupView: FC<SignupViewProps> = ({
   options,
   data,
   loading,
   error,
   next,
   reset,
+  disclaimer,
 }) => {
   const validationSchema = yup.object({
     firstName: yup.string().required("Required"),
@@ -109,6 +114,7 @@ const SignupView: FC<ViewComponentProps> = ({
           </Button>
         </Stack>
       )}
+      {disclaimer && <>{disclaimer}</>}
     </Stack>
   );
 };
