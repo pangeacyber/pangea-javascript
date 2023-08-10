@@ -18,7 +18,7 @@ import {
 import { Intel } from "../../src/types.js";
 import { hashSHA256 } from "../../src/utils/utils.js";
 
-const testEnvironment = TestEnvironment.LIVE;
+const testEnvironment = TestEnvironment.STAGING;
 
 const token = getTestToken(testEnvironment);
 const testHost = getTestDomain(testEnvironment);
