@@ -43,15 +43,19 @@ class PangeaRequest {
     this.isMultiConfigSupported = isMultiConfigSupported;
   }
 
+  checkConfigID(data: Request) {
+    if (this.isMultiConfigSupported && this.config.configID && data.config_id === undefined) {
+      data.config_id = this.config.configID;
+    }
+  }
+
   async post(
     endpoint: string,
     data: Request,
     options: PostOptions = {}
   ): Promise<PangeaResponse<any>> {
     const url = this.getUrl(endpoint);
-    if (this.isMultiConfigSupported && this.config.configID && data.config_id === undefined) {
-      data.config_id = this.config.configID;
-    }
+    this.checkConfigID(data);
     const request: Options = {
       headers: this.getHeaders(),
       json: data,
@@ -64,12 +68,13 @@ class PangeaRequest {
 
   async postMultipart(
     endpoint: string,
-    data: object,
+    data: Request,
     filepath: string,
     options: PostOptions = {}
   ): Promise<PangeaResponse<any>> {
     const url = this.getUrl(endpoint);
     const form = new FormData();
+    this.checkConfigID(data);
 
     form.append("request", JSON.stringify(data), { contentType: "application/json" });
     form.append("upload", fs.createReadStream(filepath), {
