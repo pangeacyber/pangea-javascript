@@ -182,7 +182,6 @@ it("User breached by phone should succeed", async () => {
   expect(response.result.data.breach_count).toBeGreaterThan(0);
 });
 
-jest.setTimeout(10000);
 it("User breached by email should succeed", async () => {
   const request = {
     email: "test@example.com",
