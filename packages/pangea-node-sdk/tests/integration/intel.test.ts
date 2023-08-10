@@ -46,13 +46,6 @@ it("file hash reputation should succeed", async () => {
   expect(response.result.data.verdict).toBe("malicious");
 });
 
-it("file lookup with filepath should succeed", async () => {
-  const options = { provider: "reversinglabs", verbose: true, raw: true };
-  const response = await fileIntel.lookupFilepath("./README.md", options);
-  expect(response.status).toBe("Success");
-  expect(response.result.data).toBeDefined();
-});
-
 it("file filepathReputation with filepath should succeed", async () => {
   const options = { provider: "reversinglabs", verbose: true, raw: true };
   const response = await fileIntel.filepathReputation("./README.md", options);
@@ -65,25 +58,11 @@ it("file reputation with filepath should faild", async () => {
 
   try {
     const response = await fileIntel.filepathReputation("./not/a/real/path/file.txt", options);
+    expect(response).toBeFalsy();
   } catch (e: unknown) {
     // @ts-ignore
     expect(e.code).toBe("ENOENT");
   }
-});
-
-it("Domain lookup should succeed", async () => {
-  const options = { provider: "domaintools", verbose: true, raw: true };
-  const response = await domainIntel.lookup("737updatesboeing.com", options);
-
-  expect(response.status).toBe("Success");
-  expect(response.result.data).toBeDefined();
-  expect(response.result.data.verdict).toBe("malicious");
-});
-
-it("Domain lookup with default should succeed", async () => {
-  const response = await domainIntel.lookup("737updatesboeing.com");
-  expect(response.status).toBe("Success");
-  expect(response.result.data).toBeDefined();
 });
 
 it("Domain reputation should succeed", async () => {
@@ -93,21 +72,6 @@ it("Domain reputation should succeed", async () => {
   expect(response.status).toBe("Success");
   expect(response.result.data).toBeDefined();
   expect(response.result.data.verdict).toBe("malicious");
-});
-
-it("IP lookup should succeed", async () => {
-  const options = { provider: "crowdstrike", verbose: true, raw: true };
-  const response = await ipIntel.lookup("93.231.182.110", options);
-
-  expect(response.status).toBe("Success");
-  expect(response.result.data).toBeDefined();
-  expect(response.result.data.verdict).toBe("malicious");
-});
-
-it("IP lookup with default provider should succeed", async () => {
-  const response = await ipIntel.lookup("93.231.182.110");
-  expect(response.status).toBe("Success");
-  expect(response.result.data).toBeDefined();
 });
 
 it("IP geolocate should succeed", async () => {
@@ -194,20 +158,6 @@ it("IP reputation should succeed. Cymru provider", async () => {
   expect(response.result.data).toBeDefined();
 });
 
-it("URL lookup should succeed", async () => {
-  const options = { provider: "crowdstrike", verbose: true, raw: true };
-  const response = await urlIntel.lookup("http://113.235.101.11:54384", options);
-
-  expect(response.status).toBe("Success");
-  expect(response.result.data).toBeDefined();
-  expect(response.result.data.verdict).toBe("malicious");
-});
-
-it("URL lookup with default provider should succeed", async () => {
-  const response = await urlIntel.lookup("http://113.235.101.11:54384");
-  expect(response.status).toBe("Success");
-});
-
 it("URL reputation should succeed", async () => {
   const options = { provider: "crowdstrike", verbose: true, raw: true };
   const response = await urlIntel.reputation("http://113.235.101.11:54384", options);
@@ -232,6 +182,7 @@ it("User breached by phone should succeed", async () => {
   expect(response.result.data.breach_count).toBeGreaterThan(0);
 });
 
+jest.setTimeout(10000);
 it("User breached by email should succeed", async () => {
   const request = {
     email: "test@example.com",

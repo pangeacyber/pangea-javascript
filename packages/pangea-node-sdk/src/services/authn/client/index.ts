@@ -1,7 +1,7 @@
-import BaseService from "../../base.js";
-import PangeaConfig from "../../../config.js";
-import PangeaResponse from "../../../response.js";
-import { AuthN } from "../../../types.js";
+import BaseService from "@src/services/base.js";
+import PangeaConfig from "@src/config.js";
+import PangeaResponse from "@src/response.js";
+import { AuthN } from "@src/types.js";
 
 import ClientSession from "./session.js";
 import ClientPassword from "./password.js";

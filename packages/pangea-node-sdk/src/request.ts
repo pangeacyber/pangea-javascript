@@ -56,12 +56,12 @@ class PangeaRequest {
   ): Promise<PangeaResponse<any>> {
     const url = this.getUrl(endpoint);
     this.checkConfigID(data);
-    const request: Options = {
+    const request = new Options({
       headers: this.getHeaders(),
       json: data,
       retry: { limit: this.config.requestRetries },
       responseType: "json",
-    };
+    });
 
     return await this.doPost(url, request, options);
   }
@@ -81,12 +81,12 @@ class PangeaRequest {
       contentType: "application/octet-stream",
     });
 
-    const request: Options = {
+    const request = new Options({
       headers: this.getHeaders(),
       body: form,
       retry: { limit: this.config.requestRetries },
       responseType: "json",
-    };
+    });
 
     return await this.doPost(url, request, options);
   }
@@ -120,11 +120,11 @@ class PangeaRequest {
 
   async get(endpoint: string, checkResponse: boolean = true): Promise<PangeaResponse<any>> {
     const url = this.getUrl(endpoint);
-    const options: Options = {
+    const options = new Options({
       headers: this.getHeaders(),
       retry: { limit: this.config.requestRetries },
       responseType: "json",
-    };
+    });
 
     try {
       const response = (await got.get(url, options)) as Response;
@@ -252,7 +252,9 @@ class PangeaRequest {
         throw new PangeaErrors.ForbiddenVaultOperation(response.summary, response);
       case "NotFound":
         throw new PangeaErrors.NotFound(
-          response.gotResponse?.requestUrl !== undefined ? response.gotResponse.requestUrl : "",
+          response.gotResponse?.requestUrl !== undefined
+            ? response.gotResponse.requestUrl.toString()
+            : "",
           response
         );
       case "InternalError":

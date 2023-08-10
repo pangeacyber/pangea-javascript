@@ -20,7 +20,7 @@ const domainIntel = new DomainIntelService(String(token), config);
       "737updatesboeing.com",
       options
     );
-    console.log(response.result);
+    console.log("Result: ", response.result.data);
   } catch (e) {
     if (e instanceof PangeaErrors.APIError) {
       console.log("Error", e.summary, e.errors);

@@ -14,10 +14,12 @@ const vault = new VaultService(token, config);
 (async () => {
   try {
     console.log("Create...");
+    // Name should be unique
+    const name = "Node encrypt example " + Date.now();
     const createRespose = await vault.asymmetricGenerate(
       Vault.AsymmetricAlgorithm.Ed25519,
       Vault.KeyPurpose.SIGNING,
-      "My key name"
+      name
     );
     console.log("Response: %s", createRespose.result);
     const keyID = createRespose.result.id;
