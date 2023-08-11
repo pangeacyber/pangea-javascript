@@ -1,7 +1,6 @@
 /* eslint-disable no-console */
 
 import { PangeaConfig, FileScanService, PangeaErrors } from "pangea-node-sdk";
-import fs from "fs";
 
 const domain = process.env.PANGEA_DOMAIN;
 const token = process.env.PANGEA_INTEL_TOKEN;
@@ -11,14 +10,7 @@ const token = process.env.PANGEA_INTEL_TOKEN;
 const config = new PangeaConfig({ domain: domain, queuedRetryEnabled: false });
 const intel = new FileScanService(String(token), config);
 
-const EICAR =
-  "X5O!P%@AP[4\\PZX54(P^)7CC)7}$EICAR-STANDARD-ANTIVIRUS-TEST-FILE!$H+H*\n";
-const yourFilepath = "./file.exe";
-
-// Helper function. Create a EICAR file
-function createEICAR() {
-  fs.writeFileSync(yourFilepath, EICAR);
-}
+const yourFilepath = "./intel/file_scan/testfile.pdf";
 
 // helper function. Sleep some time
 const delay = async (ms) =>
@@ -29,12 +21,9 @@ const delay = async (ms) =>
 (async () => {
   console.log("Checking file...");
 
-  // Here we create a file that will give us a malicious result as example
-  createEICAR();
-
   let exception;
   try {
-    const request = { verbose: true, raw: true, provider: "reversinglabs" };
+    const request = { verbose: true, raw: true, provider: "crowdstrike" };
     const response = await intel.fileScan(request, yourFilepath, {
       pollResultSync: false,
     });
@@ -45,7 +34,8 @@ const delay = async (ms) =>
       exception = e;
     } else {
       console.log("This is an unexpected exception");
-      console.log(e);
+      console.log(e.toString());
+      process.exit(1);
     }
   }
 

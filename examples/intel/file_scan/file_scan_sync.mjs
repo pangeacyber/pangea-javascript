@@ -1,7 +1,6 @@
 /* eslint-disable no-console */
 
 import { PangeaConfig, FileScanService, PangeaErrors } from "pangea-node-sdk";
-import fs from "fs";
 
 const domain = process.env.PANGEA_DOMAIN;
 const token = process.env.PANGEA_INTEL_TOKEN;
@@ -15,22 +14,13 @@ const config = new PangeaConfig({
 });
 const intel = new FileScanService(String(token), config);
 
-const EICAR =
-  "X5O!P%@AP[4\\PZX54(P^)7CC)7}$EICAR-STANDARD-ANTIVIRUS-TEST-FILE!$H+H*\n";
-const yourFilepath = "./file.exe";
-
-function createEICAR() {
-  fs.writeFileSync(yourFilepath, EICAR);
-}
+const yourFilepath = "./intel/file_scan/testfile.pdf";
 
 (async () => {
   console.log("Checking file...");
 
-  // Here we create a file that will give us a malicious result as example
-  createEICAR();
-
   try {
-    const request = { verbose: true, raw: true, provider: "reversinglabs" };
+    const request = { verbose: true, raw: true, provider: "crowdstrike" };
     const response = await intel.fileScan(request, yourFilepath);
     console.log("Result:", response.result);
   } catch (e) {
