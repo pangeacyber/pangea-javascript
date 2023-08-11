@@ -269,7 +269,7 @@ it("File Scan ", async () => {
 it("File Scan async ", async () => {
   try {
     const request = { verbose: true, raw: true, provider: "crowdstrike" };
-    const response = await fileScan.fileScan(request, testfilePath, { pollResultSync: false });
+    await fileScan.fileScan(request, testfilePath, { pollResultSync: false });
     expect(false).toBeTruthy();
   } catch (e) {
     expect(e).toBeInstanceOf(PangeaErrors.APIError);
@@ -292,7 +292,7 @@ it("File Scan async and poll result", async () => {
   let exception;
   try {
     const request = { verbose: true, raw: true, provider: "crowdstrike" };
-    const response = await fileScan.fileScan(request, testfilePath, { pollResultSync: false });
+    await fileScan.fileScan(request, testfilePath, { pollResultSync: false });
     expect(false).toBeTruthy();
   } catch (e) {
     expect(e).toBeInstanceOf(PangeaErrors.APIError);
