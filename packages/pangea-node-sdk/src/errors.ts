@@ -60,10 +60,13 @@ export namespace PangeaErrors {
     }
 
     toString(): string {
-      let ret = "Summary: ";
-      ret += this.response.summary + "\n";
+      let ret = `Summary: ${this.response.summary}\n`;
+      ret += `status: ${this.response.status}\n`;
+      ret += `request_id: ${this.response.request_id}\n`;
+      ret += `request_time: ${this.response.request_time}\n`;
+      ret += `response_time: ${this.response.response_time}\n`;
       (this.response.result?.errors || []).forEach((ef) => {
-        ret += "\t" + ef.detail + "\n";
+        ret += `\t${ef.source} ${ef.code}: ${ef.detail}\n`;
       });
       return ret;
     }
