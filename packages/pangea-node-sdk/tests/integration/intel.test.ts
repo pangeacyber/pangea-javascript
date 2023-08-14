@@ -33,7 +33,7 @@ const fileScan = new FileScanService(token, config);
 const testfilePath = "./tests/testdata/testfile.pdf";
 jest.setTimeout(20000);
 
-xit("file hash reputation should succeed", async () => {
+it("file hash reputation should succeed", async () => {
   const options = { provider: "reversinglabs", verbose: true, raw: true };
   const response = await fileIntel.hashReputation(
     "142b638c6a60b60c7f9928da4fb85a5a8e1422a9ffdc9ee49e17e56ccca9cf6e",
