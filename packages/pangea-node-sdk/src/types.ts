@@ -562,9 +562,16 @@ export namespace Vault {
     secret?: string;
   }
 
+  export interface InheritedSettigs {
+    rotation_frequency: boolean;
+    rotation_state: boolean;
+    rotation_grace_period: boolean;
+  }
+
   export interface GetResult extends ItemData {
     rotation_grace_period?: string;
     versions: ItemVersionData[];
+    inherited_settings: InheritedSettigs;
   }
 
   export namespace JWT {
