@@ -8,6 +8,7 @@ import {
 import { FC, useEffect, useState } from "react";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { DateTimePicker } from "@mui/x-date-pickers/DateTimePicker";
+import { DesktopDateTimePicker } from "@mui/x-date-pickers/DesktopDateTimePicker";
 import { AdapterMoment } from "@mui/x-date-pickers/AdapterMoment";
 import { getISO } from "../../utils";
 import moment, { Moment } from "moment";
@@ -43,7 +44,7 @@ const DateTimeField: FC<DateTimeFieldProps> = ({ value, setValue, label }) => {
       <FormGroup>
         <FormControlLabel
           control={
-            <DateTimePicker
+            <DesktopDateTimePicker
               value={adaptDate}
               onChange={(newValue) => {
                 setAdaptDate(newValue);

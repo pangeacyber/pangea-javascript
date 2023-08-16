@@ -2,6 +2,8 @@ export interface Show {
   id: number;
   title: string;
   description: string;
+  new?: string;
+  old?: string;
 }
 
 export const SHOWS: Show[] = [
@@ -10,6 +12,8 @@ export const SHOWS: Show[] = [
     title: "The Office",
     description:
       "A mockumentary on a group of typical office workers, where the workday consists of ego clashes, inappropriate behavior, and tedium",
+    old: '{ "email": "sourabh@pangea.cloud" }',
+    new: '{ "email": "sourabh@s.com" }',
   },
   {
     id: 2,

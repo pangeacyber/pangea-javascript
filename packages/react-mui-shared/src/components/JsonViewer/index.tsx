@@ -9,7 +9,7 @@ if (typeof window !== "undefined") {
   ReactJson = require("react-json-view").default;
 }
 
-interface Props {
+export interface JsonViewerProps {
   src: object;
   highlights?: Highlight[];
   depth?: number;
@@ -20,7 +20,7 @@ interface Props {
   allowEmpty?: boolean;
 }
 
-const JsonViewer: FC<Props> = ({
+const JsonViewer: FC<JsonViewerProps> = ({
   src,
   highlights = [],
   depth,

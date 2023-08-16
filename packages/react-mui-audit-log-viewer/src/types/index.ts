@@ -141,6 +141,7 @@ export namespace Audit {
     DateTime = "datetime",
     Integer = "integer",
     String = "string",
+    NonIndexed = "string-unindexed",
   }
 
   export interface SchemaField {
@@ -155,7 +156,7 @@ export namespace Audit {
     // Breaking
     required?: boolean;
     size?: number;
-    type: "boolean" | "datetime" | "integer" | "string";
+    type: "boolean" | "datetime" | "integer" | "string" | "string-unindexed";
 
     redact?: boolean;
   }
