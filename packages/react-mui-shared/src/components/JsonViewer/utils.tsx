@@ -16,6 +16,8 @@ export const HIGHLIGHTED_CLASS = "Pangea-Highlight";
 
 export interface Highlight {
   value: string;
+  prefix?: string;
+  suffix?: string;
   color: "highlight" | "error";
 }
 
@@ -74,6 +76,7 @@ export const useReactJsonViewHighlight = (
       const queryKeys = node.querySelectorAll(ReactJsonView.ObjectEl);
       queryKeys.forEach((el) => {
         const text = el.textContent;
+
         const change = get(textToHighlightMap, text?.replace(/"/g, "") ?? "");
         if (change) {
           el.className = `${el.className} ${HIGHLIGHTED_CLASS}`;
@@ -98,20 +101,41 @@ export const useReactJsonViewHighlight = (
         if (isEmpty(highlights_)) return;
 
         let left: string = el.textContent;
+        let checkIdx: number = 0;
         const values: { val: string; isHighlighted: boolean }[] = [];
-        highlights_.forEach((hl) => {
-          const [first, ...rest] = left.split(hl.value);
-          values.push({
-            val: first,
-            isHighlighted: false,
-          });
-          values.push({
-            val: hl.value,
-            isHighlighted: true,
-          });
 
-          left = rest.join(hl.value);
-        });
+        for (let idx = 0; idx < highlights_.length; idx++) {
+          const hl = highlights_[idx];
+          const [first, ...rest] = left.slice(checkIdx).split(hl.value);
+          const previous = left.slice(0, checkIdx) + first;
+          const next = rest.length ? rest[0] : "";
+
+          if (
+            previous.endsWith(
+              (hl.prefix ?? "").charAt((hl.prefix ?? "").length - 1)
+            ) &&
+            next.startsWith((hl.suffix ?? "").charAt(0))
+          ) {
+            values.push({
+              val: previous,
+              isHighlighted: false,
+            });
+            values.push({
+              val: hl.value,
+              isHighlighted: true,
+            });
+
+            left = rest.join(hl.value);
+            checkIdx = 0;
+          } else {
+            if (checkIdx < left.length) {
+              idx--;
+              checkIdx = previous.length + hl.value.length;
+            } else {
+              checkIdx = 0;
+            }
+          }
+        }
 
         values.push({
           val: left,
