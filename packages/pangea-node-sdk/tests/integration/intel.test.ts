@@ -65,7 +65,7 @@ it("Domain reputation should succeed", async () => {
 
   expect(response.status).toBe("Success");
   expect(response.result.data).toBeDefined();
-  expect(response.result.data.verdict).toBe("malicious");
+  expect(response.result.data.verdict).toBe("suspicious");
 });
 
 it("IP geolocate should succeed", async () => {
