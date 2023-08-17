@@ -571,7 +571,7 @@ export namespace Vault {
   export interface GetResult extends ItemData {
     rotation_grace_period?: string;
     versions: ItemVersionData[];
-    inherited_settings: InheritedSettigs;
+    inherited_settings?: InheritedSettigs;
   }
 
   export namespace JWT {
