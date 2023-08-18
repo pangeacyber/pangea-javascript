@@ -48,6 +48,8 @@ ThemedAuditLogViewer.args = {
           actor: "Pepe Silvia",
           received_at: new Date().toISOString(),
           message: "Failed to deliver mail to Pepe Silvia, unable to find",
+          old: '{ "email": "sourabh@pangea.cloud" }',
+          new: '{ "email": "sourabh@s.com" }',
         },
         {
           id: "mock_2",

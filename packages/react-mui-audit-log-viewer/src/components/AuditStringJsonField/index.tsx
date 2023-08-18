@@ -123,6 +123,8 @@ const StringJsonField: FC<{
           <JsonViewer
             src={jsonValue}
             highlights={changes.filter(shouldHighlight).map((c) => ({
+              prefix: c.prefix,
+              suffix: c.suffix,
               value: c.value,
               color: "highlight",
             }))}
