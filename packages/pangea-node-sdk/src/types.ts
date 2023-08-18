@@ -427,6 +427,7 @@ export namespace Vault {
     SUSPENDED = "suspended",
     COMPROMISED = "compromised",
     DESTROYED = "destroyed",
+    INHERITED = "inherited",
   }
 
   export enum ItemOrder {
@@ -871,6 +872,9 @@ export namespace Vault {
       folder: string;
       metadata?: Metadata;
       tags?: Tags;
+      rotation_frequency?: string;
+      rotation_state?: ItemVersionState;
+      rotation_grace_period?: string;
     }
 
     export interface CreateResult {
