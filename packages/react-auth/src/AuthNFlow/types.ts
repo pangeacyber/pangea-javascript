@@ -32,9 +32,16 @@ export enum FlowStep {
   VERIFY_MFA_SELECT = "verify/mfa/select", // UI-only state
   VERIFY_MFA_START = "verify/mfa/start",
   VERIFY_MFA_COMPLETE = "verify/mfa/complete",
+  VERIFY_RESET = "verify/password_reset",
   RESET_PASSWORD = "reset/password",
   MFA_SELECT = "mfa/select",
+  VERIFY_EULA = "verify/eula", // TODO: Remove when verify/agreement is used
+  VERIFY_AGREEMENT = "verify/agreement",
+  FLOW_GET = "get",
   COMPLETE = "complete",
+  FLOW_RETURN = "return", // UI-only state
+  INVALID_AUTH_METHOD = "invalid/auth", // UI-only state
+  INVALID_STATE = "invalid/state", // UI-only state
 }
 
 export interface FlowState {

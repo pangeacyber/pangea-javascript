@@ -1,6 +1,6 @@
 export { default as EnrollMfaCompleteView } from "./EnrollMfaComplete";
 export { default as EnrollMfaStartView } from "./EnrollMfaStart";
-export { default as EulaAcceptView } from "./EulaAccept";
+export { default as AgreementAcceptView } from "./AgreementAccept";
 export { default as ResetPasswordView } from "./ResetPassword";
 export { default as SelectMfaView } from "./SelectMfa";
 export { default as SignupView } from "./Signup";
