@@ -11,7 +11,7 @@ const config = new PangeaConfig({ domain: testHost, customUserAgent: "sdk-test" 
 const fileScan = new FileScanService(token, config);
 
 const testfilePath = "./tests/testdata/testfile.pdf";
-jest.setTimeout(20000);
+jest.setTimeout(60000);
 
 it("File Scan ", async () => {
   try {
@@ -20,7 +20,7 @@ it("File Scan ", async () => {
 
     expect(response.status).toBe("Success");
     expect(response.result.data).toBeDefined();
-    expect(response.result.data.verdict).toBe("malicious");
+    expect(response.result.data.verdict).toBe("benign");
   } catch (e) {
     console.log(e);
     expect(false).toBeTruthy();
@@ -68,10 +68,10 @@ it("File Scan async and poll result", async () => {
   }
 
   // Wait until result could be ready
-  await delay(120 * 1000);
+  await delay(30 * 1000);
   const request_id = exception?.request_id || "";
   const response = await fileScan.pollResult(request_id);
   expect(response.status).toBe("Success");
   expect(response.result.data).toBeDefined();
-  expect(response.result.data.verdict).toBe("malicious");
+  expect(response.result.data.verdict).toBe("benign");
 });

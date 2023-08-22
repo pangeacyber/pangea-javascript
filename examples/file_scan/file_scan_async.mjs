@@ -3,14 +3,14 @@
 import { PangeaConfig, FileScanService, PangeaErrors } from "pangea-node-sdk";
 
 const domain = process.env.PANGEA_DOMAIN;
-const token = process.env.PANGEA_INTEL_TOKEN;
+const token = process.env.PANGEA_FILE_SCAN_TOKEN;
 
 // To work in async it's need to set up queuedRetryEnabled to false
 // When we call .fileScan() it will return an AcceptedRequestException inmediatly if server return a 202 response
 const config = new PangeaConfig({ domain: domain, queuedRetryEnabled: false });
-const intel = new FileScanService(String(token), config);
+const client = new FileScanService(String(token), config);
 
-const yourFilepath = "./intel/file_scan/testfile.pdf";
+const yourFilepath = "./testfile.pdf";
 
 // helper function. Sleep some time
 const delay = async (ms) =>
@@ -24,7 +24,7 @@ const delay = async (ms) =>
   let exception;
   try {
     const request = { verbose: true, raw: true, provider: "crowdstrike" };
-    const response = await intel.fileScan(request, yourFilepath, {
+    const response = await client.fileScan(request, yourFilepath, {
       pollResultSync: false,
     });
   } catch (e) {
@@ -42,6 +42,6 @@ const delay = async (ms) =>
   // Wait until result could be ready
   await delay(30 * 1000);
   const request_id = exception?.request_id || "";
-  const response = await intel.pollResult(request_id);
+  const response = await client.pollResult(request_id);
   console.log("Result:", response.result);
 })();

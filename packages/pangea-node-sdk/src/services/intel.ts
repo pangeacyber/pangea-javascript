@@ -555,23 +555,3 @@ export class UserIntelService extends BaseService {
     }
   }
 }
-
-// FileScan
-// FIXME: docs
-export class FileScanService extends BaseService {
-  constructor(token: string, config: PangeaConfig) {
-    super("file-scan", token, config);
-    this.apiVersion = "v1";
-  }
-
-  // FIXME: docs
-  fileScan(
-    request: Intel.FileScan.ScanRequest,
-    filepath: string,
-    options: Intel.FileScan.Options = {
-      pollResultSync: true,
-    }
-  ): Promise<PangeaResponse<Intel.FileScan.ScanResult>> {
-    return this.postMultipart("scan", request, filepath, options);
-  }
-}

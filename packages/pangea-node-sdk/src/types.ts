@@ -193,6 +193,28 @@ export namespace Embargo {
   }
 }
 
+export namespace FileScan {
+  export interface ScanRequest {
+    verbose?: boolean;
+    raw?: boolean;
+    provider?: string;
+    filepath?: string;
+    file?: string;
+  }
+
+  export interface Options extends PostOptions {}
+
+  export interface ScanResult {
+    parameter?: Dictionary;
+    raw_data?: Dictionary;
+    data: {
+      category: string[];
+      score: number;
+      verdict: string;
+    };
+  }
+}
+
 /**
  * Intel services interface definitions
  */
@@ -215,23 +237,6 @@ export namespace Intel {
       score: number;
       verdict: string;
     };
-  }
-
-  export namespace FileScan {
-    export interface ScanRequest extends Intel.Options {
-      filepath?: string;
-      file?: string;
-    }
-
-    export interface Options extends PostOptions {}
-
-    export interface ScanResult extends CommonResult {
-      data: {
-        category: string[];
-        score: number;
-        verdict: string;
-      };
-    }
   }
 
   export namespace File {
