@@ -12,6 +12,7 @@ import PasswordField, {
   checkPassword,
 } from "@src/components/fields/PasswordField";
 import ErrorMessage from "../ErrorMessage";
+import { checkForHtml } from "../../utils";
 
 interface SignupViewProps extends ViewComponentProps {
   disclaimer?: ReactElement;
@@ -27,8 +28,18 @@ const SignupView: FC<SignupViewProps> = ({
   disclaimer,
 }) => {
   const validationSchema = yup.object({
-    firstName: yup.string().required("Required"),
-    lastName: yup.string().required("Required"),
+    firstName: yup
+      .string()
+      .required("Required first")
+      .test("no-html-tags", "HTML tags are not allowed", (value) => {
+        return checkForHtml(value || "");
+      }),
+    lastName: yup
+      .string()
+      .required("Required last")
+      .test("no-html-tags", "HTML tags are not allowed", (value) => {
+        return checkForHtml(value);
+      }),
     password: yup
       .string()
       .required("Required")

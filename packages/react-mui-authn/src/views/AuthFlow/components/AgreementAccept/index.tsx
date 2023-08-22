@@ -14,11 +14,11 @@ import { AutoLinkNode, LinkNode } from "@lexical/link";
 import { $convertFromMarkdownString } from "@lexical/markdown";
 import LexicalClickableLinkPlugin from "@lexical/react/LexicalClickableLinkPlugin";
 
+import { FlowStep } from "@pangeacyber/react-auth";
 import { Button, ViewComponentProps } from "@pangeacyber/react-mui-authn";
-import { FlowStep } from "../../types";
 import { isJSON } from "@src/utils";
 
-const EulaAccept: FC<ViewComponentProps> = ({ data, next, reset }) => {
+const AgreementAccept: FC<ViewComponentProps> = ({ data, next, reset }) => {
   const [disable, setDisable] = useState<boolean>(true);
   const theme = useTheme();
   const content = data.eula || "";
@@ -50,12 +50,12 @@ const EulaAccept: FC<ViewComponentProps> = ({ data, next, reset }) => {
     ],
   };
 
-  const acceptEula = (accept: boolean) => {
+  const acceptAgreement = (accept: boolean) => {
     next(FlowStep.VERIFY_EULA, { accept });
   };
 
   useEffect(() => {
-    const el = document.getElementById("eula-container");
+    const el = document.getElementById("agreement-container");
     if (el && el.scrollHeight - el.scrollTop === el.clientHeight) {
       setDisable(false);
     }
@@ -74,7 +74,7 @@ const EulaAccept: FC<ViewComponentProps> = ({ data, next, reset }) => {
     <Stack gap={3} sx={{ borderWidth: "1px" }} ml={-1} mr={-1}>
       <Typography variant="h6">License Agreement</Typography>
       <Stack
-        id="eula-container"
+        id="agreement-container"
         onScroll={handleScroll}
         sx={{
           maxHeight: "400px",
@@ -116,7 +116,7 @@ const EulaAccept: FC<ViewComponentProps> = ({ data, next, reset }) => {
           color="primary"
           disabled={disable}
           onClick={() => {
-            acceptEula(true);
+            acceptAgreement(true);
           }}
         >
           Accept
@@ -126,4 +126,4 @@ const EulaAccept: FC<ViewComponentProps> = ({ data, next, reset }) => {
   );
 };
 
-export default EulaAccept;
+export default AgreementAccept;

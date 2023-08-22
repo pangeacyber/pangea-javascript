@@ -50,3 +50,8 @@ export const getOtpTitle = (provider: string): string => {
     return provider;
   }
 };
+
+export const checkForHtml = (value: string | undefined): boolean => {
+  const stripped = value?.replace(/(<([^>]+)>)/gi, "");
+  return stripped === value;
+};
