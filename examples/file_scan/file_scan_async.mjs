@@ -27,6 +27,9 @@ const delay = async (ms) =>
     const response = await client.fileScan(request, yourFilepath, {
       pollResultSync: false,
     });
+    console.log("Scan success on first attempt...")
+    console.log("Result:", response.result);
+    process.exit(0);
   } catch (e) {
     if (e instanceof PangeaErrors.AcceptedRequestException) {
       console.log("This is an expected exception");
@@ -43,5 +46,6 @@ const delay = async (ms) =>
   await delay(30 * 1000);
   const request_id = exception?.request_id || "";
   const response = await client.pollResult(request_id);
+  console.log("Poll result success...")
   console.log("Result:", response.result);
 })();
