@@ -20,9 +20,7 @@ import { AuthFlowViewOptions, AuthFlowViewProps } from "./types";
 
 const DEAULT_OPTIONS: AuthFlowViewOptions = {
   submitLabel: "Submit",
-  showEmail: true,
-  showReset: true,
-  resetLabel: "Start Over",
+  cancelLabel: "Start Over",
   showSocialIcons: true,
 };
 

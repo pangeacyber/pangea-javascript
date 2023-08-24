@@ -25,27 +25,25 @@ const VerifyCaptchaView: FC<ViewComponentProps> = ({
   return (
     <Stack gap={2}>
       <Stack>
-        <Typography variant="h6">Prove you're human</Typography>
+        <Typography variant="h6">{options.captchaHeading}</Typography>
       </Stack>
       <Stack gap={1}>
         <ReCAPTCHA
-          sitekey={data.recaptchaKey}
+          sitekey={data.ç}
           onChange={handleChange}
           className="recaptcha"
         />
         {error && <ErrorMessage response={error} />}
       </Stack>
-      {options.showReset && (
-        <Stack
-          direction={{ xs: "column", sm: "row" }}
-          justifyContent="center"
-          gap={{ xs: 0, sm: 1 }}
-        >
-          <Button color="primary" variant="text" onClick={reset}>
-            {options.resetLabel}
-          </Button>
-        </Stack>
-      )}
+      <Stack
+        direction={{ xs: "column", sm: "row" }}
+        justifyContent="center"
+        gap={{ xs: 0, sm: 1 }}
+      >
+        <Button color="primary" variant="text" onClick={reset}>
+          {options.cancelLabel}
+        </Button>
+      </Stack>
     </Stack>
   );
 };
