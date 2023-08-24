@@ -87,11 +87,9 @@ const EnrollMfaStartView: FC<ViewComponentProps> = ({
             Choose another MFA method
           </Button>
         )}
-        {options.showReset && (
-          <Button variant="text" onClick={reset}>
-            {options.resetLabel}
-          </Button>
-        )}
+        <Button variant="text" onClick={reset}>
+          {options.cancelLabel}
+        </Button>
       </Stack>
     </Stack>
   );

@@ -58,11 +58,9 @@ const VerifyEmailView: FC<ViewComponentProps> = ({
         <Button variant="text" onClick={resendEmail} disabled={loading}>
           Resend Email
         </Button>
-        {options.showReset && (
-          <Button variant="text" onClick={reset}>
-            {options.resetLabel}
-          </Button>
-        )}
+        <Button variant="text" onClick={reset}>
+          {options.cancelLabel}
+        </Button>
       </Stack>
     </Stack>
   );

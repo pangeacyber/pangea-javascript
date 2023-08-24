@@ -31,7 +31,7 @@ tag_react_auth:
   script:
     - apt-get install python3 -y
     - apt-get install python3-pip -y
-    - pip3 install PyGithub
+    - apt-get install pygithub -y
     - VERSION=$(node -p "require('./package.json').version")
     - cp ../../scripts/tag_release.py .
     - python3 tag_release.py ${GITHUB_TOKEN} ${VERSION} ${CI_COMMIT_SHA} "react-mui-authn" "React MUI AuthN"
