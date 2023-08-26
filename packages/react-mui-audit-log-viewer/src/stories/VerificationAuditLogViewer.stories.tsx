@@ -134,6 +134,7 @@ VerificationAuditLogViewer.args = {
       })
       .catch((err) => {
         console.log(err);
+        throw err;
       });
   },
   onPageChange: async (body) => {

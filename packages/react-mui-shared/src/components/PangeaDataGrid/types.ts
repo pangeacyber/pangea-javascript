@@ -40,4 +40,10 @@ export namespace PDG {
     GridColDef?: Partial<CustomPinnedGridColDef>;
     isPinned?: boolean;
   }
+
+  export interface SearchError {
+    message: string;
+    start?: number;
+    length?: number;
+  }
 }
