@@ -29,7 +29,7 @@ const VerifyCaptchaView: FC<ViewComponentProps> = ({
       </Stack>
       <Stack gap={1}>
         <ReCAPTCHA
-          sitekey={data.ç}
+          sitekey={data.recaptchaKey}
           onChange={handleChange}
           className="recaptcha"
         />
