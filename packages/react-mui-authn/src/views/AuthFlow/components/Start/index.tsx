@@ -63,7 +63,7 @@ const StartView: FC<StartViewProps> = ({
 
   return (
     <Stack gap={2}>
-      <Typography variant="h6">Log in or Sign up</Typography>
+      <Typography variant="h6">{options.startHeading}</Typography>
       {data.passwordSignup && (
         <form onSubmit={formik.handleSubmit}>
           <Stack gap={1}>
@@ -89,7 +89,7 @@ const StartView: FC<StartViewProps> = ({
               disabled={loading}
               fullWidth={true}
             >
-              Continue with email
+              {options.startButtonLabel}
             </Button>
           </Stack>
         </form>

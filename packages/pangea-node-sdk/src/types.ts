@@ -979,6 +979,71 @@ export namespace AuthN {
     created_at: string;
   }
 
+  export namespace Agreements {
+    export enum AgreementType {
+      EULA = "eula",
+      PRIVACY_POLICY = "privacy_policy",
+    }
+
+    export interface CreateRequest {
+      type: AgreementType;
+      name: string;
+      text: string;
+      active?: boolean;
+    }
+
+    export interface AgreementInfo {
+      type: string;
+      id: string;
+      created_at: string;
+      updated_at: string;
+      published_at: string;
+      name: string;
+      text: string;
+      active: boolean;
+    }
+
+    export interface CreateResult extends AgreementInfo {}
+
+    export interface DeleteRequest {
+      type: AgreementType;
+      id: string;
+    }
+
+    export interface DeleteResult {}
+
+    export enum AgreementListOrderBy {
+      ID = "id",
+      CREATED_AT = "created_at",
+      NAME = "name",
+      TEXT = "text",
+    }
+
+    export interface ListRequest {
+      filter?: object;
+      last?: string;
+      order?: ItemOrder;
+      order_by?: AgreementListOrderBy;
+      size?: number;
+    }
+
+    export interface ListResult {
+      agreements: AgreementInfo[];
+      count: number;
+      last?: string;
+    }
+
+    export interface UpdateRequest {
+      type: AgreementType;
+      id: string;
+      name?: string;
+      text?: string;
+      active?: boolean;
+    }
+
+    export interface UpdateResult extends AgreementInfo {}
+  }
+
   export namespace Flow {
     export enum Step {
       START = "start",

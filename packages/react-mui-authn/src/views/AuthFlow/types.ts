@@ -2,12 +2,21 @@ import { FlowStep } from "@pangeacyber/react-auth";
 
 // Options for customizing AuthFlowView components
 export interface AuthFlowViewOptions {
-  submitLabel?: string;
-  showEmail?: boolean;
-  showReset?: boolean;
-  resetLabel?: string;
-  showSocialIcons?: boolean;
   brandName?: string;
+  startHeading?: string;
+  startButtonLabel?: string;
+  signupHeading?: string;
+  signupButtonLabel?: string;
+  passwordHeading?: string;
+  passwordButtonLabel?: string;
+  socialHeading?: string;
+  showSocialIcons?: boolean;
+  otpButtonLabel?: string;
+  captchaHeading?: string;
+  eulaHeading?: string;
+  privacyHeading?: string;
+  submitLabel?: string;
+  cancelLabel?: string;
 }
 
 // Pass custom components to AuthFlow

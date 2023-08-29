@@ -12,6 +12,7 @@ const testHost = getTestDomain(environment);
 const config = new PangeaConfig({ domain: testHost });
 const authn = new AuthNService(token, config);
 
+const TIME = Math.round(Date.now() / 1000);
 const RANDOM_VALUE = new Date().getTime().toString();
 const EMAIL_TEST = `user.email+test${RANDOM_VALUE}@pangea.cloud`;
 const EMAIL_DELETE = `user.email+delete${RANDOM_VALUE}@pangea.cloud`;
@@ -226,6 +227,76 @@ it("Invite actions test", async () => {
     });
     expect(listResp.status).toBe("Success");
     expect(listResp.result.invites.length).toBeGreaterThan(0);
+  } catch (e) {
+    e instanceof PangeaErrors.APIError ? console.log(e.toString()) : console.log(e);
+    expect(false).toBeTruthy();
+  }
+});
+
+async function agreement_cycle(type: AuthN.Agreements.AgreementType) {
+  const name = `${type}_${TIME}`;
+  const text = "This is agreement text";
+  const active = false;
+
+  // Create agreement
+  const createResp = await authn.agreements.create({
+    type: type,
+    name: name,
+    text: text,
+    active: active,
+  });
+
+  expect(createResp.result.type).toBe(type.toString());
+  expect(createResp.result.name).toBe(name);
+  expect(createResp.result.text).toBe(text);
+  expect(createResp.result.active).toBe(active);
+  const id = createResp.result.id;
+  expect(id).toBeDefined();
+
+  // Update
+  const newName = `${name}_v2`;
+  const newText = `${text} v2`;
+  const updateResp = await authn.agreements.update({
+    type: type,
+    id: id,
+    name: newName,
+    text: newText,
+  });
+
+  expect(updateResp.result.type).toBe(type.toString());
+  expect(updateResp.result.name).toBe(newName);
+  expect(updateResp.result.text).toBe(newText);
+  expect(updateResp.result.active).toBe(active);
+
+  // List
+  let listResp = await authn.agreements.list({});
+  expect(listResp.result.count).toBeGreaterThan(0);
+  expect(listResp.result.agreements.length).toBeGreaterThan(0);
+  const count = listResp.result.count;
+
+  // Delete
+  await authn.agreements.delete({
+    type: type,
+    id: id,
+  });
+
+  // List again
+  listResp = await authn.agreements.list({});
+  expect(listResp.result.count).toBe(count - 1);
+}
+
+it("Test agreements cycle. EULA", async () => {
+  try {
+    await agreement_cycle(AuthN.Agreements.AgreementType.EULA);
+  } catch (e) {
+    e instanceof PangeaErrors.APIError ? console.log(e.toString()) : console.log(e);
+    expect(false).toBeTruthy();
+  }
+});
+
+it("Test agreements cycle. Policy privacy", async () => {
+  try {
+    await agreement_cycle(AuthN.Agreements.AgreementType.PRIVACY_POLICY);
   } catch (e) {
     e instanceof PangeaErrors.APIError ? console.log(e.toString()) : console.log(e);
     expect(false).toBeTruthy();

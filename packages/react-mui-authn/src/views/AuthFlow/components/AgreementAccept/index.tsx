@@ -18,7 +18,12 @@ import { FlowStep } from "@pangeacyber/react-auth";
 import { Button, ViewComponentProps } from "@pangeacyber/react-mui-authn";
 import { isJSON } from "@src/utils";
 
-const AgreementAccept: FC<ViewComponentProps> = ({ data, next, reset }) => {
+const AgreementAccept: FC<ViewComponentProps> = ({
+  options,
+  data,
+  next,
+  reset,
+}) => {
   const [disable, setDisable] = useState<boolean>(true);
   const theme = useTheme();
   const content = data.eula || "";
@@ -72,7 +77,7 @@ const AgreementAccept: FC<ViewComponentProps> = ({ data, next, reset }) => {
 
   return (
     <Stack gap={3} sx={{ borderWidth: "1px" }} ml={-1} mr={-1}>
-      <Typography variant="h6">License Agreement</Typography>
+      <Typography variant="h6">{options.eulaHeading}</Typography>
       <Stack
         id="agreement-container"
         onScroll={handleScroll}
@@ -82,7 +87,7 @@ const AgreementAccept: FC<ViewComponentProps> = ({ data, next, reset }) => {
           overflowY: "auto",
           textAlign: "initial",
           // @ts-ignore
-          fontSize: window.BRANDING?.font_size || "0.825em",
+          fontSize: theme.typography.fontSize || "0.825em",
           fontColor: theme.palette.text.primary,
           "& :focus-visible": {
             outline: "none",

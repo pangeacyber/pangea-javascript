@@ -61,11 +61,9 @@ const VerifySocialView: FC<ViewComponentProps> = ({ options, data, reset }) => {
         justifyContent="center"
         gap={{ xs: 0, sm: 1 }}
       >
-        {options.showReset && (
-          <Button variant="text" onClick={reset}>
-            {options.resetLabel}
-          </Button>
-        )}
+        <Button variant="text" onClick={reset}>
+          {options.cancelLabel}
+        </Button>
       </Stack>
     </Stack>
   );
