@@ -41,12 +41,7 @@ const VerifyEmailView: FC<ViewComponentProps> = ({
           button below.
         </Typography>
         {error && <ErrorMessage response={error} />}
-        <Button
-          variant="contained"
-          color="primary"
-          onClick={checkFlow}
-          disabled={loading}
-        >
+        <Button color="primary" onClick={checkFlow} disabled={loading}>
           Verification Complete
         </Button>
       </Stack>

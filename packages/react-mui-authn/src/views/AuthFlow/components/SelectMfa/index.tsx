@@ -44,7 +44,6 @@ const SelectMfaView: FC<ViewComponentProps> = ({
         {data.mfaProviders?.map((provider: string) => {
           return (
             <Button
-              variant="contained"
               color="secondary"
               key={provider}
               onClick={() => selectProvider(provider)}

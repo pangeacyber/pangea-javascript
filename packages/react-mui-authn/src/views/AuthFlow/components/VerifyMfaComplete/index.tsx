@@ -62,7 +62,6 @@ const VerifyMfaCompleteView: FC<ViewComponentProps> = ({
           {error && <ErrorMessage response={error} />}
           <Button
             color="primary"
-            variant="contained"
             type="submit"
             disabled={loading}
             fullWidth={true}

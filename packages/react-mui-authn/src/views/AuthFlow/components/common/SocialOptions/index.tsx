@@ -48,7 +48,6 @@ const SocialOptions: FC<Props> = ({ data, options }) => {
           {data.socialSignup.map((provider: Provider) => {
             return (
               <Button
-                variant="contained"
                 color="secondary"
                 fullWidth={true}
                 onClick={() => {
