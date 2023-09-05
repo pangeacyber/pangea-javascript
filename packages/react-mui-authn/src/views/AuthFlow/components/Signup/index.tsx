@@ -108,7 +108,6 @@ const SignupView: FC<SignupViewProps> = ({
           {error && <ErrorMessage response={error} />}
           <Button
             color="primary"
-            variant="contained"
             type="submit"
             fullWidth={true}
             disabled={loading}

@@ -84,6 +84,7 @@ const PasswordField: FC<Props> = ({ name, label, formik, policy }) => {
           }
           value={formik.values[name]}
           label={label}
+          autoFocus
         />
         {formik.errors[name] && (
           <FormHelperText error>{formik.errors[name]}</FormHelperText>

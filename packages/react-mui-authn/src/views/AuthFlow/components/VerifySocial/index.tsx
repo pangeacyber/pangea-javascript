@@ -40,7 +40,6 @@ const VerifySocialView: FC<ViewComponentProps> = ({ options, data, reset }) => {
           </Typography>
         </Box>
         <Button
-          variant="contained"
           color="secondary"
           fullWidth={true}
           onClick={() => {

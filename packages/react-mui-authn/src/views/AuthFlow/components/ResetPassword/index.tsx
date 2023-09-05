@@ -77,7 +77,6 @@ const ResetPasswordView: FC<ViewComponentProps> = ({
           {status && <ErrorMessage response={status} />}
           <Button
             color="primary"
-            variant="contained"
             type="submit"
             disabled={loading}
             fullWidth={true}

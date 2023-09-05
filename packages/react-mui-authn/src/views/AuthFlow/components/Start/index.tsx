@@ -79,12 +79,12 @@ const StartView: FC<StartViewProps> = ({
               error={formik.touched.email && Boolean(formik.errors.email)}
               helperText={formik.touched.email && formik.errors.email}
               autoComplete="email"
+              autoFocus
             />
             {error && <ErrorMessage response={error} />}
 
             <Button
               color="primary"
-              variant="contained"
               type="submit"
               disabled={loading}
               fullWidth={true}

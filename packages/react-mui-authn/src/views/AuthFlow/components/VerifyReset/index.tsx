@@ -38,9 +38,7 @@ const ResetPasswordView: FC<ViewComponentProps> = ({
         </Typography>
       </Stack>
       <Stack gap={1}>
-        <Button variant="contained" color="primary">
-          Verification Complete
-        </Button>
+        <Button color="primary">Verification Complete</Button>
         {error && <ErrorMessage response={error} />}
       </Stack>
       <Stack
