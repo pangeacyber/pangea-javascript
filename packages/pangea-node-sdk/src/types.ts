@@ -161,6 +161,7 @@ export namespace Redact {
   export interface Options {
     debug?: boolean;
     rules?: string[];
+    rulesets?: string[];
     return_result?: boolean;
   }
 
