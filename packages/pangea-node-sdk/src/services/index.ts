@@ -11,6 +11,7 @@ import {
   UserIntelService,
 } from "./intel.js";
 import VaultService from "./vault.js";
+import { FileScanService } from "./file_scan.js";
 
 export default {
   AuditService,
@@ -24,4 +25,5 @@ export default {
   URLIntelService,
   UserIntelService,
   VaultService,
+  FileScanService,
 };
