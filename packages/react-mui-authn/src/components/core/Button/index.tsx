@@ -1,6 +1,6 @@
 import { FC, ReactNode } from "react";
 
-import { Button as MuiButton, useTheme } from "@mui/material";
+import { Button as MuiButton } from "@mui/material";
 import { SxProps } from "@mui/material/styles";
 
 interface Props {
@@ -31,8 +31,6 @@ const Button: FC<Props> = ({
   sx,
   children,
 }) => {
-  const theme = useTheme();
-
   return (
     <MuiButton
       variant={variant}
