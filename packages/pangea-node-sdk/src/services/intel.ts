@@ -162,11 +162,22 @@ export class DomainIntelService extends BaseService {
    * ```
    */
   reputation(
-    domain: string,
+    domain: string | string[],
     options?: Intel.Domain.ReputationOptions
   ): Promise<PangeaResponse<Intel.Domain.ReputationResult>> {
+    let domain_list;
+    let _domain;
+    if (typeof domain === "string") {
+      _domain = domain;
+      domain_list = undefined;
+    } else {
+      domain_list = domain;
+      _domain = undefined;
+    }
+
     const data: Intel.Domain.ReputationRequest = {
-      domain,
+      domain: _domain,
+      domain_list: domain_list,
     };
 
     if (options?.provider) data.provider = options.provider;

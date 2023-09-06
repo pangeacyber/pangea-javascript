@@ -232,12 +232,18 @@ export namespace Intel {
     provider?: string;
   }
 
+  export interface ReputationData {
+    category: string[];
+    score: number;
+    verdict: string;
+  }
+
+  export interface ReputationDataItem extends ReputationData {
+    indicator: string;
+  }
+
   export interface ReputationResult extends CommonResult {
-    data: {
-      category: string[];
-      score: number;
-      verdict: string;
-    };
+    data: ReputationData;
   }
 
   export namespace File {
@@ -255,11 +261,14 @@ export namespace Intel {
   export namespace Domain {
     interface Options extends Intel.Options {}
     interface Params {
-      domain: string;
+      domain?: string;
+      domain_list?: string[];
     }
 
     export interface ReputationOptions extends Options {}
-    export interface ReputationResult extends Intel.ReputationResult {}
+    export interface ReputationResult extends Intel.ReputationResult {
+      data_list?: Intel.ReputationDataItem[];
+    }
     export interface ReputationRequest extends Params, ReputationOptions {}
   }
 
