@@ -266,8 +266,14 @@ export namespace Intel {
     }
 
     export interface ReputationOptions extends Options {}
+    export interface ReputationDataItem extends Intel.ReputationDataItem {}
+
+    export interface ReputationDataDict {
+      [key: string]: Domain.ReputationDataItem;
+    }
+
     export interface ReputationResult extends Intel.ReputationResult {
-      data_list?: Intel.ReputationDataItem[];
+      data_list?: ReputationDataDict;
     }
     export interface ReputationRequest extends Params, ReputationOptions {}
   }
@@ -275,11 +281,18 @@ export namespace Intel {
   export namespace URL {
     interface Options extends Intel.Options {}
     interface Params {
-      url: string;
+      url?: string;
+      url_list?: string[];
     }
 
     export interface ReputationOptions extends Options {}
-    export interface ReputationResult extends Intel.ReputationResult {}
+    export interface ReputationDataItem extends Intel.ReputationDataItem {}
+    export interface ReputationDataDict {
+      [key: string]: Domain.ReputationDataItem;
+    }
+    export interface ReputationResult extends Intel.ReputationResult {
+      data_list?: ReputationDataDict;
+    }
     export interface ReputationRequest extends Params, ReputationOptions {}
   }
 

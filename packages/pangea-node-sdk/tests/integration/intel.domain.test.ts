@@ -29,5 +29,6 @@ it("Domain bulk reputation should succeed", async () => {
   expect(response.result.data).toBeDefined();
   expect(response.result.data.verdict).toBe("malicious");
   expect(response.result.data_list).toBeDefined();
-  expect(response.result.data_list?.length).toBe(3);
+  expect(response.result.data_list).toBeDefined();
+  expect(Object.keys(response.result.data_list ?? {}).length).toBe(3);
 });

@@ -446,11 +446,22 @@ export class URLIntelService extends BaseService {
    * ```
    */
   reputation(
-    url: string,
+    url: string | string[],
     options?: Intel.URL.ReputationOptions
   ): Promise<PangeaResponse<Intel.URL.ReputationResult>> {
+    let _url_list;
+    let _url;
+    if (typeof url === "string") {
+      _url = url;
+      _url_list = undefined;
+    } else {
+      _url_list = url;
+      _url = undefined;
+    }
+
     const data: Intel.URL.ReputationRequest = {
-      url,
+      url: _url,
+      url_list: _url_list,
     };
 
     if (options?.provider) data.provider = options.provider;
