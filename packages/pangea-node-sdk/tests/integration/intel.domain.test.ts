@@ -3,7 +3,7 @@ import { it, expect } from "@jest/globals";
 import { TestEnvironment, getTestDomain, getTestToken } from "../../src/utils/utils.js";
 import { DomainIntelService } from "../../src/index.js";
 
-const testEnvironment = TestEnvironment.LIVE;
+const testEnvironment = TestEnvironment.DEVELOP;
 
 const token = getTestToken(testEnvironment);
 const testHost = getTestDomain(testEnvironment);
