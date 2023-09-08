@@ -16,10 +16,7 @@ const domainIntel = new DomainIntelService(String(token), config);
 
   const options = { provider: "whoisxml", verbose: true, raw: true };
   try {
-    const response = await domainIntel.whoIs(
-      "737updatesboeing.com",
-      options
-    );
+    const response = await domainIntel.whoIs("737updatesboeing.com", options);
     console.log("Result: ", response.result.data);
   } catch (e) {
     if (e instanceof PangeaErrors.APIError) {
