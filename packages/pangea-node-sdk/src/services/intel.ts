@@ -175,6 +175,39 @@ export class DomainIntelService extends BaseService {
 
     return this.post("reputation", data);
   }
+
+  /**
+   * @summary WhoIs check
+   * @description Retrieve who is for a domain from a provider, including an optional detailed report.
+   * @operationId domain_intel_post_v1_reputation
+   * @param {String} domain - The domain to be looked up.
+   * @param {Object} options - An object of optional parameters. Parameters supported:
+   *   - provider {String} - Use reputation data from these providers: "crowdstrike" or "domaintools".
+   *   Default provider defined by the configuration.
+   *   - verbose {Boolean} - Echo the API parameters in the response. Default: verbose=false.
+   *   - raw {Boolean} - Include raw data from this provider. Default: raw=false.
+   * @returns {Promise} - A promise representing an async call to the lookup endpoint.
+   * @example
+   * ```js
+   * const response = await domainIntel.whoIs(
+   *   "google.com"
+   * );
+   * ```
+   */
+  whoIs(
+    domain: string,
+    options?: Intel.Domain.WhoIsOptions
+  ): Promise<PangeaResponse<Intel.Domain.WhoIsResult>> {
+    const data: Intel.Domain.WhoIsRequest = {
+      domain,
+    };
+
+    if (options?.provider) data.provider = options.provider;
+    if (options?.verbose) data.verbose = options.verbose;
+    if (options?.raw) data.raw = options.raw;
+
+    return this.post("whois", data);
+  }
 }
 
 /**

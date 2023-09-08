@@ -261,6 +261,27 @@ export namespace Intel {
     export interface ReputationOptions extends Options {}
     export interface ReputationResult extends Intel.ReputationResult {}
     export interface ReputationRequest extends Params, ReputationOptions {}
+
+    export interface WhoIsOptions extends Options {}
+    export interface WhoIsRequest extends Params, WhoIsOptions {}
+    export interface WhoIsData {
+      domain_name: string;
+      domain_availability: string;
+      created_date?: string;
+      updated_date?: string;
+      expires_date?: string;
+      host_names?: string[];
+      ips?: string[];
+      registrar_name?: string;
+      contact_email?: string;
+      estimated_domain_age?: number;
+      registrant_organization?: string;
+      registrant_country?: string;
+    }
+
+    export interface WhoIsResult extends Intel.CommonResult {
+      data: WhoIsData;
+    }
   }
 
   export namespace URL {
