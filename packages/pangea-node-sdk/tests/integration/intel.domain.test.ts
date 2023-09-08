@@ -17,7 +17,7 @@ it("Domain reputation should succeed", async () => {
   expect(response.status).toBe("Success");
   expect(response.result.data).toBeDefined();
   expect(response.result.data.verdict).toBe("malicious");
-  expect(response.result.data_list).toBeUndefined();
+  expect(response.result.data_details).toBeUndefined();
 });
 
 it("Domain bulk reputation should succeed", async () => {
@@ -28,7 +28,7 @@ it("Domain bulk reputation should succeed", async () => {
   expect(response.status).toBe("Success");
   expect(response.result.data).toBeDefined();
   expect(response.result.data.verdict).toBe("malicious");
-  expect(response.result.data_list).toBeDefined();
-  expect(response.result.data_list).toBeDefined();
-  expect(Object.keys(response.result.data_list ?? {}).length).toBe(3);
+  expect(response.result.data_details).toBeDefined();
+  expect(response.result.data_details).toBeDefined();
+  expect(Object.keys(response.result.data_details ?? {}).length).toBe(3);
 });

@@ -273,7 +273,7 @@ export namespace Intel {
     }
 
     export interface ReputationResult extends Intel.ReputationResult {
-      data_list?: ReputationDataDict;
+      data_details?: ReputationDataDict;
     }
     export interface ReputationRequest extends Params, ReputationOptions {}
   }
@@ -291,7 +291,7 @@ export namespace Intel {
       [key: string]: Domain.ReputationDataItem;
     }
     export interface ReputationResult extends Intel.ReputationResult {
-      data_list?: ReputationDataDict;
+      data_details?: ReputationDataDict;
     }
     export interface ReputationRequest extends Params, ReputationOptions {}
   }
