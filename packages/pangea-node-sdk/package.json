@@ -1,11 +1,12 @@
 {
   "name": "pangea-node-sdk",
-  "version": "2.2.0",
+  "version": "2.2.1",
   "type": "module",
   "exports": {
     "types": "./dist/index.d.ts",
     "default": "./dist/index.js"
   },
+  "types": "./dist/index.d.ts",
   "repository": "git@github.com:pangeacyber/pangea-javascript.git",
   "author": "Glenn Gallien <glenn.gallien@pangea.cloud>",
   "license": "MIT",
