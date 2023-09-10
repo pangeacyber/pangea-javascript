@@ -16,6 +16,7 @@ import {
   useGridSchemaColumns,
 } from "@pangeacyber/react-mui-shared";
 import { AuditErrorsColumn } from "../components/AuditLogViewerComponent/errorColumn";
+import DateTimeFilterCell from "../components/AuditLogViewerComponent/DateTimeFilterCell";
 
 export const DEFAULT_AUDIT_SCHEMA: Audit.Schema = {
   client_signable: true,
@@ -155,6 +156,10 @@ const COLUMN_TYPE_MAP = {
   [Audit.SchemaFieldType.DateTime]: "stringDateTime",
 };
 
+const CUSTOM_CELLS = {
+  [Audit.SchemaFieldType.DateTime]: DateTimeFilterCell,
+};
+
 export const useAuditColumns = <Event,>(
   schema: Audit.Schema,
   fields: Partial<Record<keyof Event, Partial<GridColDef>>> | undefined
@@ -181,6 +186,7 @@ export const useAuditColumns = <Event,>(
                 minWidth: 200,
               }
             : {}),
+          renderCell: get(CUSTOM_CELLS, field.type, undefined),
         };
 
         return column;
@@ -242,7 +248,7 @@ export const useDefaultOrder = <Event,>(schema: Audit.Schema) => {
 export const useAuditFilterFields = <Event,>(schema: Audit.Schema) => {
   const fields: FilterOptions<Event> = useMemo(() => {
     const filterableFields = (schema?.fields ?? []).filter(
-      (field) => field.type === "string"
+      (field) => field.type !== "string-unindexed"
     );
 
     // @ts-ignore

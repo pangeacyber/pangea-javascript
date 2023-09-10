@@ -99,6 +99,7 @@ const AuditPreviewRow: FC<Props> = ({
                 <FieldComp
                   key={`preview-field-${idx}-${rowId}`}
                   title={title}
+                  field={field.id}
                   value={get(record, field.id)}
                   uniqueId={rowId}
                 />
@@ -121,6 +122,7 @@ const AuditPreviewRow: FC<Props> = ({
             <StringJsonField
               value={get(record, "err")}
               title="Errors"
+              field="err"
               uniqueId={rowId}
             />
           )}

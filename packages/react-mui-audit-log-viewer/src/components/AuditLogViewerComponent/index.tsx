@@ -1,15 +1,12 @@
 import { FC, useCallback, useEffect, useMemo } from "react";
-import pick from "lodash/pick";
-import merge from "lodash/merge";
 import find from "lodash/find";
-import cloneDeep from "lodash/cloneDeep";
 
 import { Box } from "@mui/material";
 import { SxProps } from "@mui/system";
 import { DataGridProps, GridColDef, GridSortModel } from "@mui/x-data-grid";
 
 import { Audit } from "../../types";
-import { PublicAuditQuery, useAuditQuery } from "../../utils/query";
+import { useAuditBody } from "../../utils/query";
 import { useAuditContext, usePagination } from "../../hooks/context";
 import { PangeaDataGrid } from "@pangeacyber/react-mui-shared";
 import AuditPreviewRow from "../AuditPreviewRow";
@@ -23,10 +20,16 @@ import {
   useDefaultOrder,
   useDefaultVisibility,
 } from "../../hooks/schema";
+import { PublicAuditQuery } from "../../types/query";
 
 export interface ViewerProps<Event = Audit.DefaultEvent> {
   initialQuery?: string;
   logs: Audit.FlattenedAuditRecord<Event>[];
+  searchError?: {
+    message: string;
+    start?: number;
+    length?: number;
+  };
   schema: Audit.Schema;
   root?: Audit.Root;
   loading: boolean;
@@ -41,19 +44,28 @@ export interface ViewerProps<Event = Audit.DefaultEvent> {
 
 const AuditLogViewerComponent: FC<ViewerProps> = ({
   logs,
+  searchError,
   schema,
   loading,
   onSearch,
   sx = {},
   dataGridProps = {},
   fields,
-  filters,
-  initialQuery,
 }) => {
-  const { visibilityModel, limit, maxResults, isVerificationCheckEnabled } =
-    useAuditContext();
-  const { body, query, queryObj, setQuery, setQueryObj, setSort } =
-    useAuditQuery(limit, maxResults, filters, initialQuery);
+  const {
+    visibilityModel,
+    limit,
+    maxResults,
+    isVerificationCheckEnabled,
+
+    query,
+    queryObj,
+
+    setQuery,
+    setQueryObj,
+    setSort,
+  } = useAuditContext();
+  const { body } = useAuditBody(limit, maxResults);
   const pagination = usePagination();
   const defaultVisibility = useDefaultVisibility(schema);
   const defaultOrder = useDefaultOrder(schema);
@@ -124,6 +136,7 @@ const AuditLogViewerComponent: FC<ViewerProps> = ({
         }}
         Search={{
           query: query,
+          error: searchError,
           onChange: handleChange,
           Filters: {
             // @ts-ignore

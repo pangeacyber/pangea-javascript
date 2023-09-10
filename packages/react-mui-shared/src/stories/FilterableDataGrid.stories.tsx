@@ -77,6 +77,9 @@ const Template: ComponentStory<typeof LinedPangeaDataGrid> = (args) => {
         }}
         Search={{
           query,
+          error: {
+            message: "testing",
+          },
           placeholder: "Search here...",
           onChange: setQuery,
           Filters: {

@@ -70,6 +70,7 @@ export interface PangeaDataGridProps<
   };
   Search?: {
     query?: string;
+    error?: PDG.SearchError;
     placeholder?: string;
     onChange: (query: string) => void;
     conditionalOptions?: ConditionalOption[];
