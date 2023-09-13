@@ -190,7 +190,13 @@ const PangeaDataGrid = <
     }
 
     return ordered;
-  }, [columnsProp, order, ColumnCustomization]);
+  }, [
+    columnsProp,
+    order,
+    visibility,
+    !!ColumnCustomization,
+    ColumnCustomization?.position,
+  ]);
 
   const columnsMap = useMemo(() => keyBy(columns, "field"), [columns]);
 

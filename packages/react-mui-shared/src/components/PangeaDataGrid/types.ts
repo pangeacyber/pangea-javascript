@@ -12,6 +12,15 @@ export namespace PDG {
 
   export interface CellProps {
     params: GridRenderCellParams;
+    color?:
+      | "textPrimary"
+      | "textSecondary"
+      | "success.main"
+      | "info.main"
+      | "primary"
+      | "secondary"
+      | "error"
+      | "warning";
   }
 
   export interface GridField extends GridBaseColDef {
