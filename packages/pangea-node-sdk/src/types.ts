@@ -1313,6 +1313,7 @@ export namespace AuthN {
     export interface ListFilter {
       active_token_id?: string;
       active_token_id__contains?: string[];
+      active_token_id__in?: string[];
       created_at?: string;
       created_at__gt?: string;
       created_at__gte?: string;
@@ -1320,6 +1321,7 @@ export namespace AuthN {
       created_at__lte?: string;
       email?: string;
       email__contains?: string[];
+      email__in?: string[];
       expire?: string;
       expire__gt?: string;
       expire__gte?: string;
@@ -1327,11 +1329,14 @@ export namespace AuthN {
       expire__lte?: string;
       id?: string;
       id__contains?: string[];
+      id__in?: string[];
       identity?: string;
       identity__contains?: string[];
+      identity__in?: string[];
       scopes?: string[];
       type?: string;
       type__contains?: string[];
+      type__in?: string[];
     }
 
     export interface ListRequest {
@@ -1428,8 +1433,10 @@ export namespace AuthN {
       disabled?: boolean;
       email?: string;
       email__contains?: string[];
+      email__in?: string[];
       id?: string;
       id__contains?: string[];
+      id__in?: string[];
       last_login_at?: string;
       last_login_at__gt?: string;
       last_login_at__gte?: string;
@@ -1437,10 +1444,13 @@ export namespace AuthN {
       last_login_at__lte?: string;
       last_login_ip?: string;
       last_login_ip__contains?: string[];
+      last_login_ip__in?: string[];
       last_login_city?: string;
       last_login_city__contains?: string[];
+      last_login_city__in?: string[];
       last_login_country?: string;
       last_login_country__contains?: string[];
+      last_login_country__in?: string[];
       login_count?: number;
       login_count__gt?: number;
       login_count__gte?: number;
@@ -1452,7 +1462,7 @@ export namespace AuthN {
     }
 
     export interface ListRequest {
-      filter?: Object;
+      filter?: Object | ListFilter;
       last?: string;
       order?: AuthN.ItemOrder;
       order_by?: AuthN.User.ListOrderBy;
@@ -1493,6 +1503,7 @@ export namespace AuthN {
       export interface ListFilter {
         callback?: string;
         callback__contains?: string[];
+        callback__in?: string[];
         created_at?: string;
         created_at__gt?: string;
         created_at__gte?: string;
@@ -1500,6 +1511,7 @@ export namespace AuthN {
         created_at__lte?: string;
         email?: string;
         email__contains?: string[];
+        email__in?: string[];
         expire?: string;
         expire__gt?: string;
         expire__gte?: string;
@@ -1507,14 +1519,18 @@ export namespace AuthN {
         expire__lte?: string;
         id?: string;
         id__contains?: string[];
+        id__in?: string[];
         invite_org?: string;
         invite_org__contains?: string[];
+        invite_org__in?: string[];
         inviter?: string;
         inviter__contains?: string[];
+        inviter__in?: string[];
         is_signup?: boolean;
         require_mfa?: boolean;
         state?: string;
         state__contains?: string[];
+        state__in?: string[];
       }
 
       export interface ListRequest {
