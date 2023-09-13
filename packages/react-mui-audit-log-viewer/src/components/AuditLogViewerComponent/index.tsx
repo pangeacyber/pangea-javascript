@@ -8,7 +8,10 @@ import { DataGridProps, GridColDef, GridSortModel } from "@mui/x-data-grid";
 import { Audit } from "../../types";
 import { useAuditBody } from "../../utils/query";
 import { useAuditContext, usePagination } from "../../hooks/context";
-import { PangeaDataGrid } from "@pangeacyber/react-mui-shared";
+import {
+  LinedPangeaDataGrid,
+  PangeaDataGrid,
+} from "@pangeacyber/react-mui-shared";
 import AuditPreviewRow from "../AuditPreviewRow";
 import { AuditSecureColumn } from "./secureColumn";
 import AuditTimeFilterButton from "./AuditTimeFilterButton";
@@ -99,16 +102,19 @@ const AuditLogViewerComponent: FC<ViewerProps> = ({
     <Box
       sx={{
         width: "100%",
-        ".MuiDataGrid-cell--withRenderer.MuiDataGrid-cell": {
-          border: "none",
-        },
         ".MuiDataGrid-footerContainer": {
           justifyContent: "center",
+        },
+        ".PangeaDataGrid-ExpansionRow": {
+          borderBottom: "1px solid rgba(224, 224, 224, 1)",
+        },
+        ".MuiDataGrid-root .MuiDataGrid-row.Mui-selected .MuiDataGrid-cell": {
+          borderBottom: "none",
         },
         ...sx,
       }}
     >
-      <PangeaDataGrid
+      <LinedPangeaDataGrid
         data={logs}
         columns={columns}
         loading={loading}
