@@ -23,14 +23,14 @@ class PangeaRequest {
   private token: string;
   private config: PangeaConfig;
   private extraHeaders: Object;
-  private isMultiConfigSupported: boolean;
+  private configID?: string;
   private userAgent: string = "";
 
   constructor(
     serviceName: string,
     token: string,
     config: PangeaConfig,
-    isMultiConfigSupported: boolean = false
+    configID: string | undefined
   ) {
     if (!serviceName) throw new Error("A serviceName is required");
     if (!token) throw new Error("A token is required");
@@ -40,12 +40,12 @@ class PangeaRequest {
     this.config = new PangeaConfig({ ...config });
     this.setCustomUserAgent(config.customUserAgent);
     this.extraHeaders = {};
-    this.isMultiConfigSupported = isMultiConfigSupported;
+    this.configID = configID;
   }
 
   checkConfigID(data: Request) {
-    if (this.isMultiConfigSupported && this.config.configID && data.config_id === undefined) {
-      data.config_id = this.config.configID;
+    if (this.configID && data.config_id === undefined) {
+      data.config_id = this.configID;
     }
   }
 
