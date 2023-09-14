@@ -1,10 +1,11 @@
 // /rollup.config.js
 import resolve from "@rollup/plugin-node-resolve";
 import external from "rollup-plugin-peer-deps-external";
-import { terser } from "rollup-plugin-terser";
+import terser from "@rollup/plugin-terser";
 import postcss from "rollup-plugin-postcss";
 import typescript from "@rollup/plugin-typescript";
 import commonjs from "@rollup/plugin-commonjs";
+import replace from "@rollup/plugin-replace";
 import nodePolyfills from "rollup-plugin-polyfill-node";
 import dts from "rollup-plugin-dts";
 
@@ -34,6 +35,10 @@ export default [
       postcss(),
       terser(),
       nodePolyfills(),
+      replace({
+        "process.env.NODE_ENV": JSON.stringify(process.env.NODE_ENV),
+        preventAssignment: true,
+      }),
     ],
     external: Object.keys(pkg.peerDependencies || {}),
     inlineDynamicImports: true,
