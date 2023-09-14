@@ -122,6 +122,7 @@ const AuditLogViewerComponent: FC<ViewerProps> = ({
           // @ts-ignore
           visibilityModel: visibilityModel ?? defaultVisibility,
           order: defaultOrder,
+          dynamicFlexColumn: true,
         }}
         ExpansionRow={{
           render: (object: any, open: boolean) => {

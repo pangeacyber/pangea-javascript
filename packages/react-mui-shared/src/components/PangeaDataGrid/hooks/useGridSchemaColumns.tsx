@@ -27,7 +27,7 @@ const constructGridColumnsFromFields = (
       width:
         !!fieldObj?.width && typeof fieldObj?.width === "number"
           ? fieldObj?.width
-          : 180,
+          : 125,
       type: fieldObj?.type ?? "string",
       headerName:
         fieldObj?.headerName ?? startCase(fieldObj?.label || fieldName),

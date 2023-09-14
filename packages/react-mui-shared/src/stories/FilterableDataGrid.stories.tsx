@@ -145,13 +145,15 @@ MatcherDataGrid.args = {
   columns: [
     {
       field: "match_type",
-      width: 200,
+      minWidth: 300,
       sortable: false,
       type: "singleSelect",
+      resizable: true,
       renderCell: (params) => <SingleSelectCell params={params} />,
     },
     {
       field: "match_value",
+      resizable: true,
       description: "Field: testing. Hi there",
       renderCell: (params) => <TextCell params={params} />,
     },
