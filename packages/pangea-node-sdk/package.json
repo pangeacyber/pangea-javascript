@@ -1,6 +1,6 @@
 {
   "name": "pangea-node-sdk",
-  "version": "2.2.2",
+  "version": "2.2.1",
   "type": "module",
   "exports": {
     "types": "./dist/index.d.ts",
