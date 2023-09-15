@@ -25,7 +25,7 @@ class AuditService extends BaseService {
 
   constructor(token: string, config: PangeaConfig, tenantID?: string, configID?: string) {
     // FIXME: Temporary check to still support configID from PangeaConfig
-    if (configID === undefined && config.configID !== undefined) {
+    if (!configID && config.configID) {
       configID = config.configID;
     }
     super("audit", token, config, configID);

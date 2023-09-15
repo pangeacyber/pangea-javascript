@@ -21,7 +21,7 @@ it("insecure false, environment local", async () => {
     insecure: false,
     environment: ConfigEnv.LOCAL,
   });
-  const request = new PangeaRequest(serviceName, token, config, undefined);
+  const request = new PangeaRequest(serviceName, token, config);
   const url = request.getUrl(path);
   expect(url).toBe("https://" + domain + "/" + path);
 });
@@ -32,7 +32,7 @@ it("insecure true, environment production", async () => {
     insecure: true,
     environment: ConfigEnv.PRODUCTION,
   });
-  const request = new PangeaRequest(serviceName, token, config, undefined);
+  const request = new PangeaRequest(serviceName, token, config);
   const url = request.getUrl(path);
   expect(url).toBe("http://" + serviceName + "." + domain + "/" + path);
 });
@@ -43,14 +43,14 @@ it("insecure false, environment production", async () => {
     insecure: false,
     environment: ConfigEnv.PRODUCTION,
   });
-  const request = new PangeaRequest(serviceName, token, config, undefined);
+  const request = new PangeaRequest(serviceName, token, config);
   const url = request.getUrl(path);
   expect(url).toBe("https://" + serviceName + "." + domain + "/" + path);
 });
 
 it("insecure default, environment default", async () => {
   const config = new PangeaConfig({ domain: domain });
-  const request = new PangeaRequest(serviceName, token, config, undefined);
+  const request = new PangeaRequest(serviceName, token, config);
   const url = request.getUrl(path);
   expect(url).toBe("https://" + serviceName + "." + domain + "/" + path);
 });
@@ -58,7 +58,7 @@ it("insecure default, environment default", async () => {
 it("url domain", async () => {
   const urlDomain = "https://myurldomain.net";
   const config = new PangeaConfig({ domain: urlDomain });
-  const request = new PangeaRequest(serviceName, token, config, undefined);
+  const request = new PangeaRequest(serviceName, token, config);
   const url = request.getUrl(path);
   expect(url).toBe(urlDomain + "/" + path);
 });

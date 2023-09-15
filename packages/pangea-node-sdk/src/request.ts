@@ -26,12 +26,7 @@ class PangeaRequest {
   private configID?: string;
   private userAgent: string = "";
 
-  constructor(
-    serviceName: string,
-    token: string,
-    config: PangeaConfig,
-    configID: string | undefined
-  ) {
+  constructor(serviceName: string, token: string, config: PangeaConfig, configID?: string) {
     if (!serviceName) throw new Error("A serviceName is required");
     if (!token) throw new Error("A token is required");
 
@@ -44,7 +39,7 @@ class PangeaRequest {
   }
 
   checkConfigID(data: Request) {
-    if (this.configID && data.config_id === undefined) {
+    if (this.configID && !data.config_id) {
       data.config_id = this.configID;
     }
   }
