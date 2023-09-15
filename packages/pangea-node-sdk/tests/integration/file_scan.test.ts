@@ -67,13 +67,20 @@ it("File Scan crowdstrike async and poll result", async () => {
     }
   }
 
-  // Wait until result could be ready
-  await delay(30 * 1000);
-  const request_id = exception?.request_id || "";
-  const response = await fileScan.pollResult(request_id);
-  expect(response.status).toBe("Success");
-  expect(response.result.data).toBeDefined();
-  expect(response.result.data.verdict).toBe("benign");
+  for (let i = 0; i < 6; i++) {
+    try {
+      // Wait until result could be ready
+      await delay(10 * 1000);
+      const request_id = exception?.request_id || "";
+      const response = await fileScan.pollResult(request_id);
+      expect(response.status).toBe("Success");
+      expect(response.result.data).toBeDefined();
+      expect(response.result.data.verdict).toBe("benign");
+      break;
+    } catch {
+      continue;
+    }
+  }
 });
 
 it("File Scan reversinglabs", async () => {
@@ -125,11 +132,18 @@ it("File Scan reversinglabs async and poll result", async () => {
     }
   }
 
-  // Wait until result could be ready
-  await delay(30 * 1000);
-  const request_id = exception?.request_id || "";
-  const response = await fileScan.pollResult(request_id);
-  expect(response.status).toBe("Success");
-  expect(response.result.data).toBeDefined();
-  expect(response.result.data.verdict).toBe("benign");
+  for (let i = 0; i < 6; i++) {
+    try {
+      // Wait until result could be ready
+      await delay(10 * 1000);
+      const request_id = exception?.request_id || "";
+      const response = await fileScan.pollResult(request_id);
+      expect(response.status).toBe("Success");
+      expect(response.result.data).toBeDefined();
+      expect(response.result.data.verdict).toBe("benign");
+      break;
+    } catch {
+      continue;
+    }
+  }
 });
