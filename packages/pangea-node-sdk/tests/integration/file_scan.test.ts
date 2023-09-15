@@ -67,7 +67,8 @@ it("File Scan crowdstrike async and poll result", async () => {
     }
   }
 
-  for (let i = 0; i < 6; i++) {
+  const maxRetry = 6;
+  for (let retry = 0; retry < maxRetry; retry++) {
     try {
       // Wait until result could be ready
       await delay(10 * 1000);
@@ -78,7 +79,7 @@ it("File Scan crowdstrike async and poll result", async () => {
       expect(response.result.data.verdict).toBe("benign");
       break;
     } catch {
-      continue;
+      expect(retry).toBeLessThan(maxRetry - 1);
     }
   }
 });
@@ -132,7 +133,8 @@ it("File Scan reversinglabs async and poll result", async () => {
     }
   }
 
-  for (let i = 0; i < 6; i++) {
+  const maxRetry = 6;
+  for (let retry = 0; retry < maxRetry; retry++) {
     try {
       // Wait until result could be ready
       await delay(10 * 1000);
@@ -143,7 +145,7 @@ it("File Scan reversinglabs async and poll result", async () => {
       expect(response.result.data.verdict).toBe("benign");
       break;
     } catch {
-      continue;
+      expect(retry).toBeLessThan(maxRetry - 1);
     }
   }
 });
