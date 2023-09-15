@@ -18,3 +18,14 @@ it("Domain reputation should succeed", async () => {
   expect(response.result.data).toBeDefined();
   expect(response.result.data.verdict).toBe("malicious");
 });
+
+it("Domain reputation not found", async () => {
+  const options = { provider: "crowdstrike", verbose: true, raw: true };
+  const response = await domainIntel.reputation("thisshouldbeafakedomain123123sad.com", options);
+
+  expect(response.status).toBe("Success");
+  expect(response.result.data).toBeDefined();
+  expect(response.result.data.verdict).toBeDefined();
+  expect(response.result.data.category).toBeDefined();
+  expect(response.result.data.score).toBeDefined();
+});

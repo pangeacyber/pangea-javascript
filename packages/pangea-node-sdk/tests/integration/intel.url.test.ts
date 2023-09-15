@@ -23,3 +23,12 @@ it("URL reputation with default provider should succeed", async () => {
   const response = await urlIntel.reputation("http://113.235.101.11:54384");
   expect(response.status).toBe("Success");
 });
+
+it("URL reputation not found", async () => {
+  const response = await urlIntel.reputation("http://thisshouldbeafakeurlasdasd12:54384");
+  expect(response.status).toBe("Success");
+  expect(response.result.data).toBeDefined();
+  expect(response.result.data.verdict).toBeDefined();
+  expect(response.result.data.category).toBeDefined();
+  expect(response.result.data.score).toBeDefined();
+});
