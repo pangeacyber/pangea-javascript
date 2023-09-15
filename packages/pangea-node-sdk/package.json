@@ -37,8 +37,8 @@
   },
   "scripts": {
     "test": "NODE_OPTIONS=--experimental-vm-modules npx jest",
-    "test:unit": "NODE_OPTIONS=--experimental-vm-modules --openssl-legacy-provider npx jest --testPathPattern=tests/unit",
-    "test:integration": "NODE_OPTIONS=--experimental-vm-modules --openssl-legacy-provider npx jest --testPathPattern=tests/integration",
+    "test:unit": "NODE_OPTIONS='--experimental-vm-modules --openssl-legacy-provider' npx jest --testPathPattern=tests/unit",
+    "test:integration": "NODE_OPTIONS='--experimental-vm-modules --openssl-legacy-provider' npx jest --testPathPattern=tests/integration",
     "lint": "npx prettier --check . && npx eslint --ext .ts",
     "prettier:fix": "npx prettier . -w",
     "generate:docs": "typedoc --tsconfig ./tsconfig.prod.json",
