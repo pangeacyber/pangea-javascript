@@ -171,6 +171,9 @@ export const useAuditColumns = <Event,>(
     const defaultColumnDefinitions: PDG.GridSchemaFields<Event> = mapValues(
       keyBy(schemaFields, "id"),
       (field) => {
+        const isLarge =
+          (field.type === "string" || field.type === "string-unindexed") &&
+          (field.size ?? 0) > 128;
         const column: Partial<PDG.GridField> = {
           label: field.name ?? field.id,
           description: `Field: ${field.id}${
@@ -178,11 +181,13 @@ export const useAuditColumns = <Event,>(
           }`,
           type: get(COLUMN_TYPE_MAP, field.type, "string"),
           sortable: field.type === "datetime", // FIXME: What fields exactly should be sortable
-          // SpecialField: Message is treated as a special field here, there is no UX for how customers define what is the flex field
-          // Potentially this could just become the last field in the display order?
-          ...(field.id === "message"
+          width: 150,
+          ...(field.type === "datetime" && {
+            width: 180,
+          }),
+          ...(isLarge
             ? {
-                flex: 10,
+                flex: 1,
                 minWidth: 200,
               }
             : {}),
