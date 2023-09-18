@@ -12,7 +12,7 @@ import PangeaDataGrid, {
   PangeaDataGridProps,
 } from "../components/PangeaDataGrid";
 import { Show, SHOWS } from "./data/television";
-import { TextCell } from "../components/PangeaDataGrid/cells";
+import { SingleSelectCell, TextCell } from "../components/PangeaDataGrid/cells";
 
 export default {
   title: "PangeaDataGrid",
@@ -77,6 +77,9 @@ const Template: ComponentStory<typeof LinedPangeaDataGrid> = (args) => {
         }}
         Search={{
           query,
+          error: {
+            message: "testing",
+          },
           placeholder: "Search here...",
           onChange: setQuery,
           Filters: {
@@ -131,4 +134,43 @@ FilterableDataGrid.args = {
     },
   ],
   data: SHOWS,
+};
+
+export const MatcherDataGrid: {
+  args: PangeaDataGridProps<any>;
+} = Template.bind({});
+// More on args: https://storybook.js.org/docs/react/writing-stories/args
+
+MatcherDataGrid.args = {
+  columns: [
+    {
+      field: "match_type",
+      minWidth: 300,
+      sortable: false,
+      type: "singleSelect",
+      resizable: true,
+      renderCell: (params) => <SingleSelectCell params={params} />,
+    },
+    {
+      field: "match_value",
+      resizable: true,
+      description: "Field: testing. Hi there",
+      renderCell: (params) => <TextCell params={params} />,
+    },
+    {
+      field: "match_score",
+      type: "number",
+      description: "Field: testing. Hi there",
+      renderCell: (params) => <TextCell params={params} />,
+    },
+  ],
+  data: [
+    {
+      disabled: false,
+      id: 0,
+      match_score: 1,
+      match_type: "regex",
+      match_value: "w",
+    },
+  ],
 };

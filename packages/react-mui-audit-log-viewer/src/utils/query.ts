@@ -1,86 +1,66 @@
 // Copyright 2021 Pangea Cyber Corporation
 // Author: Pangea Cyber Corporation
 import isEmpty from "lodash/isEmpty";
-import { useState, useMemo, useEffect } from "react";
+import { useMemo, useEffect } from "react";
 import { Audit } from "../types";
+import { AuditQuery, FieldFilter } from "../types/query";
+import { useAuditContext } from "../hooks/context";
 
-export interface AuditQuery {
-  after?: string;
-  before?: string;
-  since?: string;
-  active?: "after" | "before" | "between" | "since";
+export const parseLexTokenError = (error: string) => {
+  // "syntax error at ): LexToken(CPAREN,')',1,6)"
+  if (typeof error !== "string") return undefined;
 
-  actor?: string;
-  action?: string;
-  message?: string;
-  new?: string;
-  old?: string;
-  status?: string;
-  target?: string;
-}
+  const parts = error.split(": LexToken(");
+  if (parts.length !== 2) return { message: `Bad format: ${error}` };
 
-interface AfterRange {
-  type: "after";
-  after: string;
-}
+  const token = parts[1].split(",");
+  if (token.length !== 4) return { message: `Bad format error` };
 
-interface BeforeRange {
-  type: "before";
-  before: string;
-}
+  try {
+    const length = Number(token[3].replace(")", ""));
+    const start = Number(token[2]);
 
-interface BetweenRange {
-  type: "between";
-  after: string;
-  before: string;
-}
+    return {
+      message: `Bad format error, at ${start}, unexcepted: ${token[1]}`,
+      length,
+      start,
+    };
+  } catch (err) {
+    return undefined;
+  }
+};
 
-interface SinceRange {
-  type: "relative";
-  since: string;
-}
+export const getQuerySymbol = (operation: FieldFilter) => {
+  if (operation === FieldFilter.LessThan) {
+    return "<";
+  }
 
-type AuditQueryRange = SinceRange | BetweenRange | BeforeRange | AfterRange;
+  if (operation === FieldFilter.GreaterThan) {
+    return ">";
+  }
 
-interface QueryObj {
-  type: "object";
-  actor?: string;
-  action?: string;
-  message?: string;
-  new?: string;
-  old?: string;
-  status?: string;
-  target?: string;
-}
-
-interface QueryString {
-  type: "string";
-  value: string;
-}
-
-export interface PublicAuditQuery {
-  range?: AuditQueryRange;
-  query?: QueryObj | QueryString;
-}
-
-export interface Sort {
-  order: string;
-  order_by: string;
-}
+  return ":";
+};
 
 const constructQueryString = (queryObj: AuditQuery | null): string => {
   if (queryObj) {
     const queryList: string[] = [];
     Object.keys(queryObj)
       .filter(
-        // @ts-ignore
-        (key: keyof AuditQuery) =>
+        (key: string) =>
           !!queryObj[key] &&
           !["since", "before", "after", "active"].includes(key)
       )
       // @ts-ignore
-      .forEach((key: keyof AuditQuery) => {
-        queryList.push(`${key}:${queryObj[key]}`);
+      .forEach((key) => {
+        const value = queryObj[key];
+        if (typeof value === "object") {
+          queryList.push(
+            `${key}${getQuerySymbol(value.operation)}${value.value}`
+          );
+        } else {
+          queryList.push(`${key}:${queryObj[key]}`);
+        }
       });
 
     return queryList.join(" AND ");
@@ -128,74 +108,19 @@ const getTimeFilterKwargs = (queryObj: AuditQuery | null): TimeFilter => {
 
 interface UseAuditQuery {
   body: Audit.SearchRequest | null;
-  query: string;
-  queryObj: AuditQuery | null;
-  setQuery: (query: string) => void;
-  setQueryObj: (queryObj: AuditQuery) => void;
-  sort?: Sort;
-  setSort: (sort?: Sort) => void;
 }
 
-export const useAuditQuery = (
+export const useAuditBody = (
   limit: number,
-  maxResults: number,
-  auditQuery: PublicAuditQuery | undefined = undefined,
-  initialQuery: string | undefined = undefined
+  maxResults: number
 ): UseAuditQuery => {
-  const [query, setQuery] = useState(initialQuery ?? "");
-  const [sort, setSort] = useState<Sort>();
-  const [queryObj, setQueryObj] = useState<AuditQuery | null>(
-    !!auditQuery
-      ? {}
-      : {
-          since: "7day",
-          active: "since",
-        }
-  );
+  const {
+    query,
+    queryObj,
+    sort,
 
-  useEffect(() => {
-    if (initialQuery) {
-      setQuery(initialQuery);
-    }
-  }, [initialQuery]);
-
-  useEffect(() => {
-    if (!auditQuery?.range && !auditQuery?.query) {
-      if (isEmpty(queryObj))
-        setQueryObj({
-          since: "7day",
-          active: "since",
-        });
-      return;
-    }
-
-    const { range, query } = auditQuery;
-
-    // Handle optional query param in filters
-    const { type: queryType, ...newQueryObj_ } = query ?? {};
-    let newQueryObj = {};
-    if (queryType === "object") {
-      newQueryObj = newQueryObj_;
-    }
-
-    // Handle optional range param in filters
-    const { type, ...timeFields } = range ?? {};
-    const active =
-      type === "relative" ? "since" : type ?? queryObj?.active ?? "since";
-
-    const newQuery = {
-      since: "7day",
-      ...newQueryObj,
-      ...timeFields,
-      active,
-    };
-
-    setQueryObj(newQuery);
-
-    if (query?.type === "string") {
-      setQuery(query.value);
-    }
-  }, [JSON.stringify(auditQuery)]);
+    setQuery,
+  } = useAuditContext();
 
   const body = useMemo<Audit.SearchRequest | null>(() => {
     if (isEmpty(queryObj)) return null;
@@ -214,5 +139,5 @@ export const useAuditQuery = (
     if (queryString) setQuery(queryString);
   }, [queryObj]);
 
-  return { body, query, queryObj, setQuery, setQueryObj, sort, setSort };
+  return { body };
 };

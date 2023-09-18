@@ -32,3 +32,14 @@ it("Domain bulk reputation should succeed", async () => {
   expect(response.result.data_details).toBeDefined();
   expect(Object.keys(response.result.data_details ?? {}).length).toBe(3);
 });
+
+it("Domain reputation not found", async () => {
+  const options = { provider: "crowdstrike", verbose: true, raw: true };
+  const response = await domainIntel.reputation("thisshouldbeafakedomain123123sad.com", options);
+
+  expect(response.status).toBe("Success");
+  expect(response.result.data).toBeDefined();
+  expect(response.result.data.verdict).toBeDefined();
+  expect(response.result.data.category).toBeDefined();
+  expect(response.result.data.score).toBeDefined();
+});

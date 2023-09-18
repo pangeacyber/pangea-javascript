@@ -1,4 +1,5 @@
 import CryptoJS from "crypto-js";
+import * as crypto from "crypto";
 
 function orderKeysRecursive(obj: Object) {
   const orderedEntries = Object.entries(obj).sort((a, b) => a[0].localeCompare(b[0]));
@@ -55,16 +56,31 @@ export function b64toStr(data: string) {
   return Buffer.from(data, "base64").toString("utf8");
 }
 
-export function hashSHA256(data: string) {
+export function hashSHA256(data: string): string {
   var sha256 = CryptoJS.algo.SHA256.create();
   sha256.update(data);
   return sha256.finalize().toString();
 }
 
-export function hashSHA1(data: string) {
+export function hashSHA1(data: string): string {
   var sha1 = CryptoJS.algo.SHA1.create();
   sha1.update(data);
   return sha1.finalize().toString();
+}
+
+export function hashSHA512(data: string): string {
+  var sha512 = CryptoJS.algo.SHA512.create();
+  sha512.update(data);
+  return sha512.finalize().toString();
+}
+
+export function hashNTLM(password: string): string {
+  // Calculate the MD4 hash
+  const md4Hash = crypto.createHash("md4");
+  md4Hash.update(Buffer.from(password, "utf16le"));
+
+  // Get the NTLM hash as a hexadecimal string
+  return md4Hash.digest("hex").toUpperCase();
 }
 
 export function getHashPrefix(hash: string, len: number = 5) {
