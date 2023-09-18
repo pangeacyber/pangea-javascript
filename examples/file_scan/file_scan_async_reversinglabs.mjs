@@ -45,7 +45,7 @@ const delay = async (ms) =>
   // Wait until result could be ready
   await delay(20 * 1000);
   const request_id = exception?.request_id || "";
-  try{    
+  try {
     const response = await client.pollResult(request_id);
     console.log("Poll result success...");
     console.log("Result:", response.result);
@@ -58,5 +58,4 @@ const delay = async (ms) =>
       process.exit(1);
     }
   }
-
 })();
