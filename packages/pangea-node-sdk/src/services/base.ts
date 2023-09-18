@@ -5,11 +5,11 @@ import { PostOptions } from "@src/types.js";
 
 class BaseService {
   protected serviceName: string;
-  protected isMultiConfigSupported: boolean = false;
   protected token: string;
   protected apiVersion: string;
   protected config: PangeaConfig;
   protected request_: PangeaRequest | undefined = undefined;
+  protected configID?: string;
 
   /*
   Required:
@@ -19,13 +19,14 @@ class BaseService {
   Optional:
     - config: a PangeaConfig object, uses defaults if non passed
   */
-  constructor(serviceName: string, token: string, config: PangeaConfig) {
+  constructor(serviceName: string, token: string, config: PangeaConfig, configID?: string) {
     if (!serviceName) throw new Error("A serviceName is required");
     if (!token) throw new Error("A token is required");
 
     this.serviceName = serviceName;
     this.apiVersion = "v1";
     this.token = token;
+    this.configID = configID;
 
     this.config = new PangeaConfig({ ...config }) || new PangeaConfig();
   }
@@ -63,12 +64,7 @@ class BaseService {
       return this.request_;
     }
 
-    this.request_ = new PangeaRequest(
-      this.serviceName,
-      this.token,
-      this.config,
-      this.isMultiConfigSupported
-    );
+    this.request_ = new PangeaRequest(this.serviceName, this.token, this.config, this.configID);
 
     return this.request_;
   }

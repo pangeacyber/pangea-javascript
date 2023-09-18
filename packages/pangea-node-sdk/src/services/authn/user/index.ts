@@ -170,7 +170,6 @@ export default class User extends BaseService {
    * ```
    */
   list(request: AuthN.User.ListRequest): Promise<PangeaResponse<AuthN.User.ListResult>> {
-    request.use_new = true;
     return this.post("user/list", request);
   }
 

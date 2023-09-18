@@ -1,5 +1,5 @@
 import { it, expect } from "@jest/globals";
-import { hashSHA1, hashSHA256, getHashPrefix, strToB64, b64toStr } from "@src/index.js";
+import { hashSHA1, hashSHA256, getHashPrefix, strToB64, b64toStr, hashNTLM } from "@src/index.js";
 
 it("Hash functions", async () => {
   const msg = "texttohash";
@@ -21,4 +21,10 @@ it("Base 64 strings", async () => {
   const msgRecovered = b64toStr(msgB64);
 
   expect(msgRecovered).toBe(msg);
+});
+
+it("hashNTLM test", async () => {
+  const msg = "password";
+  const hash = hashNTLM(msg);
+  expect(hash).toBe("8846F7EAEE8FB117AD06BDD830B7586C");
 });

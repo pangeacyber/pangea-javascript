@@ -1,11 +1,12 @@
 {
   "name": "pangea-node-sdk",
-  "version": "2.2.0",
+  "version": "2.2.1",
   "type": "module",
   "exports": {
     "types": "./dist/index.d.ts",
     "default": "./dist/index.js"
   },
+  "types": "./dist/index.d.ts",
   "repository": "git@github.com:pangeacyber/pangea-javascript.git",
   "author": "Glenn Gallien <glenn.gallien@pangea.cloud>",
   "license": "MIT",
@@ -36,8 +37,8 @@
   },
   "scripts": {
     "test": "NODE_OPTIONS=--experimental-vm-modules npx jest",
-    "test:unit": "NODE_OPTIONS=--experimental-vm-modules npx jest --testPathPattern=tests/unit",
-    "test:integration": "NODE_OPTIONS=--experimental-vm-modules npx jest --testPathPattern=tests/integration",
+    "test:unit": "NODE_OPTIONS='--experimental-vm-modules --openssl-legacy-provider' npx jest --testPathPattern=tests/unit",
+    "test:integration": "NODE_OPTIONS='--experimental-vm-modules --openssl-legacy-provider' npx jest --testPathPattern=tests/integration",
     "lint": "npx prettier --check . && npx eslint --ext .ts",
     "prettier:fix": "npx prettier . -w",
     "generate:docs": "typedoc --tsconfig ./tsconfig.prod.json",
