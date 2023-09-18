@@ -23,11 +23,14 @@ class AuditService extends BaseService {
   private prevUnpublishedRootHash: string | undefined;
   tenantID: string | undefined;
 
-  constructor(token: string, config: PangeaConfig, tenantID: string | undefined = undefined) {
-    super("audit", token, config);
+  constructor(token: string, config: PangeaConfig, tenantID?: string, configID?: string) {
+    // FIXME: Temporary check to still support configID from PangeaConfig
+    if (!configID && config.configID) {
+      configID = config.configID;
+    }
+    super("audit", token, config, configID);
     this.publishedRoots = {};
     this.publishedRoots = {};
-    this.isMultiConfigSupported = true;
     this.apiVersion = "v1";
     this.prevUnpublishedRootHash = undefined;
     this.tenantID = tenantID;

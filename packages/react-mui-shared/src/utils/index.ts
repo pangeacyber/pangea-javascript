@@ -14,6 +14,7 @@ export const getISO = (date: any): string => {
 };
 
 export const limitCharacters = (value: string, limit: number) => {
+  if (typeof value !== "string") return value;
   let value_ = value.substring(0, limit);
 
   if (value.length > limit) {

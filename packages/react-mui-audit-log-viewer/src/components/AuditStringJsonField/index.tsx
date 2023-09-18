@@ -10,6 +10,7 @@ import { Change } from "../../hooks/diff";
 export interface StringFieldProps {
   inRow?: boolean;
   title: string;
+  field: string;
   value: string | undefined;
   changes?: Change[];
   uniqueId: string;
@@ -103,6 +104,7 @@ const StringJsonField: FC<{
   changes?: Change[];
   uniqueId: string;
   shouldHighlight?: (c: Change) => boolean;
+  field: string;
 }> = ({
   title,
   inRow,
@@ -110,6 +112,7 @@ const StringJsonField: FC<{
   changes = [],
   uniqueId,
   shouldHighlight = () => true,
+  field,
 }) => {
   const jsonValue = parseJson(value);
 
@@ -141,6 +144,7 @@ const StringJsonField: FC<{
       inRow={inRow}
       changes={changes}
       uniqueId={uniqueId}
+      field={field}
     />
   );
 };

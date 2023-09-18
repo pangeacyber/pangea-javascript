@@ -17,6 +17,8 @@ import {
   verifyMembershipProof,
 } from "../utils/verification";
 import { PublishedRoots } from "../utils/arweave";
+import { AuditQuery, PublicAuditQuery, Sort } from "../types/query";
+import { useAuditQueryState } from "./query";
 
 export interface Pagination {
   last: string;
@@ -54,6 +56,14 @@ interface AuditContextShape<Event = Audit.DefaultEvent> {
   isVerificationCheckEnabled?: boolean;
   VerificationModalChildComp?: React.FC;
   handleVerificationCopy?: (message: string, value: string) => void;
+
+  // Query state
+  sort: Sort | undefined;
+  setSort: Dispatch<SetStateAction<Sort | undefined>>;
+  query: string;
+  setQuery: Dispatch<SetStateAction<string>>;
+  queryObj: AuditQuery | null;
+  setQueryObj: Dispatch<SetStateAction<AuditQuery | null>>;
 }
 
 const AuditContext = createContext<AuditContextShape>({
@@ -74,6 +84,14 @@ const AuditContext = createContext<AuditContextShape>({
   setConsistency: () => {},
   publishedRoots: undefined,
   isVerificationCheckEnabled: true,
+
+  // Query state
+  sort: undefined,
+  setSort: () => {},
+  query: "",
+  setQuery: () => {},
+  queryObj: null,
+  setQueryObj: () => {},
 });
 
 interface AuditContextProviderProps<Event = Audit.DefaultEvent> {
@@ -93,6 +111,10 @@ interface AuditContextProviderProps<Event = Audit.DefaultEvent> {
   isVerificationCheckEnabled?: boolean;
   VerificationModalChildComp?: React.FC;
   handleVerificationCopy?: (message: string, value: string) => void;
+
+  // Search state
+  initialQuery?: string;
+  filters?: PublicAuditQuery;
 }
 
 const AuditContextProvider = <Event,>({
@@ -112,6 +134,10 @@ const AuditContextProvider = <Event,>({
   rowToLeafIndex,
   VerificationModalChildComp,
   handleVerificationCopy,
+
+  // Search state
+  initialQuery,
+  filters,
 }: AuditContextProviderProps<Event>): JSX.Element => {
   const [offset, setOffset] = useState<number>(0);
   const [limit, setLimit] = useState<number>(
@@ -123,6 +149,10 @@ const AuditContextProvider = <Event,>({
   const [proofs, setProofs] = useState<Record<string, boolean>>({});
   const [consistency, setConsistency] = useState<Record<string, boolean>>({});
   const consistencyRef = useRef({});
+
+  // Search state
+  const [sort, setSort] = useState<Sort>();
+  const queryState = useAuditQueryState(initialQuery, filters);
 
   return (
     <AuditContext.Provider
@@ -155,6 +185,10 @@ const AuditContextProvider = <Event,>({
         isVerificationCheckEnabled,
         VerificationModalChildComp,
         handleVerificationCopy,
+
+        sort,
+        setSort,
+        ...queryState,
       }}
     >
       {children}

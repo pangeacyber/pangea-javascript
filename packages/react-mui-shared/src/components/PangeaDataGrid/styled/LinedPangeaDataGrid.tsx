@@ -14,6 +14,7 @@ const LinedPangeaDataGrid = <
     <PangeaDataGrid
       {...props}
       DataGridProps={{
+        className: "LinedPangeaDataGrid-root",
         columnHeaderHeight: 50,
         rowHeight: 50,
         ...(props?.DataGridProps ?? {}),
@@ -25,20 +26,22 @@ const LinedPangeaDataGrid = <
         ".PangeaDataGrid-PreviewPanel-root": {
           borderLeft: "1px solid rgba(224, 224, 224, 1)",
         },
-        ".MuiDataGrid-root .MuiDataGrid-columnHeaders": {
-          borderRadius: "0px",
-          textTransform: "capitalize",
-          backgroundColor: "inherit",
-          fontWeight: "400",
-          fontSize: "14px",
-          borderBottom: "1px solid rgba(224, 224, 224, 1)",
-          ".MuiDataGrid-columnHeaderTitle": {
+        ".LinedPangeaDataGrid-root.MuiDataGrid-root .MuiDataGrid-columnHeaders":
+          {
+            borderRadius: "0px",
+            textTransform: "capitalize",
+            backgroundColor: "inherit",
             fontWeight: "400",
+            fontSize: "14px",
+            borderBottom: "1px solid rgba(224, 224, 224, 1)",
+            color: theme.palette.text.primary,
+            ".MuiDataGrid-columnHeaderTitle": {
+              fontWeight: "400",
+            },
+            ".MuiDataGrid-columnSeparator": {
+              opacity: "0!important",
+            },
           },
-          ".MuiDataGrid-columnSeparator": {
-            opacity: "0!important",
-          },
-        },
         ".MuiDataGrid-root .MuiDataGrid-cell": {
           borderBottom: "1px solid rgba(224, 224, 224, 1)",
         },

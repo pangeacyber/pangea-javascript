@@ -45,6 +45,14 @@ it("IP get domain with default provider should succeed", async () => {
   expect(response.result.data.domain).toBe("rogers.com");
 });
 
+it("IP get domain not found", async () => {
+  const response = await ipIntel.getDomain("127.0.0.1");
+  expect(response.status).toBe("Success");
+  expect(response.result.data).toBeDefined();
+  expect(response.result.data.domain_found).toBeFalsy();
+  expect(response.result.data.domain).toBeUndefined();
+});
+
 it("IP is VPN should succeed", async () => {
   const options = { provider: "digitalelement", verbose: true, raw: true };
   const response = await ipIntel.isVPN("2.56.189.74", options);
@@ -59,6 +67,13 @@ it("IP is VPN with default provider should succeed", async () => {
   expect(response.status).toBe("Success");
   expect(response.result.data).toBeDefined();
   expect(response.result.data.is_vpn).toBeTruthy();
+});
+
+it("IP is VPN not found", async () => {
+  const response = await ipIntel.isVPN("127.0.0.1");
+  expect(response.status).toBe("Success");
+  expect(response.result.data).toBeDefined();
+  expect(response.result.data.is_vpn).toBeFalsy();
 });
 
 it("IP is proxy should succeed", async () => {
@@ -77,6 +92,13 @@ it("IP is proxy with default provider should succeed", async () => {
   expect(response.result.data.is_proxy).toBeTruthy();
 });
 
+it("IP is proxy not found", async () => {
+  const response = await ipIntel.isProxy("127.0.0.1");
+  expect(response.status).toBe("Success");
+  expect(response.result.data).toBeDefined();
+  expect(response.result.data.is_proxy).toBeFalsy();
+});
+
 it("IP reputation should succeed. Crowdstrike provider", async () => {
   const options = { provider: "crowdstrike", verbose: true, raw: true };
   const response = await ipIntel.reputation("93.231.182.110", options);
@@ -92,4 +114,15 @@ it("IP reputation should succeed. Cymru provider", async () => {
 
   expect(response.status).toBe("Success");
   expect(response.result.data).toBeDefined();
+});
+
+it("IP reputation not found", async () => {
+  const options = { provider: "cymru", verbose: true, raw: true };
+  const response = await ipIntel.reputation("127.0.0.1", options);
+
+  expect(response.status).toBe("Success");
+  expect(response.result.data).toBeDefined();
+  expect(response.result.data.category).toBeDefined();
+  expect(response.result.data.verdict).toBeDefined();
+  expect(response.result.data.score).toBeDefined();
 });

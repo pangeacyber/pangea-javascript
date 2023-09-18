@@ -30,6 +30,7 @@ interface ConditionalAutocompleteProps {
   placeholder?: string;
   hideMenu?: boolean;
   onOpen?: (open: boolean) => void;
+  error?: string;
 }
 
 /**
@@ -50,6 +51,7 @@ const ConditionalAutocomplete = forwardRef<any, ConditionalAutocompleteProps>(
       placeholder,
       onOpen,
       hideMenu,
+      error,
     },
     ref
   ) => {
@@ -70,6 +72,7 @@ const ConditionalAutocomplete = forwardRef<any, ConditionalAutocompleteProps>(
       options: autocompleteOptions,
       optionsMap,
       currentPosition,
+      current,
     } = useMemo(() => {
       const { current, previous, currentPosition } =
         determinedFocusedWordsOnCursorPosition(value, cursor);
@@ -82,6 +85,7 @@ const ConditionalAutocomplete = forwardRef<any, ConditionalAutocompleteProps>(
         options: options_,
         currentPosition,
         optionsMap: keyBy(options_, "value"),
+        current,
       };
     }, [value, cursor, safeStringify(options)]);
 
@@ -117,6 +121,13 @@ const ConditionalAutocomplete = forwardRef<any, ConditionalAutocompleteProps>(
         sx={{
           flexGrow: 1,
         }}
+        filterOptions={(options, state) => {
+          const displayOptions = options.filter((option) =>
+            option.toLowerCase().trim().includes(current.toLowerCase().trim())
+          );
+
+          return displayOptions;
+        }}
         renderOption={(props, option) => {
           // @ts-ignore
           const optionValue: string = option;
@@ -140,6 +151,8 @@ const ConditionalAutocomplete = forwardRef<any, ConditionalAutocompleteProps>(
             <TextField
               ref={inputRef}
               {...params}
+              error={!!error}
+              helperText={error}
               placeholder={placeholder}
               InputProps={{
                 ...params?.InputProps,

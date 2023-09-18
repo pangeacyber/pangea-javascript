@@ -48,6 +48,7 @@ const OldNewFields: FC<Props> = ({ event, direction, uniqueId }) => {
       {!!event.old && (
         <StringJsonField
           title="Old Value"
+          field="old"
           value={event.old}
           shouldHighlight={(c) => !!c.removed}
           changes={shouldShowDiffs ? changes.filter((c) => !c.added) : []}
@@ -57,6 +58,7 @@ const OldNewFields: FC<Props> = ({ event, direction, uniqueId }) => {
       {!!event.new && (
         <StringJsonField
           title="New Value"
+          field="old"
           value={event.new}
           shouldHighlight={(c) => !!c.added}
           changes={shouldShowDiffs ? changes.filter((c) => !c.removed) : []}
