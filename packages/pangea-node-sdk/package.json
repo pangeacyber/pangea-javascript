@@ -1,11 +1,12 @@
 {
   "name": "pangea-node-sdk",
-  "version": "2.1.0",
+  "version": "2.2.1",
   "type": "module",
   "exports": {
     "types": "./dist/index.d.ts",
     "default": "./dist/index.js"
   },
+  "types": "./dist/index.d.ts",
   "repository": "git@github.com:pangeacyber/pangea-javascript.git",
   "author": "Glenn Gallien <glenn.gallien@pangea.cloud>",
   "license": "MIT",
@@ -16,18 +17,17 @@
     "merkle-tools": "^1.4.1"
   },
   "devDependencies": {
-    "@babel/core": "^7.18.13",
     "@babel/eslint-parser": "^7.22.5",
     "@gitlab/eslint-plugin": "^19.0.0",
     "@types/crypto-js": "^4.1.1",
-    "@types/jest": "^28.1.6",
+    "@types/jest": "29.5.3",
     "@typescript-eslint/eslint-plugin": "^5.35.1",
     "@typescript-eslint/parser": "^5.35.1",
     "coverage": "^0.4.1",
     "eslint": "^8.23.0",
     "eslint-config-prettier": "^8.5.0",
     "eslint-plugin-prettier": "^4.0.0",
-    "jest": "^29.5.0",
+    "jest": "29.6.2",
     "prettier": "^2.6.0",
     "ts-jest": "^29.1.0",
     "ts-node": "^9.1.1",
@@ -37,8 +37,8 @@
   },
   "scripts": {
     "test": "NODE_OPTIONS=--experimental-vm-modules npx jest",
-    "test:unit": "NODE_OPTIONS=--experimental-vm-modules npx jest --testPathPattern=tests/unit",
-    "test:integration": "NODE_OPTIONS=--experimental-vm-modules npx jest --testPathPattern=tests/integration",
+    "test:unit": "NODE_OPTIONS='--experimental-vm-modules --openssl-legacy-provider' npx jest --testPathPattern=tests/unit",
+    "test:integration": "NODE_OPTIONS='--experimental-vm-modules --openssl-legacy-provider' npx jest --testPathPattern=tests/integration",
     "lint": "npx prettier --check . && npx eslint --ext .ts",
     "prettier:fix": "npx prettier . -w",
     "generate:docs": "typedoc --tsconfig ./tsconfig.prod.json",

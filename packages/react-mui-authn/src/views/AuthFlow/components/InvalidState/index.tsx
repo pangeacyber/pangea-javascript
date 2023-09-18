@@ -14,7 +14,7 @@ const InvalidState: FC<ViewComponentProps> = ({ options, error, reset }) => {
       </Stack>
       <Stack direction="row" justifyContent="center" gap={2}>
         <Button variant="text" onClick={reset}>
-          {options.resetLabel}
+          {options.cancelLabel}
         </Button>
       </Stack>
     </Stack>

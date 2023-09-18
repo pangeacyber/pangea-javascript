@@ -2,6 +2,7 @@ import { FC } from "react";
 import { useAuthFlow, FlowStep } from "@pangeacyber/react-auth";
 
 import {
+  AgreementAcceptView,
   EnrollMfaCompleteView,
   EnrollMfaStartView,
   ResetPasswordView,
@@ -19,9 +20,7 @@ import { AuthFlowViewOptions, AuthFlowViewProps } from "./types";
 
 const DEAULT_OPTIONS: AuthFlowViewOptions = {
   submitLabel: "Submit",
-  showEmail: true,
-  showReset: true,
-  resetLabel: "Start Over",
+  cancelLabel: "Start Over",
   showSocialIcons: true,
 };
 
@@ -137,6 +136,17 @@ const AuthFlowView: FC<AuthFlowViewProps> = ({ options, components }) => {
           />
         )
       );
+    case FlowStep.VERIFY_EULA:
+      return (
+        <AgreementAcceptView
+          options={viewOptions}
+          data={flowData}
+          loading={loading}
+          error={error}
+          next={callNext}
+          reset={reset}
+        />
+      );
     case FlowStep.ENROLL_MFA_SELECT:
     case FlowStep.VERIFY_MFA_SELECT:
       return (
@@ -187,7 +197,7 @@ const AuthFlowView: FC<AuthFlowViewProps> = ({ options, components }) => {
 export {
   EnrollMfaCompleteView,
   EnrollMfaStartView,
-  EulaAcceptView,
+  AgreementAcceptView,
   InvalidAuthView,
   InvalidStateView,
   ResetPasswordView,

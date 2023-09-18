@@ -10,7 +10,15 @@ export * from "./types.js";
 // Export all errors
 export * from "./errors.js";
 
-export { hashSHA256, hashSHA1, getHashPrefix, b64toStr, strToB64 } from "./utils/utils.js";
+export {
+  hashSHA256,
+  hashSHA1,
+  hashSHA512,
+  hashNTLM,
+  getHashPrefix,
+  b64toStr,
+  strToB64,
+} from "./utils/utils.js";
 
 export const PangeaConfig = _PangeaConfig;
 export const PangeaRequest = _PangeaRequest;
@@ -27,3 +35,4 @@ export const IPIntelService = services.IPIntelService;
 export const URLIntelService = services.URLIntelService;
 export const UserIntelService = services.UserIntelService;
 export const VaultService = services.VaultService;
+export const FileScanService = services.FileScanService;

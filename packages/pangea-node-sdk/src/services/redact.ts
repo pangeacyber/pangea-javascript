@@ -22,6 +22,7 @@ class RedactService extends BaseService {
    *   - debug {Boolean} - Setting this value to true will provide a detailed analysis of the redacted
    * data and the rules that caused redaction
    *   - rules {String[]} - An array of redact rule short names
+   *   - rulesets {String[]} - An array of redact ruleset short names
    *   - return_result {Boolean} - Setting this value to false will omit the redacted result only returning count
    * @returns {Promise} - A promise representing an async call to the redact endpoint
    * @example
@@ -52,6 +53,7 @@ class RedactService extends BaseService {
    *   - debug {Boolean} - Setting this value to true will provide a detailed analysis of the redacted
    * data and the rules that caused redaction
    *   - rules {String[]} - An array of redact rule short names
+   *   - rulesets {String[]} - An array of redact ruleset short names
    *   - jsonp {String[]} - JSON path(s) used to identify the specific JSON fields to redact in the
    * structured data. Note: If jsonp parameter is used, the data parameter must be in JSON format.
    *   - format {String} - The format of the structured data to redact. Default: "json"

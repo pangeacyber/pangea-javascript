@@ -5,6 +5,25 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.0.47] - 2023-09-14
+
+### Changed
+
+- Update build to use replace, to ensure minified code is set to production
+
+## [0.0.44] - 2023-09-13
+
+### Changed
+
+- Updated to LinedPangeaDataGrid styling
+
+## [0.0.42] - 2023-08-16
+
+### Changed
+
+- Updated support for rendering bad format exceptions as input errors.
+- Add quick filter support for datetime fields
+
 ## [0.0.38] - 2023-07-26
 
 ### Changed

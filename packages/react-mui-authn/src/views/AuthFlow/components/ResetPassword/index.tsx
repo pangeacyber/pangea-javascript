@@ -13,6 +13,7 @@ import PasswordField, {
 } from "@src/components/fields/PasswordField";
 
 const ResetPasswordView: FC<ViewComponentProps> = ({
+  options,
   data,
   loading,
   error,
@@ -73,15 +74,14 @@ const ResetPasswordView: FC<ViewComponentProps> = ({
             formik={formik}
             policy={data.passwordPolicy}
           />
-          {error && <ErrorMessage response={error} />}
+          {status && <ErrorMessage response={status} />}
           <Button
             color="primary"
-            variant="contained"
             type="submit"
             disabled={loading}
             fullWidth={true}
           >
-            Submit
+            {options.submitLabel}
           </Button>
         </Stack>
       </form>
@@ -94,7 +94,7 @@ const ResetPasswordView: FC<ViewComponentProps> = ({
           Cancel Reset
         </Button>
         <Button variant="text" onClick={reset}>
-          Start Over
+          {options.cancelLabel}
         </Button>
       </Stack>
     </Stack>

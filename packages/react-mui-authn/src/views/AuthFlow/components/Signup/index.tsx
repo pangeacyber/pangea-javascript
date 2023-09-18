@@ -12,6 +12,7 @@ import PasswordField, {
   checkPassword,
 } from "@src/components/fields/PasswordField";
 import ErrorMessage from "../ErrorMessage";
+import { checkForHtml } from "../../utils";
 
 interface SignupViewProps extends ViewComponentProps {
   disclaimer?: ReactElement;
@@ -27,8 +28,18 @@ const SignupView: FC<SignupViewProps> = ({
   disclaimer,
 }) => {
   const validationSchema = yup.object({
-    firstName: yup.string().required("Required"),
-    lastName: yup.string().required("Required"),
+    firstName: yup
+      .string()
+      .required("Required first")
+      .test("no-html-tags", "HTML tags are not allowed", (value) => {
+        return checkForHtml(value || "");
+      }),
+    lastName: yup
+      .string()
+      .required("Required last")
+      .test("no-html-tags", "HTML tags are not allowed", (value) => {
+        return checkForHtml(value);
+      }),
     password: yup
       .string()
       .required("Required")
@@ -56,11 +67,11 @@ const SignupView: FC<SignupViewProps> = ({
     },
   });
 
-  const resetLabel = data.invite ? "Cancel" : options.resetLabel;
+  const cancelLabel = data.invite ? "Cancel" : options.cancelLabel;
 
   return (
     <Stack gap={2}>
-      <Typography variant="h6">Signup</Typography>
+      <Typography variant="h6">{options.signupHeading}</Typography>
       <Typography variant="body2" mb={1} sx={{ wordBreak: "break-word" }}>
         Create an account with {data.email}
       </Typography>
@@ -97,23 +108,20 @@ const SignupView: FC<SignupViewProps> = ({
           {error && <ErrorMessage response={error} />}
           <Button
             color="primary"
-            variant="contained"
             type="submit"
             fullWidth={true}
             disabled={loading}
           >
-            Continue
+            {options.signupButtonLabel}
           </Button>
         </Stack>
       </form>
       {data.invite && <SocialOptions data={data} options={options} />}
-      {(options.showReset || data.invite) && (
-        <Stack direction="row" justifyContent="center" gap={1}>
-          <Button variant="text" onClick={reset}>
-            {resetLabel}
-          </Button>
-        </Stack>
-      )}
+      <Stack direction="row" justifyContent="center" gap={1}>
+        <Button variant="text" onClick={reset}>
+          {cancelLabel}
+        </Button>
+      </Stack>
       {disclaimer && <>{disclaimer}</>}
     </Stack>
   );

@@ -44,7 +44,6 @@ const SelectMfaView: FC<ViewComponentProps> = ({
         {data.mfaProviders?.map((provider: string) => {
           return (
             <Button
-              variant="contained"
               color="secondary"
               key={provider}
               onClick={() => selectProvider(provider)}
@@ -55,13 +54,11 @@ const SelectMfaView: FC<ViewComponentProps> = ({
         })}
         {error && <ErrorMessage response={error} />}
       </Stack>
-      {options.showReset && (
-        <Stack direction="row" justifyContent="center" gap={1}>
-          <Button variant="text" onClick={reset}>
-            {options.resetLabel}
-          </Button>
-        </Stack>
-      )}
+      <Stack direction="row" justifyContent="center" gap={1}>
+        <Button variant="text" onClick={reset}>
+          {options.cancelLabel}
+        </Button>
+      </Stack>
     </Stack>
   );
 };

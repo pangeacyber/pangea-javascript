@@ -16,6 +16,7 @@ import {
   useGridSchemaColumns,
 } from "@pangeacyber/react-mui-shared";
 import { AuditErrorsColumn } from "../components/AuditLogViewerComponent/errorColumn";
+import DateTimeFilterCell from "../components/AuditLogViewerComponent/DateTimeFilterCell";
 
 export const DEFAULT_AUDIT_SCHEMA: Audit.Schema = {
   client_signable: true,
@@ -155,6 +156,10 @@ const COLUMN_TYPE_MAP = {
   [Audit.SchemaFieldType.DateTime]: "stringDateTime",
 };
 
+const CUSTOM_CELLS = {
+  [Audit.SchemaFieldType.DateTime]: DateTimeFilterCell,
+};
+
 export const useAuditColumns = <Event,>(
   schema: Audit.Schema,
   fields: Partial<Record<keyof Event, Partial<GridColDef>>> | undefined
@@ -166,6 +171,9 @@ export const useAuditColumns = <Event,>(
     const defaultColumnDefinitions: PDG.GridSchemaFields<Event> = mapValues(
       keyBy(schemaFields, "id"),
       (field) => {
+        const isLarge =
+          (field.type === "string" || field.type === "string-unindexed") &&
+          (field.size ?? 0) > 128;
         const column: Partial<PDG.GridField> = {
           label: field.name ?? field.id,
           description: `Field: ${field.id}${
@@ -173,14 +181,17 @@ export const useAuditColumns = <Event,>(
           }`,
           type: get(COLUMN_TYPE_MAP, field.type, "string"),
           sortable: field.type === "datetime", // FIXME: What fields exactly should be sortable
-          // SpecialField: Message is treated as a special field here, there is no UX for how customers define what is the flex field
-          // Potentially this could just become the last field in the display order?
-          ...(field.id === "message"
+          width: 150,
+          ...(field.type === "datetime" && {
+            width: 180,
+          }),
+          ...(isLarge
             ? {
-                flex: 10,
+                flex: 1,
                 minWidth: 200,
               }
             : {}),
+          renderCell: get(CUSTOM_CELLS, field.type, undefined),
         };
 
         return column;
@@ -242,7 +253,7 @@ export const useDefaultOrder = <Event,>(schema: Audit.Schema) => {
 export const useAuditFilterFields = <Event,>(schema: Audit.Schema) => {
   const fields: FilterOptions<Event> = useMemo(() => {
     const filterableFields = (schema?.fields ?? []).filter(
-      (field) => field.type === "string"
+      (field) => field.type !== "string-unindexed"
     );
 
     // @ts-ignore

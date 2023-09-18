@@ -7,11 +7,12 @@ import {
   MouseEvent,
   useRef,
 } from "react";
-import clone from "lodash/clone";
+import cloneDeep from "lodash/cloneDeep";
 import keyBy from "lodash/keyBy";
 import mapValues from "lodash/mapValues";
 import get from "lodash/get";
 import find from "lodash/find";
+import findLast from "lodash/findLast";
 
 import Grid from "@mui/material/Grid";
 import {
@@ -55,6 +56,7 @@ export interface PangeaDataGridProps<
     visibilityModel: Record<string, boolean>;
     order?: string[];
     position?: "inline";
+    dynamicFlexColumn?: boolean;
   };
   ServerPagination?: {
     page: number;
@@ -70,6 +72,7 @@ export interface PangeaDataGridProps<
   };
   Search?: {
     query?: string;
+    error?: PDG.SearchError;
     placeholder?: string;
     onChange: (query: string) => void;
     conditionalOptions?: ConditionalOption[];
@@ -148,7 +151,7 @@ const PangeaDataGrid = <
     : undefined;
 
   const columns = useMemo(() => {
-    let columns = clone(columnsProp);
+    let columns = cloneDeep(columnsProp);
     if (!!ExpansionRow?.render) {
       columns.unshift(
         constructExpandColumn(ExpansionRow?.render, ExpansionRow?.GridColDef)
@@ -158,6 +161,16 @@ const PangeaDataGrid = <
     const ordered = columns.sort((a, b) => {
       return order.indexOf(a.field) - order.indexOf(b.field);
     });
+
+    if (ColumnCustomization?.dynamicFlexColumn) {
+      const lastFlexColumn = findLast(
+        ordered,
+        (col) => !!col.flex && visibility[col.field]?.isVisible
+      );
+      if (lastFlexColumn) {
+        lastFlexColumn.flex = Math.max(10, lastFlexColumn.flex ?? 0);
+      }
+    }
 
     if (!!ActionColumn?.render) {
       const renderHeader =
@@ -189,7 +202,14 @@ const PangeaDataGrid = <
     }
 
     return ordered;
-  }, [columnsProp, order, ColumnCustomization]);
+  }, [
+    columnsProp,
+    order,
+    visibility,
+    !!ColumnCustomization,
+    ColumnCustomization?.position,
+    ColumnCustomization?.dynamicFlexColumn,
+  ]);
 
   const columnsMap = useMemo(() => keyBy(columns, "field"), [columns]);
 

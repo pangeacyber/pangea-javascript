@@ -1,6 +1,3 @@
-export { default as LoginView } from "./views/Login";
-export { default as SignupView } from "./views/Signup";
-export { default as OtpView } from "./views/Otp";
 export { default as MessageView } from "./views/Message";
 export { default as AuthFlowView } from "./views/AuthFlow";
 
@@ -15,7 +12,7 @@ export {
 import {
   EnrollMfaCompleteView as EnrollMfaCompleteFlowView,
   EnrollMfaStartView as EnrollMfaStartFlowView,
-  EulaAcceptView as EulaAcceptFlowView,
+  AgreementAcceptView as AgreementAcceptFlowView,
   InvalidAuthView as InvalidAuthFlowView,
   InvalidStateView as InvalidStateFlowView,
   ResetPasswordView as ResetPasswordFlowView,
@@ -34,7 +31,7 @@ import {
 export {
   EnrollMfaCompleteFlowView,
   EnrollMfaStartFlowView,
-  EulaAcceptFlowView,
+  AgreementAcceptFlowView,
   InvalidAuthFlowView,
   InvalidStateFlowView,
   ResetPasswordFlowView,

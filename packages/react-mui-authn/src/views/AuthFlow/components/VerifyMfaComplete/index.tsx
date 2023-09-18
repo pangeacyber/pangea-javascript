@@ -43,15 +43,6 @@ const VerifyMfaCompleteView: FC<ViewComponentProps> = ({
     },
   });
 
-  // const resendCode = () => {
-  //   const payload = {
-  //     mfaProvider: data.selectedMfa,
-  //     code: "",
-  //     cancel: true,
-  //   };
-  //   callNext(FlowStep.VERIFY_MFA_COMPLETE, payload);
-  // };
-
   const selectMfaMethod = () => {
     next(FlowStep.VERIFY_MFA_SELECT, { cancel: true });
   };
@@ -71,12 +62,11 @@ const VerifyMfaCompleteView: FC<ViewComponentProps> = ({
           {error && <ErrorMessage response={error} />}
           <Button
             color="primary"
-            variant="contained"
             type="submit"
             disabled={loading}
             fullWidth={true}
           >
-            {options.submitLabel}
+            {options.otpButtonLabel}
           </Button>
         </Stack>
       </form>
@@ -91,7 +81,7 @@ const VerifyMfaCompleteView: FC<ViewComponentProps> = ({
           </Button>
         )}
         <Button variant="text" onClick={reset}>
-          {options.resetLabel}
+          {options.cancelLabel}
         </Button>
       </Stack>
     </Stack>

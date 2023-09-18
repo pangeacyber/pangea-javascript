@@ -18,9 +18,11 @@ import { useInternalState } from "../../../../utils/hooks";
 import FiltersForm, { FilterFormProps } from "./FiltersForm";
 import FiltersBar from "./FiltersBar";
 import ColumnsPopout, { ColumnsPopoutProps } from "./ColumnsPopout";
+import { PDG } from "../../types";
 
 interface SearchProps<FiltersObj> {
   query?: string;
+  error?: PDG.SearchError;
   onChange: (query: string) => void;
   placeholder?: string;
   conditionalOptions?: ConditionalOption[];
@@ -36,6 +38,7 @@ const Search = <
   FiltersObj extends { [key: string]: string } = Record<string, string>
 >({
   query,
+  error,
   placeholder,
   onChange,
   conditionalOptions = [],
@@ -71,6 +74,7 @@ const Search = <
             onOpen={() => {
               setFilterMenuOpen(false);
             }}
+            error={error?.message}
             size="small"
             InputProps={
               !!Filters
@@ -115,6 +119,7 @@ const Search = <
           color="secondary"
           onClick={() => onChange(query_)}
           disabled={loading}
+          sx={{ maxHeight: "42px" }}
         >
           Search
         </Button>

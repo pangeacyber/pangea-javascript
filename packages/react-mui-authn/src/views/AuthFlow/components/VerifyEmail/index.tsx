@@ -41,12 +41,7 @@ const VerifyEmailView: FC<ViewComponentProps> = ({
           button below.
         </Typography>
         {error && <ErrorMessage response={error} />}
-        <Button
-          variant="contained"
-          color="primary"
-          onClick={checkFlow}
-          disabled={loading}
-        >
+        <Button color="primary" onClick={checkFlow} disabled={loading}>
           Verification Complete
         </Button>
       </Stack>
@@ -58,11 +53,9 @@ const VerifyEmailView: FC<ViewComponentProps> = ({
         <Button variant="text" onClick={resendEmail} disabled={loading}>
           Resend Email
         </Button>
-        {options.showReset && (
-          <Button variant="text" onClick={reset}>
-            {options.resetLabel}
-          </Button>
-        )}
+        <Button variant="text" onClick={reset}>
+          {options.cancelLabel}
+        </Button>
       </Stack>
     </Stack>
   );

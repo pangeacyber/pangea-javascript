@@ -161,6 +161,7 @@ export namespace Redact {
   export interface Options {
     debug?: boolean;
     rules?: string[];
+    rulesets?: string[];
     return_result?: boolean;
   }
 
@@ -193,6 +194,28 @@ export namespace Embargo {
   }
 }
 
+export namespace FileScan {
+  export interface ScanRequest {
+    verbose?: boolean;
+    raw?: boolean;
+    provider?: string;
+    filepath?: string;
+    file?: string;
+  }
+
+  export interface Options extends PostOptions {}
+
+  export interface ScanResult {
+    parameter?: Dictionary;
+    raw_data?: Dictionary;
+    data: {
+      category: string[];
+      score: number;
+      verdict: string;
+    };
+  }
+}
+
 /**
  * Intel services interface definitions
  */
@@ -200,7 +223,8 @@ export namespace Intel {
   export enum HashType {
     SHA256 = "sha256",
     SHA1 = "sha1",
-    MD5 = "md5",
+    SHA512 = "sha512",
+    NTLM = "ntlm",
   }
 
   export interface Options {
@@ -968,6 +992,97 @@ export namespace AuthN {
     created_at: string;
   }
 
+  export namespace Agreements {
+    export enum AgreementType {
+      EULA = "eula",
+      PRIVACY_POLICY = "privacy_policy",
+    }
+
+    export interface CreateRequest {
+      type: AgreementType;
+      name: string;
+      text: string;
+      active?: boolean;
+    }
+
+    export interface AgreementInfo {
+      type: string;
+      id: string;
+      created_at: string;
+      updated_at: string;
+      published_at: string;
+      name: string;
+      text: string;
+      active: boolean;
+    }
+
+    export interface CreateResult extends AgreementInfo {}
+
+    export interface DeleteRequest {
+      type: AgreementType;
+      id: string;
+    }
+
+    export interface DeleteResult {}
+
+    export enum AgreementListOrderBy {
+      ID = "id",
+      CREATED_AT = "created_at",
+      NAME = "name",
+      TEXT = "text",
+    }
+
+    export interface ListFilter {
+      active?: boolean;
+      created_at?: string;
+      created_at__gt?: string;
+      created_at__gte?: string;
+      created_at__lt?: string;
+      created_at__lte?: string;
+      published_at?: string;
+      published_at__gt?: string;
+      published_at__gte?: string;
+      published_at__lt?: string;
+      published_at__lte?: string;
+      type?: string;
+      type__contains?: string[];
+      type__in?: string[];
+      id?: string;
+      id__contains?: string[];
+      id__in?: string[];
+      name?: string;
+      name__contains?: string[];
+      name__in?: string[];
+      text?: string;
+      text__contains?: string[];
+      text__in?: string[];
+    }
+
+    export interface ListRequest {
+      filter?: object | ListFilter;
+      last?: string;
+      order?: ItemOrder;
+      order_by?: AgreementListOrderBy;
+      size?: number;
+    }
+
+    export interface ListResult {
+      agreements: AgreementInfo[];
+      count: number;
+      last?: string;
+    }
+
+    export interface UpdateRequest {
+      type: AgreementType;
+      id: string;
+      name?: string;
+      text?: string;
+      active?: boolean;
+    }
+
+    export interface UpdateResult extends AgreementInfo {}
+  }
+
   export namespace Flow {
     export enum Step {
       START = "start",
@@ -1169,7 +1284,7 @@ export namespace AuthN {
       }
 
       export interface ListOptions {
-        filter?: Object;
+        filter?: Object | AuthN.Session.ListFilter;
         last?: string;
         order?: string;
         order_by?: string;
@@ -1207,8 +1322,37 @@ export namespace AuthN {
       active_token?: SessionToken;
     }
 
+    export interface ListFilter {
+      active_token_id?: string;
+      active_token_id__contains?: string[];
+      active_token_id__in?: string[];
+      created_at?: string;
+      created_at__gt?: string;
+      created_at__gte?: string;
+      created_at__lt?: string;
+      created_at__lte?: string;
+      email?: string;
+      email__contains?: string[];
+      email__in?: string[];
+      expire?: string;
+      expire__gt?: string;
+      expire__gte?: string;
+      expire__lt?: string;
+      expire__lte?: string;
+      id?: string;
+      id__contains?: string[];
+      id__in?: string[];
+      identity?: string;
+      identity__contains?: string[];
+      identity__in?: string[];
+      scopes?: string[];
+      type?: string;
+      type__contains?: string[];
+      type__in?: string[];
+    }
+
     export interface ListRequest {
-      filter?: Object;
+      filter?: Object | ListFilter;
       last?: string;
       order?: string;
       order_by?: string;
@@ -1289,8 +1433,48 @@ export namespace AuthN {
       EMAIL = "email",
     }
 
+    export interface ListFilter {
+      accepted_eula_id?: string;
+      accepted_eula_id__contains?: string[];
+      accepted_eula_id__in?: string[];
+      created_at?: string;
+      created_at__gt?: string;
+      created_at__gte?: string;
+      created_at__lt?: string;
+      created_at__lte?: string;
+      disabled?: boolean;
+      email?: string;
+      email__contains?: string[];
+      email__in?: string[];
+      id?: string;
+      id__contains?: string[];
+      id__in?: string[];
+      last_login_at?: string;
+      last_login_at__gt?: string;
+      last_login_at__gte?: string;
+      last_login_at__lt?: string;
+      last_login_at__lte?: string;
+      last_login_ip?: string;
+      last_login_ip__contains?: string[];
+      last_login_ip__in?: string[];
+      last_login_city?: string;
+      last_login_city__contains?: string[];
+      last_login_city__in?: string[];
+      last_login_country?: string;
+      last_login_country__contains?: string[];
+      last_login_country__in?: string[];
+      login_count?: number;
+      login_count__gt?: number;
+      login_count__gte?: number;
+      login_count__lt?: number;
+      login_count__lte?: number;
+      require_mfa?: boolean;
+      scopes?: string[];
+      verified?: boolean;
+    }
+
     export interface ListRequest {
-      filter?: Object;
+      filter?: Object | ListFilter;
       last?: string;
       order?: AuthN.ItemOrder;
       order_by?: AuthN.User.ListOrderBy;
@@ -1328,8 +1512,41 @@ export namespace AuthN {
         id: string;
       }
 
+      export interface ListFilter {
+        callback?: string;
+        callback__contains?: string[];
+        callback__in?: string[];
+        created_at?: string;
+        created_at__gt?: string;
+        created_at__gte?: string;
+        created_at__lt?: string;
+        created_at__lte?: string;
+        email?: string;
+        email__contains?: string[];
+        email__in?: string[];
+        expire?: string;
+        expire__gt?: string;
+        expire__gte?: string;
+        expire__lt?: string;
+        expire__lte?: string;
+        id?: string;
+        id__contains?: string[];
+        id__in?: string[];
+        invite_org?: string;
+        invite_org__contains?: string[];
+        invite_org__in?: string[];
+        inviter?: string;
+        inviter__contains?: string[];
+        inviter__in?: string[];
+        is_signup?: boolean;
+        require_mfa?: boolean;
+        state?: string;
+        state__contains?: string[];
+        state__in?: string[];
+      }
+
       export interface ListRequest {
-        filter?: Object;
+        filter?: Object | ListFilter;
         last?: string;
         order?: ItemOrder;
         order_by?: OrderBy;

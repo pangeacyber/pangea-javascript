@@ -99,7 +99,6 @@ const EnrollMfaCompleteView: FC<ViewComponentProps> = ({
           {error && <ErrorMessage response={error} />}
           <Button
             color="primary"
-            variant="contained"
             type="submit"
             disabled={loading}
             fullWidth={true}
@@ -118,11 +117,9 @@ const EnrollMfaCompleteView: FC<ViewComponentProps> = ({
             Choose another MFA method
           </Button>
         )}
-        {options.showReset && (
-          <Button variant="text" onClick={reset}>
-            {options.resetLabel}
-          </Button>
-        )}
+        <Button variant="text" onClick={reset}>
+          {options.cancelLabel}
+        </Button>
       </Stack>
     </Stack>
   );

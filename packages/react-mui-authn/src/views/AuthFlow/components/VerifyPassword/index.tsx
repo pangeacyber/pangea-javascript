@@ -46,7 +46,7 @@ const VerifyPasswordView: FC<ViewComponentProps> = ({
 
   return (
     <Stack gap={2}>
-      <Typography variant="h6">Welcome back!</Typography>
+      <Typography variant="h6">{options.passwordHeading}</Typography>
       <Stack gap={1}>
         <Typography variant="body2" mb={1} sx={{ wordBreak: "break-word" }}>
           Enter password for {data.email}
@@ -62,12 +62,11 @@ const VerifyPasswordView: FC<ViewComponentProps> = ({
             {status && <ErrorMessage response={status} />}
             <Button
               color="primary"
-              variant="contained"
               type="submit"
               disabled={loading}
               fullWidth={true}
             >
-              Sign in
+              {options.passwordButtonLabel}
             </Button>
           </Stack>
         </form>
@@ -80,11 +79,9 @@ const VerifyPasswordView: FC<ViewComponentProps> = ({
         <Button variant="text" onClick={resetPassword}>
           Forgot your password?
         </Button>
-        {options.showReset && (
-          <Button variant="text" onClick={reset}>
-            {options.resetLabel}
-          </Button>
-        )}
+        <Button variant="text" onClick={reset}>
+          {options.cancelLabel}
+        </Button>
       </Stack>
     </Stack>
   );
