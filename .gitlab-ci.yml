@@ -35,5 +35,5 @@ include:
   - /packages/react-mui-audit-log-viewer/.gitlab-ci.yml
   - /packages/react-auth/.gitlab-ci.yml
   - /packages/pangea-node-sdk/.gitlab-ci.yml
+  - /packages/vanilla-js/.gitlab-ci.yml
   - /examples/react-audit-log-viewer/.gitlab-ci.yml
-  - /examples/vanilla-js/.gitlab-ci.yml
