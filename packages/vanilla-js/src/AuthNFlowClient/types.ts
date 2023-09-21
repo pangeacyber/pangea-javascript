@@ -22,18 +22,18 @@ export enum FlowEndpoint {
 export enum FlowChoice {
   START = "start",
   SET_EMAIL = "set_email",
-  VERIFY_PASSWORD = "password",
+  PASSWORD = "password",
   SET_PASSWORD = "set_password",
   RESET_PASSWORD = "reset_password",
-  VERIFY_SOCIAL = "social",
-  VERIFY_CAPTCHA = "captcha",
-  UPDATE_PROFILE = "profile",
+  SOCIAL = "social",
+  CAPTCHA = "captcha",
   VERIFY_EMAIL = "verify_email",
   EMAIL_OTP = "email_otp",
   SMS_OTP = "sms_otp",
   TOTP = "totp",
   MAGICLINK = "magiclink",
-  ACCEPT_AGREEMENT = "agreements",
+  AGREEMENTS = "agreements",
+  PROFILE = "profile",
   GET_STATUS = "",
 }
 
@@ -51,7 +51,6 @@ export interface StartParams {
 }
 
 export type ChoiceResponse =
-  | EmailResponse
   | PasswordResponse
   | SocialResponse
   | CaptchaResponse
@@ -59,6 +58,7 @@ export type ChoiceResponse =
   | EmailOtpResponse
   | SmsOtpResponse
   | TotpResponse;
+
 export type ChoiceParams =
   | {}
   | PasswordParams
@@ -78,6 +78,11 @@ export interface PasswordResponse {
   password_policy: PasswordPolicy;
 }
 
+export interface FlowResultPassword {
+  choice: FlowChoice.PASSWORD;
+  data: PasswordResponse;
+}
+
 export interface PasswordParams {
   password: string;
 }
@@ -89,12 +94,15 @@ export interface SocialResponse {
   redirect_uri: string;
 }
 
+export interface FlowResultSocial {
+  choice: FlowChoice.SOCIAL;
+  data: SocialResponse;
+}
+
 export interface SocialParams {
   social_provider: string;
   uri: string;
 }
-
-export interface EmailResponse {}
 
 export interface EmailParams {
   email: string;
@@ -108,22 +116,31 @@ export interface CaptchaParams {
   code: string;
 }
 
+export interface FlowResultCaptcha {
+  choice: FlowChoice.CAPTCHA;
+  data: CaptchaResponse;
+}
+
 export interface VerifyEmailResponse {
   sent: string;
   resend_time?: string;
   state: string;
 }
 
-export interface SocialParams {
-  code: string;
-  resend_time?: string;
-  state: string;
+export interface FlowResultVerifyEmail {
+  choice: FlowChoice.VERIFY_EMAIL;
+  data: VerifyEmailResponse;
 }
 
 export interface EmailOtpResponse {
   sent: boolean;
   enrollment: boolean;
   resend_time?: string;
+}
+
+export interface FlowResultEmailOtp {
+  choice: FlowChoice.EMAIL_OTP;
+  data: EmailOtpResponse;
 }
 
 export interface EmailOtpParams {
@@ -135,6 +152,11 @@ export interface SmsOtpResponse {
   enrollment: boolean;
   resend_time?: string;
   need_phone?: string;
+}
+
+export interface FlowResultSmsOtp {
+  choice: FlowChoice.SMS_OTP;
+  data: SmsOtpResponse;
 }
 
 export interface SmsOtpParams {
@@ -153,6 +175,11 @@ export interface TotpSecret {
 export interface TotpResponse {
   enrollment: string;
   totp_secret?: TotpSecret;
+}
+
+export interface FlowResultTotp {
+  choice: FlowChoice.TOTP;
+  data: TotpResponse;
 }
 
 export interface TotpParams {
@@ -177,18 +204,39 @@ export interface AgreementsResponse {
   agreements: AgreementData[];
 }
 
+export interface FlowResultAgreements {
+  choice: FlowChoice.AGREEMENTS;
+  data: AgreementsResponse;
+}
+
 export interface AgreementsParams {
   agreed: string[];
+}
+
+export interface ProfileResponse {
+  // TODO: data format will change
+  profile: { [key: string]: string };
 }
 
 export interface ProfileParams {
   profile: { [key: string]: string };
 }
 
-export interface FlowResult {
-  choice: string;
-  data: ChoiceResponse;
+export interface FlowResultProfile {
+  choice: FlowChoice.PROFILE;
+  data: AgreementsResponse;
 }
+
+export type FlowResult =
+  | FlowResultPassword
+  | FlowResultSocial
+  | FlowResultCaptcha
+  | FlowResultVerifyEmail
+  | FlowResultEmailOtp
+  | FlowResultSmsOtp
+  | FlowResultTotp
+  | FlowResultAgreements
+  | FlowResultProfile;
 
 export interface FlowData {
   flow_id: string;
@@ -209,11 +257,10 @@ export interface FlowStartRequest {
   invitation?: string;
 }
 
-export interface FlowParamsRequest {
+export interface FlowUpdateRequest {
   flow_id: string;
   choice: FlowChoice;
   data: ChoiceParams;
-  restart?: boolean;
 }
 
 export interface FlowBaseRequest {
