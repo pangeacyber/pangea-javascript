@@ -588,9 +588,9 @@ export namespace Vault {
   }
 
   export interface InheritedSettigs {
-    rotation_frequency: boolean;
-    rotation_state: boolean;
-    rotation_grace_period: boolean;
+    rotation_frequency?: string;
+    rotation_state?: string;
+    rotation_grace_period?: string;
   }
 
   export interface GetResult extends ItemData {
