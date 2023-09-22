@@ -1,11 +1,51 @@
-export { default as AuthNClient } from "@src/AuthNClient";
-export { default as AuthNFlowClient } from "@src/AuthNFlowClient";
+import AuthNClient from "./AuthNClient";
+import AuthNFlowClient from "./AuthNFlowClient";
+
+export { AuthNClient, AuthNFlowClient };
 
 export { APIResponse, ClientConfig, ClientResponse } from "./types";
 
 export {
   AuthNFlowOptions,
-  FlowState,
-  FlowStep,
-  FlowStorage,
+  CallbackParams,
+  StartParams,
+  FlowChoice,
+  ChoiceResponse,
+  ChoiceParams,
+  PasswordResponse,
+  PasswordParams,
+  SocialResponse,
+  EmailParams,
+  SocialParams,
+  CaptchaResponse,
+  CaptchaParams,
+  VerifyEmailResponse,
+  EmailOtpResponse,
+  EmailOtpParams,
+  SmsOtpResponse,
+  SmsOtpParams,
+  SmsOtpRestart,
+  TotpSecret,
+  TotpResponse,
+  TotpParams,
+  MagiclinkParams,
+  ProfileParams,
+  AgreementData,
+  AgreementsResponse,
+  AgreementsParams,
+  FlowResult,
+  FlowResultPassword,
+  FlowResultSocial,
+  FlowResultCaptcha,
+  FlowResultVerifyEmail,
+  FlowResultEmailOtp,
+  FlowResultSmsOtp,
+  FlowResultTotp,
+  FlowResultAgreements,
+  FlowResultProfile,
+  FlowStartRequest,
+  FlowBaseRequest,
+  FlowData,
+  FlowEndpoint,
+  PasswordPolicy,
 } from "./AuthNFlowClient/types";
