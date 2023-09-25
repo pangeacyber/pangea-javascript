@@ -12,257 +12,439 @@ export interface CallbackParams {
   Flow data types
 */
 
-export enum FlowEndpoint {
-  START = "start",
-  UPDATE = "update",
-  COMPLETE = "complete",
-  RESTART = "restart",
-}
+export namespace AuthFlow {
+  export enum Endpoint {
+    START = "start",
+    UPDATE = "update",
+    COMPLETE = "complete",
+    RESTART = "restart",
+  }
 
-export enum FlowChoice {
-  START = "start",
-  SET_EMAIL = "set_email",
-  PASSWORD = "password",
-  SET_PASSWORD = "set_password",
-  RESET_PASSWORD = "reset_password",
-  SOCIAL = "social",
-  CAPTCHA = "captcha",
-  VERIFY_EMAIL = "verify_email",
-  EMAIL_OTP = "email_otp",
-  SMS_OTP = "sms_otp",
-  TOTP = "totp",
-  MAGICLINK = "magiclink",
-  AGREEMENTS = "agreements",
-  PROFILE = "profile",
-  GET_STATUS = "",
-}
+  export enum Choice {
+    SET_EMAIL = "set_email",
+    PASSWORD = "password",
+    SET_PASSWORD = "set_password",
+    RESET_PASSWORD = "reset_password",
+    SOCIAL = "social",
+    CAPTCHA = "captcha",
+    VERIFY_EMAIL = "verify_email",
+    EMAIL_OTP = "email_otp",
+    SMS_OTP = "sms_otp",
+    TOTP = "totp",
+    MAGICLINK = "magiclink",
+    AGREEMENTS = "agreements",
+    PROFILE = "profile",
+    NONE = "",
+  }
 
-export interface PasswordPolicy {
-  chars_min: number;
-  chars_max: number;
-  lower_min: number;
-  upper_min: number;
-  punct_min: number;
-  number_min: number;
-}
+  export interface PasswordPolicy {
+    chars_min: number;
+    chars_max: number;
+    lower_min: number;
+    upper_min: number;
+    punct_min: number;
+    number_min: number;
+  }
 
-export interface StartParams {
-  email?: string;
-}
+  export interface StartParams {
+    email?: string;
+  }
 
-export type ChoiceResponse =
-  | PasswordResponse
-  | SocialResponse
-  | CaptchaResponse
-  | VerifyEmailResponse
-  | EmailOtpResponse
-  | SmsOtpResponse
-  | TotpResponse;
+  export type ChoiceResponse =
+    | EmptyObject
+    | PasswordResponse
+    | SocialResponse
+    | CaptchaResponse
+    | VerifyEmailResponse
+    | EmailOtpResponse
+    | SmsOtpResponse
+    | TotpResponse
+    | ProfileResponse;
 
-export type ChoiceParams =
-  | {}
-  | PasswordParams
-  | EmailParams
-  | SocialParams
-  | CaptchaParams
-  | SocialParams
-  | EmailOtpParams
-  | SmsOtpParams
-  | TotpParams
-  | MagiclinkParams
-  | AgreementsParams
-  | ProfileParams;
+  export type ChoiceParams =
+    | EmptyObject
+    | StartParams
+    | PasswordParams
+    | SocialParams
+    | EmailParams
+    | EmailOtpParams
+    | SmsOtpParams
+    | TotpParams
+    | AgreementsParams
+    | ProfileParams;
 
-export interface PasswordResponse {
-  enrollment: boolean;
-  password_policy: PasswordPolicy;
-}
+  export type EmptyObject = {};
 
-export interface FlowResultPassword {
-  choice: FlowChoice.PASSWORD;
-  data: PasswordResponse;
-}
+  // Password
 
-export interface PasswordParams {
-  password: string;
-}
+  export interface PasswordResponse {
+    enrollment: boolean;
+    password_policy: PasswordPolicy;
+  }
 
-export interface SocialResponse {
-  enrollment: boolean;
-  social_provider: string;
-  state: string;
-  redirect_uri: string;
-}
+  export interface PasswordResult {
+    choice: Choice.PASSWORD | Choice.SET_PASSWORD;
+    data: PasswordResponse;
+  }
 
-export interface FlowResultSocial {
-  choice: FlowChoice.SOCIAL;
-  data: SocialResponse;
-}
+  export interface ResetPasswordResult {
+    choice: Choice.RESET_PASSWORD;
+    data: EmptyObject;
+  }
 
-export interface SocialParams {
-  social_provider: string;
-  uri: string;
-}
+  export interface PasswordParams {
+    password: string;
+  }
 
-export interface EmailParams {
-  email: string;
-}
+  export interface PasswordRequest {
+    flow_id: string;
+    choice: Choice.PASSWORD;
+    data: PasswordParams;
+  }
 
-export interface CaptchaResponse {
-  site_key: string;
-}
+  export interface SetPasswordRequest {
+    flow_id: string;
+    choice: Choice.SET_PASSWORD;
+    data: PasswordParams;
+  }
 
-export interface CaptchaParams {
-  code: string;
-}
+  export interface ResetPasswordRequest {
+    flow_id: string;
+    choice: Choice.RESET_PASSWORD;
+    data: EmptyObject;
+  }
 
-export interface FlowResultCaptcha {
-  choice: FlowChoice.CAPTCHA;
-  data: CaptchaResponse;
-}
+  // Social
 
-export interface VerifyEmailResponse {
-  sent: string;
-  resend_time?: string;
-  state: string;
-}
+  export interface SocialResponse {
+    enrollment: boolean;
+    social_provider: string;
+    state: string;
+    redirect_uri: string;
+  }
 
-export interface FlowResultVerifyEmail {
-  choice: FlowChoice.VERIFY_EMAIL;
-  data: VerifyEmailResponse;
-}
+  export interface SocialResult {
+    choice: Choice.SOCIAL;
+    data: SocialResponse;
+  }
 
-export interface EmailOtpResponse {
-  sent: boolean;
-  enrollment: boolean;
-  resend_time?: string;
-}
+  export interface SocialParams {
+    social_provider: string;
+    uri: string;
+  }
 
-export interface FlowResultEmailOtp {
-  choice: FlowChoice.EMAIL_OTP;
-  data: EmailOtpResponse;
-}
+  export interface SocialRequest {
+    flow_id: string;
+    choice: Choice.SOCIAL;
+    data: SocialParams;
+  }
 
-export interface EmailOtpParams {
-  code: string;
-}
+  // Set Email
 
-export interface SmsOtpResponse {
-  sent: boolean;
-  enrollment: boolean;
-  resend_time?: string;
-  need_phone?: string;
-}
+  export interface SetEmailResult {
+    choice: Choice.SET_EMAIL;
+    data: EmptyObject;
+  }
 
-export interface FlowResultSmsOtp {
-  choice: FlowChoice.SMS_OTP;
-  data: SmsOtpResponse;
-}
+  export interface EmailParams {
+    email: string;
+  }
 
-export interface SmsOtpParams {
-  code: string;
-}
+  export interface SetEmailRequest {
+    flow_id: string;
+    choice: Choice.SET_EMAIL;
+    data: EmailParams;
+  }
 
-export interface SmsOtpRestart {
-  phone: string;
-}
+  // Verify Email
 
-export interface TotpSecret {
-  qr_image: string;
-  secret: string;
-}
+  export interface VerifyEmailResult {
+    choice: Choice.VERIFY_EMAIL;
+    data: VerifyEmailResponse;
+  }
 
-export interface TotpResponse {
-  enrollment: string;
-  totp_secret?: TotpSecret;
-}
+  export interface VerifyEmailRequest {
+    flow_id: string;
+    choice: Choice.VERIFY_EMAIL;
+    data: EmptyObject;
+  }
 
-export interface FlowResultTotp {
-  choice: FlowChoice.TOTP;
-  data: TotpResponse;
-}
+  // Captcha
 
-export interface TotpParams {
-  code: string;
-}
+  export interface CaptchaResponse {
+    site_key: string;
+  }
 
-export interface MagiclinkParams {
-  uri: string;
-}
+  export interface CaptchaResult {
+    choice: Choice.CAPTCHA;
+    data: CaptchaResponse;
+  }
 
-export interface AgreementData {
-  id: string;
-  type: string;
-  created_at: string;
-  updated_at: string;
-  published_at?: string;
-  name: string;
-  text: string;
-}
+  export interface CaptchaParams {
+    code: string;
+  }
 
-export interface AgreementsResponse {
-  agreements: AgreementData[];
-}
+  export interface CaptchaRequest {
+    flow_id: string;
+    choice: Choice.CAPTCHA;
+    data: CaptchaParams;
+  }
 
-export interface FlowResultAgreements {
-  choice: FlowChoice.AGREEMENTS;
-  data: AgreementsResponse;
-}
+  // Verify Email
 
-export interface AgreementsParams {
-  agreed: string[];
-}
+  export interface VerifyEmailResponse {
+    sent: string;
+    resend_time?: string;
+    state: string;
+  }
 
-export interface ProfileResponse {
-  // TODO: data format will change
-  profile: { [key: string]: string };
-}
+  export interface ResultVerifyEmail {
+    choice: Choice.VERIFY_EMAIL;
+    data: VerifyEmailResponse;
+  }
 
-export interface ProfileParams {
-  profile: { [key: string]: string };
-}
+  // Email OTP
 
-export interface FlowResultProfile {
-  choice: FlowChoice.PROFILE;
-  data: AgreementsResponse;
-}
+  export interface EmailOtpResponse {
+    sent: boolean;
+    enrollment: boolean;
+    resend_time?: string;
+  }
 
-export type FlowResult =
-  | FlowResultPassword
-  | FlowResultSocial
-  | FlowResultCaptcha
-  | FlowResultVerifyEmail
-  | FlowResultEmailOtp
-  | FlowResultSmsOtp
-  | FlowResultTotp
-  | FlowResultAgreements
-  | FlowResultProfile;
+  export interface EmailOtpResult {
+    choice: Choice.EMAIL_OTP;
+    data: EmailOtpResponse;
+  }
 
-export interface FlowData {
-  flow_id: string;
-  flow_type: string[];
-  flow_choices: FlowChoice[];
-  phase?: string;
-  email?: string;
-  auth_choices: string[];
-  social_choices: SocialResponse[];
-  agreements: AgreementData[];
-  choice_map: { [key: string]: ChoiceResponse };
-}
+  export interface EmailOtpParams {
+    code: string;
+  }
 
-export interface FlowStartRequest {
-  cb_uri: string;
-  flow_types: string[];
-  email?: string;
-  invitation?: string;
-}
+  export interface EmailOtpRequest {
+    flow_id: string;
+    choice: Choice.EMAIL_OTP;
+    data: EmailOtpParams;
+  }
 
-export interface FlowUpdateRequest {
-  flow_id: string;
-  choice: FlowChoice;
-  data: ChoiceParams;
-}
+  // SMS OTP
 
-export interface FlowBaseRequest {
-  flow_id: string;
+  export interface SmsOtpResponse {
+    sent: boolean;
+    enrollment: boolean;
+    resend_time?: string;
+    need_phone?: string;
+  }
+
+  export interface SmsOtpResult {
+    choice: Choice.SMS_OTP;
+    data: SmsOtpResponse;
+  }
+
+  export interface SmsOtpParams {
+    code: string;
+  }
+
+  export interface SmsOtpRequest {
+    flow_id: string;
+    choice: Choice.SMS_OTP;
+    data: SmsOtpParams;
+  }
+
+  export interface SmsOtpRestart {
+    phone: string;
+  }
+
+  // TOTP
+
+  export interface TotpSecret {
+    qr_image: string;
+    secret: string;
+  }
+
+  export interface TotpResponse {
+    enrollment: string;
+    totp_secret?: TotpSecret;
+  }
+
+  export interface TotpResult {
+    choice: Choice.TOTP;
+    data: TotpResponse;
+  }
+
+  export interface TotpParams {
+    code: string;
+  }
+
+  export interface TotpRequest {
+    flow_id: string;
+    choice: Choice.TOTP;
+    data: TotpParams;
+  }
+
+  // Magiclink
+
+  export interface MagiclinkResult {
+    choice: Choice.MAGICLINK;
+    data: MagiclinkResponse;
+  }
+
+  export interface MagiclinkRequest {
+    flow_id: string;
+    choice: Choice.MAGICLINK;
+    data: MagiclinkParams;
+  }
+
+  export interface MagiclinkParams {
+    uri: string;
+  }
+
+  export interface MagiclinkResponse {
+    sent: string;
+    resend_time?: string;
+    state: string;
+  }
+
+  // Agreements
+
+  export interface AgreementData {
+    id: string;
+    type: string;
+    created_at: string;
+    updated_at: string;
+    published_at?: string;
+    name: string;
+    text: string;
+  }
+
+  export interface AgreementsResponse {
+    agreements: AgreementData[];
+  }
+
+  export interface AgreementsResult {
+    choice: Choice.AGREEMENTS;
+    data: AgreementsResponse;
+  }
+
+  export interface AgreementsParams {
+    agreed: string[];
+  }
+
+  export interface AgreementsRequest {
+    flow_id: string;
+    choice: Choice.AGREEMENTS;
+    data: AgreementsParams;
+  }
+
+  // Profile
+
+  export interface ProfileResponse {
+    // TODO: data format will change
+    profile: { [key: string]: string };
+  }
+
+  export interface ProfileResult {
+    choice: Choice.PROFILE;
+    data: ProfileResponse;
+  }
+
+  export interface ProfileParams {
+    profile: { [key: string]: string };
+  }
+
+  export interface ProfileRequest {
+    flow_id: string;
+    choice: Choice.PROFILE;
+    data: ProfileParams;
+  }
+
+  // Status
+
+  export interface StatusRequest {
+    flow_id: string;
+    choice: Choice.NONE;
+    data: EmptyObject;
+  }
+
+  // Result, Request and State types
+
+  export type Result =
+    | SetEmailResult
+    | PasswordResult
+    | ResetPasswordResult
+    | SocialResult
+    | CaptchaResult
+    | VerifyEmailResult
+    | EmailOtpResult
+    | SmsOtpResult
+    | TotpResult
+    | MagiclinkResult
+    | AgreementsResult
+    | ProfileResult;
+
+  export interface StateData {
+    flowId: string;
+    flowType: string[];
+    flowChoices: Result[];
+    phase?: string;
+    email?: string;
+    invite?: boolean;
+    disclaimer?: boolean;
+    authChoices: string[];
+    socialChoices: SocialResponse[];
+    socialMap: { [key: string]: SocialResponse };
+    agreements: AgreementData[];
+    setEmail?: EmptyObject;
+    password?: PasswordResponse;
+    setPassword?: EmptyObject;
+    resetPassword?: EmptyObject;
+    verifyEmail?: VerifyEmailResponse;
+    captcha?: CaptchaResponse;
+    emailOtp?: EmailOtpResponse;
+    smsOtp?: SmsOtpResponse;
+    totp?: TotpResponse;
+    magiclink?: MagiclinkResponse;
+    profile?: ProfileResponse;
+  }
+
+  export interface StartRequest {
+    cb_uri: string;
+    flow_types: string[];
+    email?: string;
+    invitation?: string;
+  }
+
+  export type UpdateRequest =
+    | SetEmailRequest
+    | VerifyEmailRequest
+    | PasswordRequest
+    | SetPasswordRequest
+    | ResetPasswordRequest
+    | CaptchaRequest
+    | SocialRequest
+    | EmailOtpRequest
+    | SmsOtpRequest
+    | TotpRequest
+    | MagiclinkRequest
+    | AgreementsRequest
+    | ProfileRequest
+    | StatusRequest;
+
+  export interface BaseRequest {
+    flow_id: string;
+    choice: "";
+    data: {};
+  }
+
+  export type RestartChoice =
+    | Choice.EMAIL_OTP
+    | Choice.SMS_OTP
+    | Choice.TOTP
+    | Choice.VERIFY_EMAIL
+    | Choice.RESET_PASSWORD;
+
+  export interface RestartRequest {
+    flow_id: string;
+    choice: RestartChoice;
+    data: {};
+  }
 }
