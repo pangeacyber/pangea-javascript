@@ -177,20 +177,24 @@ export class DomainIntelService extends BaseService {
   }
 
   /**
-   * @summary WhoIs check
+   * @summary WhoIs
    * @description Retrieve who is for a domain from a provider, including an optional detailed report.
-   * @operationId domain_intel_post_v1_reputation
-   * @param {String} domain - The domain to be looked up.
+   * @operationId domain_intel_post_v1_whois
+   * @param {String} domain - The domain to query.
    * @param {Object} options - An object of optional parameters. Parameters supported:
-   *   - provider {String} - Use reputation data from these providers: "crowdstrike" or "domaintools".
+   *   - provider {String} - Use reputation data from this provider: "whoisxml".
    *   Default provider defined by the configuration.
    *   - verbose {Boolean} - Echo the API parameters in the response. Default: verbose=false.
    *   - raw {Boolean} - Include raw data from this provider. Default: raw=false.
-   * @returns {Promise} - A promise representing an async call to the lookup endpoint.
+   * @returns {Promise} - A promise representing an async call to the whois endpoint.
    * @example
    * ```js
    * const response = await domainIntel.whoIs(
-   *   "google.com"
+   *   "google.com",
+   *   {
+   *     verbose: true,
+   *     raw: true,
+   *   }
    * );
    * ```
    */
