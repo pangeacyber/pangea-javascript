@@ -1,10 +1,11 @@
 {
   "name": "@pangeacyber/vanilla-js",
   "description": "Generic javascript integrations with Pangea",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "main": "dist/cjs/index.js",
   "module": "dist/esm/index.js",
   "types": "dist/index.d.ts",
+  "files": ["dist"],
   "repository": "https://github.com/pangeacyber/pangea-javascript.git",
   "author": "Pangea (https://pangea.cloud)",
   "license": "MIT",
