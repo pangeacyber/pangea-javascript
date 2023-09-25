@@ -18,6 +18,7 @@ export default [
         file: pkg.main,
         format: "cjs",
         sourcemap: true,
+        name: "react-lib",
       },
       {
         file: pkg.module,
@@ -29,7 +30,7 @@ export default [
       external(),
       resolve(),
       commonjs(),
-      typescript({ tsconfig: "./tsconfig.json" }),
+      typescript({ tsconfig: "./tsconfig.json", sourceMap: false }),
       json(),
       terser(),
       nodePolyfills(),
@@ -39,6 +40,7 @@ export default [
   {
     input: "dist/esm/types/index.d.ts",
     output: [{ file: "dist/index.d.ts", format: "esm" }],
+    external: [/\.css$/],
     plugins: [dts()],
   },
 ];
