@@ -337,9 +337,17 @@ export namespace AuthFlow {
 
   // Profile
 
+  export interface ProfileField {
+    id: string;
+    label: string;
+    type: string;
+    required: boolean;
+    builtin: boolean;
+    show_on_signup: boolean;
+  }
+
   export interface ProfileResponse {
-    // TODO: data format will change
-    profile: { [key: string]: string };
+    profile: ProfileField[];
   }
 
   export interface ProfileResult {
@@ -388,7 +396,7 @@ export namespace AuthFlow {
     phase?: string;
     email?: string;
     invite?: boolean;
-    disclaimer?: boolean;
+    disclaimer?: string;
     authChoices: string[];
     socialChoices: SocialResponse[];
     socialMap: { [key: string]: SocialResponse };
