@@ -1,7 +1,8 @@
 import { FC } from "react";
 import { Stack, Typography } from "@mui/material";
 
-import { Button, ViewComponentProps } from "@pangeacyber/react-mui-authn";
+import Button from "@src/components/core/Button";
+import { ViewComponentProps } from "@src/views/AuthFlow/types";
 
 const getProviderName = (provider: string) => {
   switch (provider) {

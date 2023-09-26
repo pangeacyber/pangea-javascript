@@ -14,20 +14,21 @@ import { AutoLinkNode, LinkNode } from "@lexical/link";
 import { $convertFromMarkdownString } from "@lexical/markdown";
 import LexicalClickableLinkPlugin from "@lexical/react/LexicalClickableLinkPlugin";
 
-import { FlowStep } from "@pangeacyber/react-auth";
+import { AuthFlow } from "@pangeacyber/vanilla-js";
+
 import Button from "@src/components/core/Button";
-import { ViewComponentProps } from "@src/views/AuthFlow/types";
+import { AuthFlowComponentProps } from "@src/features/AuthFlow/types";
 import { isJSON } from "@src/utils";
 
-const AgreementAccept: FC<ViewComponentProps> = ({
+const AgreementView: FC<AuthFlowComponentProps> = ({
   options,
   data,
-  next,
+  update,
   reset,
 }) => {
   const [disable, setDisable] = useState<boolean>(true);
   const theme = useTheme();
-  const content = data.eula || "";
+  const content = data?.agreements[0].text || "";
 
   const mdConfig = {
     theme: {},
@@ -57,7 +58,18 @@ const AgreementAccept: FC<ViewComponentProps> = ({
   };
 
   const acceptAgreement = (accept: boolean) => {
-    next(FlowStep.VERIFY_EULA, { accept });
+    const payload: AuthFlow.AgreementsParams = {
+      agreed: [data?.agreements[0].id],
+    };
+    update(AuthFlow.Choice.AGREEMENTS, payload);
+  };
+
+  const acceptHeading = (): string => {
+    if (data?.agreements[0].type === "privacy_policy") {
+      return options?.privacyHeading || "";
+    } else {
+      return options?.eulaHeading || "";
+    }
   };
 
   useEffect(() => {
@@ -78,7 +90,7 @@ const AgreementAccept: FC<ViewComponentProps> = ({
 
   return (
     <Stack gap={3} sx={{ borderWidth: "1px" }} ml={-1} mr={-1}>
-      <Typography variant="h6">{options.eulaHeading}</Typography>
+      <Typography variant="h6">{acceptHeading()}</Typography>
       <Stack
         id="agreement-container"
         onScroll={handleScroll}
@@ -132,4 +144,4 @@ const AgreementAccept: FC<ViewComponentProps> = ({
   );
 };
 
-export default AgreementAccept;
+export default AgreementView;
