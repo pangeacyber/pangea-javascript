@@ -1,4 +1,6 @@
-import { FC } from "react";
+import { FC, useState } from "react";
+
+import { AuthFlow } from "@pangeacyber/vanilla-js";
 
 import { AuthFlowComponentProps } from "@src/features/AuthFlow/types";
 import { ErrorMessage } from "@src/features/AuthFlow/components";
@@ -13,10 +15,32 @@ import StatusMessage from "./components/StatusMessage";
 import VerifyEmailView from "./views/VerifyEmail";
 
 const AuthFlowComponent: FC<AuthFlowComponentProps> = (props) => {
-  const { data, loading } = props;
+  const { cbParams, data, loading, update } = props;
+  const [doUpdate, setDoUpdate] = useState<boolean>(true);
 
   if (loading) {
     return <StatusMessage message="Loading..." />;
+  }
+
+  // collect social state
+  const socialStateMap: { [key: string]: string } = {};
+  if (data?.socialChoices?.length > 0) {
+    data.socialChoices.forEach((p: AuthFlow.SocialResponse) => {
+      socialStateMap[p.state] = p.social_provider;
+    });
+  }
+
+  if (cbParams && cbParams.state && cbParams.state in socialStateMap) {
+    const provider = socialStateMap[cbParams.state];
+    const payload: AuthFlow.SocialParams = {
+      uri: window.location.toString(),
+      social_provider: provider,
+    };
+    console.log("SOCIAL", payload);
+    if (doUpdate) {
+      setDoUpdate(false);
+      update(AuthFlow.Choice.SOCIAL, payload);
+    }
   }
 
   // Start View - email entry and social options
