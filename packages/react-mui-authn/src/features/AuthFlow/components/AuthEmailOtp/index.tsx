@@ -1,12 +1,19 @@
-import { FC } from "react";
+import { FC, useEffect } from "react";
+import { Stack, Typography } from "@mui/material";
 
-import { Stack, Typography, useTheme } from "@mui/material";
+import { AuthFlow } from "@pangeacyber/vanilla-js";
 
 import { AuthFlowComponentProps } from "@src/features/AuthFlow/types";
 import OtpForm from "../OtpForm";
 
 const AuthEmailOtp: FC<AuthFlowComponentProps> = (props) => {
-  const { data } = props;
+  const { data, restart } = props;
+
+  useEffect(() => {
+    if (data?.emailOtp?.sent === false) {
+      restart(AuthFlow.Choice.EMAIL_OTP);
+    }
+  }, [data]);
 
   return (
     <Stack>

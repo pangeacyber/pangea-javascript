@@ -48,7 +48,6 @@ const AuthPassword: FC<AuthFlowComponentProps> = ({
       const payload: AuthFlow.PasswordParams = {
         ...values,
       };
-      console.log("update", update);
       update(AuthFlow.Choice.PASSWORD, payload);
     },
   });

@@ -56,7 +56,9 @@ export {
 
 // Flow2 exports
 
-export {
+import {
   default as AuthFlowComponent,
   ErrorMessage,
 } from "@src/features/AuthFlow";
+
+export { AuthFlowComponent, ErrorMessage };

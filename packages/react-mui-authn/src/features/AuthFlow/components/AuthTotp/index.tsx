@@ -1,16 +1,14 @@
 import { FC, ReactNode, useEffect, useState } from "react";
 
-import { Stack, Typography, useTheme } from "@mui/material";
+import { Button, Stack, Typography, useTheme } from "@mui/material";
 
 import { AuthFlowComponentProps } from "@src/features/AuthFlow/types";
 import OtpForm from "../OtpForm";
 
 const AuthTotp: FC<AuthFlowComponentProps> = (props) => {
-  const { data } = props;
+  const { data, options, reset } = props;
   const [title, setTitle] = useState<string>("");
   const [content, setContent] = useState<ReactNode>();
-
-  // TODO: get totp choice from data.flow_choices
 
   useEffect(() => {
     if (data?.totp?.enrollment) {
@@ -38,6 +36,15 @@ const AuthTotp: FC<AuthFlowComponentProps> = (props) => {
       <Typography variant="h6">{title}</Typography>
       {content}
       <OtpForm {...props} otpType="totp" />
+      <Stack
+        direction={{ xs: "column", sm: "row" }}
+        justifyContent="center"
+        gap={{ xs: 0, sm: 1 }}
+      >
+        <Button variant="text" onClick={reset}>
+          {options.cancelLabel}
+        </Button>
+      </Stack>
     </Stack>
   );
 };
