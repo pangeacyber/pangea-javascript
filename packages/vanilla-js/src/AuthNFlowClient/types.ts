@@ -193,7 +193,7 @@ export namespace AuthFlow {
   // Verify Email
 
   export interface VerifyEmailResponse {
-    sent: string;
+    sent: boolean;
     resend_time?: string;
     state: string;
   }
@@ -299,7 +299,7 @@ export namespace AuthFlow {
   }
 
   export interface MagiclinkResponse {
-    sent: string;
+    sent: boolean;
     resend_time?: string;
     state: string;
   }
@@ -347,7 +347,7 @@ export namespace AuthFlow {
   }
 
   export interface ProfileResponse {
-    profile: ProfileField[];
+    fields: ProfileField[];
   }
 
   export interface ProfileResult {
@@ -441,6 +441,10 @@ export namespace AuthFlow {
     flow_id: string;
     choice: "";
     data: {};
+  }
+
+  export interface CompleteRequest {
+    flow_id: string;
   }
 
   export type RestartChoice =
