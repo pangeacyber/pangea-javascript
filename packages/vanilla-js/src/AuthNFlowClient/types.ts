@@ -393,6 +393,7 @@ export namespace AuthFlow {
     flowId: string;
     flowType: string[];
     flowChoices: Result[];
+    complete?: boolean;
     phase?: string;
     email?: string;
     invite?: boolean;
