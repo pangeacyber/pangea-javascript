@@ -311,6 +311,10 @@ export class AuthNFlowClient extends AuthNClient {
       this.state.socialMap = {};
       this.state.agreements = [];
 
+      if (result.disclaimer) {
+        this.state.disclaimer = result.disclaimer;
+      }
+
       // parse flow_choices into groups and choice_map
       response.result?.flow_choices?.forEach((choice: AuthFlow.Result) => {
         switch (choice.choice) {
