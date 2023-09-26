@@ -23,7 +23,7 @@ const delay = async (ms) =>
 
   let exception;
   try {
-    const request = { verbose: true, raw: true, provider: "crowdstrike" };
+    const request = { verbose: true, raw: true, provider: "reversinglabs" };
     const response = await client.fileScan(request, yourFilepath, {
       pollResultSync: false,
     });
@@ -43,9 +43,19 @@ const delay = async (ms) =>
   }
 
   // Wait until result could be ready
-  await delay(30 * 1000);
+  await delay(20 * 1000);
   const request_id = exception?.request_id || "";
-  const response = await client.pollResult(request_id);
-  console.log("Poll result success...");
-  console.log("Result:", response.result);
+  try {
+    const response = await client.pollResult(request_id);
+    console.log("Poll result success...");
+    console.log("Result:", response.result);
+  } catch (e) {
+    if (e instanceof PangeaErrors.AcceptedRequestException) {
+      console.log("Result is not ready yet");
+    } else {
+      console.log("This is an unexpected exception");
+      console.log(e.toString());
+      process.exit(1);
+    }
+  }
 })();
