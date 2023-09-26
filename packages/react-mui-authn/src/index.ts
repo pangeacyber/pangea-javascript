@@ -53,3 +53,10 @@ export {
   AuthFlowViewProps,
   ViewComponentProps,
 } from "@src/views/AuthFlow/types";
+
+// Flow2 exports
+
+export {
+  default as AuthFlowComponent,
+  ErrorMessage,
+} from "@src/features/AuthFlow";
