@@ -91,15 +91,13 @@ export class AuthNFlowClient extends AuthNClient {
     return await this.post(path, payload);
   }
 
-  async complete(): Promise<ClientResponse> {
+  complete() {
     const path = `${API_FLOW_BASE}/${AuthFlow.Endpoint.COMPLETE}`;
-    const payload: AuthFlow.BaseRequest = {
+    const payload: AuthFlow.CompleteRequest = {
       flow_id: this.state.flowId,
-      choice: "",
-      data: {},
     };
 
-    return await this.post(path, payload);
+    axios.postForm(this.getUrl(path), payload, this.getOptions());
   }
 
   /*
@@ -297,9 +295,17 @@ export class AuthNFlowClient extends AuthNClient {
     if (success) {
       const result = response.result || {};
 
+      if (result.flow_phase === "phase_completed") {
+        this.complete();
+      }
+
+      // reset state to default
+      this.state = { ...DEFAULT_FLOW_DATA };
+
       this.state.flowId = result.flow_id || "";
       this.state.flowType = result.flow_type ? [...result.flow_type] : [];
       this.state.flowChoices = cloneDeep(response.result.flow_choices);
+      this.state.phase = result.flow_phase;
 
       if (result.email) {
         this.state.email = result.email;
