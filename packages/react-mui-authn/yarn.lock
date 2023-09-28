@@ -1774,10 +1774,10 @@
     "@mui/icons-material" "^5.8.4"
     "@mui/material" "^5.0.0"
 
-"@pangeacyber/vanilla-js@^0.0.12":
-  version "0.0.12"
-  resolved "https://registry.yarnpkg.com/@pangeacyber/vanilla-js/-/vanilla-js-0.0.12.tgz#75183eeb6c0140f00e84e83eb7cb7ed2796c159a"
-  integrity sha512-OypXcdd7Bqo7v/h2EkA74PVEFVTNhhjg/olVqvZaYNf0QT7izoKj2J0a01Crixe8uXP82Q7yRqZudYlf1flTzw==
+"@pangeacyber/vanilla-js@^0.0.11":
+  version "0.0.11"
+  resolved "https://registry.yarnpkg.com/@pangeacyber/vanilla-js/-/vanilla-js-0.0.11.tgz#bd81f1e7bbc035d1738271a2ef9ab9ff8c230ded"
+  integrity sha512-d3D7ednK53TsLyIMztcMT7koIMEkG1eXn447Pi5SpzNKuIYWxr6vlEj73npZV1jwAOj1ZIxPR4r42tt8dhUGFw==
   dependencies:
     axios "^1.4.0"
     lodash "^4.17.21"

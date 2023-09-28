@@ -4,21 +4,40 @@ import { Stack, Typography } from "@mui/material";
 import { AuthFlow } from "@pangeacyber/vanilla-js";
 
 import { AuthFlowComponentProps } from "@src/features/AuthFlow/types";
+import Button from "@src/components/core/Button";
 import OtpForm from "../OtpForm";
 
 const AuthEmailOtp: FC<AuthFlowComponentProps> = (props) => {
-  const { data, restart } = props;
+  const { data, loading, restart } = props;
+
+  const sendCode = () => {
+    restart(AuthFlow.Choice.EMAIL_OTP);
+  };
 
   useEffect(() => {
     if (data?.emailOtp?.sent === false) {
-      restart(AuthFlow.Choice.EMAIL_OTP);
+      sendCode();
     }
-  }, [data]);
+  }, []);
 
   return (
-    <Stack>
-      <Typography variant="h6">Enter the code sent to your email</Typography>
+    <Stack gap={1}>
+      <Typography variant="body1">Enter the code sent to your email</Typography>
       <OtpForm {...props} otpType="email_otp" />
+      <Stack
+        direction={{ xs: "column", sm: "row" }}
+        justifyContent="center"
+        gap={{ xs: 0, sm: 1 }}
+      >
+        <Button
+          variant="text"
+          fullWidth={true}
+          onClick={sendCode}
+          disabled={loading}
+        >
+          Resend Code
+        </Button>
+      </Stack>
     </Stack>
   );
 };

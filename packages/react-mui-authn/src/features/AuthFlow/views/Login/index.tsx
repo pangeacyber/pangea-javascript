@@ -6,7 +6,7 @@ import Button from "@src/components/core/Button";
 import Disclaimer from "../../components/Disclaimer";
 import { AuthOptions } from "../../components";
 
-const SigninView: FC<AuthFlowComponentProps> = (props) => {
+const LoginView: FC<AuthFlowComponentProps> = (props) => {
   const { options, data, reset } = props;
 
   return (
@@ -21,9 +21,9 @@ const SigninView: FC<AuthFlowComponentProps> = (props) => {
           {options.cancelLabel}
         </Button>
       </Stack>
-      {/* {data.disclaimer && (<Disclaimer content={data.disclaimer}/>)} */}
+      {data.disclaimer && <Disclaimer content={data.disclaimer} />}
     </Stack>
   );
 };
 
-export default SigninView;
+export default LoginView;

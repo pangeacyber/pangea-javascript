@@ -42,7 +42,7 @@ const AuthOptions: FC<AuthFlowComponentProps> = (props) => {
   };
 
   return (
-    <Stack gap={1}>
+    <Stack gap={3} alignItems="center">
       {data.authChoices?.length > 1 && (
         <AuthOptionsNav
           authChoices={data.authChoices}

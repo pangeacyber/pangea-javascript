@@ -2,7 +2,7 @@ import { FC, useEffect, useState } from "react";
 import {
   IconButton,
   Stack,
-  SvgIconPropsColorOverrides,
+  SxProps,
   Typography,
   useTheme,
 } from "@mui/material";
@@ -14,32 +14,10 @@ import {
   TimerOutlined,
   QuestionMarkOutlined,
 } from "@mui/icons-material";
-import { OverridableStringUnion } from "@mui/types";
-
-const ProviderIcons: { [key: string]: any } = {
-  email: PasswordOutlined,
-  magic_link: LinkRounded,
-  sms_otp: MessageOutlined,
-  email_otp: EmailOutlined,
-  otp: TimerOutlined,
-};
 
 interface AuthProviderIconProps {
   provider: string;
-  color:
-    | OverridableStringUnion<
-        | "action"
-        | "disabled"
-        | "inherit"
-        | "primary"
-        | "secondary"
-        | "error"
-        | "info"
-        | "success"
-        | "warning",
-        SvgIconPropsColorOverrides
-      >
-    | undefined;
+  color: string;
 }
 
 interface AuthOptionsNavProps {
@@ -52,12 +30,41 @@ export const AuthProviderIcon: FC<AuthProviderIconProps> = ({
   provider,
   color,
 }) => {
-  if (provider in ProviderIcons) {
-    const Component = ProviderIcons[provider];
-    return <Component color={color} />;
-  }
+  const sxStyle: SxProps = {
+    color: color,
+  };
 
-  return <QuestionMarkOutlined color={color} />;
+  switch (provider) {
+    case "password":
+      return <PasswordOutlined sx={sxStyle} />;
+    case "magiclink":
+      return <LinkRounded sx={sxStyle} />;
+    case "sms_otp":
+      return <MessageOutlined sx={sxStyle} />;
+    case "email_otp":
+      return <EmailOutlined sx={sxStyle} />;
+    case "totp":
+      return <TimerOutlined sx={sxStyle} />;
+    default:
+      return <QuestionMarkOutlined sx={sxStyle} />;
+  }
+};
+
+const getProviderLabel = (provider: string): string => {
+  switch (provider) {
+    case "password":
+      return "Password";
+    case "magiclink":
+      return "Magic Link";
+    case "sms_otp":
+      return "SMS";
+    case "email_otp":
+      return "Email";
+    case "totp":
+      return "TOTP";
+    default:
+      return provider;
+  }
 };
 
 export const AuthOptionsNav: FC<AuthOptionsNavProps> = ({
@@ -80,27 +87,44 @@ export const AuthOptionsNav: FC<AuthOptionsNavProps> = ({
   return (
     <Stack direction="row" gap={2} alignItems="center">
       {authChoices.map((provider: string) => {
-        <Stack gap={1}>
-          <IconButton
-            sx={{
-              width: "56px",
-              height: "56px",
-              backgroundColor:
-                provider === selected
-                  ? theme.palette.primary.main
-                  : theme.palette.secondary.main,
-            }}
-            onClick={() => {
-              selectOption(provider);
-            }}
-          >
-            <AuthProviderIcon
-              provider={provider}
-              color={provider === active ? "primary" : "secondary"}
-            />
-          </IconButton>
-          <Typography variant="body1">{provider}</Typography>
-        </Stack>;
+        const iconBackground =
+          provider === active
+            ? theme.palette.primary.main
+            : theme.palette.secondary.main;
+        return (
+          <Stack gap={1} alignItems="center">
+            <IconButton
+              sx={{
+                width: "56px",
+                height: "56px",
+                backgroundColor: iconBackground,
+              }}
+              onClick={() => {
+                selectOption(provider);
+              }}
+            >
+              <AuthProviderIcon
+                provider={provider}
+                color={
+                  provider === active
+                    ? theme.palette.getContrastText(iconBackground)
+                    : "primary"
+                }
+              />
+            </IconButton>
+            <Typography
+              variant="body1"
+              color="textPrimary"
+              sx={{
+                fontSize: "12px",
+                lineHeight: "12px",
+                fontWeight: "400",
+              }}
+            >
+              {getProviderLabel(provider)}
+            </Typography>
+          </Stack>
+        );
       })}
     </Stack>
   );

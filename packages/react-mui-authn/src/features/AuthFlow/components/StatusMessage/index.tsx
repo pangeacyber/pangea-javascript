@@ -5,7 +5,7 @@ interface Props {
   message: string;
 }
 
-const StatusMessage: FC<Props> = ({ message }) => {
+const StatusMessageView: FC<Props> = ({ message }) => {
   return (
     <Stack
       alignItems="center"
@@ -17,4 +17,4 @@ const StatusMessage: FC<Props> = ({ message }) => {
   );
 };
 
-export default StatusMessage;
+export default StatusMessageView;
