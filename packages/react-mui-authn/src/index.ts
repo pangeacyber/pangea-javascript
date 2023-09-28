@@ -56,9 +56,19 @@ export {
 
 // Flow2 exports
 
-import {
-  default as AuthFlowComponent,
-  ErrorMessage,
+export {
+  AuthFlowComponentProps,
+  StartView,
+  LoginView,
+  SignupView,
+  CaptchaView,
+  ProfileView,
+  AgreementView,
+  VerifyEmailView,
+  MagiclinkView,
+  VerifyResetView,
+  ResetPasswordView,
+  StatusMessageView,
+  InvalidAuthView,
+  InvalidStateView,
 } from "@src/features/AuthFlow";
-
-export { AuthFlowComponent, ErrorMessage };

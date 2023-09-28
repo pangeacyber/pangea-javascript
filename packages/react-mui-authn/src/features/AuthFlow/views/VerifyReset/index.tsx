@@ -1,4 +1,4 @@
-import { FC, useEffect } from "react";
+import { FC } from "react";
 import { Stack, Typography } from "@mui/material";
 
 import { AuthFlow } from "@pangeacyber/vanilla-js";
@@ -7,54 +7,48 @@ import { AuthFlowComponentProps } from "@src/features/AuthFlow/types";
 import Button from "@src/components/core/Button";
 import ErrorMessage from "../../components/ErrorMessage";
 
-const VerifyEmailView: FC<AuthFlowComponentProps> = ({
+const VerifyResetView: FC<AuthFlowComponentProps> = ({
   options,
   data,
-  loading,
   error,
   update,
-  restart,
   reset,
 }) => {
-  const sendEmail = () => {
-    restart(AuthFlow.Choice.VERIFY_EMAIL);
-  };
-
   const checkState = () => {
     update(AuthFlow.Choice.NONE, {});
   };
 
-  useEffect(() => {
-    if (data?.verifyEmail?.sent === false) {
-      // FIXME: add a resend time check
-      sendEmail();
-    }
-  }, [data]);
+  const cancelReset = () => {
+    // TODO: fix params
+    update(AuthFlow.Choice.RESET_PASSWORD, { cancel: true });
+  };
 
   return (
     <Stack gap={2}>
-      <Typography variant="h6">Verify your email</Typography>
+      <Typography variant="h6">Reset Password</Typography>
       <Stack gap={1}>
         <Typography variant="body2">
-          An email message has been sent to {data.email}, click the link in the
-          message to continue.
+          An email has been sent to {data.email}, click the link in the message
+          to reset your password.
         </Typography>
         <Typography variant="body2">
-          If you open the link in a different browser, return here and click the
-          button below.
+          If you click the link in a different browser, return here and click
+          the button below.
         </Typography>
-        {error && <ErrorMessage response={error} />}
-        <Button color="primary" onClick={checkState} disabled={loading}>
+      </Stack>
+      <Stack gap={1}>
+        <Button color="primary" onClick={checkState}>
           Verification Complete
         </Button>
+        {error && <ErrorMessage response={error} />}
       </Stack>
       <Stack
         direction={{ xs: "column", sm: "row" }}
         justifyContent="center"
         gap={{ xs: 0, sm: 1 }}
       >
-        <Button variant="text" onClick={sendEmail} disabled={loading}>
-          Resend Email
+        <Button variant="text" onClick={cancelReset}>
+          Cancel Reset
         </Button>
         <Button variant="text" onClick={reset}>
           {options.cancelLabel}
@@ -64,4 +58,4 @@ const VerifyEmailView: FC<AuthFlowComponentProps> = ({
   );
 };
 
-export default VerifyEmailView;
+export default VerifyResetView;

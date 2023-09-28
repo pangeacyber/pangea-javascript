@@ -1,4 +1,4 @@
-import { AuthFlow, AuthNFlowClient } from "@pangeacyber/vanilla-js";
+import { AuthFlow } from "@pangeacyber/vanilla-js";
 
 // Options for customizing AuthFlowView components
 export interface AuthFlowViewOptions {
@@ -19,29 +19,28 @@ export interface AuthFlowViewOptions {
   cancelLabel?: string;
 }
 
-// Pass custom components to AuthFlow
-export type AuthFlowComponents = {
-  EnrollMfaComplete?: JSX.Element;
-  EnrollMfaStart?: JSX.Element;
-  ResetPassword?: JSX.Element;
-  SelectMfa?: JSX.Element;
-  Signup?: JSX.Element;
-  Start?: JSX.Element;
-  VerifyCaptcha?: JSX.Element;
-  VerifyEmail?: JSX.Element;
-  VerifyMfaComplete?: JSX.Element;
-  VerifyPassword?: JSX.Element;
-  VerifySocial?: JSX.Element;
-  InvalidState?: JSX.Element;
-  InvalidAuth?: JSX.Element;
-};
-
-export interface AuthFlowViewProps {
-  options?: AuthFlowViewOptions;
-  components?: AuthFlowComponents;
+export enum FlowPhase {
+  START = "start",
+  PASSWORD = "password",
+  SET_PASSWORD = "set_password",
+  RESET_PASSWORD = "reset_password",
+  SOCIAL = "social",
+  CAPTCHA = "captcha",
+  VERIFY_EMAIL = "verify_email",
+  EMAIL_OTP = "email_otp",
+  SMS_OTP = "sms_otp",
+  TOTP = "totp",
+  MAGICLINK = "magiclink",
+  AGREEMENTS = "agreements",
+  PROFILE = "profile",
+  COMPLETE = "complete",
+  FLOW_RETURN = "return",
+  INVALID_AUTH_METHOD = "invalid_auth",
+  INVALID_STATE = "invalid_state",
 }
 
 export interface AuthFlowComponentProps {
+  phase: FlowPhase;
   options: AuthFlowViewOptions;
   data: AuthFlow.StateData;
   loading?: boolean;
@@ -51,6 +50,6 @@ export interface AuthFlowComponentProps {
     code: string;
   };
   update: (choice: AuthFlow.Choice, data: any) => void;
-  restart: (choice: AuthFlow.RestartChoice) => void;
+  restart: (choice: AuthFlow.RestartChoice, data?: any) => void;
   reset: () => void;
 }

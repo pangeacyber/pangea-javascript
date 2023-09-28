@@ -7,7 +7,7 @@ import { AuthFlowComponentProps } from "@src/features/AuthFlow/types";
 import Button from "@src/components/core/Button";
 import ErrorMessage from "../../components/ErrorMessage";
 
-const VerifyEmailView: FC<AuthFlowComponentProps> = ({
+const MagiclinkView: FC<AuthFlowComponentProps> = ({
   options,
   data,
   loading,
@@ -17,15 +17,15 @@ const VerifyEmailView: FC<AuthFlowComponentProps> = ({
   reset,
 }) => {
   const sendEmail = () => {
-    restart(AuthFlow.Choice.VERIFY_EMAIL);
+    restart(AuthFlow.Choice.MAGICLINK);
   };
 
-  const checkState = () => {
+  const checkFlow = () => {
     update(AuthFlow.Choice.NONE, {});
   };
 
   useEffect(() => {
-    if (data?.verifyEmail?.sent === false) {
+    if (data?.magiclink?.sent === false) {
       // FIXME: add a resend time check
       sendEmail();
     }
@@ -33,7 +33,7 @@ const VerifyEmailView: FC<AuthFlowComponentProps> = ({
 
   return (
     <Stack gap={2}>
-      <Typography variant="h6">Verify your email</Typography>
+      <Typography variant="h6">Magic Link Verification</Typography>
       <Stack gap={1}>
         <Typography variant="body2">
           An email message has been sent to {data.email}, click the link in the
@@ -44,7 +44,7 @@ const VerifyEmailView: FC<AuthFlowComponentProps> = ({
           button below.
         </Typography>
         {error && <ErrorMessage response={error} />}
-        <Button color="primary" onClick={checkState} disabled={loading}>
+        <Button color="primary" onClick={checkFlow} disabled={loading}>
           Verification Complete
         </Button>
       </Stack>
@@ -64,4 +64,4 @@ const VerifyEmailView: FC<AuthFlowComponentProps> = ({
   );
 };
 
-export default VerifyEmailView;
+export default MagiclinkView;
