@@ -87,9 +87,15 @@ export namespace AuthFlow {
     data: PasswordResponse;
   }
 
+  export interface ResetPasswordResponse {
+    sent: boolean;
+    resend_time: string;
+    state: string;
+  }
+
   export interface ResetPasswordResult {
     choice: Choice.RESET_PASSWORD;
-    data: EmptyObject;
+    data: ResetPasswordResponse;
   }
 
   export interface PasswordParams {
@@ -406,7 +412,7 @@ export namespace AuthFlow {
     setEmail?: EmptyObject;
     password?: PasswordResponse;
     setPassword?: EmptyObject;
-    resetPassword?: EmptyObject;
+    resetPassword?: ResetPasswordResponse;
     verifyEmail?: VerifyEmailResponse;
     captcha?: CaptchaResponse;
     emailOtp?: EmailOtpResponse;
