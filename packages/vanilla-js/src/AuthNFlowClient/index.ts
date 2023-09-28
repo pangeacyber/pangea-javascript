@@ -299,10 +299,6 @@ export class AuthNFlowClient extends AuthNClient {
     if (success) {
       const result = response.result || {};
 
-      if (result.flow_phase === "phase_completed") {
-        this.state.complete = true;
-      }
-
       // reset state to default
       this.state = { ...DEFAULT_FLOW_DATA };
 
@@ -313,6 +309,10 @@ export class AuthNFlowClient extends AuthNClient {
 
       if (result.email) {
         this.state.email = result.email;
+      }
+
+      if (result.flow_phase === "phase_completed") {
+        this.state.complete = true;
       }
 
       // initial parsed data variables
