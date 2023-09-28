@@ -20,7 +20,8 @@ const DEFAULT_FLOW_DATA: AuthFlow.StateData = {
   flowChoices: [],
   authChoices: [],
   socialChoices: [],
-  socialMap: {},
+  socialProviderMap: {},
+  socialStateMap: {},
   agreements: [],
 };
 
@@ -80,24 +81,27 @@ export class AuthNFlowClient extends AuthNClient {
     return await this.post(path, payload);
   }
 
-  async restart(choice: AuthFlow.RestartChoice): Promise<ClientResponse> {
+  async restart(
+    choice: AuthFlow.RestartChoice,
+    data?: AuthFlow.SmsOtpRestart
+  ): Promise<ClientResponse> {
     const path = `${API_FLOW_BASE}/${AuthFlow.Endpoint.RESTART}`;
     const payload: AuthFlow.RestartRequest = {
       flow_id: this.state.flowId,
       choice: choice,
-      data: {},
+      data: data || {},
     };
 
     return await this.post(path, payload);
   }
 
-  complete() {
+  async complete(): Promise<ClientResponse> {
     const path = `${API_FLOW_BASE}/${AuthFlow.Endpoint.COMPLETE}`;
     const payload: AuthFlow.CompleteRequest = {
       flow_id: this.state.flowId,
     };
 
-    axios.postForm(this.getUrl(path), payload, this.getOptions());
+    return await this.post(path, payload);
   }
 
   /*
@@ -296,7 +300,7 @@ export class AuthNFlowClient extends AuthNClient {
       const result = response.result || {};
 
       if (result.flow_phase === "phase_completed") {
-        this.complete();
+        this.state.complete = true;
       }
 
       // reset state to default
@@ -314,7 +318,8 @@ export class AuthNFlowClient extends AuthNClient {
       // initial parsed data variables
       this.state.authChoices = [];
       this.state.socialChoices = [];
-      this.state.socialMap = {};
+      this.state.socialProviderMap = {};
+      this.state.socialStateMap = {};
       this.state.agreements = [];
 
       if (result.disclaimer) {
@@ -327,9 +332,8 @@ export class AuthNFlowClient extends AuthNClient {
           case AuthFlow.Choice.SOCIAL:
             const socialData = choice.data;
             this.state.socialChoices.push(socialData);
-            this.state.socialMap[
-              `${choice.choice}_${socialData.social_provider}`
-            ] = socialData;
+            this.state.socialProviderMap[socialData.social_provider] =
+              socialData;
             break;
           case AuthFlow.Choice.PASSWORD:
             this.state.password = choice.data;
@@ -372,6 +376,13 @@ export class AuthNFlowClient extends AuthNClient {
           case AuthFlow.Choice.VERIFY_EMAIL:
             this.state.verifyEmail = choice.data;
             break;
+        }
+
+        // map social state to provider name
+        if (this.state.socialChoices?.length > 0) {
+          this.state.socialChoices.forEach((p: AuthFlow.SocialResponse) => {
+            this.state.socialStateMap[p.state] = p.social_provider;
+          });
         }
       });
       this.error = null;

@@ -396,10 +396,12 @@ export namespace AuthFlow {
     phase?: string;
     email?: string;
     invite?: boolean;
+    complete?: boolean;
     disclaimer?: string;
     authChoices: string[];
     socialChoices: SocialResponse[];
-    socialMap: { [key: string]: SocialResponse };
+    socialProviderMap: { [key: string]: SocialResponse };
+    socialStateMap: { [key: string]: string };
     agreements: AgreementData[];
     setEmail?: EmptyObject;
     password?: PasswordResponse;
@@ -452,7 +454,8 @@ export namespace AuthFlow {
     | Choice.SMS_OTP
     | Choice.TOTP
     | Choice.VERIFY_EMAIL
-    | Choice.RESET_PASSWORD;
+    | Choice.RESET_PASSWORD
+    | Choice.MAGICLINK;
 
   export interface RestartRequest {
     flow_id: string;
