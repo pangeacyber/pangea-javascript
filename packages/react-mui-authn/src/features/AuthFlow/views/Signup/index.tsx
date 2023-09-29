@@ -2,8 +2,9 @@ import { FC } from "react";
 import { Stack, Typography } from "@mui/material";
 
 import { AuthFlowComponentProps } from "@src/features/AuthFlow/types";
-import Button from "@src/components/core/Button";
+
 import { AuthOptions, SocialOptions } from "../../components";
+import Disclaimer from "../../components/Disclaimer";
 
 const SignupView: FC<AuthFlowComponentProps> = (props) => {
   const { options, data, reset } = props;
@@ -16,12 +17,7 @@ const SignupView: FC<AuthFlowComponentProps> = (props) => {
       </Typography>
       <AuthOptions {...props} />
       {data.invite && <SocialOptions data={data} options={options} />}
-      <Stack direction="row" justifyContent="center" gap={1}>
-        <Button variant="text" onClick={reset}>
-          {options.cancelLabel}
-        </Button>
-      </Stack>
-      {data.disclaimer && <>{data.disclaimer}</>}
+      {data.disclaimer && <Disclaimer content={data.disclaimer} />}
     </Stack>
   );
 };

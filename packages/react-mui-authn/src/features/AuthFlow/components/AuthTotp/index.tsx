@@ -32,8 +32,8 @@ const AuthTotp: FC<AuthFlowComponentProps> = (props) => {
   }, [data]);
 
   return (
-    <Stack>
-      <Typography variant="h6">{title}</Typography>
+    <Stack gap={1}>
+      <Typography variant="body2">{title}</Typography>
       {content}
       <OtpForm {...props} otpType="totp" />
       <Stack
