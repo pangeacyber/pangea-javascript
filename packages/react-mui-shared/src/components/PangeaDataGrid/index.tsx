@@ -8,6 +8,13 @@ import ColumnsPopout, {
 } from "./components/Search/ColumnsPopout";
 
 import { useGridSchemaColumns } from "./hooks/useGridSchemaColumns";
+import { useLastPagination } from "./hooks/useLastPagination";
+import {
+  usePangeaListRequest,
+  PangeaListOrderRequest,
+  PangeaListRequest,
+  PangeaListRequestProps,
+} from "./hooks/useListRequest";
 import { PDG } from "./types";
 import PangeaDataGrid, { PangeaDataGridProps } from "./PangeaDataGrid";
 import LinedPangeaDataGrid from "./styled/LinedPangeaDataGrid";
@@ -19,12 +26,17 @@ export type {
   ColumnsPopoutProps,
   Visibility,
   PangeaDataGridProps,
+  PangeaListRequest,
+  PangeaListRequestProps,
+  PangeaListOrderRequest,
 };
 export {
   useGridSchemaColumns,
   FiltersForm,
   ColumnsPopout,
   LinedPangeaDataGrid,
+  useLastPagination,
+  usePangeaListRequest,
 };
 
 export default PangeaDataGrid;

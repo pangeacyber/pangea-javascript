@@ -1,0 +1,26 @@
+.react_mui_store_file_viewer_base:
+  image: node
+  before_script:
+    - cd packages/react-mui-store-file-viewer
+    - yarn install
+    - apt-get -qq update
+    - apt-get install -y jq
+  cache:
+    - key:
+        files:
+          - yarn.lock
+      paths:
+        - node_modules
+
+publish_react_mui_store_file_viewer:
+  extends: .react_mui_store_file_viewer_base
+  stage: Publish
+  script:
+    - cp ../../scripts/publish.sh .
+    - echo "${NPMRC}" > .npmrc && ./publish.sh && rm .npmrc
+    - rm publish.sh
+  rules:
+    - if: $CI_COMMIT_BRANCH == "main"
+      changes:
+        - packages/react-mui-store-file-viewer/**/*
+      when: always
