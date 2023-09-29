@@ -1,11 +1,9 @@
 export { default as AuthOptions } from "./AuthOptions";
 export { default as SocialOptions } from "./SocialOptions";
-export { default as Profile } from "./Profile";
 export { default as AuthEmailOtp } from "./AuthEmailOtp";
 export { default as AuthMagicLink } from "./AuthMagicLink";
 export { default as AuthPassword } from "./AuthPassword";
 export { default as AuthSmsOtp } from "./AuthSmsOtp";
 export { default as AuthTotp } from "./AuthTotp";
 export { default as VerifyCaptcha } from "./VerifyCaptcha";
-export { default as VerifyPassword } from "./VerifyPassword";
 export { default as ErrorMessage } from "./ErrorMessage";

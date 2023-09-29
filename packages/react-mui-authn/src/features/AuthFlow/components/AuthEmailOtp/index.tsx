@@ -16,9 +16,9 @@ const AuthEmailOtp: FC<AuthFlowComponentProps> = (props) => {
 
   useEffect(() => {
     if (data?.emailOtp?.sent === false) {
-      restart(AuthFlow.Choice.EMAIL_OTP);
+      sendCode();
     }
-  }, [data]);
+  }, []);
 
   return (
     <Stack gap={1}>

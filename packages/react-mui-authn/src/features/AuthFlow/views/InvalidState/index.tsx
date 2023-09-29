@@ -4,7 +4,7 @@ import { Stack, Typography } from "@mui/material";
 import Button from "@src/components/core/Button";
 import { AuthFlowComponentProps } from "@src/features/AuthFlow/types";
 
-const InvalidState: FC<AuthFlowComponentProps> = ({
+const InvalidStateView: FC<AuthFlowComponentProps> = ({
   options,
   error,
   reset,
@@ -26,4 +26,4 @@ const InvalidState: FC<AuthFlowComponentProps> = ({
   );
 };
 
-export default InvalidState;
+export default InvalidStateView;

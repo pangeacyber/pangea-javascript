@@ -6,6 +6,8 @@ import { AuthFlow } from "@pangeacyber/vanilla-js";
 import { AuthFlowComponentProps } from "@src/features/AuthFlow/types";
 import Button from "@src/components/core/Button";
 import OtpForm from "../OtpForm";
+import StringField from "@src/components/fields/StringField";
+import ErrorMessage from "../ErrorMessage";
 
 const AuthSmsOtp: FC<AuthFlowComponentProps> = (props) => {
   const { options, data, loading, reset, restart } = props;
@@ -31,9 +33,6 @@ const AuthSmsOtp: FC<AuthFlowComponentProps> = (props) => {
       >
         <Button variant="text" onClick={sendCode} disabled={loading}>
           Resend code
-        </Button>
-        <Button variant="text" onClick={reset}>
-          {options.cancelLabel}
         </Button>
       </Stack>
     </Stack>
