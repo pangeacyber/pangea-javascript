@@ -49,7 +49,7 @@ const StoreObjectIcon: FC<Props> = ({ type, mimeType, ...props }) => {
         <Typography
           sx={{
             position: "absolute",
-            top: "10px",
+            bottom: "6px",
             left: "5px",
             fontSize: "7px",
             color: "#fff",

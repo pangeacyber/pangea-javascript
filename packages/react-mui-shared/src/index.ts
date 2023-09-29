@@ -18,6 +18,7 @@ export {
 } from "./components/PangeaDataGrid";
 export {
   FieldsPreview,
+  FieldsPreviewProps,
   FieldsPreviewSchema,
   FieldsForm,
   FieldsFormProps,

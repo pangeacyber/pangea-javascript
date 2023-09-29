@@ -156,6 +156,8 @@ export namespace ObjectStore {
     tags?: string[];
 
     type: string | ObjectType; // "folder", "" ...
+
+    presigned_url?: string; // Added from get
   }
 
   export interface ListResponse {

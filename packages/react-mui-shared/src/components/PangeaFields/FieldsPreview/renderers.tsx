@@ -81,13 +81,12 @@ export const StringArrayPreviewField: FC<PreviewFieldValueProps> = ({
   value,
   fieldKey,
 }) => {
-  const value_ = useMemo(() => {
-    const valueSet = new Set(value);
+  const value_ = useMemo<string[]>(() => {
+    const valueSet = new Set<string>(value);
     return Array.from(valueSet);
   }, [JSON.stringify(value)]);
 
-  // @ts-ignore
-  return <ListCell params={{ value: value_, id: fieldKey }} />;
+  return <ListCell value={value_} name={fieldKey} />;
 };
 
 export const JsonPreviewField: FC<PreviewFieldValueProps> = ({ value }) => {

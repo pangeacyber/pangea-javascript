@@ -34,15 +34,17 @@ const CreateNewFolderButton: FC<Props> = ({ ButtonProps, onClose }) => {
     if (!apiRef.folderCreate) return;
 
     setLoading(true);
-    // @ts-ignore
-    return apiRef
-      .folderCreate(pickBy(body, (v, k) => k !== "path"))
-      .then(() => {
-        setLoading(false);
-      })
-      .catch((error) => {
-        setLoading(false);
-      });
+    return (
+      apiRef
+        // @ts-ignore
+        .folderCreate(pickBy(body, (v, k) => k !== "path"))
+        .then(() => {
+          setLoading(false);
+        })
+        .catch((error) => {
+          setLoading(false);
+        })
+    );
   };
 
   return (

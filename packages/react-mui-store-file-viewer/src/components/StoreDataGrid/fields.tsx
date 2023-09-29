@@ -32,7 +32,16 @@ export const StoreViewerFields: PDG.GridSchemaFields<ObjectStore.ObjectResponse>
     size: {
       label: "Size",
       renderCell: (params) => {
-        params.value = formatBytes(params.value);
+        const value = params.value;
+        try {
+          if (!isNaN(value)) {
+            const numValue = Number(value);
+            if (typeof numValue === "number") {
+              params.value = formatBytes(numValue);
+            }
+          }
+        } catch {}
+
         return <TextCell params={params} />;
       },
     },

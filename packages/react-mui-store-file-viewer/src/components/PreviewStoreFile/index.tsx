@@ -1,7 +1,8 @@
 import { FC, useEffect, useState } from "react";
 
 import CloseIcon from "@mui/icons-material/Close";
-import { Stack, Typography, IconButton, Divider } from "@mui/material";
+import DownloadIcon from "@mui/icons-material/Download";
+import { Stack, Typography, IconButton, Divider, Button } from "@mui/material";
 
 import { PreviewSessionFields } from "./fields";
 import { ObjectStore } from "../../types";
@@ -23,10 +24,15 @@ const PreviewStoreFile: FC<PreviewFileProps> = ({ data, onClose }) => {
 
     apiRef.get({ id: data.id }).then((response) => {
       if (response.status === "Success") {
-        setObject(response.result.object);
+        setObject({
+          ...response.result.object,
+          presigned_url: response.result.presigned_url,
+        });
       }
     });
   }, [data.id]);
+
+  console.log(object);
 
   return (
     <Stack
@@ -60,6 +66,19 @@ const PreviewStoreFile: FC<PreviewFileProps> = ({ data, onClose }) => {
       <Divider
         sx={{ marginLeft: "-16px!important", marginRight: "-16px!important" }}
       />
+      {!!object?.presigned_url && (
+        <a href={object.presigned_url} download={object.name ?? object.id}>
+          <Button
+            sx={{ width: "100%" }}
+            color="primary"
+            startIcon={<DownloadIcon fontSize="small" />}
+            variant="outlined"
+            fullWidth
+          >
+            Download
+          </Button>
+        </a>
+      )}
       <Typography variant="h6">Details</Typography>
       <FieldsPreview
         schema={PreviewSessionFields}

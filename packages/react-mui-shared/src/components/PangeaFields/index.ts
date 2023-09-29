@@ -1,4 +1,4 @@
-export { default as FieldsPreview } from "./FieldsPreview";
+export { default as FieldsPreview, FieldsPreviewProps } from "./FieldsPreview";
 
 export { default as FieldsLabel } from "./FieldLabel";
 

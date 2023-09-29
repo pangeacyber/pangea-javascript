@@ -2,7 +2,7 @@ import { Button, ButtonProps } from "@mui/material";
 import { FC, useMemo, useState } from "react";
 import pickBy from "lodash/pickBy";
 
-import FolderIcon from "@mui/icons-material/Folder";
+import EditOutlinedIcon from "@mui/icons-material/EditOutlined";
 import { FieldsForm, PangeaModal } from "@pangeacyber/react-mui-shared";
 import { UpdateFields } from "./fields";
 import { useStoreFileViewerContext } from "../../hooks/context";
@@ -30,16 +30,18 @@ const UpdateFileButton: FC<Props> = ({ object, ButtonProps, onClose }) => {
 
     setLoading(true);
 
-    // @ts-ignore
-    return apiRef
-      .update(pickBy(body, (v) => !!v))
-      .then(() => {
-        setLoading(false);
-        reload();
-      })
-      .catch((error) => {
-        setLoading(false);
-      });
+    return (
+      apiRef
+        // @ts-ignore
+        .update(pickBy(body, (v) => !!v))
+        .then(() => {
+          setLoading(false);
+          reload();
+        })
+        .catch((error) => {
+          setLoading(false);
+        })
+    );
   };
 
   if (!object.id) return null;
@@ -49,7 +51,7 @@ const UpdateFileButton: FC<Props> = ({ object, ButtonProps, onClose }) => {
         variant="text"
         sx={{ width: "100%" }}
         {...ButtonProps}
-        startIcon={<FolderIcon fontSize="small" />}
+        startIcon={<EditOutlinedIcon fontSize="small" />}
         onClick={() => setOpen(true)}
       >
         Edit

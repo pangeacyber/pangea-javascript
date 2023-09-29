@@ -18,6 +18,7 @@ import PreviewStoreFile from "../PreviewStoreFile";
 import CreateNewButton from "../CreateNewButton";
 import { Stack } from "@mui/material";
 import FileDropBox from "../FileDropBox";
+import FileOptions from "../FileOptions";
 
 export interface StoreDataGridProps {
   defaultVisibilityModel?: Record<string, boolean>;
@@ -99,8 +100,17 @@ const StoreDataGrid: FC<StoreDataGridProps> = ({
           dynamicFlexColumn: true,
         }}
         ActionColumn={{
-          render: () => null,
+          render: (object) => (
+            <FileOptions
+              object={object}
+              onClose={() => {}}
+              displayDownloadInline
+            />
+          ),
           isPinned: true,
+          GridColDef: {
+            minWidth: 100,
+          },
         }}
         loading={loading}
         header={<FolderPath />}

@@ -8,7 +8,7 @@ import FieldGrouping from "../FieldGrouping";
 import { LabelProps } from "../FieldLabel";
 import { FormObject } from "../types";
 
-interface PreviewPanelProps<T extends FormObject> {
+export interface FieldsPreviewProps<T extends FormObject> {
   data: Partial<T>;
   schema: FieldsPreviewSchema<T>;
   LabelPropDefaults?: Partial<LabelProps>;
@@ -18,7 +18,7 @@ const FieldsPreview = <T extends FormObject>({
   data,
   schema,
   LabelPropDefaults,
-}: PreviewPanelProps<T>): JSX.Element => {
+}: FieldsPreviewProps<T>): JSX.Element => {
   // @ts-ignore
   const [fields, groups] = useGroupedFields<PreviewFieldSchema<T>>(schema);
 
