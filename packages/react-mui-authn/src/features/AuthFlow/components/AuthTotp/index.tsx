@@ -1,7 +1,6 @@
 import { FC, ReactNode, useEffect, useState } from "react";
 import { Stack, Typography } from "@mui/material";
 
-import Button from "@src/components/core/Button";
 import { AuthFlowComponentProps } from "@src/features/AuthFlow/types";
 import OtpForm from "../OtpForm";
 
@@ -35,7 +34,7 @@ const AuthTotp: FC<AuthFlowComponentProps> = (props) => {
 
   return (
     <Stack gap={1}>
-      <Typography variant="body1">{title}</Typography>
+      <Typography variant="body2">{title}</Typography>
       {content}
       <OtpForm {...props} otpType="totp" />
     </Stack>

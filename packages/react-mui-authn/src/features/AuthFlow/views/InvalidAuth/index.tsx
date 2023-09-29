@@ -40,12 +40,17 @@ const InvalidAuthView: FC<AuthFlowComponentProps> = ({
   return (
     <Stack gap={2}>
       <Typography variant="h6">Incorrect Method</Typography>
-      <Stack direction="row" justifyContent="center" gap={1}>
-        <Typography variant="body2" color="error">
+      <Stack alignItems="center" gap={2}>
+        <Typography variant="body1">
           You must log in using {providerLabel}.
         </Typography>
-        {error.result?.correct_provider === "passsword" && (
-          <Button color="primary" variant="contained" onClick={doUpdate}>
+        {error.result?.correct_provider && (
+          <Button
+            color="primary"
+            variant="contained"
+            fullWidth={true}
+            onClick={doUpdate}
+          >
             Continue
           </Button>
         )}

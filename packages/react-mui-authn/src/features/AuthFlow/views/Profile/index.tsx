@@ -55,7 +55,7 @@ const ProfileView: FC<AuthFlowComponentProps> = (props) => {
   return (
     <Stack gap={2}>
       {/* FIXME: Need Profile Heading branding option */}
-      <Typography variant="h6">{options.signupHeading}</Typography>
+      <Typography variant="h6">Profile info</Typography>
       <Typography variant="body2" mb={1} sx={{ wordBreak: "break-word" }}>
         {data.email}
       </Typography>

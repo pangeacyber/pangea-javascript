@@ -54,7 +54,7 @@ const VerifyEmailView: FC<AuthFlowComponentProps> = ({
         gap={{ xs: 0, sm: 1 }}
       >
         <Button variant="text" onClick={sendEmail} disabled={loading}>
-          Resend Email
+          Resend email
         </Button>
         <Button variant="text" onClick={reset}>
           {options.cancelLabel}

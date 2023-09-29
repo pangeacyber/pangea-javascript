@@ -98,6 +98,10 @@ export const AuthOptionsNav: FC<AuthOptionsNavProps> = ({
                 width: "56px",
                 height: "56px",
                 backgroundColor: iconBackground,
+                "&:hover": {
+                  backgroundColor: iconBackground,
+                  opacity: "0.8",
+                },
               }}
               onClick={() => {
                 selectOption(provider);
@@ -113,7 +117,7 @@ export const AuthOptionsNav: FC<AuthOptionsNavProps> = ({
               />
             </IconButton>
             <Typography
-              variant="body1"
+              variant="body2"
               color="textPrimary"
               sx={{
                 fontSize: "12px",

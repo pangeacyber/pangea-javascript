@@ -18,9 +18,11 @@ const AuthPassword: FC<AuthFlowComponentProps> = ({
   loading,
   error,
   update,
+  reset,
+  restart,
 }) => {
   const [status, setStatus] = useState<any>();
-  const enrollment = !!data?.password?.enrollment;
+  const enrollment = !!data?.password?.enrollment || data?.setPassword;
   const passwordPolicy = enrollment
     ? { ...data?.password?.password_policy }
     : null;
@@ -48,7 +50,12 @@ const AuthPassword: FC<AuthFlowComponentProps> = ({
       const payload: AuthFlow.PasswordParams = {
         ...values,
       };
-      update(AuthFlow.Choice.PASSWORD, payload);
+
+      if (data.setPassword) {
+        update(AuthFlow.Choice.SET_PASSWORD, payload);
+      } else {
+        update(AuthFlow.Choice.PASSWORD, payload);
+      }
     },
   });
 
@@ -56,31 +63,58 @@ const AuthPassword: FC<AuthFlowComponentProps> = ({
     setStatus(error);
   }, [error]);
 
+  const forgot = () => {
+    restart(AuthFlow.Choice.RESET_PASSWORD);
+  };
+
+  const submitLabel = data.setPassword
+    ? "Reset"
+    : data.password?.enrollment
+    ? options.signupButtonLabel
+    : options.passwordButtonLabel;
+
   return (
-    <form
-      onSubmit={formik.handleSubmit}
-      onFocus={() => {
-        setStatus(undefined);
-      }}
-    >
-      <Stack gap={1}>
-        <PasswordField
-          name="password"
-          label="Password"
-          formik={formik}
-          policy={passwordPolicy}
-        />
-        {status && <ErrorMessage response={status} />}
-        <Button
-          color="primary"
-          type="submit"
-          disabled={loading}
-          fullWidth={true}
-        >
-          {options.passwordButtonLabel}
+    <Stack gap={2} width="100%">
+      <form
+        style={{ width: "100%" }}
+        onSubmit={formik.handleSubmit}
+        onFocus={() => {
+          setStatus(undefined);
+        }}
+      >
+        <Stack gap={1}>
+          <PasswordField
+            name="password"
+            label="Password"
+            formik={formik}
+            policy={passwordPolicy}
+          />
+          {status && <ErrorMessage response={status} />}
+          <Button
+            color="primary"
+            type="submit"
+            disabled={loading}
+            fullWidth={true}
+          >
+            {submitLabel}
+          </Button>
+        </Stack>
+      </form>
+      <Stack
+        direction={{ xs: "column", sm: "row" }}
+        justifyContent="center"
+        gap={{ xs: 0, sm: 1 }}
+      >
+        {!enrollment && (
+          <Button variant="text" onClick={forgot}>
+            Forgot your password?
+          </Button>
+        )}
+        <Button variant="text" onClick={reset}>
+          {options.cancelLabel}
         </Button>
       </Stack>
-    </form>
+    </Stack>
   );
 };
 

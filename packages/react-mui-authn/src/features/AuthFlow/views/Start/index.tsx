@@ -9,6 +9,7 @@ import { AuthFlowComponentProps } from "@src/features/AuthFlow/types";
 import Button from "@src/components/core/Button";
 import StringField from "@src/components/fields/StringField";
 import ErrorMessage from "../../components/ErrorMessage";
+import Disclaimer from "../../components/Disclaimer";
 import { SocialOptions } from "../../components";
 
 const StartView: FC<AuthFlowComponentProps> = ({
@@ -61,6 +62,7 @@ const StartView: FC<AuthFlowComponentProps> = ({
         </form>
       )}
       <SocialOptions data={data} options={options} />
+      {data.disclaimer && <Disclaimer content={data.disclaimer} />}
     </Stack>
   );
 };

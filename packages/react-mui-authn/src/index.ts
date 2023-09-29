@@ -65,7 +65,6 @@ export {
   ProfileView,
   AgreementView,
   VerifyEmailView,
-  MagiclinkView,
   VerifyResetView,
   ResetPasswordView,
   StatusMessageView,

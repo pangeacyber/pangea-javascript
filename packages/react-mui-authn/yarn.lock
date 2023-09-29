@@ -1774,10 +1774,17 @@
     "@mui/icons-material" "^5.8.4"
     "@mui/material" "^5.0.0"
 
+<<<<<<< HEAD
+"@pangeacyber/vanilla-js@^0.0.13":
+  version "0.0.13"
+  resolved "https://registry.yarnpkg.com/@pangeacyber/vanilla-js/-/vanilla-js-0.0.13.tgz#6a23bb781d995f60faf918f2df6cadfecaef4372"
+  integrity sha512-RUpLFIJZ4k8d4QH3MGmUubVG5fabYou2doumq6Cm1XuXuk1lyU6iMNQ3HnrKzm9MiMJOCIEg/r73vNwAxORJhg==
+=======
 "@pangeacyber/vanilla-js@^0.0.11":
   version "0.0.11"
   resolved "https://registry.yarnpkg.com/@pangeacyber/vanilla-js/-/vanilla-js-0.0.11.tgz#bd81f1e7bbc035d1738271a2ef9ab9ff8c230ded"
   integrity sha512-d3D7ednK53TsLyIMztcMT7koIMEkG1eXn447Pi5SpzNKuIYWxr6vlEj73npZV1jwAOj1ZIxPR4r42tt8dhUGFw==
+>>>>>>> main
   dependencies:
     axios "^1.4.0"
     lodash "^4.17.21"

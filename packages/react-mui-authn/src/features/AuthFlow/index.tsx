@@ -8,7 +8,6 @@ import ProfileView from "./views/Profile";
 import AgreementView from "./views/Agreement";
 import StatusMessageView from "./components/StatusMessage";
 import VerifyEmailView from "./views/VerifyEmail";
-import MagiclinkView from "./views/Magiclink";
 import VerifyResetView from "./views/VerifyReset";
 import ResetPasswordView from "./views/ResetPassword";
 import InvalidAuthView from "./views/InvalidAuth";
@@ -23,7 +22,6 @@ export {
   ProfileView,
   AgreementView,
   VerifyEmailView,
-  MagiclinkView,
   VerifyResetView,
   ResetPasswordView,
   StatusMessageView,

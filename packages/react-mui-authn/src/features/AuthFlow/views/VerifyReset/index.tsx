@@ -13,14 +13,14 @@ const VerifyResetView: FC<AuthFlowComponentProps> = ({
   error,
   update,
   reset,
+  restart,
 }) => {
   const checkState = () => {
     update(AuthFlow.Choice.NONE, {});
   };
 
-  const cancelReset = () => {
-    // TODO: fix params
-    update(AuthFlow.Choice.RESET_PASSWORD, { cancel: true });
+  const sendEmail = () => {
+    restart(AuthFlow.Choice.RESET_PASSWORD, {});
   };
 
   return (
@@ -47,8 +47,8 @@ const VerifyResetView: FC<AuthFlowComponentProps> = ({
         justifyContent="center"
         gap={{ xs: 0, sm: 1 }}
       >
-        <Button variant="text" onClick={cancelReset}>
-          Cancel Reset
+        <Button variant="text" onClick={sendEmail}>
+          Resend email
         </Button>
         <Button variant="text" onClick={reset}>
           {options.cancelLabel}
