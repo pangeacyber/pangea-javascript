@@ -1,5 +1,6 @@
 import axios, { AxiosResponse } from "axios";
 import cloneDeep from "lodash/cloneDeep";
+import valuesIn from "lodash/valuesIn";
 
 import AuthNClient from "../AuthNClient";
 
@@ -356,7 +357,7 @@ export class AuthNFlowClient extends AuthNClient {
             this.state.authChoices.push(choice.choice);
             break;
           case AuthFlow.Choice.AGREEMENTS:
-            this.state.agreements = choice.data.agreements.slice();
+            this.state.agreements = valuesIn(choice.data.agreements);
             break;
           case AuthFlow.Choice.CAPTCHA:
             this.state.captcha = choice.data;
