@@ -12,13 +12,8 @@ import ErrorMessage from "../../components/ErrorMessage";
 import Disclaimer from "../../components/Disclaimer";
 import { SocialOptions } from "../../components";
 
-const StartView: FC<AuthFlowComponentProps> = ({
-  options,
-  data,
-  loading,
-  error,
-  update,
-}) => {
+const StartView: FC<AuthFlowComponentProps> = (props) => {
+  const { options, data, loading, error, update } = props;
   const validationSchema = yup.object({
     email: yup.string().email("Enter a valid email").required("Required"),
   });
@@ -61,7 +56,7 @@ const StartView: FC<AuthFlowComponentProps> = ({
           </Stack>
         </form>
       )}
-      <SocialOptions data={data} options={options} />
+      <SocialOptions {...props} />
       {data.disclaimer && <Disclaimer content={data.disclaimer} />}
     </Stack>
   );
