@@ -8,7 +8,7 @@ import {
   AuthFlowViewOptions,
 } from "@src/features/AuthFlow/types";
 import Disclaimer from "../../components/Disclaimer";
-import { AuthOptions } from "../../components";
+import { AuthOptions, SocialOptions } from "../../components";
 
 const getTitle = (
   data: AuthFlow.StateData,
@@ -40,6 +40,7 @@ const LoginView: FC<AuthFlowComponentProps> = (props) => {
         {data.email}
       </Typography>
       <AuthOptions {...props} />
+      <SocialOptions {...props} />
       {data.disclaimer && <Disclaimer content={data.disclaimer} />}
     </Stack>
   );

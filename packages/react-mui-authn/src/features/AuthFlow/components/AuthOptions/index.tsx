@@ -61,6 +61,10 @@ const AuthOptions: FC<AuthFlowComponentProps> = (props) => {
     setActiveProvider(provider);
   };
 
+  if (data.authChoices.length === 0) {
+    return null;
+  }
+
   return (
     <Stack gap={3} alignItems="center" width="100%">
       {data.authChoices?.length > 1 && (

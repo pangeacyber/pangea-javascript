@@ -7,7 +7,7 @@ import { AuthOptions, SocialOptions } from "../../components";
 import Disclaimer from "../../components/Disclaimer";
 
 const SignupView: FC<AuthFlowComponentProps> = (props) => {
-  const { options, data, reset } = props;
+  const { options, data } = props;
 
   return (
     <Stack gap={2}>
@@ -16,7 +16,7 @@ const SignupView: FC<AuthFlowComponentProps> = (props) => {
         Create an account with {data.email}
       </Typography>
       <AuthOptions {...props} />
-      {data.invite && <SocialOptions data={data} options={options} />}
+      {data.invite && <SocialOptions {...props} />}
       {data.disclaimer && <Disclaimer content={data.disclaimer} />}
     </Stack>
   );

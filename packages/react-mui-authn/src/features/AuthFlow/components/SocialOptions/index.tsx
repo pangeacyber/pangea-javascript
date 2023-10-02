@@ -4,19 +4,18 @@ import { useTheme } from "@mui/material/styles";
 
 import { AuthFlow } from "@pangeacyber/vanilla-js";
 
-import { AuthFlowViewOptions } from "@src/views/AuthFlow/types";
+import { AuthFlowComponentProps } from "@src/features/AuthFlow/types";
 import {
   getSocialProviderIcon,
   getSocialProviderLabel,
 } from "@src/features/AuthFlow/utils";
 import Button from "@src/components/core/Button";
 
-interface Props {
-  data: AuthFlow.StateData;
-  options: AuthFlowViewOptions;
-}
-
-const SocialOptions: FC<Props> = ({ data, options }) => {
+const SocialOptions: FC<AuthFlowComponentProps> = ({
+  options,
+  data,
+  reset,
+}) => {
   const theme = useTheme();
 
   const socialLogin = (redirect: string) => {
@@ -29,7 +28,7 @@ const SocialOptions: FC<Props> = ({ data, options }) => {
 
   return (
     <>
-      {data?.setEmail && (
+      {(data?.authChoices.length > 0 || data?.setEmail) && (
         <Box width="100%">
           <Divider>
             <Typography
@@ -65,6 +64,17 @@ const SocialOptions: FC<Props> = ({ data, options }) => {
           );
         })}
       </Stack>
+      {data?.authChoices.length === 0 && !data?.setEmail && (
+        <Stack
+          direction={{ xs: "column", sm: "row" }}
+          justifyContent="center"
+          gap={{ xs: 0, sm: 1 }}
+        >
+          <Button variant="text" onClick={reset}>
+            {options.cancelLabel}
+          </Button>
+        </Stack>
+      )}
     </>
   );
 };

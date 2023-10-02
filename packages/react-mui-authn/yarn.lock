@@ -1774,17 +1774,10 @@
     "@mui/icons-material" "^5.8.4"
     "@mui/material" "^5.0.0"
 
-<<<<<<< HEAD
-"@pangeacyber/vanilla-js@^0.0.13":
-  version "0.0.13"
-  resolved "https://registry.yarnpkg.com/@pangeacyber/vanilla-js/-/vanilla-js-0.0.13.tgz#6a23bb781d995f60faf918f2df6cadfecaef4372"
-  integrity sha512-RUpLFIJZ4k8d4QH3MGmUubVG5fabYou2doumq6Cm1XuXuk1lyU6iMNQ3HnrKzm9MiMJOCIEg/r73vNwAxORJhg==
-=======
-"@pangeacyber/vanilla-js@^0.0.11":
-  version "0.0.11"
-  resolved "https://registry.yarnpkg.com/@pangeacyber/vanilla-js/-/vanilla-js-0.0.11.tgz#bd81f1e7bbc035d1738271a2ef9ab9ff8c230ded"
-  integrity sha512-d3D7ednK53TsLyIMztcMT7koIMEkG1eXn447Pi5SpzNKuIYWxr6vlEj73npZV1jwAOj1ZIxPR4r42tt8dhUGFw==
->>>>>>> main
+"@pangeacyber/vanilla-js@^0.0.14":
+  version "0.0.14"
+  resolved "https://registry.yarnpkg.com/@pangeacyber/vanilla-js/-/vanilla-js-0.0.14.tgz#f310fedd14d537e36cb398d36a892285b71e7f5f"
+  integrity sha512-lm/O3SkFI23tfjKNFjTWLMlVh3PdijTu+AMwvdjQwQ+NoayXPpJZWZY3SJXj37uT0O/0cwKMxkH5lqKEECV2cQ==
   dependencies:
     axios "^1.4.0"
     lodash "^4.17.21"
