@@ -323,7 +323,7 @@ export namespace AuthFlow {
   }
 
   export interface AgreementsResponse {
-    agreements: AgreementData[];
+    agreements: { [key: string]: AgreementData };
   }
 
   export interface AgreementsResult {
