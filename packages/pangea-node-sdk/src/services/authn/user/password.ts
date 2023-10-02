@@ -6,7 +6,6 @@ import { AuthN } from "@src/types.js";
 export default class UserPassword extends BaseService {
   constructor(token: string, config: PangeaConfig) {
     super("authn", token, config);
-    this.apiVersion = "v1";
   }
 
   // authn::/v1/user/password/reset
@@ -30,6 +29,6 @@ export default class UserPassword extends BaseService {
    * ```
    */
   reset(data: AuthN.User.Password.ResetRequest): Promise<PangeaResponse<{}>> {
-    return this.post("user/password/reset", data);
+    return this.post("v1/user/password/reset", data);
   }
 }

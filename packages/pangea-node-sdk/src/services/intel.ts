@@ -35,7 +35,6 @@ const hashType = "sha256";
 export class FileIntelService extends BaseService {
   constructor(token: string, config: PangeaConfig) {
     super("file-intel", token, config);
-    this.apiVersion = "v1";
   }
 
   /**
@@ -71,7 +70,39 @@ export class FileIntelService extends BaseService {
     if (options?.verbose) data.verbose = options.verbose;
     if (options?.raw) data.raw = options.raw;
 
-    return this.post("reputation", data);
+    return this.post("v1/reputation", data);
+  }
+
+  /**
+   * @summary Reputation, from file hash
+   * @description Retrieve hash-based file reputation from a provider, including an optional detailed report.
+   * @param {String[]} hashes - Hashes of each file to be looked up
+   * @param {String} hashType - Type of hash, can be "sha256", "sha" or "md5"
+   * @param {Object} options - An object of optional parameters
+   * @param {String} options.provider - Provider of the reputation information. ("reversinglabs"). Default provider defined by the configuration.
+   * @param {Boolean} options.verbose - Echo back the parameters of the API in the response. Default: verbose=false.
+   * @param {Boolean} options.raw - Return additional details from the provider. Default: raw=false.
+   * @returns {Promise} - A promise representing an async call to the lookup endpoint.
+   * @example
+   * ```js
+    FIXME:
+   * ```
+   */
+  hashReputationBulk(
+    hashes: string[],
+    hashType: string,
+    options?: Intel.File.ReputationOptions
+  ): Promise<PangeaResponse<Intel.File.ReputationBulkResult>> {
+    const data: Intel.File.ReputationRequest = {
+      hashes: hashes,
+      hash_type: hashType,
+    };
+
+    if (options?.provider) data.provider = options.provider;
+    if (options?.verbose) data.verbose = options.verbose;
+    if (options?.raw) data.raw = options.raw;
+
+    return this.post("v2/reputation", data);
   }
 
   /**
@@ -109,7 +140,7 @@ export class FileIntelService extends BaseService {
     if (options?.verbose) data.verbose = options.verbose;
     if (options?.raw) data.raw = options.raw;
 
-    return this.post("reputation", data);
+    return this.post("v1/reputation", data);
   }
 }
 
@@ -140,7 +171,6 @@ export class FileIntelService extends BaseService {
 export class DomainIntelService extends BaseService {
   constructor(token: string, config: PangeaConfig) {
     super("domain-intel", token, config);
-    this.apiVersion = "v1";
   }
 
   /**
@@ -162,29 +192,49 @@ export class DomainIntelService extends BaseService {
    * ```
    */
   reputation(
-    domain: string | string[],
+    domain: string,
     options?: Intel.Domain.ReputationOptions
   ): Promise<PangeaResponse<Intel.Domain.ReputationResult>> {
-    let domain_list;
-    let _domain;
-    if (typeof domain === "string") {
-      _domain = domain;
-      domain_list = undefined;
-    } else {
-      domain_list = domain;
-      _domain = undefined;
-    }
-
     const data: Intel.Domain.ReputationRequest = {
-      domain: _domain,
-      domain_list: domain_list,
+      domain: domain,
     };
 
     if (options?.provider) data.provider = options.provider;
     if (options?.verbose) data.verbose = options.verbose;
     if (options?.raw) data.raw = options.raw;
 
-    return this.post("reputation", data);
+    return this.post("v1/reputation", data);
+  }
+
+  /**
+   * @summary Reputation check
+   * @description Retrieve reputation for a domain from a provider, including an optional detailed report.
+   * @operationId domain_intel_post_v1_reputation
+   * @param {String[]} domains - The domain list to be looked up.
+   * @param {Object} options - An object of optional parameters. Parameters supported:
+   *   - provider {String} - Use reputation data from these providers: "crowdstrike" or "domaintools".
+   *   Default provider defined by the configuration.
+   *   - verbose {Boolean} - Echo the API parameters in the response. Default: verbose=false.
+   *   - raw {Boolean} - Include raw data from this provider. Default: raw=false.
+   * @returns {Promise} - A promise representing an async call to the lookup endpoint.
+   * @example
+   * ```js
+    FIXME:
+   * ```
+   */
+  reputationBulk(
+    domains: string[],
+    options?: Intel.Domain.ReputationOptions
+  ): Promise<PangeaResponse<Intel.Domain.ReputationBulkResult>> {
+    const data: Intel.Domain.ReputationRequest = {
+      domains: domains,
+    };
+
+    if (options?.provider) data.provider = options.provider;
+    if (options?.verbose) data.verbose = options.verbose;
+    if (options?.raw) data.raw = options.raw;
+
+    return this.post("v2/reputation", data);
   }
 
   /**
@@ -221,7 +271,7 @@ export class DomainIntelService extends BaseService {
     if (options?.verbose) data.verbose = options.verbose;
     if (options?.raw) data.raw = options.raw;
 
-    return this.post("whois", data);
+    return this.post("v1/whois", data);
   }
 }
 
@@ -251,14 +301,13 @@ export class DomainIntelService extends BaseService {
 export class IPIntelService extends BaseService {
   constructor(token: string, config: PangeaConfig) {
     super("ip-intel", token, config);
-    this.apiVersion = "v1";
   }
 
   /**
    * @summary Reputation
    * @description Retrieve a reputation score for an IP address from a provider, including an optional detailed report.
    * @operationId ip_intel_post_v1_reputation
-   * @param {String} ip - Geolocate this IP and check the corresponding country against
+   * @param {String} ip - FIXME:
    * @param {Object} options - An object of optional parameters. Parameters supported:
    *   - provider {String} - Use reputation data from this provider: "crowdstrike".
    *   Default provider defined by the configuration.
@@ -287,7 +336,38 @@ export class IPIntelService extends BaseService {
     if (options?.verbose) data.verbose = options.verbose;
     if (options?.raw) data.raw = options.raw;
 
-    return this.post("reputation", data);
+    return this.post("v1/reputation", data);
+  }
+
+  /**
+   * @summary Reputation
+   * @description Retrieve a reputation score for an IP address from a provider, including an optional detailed report.
+   * @operationId FIXME:
+   * @param {String[]} ips - FIXME:
+   * @param {Object} options - An object of optional parameters. Parameters supported:
+   *   - provider {String} - Use reputation data from this provider: "crowdstrike".
+   *   Default provider defined by the configuration.
+   *   - verbose {Boolean} - Echo the API parameters in the response. Default: verbose=false.
+   *   - raw {Boolean} - Include raw data from this provider. Default: raw=false.
+   * @returns {Promise} - A promise representing an async call to the /reputation endpoint.
+   * @example
+   * ```js
+    FIXME:
+   * ```
+   */
+  reputationBulk(
+    ips: string[],
+    options?: Intel.IP.ReputationOptions
+  ): Promise<PangeaResponse<Intel.IP.ReputationBulkResult>> {
+    const data: Intel.IP.ReputationParams = {
+      ips,
+    };
+
+    if (options?.provider) data.provider = options.provider;
+    if (options?.verbose) data.verbose = options.verbose;
+    if (options?.raw) data.raw = options.raw;
+
+    return this.post("v2/reputation", data);
   }
 
   /**
@@ -323,7 +403,7 @@ export class IPIntelService extends BaseService {
     if (options?.verbose) data.verbose = options.verbose;
     if (options?.raw) data.raw = options.raw;
 
-    return this.post("geolocate", data);
+    return this.post("v1/geolocate", data);
   }
 
   /**
@@ -359,7 +439,7 @@ export class IPIntelService extends BaseService {
     if (options?.verbose) data.verbose = options.verbose;
     if (options?.raw) data.raw = options.raw;
 
-    return this.post("domain", data);
+    return this.post("v1/domain", data);
   }
 
   /**
@@ -392,7 +472,7 @@ export class IPIntelService extends BaseService {
     if (options?.verbose) data.verbose = options.verbose;
     if (options?.raw) data.raw = options.raw;
 
-    return this.post("vpn", data);
+    return this.post("v1/vpn", data);
   }
 
   /**
@@ -428,7 +508,7 @@ export class IPIntelService extends BaseService {
     if (options?.verbose) data.verbose = options.verbose;
     if (options?.raw) data.raw = options.raw;
 
-    return this.post("proxy", data);
+    return this.post("v1/proxy", data);
   }
 }
 
@@ -458,7 +538,6 @@ export class IPIntelService extends BaseService {
 export class URLIntelService extends BaseService {
   constructor(token: string, config: PangeaConfig) {
     super("url-intel", token, config);
-    this.apiVersion = "v1";
   }
 
   /**
@@ -483,29 +562,49 @@ export class URLIntelService extends BaseService {
    * ```
    */
   reputation(
-    url: string | string[],
+    url: string,
     options?: Intel.URL.ReputationOptions
   ): Promise<PangeaResponse<Intel.URL.ReputationResult>> {
-    let _url_list;
-    let _url;
-    if (typeof url === "string") {
-      _url = url;
-      _url_list = undefined;
-    } else {
-      _url_list = url;
-      _url = undefined;
-    }
-
     const data: Intel.URL.ReputationRequest = {
-      url: _url,
-      url_list: _url_list,
+      url: url,
     };
 
     if (options?.provider) data.provider = options.provider;
     if (options?.verbose) data.verbose = options.verbose;
     if (options?.raw) data.raw = options.raw;
 
-    return this.post("reputation", data);
+    return this.post("v1/reputation", data);
+  }
+
+  /**
+   * @summary Reputation check
+   * @description Retrieve a reputation score for a URL from a provider, including an optional detailed report.
+   * @operationId FIXME:
+   * @param {String[]} urls - The URL list to be looked up
+   * @param {Object} options - An object of optional parameters. Parameters supported:
+   *   - provider {String} - Use reputation data from this provider: "crowdstrike".
+   *   Default provider defined by the configuration.
+   *   - verbose {Boolean} - Echo the API parameters in the response. Default: verbose=false.
+   *   - raw {Boolean} - Include raw data from this provider. Default: raw=false.
+   * @returns {Promise} - A promise representing an async call to the lookup endpoint.
+   * @example
+   * ```js
+      FIXME:
+   * ```
+   */
+  reputationBulk(
+    urls: string[],
+    options?: Intel.URL.ReputationOptions
+  ): Promise<PangeaResponse<Intel.URL.ReputationBulkResult>> {
+    const data: Intel.URL.ReputationRequest = {
+      urls: urls,
+    };
+
+    if (options?.provider) data.provider = options.provider;
+    if (options?.verbose) data.verbose = options.verbose;
+    if (options?.raw) data.raw = options.raw;
+
+    return this.post("v2/reputation", data);
   }
 }
 
@@ -536,7 +635,6 @@ export class URLIntelService extends BaseService {
 export class UserIntelService extends BaseService {
   constructor(token: string, config: PangeaConfig) {
     super("user-intel", token, config);
-    this.apiVersion = "v1";
   }
 
   /**
@@ -557,7 +655,7 @@ export class UserIntelService extends BaseService {
   userBreached(
     request: Intel.User.User.BreachedRequest
   ): Promise<PangeaResponse<Intel.User.User.BreachedResult>> {
-    return this.post("user/breached", request);
+    return this.post("v1/user/breached", request);
   }
 
   /**
@@ -587,7 +685,7 @@ export class UserIntelService extends BaseService {
     };
     Object.assign(data, options);
 
-    return this.post("password/breached", data);
+    return this.post("v1/password/breached", data);
   }
 
   static isPasswordBreached(

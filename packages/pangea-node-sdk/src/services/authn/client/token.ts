@@ -6,7 +6,6 @@ import { AuthN } from "@src/types.js";
 export default class ClientToken extends BaseService {
   constructor(token: string, config: PangeaConfig) {
     super("authn", token, config);
-    this.apiVersion = "v1";
   }
 
   // authn::/v1/client/token/check
@@ -28,6 +27,6 @@ export default class ClientToken extends BaseService {
     const data: AuthN.Client.Token.CheckRequest = {
       token: token,
     };
-    return this.post("client/token/check", data);
+    return this.post("v1/client/token/check", data);
   }
 }

@@ -6,7 +6,6 @@ import { AuthN } from "@src/types.js";
 export default class FlowVerifyMFA extends BaseService {
   constructor(token: string, config: PangeaConfig) {
     super("authn", token, config);
-    this.apiVersion = "v1";
   }
 
   // authn::/v1/flow/verify/mfa/complete
@@ -37,7 +36,7 @@ export default class FlowVerifyMFA extends BaseService {
     };
 
     Object.assign(data, options);
-    return this.post("flow/verify/mfa/complete", data);
+    return this.post("v1/flow/verify/mfa/complete", data);
   }
 
   // authn::/v1/flow/verify/mfa/start
@@ -67,6 +66,6 @@ export default class FlowVerifyMFA extends BaseService {
       mfa_provider: mfaProvider,
     };
 
-    return this.post("flow/verify/mfa/start", data);
+    return this.post("v1/flow/verify/mfa/start", data);
   }
 }

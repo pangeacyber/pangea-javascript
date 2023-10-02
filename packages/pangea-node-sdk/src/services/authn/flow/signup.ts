@@ -6,7 +6,6 @@ import { AuthN } from "@src/types.js";
 export default class FlowSignup extends BaseService {
   constructor(token: string, config: PangeaConfig) {
     super("authn", token, config);
-    this.apiVersion = "v1";
   }
 
   // authn::/v1/flow/signup/password
@@ -42,7 +41,7 @@ export default class FlowSignup extends BaseService {
       first_name: firstName,
       last_name: lastName,
     };
-    return this.post("flow/signup/password", data);
+    return this.post("v1/flow/signup/password", data);
   }
 
   // authn::/v1/flow/signup/social
@@ -74,6 +73,6 @@ export default class FlowSignup extends BaseService {
       cb_code: cbCode,
       cb_state: cbState,
     };
-    return this.post("flow/signup/social", data);
+    return this.post("v1/flow/signup/social", data);
   }
 }

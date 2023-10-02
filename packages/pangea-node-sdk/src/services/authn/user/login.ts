@@ -6,7 +6,6 @@ import { AuthN } from "@src/types.js";
 export default class UserLogin extends BaseService {
   constructor(token: string, config: PangeaConfig) {
     super("authn", token, config);
-    this.apiVersion = "v1";
   }
 
   // authn::/v1/user/login/password
@@ -45,7 +44,7 @@ export default class UserLogin extends BaseService {
     };
     Object.assign(data, options);
 
-    return this.post("user/login/password", data);
+    return this.post("v1/user/login/password", data);
   }
 
   // authn::/v1/user/login/social
@@ -88,6 +87,6 @@ export default class UserLogin extends BaseService {
     };
     Object.assign(data, options);
 
-    return this.post("user/login/social", data);
+    return this.post("v1/user/login/social", data);
   }
 }

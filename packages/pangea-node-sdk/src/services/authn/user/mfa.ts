@@ -6,7 +6,6 @@ import { AuthN } from "@src/types.js";
 export default class UserMFA extends BaseService {
   constructor(token: string, config: PangeaConfig) {
     super("authn", token, config);
-    this.apiVersion = "v1";
   }
   // authn::/v1/user/mfa/delete
   /**
@@ -31,7 +30,7 @@ export default class UserMFA extends BaseService {
       user_id: userID,
       mfa_provider: mfaProvider,
     };
-    return this.post("user/mfa/delete", data);
+    return this.post("v1/user/mfa/delete", data);
   }
 
   // authn::/v1/user/mfa/enroll
@@ -64,7 +63,7 @@ export default class UserMFA extends BaseService {
       mfa_provider: mfaProvider,
       code: code,
     };
-    return this.post("user/mfa/enroll", data);
+    return this.post("v1/user/mfa/enroll", data);
   }
 
   // authn::/v1/user/mfa/start
@@ -101,7 +100,7 @@ export default class UserMFA extends BaseService {
     };
 
     Object.assign(data, options);
-    return this.post("user/mfa/start", data);
+    return this.post("v1/user/mfa/start", data);
   }
 
   // authn::/v1/user/mfa/verify
@@ -134,6 +133,6 @@ export default class UserMFA extends BaseService {
       mfa_provider: mfaProvider,
       code: code,
     };
-    return this.post("user/mfa/verify", data);
+    return this.post("v1/user/mfa/verify", data);
   }
 }

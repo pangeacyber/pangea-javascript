@@ -8,7 +8,6 @@ export default class FlowEnroll extends BaseService {
 
   constructor(token: string, config: PangeaConfig) {
     super("authn", token, config);
-    this.apiVersion = "v1";
 
     this.mfa = new FlowEnrollMFA(token, config);
   }

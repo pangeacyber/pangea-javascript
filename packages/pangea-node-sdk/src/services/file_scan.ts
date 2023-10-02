@@ -6,7 +6,6 @@ import { FileScan } from "@src/types.js";
 export class FileScanService extends BaseService {
   constructor(token: string, config: PangeaConfig) {
     super("file-scan", token, config);
-    this.apiVersion = "v1";
   }
 
   /**

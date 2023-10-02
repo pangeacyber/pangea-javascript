@@ -6,7 +6,6 @@ import { AuthN } from "@src/types.js";
 export default class FlowEnrollMFA extends BaseService {
   constructor(token: string, config: PangeaConfig) {
     super("authn", token, config);
-    this.apiVersion = "v1";
   }
 
   // authn::/v1/flow/enroll/mfa/start
@@ -40,7 +39,7 @@ export default class FlowEnrollMFA extends BaseService {
     };
 
     Object.assign(data, options);
-    return this.post("flow/enroll/mfa/start", data);
+    return this.post("v1/flow/enroll/mfa/start", data);
   }
 
   // authn::/v1/flow/enroll/mfa/complete
@@ -72,6 +71,6 @@ export default class FlowEnrollMFA extends BaseService {
 
     Object.assign(data, options);
 
-    return this.post("flow/enroll/mfa/complete", data);
+    return this.post("v1/flow/enroll/mfa/complete", data);
   }
 }

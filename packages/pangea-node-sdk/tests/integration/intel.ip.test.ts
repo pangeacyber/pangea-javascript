@@ -3,7 +3,7 @@ import { it, expect } from "@jest/globals";
 import { TestEnvironment, getTestDomain, getTestToken } from "../../src/utils/utils.js";
 import { IPIntelService } from "../../src/index.js";
 
-const testEnvironment = TestEnvironment.LIVE;
+const testEnvironment = TestEnvironment.DEVELOP;
 
 const token = getTestToken(testEnvironment);
 const testHost = getTestDomain(testEnvironment);
@@ -114,6 +114,16 @@ it("IP reputation should succeed. Cymru provider", async () => {
 
   expect(response.status).toBe("Success");
   expect(response.result.data).toBeDefined();
+});
+
+it("IP reputation bulk should succeed. Crowdstrike provider", async () => {
+  const ips = ["93.231.182.110", "190.28.74.251"];
+  const options = { provider: "crowdstrike", verbose: true, raw: true };
+  const response = await ipIntel.reputationBulk(ips, options);
+
+  expect(response.status).toBe("Success");
+  expect(response.result.data).toBeDefined();
+  expect(Object.keys(response.result.data).length).toBe(2);
 });
 
 it("IP reputation not found", async () => {

@@ -17,7 +17,6 @@ export default class User extends BaseService {
 
   constructor(token: string, config: PangeaConfig) {
     super("authn", token, config);
-    this.apiVersion = "v1";
 
     this.profile = new UserProfile(token, config);
     this.invites = new UserInvites(token, config);
@@ -44,7 +43,7 @@ export default class User extends BaseService {
   delete(
     request: AuthN.User.Delete.EmailRequest | AuthN.User.Delete.IDRequest
   ): Promise<PangeaResponse<{}>> {
-    return this.post("user/delete", request);
+    return this.post("v1/user/delete", request);
   }
 
   // authn::/v1/user/create
@@ -100,7 +99,7 @@ export default class User extends BaseService {
     if (profile) data.profile = profile;
     if (scopes) data.scopes = scopes;
 
-    return this.post("user/create", data);
+    return this.post("v1/user/create", data);
   }
 
   // authn::/v1/user/invite
@@ -141,7 +140,7 @@ export default class User extends BaseService {
       state,
     };
     Object.assign(data, options);
-    return this.post("user/invite", data);
+    return this.post("v1/user/invite", data);
   }
 
   // authn::/v1/user/list
@@ -170,7 +169,7 @@ export default class User extends BaseService {
    * ```
    */
   list(request: AuthN.User.ListRequest): Promise<PangeaResponse<AuthN.User.ListResult>> {
-    return this.post("user/list", request);
+    return this.post("v1/user/list", request);
   }
 
   // authn::/v1/user/verify
@@ -204,7 +203,7 @@ export default class User extends BaseService {
       email: email,
       authenticator: authenticator,
     };
-    return this.post("user/verify", data);
+    return this.post("v1/user/verify", data);
   }
 
   // authn::/v1/user/update
@@ -243,6 +242,6 @@ export default class User extends BaseService {
       ...options,
     };
 
-    return this.post("user/update", data);
+    return this.post("v1/user/update", data);
   }
 }

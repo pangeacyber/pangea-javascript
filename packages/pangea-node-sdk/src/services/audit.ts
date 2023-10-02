@@ -31,7 +31,7 @@ class AuditService extends BaseService {
     super("audit", token, config, configID);
     this.publishedRoots = {};
     this.publishedRoots = {};
-    this.apiVersion = "v1";
+
     this.prevUnpublishedRootHash = undefined;
     this.tenantID = tenantID;
   }
@@ -265,7 +265,7 @@ class AuditService extends BaseService {
       data.tree_size = size;
     }
 
-    return this.post("root", data);
+    return this.post("v1/root", data);
   }
 
   async processSearchResponse(

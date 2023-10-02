@@ -15,7 +15,6 @@ export default class Flow extends BaseService {
 
   constructor(token: string, config: PangeaConfig) {
     super("authn", token, config);
-    this.apiVersion = "v1";
 
     this.enroll = new FlowEnroll(token, config);
     this.signup = new FlowSignup(token, config);
@@ -42,7 +41,7 @@ export default class Flow extends BaseService {
     const data: AuthN.Flow.CompleteRequest = {
       flow_id: flowID,
     };
-    return this.post("flow/complete", data);
+    return this.post("v1/flow/complete", data);
   }
 
   // authn::/v1/flow/start
@@ -76,6 +75,6 @@ export default class Flow extends BaseService {
     const data: AuthN.Flow.StartRequest = {};
 
     Object.assign(data, options);
-    return this.post("flow/start", data);
+    return this.post("v1/flow/start", data);
   }
 }

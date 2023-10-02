@@ -239,23 +239,33 @@ export namespace Intel {
     verdict: string;
   }
 
-  export interface ReputationDataItem extends ReputationData {
-    indicator: string;
-  }
-
-  export interface ReputationResult extends CommonResult {
-    data: ReputationData;
+  export interface CommonResult {
+    parameter?: Dictionary;
+    raw_data?: Dictionary;
   }
 
   export namespace File {
     interface Options extends Intel.Options {}
     interface Params {
-      hash: string;
+      hash?: string;
+      hashes?: string[];
       hash_type: string;
     }
 
     export interface ReputationOptions extends Options {}
-    export interface ReputationResult extends Intel.ReputationResult {}
+    export interface ReputationData extends Intel.ReputationData {}
+
+    export interface ReputationBulkData {
+      [key: string]: ReputationData;
+    }
+
+    export interface ReputationResult extends Intel.CommonResult {
+      data: ReputationData;
+    }
+
+    export interface ReputationBulkResult extends Intel.CommonResult {
+      data: ReputationBulkData;
+    }
     export interface ReputationRequest extends Params, ReputationOptions {}
   }
 
@@ -263,19 +273,25 @@ export namespace Intel {
     interface Options extends Intel.Options {}
     interface Params {
       domain?: string;
-      domain_list?: string[];
+      domains?: string[];
     }
 
     export interface ReputationOptions extends Options {}
-    export interface ReputationDataItem extends Intel.ReputationDataItem {}
 
-    export interface ReputationDataDict {
-      [key: string]: Domain.ReputationDataItem;
+    export interface ReputationData extends Intel.ReputationData {}
+
+    export interface ReputationBulkData {
+      [key: string]: ReputationData;
     }
 
-    export interface ReputationResult extends Intel.ReputationResult {
-      data_details?: ReputationDataDict;
+    export interface ReputationResult extends Intel.CommonResult {
+      data: ReputationData;
     }
+
+    export interface ReputationBulkResult extends Intel.CommonResult {
+      data: ReputationBulkData;
+    }
+
     export interface ReputationRequest extends Params, ReputationOptions {}
 
     export interface WhoIsOptions extends Options {}
@@ -304,16 +320,22 @@ export namespace Intel {
     interface Options extends Intel.Options {}
     interface Params {
       url?: string;
-      url_list?: string[];
+      urls?: string[];
     }
 
     export interface ReputationOptions extends Options {}
-    export interface ReputationDataItem extends Intel.ReputationDataItem {}
-    export interface ReputationDataDict {
-      [key: string]: Domain.ReputationDataItem;
+    export interface ReputationData extends Intel.ReputationData {}
+
+    export interface ReputationBulkData {
+      [key: string]: ReputationData;
     }
-    export interface ReputationResult extends Intel.ReputationResult {
-      data_details?: ReputationDataDict;
+
+    export interface ReputationResult extends Intel.CommonResult {
+      data: ReputationData;
+    }
+
+    export interface ReputationBulkResult extends Intel.CommonResult {
+      data: ReputationBulkData;
     }
     export interface ReputationRequest extends Params, ReputationOptions {}
   }
@@ -321,7 +343,8 @@ export namespace Intel {
   export namespace IP {
     interface Options extends Intel.Options {}
     interface Params {
-      ip: string;
+      ip?: string;
+      ips?: string[];
     }
 
     export interface GeolocateOptions extends Options {}
@@ -337,7 +360,19 @@ export namespace Intel {
     export interface ProxyRequest extends Params, ProxyOptions {}
 
     export interface ReputationOptions extends Options {}
-    export interface ReputationResult extends Intel.ReputationResult {}
+    export interface ReputationData extends Intel.ReputationData {}
+
+    export interface ReputationBulkData {
+      [key: string]: ReputationData;
+    }
+
+    export interface ReputationResult extends Intel.CommonResult {
+      data: ReputationData;
+    }
+
+    export interface ReputationBulkResult extends Intel.CommonResult {
+      data: ReputationBulkData;
+    }
     export interface ReputationParams extends Params, ReputationOptions {}
     export interface GeolocateResult extends CommonResult {
       data: {
@@ -368,11 +403,6 @@ export namespace Intel {
         is_proxy: boolean;
       };
     }
-  }
-
-  export interface CommonResult {
-    parameter?: Dictionary;
-    raw_data?: Dictionary;
   }
 
   export namespace User {

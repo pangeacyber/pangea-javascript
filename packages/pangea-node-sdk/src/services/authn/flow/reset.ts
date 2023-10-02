@@ -6,7 +6,6 @@ import { AuthN } from "@src/types.js";
 export default class FlowReset extends BaseService {
   constructor(token: string, config: PangeaConfig) {
     super("authn", token, config);
-    this.apiVersion = "v1";
   }
 
   // authn::/v1/flow/reset/password
@@ -44,6 +43,6 @@ export default class FlowReset extends BaseService {
       password: password,
     };
     Object.assign(data, options);
-    return this.post("flow/reset/password", data);
+    return this.post("v1/flow/reset/password", data);
   }
 }

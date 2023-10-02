@@ -6,7 +6,6 @@ import { AuthN } from "@src/types.js";
 export default class UserInvites extends BaseService {
   constructor(token: string, config: PangeaConfig) {
     super("authn", token, config);
-    this.apiVersion = "v1";
   }
 
   // authn::/v1/user/invite/list
@@ -37,7 +36,7 @@ export default class UserInvites extends BaseService {
     request?: AuthN.User.Invite.ListRequest
   ): Promise<PangeaResponse<AuthN.User.Invite.ListResult>> {
     const options = request || {};
-    return this.post("user/invite/list", options);
+    return this.post("v1/user/invite/list", options);
   }
 
   // authn::/v1/user/invite/delete
@@ -60,6 +59,6 @@ export default class UserInvites extends BaseService {
       id,
     };
 
-    return this.post("user/invite/delete", data);
+    return this.post("v1/user/invite/delete", data);
   }
 }

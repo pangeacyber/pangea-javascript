@@ -10,7 +10,6 @@ export default class FlowVerify extends BaseService {
 
   constructor(token: string, config: PangeaConfig) {
     super("authn", token, config);
-    this.apiVersion = "v1";
 
     this.mfa = new FlowVerifyMFA(token, config);
   }
@@ -38,7 +37,7 @@ export default class FlowVerify extends BaseService {
       code: code,
     };
 
-    return this.post("flow/verify/captcha", data);
+    return this.post("v1/flow/verify/captcha", data);
   }
 
   // authn::/v1/flow/verify/email
@@ -71,7 +70,7 @@ export default class FlowVerify extends BaseService {
       flow_id: flowID,
     };
     Object.assign(data, options);
-    return this.post("flow/verify/email", data);
+    return this.post("v1/flow/verify/email", data);
   }
 
   // authn::/v1/flow/verify/password
@@ -102,7 +101,7 @@ export default class FlowVerify extends BaseService {
     };
 
     Object.assign(data, options);
-    return this.post("flow/verify/password", data);
+    return this.post("v1/flow/verify/password", data);
   }
 
   // authn::/v1/flow/verify/social
@@ -134,6 +133,6 @@ export default class FlowVerify extends BaseService {
       cb_code: cbCode,
       cb_state: cbState,
     };
-    return this.post("flow/verify/social", data);
+    return this.post("v1/flow/verify/social", data);
   }
 }
