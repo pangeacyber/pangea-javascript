@@ -16,6 +16,15 @@ export namespace PangeaErrors {
     }
   }
 
+  export class ServiceTemporarilyUnavailable extends PangeaError {
+    body: string;
+    constructor(body: string) {
+      super("Service temporarily unavailable");
+      this.name = "ServiceTemporarilyUnavailable";
+      this.body = body;
+    }
+  }
+
   export class AuditError extends PangeaError {
     constructor(message: string) {
       super(message);

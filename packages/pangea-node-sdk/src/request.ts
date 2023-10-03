@@ -223,6 +223,10 @@ class PangeaRequest {
       return response;
     }
 
+    if (response.gotResponse?.statusCode === 503) {
+      throw new PangeaErrors.ServiceTemporarilyUnavailable(JSON.stringify(response.body));
+    }
+
     switch (response.status) {
       case "ValidationError":
         throw new PangeaErrors.ValidationError(response.summary, response);
