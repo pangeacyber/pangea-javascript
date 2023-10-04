@@ -41,7 +41,8 @@ const AuthOptions: FC<AuthFlowComponentProps> = (props) => {
       setContent(
         <Stack gap={1}>
           <Typography variant="body2">
-            Select an authentication method
+            Select {data.phase === "phase_secondary" ? "secondary" : "primary"}{" "}
+            authentication method
           </Typography>
           <Stack
             direction={{ xs: "column", sm: "row" }}

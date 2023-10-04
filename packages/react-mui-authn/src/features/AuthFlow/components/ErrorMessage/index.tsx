@@ -35,11 +35,10 @@ const ErrorMessage: FC<Props> = ({ response }) => {
   //       {response.summary}
   //     </Typography>
   //   );
-
   return (
     <Stack textAlign="center" className="flow-errors">
       <Typography variant="body2" color="error">
-        {response.summary}
+        {response?.summary}
       </Typography>
     </Stack>
   );
