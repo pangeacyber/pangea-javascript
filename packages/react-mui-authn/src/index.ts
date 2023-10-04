@@ -63,6 +63,7 @@ export {
   SignupView,
   CaptchaView,
   ProfileView,
+  ProvisionedView,
   AgreementView,
   VerifyEmailView,
   VerifyResetView,

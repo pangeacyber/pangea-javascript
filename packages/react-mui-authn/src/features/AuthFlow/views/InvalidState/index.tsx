@@ -14,7 +14,7 @@ const InvalidStateView: FC<AuthFlowComponentProps> = ({
       <Typography variant="h6">Invalid State</Typography>
       <Stack direction="row" justifyContent="center" gap={2}>
         <Typography variant="body2" textAlign="center" color="error">
-          {error.summary}
+          {error?.summary}
         </Typography>
       </Stack>
       <Stack direction="row" justifyContent="center" gap={2}>
