@@ -74,18 +74,28 @@ export class FileIntelService extends BaseService {
   }
 
   /**
-   * @summary Reputation, from file hash
-   * @description Retrieve hash-based file reputation from a provider, including an optional detailed report.
+   * @summary Bulk reputation
+   * @description Retrieve reputations for a list of file hashes, from a provider, including an optional detailed report.
+   * @operationId file_intel_post_v2_reputation
    * @param {String[]} hashes - Hashes of each file to be looked up
    * @param {String} hashType - Type of hash, can be "sha256", "sha" or "md5"
    * @param {Object} options - An object of optional parameters
-   * @param {String} options.provider - Provider of the reputation information. ("reversinglabs"). Default provider defined by the configuration.
-   * @param {Boolean} options.verbose - Echo back the parameters of the API in the response. Default: verbose=false.
-   * @param {Boolean} options.raw - Return additional details from the provider. Default: raw=false.
+   *   - provider - Provider of the reputation information. ("reversinglabs").
+   *   Default provider defined by the configuration.
+   *   - verbose - Echo back the parameters of the API in the response. Default: verbose=false.
+   *   - raw - Return additional details from the provider. Default: raw=false.
    * @returns {Promise} - A promise representing an async call to the lookup endpoint.
    * @example
    * ```js
-    FIXME:
+   * const hashes = [
+   *   "142b638c6a60b60c7f9928da4fb85a5a8e1422a9ffdc9ee49e17e56ccca9cf6e",
+   * ];
+   *
+   * const response = await fileIntel.hashReputationBulk(
+   *   hashes,
+   *   "sha256",
+   *   { provider: "reversinglabs" }
+   * );
    * ```
    */
   hashReputationBulk(
@@ -207,9 +217,9 @@ export class DomainIntelService extends BaseService {
   }
 
   /**
-   * @summary Reputation check
-   * @description Retrieve reputation for a domain from a provider, including an optional detailed report.
-   * @operationId domain_intel_post_v1_reputation
+   * @summary Bulk reputation check
+   * @description Retrieve reputations for a list of domains, from a provider, including an optional detailed report.
+   * @operationId domain_intel_post_v2_reputation
    * @param {String[]} domains - The domain list to be looked up.
    * @param {Object} options - An object of optional parameters. Parameters supported:
    *   - provider {String} - Use reputation data from these providers: "crowdstrike" or "domaintools".
@@ -219,7 +229,9 @@ export class DomainIntelService extends BaseService {
    * @returns {Promise} - A promise representing an async call to the lookup endpoint.
    * @example
    * ```js
-    FIXME:
+   * const response = await domainIntel.reputationBulk(
+   *   ["google.com"]
+   * );
    * ```
    */
   reputationBulk(
@@ -307,9 +319,9 @@ export class IPIntelService extends BaseService {
    * @summary Reputation
    * @description Retrieve a reputation score for an IP address from a provider, including an optional detailed report.
    * @operationId ip_intel_post_v1_reputation
-   * @param {String} ip - FIXME:
+   * @param {String} ip - The IP to be looked up
    * @param {Object} options - An object of optional parameters. Parameters supported:
-   *   - provider {String} - Use reputation data from this provider: "crowdstrike".
+   *   - provider {String} - Use reputation data from this provider.
    *   Default provider defined by the configuration.
    *   - verbose {Boolean} - Echo the API parameters in the response. Default: verbose=false.
    *   - raw {Boolean} - Include raw data from this provider. Default: raw=false.
@@ -317,7 +329,7 @@ export class IPIntelService extends BaseService {
    * @example
    * ```js
    * const response = await ipIntel.reputation(
-   *   "1.1.1.1",
+   *   "190.28.74.251",
    *   {
    *     provider: "crowdstrike"
    *   }
@@ -340,19 +352,24 @@ export class IPIntelService extends BaseService {
   }
 
   /**
-   * @summary Reputation
-   * @description Retrieve a reputation score for an IP address from a provider, including an optional detailed report.
-   * @operationId FIXME:
-   * @param {String[]} ips - FIXME:
+   * @summary Bulk reputation
+   * @description Retrieve a reputation scores for IP addresses, from a provider, including an optional detailed report.
+   * @operationId ip_intel_post_v2_reputation
+   * @param {String[]} ips - A list of IPs to be looked up
    * @param {Object} options - An object of optional parameters. Parameters supported:
-   *   - provider {String} - Use reputation data from this provider: "crowdstrike".
+   *   - provider {String} - Use reputation data from this provider.
    *   Default provider defined by the configuration.
    *   - verbose {Boolean} - Echo the API parameters in the response. Default: verbose=false.
    *   - raw {Boolean} - Include raw data from this provider. Default: raw=false.
    * @returns {Promise} - A promise representing an async call to the /reputation endpoint.
    * @example
    * ```js
-    FIXME:
+   * const response = await ipIntel.reputationBulk(
+   *   ["190.28.74.251"],
+   *   {
+   *     provider: "crowdstrike"
+   *   }
+   * );
    * ```
    */
   reputationBulk(
@@ -546,7 +563,7 @@ export class URLIntelService extends BaseService {
    * @operationId url_intel_post_v1_reputation
    * @param {String} url - The URL to be looked up
    * @param {Object} options - An object of optional parameters. Parameters supported:
-   *   - provider {String} - Use reputation data from this provider: "crowdstrike".
+   *   - provider {String} - Use reputation data from this provider.
    *   Default provider defined by the configuration.
    *   - verbose {Boolean} - Echo the API parameters in the response. Default: verbose=false.
    *   - raw {Boolean} - Include raw data from this provider. Default: raw=false.
@@ -554,7 +571,7 @@ export class URLIntelService extends BaseService {
    * @example
    * ```js
    * const response = await urlIntel.reputation(
-   *   "http://113.235.101.11:54384,
+   *   "http://113.235.101.11:54384",
    *   {
    *     provider: "crowdstrike"
    *   }
@@ -577,19 +594,24 @@ export class URLIntelService extends BaseService {
   }
 
   /**
-   * @summary Reputation check
-   * @description Retrieve a reputation score for a URL from a provider, including an optional detailed report.
-   * @operationId FIXME:
-   * @param {String[]} urls - The URL list to be looked up
+   * @summary Bulk reputation check
+   * @description Retrieve reputation scores for URLs, from a provider, including an optional detailed report.
+   * @operationId url_intel_post_v2_reputation
+   * @param {String[]} urls - A list of URLs to be looked up
    * @param {Object} options - An object of optional parameters. Parameters supported:
-   *   - provider {String} - Use reputation data from this provider: "crowdstrike".
+   *   - provider {String} - Use reputation data from this provider.
    *   Default provider defined by the configuration.
    *   - verbose {Boolean} - Echo the API parameters in the response. Default: verbose=false.
    *   - raw {Boolean} - Include raw data from this provider. Default: raw=false.
    * @returns {Promise} - A promise representing an async call to the lookup endpoint.
    * @example
    * ```js
-      FIXME:
+   * const response = await urlIntel.reputationBulk(
+   *   ["http://113.235.101.11:54384"],
+   *   {
+   *     provider: "crowdstrike"
+   *   }
+   * );
    * ```
    */
   reputationBulk(
