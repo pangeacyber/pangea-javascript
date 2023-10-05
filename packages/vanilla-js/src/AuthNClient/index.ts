@@ -1,8 +1,9 @@
 import axios, { AxiosResponse } from "axios";
 
-import { ClientConfig, APIResponse, ClientResponse } from "@src/types";
+import { ClientConfig, APIResponse, ClientResponse } from "../types";
+import { delay } from "@src/utils";
 
-const API_VERSION = "v1";
+const API_VERSION = "v2";
 
 export class AuthNClient {
   config: ClientConfig;
@@ -64,17 +65,53 @@ export class AuthNClient {
   */
   async post(endpoint: string, payload: any): Promise<ClientResponse> {
     try {
-      const response: AxiosResponse = await axios.post(
+      let response: AxiosResponse = await axios.post(
         this.getUrl(endpoint),
         payload,
         this.getOptions()
       );
+
+      if (response.status === 202) {
+        response = await this.handleAsync(response);
+      }
+
       const success = response.data?.status === "Success";
 
       return { success, response: response.data };
     } catch (err) {
       return { success: false, response: this.getError(err) };
     }
+  }
+
+  // get request used only for async requests
+  async get(endpoint: string): Promise<AxiosResponse> {
+    try {
+      const response: AxiosResponse = await axios.get(
+        this.getUrl(endpoint),
+        this.getOptions()
+      );
+
+      return response;
+    } catch (err) {
+      throw err;
+    }
+  }
+
+  async handleAsync(response: AxiosResponse): Promise<AxiosResponse> {
+    const endpoint = `request/${response.data?.requestId}`;
+    const maxRetries = 3;
+    let retryCount = 1;
+
+    while (response.status === 202 && retryCount <= maxRetries) {
+      retryCount += 1;
+      const waitTime = retryCount * retryCount * 1000;
+
+      // eslint-disable-next-line no-await-in-loop
+      await delay(waitTime);
+      response = await this.get(endpoint);
+    }
+
+    return response;
   }
 
   getUrl(endpoint: string): string {

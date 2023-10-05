@@ -15,7 +15,8 @@ import { $convertFromMarkdownString } from "@lexical/markdown";
 import LexicalClickableLinkPlugin from "@lexical/react/LexicalClickableLinkPlugin";
 
 import { FlowStep } from "@pangeacyber/react-auth";
-import { Button, ViewComponentProps } from "@pangeacyber/react-mui-authn";
+import Button from "@src/components/core/Button";
+import { ViewComponentProps } from "@src/views/AuthFlow/types";
 import { isJSON } from "@src/utils";
 
 const AgreementAccept: FC<ViewComponentProps> = ({

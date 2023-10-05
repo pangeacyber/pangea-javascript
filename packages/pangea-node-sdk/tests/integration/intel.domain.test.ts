@@ -19,6 +19,14 @@ it("Domain reputation should succeed", async () => {
   expect(response.result.data.verdict).toBe("malicious");
 });
 
+it("Domain reputation should succeed. Default provider.", async () => {
+  const options = { verbose: true, raw: true };
+  const response = await domainIntel.reputation("737updatesboeing.com", options);
+
+  expect(response.status).toBe("Success");
+  expect(response.result.data).toBeDefined();
+});
+
 it("Domain reputation not found", async () => {
   const options = { provider: "crowdstrike", verbose: true, raw: true };
   const response = await domainIntel.reputation("thisshouldbeafakedomain123123sad.com", options);
@@ -28,4 +36,24 @@ it("Domain reputation not found", async () => {
   expect(response.result.data.verdict).toBeDefined();
   expect(response.result.data.category).toBeDefined();
   expect(response.result.data.score).toBeDefined();
+});
+
+it("Domain whoIs should succeed", async () => {
+  const options = { provider: "whoisxml", verbose: true, raw: true };
+  const response = await domainIntel.whoIs("737updatesboeing.com", options);
+
+  expect(response.status).toBe("Success");
+  expect(response.result.data).toBeDefined();
+  expect(response.result.data.domain_name).toBeDefined();
+  expect(response.result.data.domain_availability).toBeDefined();
+});
+
+it("Domain whoIs should succeed. Default provider.", async () => {
+  const options = { verbose: true, raw: true };
+  const response = await domainIntel.whoIs("737updatesboeing.com", options);
+
+  expect(response.status).toBe("Success");
+  expect(response.result.data).toBeDefined();
+  expect(response.result.data.domain_name).toBeDefined();
+  expect(response.result.data.domain_availability).toBeDefined();
 });

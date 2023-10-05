@@ -1,6 +1,7 @@
 // rollup.config.mjs
 import resolve from "@rollup/plugin-node-resolve";
 import external from "rollup-plugin-peer-deps-external";
+import terser from "@rollup/plugin-terser";
 import typescript from "@rollup/plugin-typescript";
 import commonjs from "@rollup/plugin-commonjs";
 import dts from "rollup-plugin-dts";
@@ -28,15 +29,17 @@ export default [
       external(),
       resolve(),
       commonjs(),
-      typescript(),
+      typescript({ tsconfig: "./tsconfig.json", sourceMap: false }),
       json(),
+      terser(),
       nodePolyfills(),
     ],
     external: Object.keys(pkg.dependencies),
   },
   {
     input: "dist/esm/types/index.d.ts",
-    output: [{ file: "dist/index.d.ts", format: "es" }],
+    output: [{ file: "dist/index.d.ts", format: "esm" }],
+    external: [/\.css$/],
     plugins: [dts()],
   },
 ];
