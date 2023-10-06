@@ -6,7 +6,6 @@ import { AuthN } from "@src/types.js";
 export default class ClientPassword extends BaseService {
   constructor(token: string, config: PangeaConfig) {
     super("authn", token, config);
-    this.apiVersion = "v1";
   }
 
   // authn::/v1/client/password/change
@@ -33,6 +32,6 @@ export default class ClientPassword extends BaseService {
       old_password: oldPassword,
       new_password: newPassword,
     };
-    return this.post("client/password/change", data);
+    return this.post("v2/client/password/change", data);
   }
 }

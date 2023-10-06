@@ -3,27 +3,17 @@ import BaseService from "@src/services/base.js";
 import PangeaConfig from "@src/config.js";
 import { AuthN } from "@src/types.js";
 import UserProfile from "./profile.js";
-import UserInvites from "./invites.js";
-import UserLogin from "./login.js";
-import UserMFA from "./mfa.js";
-import UserPassword from "./password.js";
+import UserAuthenticators from "./authenticators.js";
 
 export default class User extends BaseService {
   profile: UserProfile;
-  invites: UserInvites;
-  login: UserLogin;
-  mfa: UserMFA;
-  password: UserPassword;
+  authenticators: UserAuthenticators;
 
   constructor(token: string, config: PangeaConfig) {
     super("authn", token, config);
-    this.apiVersion = "v1";
 
     this.profile = new UserProfile(token, config);
-    this.invites = new UserInvites(token, config);
-    this.login = new UserLogin(token, config);
-    this.mfa = new UserMFA(token, config);
-    this.password = new UserPassword(token, config);
+    this.authenticators = new UserAuthenticators(token, config);
   }
 
   // authn::/v1/user/delete
@@ -44,7 +34,7 @@ export default class User extends BaseService {
   delete(
     request: AuthN.User.Delete.EmailRequest | AuthN.User.Delete.IDRequest
   ): Promise<PangeaResponse<{}>> {
-    return this.post("user/delete", request);
+    return this.post("v2/user/delete", request);
   }
 
   // authn::/v1/user/create
@@ -100,48 +90,7 @@ export default class User extends BaseService {
     if (profile) data.profile = profile;
     if (scopes) data.scopes = scopes;
 
-    return this.post("user/create", data);
-  }
-
-  // authn::/v1/user/invite
-  /**
-   * @summary Invite User
-   * @description Send an invitation to a user.
-   * @operationId authn_post_v1_user_invite
-   * @param {String} inviter - An email address
-   * @param {String} email - An email address
-   * @param {String} callback - A login callback URI
-   * @param {String} state - State tracking string fo login callbacks
-   * @param {Object} options - Supported options:
-   *   - require_mfa (boolean): Require the user to authenticate with MFA
-   * @returns {Promise<PangeaResponse<AuthN.User.InviteResult>>} - A promise
-   * representing an async call to the endpoint.
-   * @example
-   * ```js
-   * const response = await authn.user.invite(
-   *   "admin@email.com",
-   *   "joe.user@email.com",
-   *   "/callback",
-   *   "pcb_zurr3lkcwdp5keq73htsfpcii5k4zgm7",
-   *   { require_mfa: false }
-   * );
-   * ```
-   */
-  invite(
-    inviter: string,
-    email: string,
-    callback: string,
-    state: string,
-    options: AuthN.User.InviteOptions = {}
-  ): Promise<PangeaResponse<AuthN.User.InviteResult>> {
-    const data: AuthN.User.InviteRequest = {
-      inviter,
-      email,
-      callback,
-      state,
-    };
-    Object.assign(data, options);
-    return this.post("user/invite", data);
+    return this.post("v2/user/create", data);
   }
 
   // authn::/v1/user/list
@@ -170,41 +119,7 @@ export default class User extends BaseService {
    * ```
    */
   list(request: AuthN.User.ListRequest): Promise<PangeaResponse<AuthN.User.ListResult>> {
-    return this.post("user/list", request);
-  }
-
-  // authn::/v1/user/verify
-  /**
-   * @summary Verify User
-   * @description Verify a user's primary authentication.
-   * @operationId authn_post_v1_user_verify
-   * @param {AuthN.IDProvider} idProvider - Mechanism for authenticating a
-   * user's identity
-   * @param {String} email - An email address
-   * @param {String} authenticator - A provider-specific authenticator,
-   * such as a password or a social identity.
-   * @returns {Promise<PangeaResponse<AuthN.User.VerifyResult>>} - A promise
-   * representing an async call to the endpoint.
-   * @example
-   * ```js
-   * const response = await authn.user.verify(
-   *   AuthN.IDProvider.PASSWORD,
-   *   "joe.user@email.com",
-   *   "My1s+Password"
-   * );
-   * ```
-   */
-  verify(
-    idProvider: AuthN.IDProvider,
-    email: string,
-    authenticator: string
-  ): Promise<PangeaResponse<AuthN.User.VerifyResult>> {
-    const data: AuthN.User.VerifyRequest = {
-      id_provider: idProvider,
-      email: email,
-      authenticator: authenticator,
-    };
-    return this.post("user/verify", data);
+    return this.post("v2/user/list", request);
   }
 
   // authn::/v1/user/update
@@ -243,6 +158,6 @@ export default class User extends BaseService {
       ...options,
     };
 
-    return this.post("user/update", data);
+    return this.post("v2/user/update", data);
   }
 }

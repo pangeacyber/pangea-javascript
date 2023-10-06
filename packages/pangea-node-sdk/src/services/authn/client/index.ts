@@ -14,7 +14,6 @@ export default class Client extends BaseService {
 
   constructor(token: string, config: PangeaConfig) {
     super("authn", token, config);
-    this.apiVersion = "v1";
 
     this.session = new ClientSession(token, config);
     this.password = new ClientPassword(token, config);
@@ -40,7 +39,7 @@ export default class Client extends BaseService {
     const data: AuthN.Client.UserinfoRequest = {
       code: code,
     };
-    return this.post("client/userinfo", data);
+    return this.post("v2/client/userinfo", data);
   }
 
   // authn::/v1/client/jwks
@@ -56,6 +55,6 @@ export default class Client extends BaseService {
    * ```
    */
   jwks(): Promise<PangeaResponse<AuthN.Client.JWKSResult>> {
-    return this.post("client/jwks", {});
+    return this.post("v2/client/jwks", {});
   }
 }

@@ -6,7 +6,6 @@ import { AuthN } from "@src/types.js";
 export default class ClientSession extends BaseService {
   constructor(token: string, config: PangeaConfig) {
     super("authn", token, config);
-    this.apiVersion = "v1";
   }
 
   // authn::/v1/client/session/invalidate
@@ -32,7 +31,7 @@ export default class ClientSession extends BaseService {
       session_id: sessionID,
     };
 
-    return this.post("client/session/invalidate", data);
+    return this.post("v2/client/session/invalidate", data);
   }
 
   // authn::/v1/client/session/list
@@ -66,7 +65,7 @@ export default class ClientSession extends BaseService {
       token,
     };
     Object.assign(data, options);
-    return this.post("client/session/list", data);
+    return this.post("v2/client/session/list", data);
   }
 
   // authn::/v1/client/session/logout
@@ -85,7 +84,7 @@ export default class ClientSession extends BaseService {
    * ```
    */
   logout(token: string): Promise<PangeaResponse<{}>> {
-    return this.post("client/session/logout", { token });
+    return this.post("v2/client/session/logout", { token });
   }
 
   // authn::/v1/client/session/refresh
@@ -116,6 +115,6 @@ export default class ClientSession extends BaseService {
 
     if (user_token) data.user_token = user_token;
 
-    return this.post("client/session/refresh", data);
+    return this.post("v2/client/session/refresh", data);
   }
 }

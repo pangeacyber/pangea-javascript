@@ -16,8 +16,6 @@ const TIME = Math.round(Date.now() / 1000);
 const RANDOM_VALUE = new Date().getTime().toString();
 const EMAIL_TEST = `user.email+test${RANDOM_VALUE}@pangea.cloud`;
 const EMAIL_DELETE = `user.email+delete${RANDOM_VALUE}@pangea.cloud`;
-const EMAIL_INVITE_DELETE = `user.email+invite_del${RANDOM_VALUE}@pangea.cloud`;
-const EMAIL_INVITE_KEEP = `user.email+invite_keep${RANDOM_VALUE}@pangea.cloud`;
 const PASSWORD_OLD = "My1s+Password";
 const PASSWORD_NEW = "My1s+Password_new";
 const PROFILE_OLD = { name: "User name", country: "Argentina" };
@@ -50,27 +48,17 @@ it("User actions test", async () => {
   expect(deleteResp.result).toStrictEqual({});
 
   // Login
+  // FIXME: Login with flow
   let loginResp = await authn.user.login.password(EMAIL_TEST, PASSWORD_OLD);
   expect(loginResp.status).toBe("Success");
   expect(loginResp.result.active_token).toBeDefined();
   expect(loginResp.result.refresh_token).toBeDefined();
   let userToken = loginResp.result.active_token?.token || "";
 
-  // Verify
-  const verifyResp = await authn.user.verify(AuthN.IDProvider.PASSWORD, EMAIL_TEST, PASSWORD_OLD);
-  expect(verifyResp.status).toBe("Success");
-
   // Update password
   const passUpdateResp = await authn.client.password.change(userToken, PASSWORD_OLD, PASSWORD_NEW);
   expect(passUpdateResp.status).toBe("Success");
   expect(passUpdateResp.result).toStrictEqual({});
-
-  // Reset password
-  const passResetResp = await authn.user.password.reset({
-    user_id: USER_ID,
-    new_password: PASSWORD_NEW,
-  });
-  expect(passResetResp.status).toBe("Success");
 
   // Get profile by email
   let getResp = await authn.user.profile.getProfile({ email: EMAIL_TEST });
@@ -125,6 +113,7 @@ it("User actions test", async () => {
   expect(logoutResp.status).toBe("Success");
 
   // New login
+  // FIXME:
   loginResp = await authn.user.login.password(EMAIL_TEST, PASSWORD_NEW);
   expect(loginResp.status).toBe("Success");
   expect(loginResp.result.active_token).toBeDefined();
@@ -136,6 +125,7 @@ it("User actions test", async () => {
   expect(logoutResp.status).toBe("Success");
 
   // New login
+  // FIXME:
   loginResp = await authn.user.login.password(EMAIL_TEST, PASSWORD_NEW);
   expect(loginResp.status).toBe("Success");
   expect(loginResp.result.active_token).toBeDefined();
@@ -158,6 +148,7 @@ it("User actions test", async () => {
   });
 
   // new login
+  // FIXME:
   loginResp = await authn.user.login.password(EMAIL_TEST, PASSWORD_NEW);
   expect(loginResp.status).toBe("Success");
   expect(loginResp.result.active_token).toBeDefined();
@@ -193,44 +184,6 @@ it("User actions test", async () => {
       e instanceof PangeaErrors.APIError ? console.log(e.toString()) : console.log(e);
     }
   });
-});
-
-it("Invite actions test", async () => {
-  try {
-    // Invite
-    const inviteResp = await authn.user.invite(
-      EMAIL_TEST,
-      EMAIL_INVITE_KEEP,
-      "/login-success",
-      "somestate"
-    );
-    expect(inviteResp.status).toBe("Success");
-    expect(inviteResp.result.inviter).toBe(EMAIL_TEST);
-
-    const inviteResp2 = await authn.user.invite(
-      EMAIL_TEST,
-      EMAIL_INVITE_DELETE,
-      "/login-success",
-      "somestate"
-    );
-    expect(inviteResp2.status).toBe("Success");
-    expect(inviteResp2.result.inviter).toBe(EMAIL_TEST);
-
-    // Delete invite
-    const deleteResp = await authn.user.invites.delete(inviteResp2.result.id);
-    expect(deleteResp.status).toBe("Success");
-    expect(deleteResp.result).toStrictEqual({});
-
-    const listResp = await authn.user.invites.list({
-      order: AuthN.ItemOrder.ASC,
-      order_by: AuthN.User.Invite.OrderBy.ID,
-    });
-    expect(listResp.status).toBe("Success");
-    expect(listResp.result.invites.length).toBeGreaterThan(0);
-  } catch (e) {
-    e instanceof PangeaErrors.APIError ? console.log(e.toString()) : console.log(e);
-    expect(false).toBeTruthy();
-  }
 });
 
 async function agreement_cycle(type: AuthN.Agreements.AgreementType) {
