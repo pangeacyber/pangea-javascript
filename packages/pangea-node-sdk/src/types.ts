@@ -1403,10 +1403,6 @@ export namespace AuthN {
       }
     }
 
-    export interface InviteOptions {
-      require_mfa?: boolean;
-    }
-
     export enum ListOrderBy {
       ID = "id",
       CREATED_AT = "created_at",
@@ -1508,14 +1504,16 @@ export namespace AuthN {
       }
 
       export namespace Update {
-        export interface EmailRequest {
-          email: string;
+        export interface Common {
           profile: Profile;
         }
 
-        export interface IDRequest {
+        export interface EmailRequest extends Common {
+          email: string;
+        }
+
+        export interface IDRequest extends Common {
           id: string;
-          profile: Profile;
         }
       }
 
