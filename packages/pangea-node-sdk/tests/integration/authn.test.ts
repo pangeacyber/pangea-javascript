@@ -67,25 +67,27 @@ async function createAndLogin(email: string, password: string): Promise<AuthN.Fl
     },
   });
 
-  let agreed: string[] = [];
-  updateProfileResp.result.flow_choices.forEach((fc) => {
-    if (fc.choice == AuthN.Flow.Choice.AGREEMENTS) {
-      const agreements = typeof fc.data["agreements"] === "object" ? fc.data["agreements"] : {};
-      for (let [_, value] of Object.entries(agreements)) {
-        if (typeof value === "object" && typeof value["id"] === "string") {
-          agreed.push(value["id"]);
+  if (updateProfileResp.result.flow_phase === "phase_agreements") {
+    let agreed: string[] = [];
+    updateProfileResp.result.flow_choices.forEach((fc) => {
+      if (fc.choice == AuthN.Flow.Choice.AGREEMENTS) {
+        const agreements = typeof fc.data["agreements"] === "object" ? fc.data["agreements"] : {};
+        for (let [_, value] of Object.entries(agreements)) {
+          if (typeof value === "object" && typeof value["id"] === "string") {
+            agreed.push(value["id"]);
+          }
         }
       }
-    }
-  });
+    });
 
-  await authn.flow.update({
-    flow_id,
-    choice: AuthN.Flow.Choice.AGREEMENTS,
-    data: {
-      agreed: agreed,
-    },
-  });
+    await authn.flow.update({
+      flow_id,
+      choice: AuthN.Flow.Choice.AGREEMENTS,
+      data: {
+        agreed: agreed,
+      },
+    });
+  }
 
   const completeResp = await authn.flow.complete(flow_id);
   return completeResp.result;

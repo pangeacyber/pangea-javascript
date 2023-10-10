@@ -14,35 +14,75 @@ const RANDOM_VALUE = new Date().getTime().toString();
 const USER_EMAIL = `user.email+test${RANDOM_VALUE}@pangea.cloud`;
 const PASSWORD_INITIAL = "My1s+Password";
 const PASSWORD_UPDATE = "My1s+Password_new";
-const PROFILE_INITIAL = { name: "User name", country: "Argentina" };
-const PROFILE_UPDATE = { age: "18" };
+const PROFILE_INITIAL = { first_name: "Name", last_name: "User" };
+const PROFILE_UPDATE = { first_name: "NameUpdate" };
+const CB_URI = "https://www.usgs.gov/faqs/what-was-pangea"  // Need to setup callbacks in PUC AuthN settings
 let USER_ID; // Will be set once user is created
 
 (async () => {
   try {
     // Create
     console.log("Creating user...");
-    const createResp = await authn.user.create(
-      USER_EMAIL,
-      PASSWORD_INITIAL,
-      AuthN.IDProvider.PASSWORD,
-      { profile: PROFILE_INITIAL }
-    );
-    console.log("Create user success. Result: ", createResp.result);
-    USER_ID = createResp.result.id;
+    console.log("Start flow with signup and signin");
+    const startResp = await authn.flow.start({
+      email: USER_EMAIL,
+      flow_types: [AuthN.FlowType.SIGNUP, AuthN.FlowType.SIGNIN],
+      cb_uri: CB_URI,
+    });
+  
+    const flow_id = startResp.result.flow_id;
+  
+    console.log("Update flow with password");
+    await authn.flow.update({
+      flow_id,
+      choice: AuthN.Flow.Choice.PASSWORD,
+      data: {
+        password: PASSWORD_INITIAL,
+      },
+    });
+  
+    console.log("Update flow with profile");
+    const updateProfileResp = await authn.flow.update({
+      flow_id,
+      choice: AuthN.Flow.Choice.PROFILE,
+      data: {
+        profile: PROFILE_INITIAL,
+      },
+    });
+  
+    console.log("Update flow with agreements if needed");
+    if(updateProfileResp.result.flow_phase == "phase_agreements") {
+      let agreed = [];
+      updateProfileResp.result.flow_choices.forEach((fc) => {
+        if (fc.choice == AuthN.Flow.Choice.AGREEMENTS) {
+          const agreements = typeof fc.data["agreements"] === "object" ? fc.data["agreements"] : {};
+          for (let [_, value] of Object.entries(agreements)) {
+            if (typeof value === "object" && typeof value["id"] === "string") {
+              agreed.push(value["id"]);
+            }
+          }
+        }
+      });
+  
+      await authn.flow.update({
+        flow_id,
+        choice: AuthN.Flow.Choice.AGREEMENTS,
+        data: {
+          agreed: agreed,
+        },
+      });
+    }
 
-    // Login
-    console.log("\n\nLogin...");
-    const loginResp = await authn.user.login.password(
-      USER_EMAIL,
-      PASSWORD_INITIAL
-    );
-    const userToken = loginResp.result.active_token?.token || "";
-    console.log("Login success. Result: ", loginResp.result);
+    console.log("Complete signup/signin flow");
+    const completeResp = await authn.flow.complete(flow_id);
+    console.log("Flow is complete");
+
+    const userToken = completeResp.result.active_token?.token || "";
+    console.log("Login success. Result: ", completeResp.result);
 
     // Update password
     console.log("\n\nUpdate user password...");
-    const passUpdateResp = await authn.client.password.change(
+    const _ = await authn.client.password.change(
       userToken,
       PASSWORD_INITIAL,
       PASSWORD_UPDATE
@@ -52,6 +92,7 @@ let USER_ID; // Will be set once user is created
     // Get profile by email
     console.log("\n\nGetting profile by email...");
     let getResp = await authn.user.profile.getProfile({ email: USER_EMAIL });
+    USER_ID = getResp.result.id;
     console.log("Get profile success. Profile: ", getResp.result.profile);
 
     // Get profile by id
@@ -72,13 +113,18 @@ let USER_ID; // Will be set once user is created
 
     // List users
     console.log("\n\nList users...");
-    const listResp2 = await authn.user.list({});
+    let listResp2 = await authn.user.list({});
     console.log(`List users success. ${listResp2.result.users.length} `);
 
     // Delete
     console.log("\n\nDelete user...");
-    const deleteResp = await authn.user.delete({ email: USER_EMAIL });
+    await authn.user.delete({ email: USER_EMAIL });
     console.log("Delete user success.");
+
+    // List users
+    console.log("\n\nList users...");
+    listResp2 = await authn.user.list({});
+    console.log(`List users success. ${listResp2.result.users.length} `);
   } catch (err) {
     if (err instanceof PangeaErrors.APIError) {
       console.log("Something went wrong...");
