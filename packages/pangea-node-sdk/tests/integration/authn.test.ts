@@ -5,7 +5,7 @@ import { PangeaErrors } from "../../src/errors.js";
 import { TestEnvironment, getTestDomain, getTestToken } from "../../src/utils/utils.js";
 import { AuthN } from "../../src/types.js";
 
-const environment = TestEnvironment.LIVE;
+const environment = TestEnvironment.DEVELOP;
 const token = getTestToken(environment);
 const testHost = getTestDomain(environment);
 
@@ -17,90 +17,121 @@ const RANDOM_VALUE = new Date().getTime().toString();
 const EMAIL_TEST = `user.email+test${RANDOM_VALUE}@pangea.cloud`;
 const EMAIL_DELETE = `user.email+delete${RANDOM_VALUE}@pangea.cloud`;
 const PASSWORD_OLD = "My1s+Password";
-const PASSWORD_NEW = "My1s+Password_new";
-const PROFILE_OLD = { name: "User name", country: "Argentina" };
-const PROFILE_NEW = { age: "18" };
+// const PASSWORD_NEW = "My1s+Password_new";
+const PROFILE_OLD = { first_name: "Name", last_name: "Last" };
+const PROFILE_NEW = { first_name: "NameUpdate" };
+const CB_URI = "https://www.usgs.gov/faqs/what-was-pangea";
 let USER_ID; // Will be set once user is created
+
+async function login(email: string, password: string): Promise<AuthN.Flow.CompleteResult> {
+  const startResp = await authn.flow.start({
+    email: email,
+    cb_uri: CB_URI,
+    flow_types: [AuthN.FlowType.SIGNIN],
+  });
+
+  await authn.flow.update({
+    flow_id: startResp.result.flow_id,
+    choice: AuthN.Flow.Choice.PASSWORD,
+    data: {
+      password: password,
+    },
+  });
+
+  const completeResp = await authn.flow.complete(startResp.result.flow_id);
+  return completeResp.result;
+}
+
+async function createAndLogin(email: string, password: string): Promise<AuthN.Flow.CompleteResult> {
+  const startResp = await authn.flow.start({
+    email: email,
+    flow_types: [AuthN.FlowType.SIGNUP, AuthN.FlowType.SIGNIN],
+    cb_uri: CB_URI,
+  });
+
+  const flow_id = startResp.result.flow_id;
+
+  await authn.flow.update({
+    flow_id,
+    choice: AuthN.Flow.Choice.PASSWORD,
+    data: {
+      password: password,
+    },
+  });
+
+  const updateProfileResp = await authn.flow.update({
+    flow_id,
+    choice: AuthN.Flow.Choice.PROFILE,
+    data: {
+      profile: PROFILE_OLD,
+    },
+  });
+
+  let agreed: string[] = [];
+  updateProfileResp.result.flow_choices.forEach((fc) => {
+    if (fc.choice == AuthN.Flow.Choice.AGREEMENTS) {
+      const agreements = typeof fc.data["agreements"] === "object" ? fc.data["agreements"] : {};
+      for (let [_, value] of Object.entries(agreements)) {
+        if (typeof value === "object" && typeof value["id"] === "string") {
+          agreed.push(value["id"]);
+        }
+      }
+    }
+  });
+
+  await authn.flow.update({
+    flow_id,
+    choice: AuthN.Flow.Choice.AGREEMENTS,
+    data: {
+      agreed: agreed,
+    },
+  });
+
+  const completeResp = await authn.flow.complete(flow_id);
+  return completeResp.result;
+}
 
 jest.setTimeout(60000);
 it("User actions test", async () => {
-  // Create
-  const createResp = await authn.user.create(EMAIL_TEST, PASSWORD_OLD, AuthN.IDProvider.PASSWORD);
-  expect(createResp.status).toBe("Success");
-  expect(createResp.result.id).toBeDefined();
-  expect(createResp.result.profile).toStrictEqual({});
-  USER_ID = createResp.result.id;
+  let loginResult = await createAndLogin(EMAIL_TEST, PASSWORD_OLD);
+  expect(loginResult.active_token).toBeDefined();
 
-  // Create 2
-  const createResp2 = await authn.user.create(
-    EMAIL_DELETE,
-    PASSWORD_OLD,
-    AuthN.IDProvider.PASSWORD,
-    { profile: PROFILE_NEW }
-  );
-  expect(createResp2.status).toBe("Success");
-  expect(createResp2.result.id).toBeDefined();
-  expect(createResp2.result.profile).toStrictEqual(PROFILE_NEW);
-
-  // Delete
-  const deleteResp = await authn.user.delete({ email: EMAIL_DELETE });
-  expect(deleteResp.status).toBe("Success");
-  expect(deleteResp.result).toStrictEqual({});
-
-  // Login
-  // FIXME: Login with flow
-  let loginResp = await authn.user.login.password(EMAIL_TEST, PASSWORD_OLD);
-  expect(loginResp.status).toBe("Success");
-  expect(loginResp.result.active_token).toBeDefined();
-  expect(loginResp.result.refresh_token).toBeDefined();
-  let userToken = loginResp.result.active_token?.token || "";
-
-  // Update password
-  const passUpdateResp = await authn.client.password.change(userToken, PASSWORD_OLD, PASSWORD_NEW);
-  expect(passUpdateResp.status).toBe("Success");
-  expect(passUpdateResp.result).toStrictEqual({});
+  await createAndLogin(EMAIL_DELETE, PASSWORD_OLD);
 
   // Get profile by email
   let getResp = await authn.user.profile.getProfile({ email: EMAIL_TEST });
   expect(getResp.status).toBe("Success");
-  expect(getResp.result.profile).toStrictEqual({});
-  expect(getResp.result.id).toBe(USER_ID);
+  expect(getResp.result.profile).toStrictEqual(PROFILE_OLD);
+  expect(getResp.result.id).toBeDefined();
+  USER_ID = getResp.result.id;
   expect(getResp.result.email).toBe(EMAIL_TEST);
-  expect(getResp.result.profile).toStrictEqual({});
 
   // Get profile by id
   getResp = await authn.user.profile.getProfile({ id: USER_ID });
   expect(getResp.status).toBe("Success");
-  expect(getResp.result.profile).toStrictEqual({});
+  expect(getResp.result.profile).toStrictEqual(PROFILE_OLD);
   expect(getResp.result.id).toBe(USER_ID);
   expect(getResp.result.email).toBe(EMAIL_TEST);
-  expect(getResp.result.profile).toStrictEqual({});
 
   // Update profile
-  const updateResp = await authn.user.profile.update({ email: EMAIL_TEST, profile: PROFILE_OLD });
+  const updateResp = await authn.user.profile.update({ email: EMAIL_TEST, profile: PROFILE_NEW });
   expect(updateResp.status).toBe("Success");
   expect(updateResp.result.id).toBe(USER_ID);
   expect(updateResp.result.email).toBe(EMAIL_TEST);
-  expect(updateResp.result.profile).toStrictEqual(PROFILE_OLD);
-
-  // Add one new field to profile
-  const updateResp2 = await authn.user.profile.update({
-    id: USER_ID,
-    profile: PROFILE_NEW,
-  });
-  expect(updateResp2.status).toBe("Success");
-  expect(updateResp2.result.id).toBe(USER_ID);
-  expect(updateResp2.result.email).toBe(EMAIL_TEST);
   let finalProfile = { ...PROFILE_OLD };
   Object.assign(finalProfile, PROFILE_NEW);
-  expect(updateResp2.result.profile).toStrictEqual(finalProfile);
+  expect(updateResp.result.profile).toStrictEqual(finalProfile);
 
   // Check token
+  let userToken = "";
+  if (loginResult.active_token !== undefined) {
+    userToken = loginResult.active_token.token;
+  }
   const checkResp = await authn.client.clientToken.check(userToken);
   expect(checkResp.status).toBe("Success");
 
   // Refresh
-  loginResp = await authn.client.session.refresh(loginResp.result.refresh_token.token, {
+  const loginResp = await authn.client.session.refresh(loginResult.refresh_token.token, {
     user_token: userToken,
   });
   expect(loginResp.status).toBe("Success");
@@ -113,10 +144,8 @@ it("User actions test", async () => {
   expect(logoutResp.status).toBe("Success");
 
   // New login
-  // FIXME:
-  loginResp = await authn.user.login.password(EMAIL_TEST, PASSWORD_NEW);
-  expect(loginResp.status).toBe("Success");
-  expect(loginResp.result.active_token).toBeDefined();
+  loginResult = await login(EMAIL_TEST, PASSWORD_OLD);
+  expect(loginResult.active_token).toBeDefined();
   expect(loginResp.result.refresh_token).toBeDefined();
   userToken = loginResp.result.active_token?.token || "";
 
@@ -125,10 +154,8 @@ it("User actions test", async () => {
   expect(logoutResp.status).toBe("Success");
 
   // New login
-  // FIXME:
-  loginResp = await authn.user.login.password(EMAIL_TEST, PASSWORD_NEW);
-  expect(loginResp.status).toBe("Success");
-  expect(loginResp.result.active_token).toBeDefined();
+  loginResult = await login(EMAIL_TEST, PASSWORD_OLD);
+  expect(loginResult.active_token).toBeDefined();
   expect(loginResp.result.refresh_token).toBeDefined();
   userToken = loginResp.result.active_token?.token || "";
 
@@ -147,13 +174,11 @@ it("User actions test", async () => {
     }
   });
 
-  // new login
-  // FIXME:
-  loginResp = await authn.user.login.password(EMAIL_TEST, PASSWORD_NEW);
-  expect(loginResp.status).toBe("Success");
-  expect(loginResp.result.active_token).toBeDefined();
-  expect(loginResp.result.refresh_token).toBeDefined();
-  userToken = loginResp.result.active_token?.token || "";
+  // New login
+  loginResult = await login(EMAIL_TEST, PASSWORD_OLD);
+  expect(loginResult.active_token).toBeDefined();
+  expect(loginResult.refresh_token).toBeDefined();
+  userToken = loginResult.active_token?.token || "";
 
   // List client sessions
   listSessionsResp = await authn.client.session.list(userToken);

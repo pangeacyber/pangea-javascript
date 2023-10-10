@@ -934,7 +934,9 @@ export namespace AuthN {
   export type Scopes = string[];
 
   export interface Profile {
-    [key: string]: string;
+    [key: string]: string | undefined;
+    first_name?: string;
+    last_name?: string;
   }
 
   export enum MFAProvider {
@@ -949,16 +951,14 @@ export namespace AuthN {
   }
 
   export interface UserItem {
-    profile: Profile;
     id: string;
     email: string;
-    scopes: Scopes;
-    id_providers: string[];
-    mfa_providers: string[];
-    require_mfa: boolean;
+    profile: Profile;
     verified: boolean;
     disabled: boolean;
-    last_login_at: string;
+    accepted_eula_id?: string;
+    accepted_privacy_policy_id?: string;
+    last_login_at?: string;
     created_at: string;
   }
 
@@ -1371,29 +1371,26 @@ export namespace AuthN {
   }
 
   export namespace User {
-    export interface CreateOptions {
-      verified?: boolean;
-      require_mfa?: boolean;
-      profile?: Profile;
-      scopes?: Scopes;
-    }
+    export interface CreateOptions {}
 
     export interface CreateRequest extends CreateOptions {
       email: string;
-      authenticator: string;
-      id_provider: IDProvider;
+      profile: Profile;
     }
 
     export interface CreateResult {
       id: string;
       email: string;
       profile: Profile;
+      scopes?: Scopes;
       id_providers: string[];
+      mfa_provider?: MFAProvider[];
       require_mfa: boolean;
       verified: boolean;
-      last_login_at: string;
-      disable?: boolean;
-      mfa_provider?: MFAProvider[];
+      disable: boolean;
+      accepted_eula_id?: string;
+      last_login_at?: string;
+      created_at: string;
     }
 
     export namespace Delete {
@@ -1526,19 +1523,16 @@ export namespace AuthN {
     }
 
     export namespace Update {
+      export interface Options {
+        disabled?: boolean;
+      }
+
       export interface EmailRequest extends Options {
         email: string;
       }
 
       export interface IDRequest extends Options {
         id: string;
-      }
-
-      export interface Options {
-        authenticator?: string;
-        disabled?: boolean;
-        require_mfa?: boolean;
-        verified?: boolean;
       }
     }
 

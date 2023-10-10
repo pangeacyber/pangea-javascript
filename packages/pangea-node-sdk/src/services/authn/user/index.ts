@@ -42,55 +42,16 @@ export default class User extends BaseService {
    * @summary Create User
    * @description Create a user.
    * @operationId authn_post_v1_user_create
-   * @param {String} email - An email address
-   * @param {String} authenticator - A provider-specific authenticator,
-   * such as a password or a social identity.
-   * @param {AuthN.IDProvider} idProvider - Mechanism for authenticating a
-   * user's identity
-   * @param {Object} options - Supported options:
-   *   - verified (boolean):  True if the user's email has been verified
-   *   - require_mfa (boolean): True if the user must use MFA
-   * during authentication
-   *   - profile (object): A user profile as a collection of string properties
-   *   - scopes (string[]): A list of scopes
+   * @param FIXME:
    * @returns {Promise<PangeaResponse<AuthN.User.CreateResult>>} - A promise
    * representing an async call to the endpoint.
    * @example
    * ```js
-   * const response = await authn.user.create(
-   *   "joe.user@email.com",
-   *   "My1s+Password",
-   *   AuthN.IDProvider.PASSWORD,
-   *   {
-   *     verified: false,
-   *     require_mfa: false,
-   *     profile: {
-   *       first_name: "Joe",
-   *       last_name: "User",
-   *     }
-   *     scopes: ["scope1", "scope2"],
-   *   }
-   * );
+   * FIXME:
    * ```
    */
-  create(
-    email: string,
-    authenticator: string,
-    idProvider: AuthN.IDProvider,
-    { verified, require_mfa, profile, scopes }: AuthN.User.CreateOptions = {}
-  ): Promise<PangeaResponse<AuthN.User.CreateResult>> {
-    const data: AuthN.User.CreateRequest = {
-      email: email,
-      authenticator: authenticator,
-      id_provider: idProvider,
-    };
-
-    if (typeof verified === "boolean") data.verified = verified;
-    if (typeof require_mfa === "boolean") data.require_mfa = require_mfa;
-    if (profile) data.profile = profile;
-    if (scopes) data.scopes = scopes;
-
-    return this.post("v2/user/create", data);
+  create(request: AuthN.User.CreateRequest): Promise<PangeaResponse<AuthN.User.CreateResult>> {
+    return this.post("v2/user/create", request);
   }
 
   // authn::/v1/user/list
@@ -141,23 +102,16 @@ export default class User extends BaseService {
    * @example
    * ```js
    * const response = await authn.user.update(
-   *   { email: "joe.user@email.com" },
    *   {
-   *     disabled: false,
-   *     require_mfa: true,
+   *    email: "joe.user@email.com",
+   *    disabled: false,
    *   }
    * );
    * ```
    */
   update(
-    request: AuthN.User.Update.EmailRequest | AuthN.User.Update.IDRequest,
-    options: AuthN.User.Update.Options
+    request: AuthN.User.Update.EmailRequest | AuthN.User.Update.IDRequest
   ): Promise<PangeaResponse<AuthN.User.UpdateResult>> {
-    const data: AuthN.User.Update.EmailRequest | AuthN.User.Update.IDRequest = {
-      ...request,
-      ...options,
-    };
-
-    return this.post("v2/user/update", data);
+    return this.post("v2/user/update", request);
   }
 }
