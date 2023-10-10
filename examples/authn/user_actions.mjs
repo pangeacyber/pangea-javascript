@@ -16,7 +16,7 @@ const PASSWORD_INITIAL = "My1s+Password";
 const PASSWORD_UPDATE = "My1s+Password_new";
 const PROFILE_INITIAL = { first_name: "Name", last_name: "User" };
 const PROFILE_UPDATE = { first_name: "NameUpdate" };
-const CB_URI = "https://www.usgs.gov/faqs/what-was-pangea"  // Need to setup callbacks in PUC AuthN settings
+const CB_URI = "https://www.usgs.gov/faqs/what-was-pangea"; // Need to setup callbacks in PUC AuthN settings
 let USER_ID; // Will be set once user is created
 
 (async () => {
@@ -29,9 +29,9 @@ let USER_ID; // Will be set once user is created
       flow_types: [AuthN.FlowType.SIGNUP, AuthN.FlowType.SIGNIN],
       cb_uri: CB_URI,
     });
-  
+
     const flow_id = startResp.result.flow_id;
-  
+
     console.log("Update flow with password");
     await authn.flow.update({
       flow_id,
@@ -40,7 +40,7 @@ let USER_ID; // Will be set once user is created
         password: PASSWORD_INITIAL,
       },
     });
-  
+
     console.log("Update flow with profile");
     const updateProfileResp = await authn.flow.update({
       flow_id,
@@ -49,13 +49,16 @@ let USER_ID; // Will be set once user is created
         profile: PROFILE_INITIAL,
       },
     });
-  
+
     console.log("Update flow with agreements if needed");
-    if(updateProfileResp.result.flow_phase == "phase_agreements") {
+    if (updateProfileResp.result.flow_phase == "phase_agreements") {
       let agreed = [];
       updateProfileResp.result.flow_choices.forEach((fc) => {
         if (fc.choice == AuthN.Flow.Choice.AGREEMENTS) {
-          const agreements = typeof fc.data["agreements"] === "object" ? fc.data["agreements"] : {};
+          const agreements =
+            typeof fc.data["agreements"] === "object"
+              ? fc.data["agreements"]
+              : {};
           for (let [_, value] of Object.entries(agreements)) {
             if (typeof value === "object" && typeof value["id"] === "string") {
               agreed.push(value["id"]);
@@ -63,7 +66,7 @@ let USER_ID; // Will be set once user is created
           }
         }
       });
-  
+
       await authn.flow.update({
         flow_id,
         choice: AuthN.Flow.Choice.AGREEMENTS,
