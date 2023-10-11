@@ -960,6 +960,10 @@ export namespace AuthN {
     accepted_privacy_policy_id?: string;
     last_login_at?: string;
     created_at: string;
+    login_count: number;
+    last_login_ip?: string;
+    last_login_city?: string;
+    last_login_country?: string;
   }
 
   export interface PasswordRequirements {
