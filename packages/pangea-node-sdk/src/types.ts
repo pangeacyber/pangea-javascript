@@ -1099,7 +1099,6 @@ export namespace AuthN {
       CAPTCHA = "captcha",
       EMAIL_OTP = "email_otp",
       MAGICLINK = "magiclink",
-      PASSKEY = "passkey",
       PASSWORD = "password",
       PROFILE = "profile",
       PROVISIONAL_ENROLLMENT = "provisional_enrollment",
@@ -1112,7 +1111,7 @@ export namespace AuthN {
       VERIFY_EMAIL = "verify_email",
     }
 
-    export interface Choices {
+    export interface ChoiceItem {
       choice: string;
       data: Dictionary;
     }
@@ -1123,7 +1122,7 @@ export namespace AuthN {
       email: string;
       disclaimer?: string;
       flow_phase: string;
-      flow_choices: Flow.Choices[];
+      flow_choices: Flow.ChoiceItem[];
     }
 
     export interface CompleteRequest {
@@ -1178,8 +1177,6 @@ export namespace AuthN {
         code: string;
       }
 
-      export interface DataPasskey {}
-
       export interface DataPassword {
         password: string;
       }
@@ -1230,7 +1227,6 @@ export namespace AuthN {
         | DataCaptcha
         | DataEmailOTP
         | DataMagiclink
-        | DataPasskey
         | DataPassword
         | DataProfile
         | DataProvisionalEnrollment
@@ -1393,6 +1389,27 @@ export namespace AuthN {
       created_at: string;
     }
 
+    export interface InviteItem {
+      id: string;
+      inviter: string;
+      invite_org: string;
+      email: string;
+      callback: string;
+      state: string;
+      require_mfa: boolean;
+      created_at: string;
+      expire: string;
+    }
+
+    export interface InviteRequest {
+      inviter: string;
+      email: string;
+      callback: string;
+      state: string;
+    }
+
+    export interface InviteResult extends InviteItem {}
+
     export namespace Delete {
       export interface EmailRequest {
         email: string;
@@ -1465,10 +1482,80 @@ export namespace AuthN {
       count: number;
     }
 
-    export namespace Authenticators {
+    export namespace Invite {
+      export enum OrderBy {
+        ID = "id",
+        CREATED_AT = "created_at",
+        TYPE = "type",
+        EXPIRE = "expire",
+        CALLBACK = "callback",
+        STATE = "state",
+        EMAIL = "email",
+        INVITER = "inviter",
+        INVITE_ORG = "invite_org",
+      }
+
       export interface DeleteRequest {
-        user_id: string;
-        mfa_provider: MFAProvider;
+        id: string;
+      }
+
+      export interface ListFilter {
+        callback?: string;
+        callback__contains?: string[];
+        callback__in?: string[];
+        created_at?: string;
+        created_at__gt?: string;
+        created_at__gte?: string;
+        created_at__lt?: string;
+        created_at__lte?: string;
+        email?: string;
+        email__contains?: string[];
+        email__in?: string[];
+        expire?: string;
+        expire__gt?: string;
+        expire__gte?: string;
+        expire__lt?: string;
+        expire__lte?: string;
+        id?: string;
+        id__contains?: string[];
+        id__in?: string[];
+        invite_org?: string;
+        invite_org__contains?: string[];
+        invite_org__in?: string[];
+        inviter?: string;
+        inviter__contains?: string[];
+        inviter__in?: string[];
+        is_signup?: boolean;
+        require_mfa?: boolean;
+        state?: string;
+        state__contains?: string[];
+        state__in?: string[];
+      }
+
+      export interface ListRequest {
+        filter?: Object | ListFilter;
+        last?: string;
+        order?: ItemOrder;
+        order_by?: OrderBy;
+        size?: number;
+      }
+
+      export interface ListResult {
+        invites: InviteItem[];
+      }
+    }
+
+    export namespace Authenticators {
+      export namespace Delete {
+        export interface IDRequest {
+          id: string;
+          authenticator_id: string;
+        }
+
+        export interface EmailRequest {
+          email: string;
+          authenticator_id: string;
+        }
       }
 
       export interface ListRequest {

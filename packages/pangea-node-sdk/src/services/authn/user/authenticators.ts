@@ -26,12 +26,12 @@ export default class UserAuthenticators extends BaseService {
    * );
    * ```
    */
-  delete(userID: string, mfaProvider: AuthN.MFAProvider): Promise<PangeaResponse<{}>> {
-    const data: AuthN.User.Authenticators.DeleteRequest = {
-      user_id: userID,
-      mfa_provider: mfaProvider,
-    };
-    return this.post("v2/user/authenticators/delete", data);
+  delete(
+    request:
+      | AuthN.User.Authenticators.Delete.EmailRequest
+      | AuthN.User.Authenticators.Delete.EmailRequest
+  ): Promise<PangeaResponse<{}>> {
+    return this.post("v2/user/authenticators/delete", request);
   }
 
   // TODO: Docs

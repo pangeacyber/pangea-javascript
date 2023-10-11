@@ -19,6 +19,63 @@ const PROFILE_UPDATE = { first_name: "NameUpdate" };
 const CB_URI = "https://www.usgs.gov/faqs/what-was-pangea"; // Need to setup callbacks in PUC AuthN settings
 let USER_ID; // Will be set once user is created
 
+async function flowHandlePasswordPhase(authn, flow_id, password) {
+  console.log("Update flow with password");
+  const response = await authn.flow.update({
+    flow_id: flow_id,
+    choice: AuthN.Flow.Choice.PASSWORD,
+    data: {
+      password: password,
+    },
+  });
+  return response.result;
+}
+
+async function flowHandleProfilePhase(authn, flow_id) {
+  console.log("Update flow with profile");
+  const response = await authn.flow.update({
+    flow_id,
+    choice: AuthN.Flow.Choice.PROFILE,
+    data: {
+      profile: PROFILE_INITIAL,
+    },
+  });
+  return response.result;
+}
+
+async function flowHandleAgreementsPhase(authn, result, flow_id) {
+  console.log("Update flow with agreements");
+  let agreed = [];
+  result.flow_choices.forEach((fc) => {
+    if (fc.choice == AuthN.Flow.Choice.AGREEMENTS) {
+      const agreements = typeof fc.data["agreements"] === "object" ? fc.data["agreements"] : {};
+      for (let [_, value] of Object.entries(agreements)) {
+        if (typeof value === "object" && typeof value["id"] === "string") {
+          agreed.push(value["id"]);
+        }
+      }
+    }
+  });
+
+  const response = await authn.flow.update({
+    flow_id,
+    choice: AuthN.Flow.Choice.AGREEMENTS,
+    data: {
+      agreed: agreed,
+    },
+  });
+
+  return response.result;
+}
+
+function choiceIsAvailable(result, choice) {
+  let filter = result.flow_choices.filter(function (fc) {
+    return fc.choice === choice;
+  });
+
+  return filter.length > 0;
+}
+
 (async () => {
   try {
     // Create
@@ -29,53 +86,23 @@ let USER_ID; // Will be set once user is created
       flow_types: [AuthN.FlowType.SIGNUP, AuthN.FlowType.SIGNIN],
       cb_uri: CB_URI,
     });
-
+  
     const flow_id = startResp.result.flow_id;
-
-    console.log("Update flow with password");
-    await authn.flow.update({
-      flow_id,
-      choice: AuthN.Flow.Choice.PASSWORD,
-      data: {
-        password: PASSWORD_INITIAL,
-      },
-    });
-
-    console.log("Update flow with profile");
-    const updateProfileResp = await authn.flow.update({
-      flow_id,
-      choice: AuthN.Flow.Choice.PROFILE,
-      data: {
-        profile: PROFILE_INITIAL,
-      },
-    });
-
-    console.log("Update flow with agreements if needed");
-    if (updateProfileResp.result.flow_phase == "phase_agreements") {
-      let agreed = [];
-      updateProfileResp.result.flow_choices.forEach((fc) => {
-        if (fc.choice == AuthN.Flow.Choice.AGREEMENTS) {
-          const agreements =
-            typeof fc.data["agreements"] === "object"
-              ? fc.data["agreements"]
-              : {};
-          for (let [_, value] of Object.entries(agreements)) {
-            if (typeof value === "object" && typeof value["id"] === "string") {
-              agreed.push(value["id"]);
-            }
-          }
-        }
-      });
-
-      await authn.flow.update({
-        flow_id,
-        choice: AuthN.Flow.Choice.AGREEMENTS,
-        data: {
-          agreed: agreed,
-        },
-      });
+    let result = startResp.result;
+  
+    while(result.flow_phase != "phase_completed") {
+      if (choiceIsAvailable(result, AuthN.Flow.Choice.PASSWORD)){
+        result = await flowHandlePasswordPhase(authn, flow_id, PASSWORD_INITIAL);
+      } else if(choiceIsAvailable(result, AuthN.Flow.Choice.PROFILE)) {
+        result = await flowHandleProfilePhase(authn, flow_id);
+      } else if(choiceIsAvailable(result, AuthN.Flow.Choice.AGREEMENTS)) {
+        result = await flowHandleAgreementsPhase(authn, result, flow_id);
+      } else {
+        console.log(`Phase ${result.flow_phase} not handled`);
+        break;
+      }
     }
-
+  
     console.log("Complete signup/signin flow");
     const completeResp = await authn.flow.complete(flow_id);
     console.log("Flow is complete");

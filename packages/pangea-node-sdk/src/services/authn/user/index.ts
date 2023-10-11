@@ -4,16 +4,19 @@ import PangeaConfig from "@src/config.js";
 import { AuthN } from "@src/types.js";
 import UserProfile from "./profile.js";
 import UserAuthenticators from "./authenticators.js";
+import UserInvites from "./invites.js";
 
 export default class User extends BaseService {
   profile: UserProfile;
   authenticators: UserAuthenticators;
+  invites: UserInvites;
 
   constructor(token: string, config: PangeaConfig) {
     super("authn", token, config);
 
     this.profile = new UserProfile(token, config);
     this.authenticators = new UserAuthenticators(token, config);
+    this.invites = new UserInvites(token, config);
   }
 
   // authn::/v1/user/delete
@@ -113,5 +116,22 @@ export default class User extends BaseService {
     request: AuthN.User.Update.EmailRequest | AuthN.User.Update.IDRequest
   ): Promise<PangeaResponse<AuthN.User.UpdateResult>> {
     return this.post("v2/user/update", request);
+  }
+
+  /**
+   * @summary Invite User
+   * @description Send an invitation to a user.
+   * @operationId authn_post_v1_user_invite
+  // FIXME:
+   * @returns {Promise<PangeaResponse<AuthN.User.InviteResult>>} - A promise
+   * representing an async call to the endpoint.
+   * @example
+   * ```js
+      // FIXME:
+   * );
+   * ```
+   */
+  invite(request: AuthN.User.InviteRequest): Promise<PangeaResponse<AuthN.User.InviteResult>> {
+    return this.post("v2/user/invite", request);
   }
 }

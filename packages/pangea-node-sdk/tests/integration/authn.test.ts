@@ -13,15 +13,81 @@ const config = new PangeaConfig({ domain: testHost });
 const authn = new AuthNService(token, config);
 
 const TIME = Math.round(Date.now() / 1000);
-const RANDOM_VALUE = new Date().getTime().toString();
-const EMAIL_TEST = `user.email+test${RANDOM_VALUE}@pangea.cloud`;
-const EMAIL_DELETE = `user.email+delete${RANDOM_VALUE}@pangea.cloud`;
+const EMAIL_TEST = `user.email+test${TIME}@pangea.cloud`;
+const EMAIL_DELETE = `user.email+delete${TIME}@pangea.cloud`;
 const PASSWORD_OLD = "My1s+Password";
 // const PASSWORD_NEW = "My1s+Password_new";
 const PROFILE_OLD = { first_name: "Name", last_name: "Last" };
 const PROFILE_NEW = { first_name: "NameUpdate" };
+const EMAIL_INVITE_DELETE = `user.email+invite_del${TIME}@pangea.cloud`;
+const EMAIL_INVITE_KEEP = `user.email+invite_keep${TIME}@pangea.cloud`;
 const CB_URI = "https://www.usgs.gov/faqs/what-was-pangea";
 let USER_ID; // Will be set once user is created
+
+async function flowHandlePasswordPhase(
+  authn: AuthNService,
+  flow_id: string,
+  password: string
+): Promise<AuthN.Flow.UpdateResult> {
+  const response = await authn.flow.update({
+    flow_id: flow_id,
+    choice: AuthN.Flow.Choice.PASSWORD,
+    data: {
+      password: password,
+    },
+  });
+  return response.result;
+}
+
+async function flowHandleProfilePhase(
+  authn: AuthNService,
+  flow_id: string
+): Promise<AuthN.Flow.UpdateResult> {
+  const response = await authn.flow.update({
+    flow_id,
+    choice: AuthN.Flow.Choice.PROFILE,
+    data: {
+      profile: PROFILE_OLD,
+    },
+  });
+  return response.result;
+}
+
+async function flowHandleAgreementsPhase(
+  authn: AuthNService,
+  result: AuthN.Flow.UpdateResult,
+  flow_id: string
+): Promise<AuthN.Flow.UpdateResult> {
+  let agreed: string[] = [];
+  result.flow_choices.forEach((fc) => {
+    if (fc.choice == AuthN.Flow.Choice.AGREEMENTS) {
+      const agreements = typeof fc.data["agreements"] === "object" ? fc.data["agreements"] : {};
+      for (let [_, value] of Object.entries(agreements)) {
+        if (typeof value === "object" && typeof value["id"] === "string") {
+          agreed.push(value["id"]);
+        }
+      }
+    }
+  });
+
+  const response = await authn.flow.update({
+    flow_id,
+    choice: AuthN.Flow.Choice.AGREEMENTS,
+    data: {
+      agreed: agreed,
+    },
+  });
+
+  return response.result;
+}
+
+function choiceIsAvailable(result: AuthN.Flow.UpdateResult, choice: string): boolean {
+  let filter = result.flow_choices.filter(function (fc) {
+    return fc.choice === choice;
+  });
+
+  return filter.length > 0;
+}
 
 async function login(email: string, password: string): Promise<AuthN.Flow.CompleteResult> {
   const startResp = await authn.flow.start({
@@ -50,43 +116,19 @@ async function createAndLogin(email: string, password: string): Promise<AuthN.Fl
   });
 
   const flow_id = startResp.result.flow_id;
+  let result = startResp.result;
 
-  await authn.flow.update({
-    flow_id,
-    choice: AuthN.Flow.Choice.PASSWORD,
-    data: {
-      password: password,
-    },
-  });
-
-  const updateProfileResp = await authn.flow.update({
-    flow_id,
-    choice: AuthN.Flow.Choice.PROFILE,
-    data: {
-      profile: PROFILE_OLD,
-    },
-  });
-
-  if (updateProfileResp.result.flow_phase === "phase_agreements") {
-    let agreed: string[] = [];
-    updateProfileResp.result.flow_choices.forEach((fc) => {
-      if (fc.choice == AuthN.Flow.Choice.AGREEMENTS) {
-        const agreements = typeof fc.data["agreements"] === "object" ? fc.data["agreements"] : {};
-        for (let [_, value] of Object.entries(agreements)) {
-          if (typeof value === "object" && typeof value["id"] === "string") {
-            agreed.push(value["id"]);
-          }
-        }
-      }
-    });
-
-    await authn.flow.update({
-      flow_id,
-      choice: AuthN.Flow.Choice.AGREEMENTS,
-      data: {
-        agreed: agreed,
-      },
-    });
+  while (result.flow_phase != "phase_completed") {
+    if (choiceIsAvailable(result, AuthN.Flow.Choice.PASSWORD)) {
+      result = await flowHandlePasswordPhase(authn, flow_id, password);
+    } else if (choiceIsAvailable(result, AuthN.Flow.Choice.PROFILE)) {
+      result = await flowHandleProfilePhase(authn, flow_id);
+    } else if (choiceIsAvailable(result, AuthN.Flow.Choice.AGREEMENTS)) {
+      result = await flowHandleAgreementsPhase(authn, result, flow_id);
+    } else {
+      console.log(`Phase ${result.flow_phase} not handled`);
+      break;
+    }
   }
 
   const completeResp = await authn.flow.complete(flow_id);
@@ -211,6 +253,44 @@ it("User actions test", async () => {
       e instanceof PangeaErrors.APIError ? console.log(e.toString()) : console.log(e);
     }
   });
+});
+
+it("Invite actions test", async () => {
+  try {
+    // Invite
+    const inviteResp = await authn.user.invite({
+      inviter: EMAIL_TEST,
+      email: EMAIL_INVITE_KEEP,
+      callback: CB_URI,
+      state: "somestate",
+    });
+    expect(inviteResp.status).toBe("Success");
+    expect(inviteResp.result.inviter).toBe(EMAIL_TEST);
+
+    const inviteResp2 = await authn.user.invite({
+      inviter: EMAIL_TEST,
+      email: EMAIL_INVITE_DELETE,
+      callback: CB_URI,
+      state: "somestate",
+    });
+    expect(inviteResp2.status).toBe("Success");
+    expect(inviteResp2.result.inviter).toBe(EMAIL_TEST);
+
+    // Delete invite
+    const deleteResp = await authn.user.invites.delete(inviteResp2.result.id);
+    expect(deleteResp.status).toBe("Success");
+    expect(deleteResp.result).toStrictEqual({});
+
+    const listResp = await authn.user.invites.list({
+      order: AuthN.ItemOrder.ASC,
+      order_by: AuthN.User.Invite.OrderBy.ID,
+    });
+    expect(listResp.status).toBe("Success");
+    expect(listResp.result.invites.length).toBeGreaterThan(0);
+  } catch (e) {
+    e instanceof PangeaErrors.APIError ? console.log(e.toString()) : console.log(e);
+    expect(false).toBeTruthy();
+  }
 });
 
 async function agreement_cycle(type: AuthN.Agreements.AgreementType) {
