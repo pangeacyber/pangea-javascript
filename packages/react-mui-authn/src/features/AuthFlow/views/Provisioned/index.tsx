@@ -1,4 +1,4 @@
-import { FC, useEffect } from "react";
+import { FC, useEffect, useState } from "react";
 import { Stack, Typography } from "@mui/material";
 
 import { AuthFlow } from "@pangeacyber/vanilla-js";
@@ -16,11 +16,24 @@ const ProvisionedView: FC<AuthFlowComponentProps> = ({
   restart,
   reset,
 }) => {
+  const [checked, setChecked] = useState<boolean>(false);
+  const [status, setStatus] = useState<string>("");
+
+  useEffect(() => {
+    if (checked) {
+      setStatus("Verification has not been completed");
+      setTimeout(() => {
+        setStatus("");
+      }, 3000);
+    }
+  }, [data]);
+
   const sendEmail = () => {
     restart(AuthFlow.Choice.PROVISIONAL);
   };
 
   const checkState = () => {
+    setChecked(true);
     update(AuthFlow.Choice.NONE, {});
   };
 
@@ -43,10 +56,15 @@ const ProvisionedView: FC<AuthFlowComponentProps> = ({
           If you open the link in a different browser, return here and click the
           button below.
         </Typography>
-        {error && <ErrorMessage response={error} />}
         <Button color="primary" onClick={checkState} disabled={loading}>
           Verification Complete
         </Button>
+        {status && (
+          <Typography variant="body2" color="error">
+            {status}
+          </Typography>
+        )}
+        {error && <ErrorMessage response={error} />}
       </Stack>
       <Stack
         direction={{ xs: "column", sm: "row" }}
