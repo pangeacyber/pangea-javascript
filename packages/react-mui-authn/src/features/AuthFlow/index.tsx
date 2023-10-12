@@ -13,6 +13,7 @@ import VerifyResetView from "./views/VerifyReset";
 import ResetPasswordView from "./views/ResetPassword";
 import InvalidAuthView from "./views/InvalidAuth";
 import InvalidStateView from "./views/InvalidState";
+import ErrorView from "./views/Error";
 
 export {
   AuthFlowComponentProps,
@@ -29,4 +30,5 @@ export {
   StatusMessageView,
   InvalidAuthView,
   InvalidStateView,
+  ErrorView,
 };

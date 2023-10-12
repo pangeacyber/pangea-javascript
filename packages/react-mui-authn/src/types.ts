@@ -52,6 +52,13 @@ export interface FieldComponentProps {
 }
 
 export interface PasswordPolicy {
+  chars_min?: number;
+  lower_min?: number;
+  upper_min?: number;
+  punct_min?: number;
+  number_min?: number;
+
+  // FIXME: old schema - to be removed
   password_chars_min?: number;
   password_lower_min?: number;
   password_upper_min?: number;

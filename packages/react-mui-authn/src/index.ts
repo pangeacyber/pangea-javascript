@@ -71,4 +71,5 @@ export {
   StatusMessageView,
   InvalidAuthView,
   InvalidStateView,
+  ErrorView,
 } from "@src/features/AuthFlow";

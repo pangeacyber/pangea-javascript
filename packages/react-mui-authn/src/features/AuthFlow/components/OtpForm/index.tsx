@@ -1,4 +1,4 @@
-import { FC } from "react";
+import { FC, useEffect, useState } from "react";
 import { useFormik } from "formik";
 import * as yup from "yup";
 import { Stack } from "@mui/material";
@@ -14,7 +14,14 @@ interface Props extends AuthFlowComponentProps {
   otpType: string;
 }
 
-const OtpForm: FC<Props> = ({ options, loading, error, update, otpType }) => {
+const OtpForm: FC<Props> = ({
+  options,
+  loading,
+  error,
+  data,
+  update,
+  otpType,
+}) => {
   const validationSchema = yup.object({
     code: yup
       .string()
