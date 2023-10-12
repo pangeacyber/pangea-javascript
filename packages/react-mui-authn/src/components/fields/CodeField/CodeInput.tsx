@@ -21,7 +21,6 @@ const CodeInput: FC<CodeInputProps> = ({
   const inputs = Array(0, 1, 2, 3, 4, 5);
 
   useEffect(() => {
-    console.log("value change", value);
     if (value === "") {
       inputs.map((inputId) => {
         setValues((state) => ({

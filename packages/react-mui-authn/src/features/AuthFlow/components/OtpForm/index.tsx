@@ -56,6 +56,10 @@ const OtpForm: FC<Props> = ({
     },
   });
 
+  useEffect(() => {
+    formik.resetForm();
+  }, [error, data]);
+
   return (
     <form onSubmit={formik.handleSubmit}>
       <Stack gap={1}>
