@@ -1,6 +1,6 @@
 {
   "name": "@pangeacyber/react-mui-authn",
-  "version": "0.3.7",
+  "version": "0.3.8",
   "description": "Components for integration with Pangea AuthN Service",
   "main": "dist/cjs/index.js",
   "module": "dist/esm/index.js",
