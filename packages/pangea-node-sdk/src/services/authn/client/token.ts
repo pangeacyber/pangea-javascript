@@ -8,14 +8,14 @@ export default class ClientToken extends BaseService {
     super("authn", token, config);
   }
 
-  // authn::/v1/client/token/check
   /**
    * @summary Check a token
    * @description Look up a token and return its contents.
-   * @operationId authn_post_v1_client_token_check
+   * @operationId authn_post_v2_client_token_check
    * @param {String} token - A token value
    * @returns {Promise<PangeaResponse<AuthN.Client.Token.CheckResult>>} - A promise
-   * representing an async call to the endpoint.
+   * representing an async call to the endpoint. Available response fields can be found in our
+   * [API Documentation](https://pangea.cloud/docs/api/authn/flow#/v2/client/token/check).
    * @example
    * ```js
    * const response = await authn.client.clientToken.check(

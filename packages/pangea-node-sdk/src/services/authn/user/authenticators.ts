@@ -8,22 +8,16 @@ export default class UserAuthenticators extends BaseService {
     super("authn", token, config);
   }
 
-  // TODO: Docs
   /**
-   * @summary Delete MFA Enrollment
-   * @description Delete MFA enrollment for a user.
-   * @operationId authn_post_v1_user_mfa_delete
-   * @param {String} userID - The identity of a user or a service
-   * @param {AuthN.MFAProvider} mfaProvider - Additional mechanism for authenticating
-   * a user's identity
+   * @summary Delete user authenticator
+   * @description Delete a user's authenticator.
+   * @operationId authn_post_v2_user_authenticators_delete
+   * @param
    * @returns {Promise<PangeaResponse<{}>>} - A promise
-   * representing an async call to the endpoint.
+   * representing an async call to the endpoint. Contains an empty object.
    * @example
    * ```js
-   * await authn.user.mfa.delete(
-   *   "pui_zgp532cx6opljeavvllmbi3iwmq72f7f",
-   *   AuthN.MFAProvider.TOTP
-   * );
+   * await authn.authenticators.delete();
    * ```
    */
   delete(
@@ -34,7 +28,21 @@ export default class UserAuthenticators extends BaseService {
     return this.post("v2/user/authenticators/delete", request);
   }
 
-  // TODO: Docs
+  /**
+   * @summary Get user authenticators
+   * @description Get user's authenticators by identity or email.
+   * @operationId authn_post_v2_user_authenticators_list
+   * @param {AuthN.User.Authenticators.ListRequest} request
+   * @returns {Promise<PangeaResponse<AuthN.User.Authenticators.ListResult>>} - A promise
+   * representing an async call to the endpoint. Available response fields can be found in our
+   * [API Documentation](https://pangea.cloud/docs/api/authn/user#/v2/user/authenticators/list).
+   * @examples
+   * ```js
+   * const response = await authn.user.authenticators.list({
+   *   id: "pui_xpkhwpnz2cmegsws737xbsqnmnuwtbm5",
+   * });
+   * ```
+   */
   list(
     request: AuthN.User.Authenticators.ListRequest
   ): Promise<PangeaResponse<AuthN.User.Authenticators.ListResult>> {

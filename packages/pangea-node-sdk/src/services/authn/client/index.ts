@@ -20,18 +20,18 @@ export default class Client extends BaseService {
     this.clientToken = new ClientToken(token, config);
   }
 
-  // authn::/v1/client/userinfo
   /**
    * @summary Get User (client token)
    * @description Retrieve the logged in user's token and information.
-   * @operationId authn_post_v1_client_userinfo
-   * @param {String} code - A one-time ticket
+   * @operationId authn_post_v2_client_userinfo
+   * @param {String} code - Login code returned by the login callback
    * @returns {Promise<PangeaResponse<AuthN.Client.UserinfoResult>>} - A promise
-   * representing an async call to the endpoint
+   * representing an async call to the endpoint. Available response fields can be found in our
+   * [API Documentation](https://pangea.cloud/docs/api/authn/user#/v2/client/userinfo).
    * @example
    * ```js
    * const response = await authn.client.userinfo(
-   *   "pmc_d6chl6qulpn3it34oerwm3cqwsjd6dxw",
+   *   "pmc_d6chl6qulpn3it34oerwm3cqwsjd6dxw"
    * );
    * ```
    */
@@ -42,13 +42,13 @@ export default class Client extends BaseService {
     return this.post("v2/client/userinfo", data);
   }
 
-  // authn::/v1/client/jwks
   /**
    * @summary Get JWT verification keys
    * @description Get JWT verification keys.
-   * @operationId authn_post_v1_client_jwks
+   * @operationId authn_post_v2_client_jwks
    * @returns {Promise<PangeaResponse<AuthN.Client.JWKSResult>>} - A promise
-   * representing an async call to the endpoint
+   * representing an async call to the endpoint. Available response fields can be found in our
+   * [API Documentation](https://pangea.cloud/docs/api/authn/jwt#/v2/client/jwks).
    * @example
    * ```js
    * const response = await authn.client.jwks();
