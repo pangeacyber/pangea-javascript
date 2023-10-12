@@ -19,20 +19,19 @@ export default class User extends BaseService {
     this.invites = new UserInvites(token, config);
   }
 
-  // authn::/v1/user/delete
   /**
    * @summary Delete User
    * @description Delete a user.
-   * @operationId authn_post_v1_user_delete
-   * @param {Object} request - Supported options:
+   * @operationId authn_post_v2_user_delete
+   * @param {AuthN.User.Delete.EmailRequest | AuthN.User.Delete.IDRequest} request - Supported options:
    *   - email (string): An email address
    *   - id (string): The identity of a user or a service
    * @returns {Promise<PangeaResponse<{}>>} - A promise
-   * representing an async call to the endpoint.
+   * representing an async call to the endpoint. Contains an empty object.
    * @example
-   * await authn.user.delete(
-   *   { email: "example@example.com" }
-   * );
+   * await authn.user.delete({
+   *   id: "pui_xpkhwpnz2cmegsws737xbsqnmnuwtbm5",
+   * });
    */
   delete(
     request: AuthN.User.Delete.EmailRequest | AuthN.User.Delete.IDRequest
@@ -40,29 +39,34 @@ export default class User extends BaseService {
     return this.post("v2/user/delete", request);
   }
 
-  // authn::/v1/user/create
   /**
    * @summary Create User
    * @description Create a user.
-   * @operationId authn_post_v1_user_create
-   * @param FIXME:
+   * @operationId authn_post_v2_user_create
+   * @param {AuthN.User.CreateRequest} request
    * @returns {Promise<PangeaResponse<AuthN.User.CreateResult>>} - A promise
-   * representing an async call to the endpoint.
+   * representing an async call to the endpoint. Available response fields can be found in our
+   * [API Documentation](https://pangea.cloud/docs/api/authn/user#/v2/user/create).
    * @example
    * ```js
-   * FIXME:
+   * const response = await authn.user.create({
+   *   email: "joe.user@email.com",
+   *   profile: {
+   *     first_name: "Joe",
+   *     last_name: "User",
+   *   },
+   * });
    * ```
    */
   create(request: AuthN.User.CreateRequest): Promise<PangeaResponse<AuthN.User.CreateResult>> {
     return this.post("v2/user/create", request);
   }
 
-  // authn::/v1/user/list
   /**
    * @summary List Users
    * @description Look up users by scopes.
-   * @operationId authn_post_v1_user_list
-   * @param {Object} options - Supported options:
+   * @operationId authn_post_v2_user_list
+   * @param {AuthN.User.ListRequest} request - Supported options:
    *   - filter (object)
    *   - last (string): Reflected value from a previous response to
    * obtain the next page of results.
@@ -70,7 +74,8 @@ export default class User extends BaseService {
    *   - order_by (AuthN.User.ListOrderBy): Which field to order results by.
    *   - size (number): Maximum results to include in the response.
    * @returns {Promise<PangeaResponse<AuthN.User.ListResult>>} - A promise
-   * representing an async call to the endpoint.
+   * representing an async call to the endpoint. Available response fields can be found in our
+   * [API Documentation](https://pangea.cloud/docs/api/authn/user#/v2/user/list).
    * @example
    * ```js
    * const response = await authn.user.list(
@@ -86,22 +91,17 @@ export default class User extends BaseService {
     return this.post("v2/user/list", request);
   }
 
-  // authn::/v1/user/update
   /**
    * @summary Update user's settings
    * @description Update user's settings.
-   * @operationId authn_post_v1_user_update
-   * @param {Object} request - Supported request:
+   * @operationId authn_post_v2_user_update
+   * @param {AuthN.User.Update.EmailRequest | AuthN.User.Update.IDRequest} request - Supported request:
    *   - email (string): An email address
    *   - id (string): The identity of a user or a service
-   * @param {Object} options - Supported options:
-   *   - authenticator (string): New value for a user's authenticator.
-   *   - disabled (boolean): New disabled value.
-   * Disabling a user account will prevent them from logging in.
-   *   - require_mfa (boolean): New require_mfa value
-   *   - verified (boolean): New verified value
+   *   - disabled (boolean): Disabling a user account will prevent them from logging in.
    * @returns {Promise<PangeaResponse<AuthN.User.UpdateResult>>} - A promise
-   * representing an async call to the endpoint.
+   * representing an async call to the endpoint. Available response fields can be found in our
+   * [API Documentation](https://pangea.cloud/docs/api/authn/user#/v2/user/update).
    * @example
    * ```js
    * const response = await authn.user.update(
@@ -121,14 +121,19 @@ export default class User extends BaseService {
   /**
    * @summary Invite User
    * @description Send an invitation to a user.
-   * @operationId authn_post_v1_user_invite
-  // FIXME:
+   * @operationId authn_post_v2_user_invite
+   * @param {AuthN.User.InviteRequest} request
    * @returns {Promise<PangeaResponse<AuthN.User.InviteResult>>} - A promise
-   * representing an async call to the endpoint.
+   * representing an async call to the endpoint. Available response fields can be found in our
+   * [API Documentation](https://pangea.cloud/docs/api/authn/invite#/v2/user/invite).
    * @example
    * ```js
-      // FIXME:
-   * );
+   * const response = await authn.user.invite({
+   *   inviter: "admin@email.com",
+   *   email: "joe.user@email.com",
+   *   callback: "https://www.myserver.com/callback",
+   *   state: "pcb_zurr3lkcwdp5keq73htsfpcii5k4zgm7",
+   * });
    * ```
    */
   invite(request: AuthN.User.InviteRequest): Promise<PangeaResponse<AuthN.User.InviteResult>> {

@@ -86,12 +86,12 @@ export default class Agreements extends BaseService {
    * [API Documentation](https://pangea.cloud/docs/api/authn/agreements#/v2/agreements/list).
    * @example
    * ```js
-   * const response = await authn.agreements.list({});
+   * const response = await authn.agreements.list();
    * ```
    */
   list(
-    request?: AuthN.Agreements.ListRequest = {}
+    request?: AuthN.Agreements.ListRequest
   ): Promise<PangeaResponse<AuthN.Agreements.ListResult>> {
-    return this.post("v2/agreements/list", request);
+    return this.post("v2/agreements/list", request ?? {});
   }
 }
