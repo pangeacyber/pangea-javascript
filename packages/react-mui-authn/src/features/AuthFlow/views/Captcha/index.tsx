@@ -12,10 +12,12 @@ const CaptchaView: FC<AuthFlowComponentProps> = (props) => {
   const { options, data, error, update, reset } = props;
 
   const handleChange = (value: string) => {
-    const payload: AuthFlow.CaptchaParams = {
-      code: value,
-    };
-    update(AuthFlow.Choice.CAPTCHA, payload);
+    if (value) {
+      const payload: AuthFlow.CaptchaParams = {
+        code: value,
+      };
+      update(AuthFlow.Choice.CAPTCHA, payload);
+    }
   };
 
   return (
