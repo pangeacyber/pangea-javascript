@@ -90,7 +90,7 @@ export default class Agreements extends BaseService {
    * ```
    */
   list(
-    request: AuthN.Agreements.ListRequest
+    request?: AuthN.Agreements.ListRequest = {}
   ): Promise<PangeaResponse<AuthN.Agreements.ListResult>> {
     return this.post("v2/agreements/list", request);
   }

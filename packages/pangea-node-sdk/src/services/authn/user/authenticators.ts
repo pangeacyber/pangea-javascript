@@ -23,7 +23,7 @@ export default class UserAuthenticators extends BaseService {
   delete(
     request:
       | AuthN.User.Authenticators.Delete.EmailRequest
-      | AuthN.User.Authenticators.Delete.EmailRequest
+      | AuthN.User.Authenticators.Delete.IDRequest
   ): Promise<PangeaResponse<{}>> {
     return this.post("v2/user/authenticators/delete", request);
   }
