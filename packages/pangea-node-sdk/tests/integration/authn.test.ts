@@ -21,7 +21,7 @@ const PROFILE_OLD = { first_name: "Name", last_name: "Last" };
 const PROFILE_NEW = { first_name: "NameUpdate" };
 const EMAIL_INVITE_DELETE = `user.email+invite_del${TIME}@pangea.cloud`;
 const EMAIL_INVITE_KEEP = `user.email+invite_keep${TIME}@pangea.cloud`;
-const CB_URI = "https://www.usgs.gov/faqs/what-was-pangea";
+const CB_URI = "https://someurl.com/callbacklink";
 let USER_ID; // Will be set once user is created
 
 async function flowHandlePasswordPhase(
