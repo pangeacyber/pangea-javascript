@@ -5,8 +5,13 @@ import Button from "@src/components/core/Button";
 import { ErrorMessage } from "../../components";
 import { AuthFlowComponentProps } from "@src/features/AuthFlow/types";
 
-const StatusMessageMap: { [key: string]: string } = {
-  DiabledUser: "Account Disabled",
+const getErrorTitle = (status: string): string => {
+  switch (status) {
+    case "DisabledUser":
+      return "Account Disabled";
+    default:
+      return "Something went wrong";
+  }
 };
 
 const ErrorView: FC<AuthFlowComponentProps> = ({
@@ -15,14 +20,6 @@ const ErrorView: FC<AuthFlowComponentProps> = ({
   data,
   reset,
 }) => {
-  const getErrorTitle = (status: string): string => {
-    if (status in StatusMessageMap) {
-      return StatusMessageMap[status];
-    }
-
-    return "Something went wrong";
-  };
-
   return (
     <Stack gap={2}>
       <Typography variant="h6">{getErrorTitle(error.status)}</Typography>
