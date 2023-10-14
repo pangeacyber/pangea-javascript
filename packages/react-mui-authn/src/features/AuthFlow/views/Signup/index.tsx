@@ -32,8 +32,12 @@ const SignupView: FC<AuthFlowComponentProps> = (props) => {
         {description} {data.email}
       </Typography>
       <AuthOptions {...props} />
-      {data.invite && <SocialOptions {...props} />}
-      {data.disclaimer && <Disclaimer content={data.disclaimer} />}
+      {(data.invite || data.phase === "phase_secondary") && (
+        <SocialOptions {...props} />
+      )}
+      {data.disclaimer && data.phase !== "phase_secondary" && (
+        <Disclaimer content={data.disclaimer} />
+      )}
     </Stack>
   );
 };
