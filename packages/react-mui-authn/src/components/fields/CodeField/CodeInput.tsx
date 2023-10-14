@@ -7,6 +7,7 @@ interface CodeInputProps {
   value: string;
   onChange: (value: string) => void;
   onFinish: () => void;
+  disabled?: boolean;
 }
 
 const CodeInput: FC<CodeInputProps> = ({
@@ -14,6 +15,7 @@ const CodeInput: FC<CodeInputProps> = ({
   value,
   onChange,
   onFinish,
+  disabled = false,
 }) => {
   const theme = useTheme();
   const [values, setValues] = useState<Record<number, string>>({});
@@ -22,12 +24,14 @@ const CodeInput: FC<CodeInputProps> = ({
 
   useEffect(() => {
     if (value === "") {
+      // set value to empty
       inputs.map((inputId) => {
         setValues((state) => ({
           ...state,
           [inputId]: "",
         }));
       });
+      inputRefs.current[0]?.focus();
     }
   }, [value]);
 
@@ -173,6 +177,7 @@ const CodeInput: FC<CodeInputProps> = ({
             onKeyDown={(e) => handleKeyDown(inputId, e)}
             onChange={(e) => handleChange(inputId, e)}
             onPaste={(e) => handlePaste(e)}
+            disabled={disabled}
           />
         );
       })}

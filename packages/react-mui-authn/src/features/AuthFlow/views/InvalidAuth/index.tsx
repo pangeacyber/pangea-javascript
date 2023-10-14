@@ -16,8 +16,6 @@ const getProviderName = (provider: string) => {
       return "Microsoft";
     case "facebook":
       return "Facebook";
-    case "webauthn":
-      return "passwordless (WebAuthn)";
     case "password":
       return "a password";
     default:
@@ -32,6 +30,7 @@ const InvalidAuthView: FC<AuthFlowComponentProps> = ({
   reset,
 }) => {
   const providerLabel = getProviderName(error.result?.correct_provider);
+  const emailAddress = error.result?.email || "selected";
 
   const doUpdate = () => {
     update(AuthFlow.Choice.NONE, {});
@@ -39,10 +38,11 @@ const InvalidAuthView: FC<AuthFlowComponentProps> = ({
 
   return (
     <Stack gap={2}>
-      <Typography variant="h6">Incorrect Method</Typography>
+      <Typography variant="h6">Authentication Conflict</Typography>
       <Stack alignItems="center" gap={2}>
-        <Typography variant="body1">
-          You must log in using {providerLabel}.
+        <Typography variant="body2" sx={{ wordBreak: "break-word" }}>
+          To sign in to the {emailAddress} account you must authenticate with{" "}
+          {providerLabel}.
         </Typography>
         {error.result?.correct_provider && (
           <Button
@@ -51,7 +51,7 @@ const InvalidAuthView: FC<AuthFlowComponentProps> = ({
             fullWidth={true}
             onClick={doUpdate}
           >
-            Continue
+            Continue with {providerLabel}
           </Button>
         )}
       </Stack>

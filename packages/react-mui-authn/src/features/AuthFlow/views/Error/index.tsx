@@ -1,30 +1,36 @@
-import { FC, useEffect, useState } from "react";
+import { FC } from "react";
 import { Stack, Typography } from "@mui/material";
-
-import { AuthFlow } from "@pangeacyber/vanilla-js";
 
 import Button from "@src/components/core/Button";
 import { ErrorMessage } from "../../components";
 import { AuthFlowComponentProps } from "@src/features/AuthFlow/types";
 
+const StatusMessageMap: { [key: string]: string } = {
+  DiabledUser: "Account Disabled",
+};
+
 const ErrorView: FC<AuthFlowComponentProps> = ({
   options,
   error,
-  update,
+  data,
   reset,
 }) => {
-  const [retried, setRetried] = useState<boolean>(false);
-
-  useEffect(() => {
-    if (!retried) {
-      setRetried(true);
-      update(AuthFlow.Choice.NONE, {});
+  const getErrorTitle = (status: string): string => {
+    if (status in StatusMessageMap) {
+      return StatusMessageMap[status];
     }
-  }, []);
+
+    return "Something went wrong";
+  };
 
   return (
     <Stack gap={2}>
-      <Typography variant="h6">Something went wrong</Typography>
+      <Typography variant="h6">{getErrorTitle(error.status)}</Typography>
+      {data?.email && (
+        <Typography variant="body2" mb={1} sx={{ wordBreak: "break-word" }}>
+          {data.email}
+        </Typography>
+      )}
       <Stack gap={1}>
         {error ? (
           <ErrorMessage response={error} />
