@@ -64,17 +64,6 @@ const SocialOptions: FC<AuthFlowComponentProps> = ({
           );
         })}
       </Stack>
-      {data?.authChoices.length === 0 && !data?.setEmail && (
-        <Stack
-          direction={{ xs: "column", sm: "row" }}
-          justifyContent="center"
-          gap={{ xs: 0, sm: 1 }}
-        >
-          <Button variant="text" onClick={reset}>
-            {options.cancelLabel}
-          </Button>
-        </Stack>
-      )}
     </>
   );
 };
