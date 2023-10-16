@@ -39,7 +39,7 @@ export default class UserAuthenticators extends BaseService {
    * @returns {Promise<PangeaResponse<AuthN.User.Authenticators.ListResult>>} - A promise
    * representing an async call to the endpoint. Available response fields can be found in our
    * [API Documentation](https://pangea.cloud/docs/api/authn/user#/v2/user/authenticators/list).
-   * @examples
+   * @example
    * ```js
    * const response = await authn.user.authenticators.list({
    *   id: "pui_xpkhwpnz2cmegsws737xbsqnmnuwtbm5",
