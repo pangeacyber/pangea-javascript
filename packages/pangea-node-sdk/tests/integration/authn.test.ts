@@ -5,7 +5,7 @@ import { PangeaErrors } from "../../src/errors.js";
 import { TestEnvironment, getTestDomain, getTestToken } from "../../src/utils/utils.js";
 import { AuthN } from "../../src/types.js";
 
-const environment = TestEnvironment.DEVELOP;
+const environment = TestEnvironment.LIVE;
 const token = getTestToken(environment);
 const testHost = getTestDomain(environment);
 
