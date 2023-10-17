@@ -24,7 +24,7 @@ export default class Session extends BaseService {
    * ```
    */
   invalidate(sessionID: string): Promise<PangeaResponse<{}>> {
-    return this.post("v1/session/invalidate", { session_id: sessionID });
+    return this.post("v2/session/invalidate", { session_id: sessionID });
   }
 
   // authn::/v1/session/list
@@ -50,7 +50,7 @@ export default class Session extends BaseService {
    * ```
    */
   list(request: AuthN.Session.ListRequest = {}): Promise<PangeaResponse<AuthN.Session.ListResult>> {
-    return this.post("v1/session/list", request);
+    return this.post("v2/session/list", request);
   }
 
   // authn::/v1/session/logout
@@ -69,6 +69,6 @@ export default class Session extends BaseService {
    * ```
    */
   logout(user_id: string): Promise<PangeaResponse<{}>> {
-    return this.post("v1/session/logout", { user_id });
+    return this.post("v2/session/logout", { user_id });
   }
 }
