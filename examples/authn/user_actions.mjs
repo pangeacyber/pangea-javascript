@@ -48,7 +48,8 @@ async function flowHandleAgreementsPhase(authn, result, flow_id) {
   let agreed = [];
   result.flow_choices.forEach((fc) => {
     if (fc.choice == AuthN.Flow.Choice.AGREEMENTS) {
-      const agreements = typeof fc.data["agreements"] === "object" ? fc.data["agreements"] : {};
+      const agreements =
+        typeof fc.data["agreements"] === "object" ? fc.data["agreements"] : {};
       for (let [_, value] of Object.entries(agreements)) {
         if (typeof value === "object" && typeof value["id"] === "string") {
           agreed.push(value["id"]);
@@ -86,23 +87,27 @@ function choiceIsAvailable(result, choice) {
       flow_types: [AuthN.FlowType.SIGNUP, AuthN.FlowType.SIGNIN],
       cb_uri: CB_URI,
     });
-  
+
     const flow_id = startResp.result.flow_id;
     let result = startResp.result;
-  
-    while(result.flow_phase != "phase_completed") {
-      if (choiceIsAvailable(result, AuthN.Flow.Choice.PASSWORD)){
-        result = await flowHandlePasswordPhase(authn, flow_id, PASSWORD_INITIAL);
-      } else if(choiceIsAvailable(result, AuthN.Flow.Choice.PROFILE)) {
+
+    while (result.flow_phase != "phase_completed") {
+      if (choiceIsAvailable(result, AuthN.Flow.Choice.PASSWORD)) {
+        result = await flowHandlePasswordPhase(
+          authn,
+          flow_id,
+          PASSWORD_INITIAL
+        );
+      } else if (choiceIsAvailable(result, AuthN.Flow.Choice.PROFILE)) {
         result = await flowHandleProfilePhase(authn, flow_id);
-      } else if(choiceIsAvailable(result, AuthN.Flow.Choice.AGREEMENTS)) {
+      } else if (choiceIsAvailable(result, AuthN.Flow.Choice.AGREEMENTS)) {
         result = await flowHandleAgreementsPhase(authn, result, flow_id);
       } else {
         console.log(`Phase ${result.flow_phase} not handled`);
         break;
       }
     }
-  
+
     console.log("Complete signup/signin flow");
     const completeResp = await authn.flow.complete(flow_id);
     console.log("Flow is complete");
