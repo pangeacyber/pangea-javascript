@@ -1,6 +1,7 @@
 import { FC } from "react";
 import { useFormik } from "formik";
 import * as yup from "yup";
+import keyBy from "lodash/keyBy";
 import { Stack, Typography } from "@mui/material";
 
 import { AuthFlow } from "@pangeacyber/vanilla-js";
@@ -20,27 +21,30 @@ const ProfileView: FC<AuthFlowComponentProps> = (props) => {
   const { options, data, error, loading, update, reset } = props;
 
   // FIXME: generate initial values and validation from profile data
+  const validators: { [key: string]: any } = {};
+  const defaultValues: { [key: string]: string } = {};
 
-  const validationSchema = yup.object({
-    first_name: yup
-      .string()
-      .required("Required")
-      .test("no-html-tags", "HTML tags are not allowed", (value) => {
-        return checkForHtml(value || "");
-      }),
-    last_name: yup
-      .string()
-      .required("Required")
-      .test("no-html-tags", "HTML tags are not allowed", (value) => {
-        return checkForHtml(value);
-      }),
+  data.profile?.fields.forEach((f: AuthFlow.ProfileField) => {
+    if (f.show_on_signup && f.required) {
+      if (f.type === "string") {
+        validators[f.id] = yup
+          .string()
+          .required("Required")
+          .test("no-html-tags", "HTML tags are not allowed", (value) => {
+            return checkForHtml(value || "");
+          });
+      } else if (f.type === "integer") {
+        validators[f.id] = yup.number().required("Required");
+      }
+
+      defaultValues[f.id] = "";
+    }
   });
 
+  const validationSchema = yup.object(validators);
+
   const formik = useFormik({
-    initialValues: {
-      first_name: "",
-      last_name: "",
-    },
+    initialValues: defaultValues,
     validationSchema: validationSchema,
     onSubmit: (values) => {
       const payload: AuthFlow.ProfileParams = {

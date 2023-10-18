@@ -55,7 +55,6 @@ export {
 } from "@src/views/AuthFlow/types";
 
 // Flow2 exports
-
 export {
   AuthFlowComponentProps,
   StartView,
@@ -68,7 +67,8 @@ export {
   VerifyEmailView,
   VerifyResetView,
   ResetPasswordView,
+  MismatchEmailView,
   StatusMessageView,
   InvalidAuthView,
-  InvalidStateView,
+  ErrorView,
 } from "@src/features/AuthFlow";

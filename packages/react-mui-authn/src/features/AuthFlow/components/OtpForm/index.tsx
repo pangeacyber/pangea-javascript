@@ -1,7 +1,7 @@
-import { FC } from "react";
+import { FC, useEffect, useState } from "react";
 import { useFormik } from "formik";
 import * as yup from "yup";
-import { Stack } from "@mui/material";
+import { Stack, Typography } from "@mui/material";
 
 import { AuthFlow } from "@pangeacyber/vanilla-js";
 
@@ -14,7 +14,16 @@ interface Props extends AuthFlowComponentProps {
   otpType: string;
 }
 
-const OtpForm: FC<Props> = ({ options, loading, error, update, otpType }) => {
+const OtpForm: FC<Props> = ({
+  options,
+  loading,
+  error,
+  data,
+  update,
+  otpType,
+}) => {
+  const [disabled, setDisabled] = useState<boolean>(false);
+
   const validationSchema = yup.object({
     code: yup
       .string()
@@ -49,6 +58,40 @@ const OtpForm: FC<Props> = ({ options, loading, error, update, otpType }) => {
     },
   });
 
+  const retryMessage = (otpType: string) => {
+    if (
+      error.status === "MfaCodeExpired" ||
+      error.status === "AuthenticationFailure"
+    ) {
+      if (otpType === "totp") {
+        return (
+          <Typography variant="body2" mb={1} color="error">
+            Retry with the next code
+          </Typography>
+        );
+      } else {
+        return (
+          <Typography variant="body2" mb={1} color="error">
+            Resend code to try again
+          </Typography>
+        );
+      }
+    }
+
+    return null;
+  };
+
+  useEffect(() => {
+    formik.resetForm();
+    if (otpType !== "totp") {
+      setDisabled(true);
+    }
+  }, [error]);
+
+  useEffect(() => {
+    setDisabled(false);
+  }, [data]);
+
   return (
     <form onSubmit={formik.handleSubmit}>
       <Stack gap={1}>
@@ -58,8 +101,14 @@ const OtpForm: FC<Props> = ({ options, loading, error, update, otpType }) => {
           field={{
             label: "Code",
           }}
+          disabled={disabled}
         />
-        {error && <ErrorMessage response={error} />}
+        {error && (
+          <>
+            <ErrorMessage response={error} />
+            {retryMessage(otpType)}
+          </>
+        )}
         <Button
           color="primary"
           type="submit"

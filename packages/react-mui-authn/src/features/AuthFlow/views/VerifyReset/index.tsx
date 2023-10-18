@@ -1,4 +1,4 @@
-import { FC } from "react";
+import { FC, useEffect, useState } from "react";
 import { Stack, Typography } from "@mui/material";
 
 import { AuthFlow } from "@pangeacyber/vanilla-js";
@@ -15,7 +15,20 @@ const VerifyResetView: FC<AuthFlowComponentProps> = ({
   reset,
   restart,
 }) => {
+  const [checked, setChecked] = useState<boolean>(false);
+  const [status, setStatus] = useState<string>("");
+
+  useEffect(() => {
+    if (checked) {
+      setStatus("Verification has not been completed");
+      setTimeout(() => {
+        setStatus("");
+      }, 3000);
+    }
+  }, [data]);
+
   const checkState = () => {
+    setChecked(true);
     update(AuthFlow.Choice.NONE, {});
   };
 
@@ -40,6 +53,11 @@ const VerifyResetView: FC<AuthFlowComponentProps> = ({
         <Button color="primary" onClick={checkState}>
           Verification Complete
         </Button>
+        {status && (
+          <Typography variant="body2" color="error">
+            {status}
+          </Typography>
+        )}
         {error && <ErrorMessage response={error} />}
       </Stack>
       <Stack

@@ -2,7 +2,7 @@ import axios, { AxiosResponse } from "axios";
 
 import { AuthConfig, APIResponse, ClientResponse } from "@src/types";
 
-const API_VERSION = "v1";
+const API_VERSION = "v2";
 
 export class AuthNClient {
   config: AuthConfig;
