@@ -964,6 +964,7 @@ export namespace AuthN {
     last_login_ip?: string;
     last_login_city?: string;
     last_login_country?: string;
+    authenticators?: AuthN.User.Authenticators.Authenticator[];
   }
 
   export interface PasswordRequirements {
