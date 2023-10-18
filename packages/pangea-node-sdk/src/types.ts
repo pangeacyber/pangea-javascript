@@ -233,12 +233,14 @@ export namespace Intel {
     provider?: string;
   }
 
+  export interface ReputationData {
+    category: string[];
+    score: number;
+    verdict: string;
+  }
+
   export interface ReputationResult extends CommonResult {
-    data: {
-      category: string[];
-      score: number;
-      verdict: string;
-    };
+    data: ReputationData;
   }
 
   export namespace File {
@@ -317,15 +319,18 @@ export namespace Intel {
     export interface ReputationOptions extends Options {}
     export interface ReputationResult extends Intel.ReputationResult {}
     export interface ReputationParams extends Params, ReputationOptions {}
+
+    export interface GeolocateData {
+      country: string;
+      city: string;
+      latitude: number;
+      longitude: number;
+      postal_code: string;
+      country_code: string;
+    }
+
     export interface GeolocateResult extends CommonResult {
-      data: {
-        country: string;
-        city: string;
-        latitude: number;
-        longitude: number;
-        postal_code: string;
-        country_code: string;
-      };
+      data: GeolocateData;
     }
 
     export interface DomainResult extends CommonResult {
@@ -982,29 +987,41 @@ export namespace AuthN {
     SESSION = "session",
   }
 
-  export interface LoginToken {
-    token: string;
-    id: string;
-    identity: string;
-    type: TokenType;
-    life: number;
-    expire: string;
-    email: string;
-    scopes: Scopes;
-    profile: Profile;
-    created_at: string;
+  export interface IPIntelligence {
+    is_bad: boolean;
+    is_vpn: boolean;
+    is_proxy: boolean;
+    reputation: Intel.ReputationData;
+    geolocation: Intel.IP.GeolocateData;
+  }
+
+  export interface DomainIntelligence {
+    is_bad: boolean;
+    reputation: Intel.ReputationData;
+  }
+
+  export interface Intelligence {
+    embargo: boolean;
+    ip_intel: IPIntelligence;
+    domain_intel: DomainIntelligence;
+    user_intel: boolean;
   }
 
   export interface SessionToken {
     id: string;
-    identity: string;
     type: TokenType;
     life: number;
     expire: string;
+    identity: string;
     email: string;
     scopes: Scopes;
     profile: Profile;
     created_at: string;
+    intelligence?: Intelligence;
+  }
+
+  export interface LoginToken extends SessionToken {
+    token: string;
   }
 
   export namespace Agreements {
@@ -1272,7 +1289,7 @@ export namespace AuthN {
         token: string;
       }
 
-      export interface CheckResult extends SessionToken {}
+      export interface CheckResult extends LoginToken {}
     }
 
     export namespace Password {
