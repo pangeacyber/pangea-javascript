@@ -8,11 +8,10 @@ export default class Session extends BaseService {
     super("authn", token, config);
   }
 
-  // authn::/v1/session/invalidate
   /**
    * @summary Invalidate Session
    * @description Invalidate a session by session ID.
-   * @operationId authn_post_v1_session_invalidate
+   * @operationId authn_post_v2_session_invalidate
    * @param {String} sessionID - An ID for a token
    * @returns {Promise} - A promise representing an async call to
    * the invalidate session endpoint. Contains an empty object.
@@ -27,11 +26,10 @@ export default class Session extends BaseService {
     return this.post("v2/session/invalidate", { session_id: sessionID });
   }
 
-  // authn::/v1/session/list
   /**
    * @summary List session (service token)
    * @description List sessions.
-   * @operationId authn_post_v1_session_list
+   * @operationId authn_post_v2_session_list
    * @param {AuthN.Session.ListRequest} request - An object of options:
    *   - filter (object): A filter object
    *   - last (string): Reflected value from a previous response to obtain the next page of results.
@@ -53,11 +51,10 @@ export default class Session extends BaseService {
     return this.post("v2/session/list", request);
   }
 
-  // authn::/v1/session/logout
   /**
    * @summary Log out (service token)
    * @description Invalidate all sessions belonging to a user.
-   * @operationId authn_post_v1_session_logout
+   * @operationId authn_post_v2_session_logout
    * @param {String} user_id - The identity of a user or a service
    * @returns {Promise} - A promise representing an async call to
    * the session logout endpoint. Contains an empty object.
