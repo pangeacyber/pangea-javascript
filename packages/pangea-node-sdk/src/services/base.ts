@@ -39,20 +39,11 @@ class BaseService {
   async post(
     endpoint: string,
     data: object,
-    options: PostOptions = {}
+    options: PostOptions = {},
+    filepath?: string
   ): Promise<PangeaResponse<any>> {
     const fullpath = `${this.apiVersion}/${endpoint}`;
-    return await this.request.post(fullpath, data, options);
-  }
-
-  async postMultipart(
-    endpoint: string,
-    data: object,
-    filepath: string,
-    options: PostOptions = {}
-  ): Promise<PangeaResponse<any>> {
-    const fullpath = `${this.apiVersion}/${endpoint}`;
-    return await this.request.postMultipart(fullpath, data, filepath, options);
+    return await this.request.post(fullpath, data, options, filepath);
   }
 
   async pollResult(request_id: string): Promise<PangeaResponse<any>> {
@@ -65,7 +56,6 @@ class BaseService {
     }
 
     this.request_ = new PangeaRequest(this.serviceName, this.token, this.config, this.configID);
-
     return this.request_;
   }
 }

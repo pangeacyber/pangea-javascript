@@ -2,6 +2,7 @@ import PangeaResponse from "@src/response.js";
 import BaseService from "./base.js";
 import PangeaConfig from "@src/config.js";
 import { FileScan } from "@src/types.js";
+import { getFSparams } from "@src/utils/utils.js";
 
 export class FileScanService extends BaseService {
   constructor(token: string, config: PangeaConfig) {
@@ -30,6 +31,14 @@ export class FileScanService extends BaseService {
       pollResultSync: true,
     }
   ): Promise<PangeaResponse<FileScan.ScanResult>> {
-    return this.postMultipart("scan", request, filepath, options);
+    const fsData = getFSparams(filepath);
+
+    const fullRequest: FileScan.ScanFullRequest = {
+      ...fsData,
+      transfer_method: "direct",
+    };
+
+    Object.assign(fullRequest, request);
+    return this.post("scan", fullRequest, options, filepath);
   }
 }

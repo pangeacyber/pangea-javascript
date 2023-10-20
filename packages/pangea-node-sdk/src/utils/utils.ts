@@ -1,5 +1,8 @@
 import CryptoJS from "crypto-js";
 import * as crypto from "crypto";
+import * as fs from "fs";
+import CRC32C from "crc-32/CRC32C";
+import { FileScan } from "@src/types.js";
 
 function orderKeysRecursive(obj: Object) {
   const orderedEntries = Object.entries(obj).sort((a, b) => a[0].localeCompare(b[0]));
@@ -129,4 +132,20 @@ export function getConfigID(environment: string, service: string, configNumber: 
 export function getCustomSchemaTestToken(environment: string) {
   const name = "PANGEA_INTEGRATION_CUSTOM_SCHEMA_TOKEN_" + environment;
   return process.env[name] || "";
+}
+
+export function getFSparams(filePath: string): FileScan.ScanFileParams {
+  const hash = crypto.createHash("sha256");
+  const data = fs.readFileSync(filePath);
+
+  const size = data.length;
+  hash.update(data);
+  const crcValue = CRC32C.buf(data);
+  const sha256hex = hash.digest("hex");
+
+  return {
+    transfer_sha256: sha256hex,
+    transfer_crc32c: crcValue.toString(16),
+    transfer_size: size,
+  };
 }

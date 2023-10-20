@@ -2,7 +2,7 @@ import got, { Options, HTTPError } from "got";
 import type { Headers, Response } from "got";
 import FormData from "form-data";
 import fs from "fs";
-import { PostOptions } from "./types.js";
+import { AcceptedResult, PostOptions } from "./types.js";
 
 import PangeaConfig, { version } from "./config.js";
 import { ConfigEnv } from "./types.js";
@@ -16,6 +16,7 @@ const delay = async (ms: number) =>
 
 interface Request extends Object {
   config_id?: string;
+  transfer_method?: string;
 }
 
 class PangeaRequest {
@@ -47,26 +48,36 @@ class PangeaRequest {
   async post(
     endpoint: string,
     data: Request,
-    options: PostOptions = {}
+    options: PostOptions = {},
+    filepath?: string
   ): Promise<PangeaResponse<any>> {
     const url = this.getUrl(endpoint);
     this.checkConfigID(data);
-    const request = new Options({
-      headers: this.getHeaders(),
-      json: data,
-      retry: { limit: this.config.requestRetries },
-      responseType: "json",
-    });
+    let response;
+    if (filepath) {
+      if (data.transfer_method == "direct") {
+        response = await this.postPresignedURL(endpoint, data, filepath);
+      } else {
+        response = await this.postMultipart(endpoint, data, filepath);
+      }
+    } else {
+      const request = new Options({
+        headers: this.getHeaders(),
+        json: data,
+        retry: { limit: this.config.requestRetries },
+        responseType: "json",
+      });
+      response = await this.httpPost(url, request);
+    }
 
-    return await this.doPost(url, request, options);
+    return this.handleHttpResponse(response, options);
   }
 
-  async postMultipart(
+  private async postMultipart(
     endpoint: string,
     data: Request,
-    filepath: string,
-    options: PostOptions = {}
-  ): Promise<PangeaResponse<any>> {
+    filepath: string
+  ): Promise<Response> {
     const url = this.getUrl(endpoint);
     const form = new FormData();
     this.checkConfigID(data);
@@ -83,29 +94,123 @@ class PangeaRequest {
       responseType: "json",
     });
 
-    return await this.doPost(url, request, options);
+    return await this.httpPost(url, request);
   }
 
-  private async doPost(
-    url: string,
-    request: object,
+  private async postPresignedURL(
+    endpoint: string,
+    data: Request,
+    filepath: string
+  ): Promise<Response> {
+    let acceptedError;
+    try {
+      await this.post(endpoint, data, {
+        pollResultSync: false,
+      });
+      throw new PangeaErrors.PangeaError("This call should return 202");
+    } catch (error) {
+      if (!(error instanceof PangeaErrors.AcceptedRequestException)) {
+        throw error;
+      } else {
+        acceptedError = error;
+      }
+    }
+
+    const acceptedResult = await this.pollPresignedURL(acceptedError);
+    const presigned_url = acceptedResult.accepted_status.upload_url || "";
+
+    const form = new FormData();
+
+    for (const [key, value] of Object.entries(
+      acceptedResult.accepted_status?.upload_details || {}
+    )) {
+      form.append(key, value);
+    }
+
+    // form.append("request", JSON.stringify(upload_details), { contentType: "application/json" });
+    form.append("file", fs.createReadStream(filepath), {
+      contentType: "application/octet-stream",
+    });
+
+    const request = new Options({
+      body: form,
+      retry: { limit: this.config.requestRetries },
+      responseType: "json",
+    });
+
+    try {
+      await this.httpPost(presigned_url, request);
+    } catch (error) {
+      if (error instanceof HTTPError) {
+        console.log(error);
+        throw new PangeaErrors.PresignedUploadError(
+          `presigned POST failure: ${error.code}`,
+          JSON.stringify(error.response.body)
+        );
+      }
+    }
+
+    return acceptedError.pangeaResponse.gotResponse;
+  }
+
+  private async pollPresignedURL(
+    error: PangeaErrors.AcceptedRequestException
+  ): Promise<AcceptedResult> {
+    if (error.pangeaResponse.result.accepted_status.upload_url) {
+      return error.pangeaResponse.result;
+    }
+    let retryCount = 0;
+    const start = Date.now();
+    let pangeaResponse = error.pangeaResponse;
+
+    const body = pangeaResponse.gotResponse?.body as ResponseObject<any>;
+    const requestId = body?.request_id;
+    let loopError = error;
+
+    while (!loopError.accepted_result?.accepted_status.upload_url && !this.reachTimeout(start)) {
+      retryCount += 1;
+      const waitTime = this.getDelay(retryCount, start);
+
+      // eslint-disable-next-line no-await-in-loop
+      await delay(waitTime);
+      try {
+        pangeaResponse = await this.pollResult(requestId, false);
+        throw new PangeaErrors.PangeaError("This call should return 202");
+      } catch (error) {
+        if (!(error instanceof PangeaErrors.AcceptedRequestException)) {
+          throw error;
+        } else {
+          loopError = error;
+        }
+      }
+    }
+    if (loopError.accepted_result?.accepted_status.upload_url) {
+      return loopError.accepted_result;
+    } else {
+      throw loopError;
+    }
+  }
+
+  private async httpPost(url: string, request: object): Promise<Response> {
+    return (await got.post(url, request)) as Response;
+  }
+
+  private async handleHttpResponse(
+    response: Response,
     options: PostOptions = {}
   ): Promise<PangeaResponse<any>> {
     try {
-      const apiCall = (await got.post(url, request)) as Response;
-
-      let pangeaResponse = new PangeaResponse(apiCall);
-      if (pangeaResponse.gotResponse?.statusCode === 202 && this.config.queuedRetryEnabled) {
+      let pangeaResponse = new PangeaResponse(response);
+      if (response.statusCode === 202) {
         if (options.pollResultSync) {
           pangeaResponse = await this.handleAsync(pangeaResponse);
         }
-
         return this.checkResponse(pangeaResponse);
       }
       return this.checkResponse(pangeaResponse);
     } catch (error) {
       if (error instanceof HTTPError) {
-        // This MUST throw and error
+        // This MUST throw an error
         return this.checkResponse(new PangeaResponse(error.response));
       }
       // TODO: add handling of lower level errors?
@@ -158,6 +263,10 @@ class PangeaRequest {
   }
 
   async handleAsync(pangeaResponse: PangeaResponse<any>): Promise<PangeaResponse<any>> {
+    if (!this.config.queuedRetryEnabled) {
+      return pangeaResponse;
+    }
+
     let retryCount = 0;
     const start = Date.now();
     const body = pangeaResponse.gotResponse?.body as ResponseObject<any>;
