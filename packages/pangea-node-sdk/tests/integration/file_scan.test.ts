@@ -11,7 +11,7 @@ const config = new PangeaConfig({ domain: testHost, customUserAgent: "sdk-test" 
 const fileScan = new FileScanService(token, config);
 
 const testfilePath = "./tests/testdata/testfile.pdf";
-jest.setTimeout(60000);
+jest.setTimeout(120000);
 
 const delay = async (ms: number) =>
   new Promise((resolve) => {
