@@ -142,7 +142,6 @@ class PangeaRequest {
       await this.httpPost(presigned_url, request);
     } catch (error) {
       if (error instanceof HTTPError) {
-        console.log(error);
         throw new PangeaErrors.PresignedUploadError(
           `presigned POST failure: ${error.code}`,
           JSON.stringify(error.response.body)
