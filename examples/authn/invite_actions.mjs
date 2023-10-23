@@ -9,27 +9,28 @@ const RANDOM_VALUE = new Date().getTime().toString();
 const EMAIL_INVITER = `inviter.email+test${RANDOM_VALUE}@pangea.cloud`;
 const EMAIL_INVITE_1 = `invite_1.email+delete${RANDOM_VALUE}@pangea.cloud`;
 const EMAIL_INVITE_2 = `invite_2.email+delete${RANDOM_VALUE}@pangea.cloud`;
+const CB_URI = "https://www.usgs.gov/faqs/what-was-pangea";
 
 (async () => {
   try {
     // Invite 1
     console.log("Invite user 1...");
-    const inviteResp = await authn.user.invite(
-      EMAIL_INVITER,
-      EMAIL_INVITE_1,
-      "https://someurl.com/callbacklink",
-      "somestate"
-    );
+    const inviteResp = await authn.user.invite({
+      inviter: EMAIL_INVITER,
+      email: EMAIL_INVITE_1,
+      callback: CB_URI,
+      state: "somestate",
+    });
     console.log("Invite success. Result: ", inviteResp.result);
 
     // Invite 2
     console.log("\n\nInvite user 2...");
-    const inviteResp2 = await authn.user.invite(
-      EMAIL_INVITER,
-      EMAIL_INVITE_2,
-      "https://someurl.com/callbacklink",
-      "somestate"
-    );
+    const inviteResp2 = await authn.user.invite({
+      inviter: EMAIL_INVITER,
+      email: EMAIL_INVITE_2,
+      callback: CB_URI,
+      state: "somestate",
+    });
     console.log("Invite success. Result: ", inviteResp2.result);
     const invite_id_2 = inviteResp2.result.id;
 

@@ -10,7 +10,6 @@ import { Embargo } from "@src/types.js";
 class EmbargoService extends BaseService {
   constructor(token: string, config: PangeaConfig) {
     super("embargo", token, config);
-    this.apiVersion = "v1";
   }
 
   /**
@@ -30,7 +29,7 @@ class EmbargoService extends BaseService {
       ip: ipAddress,
     };
 
-    return this.post("ip/check", data);
+    return this.post("v1/ip/check", data);
   }
 
   /**
@@ -49,7 +48,7 @@ class EmbargoService extends BaseService {
       iso_code: isoCode,
     };
 
-    return this.post("iso/check", data);
+    return this.post("v1/iso/check", data);
   }
 }
 

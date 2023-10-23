@@ -6,7 +6,6 @@ import { FileScan } from "@src/types.js";
 export class FileScanService extends BaseService {
   constructor(token: string, config: PangeaConfig) {
     super("file-scan", token, config);
-    this.apiVersion = "v1";
   }
 
   /**
@@ -30,6 +29,6 @@ export class FileScanService extends BaseService {
       pollResultSync: true,
     }
   ): Promise<PangeaResponse<FileScan.ScanResult>> {
-    return this.postMultipart("scan", request, filepath, options);
+    return this.postMultipart("v1/scan", request, filepath, options);
   }
 }
