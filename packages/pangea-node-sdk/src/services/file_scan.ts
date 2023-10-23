@@ -1,7 +1,7 @@
 import PangeaResponse from "@src/response.js";
 import BaseService from "./base.js";
 import PangeaConfig from "@src/config.js";
-import { FileScan } from "@src/types.js";
+import { FileScan, TransferMethod } from "@src/types.js";
 import { getFSparams } from "@src/utils/utils.js";
 
 export class FileScanService extends BaseService {
@@ -35,7 +35,7 @@ export class FileScanService extends BaseService {
 
     const fullRequest: FileScan.ScanFullRequest = {
       ...fsData,
-      transfer_method: "direct",
+      transfer_method: TransferMethod.DIRECT,
     };
 
     Object.assign(fullRequest, request);

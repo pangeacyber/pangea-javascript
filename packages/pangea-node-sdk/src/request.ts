@@ -2,7 +2,7 @@ import got, { Options, HTTPError } from "got";
 import type { Headers, Response } from "got";
 import FormData from "form-data";
 import fs from "fs";
-import { AcceptedResult, PostOptions } from "./types.js";
+import { AcceptedResult, PostOptions, TransferMethod } from "./types.js";
 
 import PangeaConfig, { version } from "./config.js";
 import { ConfigEnv } from "./types.js";
@@ -16,7 +16,7 @@ const delay = async (ms: number) =>
 
 interface Request extends Object {
   config_id?: string;
-  transfer_method?: string;
+  transfer_method?: TransferMethod;
 }
 
 class PangeaRequest {
@@ -55,7 +55,7 @@ class PangeaRequest {
     this.checkConfigID(data);
     let response;
     if (filepath) {
-      if (data.transfer_method == "direct") {
+      if (data.transfer_method == TransferMethod.DIRECT) {
         response = await this.postPresignedURL(endpoint, data, filepath);
       } else {
         response = await this.postMultipart(endpoint, data, filepath);

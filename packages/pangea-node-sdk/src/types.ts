@@ -25,6 +25,11 @@ export enum ConfigEnv {
   PRODUCTION = "production",
 }
 
+export enum TransferMethod {
+  DIRECT = "direct",
+  MULTIPART = "multipart",
+}
+
 export interface Dictionary {
   [key: string]: string | boolean | number | Dictionary;
 }
@@ -217,7 +222,7 @@ export namespace FileScan {
   }
 
   export interface ScanFullRequest extends ScanRequest, ScanFileParams {
-    transfer_method: string;
+    transfer_method: TransferMethod;
   }
 
   export interface Options extends PostOptions {}
