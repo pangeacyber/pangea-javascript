@@ -35,7 +35,6 @@ const hashType = "sha256";
 export class FileIntelService extends BaseService {
   constructor(token: string, config: PangeaConfig) {
     super("file-intel", token, config);
-    this.apiVersion = "v1";
   }
 
   /**
@@ -71,7 +70,7 @@ export class FileIntelService extends BaseService {
     if (options?.verbose) data.verbose = options.verbose;
     if (options?.raw) data.raw = options.raw;
 
-    return this.post("reputation", data);
+    return this.post("v1/reputation", data);
   }
 
   /**
@@ -109,7 +108,7 @@ export class FileIntelService extends BaseService {
     if (options?.verbose) data.verbose = options.verbose;
     if (options?.raw) data.raw = options.raw;
 
-    return this.post("reputation", data);
+    return this.post("v1/reputation", data);
   }
 }
 
@@ -140,7 +139,6 @@ export class FileIntelService extends BaseService {
 export class DomainIntelService extends BaseService {
   constructor(token: string, config: PangeaConfig) {
     super("domain-intel", token, config);
-    this.apiVersion = "v1";
   }
 
   /**
@@ -173,7 +171,7 @@ export class DomainIntelService extends BaseService {
     if (options?.verbose) data.verbose = options.verbose;
     if (options?.raw) data.raw = options.raw;
 
-    return this.post("reputation", data);
+    return this.post("v1/reputation", data);
   }
 
   /**
@@ -210,7 +208,7 @@ export class DomainIntelService extends BaseService {
     if (options?.verbose) data.verbose = options.verbose;
     if (options?.raw) data.raw = options.raw;
 
-    return this.post("whois", data);
+    return this.post("v1/whois", data);
   }
 }
 
@@ -240,7 +238,6 @@ export class DomainIntelService extends BaseService {
 export class IPIntelService extends BaseService {
   constructor(token: string, config: PangeaConfig) {
     super("ip-intel", token, config);
-    this.apiVersion = "v1";
   }
 
   /**
@@ -276,7 +273,7 @@ export class IPIntelService extends BaseService {
     if (options?.verbose) data.verbose = options.verbose;
     if (options?.raw) data.raw = options.raw;
 
-    return this.post("reputation", data);
+    return this.post("v1/reputation", data);
   }
 
   /**
@@ -312,7 +309,7 @@ export class IPIntelService extends BaseService {
     if (options?.verbose) data.verbose = options.verbose;
     if (options?.raw) data.raw = options.raw;
 
-    return this.post("geolocate", data);
+    return this.post("v1/geolocate", data);
   }
 
   /**
@@ -348,7 +345,7 @@ export class IPIntelService extends BaseService {
     if (options?.verbose) data.verbose = options.verbose;
     if (options?.raw) data.raw = options.raw;
 
-    return this.post("domain", data);
+    return this.post("v1/domain", data);
   }
 
   /**
@@ -381,7 +378,7 @@ export class IPIntelService extends BaseService {
     if (options?.verbose) data.verbose = options.verbose;
     if (options?.raw) data.raw = options.raw;
 
-    return this.post("vpn", data);
+    return this.post("v1/vpn", data);
   }
 
   /**
@@ -417,7 +414,7 @@ export class IPIntelService extends BaseService {
     if (options?.verbose) data.verbose = options.verbose;
     if (options?.raw) data.raw = options.raw;
 
-    return this.post("proxy", data);
+    return this.post("v1/proxy", data);
   }
 }
 
@@ -447,7 +444,6 @@ export class IPIntelService extends BaseService {
 export class URLIntelService extends BaseService {
   constructor(token: string, config: PangeaConfig) {
     super("url-intel", token, config);
-    this.apiVersion = "v1";
   }
 
   /**
@@ -483,7 +479,7 @@ export class URLIntelService extends BaseService {
     if (options?.verbose) data.verbose = options.verbose;
     if (options?.raw) data.raw = options.raw;
 
-    return this.post("reputation", data);
+    return this.post("v1/reputation", data);
   }
 }
 
@@ -514,7 +510,6 @@ export class URLIntelService extends BaseService {
 export class UserIntelService extends BaseService {
   constructor(token: string, config: PangeaConfig) {
     super("user-intel", token, config);
-    this.apiVersion = "v1";
   }
 
   /**
@@ -535,7 +530,7 @@ export class UserIntelService extends BaseService {
   userBreached(
     request: Intel.User.User.BreachedRequest
   ): Promise<PangeaResponse<Intel.User.User.BreachedResult>> {
-    return this.post("user/breached", request);
+    return this.post("v1/user/breached", request);
   }
 
   /**
@@ -565,7 +560,7 @@ export class UserIntelService extends BaseService {
     };
     Object.assign(data, options);
 
-    return this.post("password/breached", data);
+    return this.post("v1/password/breached", data);
   }
 
   static isPasswordBreached(

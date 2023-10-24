@@ -7,7 +7,6 @@ import { getFSparams } from "@src/utils/utils.js";
 export class FileScanService extends BaseService {
   constructor(token: string, config: PangeaConfig) {
     super("file-scan", token, config);
-    this.apiVersion = "v1";
   }
 
   /**
@@ -39,6 +38,6 @@ export class FileScanService extends BaseService {
     };
 
     Object.assign(fullRequest, request);
-    return this.post("scan", fullRequest, options, filepath);
+    return this.post("v1/scan", fullRequest, options, filepath);
   }
 }

@@ -2,35 +2,20 @@ import PangeaResponse from "@src/response.js";
 import BaseService from "@src/services/base.js";
 import PangeaConfig from "@src/config.js";
 import { AuthN } from "@src/types.js";
-import FlowEnroll from "./enroll/index.js";
-import FlowSignup from "./signup.js";
-import FlowVerify from "./verify/index.js";
-import FlowReset from "./reset.js";
 
 export default class Flow extends BaseService {
-  enroll: FlowEnroll;
-  signup: FlowSignup;
-  verify: FlowVerify;
-  reset: FlowReset;
-
   constructor(token: string, config: PangeaConfig) {
     super("authn", token, config);
-    this.apiVersion = "v1";
-
-    this.enroll = new FlowEnroll(token, config);
-    this.signup = new FlowSignup(token, config);
-    this.verify = new FlowVerify(token, config);
-    this.reset = new FlowReset(token, config);
   }
 
-  // authn::/v1/flow/complete
   /**
-   * @summary Complete Sign-up/in
+   * @summary Complete sign-up/sign-in
    * @description Complete a login or signup flow.
-   * @operationId authn_post_v1_flow_complete
+   * @operationId authn_post_v2_flow_complete
    * @param {String} flowID - An ID for a login or signup flow
    * @returns {Promise<PangeaResponse<AuthN.Flow.CompleteResult>>} - A promise
-   * representing an async call to the endpoint.
+   * representing an async call to the endpoint. Available response fields can be found in our
+   * [API Documentation](https://pangea.cloud/docs/api/authn/flow#/v2/flow/complete).
    * @example
    * ```js
    * const response = await authn.flow.complete(
@@ -42,40 +27,75 @@ export default class Flow extends BaseService {
     const data: AuthN.Flow.CompleteRequest = {
       flow_id: flowID,
     };
-    return this.post("flow/complete", data);
+    return this.post("v2/flow/complete", data);
   }
 
-  // authn::/v1/flow/start
   /**
-   * @summary Start a sign-up/in
+   * @summary Start a sign-up/sign-in flow
    * @description Start a new signup or signin flow.
-   * @operationId authn_post_v1_flow_start
-   * @param {Object} options - Supported options:
-   *   - email (string): An email address
-   *   - cb_uri (string http-url): A login callback URI
-   *   - flow_types (AuthN.FlowType[]): A list of flow types
-   *   - provider (AuthN.IDProvider): Mechanism for authenticating a user's identity
-   * @returns {Promise<PangeaResponse<AuthN.Flow.Result>>} - A promise
-   * representing an async call to the endpoint.
+   * @operationId authn_post_v2_flow_start
+   * @param {AuthN.Flow.StartRequest} request
+   * @returns {Promise<PangeaResponse<AuthN.Flow.StartResult>>} - A promise
+   * representing an async call to the endpoint. Available response fields can be found in our
+   * [API Documentation](https://pangea.cloud/docs/api/authn/flow#/v2/flow/start).
    * @example
    * ```js
-   * const response = await authn.flow.start(
-   *   {
-   *     email: "joe.user@email.com",
-   *     cb_uri: "https://www.myserver.com/callback",
-   *     flow_types: [
-   *       AuthN.FlowType.SIGNUP,
-   *       AuthN.FlowType.SIGNIN,
-   *     ],
-   *     provider: AuthN.IDProvider.PASSWORD,
-   *   }
-   * )
+   * const response = await authn.flow.start({
+   *   email: "joe.user@email.com",
+   *   cb_uri: "https://www.myserver.com/callback",
+   *   flow_types: [
+   *     AuthN.FlowType.SIGNIN,
+   *     AuthN.FlowType.SIGNUP,
+   *   ],
+   *   invitation: "pmc_wuk7tvtpswyjtlsx52b7yyi2l7zotv4a",
+   * });
    * ```
    */
-  start(options: AuthN.Flow.StartOptions): Promise<PangeaResponse<AuthN.Flow.Result>> {
-    const data: AuthN.Flow.StartRequest = {};
+  start(request: AuthN.Flow.StartRequest): Promise<PangeaResponse<AuthN.Flow.StartResult>> {
+    return this.post("v2/flow/start", request);
+  }
 
-    Object.assign(data, options);
-    return this.post("flow/start", data);
+  /**
+   * @summary Restart a sign-up/sign-in flow
+   * @description Restart a signup-up/in flow choice.
+   * @operationId authn_post_v2_flow_restart
+   * @param {AuthN.Flow.RestartRequest} request
+   * @returns {Promise<PangeaResponse<AuthN.Flow.RestartResult>>} - A promise
+   * representing an async call to the endpoint. Available response fields can be found in our
+   * [API Documentation](https://pangea.cloud/docs/api/authn/flow#/v2/flow/restart).
+   * @example
+   * ```js
+   * const response = await authn.flow.restart({
+   *   flow_id: "pfl_dxiqyuq7ndc5ycjwdgmguwuodizcaqhh",
+   *   choice: AuthN.Flow.Choice.PASSWORD,
+   *   data: {},
+   * });
+   * ```
+   */
+  restart(request: AuthN.Flow.RestartRequest): Promise<PangeaResponse<AuthN.Flow.RestartResult>> {
+    return this.post("v2/flow/restart", request);
+  }
+
+  /**
+   * @summary Update a sign-up/sign-in flow
+   * @description Update a sign-up/sign-in flow.
+   * @operationId authn_post_v2_flow_update
+   * @param {AuthN.Flow.UpdateRequest} request
+   * @returns {Promise<PangeaResponse<AuthN.Flow.UpdateResult>>} - A promise
+   * representing an async call to the endpoint. Available response fields can be found in our
+   * [API Documentation](https://pangea.cloud/docs/api/authn/flow#/v2/flow/update).
+   * @example
+   * ```js
+   * const response = await authn.flow.update({
+   *   flow_id: "pfl_dxiqyuq7ndc5ycjwdgmguwuodizcaqhh",
+   *   choice: AuthN.Flow.Choice.PASSWORD,
+   *   data: {
+   *     password: "someNewPasswordHere",
+   *   },
+   * });
+   * ```
+   */
+  update(request: AuthN.Flow.UpdateRequest): Promise<PangeaResponse<AuthN.Flow.UpdateResult>> {
+    return this.post("v2/flow/update", request);
   }
 }
