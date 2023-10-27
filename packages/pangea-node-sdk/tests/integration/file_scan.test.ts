@@ -67,7 +67,7 @@ it("File Scan crowdstrike async and poll result", async () => {
     }
   }
 
-  const maxRetry = 6;
+  const maxRetry = 12;
   for (let retry = 0; retry < maxRetry; retry++) {
     try {
       // Wait until result could be ready
@@ -133,7 +133,7 @@ it("File Scan reversinglabs async and poll result", async () => {
     }
   }
 
-  const maxRetry = 6;
+  const maxRetry = 12;
   for (let retry = 0; retry < maxRetry; retry++) {
     try {
       // Wait until result could be ready

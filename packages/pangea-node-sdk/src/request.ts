@@ -191,7 +191,15 @@ class PangeaRequest {
   }
 
   private async httpPost(url: string, request: object): Promise<Response> {
-    return (await got.post(url, request)) as Response;
+    try {
+      return (await got.post(url, request)) as Response;
+    } catch (error) {
+      if (error instanceof HTTPError) {
+        // This MUST throw an error
+        this.checkResponse(new PangeaResponse(error.response));
+      }
+      throw error;
+    }
   }
 
   private async handleHttpResponse(
