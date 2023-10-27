@@ -152,6 +152,30 @@ export class FileIntelService extends BaseService {
 
     return this.post("v1/reputation", data);
   }
+
+  filepathReputationBulk(
+    filepaths: string[],
+    options?: Intel.File.ReputationOptions
+  ): Promise<PangeaResponse<Intel.File.ReputationBulkResult>> {
+    let hashes: string[] = [];
+
+    filepaths.forEach((filepath) => {
+      const content = readFileSync(filepath);
+      const fileHash = createHash(hashType).update(content).digest("hex");
+      hashes.push(fileHash);
+    });
+
+    const data: Intel.File.ReputationRequest = {
+      hashes: hashes,
+      hash_type: hashType,
+    };
+
+    if (options?.provider) data.provider = options.provider;
+    if (options?.verbose) data.verbose = options.verbose;
+    if (options?.raw) data.raw = options.raw;
+
+    return this.post("v2/reputation", data);
+  }
 }
 
 /**
