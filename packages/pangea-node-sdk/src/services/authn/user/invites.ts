@@ -8,11 +8,10 @@ export default class UserInvites extends BaseService {
     super("authn", token, config);
   }
 
-  // authn::/v1/user/invite/list
   /**
    * @summary List invites
    * @description Look up active invites for the userpool.
-   * @operationId authn_post_v1_user_invite_list
+   * @operationId authn_post_v2_user_invite_list
    * @param {Object} request - Supported options:
    *   - filter (object)
    *   - last (string): Reflected value from a previous response to
@@ -20,7 +19,9 @@ export default class UserInvites extends BaseService {
    *   - order (AuthN.ItemOrder): Order results asc(ending) or desc(ending).
    *   - order_by (AuthN.User.Invite.OrderBy): Which field to order results by.
    *   - size (number): Maximum results to include in the response.
-   * @returns {Promise<PangeaResponse<AuthN.User.Invite.ListResult>>} - A list of pending user invitations
+   * @returns {Promise<PangeaResponse<AuthN.User.Invite.ListResult>>} - A list of pending user invitations.
+   * Available response fields can be found in our
+   * [API Documentation](https://pangea.cloud/docs/api/authn/invite#/v2/user/invite/list).
    * @example
    * ```js
    * const response = await authn.user.invites.list(
@@ -33,20 +34,18 @@ export default class UserInvites extends BaseService {
    * ```
    */
   list(
-    request?: AuthN.User.Invite.ListRequest
+    request: AuthN.User.Invite.ListRequest = {}
   ): Promise<PangeaResponse<AuthN.User.Invite.ListResult>> {
-    const options = request || {};
-    return this.post("v1/user/invite/list", options);
+    return this.post("v2/user/invite/list", request);
   }
 
-  // authn::/v1/user/invite/delete
   /**
    * @summary Delete Invite
    * @description Delete a user invitation.
-   * @operationId authn_post_v1_user_invite_delete
+   * @operationId authn_post_v2_user_invite_delete
    * @param {String} id - A one-time ticket
    * @returns {Promise<PangeaResponse<{}>>} - A promise
-   * representing an async call to the endpoint.
+   * representing an async call to the endpoint. Contains an empty object.
    * @example
    * ```js
    * await authn.user.invites.delete(
@@ -59,6 +58,6 @@ export default class UserInvites extends BaseService {
       id,
     };
 
-    return this.post("v1/user/invite/delete", data);
+    return this.post("v2/user/invite/delete", data);
   }
 }

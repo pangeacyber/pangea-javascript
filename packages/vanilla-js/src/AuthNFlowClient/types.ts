@@ -34,6 +34,7 @@ export namespace AuthFlow {
     MAGICLINK = "magiclink",
     AGREEMENTS = "agreements",
     PROFILE = "profile",
+    PROVISIONAL = "provisional_enrollment",
     NONE = "",
   }
 
@@ -294,17 +295,20 @@ export namespace AuthFlow {
     data: MagiclinkResponse;
   }
 
-  export interface MagiclinkRequest {
-    flow_id: string;
-    choice: Choice.MAGICLINK;
-    data: MagiclinkParams;
-  }
-
-  export interface MagiclinkParams {
-    uri: string;
-  }
-
   export interface MagiclinkResponse {
+    sent: boolean;
+    resend_time?: string;
+    state: string;
+  }
+
+  // Provisional
+
+  export interface ProvisionalResult {
+    choice: Choice.PROVISIONAL;
+    data: ProvisionalResponse;
+  }
+
+  export interface ProvisionalResponse {
     sent: boolean;
     resend_time?: string;
     state: string;
@@ -393,7 +397,8 @@ export namespace AuthFlow {
     | TotpResult
     | MagiclinkResult
     | AgreementsResult
-    | ProfileResult;
+    | ProfileResult
+    | ProvisionalResult;
 
   export interface StateData {
     flowId: string;
@@ -420,6 +425,7 @@ export namespace AuthFlow {
     totp?: TotpResponse;
     magiclink?: MagiclinkResponse;
     profile?: ProfileResponse;
+    provisional?: ProvisionalResponse;
   }
 
   export interface StartRequest {
@@ -440,10 +446,10 @@ export namespace AuthFlow {
     | EmailOtpRequest
     | SmsOtpRequest
     | TotpRequest
-    | MagiclinkRequest
     | AgreementsRequest
     | ProfileRequest
-    | StatusRequest;
+    | StatusRequest
+    | ProfileRequest;
 
   export interface BaseRequest {
     flow_id: string;
@@ -461,7 +467,8 @@ export namespace AuthFlow {
     | Choice.TOTP
     | Choice.VERIFY_EMAIL
     | Choice.RESET_PASSWORD
-    | Choice.MAGICLINK;
+    | Choice.MAGICLINK
+    | Choice.PROVISIONAL;
 
   export interface RestartRequest {
     flow_id: string;

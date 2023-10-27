@@ -1,4 +1,4 @@
-import { FC } from "react";
+import { FC, useEffect, useState } from "react";
 import { Stack, Typography } from "@mui/material";
 import ReCAPTCHA from "react-google-recaptcha-enterprise";
 
@@ -10,13 +10,30 @@ import Button from "@src/components/core/Button";
 
 const CaptchaView: FC<AuthFlowComponentProps> = (props) => {
   const { options, data, error, update, reset } = props;
+  const [viewKey, setViewKey] = useState<string>("");
 
-  const handleChange = (value: string) => {
-    const payload: AuthFlow.CaptchaParams = {
-      code: value,
-    };
-    update(AuthFlow.Choice.CAPTCHA, payload);
+  useEffect(() => {
+    updateViewKey();
+  }, [error]);
+
+  const updateViewKey = () => {
+    const newKey = new Date().valueOf().toString();
+    setViewKey(newKey);
   };
+
+  const handleChange = async (value: string): Promise<void> => {
+    if (value) {
+      const payload: AuthFlow.CaptchaParams = {
+        code: value,
+      };
+      update(AuthFlow.Choice.CAPTCHA, payload);
+    }
+  };
+
+  // don't render until viewKey is set
+  if (!viewKey) {
+    return <></>;
+  }
 
   return (
     <Stack gap={2}>
@@ -24,7 +41,7 @@ const CaptchaView: FC<AuthFlowComponentProps> = (props) => {
       <Typography variant="body2" mb={1} sx={{ wordBreak: "break-word" }}>
         {data.email}
       </Typography>
-      <Stack gap={1}>
+      <Stack gap={1} key={`recaptcha-view-${viewKey}`}>
         <ReCAPTCHA
           sitekey={data.captcha?.site_key}
           onChange={handleChange}

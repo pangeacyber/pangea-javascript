@@ -29,6 +29,6 @@ export class FileScanService extends BaseService {
       pollResultSync: true,
     }
   ): Promise<PangeaResponse<FileScan.ScanResult>> {
-    return this.postMultipart("scan", request, filepath, options);
+    return this.postMultipart("v1/scan", request, filepath, options);
   }
 }

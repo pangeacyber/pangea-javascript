@@ -65,7 +65,9 @@ const PasswordRequirements: FC<Props> = ({
     { key: "punct", label: "Special character" },
     {
       key: "chars",
-      label: `At least ${policy?.password_chars_min ?? 8} characters`,
+      label: `At least ${
+        policy?.chars_min ?? policy?.password_chars_min ?? 8
+      } characters`,
     },
   ];
 
@@ -83,7 +85,11 @@ const PasswordRequirements: FC<Props> = ({
       <Typography variant="caption" component="div">
         {passwordChecks
           .filter((item) => {
-            return !!get(policy ?? {}, `password_${item.key}_min`, 1);
+            // FIXME: remove second part when old schema isn't used
+            return (
+              get(policy ?? {}, `${item.key}_min`, undefined) ??
+              get(policy ?? {}, `password_${item.key}_min`, 1)
+            );
           })
           .map((item) => {
             const error = item.key in passwordErrors;

@@ -220,16 +220,6 @@ export class AuthNFlowClient extends AuthNClient {
     return await this._update(payload);
   }
 
-  async magiclink(data: AuthFlow.MagiclinkParams): Promise<ClientResponse> {
-    const payload: AuthFlow.MagiclinkRequest = {
-      flow_id: this.state.flowId,
-      choice: AuthFlow.Choice.MAGICLINK,
-      data: data,
-    };
-
-    return await this._update(payload);
-  }
-
   async acceptAgreement(
     data: AuthFlow.AgreementsParams
   ): Promise<ClientResponse> {
@@ -377,6 +367,8 @@ export class AuthNFlowClient extends AuthNClient {
           case AuthFlow.Choice.VERIFY_EMAIL:
             this.state.verifyEmail = choice.data;
             break;
+          case AuthFlow.Choice.PROVISIONAL:
+            this.state.provisional = choice.data;
         }
 
         // map social state to provider name

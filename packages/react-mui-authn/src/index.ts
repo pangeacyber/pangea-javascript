@@ -55,7 +55,6 @@ export {
 } from "@src/views/AuthFlow/types";
 
 // Flow2 exports
-
 export {
   AuthFlowComponentProps,
   StartView,
@@ -63,11 +62,13 @@ export {
   SignupView,
   CaptchaView,
   ProfileView,
+  ProvisionedView,
   AgreementView,
   VerifyEmailView,
   VerifyResetView,
   ResetPasswordView,
+  MismatchEmailView,
   StatusMessageView,
   InvalidAuthView,
-  InvalidStateView,
+  ErrorView,
 } from "@src/features/AuthFlow";

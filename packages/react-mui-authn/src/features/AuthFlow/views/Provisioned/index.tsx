@@ -7,13 +7,14 @@ import { AuthFlowComponentProps } from "@src/features/AuthFlow/types";
 import Button from "@src/components/core/Button";
 import ErrorMessage from "../../components/ErrorMessage";
 
-const VerifyResetView: FC<AuthFlowComponentProps> = ({
+const ProvisionedView: FC<AuthFlowComponentProps> = ({
   options,
   data,
+  loading,
   error,
   update,
-  reset,
   restart,
+  reset,
 }) => {
   const [checked, setChecked] = useState<boolean>(false);
   const [status, setStatus] = useState<string>("");
@@ -27,30 +28,35 @@ const VerifyResetView: FC<AuthFlowComponentProps> = ({
     }
   }, [data]);
 
+  const sendEmail = () => {
+    restart(AuthFlow.Choice.PROVISIONAL);
+  };
+
   const checkState = () => {
     setChecked(true);
     update(AuthFlow.Choice.NONE, {});
   };
 
-  const sendEmail = () => {
-    restart(AuthFlow.Choice.RESET_PASSWORD, {});
-  };
+  useEffect(() => {
+    if (data?.provisional?.sent === false) {
+      // FIXME: add a resend time check
+      sendEmail();
+    }
+  }, [data]);
 
   return (
     <Stack gap={2}>
-      <Typography variant="h6">Reset Password</Typography>
+      <Typography variant="h6">Account Setup</Typography>
       <Stack gap={1}>
         <Typography variant="body2">
-          An email has been sent to {data.email}, click the link in the message
-          to reset your password.
+          An email message has been sent to {data.email}, click the link in the
+          message to continue.
         </Typography>
         <Typography variant="body2">
-          If you click the link in a different browser, return here and click
-          the button below.
+          If you open the link in a different browser, return here and click the
+          button below.
         </Typography>
-      </Stack>
-      <Stack gap={1}>
-        <Button color="primary" onClick={checkState}>
+        <Button color="primary" onClick={checkState} disabled={loading}>
           Verification Complete
         </Button>
         {status && (
@@ -65,7 +71,7 @@ const VerifyResetView: FC<AuthFlowComponentProps> = ({
         justifyContent="center"
         gap={{ xs: 0, sm: 1 }}
       >
-        <Button variant="text" onClick={sendEmail}>
+        <Button variant="text" onClick={sendEmail} disabled={loading}>
           Resend email
         </Button>
         <Button variant="text" onClick={reset}>
@@ -76,4 +82,4 @@ const VerifyResetView: FC<AuthFlowComponentProps> = ({
   );
 };
 
-export default VerifyResetView;
+export default ProvisionedView;

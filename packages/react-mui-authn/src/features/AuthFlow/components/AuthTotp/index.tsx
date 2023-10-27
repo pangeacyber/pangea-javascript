@@ -2,6 +2,7 @@ import { FC, ReactNode, useEffect, useState } from "react";
 import { Stack, Typography } from "@mui/material";
 
 import { AuthFlowComponentProps } from "@src/features/AuthFlow/types";
+import Button from "@src/components/core/Button";
 import OtpForm from "../OtpForm";
 
 const AuthTotp: FC<AuthFlowComponentProps> = (props) => {
@@ -33,10 +34,19 @@ const AuthTotp: FC<AuthFlowComponentProps> = (props) => {
   }, [data]);
 
   return (
-    <Stack gap={1}>
+    <Stack gap={2} width="100%">
       <Typography variant="body2">{title}</Typography>
       {content}
       <OtpForm {...props} otpType="totp" />
+      <Stack
+        direction={{ xs: "column", sm: "row" }}
+        justifyContent="center"
+        gap={{ xs: 0, sm: 1 }}
+      >
+        <Button variant="text" onClick={reset}>
+          {options.cancelLabel}
+        </Button>
+      </Stack>
     </Stack>
   );
 };
