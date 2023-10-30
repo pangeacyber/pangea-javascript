@@ -392,23 +392,61 @@ export namespace Intel {
       data: GeolocateData;
     }
 
+    export interface GeolocateBulkData {
+      [key: string]: GeolocateData;
+    }
+
+    export interface GeolocateBulkResult extends CommonResult {
+      data: GeolocateBulkData;
+    }
+
+    export interface DomainData {
+      domain_found: boolean;
+      domain?: string;
+    }
+
     export interface DomainResult extends CommonResult {
-      data: {
-        domain_found: boolean;
-        domain?: string;
-      };
+      data: DomainData;
+    }
+
+    export interface DomainBulkData {
+      [key: string]: DomainData;
+    }
+
+    export interface DomainBulkResult extends CommonResult {
+      data: DomainBulkData;
+    }
+
+    export interface VPNData {
+      is_vpn: boolean;
     }
 
     export interface VPNResult extends CommonResult {
-      data: {
-        is_vpn: boolean;
-      };
+      data: VPNData;
+    }
+
+    export interface VPNBulkData {
+      [key: string]: VPNData;
+    }
+
+    export interface VPNBulkResult extends CommonResult {
+      data: VPNBulkData;
+    }
+
+    export interface ProxyData {
+      is_proxy: boolean;
+    }
+
+    export interface ProxyBulkData {
+      [key: string]: ProxyData;
     }
 
     export interface ProxyResult extends CommonResult {
-      data: {
-        is_proxy: boolean;
-      };
+      data: ProxyData;
+    }
+
+    export interface ProxyBulkResult extends CommonResult {
+      data: ProxyBulkData;
     }
   }
 
@@ -420,6 +458,14 @@ export namespace Intel {
 
     export interface BreachedResult extends Intel.CommonResult {
       data: BreachedData;
+    }
+
+    export interface BreachedBulkData {
+      [key: string]: BreachedData;
+    }
+
+    export interface BreachedBulkResult extends Intel.CommonResult {
+      data: BreachedBulkData;
     }
 
     export namespace User {
@@ -451,6 +497,30 @@ export namespace Intel {
         | BreachedIPRequest
         | BreachedPhoneRequest
         | BreachedUsernameRequest;
+
+      export interface BreachedEmailBulkRequest extends BreachedOptions {
+        emails: string[];
+      }
+
+      export interface BreachedUsernameBulkRequest extends BreachedOptions {
+        usernames: string[];
+      }
+
+      export interface BreachedIPBulkRequest extends BreachedOptions {
+        ips: string[];
+      }
+
+      export interface BreachedPhoneBulkRequest extends BreachedOptions {
+        phone_numbers: string[];
+      }
+
+      export type BreachedBulkRequest =
+        | BreachedEmailBulkRequest
+        | BreachedIPBulkRequest
+        | BreachedPhoneBulkRequest
+        | BreachedUsernameBulkRequest;
+
+      export interface BreachedBulkResult extends Intel.User.BreachedBulkResult {}
     }
 
     export namespace Password {
@@ -459,6 +529,11 @@ export namespace Intel {
       export interface BreachedRequest extends BreachedOptions {
         hash_type: string;
         hash_prefix: string;
+      }
+
+      export interface BreachedBulkRequest extends BreachedOptions {
+        hash_type: string;
+        hash_prefixes: string[];
       }
 
       export enum PasswordStatus {

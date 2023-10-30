@@ -44,6 +44,17 @@ it("file filepathReputation with filepath should succeed", async () => {
   expect(response.result.data).toBeDefined();
 });
 
+it("file filepathReputationBulk with filepath should succeed", async () => {
+  const options = { provider: "reversinglabs", verbose: true, raw: true };
+  const response = await fileIntel.filepathReputationBulk(
+    ["./README.md", "./CHANGELOG.md"],
+    options
+  );
+  expect(response.status).toBe("Success");
+  expect(response.result.data).toBeDefined();
+  expect(Object.keys(response.result.data).length).toBe(2);
+});
+
 it("file reputation with filepath should faild", async () => {
   const options = { provider: "reversinglabs", verbose: true, raw: true };
 

@@ -165,16 +165,7 @@ export class FileIntelService extends BaseService {
       hashes.push(fileHash);
     });
 
-    const data: Intel.File.ReputationRequest = {
-      hashes: hashes,
-      hash_type: hashType,
-    };
-
-    if (options?.provider) data.provider = options.provider;
-    if (options?.verbose) data.verbose = options.verbose;
-    if (options?.raw) data.raw = options.raw;
-
-    return this.post("v2/reputation", data);
+    return this.hashReputationBulk(hashes, "sha256", options);
   }
 }
 
@@ -378,7 +369,7 @@ export class IPIntelService extends BaseService {
   /**
    * @summary Bulk reputation
    * @description Retrieve a reputation scores for IP addresses, from a provider, including an optional detailed report.
-   * @operationId ip_intel_post_v2_reputation
+   * @operationId FIXME:
    * @param {String[]} ips - A list of IPs to be looked up
    * @param {Object} options - An object of optional parameters. Parameters supported:
    *   - provider {String} - Use reputation data from this provider.
@@ -388,12 +379,7 @@ export class IPIntelService extends BaseService {
    * @returns {Promise} - A promise representing an async call to the /reputation endpoint.
    * @example
    * ```js
-   * const response = await ipIntel.reputationBulk(
-   *   ["190.28.74.251"],
-   *   {
-   *     provider: "crowdstrike"
-   *   }
-   * );
+   * FIXME:
    * ```
    */
   reputationBulk(
@@ -448,6 +434,42 @@ export class IPIntelService extends BaseService {
   }
 
   /**
+   * @summary Geolocate
+   * @description Retrieve geolocation information for an IP address' list from a provider, including an optional detailed report.
+   * @operationId FIXME:
+   * @param {String} ips - The IP's list to be looked up
+   * @param {Object} options - An object of optional parameters. Parameters supported:
+   *   - provider {String} - Use geolocation data from this provider: "digitalelement".
+   *   Default provider defined by the configuration.
+   *   - verbose {Boolean} - Echo the API parameters in the response. Default: verbose=false.
+   *   - raw {Boolean} - Include raw data from this provider. Default: raw=false.
+   * @returns {Promise} - A promise representing an async call to the geolocate endpoint.
+   * @example
+   * ```js
+   * const response = await ipIntel.geolocate(
+   *   "1.1.1.1",
+   *   {
+   *     provider: "digitalelement"
+   *   }
+   * );
+   * ```
+   */
+  geolocateBulk(
+    ips: string[],
+    options?: Intel.IP.GeolocateOptions
+  ): Promise<PangeaResponse<Intel.IP.GeolocateBulkResult>> {
+    const data: Intel.IP.GeolocateRequest = {
+      ips,
+    };
+
+    if (options?.provider) data.provider = options.provider;
+    if (options?.verbose) data.verbose = options.verbose;
+    if (options?.raw) data.raw = options.raw;
+
+    return this.post("v2/geolocate", data);
+  }
+
+  /**
    * @summary Domain
    * @description Retrieve the domain name associated with an IP address.
    * @operationId ip_intel_post_v1_domain
@@ -484,6 +506,37 @@ export class IPIntelService extends BaseService {
   }
 
   /**
+   * @summary Domain
+   * @description Retrieve the domain name associated with an IP address' list.
+   * @operationId FIXME:
+   * @param {String} ips - The IP's list to be looked up
+   * @param {Object} options - An object of optional parameters. Parameters supported:
+   *   - provider {String} - Use data from this provider: "digitalelement".
+   *   Default provider defined by the configuration.
+   *   - verbose {Boolean} - Echo the API parameters in the response. Default: verbose=false.
+   *   - raw {Boolean} - Include raw data from this provider. Default: raw=false.
+   * @returns {Promise} - A promise representing an async call to the domain endpoint.
+   * @example
+   * ```js
+   * FIXME:
+   * ```
+   */
+  getDomainBulk(
+    ips: string[],
+    options?: Intel.IP.DomainOptions
+  ): Promise<PangeaResponse<Intel.IP.DomainBulkResult>> {
+    const data: Intel.IP.DomainRequest = {
+      ips,
+    };
+
+    if (options?.provider) data.provider = options.provider;
+    if (options?.verbose) data.verbose = options.verbose;
+    if (options?.raw) data.raw = options.raw;
+
+    return this.post("v2/domain", data);
+  }
+
+  /**
    * @summary VPN
    * @description Determine if an IP address is provided by a VPN service.
    * @operationId ip_intel_post_v1_vpn
@@ -514,6 +567,37 @@ export class IPIntelService extends BaseService {
     if (options?.raw) data.raw = options.raw;
 
     return this.post("v1/vpn", data);
+  }
+
+  /**
+   * @summary VPN
+   * @description Determine if an IP address is provided by a VPN service.
+   * @operationId FIXME:
+   * @param {String} ip - The IP to be looked up
+   * @param {Object} options - An object of optional parameters. Parameters supported:
+   *   - provider {String} - Use data from this provider: "digitalelement".
+   *   Default provider defined by the configuration.
+   *   - verbose {Boolean} - Echo the API parameters in the response. Default: verbose=false.
+   *   - raw {Boolean} - Include raw data from this provider. Default: raw=false.
+   * @returns {Promise} - A promise representing an async call to the vpn endpoint.
+   * @example
+   * ```js
+   * FIXME:
+   * ```
+   */
+  isVPNBulk(
+    ips: string[],
+    options?: Intel.IP.VPNOptions
+  ): Promise<PangeaResponse<Intel.IP.VPNBulkResult>> {
+    const data: Intel.IP.VPNRequest = {
+      ips,
+    };
+
+    if (options?.provider) data.provider = options.provider;
+    if (options?.verbose) data.verbose = options.verbose;
+    if (options?.raw) data.raw = options.raw;
+
+    return this.post("v2/vpn", data);
   }
 
   /**
@@ -550,6 +634,37 @@ export class IPIntelService extends BaseService {
     if (options?.raw) data.raw = options.raw;
 
     return this.post("v1/proxy", data);
+  }
+
+  /**
+   * @summary Proxy
+   * @description Determine if an IP address is provided by a proxy service.
+   * @operationId FIXME:
+   * @param {String} ips - The IP's list to be looked up
+   * @param {Object} options - An object of optional parameters. Parameters supported:
+   *   - provider {String} - Use data from this provider: "digitalelement".
+   *   Default provider defined by the configuration.
+   *   - verbose {Boolean} - Echo the API parameters in the response. Default: verbose=false.
+   *   - raw {Boolean} - Include raw data from this provider. Default: raw=false.
+   * @returns {Promise} - A promise representing an async call to the vpn endpoint.
+   * @example
+   * ```js
+   * FIXME:
+   * ```
+   */
+  isProxyBulk(
+    ips: string[],
+    options?: Intel.IP.ProxyOptions
+  ): Promise<PangeaResponse<Intel.IP.ProxyBulkResult>> {
+    const data: Intel.IP.ProxyRequest = {
+      ips,
+    };
+
+    if (options?.provider) data.provider = options.provider;
+    if (options?.verbose) data.verbose = options.verbose;
+    if (options?.raw) data.raw = options.raw;
+
+    return this.post("v2/proxy", data);
   }
 }
 
@@ -620,7 +735,7 @@ export class URLIntelService extends BaseService {
   /**
    * @summary Bulk reputation check
    * @description Retrieve reputation scores for URLs, from a provider, including an optional detailed report.
-   * @operationId url_intel_post_v2_reputation
+   * @operationId FIXME:
    * @param {String[]} urls - A list of URLs to be looked up
    * @param {Object} options - An object of optional parameters. Parameters supported:
    *   - provider {String} - Use reputation data from this provider.
@@ -630,12 +745,7 @@ export class URLIntelService extends BaseService {
    * @returns {Promise} - A promise representing an async call to the lookup endpoint.
    * @example
    * ```js
-   * const response = await urlIntel.reputationBulk(
-   *   ["http://113.235.101.11:54384"],
-   *   {
-   *     provider: "crowdstrike"
-   *   }
-   * );
+   * FIXME:
    * ```
    */
   reputationBulk(
@@ -705,6 +815,27 @@ export class UserIntelService extends BaseService {
   }
 
   /**
+   * @summary Look up breached users
+   * @description Find out if an email address, username, phone number, or IP address was exposed in a security breach.
+   * @operationId user_intel_post_v1_user_breached
+   * @param {BrechedRequest} request - Request to be send to user/breached endpoint
+   * @param {Object} options - An object of optional parameters. Parameters supported:
+   *   - provider {String} - Use breached data from this provider: "spycloud".
+   *   Default provider defined by the configuration.
+   *   - verbose {Boolean} - Echo the API parameters in the response. Default: verbose=false.
+   *   - raw {Boolean} - Include raw data from this provider. Default: raw=false.
+   * @returns {Promise} - A promise representing an async call to the user/breached endpoint.
+   * @example
+   *  const request = {phone_number: "8005550123", verbose: true, raw: true };
+   *  const response = await userIntel.userBreached(request);
+   */
+  userBreachedBulk(
+    request: Intel.User.User.BreachedBulkRequest
+  ): Promise<PangeaResponse<Intel.User.User.BreachedBulkResult>> {
+    return this.post("v2/user/breached", request);
+  }
+
+  /**
    * @summary Look up breached passwords
    * @description Find out if a password has been exposed in security breaches by providing a 5 character prefix of the password hash.
    * @operationId user_intel_post_v1_password_breached
@@ -732,6 +863,36 @@ export class UserIntelService extends BaseService {
     Object.assign(data, options);
 
     return this.post("v1/password/breached", data);
+  }
+
+  /**
+   * @summary Look up breached passwords
+   * @description Find out if a password has been exposed in security breaches by providing a 5 character prefix of the password hash.
+   * @operationId FIXME:
+   * @param {String} hashType - Hash type to be looked up
+   * @param {String} hashPrefixes - The list of prefixes of the hash to be looked up.
+   * @param {Object} options - An object of optional parameters. Parameters supported:
+   *   - provider {String} - Use breached data from this provider: "spycloud".
+   *   Default provider defined by the configuration.
+   *   - verbose {Boolean} - Echo the API parameters in the response. Default: verbose=false.
+   *   - raw {Boolean} - Include raw data from this provider. Default: raw=false.
+   * @returns {Promise} - A promise representing an async call to the password/breached endpoint.
+   * @example
+   * const options = {provider: "spycloud", verbose: true, raw: true };
+   * FIXME:
+   */
+  passwordBreachedBulk(
+    hashType: Intel.HashType,
+    hashPrefixes: string[],
+    options: Intel.User.Password.BreachedOptions
+  ): Promise<PangeaResponse<Intel.User.User.BreachedBulkResult>> {
+    const data: Intel.User.Password.BreachedBulkRequest = {
+      hash_type: hashType,
+      hash_prefixes: hashPrefixes,
+    };
+    Object.assign(data, options);
+
+    return this.post("v2/password/breached", data);
   }
 
   static isPasswordBreached(
