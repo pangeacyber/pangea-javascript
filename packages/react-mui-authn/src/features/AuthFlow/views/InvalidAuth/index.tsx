@@ -38,7 +38,6 @@ const InvalidAuthView: FC<AuthFlowComponentProps> = ({
 
   return (
     <Stack gap={2}>
-      <Typography variant="h6">Authentication Conflict</Typography>
       <Stack alignItems="center" gap={2}>
         <Typography variant="body2" sx={{ wordBreak: "break-word" }}>
           To sign in to the {emailAddress} account you must authenticate with{" "}
