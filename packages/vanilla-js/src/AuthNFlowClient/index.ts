@@ -22,7 +22,9 @@ const DEFAULT_FLOW_DATA: AuthFlow.StateData = {
   authChoices: [],
   socialChoices: [],
   socialProviderMap: {},
-  socialStateMap: {},
+  samlChoices: [],
+  samlProviderMap: {},
+  callbackStateMap: {},
   agreements: [],
 };
 
@@ -309,8 +311,10 @@ export class AuthNFlowClient extends AuthNClient {
       // initial parsed data variables
       this.state.authChoices = [];
       this.state.socialChoices = [];
+      this.state.samlChoices = [];
       this.state.socialProviderMap = {};
-      this.state.socialStateMap = {};
+      this.state.samlProviderMap = {};
+      this.state.callbackStateMap = {};
       this.state.agreements = [];
 
       if (result.disclaimer) {
@@ -325,6 +329,11 @@ export class AuthNFlowClient extends AuthNClient {
             this.state.socialChoices.push(socialData);
             this.state.socialProviderMap[socialData.social_provider] =
               socialData;
+            break;
+          case AuthFlow.Choice.SAML:
+            const samlData = choice.data;
+            this.state.samlChoices.push(samlData);
+            this.state.samlProviderMap[samlData.provider_id] = samlData;
             break;
           case AuthFlow.Choice.PASSWORD:
             this.state.password = choice.data;
@@ -374,7 +383,14 @@ export class AuthNFlowClient extends AuthNClient {
         // map social state to provider name
         if (this.state.socialChoices?.length > 0) {
           this.state.socialChoices.forEach((p: AuthFlow.SocialResponse) => {
-            this.state.socialStateMap[p.state] = p.social_provider;
+            this.state.callbackStateMap[p.state] = p.social_provider;
+          });
+        }
+
+        // map saml state to provider name
+        if (this.state.samlChoices?.length > 0) {
+          this.state.samlChoices.forEach((p: AuthFlow.SamlResponse) => {
+            this.state.callbackStateMap[p.state] = p.provider_name;
           });
         }
       });
