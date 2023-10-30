@@ -140,7 +140,7 @@ export function getFSparams(filePath: string): FileScan.ScanFileParams {
 
   const size = data.length;
   hash.update(data);
-  const crcValue = CRC32C.buf(data);
+  const crcValue = CRC32C.buf(data) >>> 0;
   const sha256hex = hash.digest("hex");
 
   return {

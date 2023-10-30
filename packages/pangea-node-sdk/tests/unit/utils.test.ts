@@ -1,4 +1,5 @@
 import { it, expect } from "@jest/globals";
+import CRC32C from "crc-32/CRC32C";
 import { hashSHA1, hashSHA256, getHashPrefix, strToB64, b64toStr, hashNTLM } from "@src/index.js";
 
 it("Hash functions", async () => {
@@ -27,4 +28,12 @@ it("hashNTLM test", async () => {
   const msg = "password";
   const hash = hashNTLM(msg);
   expect(hash).toBe("8846F7EAEE8FB117AD06BDD830B7586C");
+});
+
+it("CRC32C test", async () => {
+  const msg = "ABCDEF";
+  const encoder = new TextEncoder();
+  let crcValue = CRC32C.buf(encoder.encode(msg), 0) >>> 0;
+  const crc = crcValue.toString(16);
+  expect(crc).toBe("a4b7ce68");
 });
