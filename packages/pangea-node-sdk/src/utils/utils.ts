@@ -1,7 +1,7 @@
 import CryptoJS from "crypto-js";
 import * as crypto from "crypto";
 import * as fs from "fs";
-import CRC32C from "crc-32/CRC32C";
+import crc32c from "@node-rs/crc32";
 import { FileScan } from "@src/types.js";
 
 function orderKeysRecursive(obj: Object) {
@@ -140,7 +140,7 @@ export function getFSparams(filePath: string): FileScan.ScanFileParams {
 
   const size = data.length;
   hash.update(data);
-  const crcValue = CRC32C.buf(data) >>> 0;
+  const crcValue = crc32c.crc32c(data);
   const sha256hex = hash.digest("hex");
 
   return {
