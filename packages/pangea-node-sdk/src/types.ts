@@ -25,8 +25,22 @@ export enum ConfigEnv {
   PRODUCTION = "production",
 }
 
+export enum TransferMethod {
+  DIRECT = "direct",
+  MULTIPART = "multipart",
+}
+
 export interface Dictionary {
   [key: string]: string | boolean | number | Dictionary;
+}
+
+export interface AcceptedStatus {
+  upload_url?: string;
+  upload_details?: Dictionary;
+}
+
+export interface AcceptedResult {
+  accepted_status: AcceptedStatus;
 }
 
 /**
@@ -199,8 +213,16 @@ export namespace FileScan {
     verbose?: boolean;
     raw?: boolean;
     provider?: string;
-    filepath?: string;
-    file?: string;
+  }
+
+  export interface ScanFileParams {
+    transfer_size: number;
+    transfer_crc32c: string;
+    transfer_sha256: string;
+  }
+
+  export interface ScanFullRequest extends ScanRequest, ScanFileParams {
+    transfer_method: TransferMethod;
   }
 
   export interface Options extends PostOptions {}
