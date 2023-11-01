@@ -38,9 +38,9 @@ const SignupView: FC<AuthFlowComponentProps> = (props) => {
           There are no valid authentication methods available
         </Typography>
       )}
-      {(data.invite || data.phase === "phase_secondary") && (
-        <SocialOptions {...props} />
-      )}
+      {(data.invite ||
+        data.phase === "phase_secondary" ||
+        data.samlChoices.length > 0) && <SocialOptions {...props} />}
       {data.authChoices.length === 0 && (
         <Stack
           direction={{ xs: "column", sm: "row" }}
