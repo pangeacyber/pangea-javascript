@@ -110,9 +110,11 @@ const AuthPassword: FC<AuthFlowComponentProps> = ({
             Forgot your password?
           </Button>
         )}
-        <Button variant="text" onClick={reset}>
-          {options.cancelLabel}
-        </Button>
+        {data.phase !== "phase_one_time" && (
+          <Button variant="text" onClick={reset}>
+            {options.cancelLabel}
+          </Button>
+        )}
       </Stack>
     </Stack>
   );
