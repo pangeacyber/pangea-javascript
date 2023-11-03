@@ -71,13 +71,74 @@ class AuditService extends BaseService {
     event: Audit.Event,
     options: Audit.LogOptions = {}
   ): Promise<PangeaResponse<Audit.LogResponse>> {
+    let data = this.getLogEvent(event, options) as Audit.LogData;
+    this.setRequestFields(data, options);
+    const response: PangeaResponse<Audit.LogResponse> = await this.post("v1/log", data);
+    this.processLogResponse(response.result, options);
+    return response;
+  }
+
+  async logAsync(
+    event: Audit.Event,
+    options: Audit.LogOptions = {}
+  ): Promise<PangeaResponse<Audit.LogResponse>> {
+    let data = this.getLogEvent(event, options) as Audit.LogData;
+    this.setRequestFields(data, options);
+    const response: PangeaResponse<Audit.LogResponse> = await this.post("v1/log_async", data);
+    this.processLogResponse(response.result, options);
+    return response;
+  }
+
+  async logBulk(
+    events: Audit.Event[],
+    options: Audit.LogOptions = {}
+  ): Promise<PangeaResponse<Audit.LogBulkResponse>> {
+    let logEvents: Audit.LogEvent[] = [];
+    events.forEach((event) => {
+      logEvents.push(this.getLogEvent(event, options));
+    });
+
+    let data: Audit.LogBulkRequest = {
+      events: logEvents,
+    };
+    this.setRequestFields(data, options);
+
+    const response: PangeaResponse<Audit.LogBulkResponse> = await this.post("v2/log", data);
+    response.result.results.forEach((result) => {
+      this.processLogResponse(result, options);
+    });
+    return response;
+  }
+
+  async logBulkAsync(
+    events: Audit.Event[],
+    options: Audit.LogOptions = {}
+  ): Promise<PangeaResponse<Audit.LogBulkResponse>> {
+    let logEvents: Audit.LogEvent[] = [];
+    events.forEach((event) => {
+      logEvents.push(this.getLogEvent(event, options));
+    });
+
+    let data: Audit.LogBulkRequest = {
+      events: logEvents,
+    };
+    this.setRequestFields(data, options);
+
+    const response: PangeaResponse<Audit.LogBulkResponse> = await this.post("v2/log_async", data);
+    response.result.results.forEach((result) => {
+      this.processLogResponse(result, options);
+    });
+    return response;
+  }
+
+  getLogEvent(event: Audit.Event, options: Audit.LogOptions): Audit.LogEvent {
     // Set tenant_id field if unset
     if (event.tenant_id === undefined && this.tenantID !== undefined) {
       event.tenant_id = this.tenantID;
     }
 
     event = eventOrderAndStringifySubfields(event);
-    const data: Audit.LogData = { event: event };
+    const data: Audit.LogEvent = { event: event };
 
     if (options.signer) {
       const signer = options.signer;
@@ -95,7 +156,10 @@ class AuditService extends BaseService {
       data.signature = signature;
       data.public_key = JSON.stringify(publicKeyInfo);
     }
+    return data;
+  }
 
+  setRequestFields(data: Audit.LogRequestCommon, options: Audit.LogOptions) {
     if (options?.verbose) {
       data.verbose = options.verbose;
     }
@@ -106,34 +170,24 @@ class AuditService extends BaseService {
         data.prev_root = this.prevUnpublishedRootHash;
       }
     }
-
-    const response: PangeaResponse<Audit.LogResponse> = await this.post("v1/log", data);
-    return this.processLogResponse(response, options);
   }
 
-  async processLogResponse(
-    response: PangeaResponse<Audit.LogResponse>,
-    options: Audit.LogOptions
-  ): Promise<PangeaResponse<Audit.LogResponse>> {
-    if (!response.success) {
-      return response;
-    }
-
-    let newUnpublishedRootHash = response.result.unpublished_root;
+  processLogResponse(result: Audit.LogResponse, options: Audit.LogOptions) {
+    let newUnpublishedRootHash = result.unpublished_root;
 
     if (!options?.skipEventVerification) {
-      this.verifyHash(response.result.envelope, response.result.hash);
-      response.result.signature_verification = verifySignature(response.result.envelope);
+      this.verifyHash(result.envelope, result.hash);
+      result.signature_verification = verifySignature(result.envelope);
     }
 
     if (options?.verify) {
-      response.result.membership_verification = verifyLogMembershipProof({
-        log: response.result,
+      result.membership_verification = verifyLogMembershipProof({
+        log: result,
         newUnpublishedRootHash: newUnpublishedRootHash,
       });
 
-      response.result.consistency_verification = verifyLogConsistencyProof({
-        log: response.result,
+      result.consistency_verification = verifyLogConsistencyProof({
+        log: result,
         newUnpublishedRoot: newUnpublishedRootHash,
         prevUnpublishedRoot: this.prevUnpublishedRootHash,
       });
@@ -142,8 +196,6 @@ class AuditService extends BaseService {
     if (newUnpublishedRootHash !== undefined) {
       this.prevUnpublishedRootHash = newUnpublishedRootHash;
     }
-
-    return response;
   }
 
   verifyHash(envelope: Audit.EventEnvelope | undefined, hash: string | undefined): void {
