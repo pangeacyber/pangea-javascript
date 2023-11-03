@@ -152,6 +152,16 @@ export class AuthNFlowClient extends AuthNClient {
     return await this._update(payload);
   }
 
+  async verifySaml(data: AuthFlow.SamlParams): Promise<ClientResponse> {
+    const payload: AuthFlow.SamlRequest = {
+      flow_id: this.state.flowId,
+      choice: AuthFlow.Choice.SAML,
+      data: data,
+    };
+
+    return await this._update(payload);
+  }
+
   async verifyPassword(data: AuthFlow.PasswordParams): Promise<ClientResponse> {
     const payload: AuthFlow.PasswordRequest = {
       flow_id: this.state.flowId,
@@ -383,14 +393,18 @@ export class AuthNFlowClient extends AuthNClient {
         // map social state to provider name
         if (this.state.socialChoices?.length > 0) {
           this.state.socialChoices.forEach((p: AuthFlow.SocialResponse) => {
-            this.state.callbackStateMap[p.state] = p.social_provider;
+            this.state.callbackStateMap[
+              p.state
+            ] = `social:${p.social_provider}`;
           });
         }
 
         // map saml state to provider name
         if (this.state.samlChoices?.length > 0) {
           this.state.samlChoices.forEach((p: AuthFlow.SamlResponse) => {
-            this.state.callbackStateMap[p.state] = p.provider_name;
+            this.state.callbackStateMap[
+              p.state
+            ] = `saml:${p.provider_id}:${p.provider_name}`;
           });
         }
       });

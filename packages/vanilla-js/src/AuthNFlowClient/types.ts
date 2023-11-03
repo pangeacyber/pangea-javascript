@@ -166,6 +166,7 @@ export namespace AuthFlow {
 
   export interface SamlParams {
     provider_id: string;
+    provider_name: string;
     uri: string;
   }
 
