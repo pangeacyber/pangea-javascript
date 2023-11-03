@@ -63,9 +63,11 @@ const AuthMagicLink: FC<AuthFlowComponentProps> = (props) => {
         <Button variant="text" onClick={sendLink} disabled={loading}>
           Resend link
         </Button>
-        <Button variant="text" onClick={reset}>
-          {options.cancelLabel}
-        </Button>
+        {data.phase !== "phase_one_time" && (
+          <Button variant="text" onClick={reset}>
+            {options.cancelLabel}
+          </Button>
+        )}
       </Stack>
     </Stack>
   );

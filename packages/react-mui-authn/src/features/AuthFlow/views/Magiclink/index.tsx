@@ -74,9 +74,11 @@ const MagiclinkView: FC<AuthFlowComponentProps> = ({
         <Button variant="text" onClick={sendEmail} disabled={loading}>
           Resend Email
         </Button>
-        <Button variant="text" onClick={reset}>
-          {options.cancelLabel}
-        </Button>
+        {data.phase !== "phase_one_time" && (
+          <Button variant="text" onClick={reset}>
+            {options.cancelLabel}
+          </Button>
+        )}
       </Stack>
     </Stack>
   );

@@ -76,9 +76,11 @@ const AuthSmsPhone: FC<AuthFlowComponentProps> = (props) => {
         <Button variant="text" onClick={sendCode} disabled={loading}>
           Resend code
         </Button>
-        <Button variant="text" onClick={reset}>
-          {options.cancelLabel}
-        </Button>
+        {data.phase !== "phase_one_time" && (
+          <Button variant="text" onClick={reset}>
+            {options.cancelLabel}
+          </Button>
+        )}
       </Stack>
     </Stack>
   );

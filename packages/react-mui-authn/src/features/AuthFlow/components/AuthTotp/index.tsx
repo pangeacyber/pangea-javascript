@@ -38,15 +38,17 @@ const AuthTotp: FC<AuthFlowComponentProps> = (props) => {
       <Typography variant="body2">{title}</Typography>
       {content}
       <OtpForm {...props} otpType="totp" />
-      <Stack
-        direction={{ xs: "column", sm: "row" }}
-        justifyContent="center"
-        gap={{ xs: 0, sm: 1 }}
-      >
-        <Button variant="text" onClick={reset}>
-          {options.cancelLabel}
-        </Button>
-      </Stack>
+      {data.phase !== "phase_one_time" && (
+        <Stack
+          direction={{ xs: "column", sm: "row" }}
+          justifyContent="center"
+          gap={{ xs: 0, sm: 1 }}
+        >
+          <Button variant="text" onClick={reset}>
+            {options.cancelLabel}
+          </Button>
+        </Stack>
+      )}
     </Stack>
   );
 };

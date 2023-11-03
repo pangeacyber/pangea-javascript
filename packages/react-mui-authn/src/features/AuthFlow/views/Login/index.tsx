@@ -28,6 +28,10 @@ const getTitle = (
     }
   }
 
+  if (data.phase === "phase_one_time") {
+    return "Login";
+  }
+
   return options.passwordHeading || "";
 };
 
@@ -37,17 +41,21 @@ const LoginView: FC<AuthFlowComponentProps> = (props) => {
   return (
     <Stack gap={2}>
       <Typography variant="h6">{getTitle(data, options)}</Typography>
-      <Typography variant="body2" sx={{ wordBreak: "break-word" }}>
-        {data.email}
-      </Typography>
-      <AuthOptions {...props} />
-      {data.authChoices.length === 0 && data.socialChoices.length === 0 && (
-        <Typography variant="body2" color="error">
-          There are no valid authentication methods available
+      {!!data.email && (
+        <Typography variant="body2" sx={{ wordBreak: "break-word" }}>
+          {data.email}
         </Typography>
       )}
+      <AuthOptions {...props} />
+      {data.authChoices.length === 0 &&
+        data.socialChoices.length === 0 &&
+        data.samlChoices.length === 0 && (
+          <Typography variant="body2" color="error">
+            There are no valid authentication methods available
+          </Typography>
+        )}
       <SocialOptions {...props} />
-      {data.authChoices.length === 0 && (
+      {data.authChoices.length === 0 && data.phase !== "phase_one_time" && (
         <Stack
           direction={{ xs: "column", sm: "row" }}
           justifyContent="center"
