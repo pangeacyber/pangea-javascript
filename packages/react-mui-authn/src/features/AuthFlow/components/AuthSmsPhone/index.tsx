@@ -50,7 +50,9 @@ const AuthSmsPhone: FC<AuthFlowComponentProps> = (props) => {
     <Stack gap={2} width="100%">
       <form onSubmit={formik.handleSubmit} style={{ width: "100%" }}>
         <Stack gap={1}>
-          <Typography variant="body2">Enroll a Phone Number</Typography>
+          <Typography variant="body2" color="secondary">
+            Enroll a phone number.
+          </Typography>
           <StringField
             name="phone"
             label="Phone Number"
@@ -58,30 +60,11 @@ const AuthSmsPhone: FC<AuthFlowComponentProps> = (props) => {
             autoComplete="phone"
           />
           {error && <ErrorMessage response={error} />}
-          <Button
-            color="primary"
-            fullWidth={true}
-            disabled={loading}
-            type="submit"
-          >
+          <Button fullWidth color="primary" disabled={loading} type="submit">
             {options.submitLabel}
           </Button>
         </Stack>
       </form>
-      <Stack
-        direction={{ xs: "column", sm: "row" }}
-        justifyContent="center"
-        gap={{ xs: 0, sm: 1 }}
-      >
-        <Button variant="text" onClick={sendCode} disabled={loading}>
-          Resend code
-        </Button>
-        {data.phase !== "phase_one_time" && (
-          <Button variant="text" onClick={reset}>
-            {options.cancelLabel}
-          </Button>
-        )}
-      </Stack>
     </Stack>
   );
 };

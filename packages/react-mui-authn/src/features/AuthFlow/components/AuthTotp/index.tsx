@@ -1,9 +1,9 @@
 import { FC, ReactNode, useEffect, useState } from "react";
-import { Stack, Typography } from "@mui/material";
+import { Stack } from "@mui/material";
 
 import { AuthFlowComponentProps } from "@src/features/AuthFlow/types";
-import Button from "@src/components/core/Button";
 import OtpForm from "../OtpForm";
+import { BodyText } from "@src/components/core/Text";
 
 const AuthTotp: FC<AuthFlowComponentProps> = (props) => {
   const { data, options, reset } = props;
@@ -15,13 +15,13 @@ const AuthTotp: FC<AuthFlowComponentProps> = (props) => {
       setTitle("Enroll Authenticator App");
       setContent(
         <>
-          <Typography component="div" variant="body2">
+          <BodyText>
             <ul style={{ margin: "0", listStyle: "circle", textAlign: "left" }}>
               <li>Open the Authenticator app</li>
               <li>Scan the QR Code below in the app</li>
               <li>Enter the code from your Authenticator app</li>
             </ul>
-          </Typography>
+          </BodyText>
           <Stack alignItems="center" textAlign="center">
             <img src={data?.totp?.totp_secret?.qr_image} alt="TOTP QR CODE" />
           </Stack>
@@ -34,21 +34,10 @@ const AuthTotp: FC<AuthFlowComponentProps> = (props) => {
   }, [data]);
 
   return (
-    <Stack gap={2} width="100%">
-      <Typography variant="body2">{title}</Typography>
+    <Stack gap={1} width="100%">
+      <BodyText>{title}</BodyText>
       {content}
       <OtpForm {...props} otpType="totp" />
-      {data.phase !== "phase_one_time" && (
-        <Stack
-          direction={{ xs: "column", sm: "row" }}
-          justifyContent="center"
-          gap={{ xs: 0, sm: 1 }}
-        >
-          <Button variant="text" onClick={reset}>
-            {options.cancelLabel}
-          </Button>
-        </Stack>
-      )}
     </Stack>
   );
 };

@@ -20,6 +20,7 @@ const OtpForm: FC<Props> = ({
   error,
   data,
   update,
+  restart,
   otpType,
 }) => {
   const [disabled, setDisabled] = useState<boolean>(false);
@@ -81,6 +82,23 @@ const OtpForm: FC<Props> = ({
     return null;
   };
 
+  const sendCode = () => {
+    if (otpType === "email_otp") {
+      restart(AuthFlow.Choice.EMAIL_OTP);
+    } else if (otpType === "sms_otp") {
+      restart(AuthFlow.Choice.SMS_OTP);
+    }
+  };
+
+  useEffect(() => {
+    if (
+      (otpType === "email_otp" && data?.emailOtp?.sent === false) ||
+      (otpType === "sms_otp" && data?.smsOtp?.sent === false)
+    ) {
+      sendCode();
+    }
+  }, []);
+
   useEffect(() => {
     formik.resetForm();
     if (otpType !== "totp") {
@@ -109,14 +127,25 @@ const OtpForm: FC<Props> = ({
             {retryMessage(otpType)}
           </>
         )}
-        <Button
-          color="primary"
-          type="submit"
-          disabled={loading}
-          fullWidth={true}
+        <Stack
+          direction={{ xs: "column", sm: "row" }}
+          justifyContent="center"
+          gap={{ xs: 0, sm: 1 }}
         >
-          {options.otpButtonLabel}
-        </Button>
+          {otpType !== "totp" && (
+            <Button
+              fullWidth
+              color="secondary"
+              onClick={sendCode}
+              disabled={loading}
+            >
+              Resend code
+            </Button>
+          )}
+          <Button color="primary" type="submit" disabled={loading} fullWidth>
+            {options.otpButtonLabel}
+          </Button>
+        </Stack>
       </Stack>
     </form>
   );
