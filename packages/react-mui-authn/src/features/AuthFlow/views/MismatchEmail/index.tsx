@@ -1,10 +1,13 @@
 import { FC } from "react";
-import { Stack, Typography } from "@mui/material";
+import { Stack } from "@mui/material";
 
 import { AuthFlow } from "@pangeacyber/vanilla-js";
 
 import Button from "@src/components/core/Button";
 import { AuthFlowComponentProps } from "@src/features/AuthFlow/types";
+import AuthFlowLayout from "../Layout";
+import IdField from "@src/components/fields/IdField";
+import { BodyText } from "@src/components/core/Text";
 
 const MismatchEmailView: FC<AuthFlowComponentProps> = ({
   options,
@@ -18,27 +21,26 @@ const MismatchEmailView: FC<AuthFlowComponentProps> = ({
   };
 
   return (
-    <Stack gap={2}>
-      <Typography variant="h6">Mismatched Email</Typography>
+    <AuthFlowLayout>
       <Stack alignItems="center" gap={2}>
-        <Typography variant="body2" sx={{ wordBreak: "break-word" }}>
+        <IdField
+          value={error.result?.incorrect_email}
+          resetCallback={reset}
+          resetLabel={options.cancelLabel}
+        />
+        <BodyText>
           The social provider email doesn't match your account email.
-        </Typography>
+        </BodyText>
         <Button
           color="primary"
           variant="contained"
-          fullWidth={true}
           onClick={doUpdate}
+          fullWidth
         >
           Select a different method
         </Button>
       </Stack>
-      <Stack direction="row" justifyContent="center" gap={2}>
-        <Button variant="text" onClick={reset}>
-          {options.cancelLabel}
-        </Button>
-      </Stack>
-    </Stack>
+    </AuthFlowLayout>
   );
 };
 

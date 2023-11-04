@@ -1,9 +1,11 @@
 import { FC } from "react";
-import { Stack, Typography } from "@mui/material";
 
+import { AuthFlowComponentProps } from "@src/features/AuthFlow/types";
+import AuthFlowLayout from "../Layout";
+import IdField from "@src/components/fields/IdField";
 import Button from "@src/components/core/Button";
 import { ErrorMessage } from "../../components";
-import { AuthFlowComponentProps } from "@src/features/AuthFlow/types";
+import { BodyText } from "@src/components/core/Text";
 
 const getErrorTitle = (status: string): string => {
   switch (status) {
@@ -20,35 +22,29 @@ const ErrorView: FC<AuthFlowComponentProps> = ({
   data,
   reset,
 }) => {
+  const buttons = !data.email ? (
+    <Button fullWidth color="secondary" onClick={reset}>
+      {options.cancelLabel}
+    </Button>
+  ) : undefined;
+
   return (
-    <Stack gap={2}>
-      <Typography variant="h6">{getErrorTitle(error.status)}</Typography>
-      {data?.email && (
-        <Typography variant="body2" mb={1} sx={{ wordBreak: "break-word" }}>
-          {data.email}
-        </Typography>
+    <AuthFlowLayout title={getErrorTitle(error.status)} buttons={buttons}>
+      <IdField
+        value={data.email}
+        resetCallback={reset}
+        resetLabel={options.cancelLabel}
+      />
+      {error ? (
+        <ErrorMessage response={error} />
+      ) : (
+        <BodyText>
+          {error && error.summary
+            ? error.summary
+            : "An error occurred, please try again later."}
+        </BodyText>
       )}
-      <Stack gap={1}>
-        {error ? (
-          <ErrorMessage response={error} />
-        ) : (
-          <Typography variant="body2">
-            {error && error.summary
-              ? error.summary
-              : "An error occurred, please try again later."}
-          </Typography>
-        )}
-      </Stack>
-      <Stack
-        direction={{ xs: "column", sm: "row" }}
-        justifyContent="center"
-        gap={{ xs: 0, sm: 1 }}
-      >
-        <Button variant="text" onClick={reset}>
-          {options.cancelLabel}
-        </Button>
-      </Stack>
-    </Stack>
+    </AuthFlowLayout>
   );
 };
 

@@ -1,11 +1,14 @@
 import { FC, useEffect, useState } from "react";
-import { Stack, Typography } from "@mui/material";
+import { Stack, Typography, useTheme } from "@mui/material";
 
 import { AuthFlow } from "@pangeacyber/vanilla-js";
 
 import { AuthFlowComponentProps } from "@src/features/AuthFlow/types";
+import AuthFlowLayout from "../Layout";
 import Button from "@src/components/core/Button";
+import IdField from "@src/components/fields/IdField";
 import ErrorMessage from "../../components/ErrorMessage";
+import { BodyText, ErrorText } from "@src/components/core/Text";
 
 const VerifyEmailView: FC<AuthFlowComponentProps> = ({
   options,
@@ -16,6 +19,7 @@ const VerifyEmailView: FC<AuthFlowComponentProps> = ({
   restart,
   reset,
 }) => {
+  const theme = useTheme();
   const [checked, setChecked] = useState<boolean>(false);
   const [status, setStatus] = useState<string>("");
 
@@ -44,41 +48,39 @@ const VerifyEmailView: FC<AuthFlowComponentProps> = ({
     }
   }, [data]);
 
+  const buttons = (
+    <>
+      <Button
+        fullWidth
+        color="secondary"
+        onClick={sendEmail}
+        disabled={loading}
+      >
+        Resend email
+      </Button>
+      <Button fullWidth color="primary" onClick={checkState} disabled={loading}>
+        I'm verified
+      </Button>
+    </>
+  );
+
   return (
-    <Stack gap={2}>
-      <Typography variant="h6">Verify your email</Typography>
+    <AuthFlowLayout title="Verify your email" buttons={buttons}>
       <Stack gap={1}>
-        <Typography variant="body2">
-          An email message has been sent to {data.email}, click the link in the
-          message to continue.
-        </Typography>
-        <Typography variant="body2">
-          If you open the link in a different browser, return here and click the
-          button below.
-        </Typography>
-        <Button color="primary" onClick={checkState} disabled={loading}>
-          Verification Complete
-        </Button>
-        {status && (
-          <Typography variant="body2" color="error">
-            {status}
-          </Typography>
-        )}
+        <IdField
+          value={data.email}
+          resetCallback={reset}
+          resetLabel={options.cancelLabel}
+        />
+        <BodyText sxProps={{ padding: "0 16px" }}>
+          Email sent. Click link to verify. If using another browser, come back
+          and click the button below.
+        </BodyText>
+
+        {status && <ErrorText>{status}</ErrorText>}
         {error && <ErrorMessage response={error} />}
       </Stack>
-      <Stack
-        direction={{ xs: "column", sm: "row" }}
-        justifyContent="center"
-        gap={{ xs: 0, sm: 1 }}
-      >
-        <Button variant="text" onClick={sendEmail} disabled={loading}>
-          Resend email
-        </Button>
-        <Button variant="text" onClick={reset}>
-          {options.cancelLabel}
-        </Button>
-      </Stack>
-    </Stack>
+    </AuthFlowLayout>
   );
 };
 

@@ -105,14 +105,9 @@ const AuthPassword: FC<AuthFlowComponentProps> = ({
         justifyContent="center"
         gap={{ xs: 0, sm: 1 }}
       >
-        {!enrollment && (
+        {!enrollment && data.phase !== "phase_one_time" && (
           <Button variant="text" onClick={forgot}>
             Forgot your password?
-          </Button>
-        )}
-        {data.phase !== "phase_one_time" && (
-          <Button variant="text" onClick={reset}>
-            {options.cancelLabel}
           </Button>
         )}
       </Stack>

@@ -1,5 +1,6 @@
 import { AuthFlowComponentProps } from "@src/features/AuthFlow/types";
 
+import AuthFlowLayout from "./views/Layout";
 import StartView from "./views/Start";
 import LoginView from "./views/Login";
 import SignupView from "./views/Signup";
@@ -17,6 +18,7 @@ import ErrorView from "./views/Error";
 
 export {
   AuthFlowComponentProps,
+  AuthFlowLayout,
   StartView,
   LoginView,
   SignupView,
