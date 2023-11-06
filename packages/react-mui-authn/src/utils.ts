@@ -19,23 +19,35 @@ export const validatePassword = (
   value: string,
   policy: PasswordPolicy | undefined = undefined
 ): object => {
-  const minLength = policy?.password_chars_min ?? 8;
+  const minLength = policy?.chars_min ?? policy?.password_chars_min ?? 8;
   const checkList = {} as IDict;
 
   if (value.length < minLength) {
     checkList["chars"] = 1;
   }
 
-  if ((policy?.password_upper_min ?? 1) && !hasUpper(value)) {
+  if (
+    (policy?.upper_min ?? policy?.password_upper_min ?? 1) &&
+    !hasUpper(value)
+  ) {
     checkList["upper"] = 1;
   }
-  if ((policy?.password_lower_min ?? 1) && !hasLower(value)) {
+  if (
+    (policy?.lower_min ?? policy?.password_lower_min ?? 1) &&
+    !hasLower(value)
+  ) {
     checkList["lower"] = 1;
   }
-  if ((policy?.password_number_min ?? 1) && !hasNumber(value)) {
+  if (
+    (policy?.number_min ?? policy?.password_number_min ?? 1) &&
+    !hasNumber(value)
+  ) {
     checkList["number"] = 1;
   }
-  if ((policy?.password_punct_min ?? 1) && !hasSpecial(value)) {
+  if (
+    (policy?.punct_min ?? policy?.password_punct_min ?? 1) &&
+    !hasSpecial(value)
+  ) {
     checkList["punct"] = 1;
   }
 

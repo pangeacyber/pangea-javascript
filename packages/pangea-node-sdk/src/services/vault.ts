@@ -10,7 +10,6 @@ import { Vault } from "@src/types.js";
 class VaultService extends BaseService {
   constructor(token: string, config: PangeaConfig) {
     super("vault", token, config);
-    this.apiVersion = "v1";
   }
 
   /**
@@ -42,7 +41,7 @@ class VaultService extends BaseService {
       state: state,
     };
     Object.assign(data, options);
-    return this.post("state/change", data);
+    return this.post("v1/state/change", data);
   }
 
   /**
@@ -63,7 +62,7 @@ class VaultService extends BaseService {
       id: id,
     };
 
-    return this.post("delete", data);
+    return this.post("v1/delete", data);
   }
 
   /**
@@ -99,7 +98,7 @@ class VaultService extends BaseService {
     };
 
     Object.assign(data, options);
-    return this.post("get", data);
+    return this.post("v1/get", data);
   }
 
   /**
@@ -135,7 +134,7 @@ class VaultService extends BaseService {
    * ```
    */
   async list(options: Vault.ListOptions = {}): Promise<PangeaResponse<Vault.ListResult>> {
-    return this.post("list", options);
+    return this.post("v1/list", options);
   }
 
   /**
@@ -184,7 +183,7 @@ class VaultService extends BaseService {
     };
 
     Object.assign(data, options);
-    return this.post("update", data);
+    return this.post("v1/update", data);
   }
 
   /**
@@ -232,7 +231,7 @@ class VaultService extends BaseService {
     };
 
     Object.assign(data, options);
-    return this.post("secret/store", data);
+    return this.post("v1/secret/store", data);
   }
 
   /**
@@ -280,7 +279,7 @@ class VaultService extends BaseService {
     };
 
     Object.assign(data, options);
-    return this.post("secret/store", data);
+    return this.post("v1/secret/store", data);
   }
 
   /**
@@ -314,7 +313,7 @@ class VaultService extends BaseService {
       secret: secret,
     };
     Object.assign(data, options);
-    return this.post("secret/rotate", data);
+    return this.post("v1/secret/rotate", data);
   }
 
   /**
@@ -341,7 +340,7 @@ class VaultService extends BaseService {
       rotation_grace_period: rotation_grace_period,
     };
 
-    return this.post("secret/rotate", data);
+    return this.post("v1/secret/rotate", data);
   }
 
   /**
@@ -394,7 +393,7 @@ class VaultService extends BaseService {
     };
 
     Object.assign(data, options);
-    return this.post("key/generate", data);
+    return this.post("v1/key/generate", data);
   }
 
   /**
@@ -447,7 +446,7 @@ class VaultService extends BaseService {
     };
 
     Object.assign(data, options);
-    return this.post("key/generate", data);
+    return this.post("v1/key/generate", data);
   }
 
   /**
@@ -508,7 +507,7 @@ class VaultService extends BaseService {
     };
 
     Object.assign(data, options);
-    return this.post("key/store", data);
+    return this.post("v1/key/store", data);
   }
 
   /**
@@ -565,7 +564,7 @@ class VaultService extends BaseService {
     };
 
     Object.assign(data, options);
-    return this.post("key/store", data);
+    return this.post("v1/key/store", data);
   }
 
   /**
@@ -600,7 +599,7 @@ class VaultService extends BaseService {
     };
 
     Object.assign(data, options);
-    return this.post("key/rotate", data);
+    return this.post("v1/key/rotate", data);
   }
 
   /**
@@ -626,7 +625,7 @@ class VaultService extends BaseService {
       id: id,
       plain_text: plainText,
     };
-    return this.post("key/encrypt", data);
+    return this.post("v1/key/encrypt", data);
   }
 
   /**
@@ -657,7 +656,7 @@ class VaultService extends BaseService {
       cipher_text: cipherText,
     };
     Object.assign(data, options);
-    return this.post("key/decrypt", data);
+    return this.post("v1/key/decrypt", data);
   }
 
   /**
@@ -680,7 +679,7 @@ class VaultService extends BaseService {
       id: id,
       message: message,
     };
-    return this.post("key/sign", data);
+    return this.post("v1/key/sign", data);
   }
 
   /**
@@ -715,7 +714,7 @@ class VaultService extends BaseService {
       signature: signature,
     };
     Object.assign(data, options);
-    return this.post("key/verify", data);
+    return this.post("v1/key/verify", data);
   }
 
   /**
@@ -742,7 +741,7 @@ class VaultService extends BaseService {
       id: id,
     };
     Object.assign(data, options);
-    return this.post("get/jwk", data);
+    return this.post("v1/get/jwk", data);
   }
 
   /**
@@ -765,7 +764,7 @@ class VaultService extends BaseService {
       id: id,
       payload: payload,
     };
-    return this.post("key/sign/jwt", data);
+    return this.post("v1/key/sign/jwt", data);
   }
 
   /**
@@ -785,7 +784,7 @@ class VaultService extends BaseService {
     let data: Vault.JWT.VerifyRequest = {
       jws: jws,
     };
-    return this.post("key/verify/jwt", data);
+    return this.post("v1/key/verify/jwt", data);
   }
 
   /**
@@ -805,7 +804,7 @@ class VaultService extends BaseService {
   async folderCreate(
     request: Vault.Folder.CreateRequest
   ): Promise<PangeaResponse<Vault.Folder.CreateResult>> {
-    return this.post("folder/create", request);
+    return this.post("v1/folder/create", request);
   }
 }
 

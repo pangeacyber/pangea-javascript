@@ -19,7 +19,6 @@ class AuthNService extends BaseService {
 
   constructor(token: string, config: PangeaConfig) {
     super("authn", token, config);
-    this.apiVersion = "v1";
 
     this.user = new User(token, config);
     this.flow = new Flow(token, config);

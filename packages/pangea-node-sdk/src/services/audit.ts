@@ -31,7 +31,6 @@ class AuditService extends BaseService {
     super("audit", token, config, configID);
     this.publishedRoots = {};
     this.publishedRoots = {};
-    this.apiVersion = "v1";
     this.prevUnpublishedRootHash = undefined;
     this.tenantID = tenantID;
   }
@@ -108,7 +107,7 @@ class AuditService extends BaseService {
       }
     }
 
-    const response: PangeaResponse<Audit.LogResponse> = await this.post("log", data);
+    const response: PangeaResponse<Audit.LogResponse> = await this.post("v1/log", data);
     return this.processLogResponse(response, options);
   }
 
@@ -205,7 +204,7 @@ class AuditService extends BaseService {
       payload.verbose = true;
     }
 
-    const response: PangeaResponse<Audit.SearchResponse> = await this.post("search", payload);
+    const response: PangeaResponse<Audit.SearchResponse> = await this.post("v1/search", payload);
     return this.processSearchResponse(response, options);
   }
 
@@ -243,7 +242,7 @@ class AuditService extends BaseService {
       offset,
     };
 
-    const response: PangeaResponse<Audit.SearchResponse> = await this.post("results", payload);
+    const response: PangeaResponse<Audit.SearchResponse> = await this.post("v1/results", payload);
     return this.processSearchResponse(response, options);
   }
 
@@ -265,7 +264,7 @@ class AuditService extends BaseService {
       data.tree_size = size;
     }
 
-    return this.post("root", data);
+    return this.post("v1/root", data);
   }
 
   async processSearchResponse(

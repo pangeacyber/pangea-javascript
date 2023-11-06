@@ -1,28 +1,33 @@
 import { FC } from "react";
-import { Stack, Typography } from "@mui/material";
 
 import { AuthFlowComponentProps } from "@src/features/AuthFlow/types";
-import Button from "@src/components/core/Button";
-import Disclaimer from "../../components/Disclaimer";
-import { AuthOptions } from "../../components";
+import AuthFlowLayout from "../Layout";
+import { AuthOptions, SocialOptions } from "../../components";
+import IdField from "@src/components/fields/IdField";
+import { BodyText } from "@src/components/core/Text";
 
 const LoginView: FC<AuthFlowComponentProps> = (props) => {
   const { options, data, reset } = props;
+  const disclaimer =
+    data.disclaimer && data.phase !== "phase_one_time" ? data.disclaimer : "";
 
   return (
-    <Stack gap={2}>
-      <Typography variant="h6">{options.passwordHeading}</Typography>
-      <Typography variant="body2" mb={1} sx={{ wordBreak: "break-word" }}>
-        {data.email}
-      </Typography>
+    <AuthFlowLayout title={options.passwordHeading} disclaimer={disclaimer}>
+      <IdField
+        value={data.email}
+        resetCallback={reset}
+        resetLabel={options.cancelLabel}
+      />
       <AuthOptions {...props} />
-      <Stack direction="row" justifyContent="center" gap={1}>
-        <Button variant="text" onClick={reset}>
-          {options.cancelLabel}
-        </Button>
-      </Stack>
-      {data.disclaimer && <Disclaimer content={data.disclaimer} />}
-    </Stack>
+      {data.authChoices.length === 0 &&
+        data.socialChoices.length === 0 &&
+        data.samlChoices.length === 0 && (
+          <BodyText color="error" sxProps={{ padding: "0 16px" }}>
+            There are no valid authentication methods available
+          </BodyText>
+        )}
+      <SocialOptions {...props} />
+    </AuthFlowLayout>
   );
 };
 

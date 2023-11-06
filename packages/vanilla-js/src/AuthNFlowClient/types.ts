@@ -26,6 +26,7 @@ export namespace AuthFlow {
     SET_PASSWORD = "set_password",
     RESET_PASSWORD = "reset_password",
     SOCIAL = "social",
+    SAML = "saml",
     CAPTCHA = "captcha",
     VERIFY_EMAIL = "verify_email",
     EMAIL_OTP = "email_otp",
@@ -34,6 +35,7 @@ export namespace AuthFlow {
     MAGICLINK = "magiclink",
     AGREEMENTS = "agreements",
     PROFILE = "profile",
+    PROVISIONAL = "provisional_enrollment",
     NONE = "",
   }
 
@@ -54,6 +56,7 @@ export namespace AuthFlow {
     | EmptyObject
     | PasswordResponse
     | SocialResponse
+    | SamlResponse
     | CaptchaResponse
     | VerifyEmailResponse
     | EmailOtpResponse
@@ -66,6 +69,7 @@ export namespace AuthFlow {
     | StartParams
     | PasswordParams
     | SocialParams
+    | SamlParams
     | EmailParams
     | EmailOtpParams
     | SmsOtpParams
@@ -143,6 +147,33 @@ export namespace AuthFlow {
     flow_id: string;
     choice: Choice.SOCIAL;
     data: SocialParams;
+  }
+
+  // SAML
+
+  export interface SamlResponse {
+    enrollment: boolean;
+    provider_name: string;
+    provider_id: string;
+    state: string;
+    redirect_uri: string;
+  }
+
+  export interface SamlResult {
+    choice: Choice.SAML;
+    data: SamlResponse;
+  }
+
+  export interface SamlParams {
+    provider_id: string;
+    provider_name: string;
+    uri: string;
+  }
+
+  export interface SamlRequest {
+    flow_id: string;
+    choice: Choice.SAML;
+    data: SamlParams;
   }
 
   // Set Email
@@ -294,17 +325,20 @@ export namespace AuthFlow {
     data: MagiclinkResponse;
   }
 
-  export interface MagiclinkRequest {
-    flow_id: string;
-    choice: Choice.MAGICLINK;
-    data: MagiclinkParams;
-  }
-
-  export interface MagiclinkParams {
-    uri: string;
-  }
-
   export interface MagiclinkResponse {
+    sent: boolean;
+    resend_time?: string;
+    state: string;
+  }
+
+  // Provisional
+
+  export interface ProvisionalResult {
+    choice: Choice.PROVISIONAL;
+    data: ProvisionalResponse;
+  }
+
+  export interface ProvisionalResponse {
     sent: boolean;
     resend_time?: string;
     state: string;
@@ -323,7 +357,7 @@ export namespace AuthFlow {
   }
 
   export interface AgreementsResponse {
-    agreements: AgreementData[];
+    agreements: { [key: string]: AgreementData };
   }
 
   export interface AgreementsResult {
@@ -386,6 +420,7 @@ export namespace AuthFlow {
     | PasswordResult
     | ResetPasswordResult
     | SocialResult
+    | SamlResult
     | CaptchaResult
     | VerifyEmailResult
     | EmailOtpResult
@@ -393,7 +428,8 @@ export namespace AuthFlow {
     | TotpResult
     | MagiclinkResult
     | AgreementsResult
-    | ProfileResult;
+    | ProfileResult
+    | ProvisionalResult;
 
   export interface StateData {
     flowId: string;
@@ -407,7 +443,9 @@ export namespace AuthFlow {
     authChoices: string[];
     socialChoices: SocialResponse[];
     socialProviderMap: { [key: string]: SocialResponse };
-    socialStateMap: { [key: string]: string };
+    samlChoices: SamlResponse[];
+    samlProviderMap: { [key: string]: SamlResponse };
+    callbackStateMap: { [key: string]: string };
     agreements: AgreementData[];
     setEmail?: EmptyObject;
     password?: PasswordResponse;
@@ -420,6 +458,7 @@ export namespace AuthFlow {
     totp?: TotpResponse;
     magiclink?: MagiclinkResponse;
     profile?: ProfileResponse;
+    provisional?: ProvisionalResponse;
   }
 
   export interface StartRequest {
@@ -437,13 +476,14 @@ export namespace AuthFlow {
     | ResetPasswordRequest
     | CaptchaRequest
     | SocialRequest
+    | SamlRequest
     | EmailOtpRequest
     | SmsOtpRequest
     | TotpRequest
-    | MagiclinkRequest
     | AgreementsRequest
     | ProfileRequest
-    | StatusRequest;
+    | StatusRequest
+    | ProfileRequest;
 
   export interface BaseRequest {
     flow_id: string;
@@ -461,7 +501,8 @@ export namespace AuthFlow {
     | Choice.TOTP
     | Choice.VERIFY_EMAIL
     | Choice.RESET_PASSWORD
-    | Choice.MAGICLINK;
+    | Choice.MAGICLINK
+    | Choice.PROVISIONAL;
 
   export interface RestartRequest {
     flow_id: string;

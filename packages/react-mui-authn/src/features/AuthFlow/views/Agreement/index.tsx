@@ -1,24 +1,12 @@
 import { FC, UIEvent, useEffect, useState } from "react";
 import { Stack, Typography, useTheme } from "@mui/material";
 
-import { LexicalComposer } from "@lexical/react/LexicalComposer";
-import { PlainTextPlugin } from "@lexical/react/LexicalPlainTextPlugin";
-import { TRANSFORMERS } from "@lexical/markdown";
-import { ContentEditable } from "@lexical/react/LexicalContentEditable";
-import LexicalErrorBoundary from "@lexical/react/LexicalErrorBoundary";
-import { HeadingNode, QuoteNode } from "@lexical/rich-text";
-import { TableCellNode, TableNode, TableRowNode } from "@lexical/table";
-import { ListItemNode, ListNode } from "@lexical/list";
-import { CodeHighlightNode, CodeNode } from "@lexical/code";
-import { AutoLinkNode, LinkNode } from "@lexical/link";
-import { $convertFromMarkdownString } from "@lexical/markdown";
-import LexicalClickableLinkPlugin from "@lexical/react/LexicalClickableLinkPlugin";
-
 import { AuthFlow } from "@pangeacyber/vanilla-js";
 
-import Button from "@src/components/core/Button";
 import { AuthFlowComponentProps } from "@src/features/AuthFlow/types";
-import { isJSON } from "@src/utils";
+import LexicalViewer from "./component";
+import IdField from "@src/components/fields/IdField";
+import Button from "@src/components/core/Button";
 
 const AgreementView: FC<AuthFlowComponentProps> = ({
   options,
@@ -28,34 +16,8 @@ const AgreementView: FC<AuthFlowComponentProps> = ({
 }) => {
   const [disable, setDisable] = useState<boolean>(true);
   const theme = useTheme();
-  const content = data?.agreements[0].text || "";
 
-  const mdConfig = {
-    theme: {},
-    editable: false,
-    onError(error: Error) {
-      throw error;
-    },
-    namespace: "Pangea",
-    editorState: isJSON(content)
-      ? content
-      : () => {
-          $convertFromMarkdownString(content, TRANSFORMERS);
-        },
-    nodes: [
-      HeadingNode,
-      ListNode,
-      ListItemNode,
-      QuoteNode,
-      CodeNode,
-      CodeHighlightNode,
-      TableNode,
-      TableCellNode,
-      TableRowNode,
-      AutoLinkNode,
-      LinkNode,
-    ],
-  };
+  const content = data?.agreements[0].text || "";
 
   const acceptAgreement = (accept: boolean) => {
     const payload: AuthFlow.AgreementsParams = {
@@ -74,10 +36,13 @@ const AgreementView: FC<AuthFlowComponentProps> = ({
 
   useEffect(() => {
     const el = document.getElementById("agreement-container");
+    if (el) {
+      el.scrollTop = 0;
+    }
     if (el && el.scrollHeight - el.scrollTop === el.clientHeight) {
       setDisable(false);
     }
-  }, []);
+  }, [data]);
 
   const handleScroll = (e: UIEvent<HTMLDivElement>) => {
     const bottom =
@@ -89,8 +54,13 @@ const AgreementView: FC<AuthFlowComponentProps> = ({
   };
 
   return (
-    <Stack gap={3} sx={{ borderWidth: "1px" }} ml={-1} mr={-1}>
+    <Stack gap={2} sx={{ borderWidth: "1px" }} ml={-1} mr={-1}>
       <Typography variant="h6">{acceptHeading()}</Typography>
+      <IdField
+        value={data.email}
+        resetCallback={reset}
+        resetLabel={options.cancelLabel}
+      />
       <Stack
         id="agreement-container"
         onScroll={handleScroll}
@@ -112,14 +82,10 @@ const AgreementView: FC<AuthFlowComponentProps> = ({
           },
         }}
       >
-        <LexicalComposer initialConfig={mdConfig}>
-          <PlainTextPlugin
-            contentEditable={<ContentEditable />}
-            placeholder={null}
-            ErrorBoundary={LexicalErrorBoundary}
-          />
-          <LexicalClickableLinkPlugin />
-        </LexicalComposer>
+        <LexicalViewer
+          content={content}
+          key={`agreement-viewer-${data?.agreements[0].type}`}
+        />
       </Stack>
       <Stack
         direction="row"
@@ -127,10 +93,11 @@ const AgreementView: FC<AuthFlowComponentProps> = ({
         alignItems="center"
         justifyContent="center"
       >
-        <Button color="secondary" onClick={reset}>
+        <Button fullWidth color="secondary" onClick={reset}>
           Decline
         </Button>
         <Button
+          fullWidth
           color="primary"
           disabled={disable}
           onClick={() => {

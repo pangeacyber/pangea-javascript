@@ -1,5 +1,4 @@
 import { FC } from "react";
-import { Stack, useTheme } from "@mui/material";
 
 import { LexicalComposer } from "@lexical/react/LexicalComposer";
 import { PlainTextPlugin } from "@lexical/react/LexicalPlainTextPlugin";
@@ -17,12 +16,10 @@ import LexicalClickableLinkPlugin from "@lexical/react/LexicalClickableLinkPlugi
 import { isJSON } from "@src/utils";
 
 interface Props {
-  content: string | undefined;
+  content: string;
 }
 
-const Disclaimer: FC<Props> = ({ content }) => {
-  const theme = useTheme();
-
+const LexicalViewer: FC<Props> = ({ content }) => {
   const mdConfig = {
     theme: {},
     editable: false,
@@ -30,10 +27,10 @@ const Disclaimer: FC<Props> = ({ content }) => {
       throw error;
     },
     namespace: "Pangea",
-    editorState: isJSON(content || "")
+    editorState: isJSON(content)
       ? content
       : () => {
-          $convertFromMarkdownString(content || "", TRANSFORMERS);
+          $convertFromMarkdownString(content, TRANSFORMERS);
         },
     nodes: [
       HeadingNode,
@@ -50,35 +47,16 @@ const Disclaimer: FC<Props> = ({ content }) => {
     ],
   };
 
-  if (!content) {
-    return null;
-  }
-
   return (
-    <Stack
-      justifyContent="center"
-      alignItems="center"
-      sx={{
-        fontFamily: theme.typography.fontFamily,
-        fontSize: "0.75em",
-        color: theme.palette.text.secondary,
-        "& a": {
-          cursor: "pointer",
-          // @ts-ignore
-          color: window.BRANDING?.link_color || "inherit",
-        },
-      }}
-    >
-      <LexicalComposer initialConfig={mdConfig}>
-        <PlainTextPlugin
-          contentEditable={<ContentEditable />}
-          placeholder={null}
-          ErrorBoundary={LexicalErrorBoundary}
-        />
-        <LexicalClickableLinkPlugin />
-      </LexicalComposer>
-    </Stack>
+    <LexicalComposer initialConfig={mdConfig}>
+      <PlainTextPlugin
+        contentEditable={<ContentEditable />}
+        placeholder={null}
+        ErrorBoundary={LexicalErrorBoundary}
+      />
+      <LexicalClickableLinkPlugin />
+    </LexicalComposer>
   );
 };
 
-export default Disclaimer;
+export default LexicalViewer;

@@ -1,28 +1,50 @@
 import { FC } from "react";
-import { Stack, Typography } from "@mui/material";
 
-import { AuthFlowComponentProps } from "@src/features/AuthFlow/types";
-import Button from "@src/components/core/Button";
+import { AuthFlow } from "@pangeacyber/vanilla-js";
+
+import {
+  AuthFlowComponentProps,
+  AuthFlowViewOptions,
+} from "@src/features/AuthFlow/types";
+import AuthFlowLayout from "../Layout";
 import { AuthOptions, SocialOptions } from "../../components";
+import IdField from "@src/components/fields/IdField";
+import { ErrorText } from "@src/components/core/Text";
+
+const getDisplayData = (
+  data: AuthFlow.StateData,
+  options: AuthFlowViewOptions
+): string => {
+  if (data.phase === "phase_secondary") {
+    return "Confirm your identity";
+  }
+
+  return options.signupHeading || "Create your account";
+};
 
 const SignupView: FC<AuthFlowComponentProps> = (props) => {
   const { options, data, reset } = props;
+  const title = getDisplayData(data, options);
+  const disclaimer =
+    data.disclaimer && data.phase !== "phase_secondary" ? data.disclaimer : "";
 
   return (
-    <Stack gap={2}>
-      <Typography variant="h6">{options.signupHeading}</Typography>
-      <Typography variant="body2" mb={1} sx={{ wordBreak: "break-word" }}>
-        Create an account with {data.email}
-      </Typography>
+    <AuthFlowLayout title={title} disclaimer={disclaimer}>
+      <IdField
+        value={data.email}
+        resetCallback={reset}
+        resetLabel={options.cancelLabel}
+      />
       <AuthOptions {...props} />
-      {data.invite && <SocialOptions data={data} options={options} />}
-      <Stack direction="row" justifyContent="center" gap={1}>
-        <Button variant="text" onClick={reset}>
-          {options.cancelLabel}
-        </Button>
-      </Stack>
-      {data.disclaimer && <>{data.disclaimer}</>}
-    </Stack>
+      {data.authChoices.length === 0 && data.socialChoices.length === 0 && (
+        <ErrorText>
+          There are no valid authentication methods available
+        </ErrorText>
+      )}
+      {(data.invite ||
+        data.phase === "phase_secondary" ||
+        data.samlChoices.length > 0) && <SocialOptions {...props} />}
+    </AuthFlowLayout>
   );
 };
 

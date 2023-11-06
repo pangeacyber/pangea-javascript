@@ -98,7 +98,7 @@ export class AuthNClient {
   }
 
   async handleAsync(response: AxiosResponse): Promise<AxiosResponse> {
-    const endpoint = `request/${response.data?.requestId}`;
+    const endpoint = `request/${response.data?.request_id}`;
     const maxRetries = 3;
     let retryCount = 1;
 

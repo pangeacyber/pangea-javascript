@@ -6,7 +6,6 @@ import { PostOptions } from "@src/types.js";
 class BaseService {
   protected serviceName: string;
   protected token: string;
-  protected apiVersion: string;
   protected config: PangeaConfig;
   protected request_: PangeaRequest | undefined = undefined;
   protected configID?: string;
@@ -24,7 +23,6 @@ class BaseService {
     if (!token) throw new Error("A token is required");
 
     this.serviceName = serviceName;
-    this.apiVersion = "v1";
     this.token = token;
     this.configID = configID;
 
@@ -32,27 +30,16 @@ class BaseService {
   }
 
   async get(endpoint: string): Promise<PangeaResponse<any>> {
-    const fullpath = `${this.apiVersion}/${endpoint}`;
-    return await this.request.get(fullpath);
+    return await this.request.get(endpoint);
   }
 
   async post(
     endpoint: string,
     data: object,
-    options: PostOptions = {}
+    options: PostOptions = {},
+    filepath?: string
   ): Promise<PangeaResponse<any>> {
-    const fullpath = `${this.apiVersion}/${endpoint}`;
-    return await this.request.post(fullpath, data, options);
-  }
-
-  async postMultipart(
-    endpoint: string,
-    data: object,
-    filepath: string,
-    options: PostOptions = {}
-  ): Promise<PangeaResponse<any>> {
-    const fullpath = `${this.apiVersion}/${endpoint}`;
-    return await this.request.postMultipart(fullpath, data, filepath, options);
+    return await this.request.post(endpoint, data, options, filepath);
   }
 
   async pollResult(request_id: string): Promise<PangeaResponse<any>> {
@@ -65,7 +52,6 @@ class BaseService {
     }
 
     this.request_ = new PangeaRequest(this.serviceName, this.token, this.config, this.configID);
-
     return this.request_;
   }
 }

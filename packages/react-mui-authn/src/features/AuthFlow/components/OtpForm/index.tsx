@@ -1,7 +1,7 @@
-import { FC } from "react";
+import { FC, useEffect, useState } from "react";
 import { useFormik } from "formik";
 import * as yup from "yup";
-import { Stack } from "@mui/material";
+import { Stack, Typography } from "@mui/material";
 
 import { AuthFlow } from "@pangeacyber/vanilla-js";
 
@@ -14,7 +14,17 @@ interface Props extends AuthFlowComponentProps {
   otpType: string;
 }
 
-const OtpForm: FC<Props> = ({ options, loading, error, update, otpType }) => {
+const OtpForm: FC<Props> = ({
+  options,
+  loading,
+  error,
+  data,
+  update,
+  restart,
+  otpType,
+}) => {
+  const [disabled, setDisabled] = useState<boolean>(false);
+
   const validationSchema = yup.object({
     code: yup
       .string()
@@ -49,6 +59,57 @@ const OtpForm: FC<Props> = ({ options, loading, error, update, otpType }) => {
     },
   });
 
+  const retryMessage = (otpType: string) => {
+    if (
+      error.status === "MfaCodeExpired" ||
+      error.status === "AuthenticationFailure"
+    ) {
+      if (otpType === "totp") {
+        return (
+          <Typography variant="body2" mb={1} color="error">
+            Retry with the next code
+          </Typography>
+        );
+      } else {
+        return (
+          <Typography variant="body2" mb={1} color="error">
+            Resend code to try again
+          </Typography>
+        );
+      }
+    }
+
+    return null;
+  };
+
+  const sendCode = () => {
+    if (otpType === "email_otp") {
+      restart(AuthFlow.Choice.EMAIL_OTP);
+    } else if (otpType === "sms_otp") {
+      restart(AuthFlow.Choice.SMS_OTP);
+    }
+  };
+
+  useEffect(() => {
+    if (
+      (otpType === "email_otp" && data?.emailOtp?.sent === false) ||
+      (otpType === "sms_otp" && data?.smsOtp?.sent === false)
+    ) {
+      sendCode();
+    }
+  }, []);
+
+  useEffect(() => {
+    formik.resetForm();
+    if (otpType !== "totp") {
+      setDisabled(true);
+    }
+  }, [error]);
+
+  useEffect(() => {
+    setDisabled(false);
+  }, [data]);
+
   return (
     <form onSubmit={formik.handleSubmit}>
       <Stack gap={1}>
@@ -58,16 +119,33 @@ const OtpForm: FC<Props> = ({ options, loading, error, update, otpType }) => {
           field={{
             label: "Code",
           }}
+          disabled={disabled}
         />
-        {error && <ErrorMessage response={error} />}
-        <Button
-          color="primary"
-          type="submit"
-          disabled={loading}
-          fullWidth={true}
+        {error && (
+          <>
+            <ErrorMessage response={error} />
+            {retryMessage(otpType)}
+          </>
+        )}
+        <Stack
+          direction={{ xs: "column", sm: "row" }}
+          justifyContent="center"
+          gap={{ xs: 0, sm: 1 }}
         >
-          {options.otpButtonLabel}
-        </Button>
+          {otpType !== "totp" && (
+            <Button
+              fullWidth
+              color="secondary"
+              onClick={sendCode}
+              disabled={loading}
+            >
+              Resend code
+            </Button>
+          )}
+          <Button color="primary" type="submit" disabled={loading} fullWidth>
+            {options.otpButtonLabel}
+          </Button>
+        </Stack>
       </Stack>
     </form>
   );

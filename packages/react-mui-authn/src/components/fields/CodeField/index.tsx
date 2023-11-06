@@ -4,7 +4,7 @@ import { Typography } from "@mui/material";
 import { FieldComponentProps } from "../types";
 import CodeInput from "./CodeInput";
 
-const CodeField: FC<FieldComponentProps> = ({ name, formik }) => {
+const CodeField: FC<FieldComponentProps> = ({ name, formik, disabled }) => {
   return (
     <>
       <CodeInput
@@ -20,6 +20,7 @@ const CodeField: FC<FieldComponentProps> = ({ name, formik }) => {
             formik?.setFieldTouched(name, true);
           }
         }}
+        disabled={disabled}
       />
       {(formik?.errors ?? {})[name] && (formik?.touched ?? {})[name] && (
         <Typography color="error" variant="body2">

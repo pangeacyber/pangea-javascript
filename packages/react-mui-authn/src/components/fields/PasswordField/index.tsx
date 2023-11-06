@@ -62,7 +62,7 @@ const PasswordField: FC<Props> = ({ name, label, formik, policy }) => {
         onFocus={openTooltip}
         onBlur={closeTooltip}
       >
-        <InputLabel htmlFor={`outlined-adornment-${name}`}>{label}</InputLabel>
+        {/* <InputLabel htmlFor={`outlined-adornment-${name}`}>{label}</InputLabel> */}
         <OutlinedInput
           id={`outlined-adornment-${name}`}
           name={name}
@@ -83,7 +83,7 @@ const PasswordField: FC<Props> = ({ name, label, formik, policy }) => {
             </InputAdornment>
           }
           value={formik.values[name]}
-          label={label}
+          placeholder={label}
           autoFocus
         />
         {formik.errors[name] && (
