@@ -499,6 +499,7 @@ export namespace Vault {
     SUSPENDED = "suspended",
     COMPROMISED = "compromised",
     DESTROYED = "destroyed",
+    INHERITED = "inherited",
   }
 
   export enum ItemOrder {
@@ -634,9 +635,16 @@ export namespace Vault {
     secret?: string;
   }
 
+  export interface InheritedSettigs {
+    rotation_frequency?: string;
+    rotation_state?: string;
+    rotation_grace_period?: string;
+  }
+
   export interface GetResult extends ItemData {
     rotation_grace_period?: string;
     versions: ItemVersionData[];
+    inherited_settings?: InheritedSettigs;
   }
 
   export namespace JWT {
@@ -936,6 +944,9 @@ export namespace Vault {
       folder: string;
       metadata?: Metadata;
       tags?: Tags;
+      rotation_frequency?: string;
+      rotation_state?: ItemVersionState;
+      rotation_grace_period?: string;
     }
 
     export interface CreateResult {
