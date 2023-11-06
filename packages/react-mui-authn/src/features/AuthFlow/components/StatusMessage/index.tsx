@@ -1,5 +1,6 @@
 import { FC } from "react";
-import { Stack, Typography } from "@mui/material";
+import { Stack } from "@mui/material";
+import { BodyText } from "@src/components/core/Text";
 
 interface Props {
   message: string;
@@ -12,7 +13,7 @@ const StatusMessageView: FC<Props> = ({ message }) => {
       justifyContent="center"
       sx={{ minHeight: "200px" }}
     >
-      <Typography variant="body2">{message}</Typography>
+      <BodyText>{message}</BodyText>
     </Stack>
   );
 };

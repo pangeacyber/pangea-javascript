@@ -1,11 +1,12 @@
 import { FC } from "react";
 import { useFormik } from "formik";
 import * as yup from "yup";
-import { Stack, Typography } from "@mui/material";
+import { Stack } from "@mui/material";
 
 import { AuthFlow } from "@pangeacyber/vanilla-js";
 
 import { AuthFlowComponentProps } from "@src/features/AuthFlow/types";
+import AuthFlowLayout from "../Layout";
 import Button from "@src/components/core/Button";
 import StringField from "@src/components/fields/StringField";
 import ErrorMessage from "../../components/ErrorMessage";
@@ -32,8 +33,7 @@ const StartView: FC<AuthFlowComponentProps> = (props) => {
   });
 
   return (
-    <Stack gap={2}>
-      <Typography variant="h6">{options?.startHeading}</Typography>
+    <AuthFlowLayout title={options?.startHeading}>
       {data.setEmail && (
         <form onSubmit={formik.handleSubmit}>
           <Stack gap={1}>
@@ -45,12 +45,7 @@ const StartView: FC<AuthFlowComponentProps> = (props) => {
               autoFocus={true}
             />
             {error && <ErrorMessage response={error} />}
-            <Button
-              color="primary"
-              type="submit"
-              disabled={loading}
-              fullWidth={true}
-            >
+            <Button color="primary" type="submit" disabled={loading} fullWidth>
               {options?.startButtonLabel}
             </Button>
           </Stack>
@@ -58,7 +53,7 @@ const StartView: FC<AuthFlowComponentProps> = (props) => {
       )}
       <SocialOptions {...props} />
       {data.disclaimer && <Disclaimer content={data.disclaimer} />}
-    </Stack>
+    </AuthFlowLayout>
   );
 };
 

@@ -11,7 +11,7 @@ const config = new PangeaConfig({ domain: testHost, customUserAgent: "sdk-test" 
 const fileScan = new FileScanService(token, config);
 
 const testfilePath = "./tests/testdata/testfile.pdf";
-jest.setTimeout(60000);
+jest.setTimeout(120000);
 
 const delay = async (ms: number) =>
   new Promise((resolve) => {
@@ -67,7 +67,7 @@ it("File Scan crowdstrike async and poll result", async () => {
     }
   }
 
-  const maxRetry = 6;
+  const maxRetry = 12;
   for (let retry = 0; retry < maxRetry; retry++) {
     try {
       // Wait until result could be ready
@@ -133,7 +133,7 @@ it("File Scan reversinglabs async and poll result", async () => {
     }
   }
 
-  const maxRetry = 6;
+  const maxRetry = 12;
   for (let retry = 0; retry < maxRetry; retry++) {
     try {
       // Wait until result could be ready

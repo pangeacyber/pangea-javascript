@@ -1,11 +1,13 @@
 import { FC } from "react";
 import { useFormik } from "formik";
 import * as yup from "yup";
-import { Stack, Typography } from "@mui/material";
+import { Stack } from "@mui/material";
 
 import { AuthFlow } from "@pangeacyber/vanilla-js";
 
 import { AuthFlowComponentProps } from "@src/features/AuthFlow/types";
+import AuthFlowLayout from "../Layout";
+import IdField from "@src/components/fields/IdField";
 import StringField from "@src/components/fields/StringField";
 import Button from "@src/components/core/Button";
 import { ErrorMessage } from "../../components";
@@ -20,27 +22,30 @@ const ProfileView: FC<AuthFlowComponentProps> = (props) => {
   const { options, data, error, loading, update, reset } = props;
 
   // FIXME: generate initial values and validation from profile data
+  const validators: { [key: string]: any } = {};
+  const defaultValues: { [key: string]: string } = {};
 
-  const validationSchema = yup.object({
-    first_name: yup
-      .string()
-      .required("Required")
-      .test("no-html-tags", "HTML tags are not allowed", (value) => {
-        return checkForHtml(value || "");
-      }),
-    last_name: yup
-      .string()
-      .required("Required")
-      .test("no-html-tags", "HTML tags are not allowed", (value) => {
-        return checkForHtml(value);
-      }),
+  data.profile?.fields.forEach((f: AuthFlow.ProfileField) => {
+    if (f.show_on_signup && f.required) {
+      if (f.type === "string") {
+        validators[f.id] = yup
+          .string()
+          .required("Required")
+          .test("no-html-tags", "HTML tags are not allowed", (value) => {
+            return checkForHtml(value || "");
+          });
+      } else if (f.type === "integer") {
+        validators[f.id] = yup.number().required("Required");
+      }
+
+      defaultValues[f.id] = "";
+    }
   });
 
+  const validationSchema = yup.object(validators);
+
   const formik = useFormik({
-    initialValues: {
-      first_name: "",
-      last_name: "",
-    },
+    initialValues: defaultValues,
     validationSchema: validationSchema,
     onSubmit: (values) => {
       const payload: AuthFlow.ProfileParams = {
@@ -53,13 +58,12 @@ const ProfileView: FC<AuthFlowComponentProps> = (props) => {
   });
 
   return (
-    <Stack gap={2}>
-      {/* FIXME: Need Profile Heading branding option */}
-      <Typography variant="h6">Profile info</Typography>
-      <Typography variant="body2" mb={1} sx={{ wordBreak: "break-word" }}>
-        {data.email}
-      </Typography>
-
+    <AuthFlowLayout title="Edit your profile">
+      <IdField
+        value={data.email}
+        resetCallback={reset}
+        resetLabel={options.cancelLabel}
+      />
       <form onSubmit={formik.handleSubmit}>
         <Stack gap={1}>
           {data?.profile?.fields.map((field: AuthFlow.ProfileField) => {
@@ -92,23 +96,12 @@ const ProfileView: FC<AuthFlowComponentProps> = (props) => {
             }
           })}
           {error && <ErrorMessage response={error} />}
-          <Button
-            color="primary"
-            type="submit"
-            fullWidth={true}
-            disabled={loading}
-          >
+          <Button color="primary" type="submit" disabled={loading} fullWidth>
             {options.submitLabel}
           </Button>
         </Stack>
       </form>
-
-      <Stack direction="row" justifyContent="center" gap={1}>
-        <Button variant="text" onClick={reset}>
-          {options.cancelLabel}
-        </Button>
-      </Stack>
-    </Stack>
+    </AuthFlowLayout>
   );
 };
 
