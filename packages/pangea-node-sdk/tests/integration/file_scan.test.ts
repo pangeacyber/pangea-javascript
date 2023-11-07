@@ -2,6 +2,7 @@ import PangeaConfig from "../../src/config.js";
 import { it, expect, jest } from "@jest/globals";
 import { TestEnvironment, getTestDomain, getTestToken } from "../../src/utils/utils.js";
 import { FileScanService, PangeaErrors } from "../../src/index.js";
+import { FileScan, TransferMethod } from "../../src/types.js";
 
 const testEnvironment = TestEnvironment.LIVE;
 
@@ -21,6 +22,24 @@ const delay = async (ms: number) =>
 it("File Scan crowdstrike", async () => {
   try {
     const request = { verbose: true, raw: true, provider: "crowdstrike" };
+    const response = await fileScan.fileScan(request, testfilePath);
+
+    expect(response.status).toBe("Success");
+    expect(response.result.data).toBeDefined();
+    expect(response.result.data.verdict).toBe("benign");
+  } catch (e) {
+    console.log(e);
+    expect(false).toBeTruthy();
+  }
+});
+
+it("File Scan multipart post", async () => {
+  try {
+    const request: FileScan.ScanRequest = {
+      verbose: true,
+      raw: true,
+      transfer_method: TransferMethod.MULTIPART,
+    };
     const response = await fileScan.fileScan(request, testfilePath);
 
     expect(response.status).toBe("Success");

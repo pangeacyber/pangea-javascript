@@ -213,6 +213,7 @@ export namespace FileScan {
     verbose?: boolean;
     raw?: boolean;
     provider?: string;
+    transfer_method?: TransferMethod;
   }
 
   export interface ScanFileParams {
@@ -221,9 +222,7 @@ export namespace FileScan {
     transfer_sha256: string;
   }
 
-  export interface ScanFullRequest extends ScanRequest, ScanFileParams {
-    transfer_method: TransferMethod;
-  }
+  export interface ScanFullRequest extends ScanRequest, ScanFileParams {}
 
   export interface Options extends PostOptions {}
 

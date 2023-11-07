@@ -30,11 +30,14 @@ export class FileScanService extends BaseService {
       pollResultSync: true,
     }
   ): Promise<PangeaResponse<FileScan.ScanResult>> {
-    const fsData = getFSparams(filepath);
+    let fsData = {} as FileScan.ScanFileParams;
+
+    if (!request.transfer_method || request.transfer_method === TransferMethod.DIRECT) {
+      fsData = getFSparams(filepath);
+    }
 
     const fullRequest: FileScan.ScanFullRequest = {
       ...fsData,
-      transfer_method: TransferMethod.DIRECT,
     };
 
     Object.assign(fullRequest, request);
