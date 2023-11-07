@@ -209,7 +209,7 @@ class PangeaRequest {
     try {
       let pangeaResponse = new PangeaResponse(response);
       if (response.statusCode === 202) {
-        if (options.pollResultSync) {
+        if (options.pollResultSync || options.pollResultSync === undefined) {
           pangeaResponse = await this.handleAsync(pangeaResponse);
         }
         return this.checkResponse(pangeaResponse);
