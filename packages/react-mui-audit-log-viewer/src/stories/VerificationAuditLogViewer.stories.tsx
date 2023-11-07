@@ -3,7 +3,6 @@ import { ComponentStory, ComponentMeta } from "@storybook/react";
 
 import AuditLogViewer, { AuditLogViewerProps } from "../AuditLogViewer";
 import { Box } from "@mui/material";
-import axios from "axios";
 import PangeaThemeProvider from "./theme/pangea/provider";
 import { Audit } from "../types";
 
@@ -119,60 +118,53 @@ export const VerificationAuditLogViewer: {
 
 VerificationAuditLogViewer.args = {
   onSearch: async (body) => {
-    return axios
-      .post(
-        `https://audit.${process.env.STORYBOOK_SERVICE_DOMAIN}/v1/search`,
-        { ...body, verify_signature: true },
-        {
-          headers: {
-            Authorization: `Bearer ${process.env.STORYBOOK_PANGEA_TOKEN}`,
-          },
-        }
-      )
-      .then((response) => {
-        return response?.data?.result;
-      })
+    return fetch(
+      `https://audit.${process.env.STORYBOOK_SERVICE_DOMAIN}/v1/search`,
+      {
+        method: "POST",
+        body: JSON.stringify({ ...body, verify_signature: true }),
+        headers: {
+          Authorization: `Bearer ${process.env.STORYBOOK_PANGEA_TOKEN}`,
+        },
+      }
+    )
+      .then((res) => res.json())
+      .then((response) => response?.result)
       .catch((err) => {
         console.log(err);
         throw err;
       });
   },
   onPageChange: async (body) => {
-    return axios
-      .post(
-        `https://audit.${process.env.STORYBOOK_SERVICE_DOMAIN}/v1/results`,
-        { ...body, verify_signature: true },
+    return fetch(
+      `https://audit.${process.env.STORYBOOK_SERVICE_DOMAIN}/v1/results`,
+      {
+        method: "POST",
+        body: JSON.stringify({ ...body, verify_signature: true }),
+        headers: {
+          Authorization: `Bearer ${process.env.STORYBOOK_PANGEA_TOKEN}`,
+        },
+      }
+    )
+      .then((res) => res.json())
+      .then((response) => response?.result)
+      .catch((err) => console.log(err));
+  },
+  verificationOptions: {
+    onFetchRoot: async (body) => {
+      return fetch(
+        `https://audit.${process.env.STORYBOOK_SERVICE_DOMAIN}/v1/root`,
         {
+          method: "POST",
+          body: JSON.stringify({ ...body }),
           headers: {
             Authorization: `Bearer ${process.env.STORYBOOK_PANGEA_TOKEN}`,
           },
         }
       )
-      .then((response) => {
-        return response?.data?.result;
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  },
-  verificationOptions: {
-    onFetchRoot: async (body) => {
-      return axios
-        .post(
-          `https://audit.${process.env.STORYBOOK_SERVICE_DOMAIN}/v1/root`,
-          { ...body },
-          {
-            headers: {
-              Authorization: `Bearer ${process.env.STORYBOOK_PANGEA_TOKEN}`,
-            },
-          }
-        )
-        .then((response) => {
-          return response?.data?.result;
-        })
-        .catch((err) => {
-          console.log(err);
-        });
+        .then((res) => res.json())
+        .then((response) => response?.result)
+        .catch((err) => console.log(err));
     },
   },
   config: {

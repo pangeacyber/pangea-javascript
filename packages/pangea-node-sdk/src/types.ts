@@ -213,6 +213,7 @@ export namespace FileScan {
     verbose?: boolean;
     raw?: boolean;
     provider?: string;
+    transfer_method?: TransferMethod;
   }
 
   export interface ScanFileParams {
@@ -221,9 +222,7 @@ export namespace FileScan {
     transfer_sha256: string;
   }
 
-  export interface ScanFullRequest extends ScanRequest, ScanFileParams {
-    transfer_method: TransferMethod;
-  }
+  export interface ScanFullRequest extends ScanRequest, ScanFileParams {}
 
   export interface Options extends PostOptions {}
 
@@ -499,6 +498,7 @@ export namespace Vault {
     SUSPENDED = "suspended",
     COMPROMISED = "compromised",
     DESTROYED = "destroyed",
+    INHERITED = "inherited",
   }
 
   export enum ItemOrder {
@@ -634,9 +634,16 @@ export namespace Vault {
     secret?: string;
   }
 
+  export interface InheritedSettigs {
+    rotation_frequency?: string;
+    rotation_state?: string;
+    rotation_grace_period?: string;
+  }
+
   export interface GetResult extends ItemData {
     rotation_grace_period?: string;
     versions: ItemVersionData[];
+    inherited_settings?: InheritedSettigs;
   }
 
   export namespace JWT {
@@ -936,6 +943,9 @@ export namespace Vault {
       folder: string;
       metadata?: Metadata;
       tags?: Tags;
+      rotation_frequency?: string;
+      rotation_state?: ItemVersionState;
+      rotation_grace_period?: string;
     }
 
     export interface CreateResult {
