@@ -17,16 +17,21 @@ function printData(indicator, data){
   console.log(`\t\t country_code: ${data.country_code}`);
 }
 
-(async () => {
-  console.log("Geolocate IP...");
+function printBulkData(data) {
+  for (const [key, value] of Object.entries(data)) {
+    printData(key, value)
+  }
+}
 
-  const options = { provider: "digitalelement", verbose: true, raw: true };
+(async () => {
+  console.log("Geolocate IPs...");
+
+  const options = {verbose: true, raw: true };
   try {
-    const ip = "93.231.182.110";
-    const response = await ipIntel.geolocate(ip, options);
+    const response = await ipIntel.geolocateBulk(["93.231.182.110", "24.235.114.61"], options);
 
     console.log("Result: ");
-    printData(ip, response.result.data);
+    printBulkData(response.result.data);
   } catch (e) {
     if (e instanceof PangeaErrors.APIError) {
       console.log("Error", e.summary, e.errors);
