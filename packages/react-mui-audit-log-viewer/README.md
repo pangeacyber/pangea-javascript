@@ -21,7 +21,7 @@ The Audit Log Viewer can be used to search, view, and verify tamperproofing of a
 
 An application using the Pangea Audit Service may also require that the audit logs are presented in the end application, because of this we made the log viewer React component that Pangea uses within it's Console available as an NPM package, such that it could be embed directly into an app.
 
-The AuditLogViewer component is a React component built using the Material-UI (MUI) component librarby. MUI was used because it is the same component used within the Pangea Console.
+The AuditLogViewer component is a React component built using the Material-UI (MUI) component library. MUI was used because it is the same component used within the Pangea Console.
 
 ## Getting Started
 
@@ -50,7 +50,7 @@ Please note that react and react-dom are peer dependencies too:
 },
 ```
 
-To learn more about Material-UI (MUI) check out their official documention(https://mui.com/material-ui/getting-started/installation/).
+To learn more about Material-UI (MUI) check out their official documentation(https://mui.com/material-ui/getting-started/installation/).
 
 ### Props
 
@@ -69,7 +69,7 @@ The AuditLogViewer component accepts the following props:
 - fields (optional): An object containing partial definitions for the grid columns. The keys of the object correspond to properties of the Event type, and the values are partial definitions of the GridColDef type.
 - visibilityModel (optional): An object containing partial definitions for the visibility of the grid columns. The keys of the object correspond to properties of the Event type, and the values are boolean values indicating the visibility of the column.
 - filters (optional): An object representing the public audit query used to filter the audit log data.
-- config (optional): An object representing the authentication configuration. Used to fetch your project custom Audit schema, so the AuditLogViewer component can dyanmically update as you udpate your configuration in Pangea Console.
+- config (optional): An object representing the authentication configuration. Used to fetch your project custom Audit schema, so the AuditLogViewer component can dynamically update as you update your configuration in Pangea Console.
   - clientToken: string;
   - domain: string;
 - schema (optional): An object representing the audit schema. With Audit Service custom schema support, you can change the expected Audit schema. This will control what fields are rendered.
@@ -123,6 +123,11 @@ Audit Service API's(https://pangea.cloud/docs/api/audit)
 
 ## Development
 
+### Pre-requisites
+
+1. Node.js v16 (IMPORTANT!)
+1. yarn 1.x
+
 First, run the development server:
 
 ```bash
@@ -132,7 +137,7 @@ yarn storybook
 
 The `VerificationAuditLogViewer` storybook example does not use mock audit logs to render the `AuditLogViewer` instead it will read a `.env` file to hit your Audit Service Config.
 
-Retrieve your audit service token, client token and domain from the Pangea Console Audit service dashboard and add the to a `.env` file. The enviroment file is git ignored.
+Retrieve your audit service token, client token and domain from the Pangea Console Audit service dashboard and add the to a `.env` file. The environment file is git ignored.
 
 ```env
 STORYBOOK_PANGEA_TOKEN = "{SERVICE_TOKEN}"

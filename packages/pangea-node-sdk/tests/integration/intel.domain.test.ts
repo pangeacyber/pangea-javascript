@@ -1,5 +1,5 @@
 import PangeaConfig from "../../src/config.js";
-import { it, expect } from "@jest/globals";
+import { jest, it, expect } from "@jest/globals";
 import { TestEnvironment, getTestDomain, getTestToken } from "../../src/utils/utils.js";
 import { DomainIntelService } from "../../src/index.js";
 
@@ -9,6 +9,7 @@ const token = getTestToken(testEnvironment);
 const testHost = getTestDomain(testEnvironment);
 const config = new PangeaConfig({ domain: testHost, customUserAgent: "sdk-test" });
 const domainIntel = new DomainIntelService(token, config);
+jest.setTimeout(60000);
 
 it("Domain reputation should succeed", async () => {
   const options = { provider: "crowdstrike", verbose: true, raw: true };

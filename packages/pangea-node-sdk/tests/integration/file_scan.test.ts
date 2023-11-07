@@ -2,6 +2,7 @@ import PangeaConfig from "../../src/config.js";
 import { it, expect, jest } from "@jest/globals";
 import { TestEnvironment, getTestDomain, getTestToken } from "../../src/utils/utils.js";
 import { FileScanService, PangeaErrors } from "../../src/index.js";
+import { FileScan, TransferMethod } from "../../src/types.js";
 
 const testEnvironment = TestEnvironment.LIVE;
 
@@ -11,7 +12,7 @@ const config = new PangeaConfig({ domain: testHost, customUserAgent: "sdk-test" 
 const fileScan = new FileScanService(token, config);
 
 const testfilePath = "./tests/testdata/testfile.pdf";
-jest.setTimeout(60000);
+jest.setTimeout(120000);
 
 const delay = async (ms: number) =>
   new Promise((resolve) => {
@@ -21,6 +22,24 @@ const delay = async (ms: number) =>
 it("File Scan crowdstrike", async () => {
   try {
     const request = { verbose: true, raw: true, provider: "crowdstrike" };
+    const response = await fileScan.fileScan(request, testfilePath);
+
+    expect(response.status).toBe("Success");
+    expect(response.result.data).toBeDefined();
+    expect(response.result.data.verdict).toBe("benign");
+  } catch (e) {
+    console.log(e);
+    expect(false).toBeTruthy();
+  }
+});
+
+it("File Scan multipart post", async () => {
+  try {
+    const request: FileScan.ScanRequest = {
+      verbose: true,
+      raw: true,
+      transfer_method: TransferMethod.MULTIPART,
+    };
     const response = await fileScan.fileScan(request, testfilePath);
 
     expect(response.status).toBe("Success");
@@ -67,7 +86,7 @@ it("File Scan crowdstrike async and poll result", async () => {
     }
   }
 
-  const maxRetry = 6;
+  const maxRetry = 12;
   for (let retry = 0; retry < maxRetry; retry++) {
     try {
       // Wait until result could be ready
@@ -133,7 +152,7 @@ it("File Scan reversinglabs async and poll result", async () => {
     }
   }
 
-  const maxRetry = 6;
+  const maxRetry = 12;
   for (let retry = 0; retry < maxRetry; retry++) {
     try {
       // Wait until result could be ready

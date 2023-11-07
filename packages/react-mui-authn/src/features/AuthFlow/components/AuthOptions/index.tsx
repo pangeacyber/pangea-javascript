@@ -1,5 +1,5 @@
 import { FC, useEffect, useState } from "react";
-import { Stack, Typography } from "@mui/material";
+import { Stack } from "@mui/material";
 
 import { AuthFlowComponentProps } from "@src/features/AuthFlow/types";
 import Button from "@src/components/core/Button";
@@ -10,6 +10,7 @@ import AuthPassword from "../AuthPassword";
 import AuthSmsOtp from "../AuthSmsOtp";
 import AuthSmsPhone from "../AuthSmsPhone";
 import AuthTotp from "../AuthTotp";
+import { BodyText } from "@src/components/core/Text";
 
 const AuthOptions: FC<AuthFlowComponentProps> = (props) => {
   const { options, data, error, reset } = props;
@@ -38,25 +39,20 @@ const AuthOptions: FC<AuthFlowComponentProps> = (props) => {
     } else if (activeProvider === "totp") {
       setContent(<AuthTotp {...props} />);
     } else {
-      setContent(
-        <Stack gap={1}>
-          <Typography variant="body2">
-            Select {data.phase === "phase_secondary" ? "secondary" : "primary"}{" "}
-            authentication method
-          </Typography>
-          <Stack
-            direction={{ xs: "column", sm: "row" }}
-            justifyContent="center"
-            gap={{ xs: 0, sm: 1 }}
-          >
-            <Button variant="text" onClick={reset}>
-              {options.cancelLabel}
-            </Button>
-          </Stack>
-        </Stack>
-      );
+      setContent(<></>);
     }
   }, [activeProvider, data, error]);
+
+  const getDescriptionText = (phase?: string): string => {
+    if (phase === "phase_primary") {
+      return "Choose your initial step to prove it’s you.";
+    }
+    if (phase === "phase_secondary") {
+      return "Choose an additional step to confirm your identity.";
+    }
+
+    return "Choose a way to prove it's you.";
+  };
 
   const selectHandler = (provider: string) => {
     setActiveProvider(provider);
@@ -67,13 +63,18 @@ const AuthOptions: FC<AuthFlowComponentProps> = (props) => {
   }
 
   return (
-    <Stack gap={3} alignItems="center" width="100%">
+    <Stack gap={2} alignItems="center" width="100%">
       {data.authChoices?.length > 1 && (
-        <AuthOptionsNav
-          authChoices={data.authChoices}
-          selected={activeProvider}
-          selectCallback={selectHandler}
-        />
+        <>
+          <BodyText sxProps={{ margin: "8px 0", padding: "0 32px" }}>
+            {getDescriptionText(data.phase)}
+          </BodyText>
+          <AuthOptionsNav
+            authChoices={data.authChoices}
+            selected={activeProvider}
+            selectCallback={selectHandler}
+          />
+        </>
       )}
       {content}
     </Stack>

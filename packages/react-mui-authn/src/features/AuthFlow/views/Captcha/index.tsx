@@ -5,6 +5,8 @@ import ReCAPTCHA from "react-google-recaptcha-enterprise";
 import { AuthFlow } from "@pangeacyber/vanilla-js";
 
 import { AuthFlowComponentProps } from "@src/features/AuthFlow/types";
+import AuthFlowLayout from "../Layout";
+import IdField from "@src/components/fields/IdField";
 import ErrorMessage from "../../components/ErrorMessage";
 import Button from "@src/components/core/Button";
 
@@ -36,11 +38,12 @@ const CaptchaView: FC<AuthFlowComponentProps> = (props) => {
   }
 
   return (
-    <Stack gap={2}>
-      <Typography variant="h6">{options.captchaHeading}</Typography>
-      <Typography variant="body2" mb={1} sx={{ wordBreak: "break-word" }}>
-        {data.email}
-      </Typography>
+    <AuthFlowLayout title={options.captchaHeading}>
+      <IdField
+        value={data.email}
+        resetCallback={reset}
+        resetLabel={options.cancelLabel}
+      />
       <Stack gap={1} key={`recaptcha-view-${viewKey}`}>
         <ReCAPTCHA
           sitekey={data.captcha?.site_key}
@@ -49,12 +52,7 @@ const CaptchaView: FC<AuthFlowComponentProps> = (props) => {
         />
         {error && <ErrorMessage response={error} />}
       </Stack>
-      <Stack direction="row" justifyContent="center" gap={1}>
-        <Button variant="text" onClick={reset}>
-          {options.cancelLabel}
-        </Button>
-      </Stack>
-    </Stack>
+    </AuthFlowLayout>
   );
 };
 

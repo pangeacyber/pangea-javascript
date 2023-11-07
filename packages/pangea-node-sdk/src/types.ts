@@ -25,8 +25,22 @@ export enum ConfigEnv {
   PRODUCTION = "production",
 }
 
+export enum TransferMethod {
+  DIRECT = "direct",
+  MULTIPART = "multipart",
+}
+
 export interface Dictionary {
   [key: string]: string | boolean | number | Dictionary;
+}
+
+export interface AcceptedStatus {
+  upload_url?: string;
+  upload_details?: Dictionary;
+}
+
+export interface AcceptedResult {
+  accepted_status: AcceptedStatus;
 }
 
 /**
@@ -199,9 +213,16 @@ export namespace FileScan {
     verbose?: boolean;
     raw?: boolean;
     provider?: string;
-    filepath?: string;
-    file?: string;
+    transfer_method?: TransferMethod;
   }
+
+  export interface ScanFileParams {
+    transfer_size: number;
+    transfer_crc32c: string;
+    transfer_sha256: string;
+  }
+
+  export interface ScanFullRequest extends ScanRequest, ScanFileParams {}
 
   export interface Options extends PostOptions {}
 
@@ -606,6 +627,7 @@ export namespace Vault {
     SUSPENDED = "suspended",
     COMPROMISED = "compromised",
     DESTROYED = "destroyed",
+    INHERITED = "inherited",
   }
 
   export enum ItemOrder {
@@ -741,9 +763,16 @@ export namespace Vault {
     secret?: string;
   }
 
+  export interface InheritedSettigs {
+    rotation_frequency?: string;
+    rotation_state?: string;
+    rotation_grace_period?: string;
+  }
+
   export interface GetResult extends ItemData {
     rotation_grace_period?: string;
     versions: ItemVersionData[];
+    inherited_settings?: InheritedSettigs;
   }
 
   export namespace JWT {
@@ -1043,6 +1072,9 @@ export namespace Vault {
       folder: string;
       metadata?: Metadata;
       tags?: Tags;
+      rotation_frequency?: string;
+      rotation_state?: ItemVersionState;
+      rotation_grace_period?: string;
     }
 
     export interface CreateResult {

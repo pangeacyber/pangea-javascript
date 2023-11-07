@@ -26,6 +26,7 @@ export namespace AuthFlow {
     SET_PASSWORD = "set_password",
     RESET_PASSWORD = "reset_password",
     SOCIAL = "social",
+    SAML = "saml",
     CAPTCHA = "captcha",
     VERIFY_EMAIL = "verify_email",
     EMAIL_OTP = "email_otp",
@@ -55,6 +56,7 @@ export namespace AuthFlow {
     | EmptyObject
     | PasswordResponse
     | SocialResponse
+    | SamlResponse
     | CaptchaResponse
     | VerifyEmailResponse
     | EmailOtpResponse
@@ -67,6 +69,7 @@ export namespace AuthFlow {
     | StartParams
     | PasswordParams
     | SocialParams
+    | SamlParams
     | EmailParams
     | EmailOtpParams
     | SmsOtpParams
@@ -144,6 +147,33 @@ export namespace AuthFlow {
     flow_id: string;
     choice: Choice.SOCIAL;
     data: SocialParams;
+  }
+
+  // SAML
+
+  export interface SamlResponse {
+    enrollment: boolean;
+    provider_name: string;
+    provider_id: string;
+    state: string;
+    redirect_uri: string;
+  }
+
+  export interface SamlResult {
+    choice: Choice.SAML;
+    data: SamlResponse;
+  }
+
+  export interface SamlParams {
+    provider_id: string;
+    provider_name: string;
+    uri: string;
+  }
+
+  export interface SamlRequest {
+    flow_id: string;
+    choice: Choice.SAML;
+    data: SamlParams;
   }
 
   // Set Email
@@ -390,6 +420,7 @@ export namespace AuthFlow {
     | PasswordResult
     | ResetPasswordResult
     | SocialResult
+    | SamlResult
     | CaptchaResult
     | VerifyEmailResult
     | EmailOtpResult
@@ -412,7 +443,9 @@ export namespace AuthFlow {
     authChoices: string[];
     socialChoices: SocialResponse[];
     socialProviderMap: { [key: string]: SocialResponse };
-    socialStateMap: { [key: string]: string };
+    samlChoices: SamlResponse[];
+    samlProviderMap: { [key: string]: SamlResponse };
+    callbackStateMap: { [key: string]: string };
     agreements: AgreementData[];
     setEmail?: EmptyObject;
     password?: PasswordResponse;
@@ -443,6 +476,7 @@ export namespace AuthFlow {
     | ResetPasswordRequest
     | CaptchaRequest
     | SocialRequest
+    | SamlRequest
     | EmailOtpRequest
     | SmsOtpRequest
     | TotpRequest

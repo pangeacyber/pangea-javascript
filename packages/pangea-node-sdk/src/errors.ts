@@ -1,4 +1,4 @@
-import { Audit } from "@src/types.js";
+import { AcceptedResult, Audit } from "@src/types.js";
 import { PangeaResponse } from "./response.js";
 
 export namespace PangeaErrors {
@@ -32,6 +32,15 @@ export namespace PangeaErrors {
     }
   }
 
+  export class PresignedUploadError extends PangeaError {
+    body: string;
+    constructor(message: string, body: string) {
+      super(message);
+      this.name = "PresignedUploadError";
+      this.body = body;
+    }
+  }
+
   export class AuditEventError extends AuditError {
     envelope: Audit.EventEnvelope;
 
@@ -44,6 +53,7 @@ export namespace PangeaErrors {
 
   export interface Errors {
     errors: ErrorField[];
+    accepted_result?: AcceptedResult;
   }
 
   export class APIError extends Error {
@@ -163,12 +173,14 @@ export namespace PangeaErrors {
 
   // Accepted request exception. Async response
   export class AcceptedRequestException extends APIError {
+    accepted_result?: AcceptedResult;
     request_id: string;
     constructor(response: PangeaResponse<any>) {
       const message = `summary: ${response.summary}. request_id: ${response.request_id}.`;
       super(message, response);
       this.request_id = response.request_id;
       this.name = "AcceptedRequestException";
+      this.accepted_result = response.result;
     }
   }
 

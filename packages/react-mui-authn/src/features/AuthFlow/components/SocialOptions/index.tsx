@@ -1,4 +1,4 @@
-import { FC } from "react";
+import { FC, useEffect } from "react";
 import { Box, Divider, Stack, Typography } from "@mui/material";
 import { useTheme } from "@mui/material/styles";
 
@@ -11,18 +11,27 @@ import {
 } from "@src/features/AuthFlow/utils";
 import Button from "@src/components/core/Button";
 
-const SocialOptions: FC<AuthFlowComponentProps> = ({
-  options,
-  data,
-  reset,
-}) => {
+const SocialOptions: FC<AuthFlowComponentProps> = ({ options, data }) => {
   const theme = useTheme();
 
   const socialLogin = (redirect: string) => {
     window.location.href = redirect;
   };
 
-  if (data.socialChoices.length === 0) {
+  useEffect(() => {
+    // auto-redirect if one SAML provider is the only option
+    if (
+      data &&
+      data.authChoices.length === 0 &&
+      data.socialChoices.length === 0 &&
+      data.samlChoices.length === 1
+    ) {
+      const samlOption = data.samlChoices[0];
+      socialLogin(samlOption.redirect_uri);
+    }
+  }, []);
+
+  if (data.socialChoices.length === 0 && data.samlChoices.length === 0) {
     return null;
   }
 
@@ -60,6 +69,20 @@ const SocialOptions: FC<AuthFlowComponentProps> = ({
                 </>
               )}
               Continue with {getSocialProviderLabel(provider.social_provider)}
+            </Button>
+          );
+        })}
+        {data.samlChoices.map((provider: AuthFlow.SamlResponse) => {
+          return (
+            <Button
+              color="secondary"
+              fullWidth={true}
+              onClick={() => {
+                socialLogin(provider.redirect_uri);
+              }}
+              key={provider.provider_id}
+            >
+              Continue with {provider.provider_name}
             </Button>
           );
         })}
