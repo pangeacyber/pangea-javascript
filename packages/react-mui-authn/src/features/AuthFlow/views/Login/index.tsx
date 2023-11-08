@@ -14,7 +14,7 @@ const LoginView: FC<AuthFlowComponentProps> = (props) => {
   return (
     <AuthFlowLayout title={options.passwordHeading} disclaimer={disclaimer}>
       <IdField
-        value={data.email}
+        value={data?.email}
         resetCallback={reset}
         resetLabel={options.cancelLabel}
       />

@@ -60,7 +60,7 @@ const ProfileView: FC<AuthFlowComponentProps> = (props) => {
   return (
     <AuthFlowLayout title="Edit your profile">
       <IdField
-        value={data.email}
+        value={data?.email}
         resetCallback={reset}
         resetLabel={options.cancelLabel}
       />
