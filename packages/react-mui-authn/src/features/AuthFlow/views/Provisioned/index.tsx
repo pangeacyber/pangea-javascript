@@ -65,7 +65,7 @@ const ProvisionedView: FC<AuthFlowComponentProps> = ({
   return (
     <AuthFlowLayout title="Verify account" buttons={buttons}>
       <IdField
-        value={data.email}
+        value={data?.email}
         resetCallback={reset}
         resetLabel={options.cancelLabel}
       />

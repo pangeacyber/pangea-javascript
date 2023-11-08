@@ -57,7 +57,7 @@ const AgreementView: FC<AuthFlowComponentProps> = ({
     <Stack gap={2} sx={{ borderWidth: "1px" }} ml={-1} mr={-1}>
       <Typography variant="h6">{acceptHeading()}</Typography>
       <IdField
-        value={data.email}
+        value={data?.email}
         resetCallback={reset}
         resetLabel={options.cancelLabel}
       />

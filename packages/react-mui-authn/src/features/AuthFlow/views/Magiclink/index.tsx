@@ -65,7 +65,7 @@ const MagiclinkView: FC<AuthFlowComponentProps> = ({
   return (
     <AuthFlowLayout title="Magic Link Verification" buttons={buttons}>
       <IdField
-        value={data.email}
+        value={data?.email}
         resetCallback={reset}
         resetLabel={options.cancelLabel}
       />
