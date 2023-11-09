@@ -1,7 +1,7 @@
 import PangeaResponse from "@src/response.js";
 import BaseService from "./base.js";
 import PangeaConfig from "@src/config.js";
-import { Audit } from "@src/types.js";
+import { Audit, PostOptions } from "@src/types.js";
 import { PublishedRoots, getArweavePublishedRoots } from "@src/utils/arweave.js";
 import {
   verifyRecordConsistencyProof,
@@ -84,7 +84,14 @@ class AuditService extends BaseService {
   ): Promise<PangeaResponse<Audit.LogResponse>> {
     let data = this.getLogEvent(event, options) as Audit.LogData;
     this.setRequestFields(data, options);
-    const response: PangeaResponse<Audit.LogResponse> = await this.post("v1/log_async", data);
+    const postOptions: PostOptions = {
+      pollResultSync: false,
+    };
+    const response: PangeaResponse<Audit.LogResponse> = await this.post(
+      "v1/log_async",
+      data,
+      postOptions
+    );
     this.processLogResponse(response.result, options);
     return response;
   }
@@ -124,7 +131,15 @@ class AuditService extends BaseService {
     };
     this.setRequestFields(data, options);
 
-    const response: PangeaResponse<Audit.LogBulkResponse> = await this.post("v2/log_async", data);
+    const postOptions: PostOptions = {
+      pollResultSync: false,
+    };
+
+    const response: PangeaResponse<Audit.LogBulkResponse> = await this.post(
+      "v2/log_async",
+      data,
+      postOptions
+    );
     response.result.results.forEach((result) => {
       this.processLogResponse(result, options);
     });

@@ -56,10 +56,6 @@ const tokenMultiConfig = getMultiConfigTestToken(environment);
 const domain = getTestDomain(environment);
 const config = new PangeaConfig({ domain: domain, customUserAgent: "sdk-test" });
 const auditGeneral = new AuditService(tokenGeneral, config);
-const auditNoQueue = new AuditService(
-  tokenGeneral,
-  new PangeaConfig({ domain: domain, customUserAgent: "sdk-test", queuedRetryEnabled: false })
-);
 const auditVault = new AuditService(tokenVault, config);
 const auditWithTenantId = new AuditService(tokenGeneral, config, "mytenantid");
 const auditCustomSchema = new AuditService(tokenCustomSchema, config);
@@ -918,32 +914,7 @@ it("log an audit event bulk. verbose but no verify", async () => {
   });
 });
 
-it("log an audit event bulk async. verbose but no verify", async () => {
-  const event: Audit.Event = {
-    actor: ACTOR,
-    message: MSG_NO_SIGNED,
-    status: STATUS_NO_SIGNED,
-  };
-
-  const options: Audit.LogOptions = {
-    verbose: true, // set verbose to true
-  };
-
-  const response = await auditGeneral.logBulkAsync([event, event], options);
-
-  expect(response.status).toBe("Success");
-  response.result.results.forEach((result) => {
-    expect(typeof result.hash).toBe("string");
-    expect(result.envelope).toBeDefined();
-    expect(result.consistency_proof).toBeUndefined();
-    expect(result.membership_proof).toBeDefined();
-    expect(result.consistency_verification).toBeUndefined();
-    expect(result.membership_verification).toBeUndefined();
-    expect(result.signature_verification).toBe("none");
-  });
-});
-
-it("log an audit event bulk async. verbose but no verify", async () => {
+it("log an audit event bulk async", async () => {
   const event: Audit.Event = {
     actor: ACTOR,
     message: MSG_NO_SIGNED,
@@ -955,14 +926,14 @@ it("log an audit event bulk async. verbose but no verify", async () => {
   };
 
   const t = async () => {
-    const response = await auditNoQueue.logBulkAsync([event, event], options);
+    const response = await auditGeneral.logBulkAsync([event, event], options);
     expect(response).toBeFalsy();
   };
 
   await expect(t()).rejects.toThrow(PangeaErrors.AcceptedRequestException);
 });
 
-it("log an audit event async. verbose but no verify", async () => {
+it("log an audit event async", async () => {
   const event: Audit.Event = {
     actor: ACTOR,
     message: MSG_NO_SIGNED,
@@ -974,7 +945,7 @@ it("log an audit event async. verbose but no verify", async () => {
   };
 
   const t = async () => {
-    const response = await auditNoQueue.logAsync(event, options);
+    const response = await auditGeneral.logAsync(event, options);
     expect(response).toBeFalsy();
   };
 
