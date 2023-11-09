@@ -3,36 +3,48 @@ import {
   Button,
   FormControl,
   InputAdornment,
-  InputLabel,
   OutlinedInput,
-  Stack,
   Typography,
 } from "@mui/material";
 
 export interface Props {
-  label: string;
-  value: string;
-  actionLabel: string;
-  actionCallback: () => void;
+  value?: string;
+  resetLabel?: string;
+  resetCallback: () => void;
 }
 
-const IdField: FC<Props> = ({ label, value, actionLabel, actionCallback }) => {
+const IdField: FC<Props> = ({
+  value,
+  resetLabel = "Start over",
+  resetCallback,
+}) => {
+  if (!value) {
+    return null;
+  }
+
   return (
     <FormControl variant="outlined" fullWidth>
-      <InputLabel htmlFor="adornment">{label}</InputLabel>
       <OutlinedInput
         id="outlined-adornment-id"
         type="text"
         readOnly={true}
         endAdornment={
           <InputAdornment position="end">
-            <Button onClick={actionCallback} color="secondary" size="small">
-              <Typography variant="overline">{actionLabel}</Typography>
+            <Button
+              onClick={resetCallback}
+              color="secondary"
+              size="small"
+              disableElevation={true}
+              sx={{
+                height: "30px",
+                marginRight: "-8px",
+              }}
+            >
+              <Typography variant="overline">{resetLabel}</Typography>
             </Button>
           </InputAdornment>
         }
         value={value}
-        label={label}
       />
     </FormControl>
   );

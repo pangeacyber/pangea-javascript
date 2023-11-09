@@ -3,9 +3,10 @@ import { Stack, Typography, useTheme } from "@mui/material";
 
 import { AuthFlow } from "@pangeacyber/vanilla-js";
 
-import Button from "@src/components/core/Button";
 import { AuthFlowComponentProps } from "@src/features/AuthFlow/types";
 import LexicalViewer from "./component";
+import IdField from "@src/components/fields/IdField";
+import Button from "@src/components/core/Button";
 
 const AgreementView: FC<AuthFlowComponentProps> = ({
   options,
@@ -53,8 +54,13 @@ const AgreementView: FC<AuthFlowComponentProps> = ({
   };
 
   return (
-    <Stack gap={3} sx={{ borderWidth: "1px" }} ml={-1} mr={-1}>
+    <Stack gap={2} sx={{ borderWidth: "1px" }} ml={-1} mr={-1}>
       <Typography variant="h6">{acceptHeading()}</Typography>
+      <IdField
+        value={data?.email}
+        resetCallback={reset}
+        resetLabel={options.cancelLabel}
+      />
       <Stack
         id="agreement-container"
         onScroll={handleScroll}
@@ -87,10 +93,11 @@ const AgreementView: FC<AuthFlowComponentProps> = ({
         alignItems="center"
         justifyContent="center"
       >
-        <Button color="secondary" onClick={reset}>
+        <Button fullWidth color="secondary" onClick={reset}>
           Decline
         </Button>
         <Button
+          fullWidth
           color="primary"
           disabled={disable}
           onClick={() => {

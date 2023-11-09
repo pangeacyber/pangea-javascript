@@ -1,12 +1,12 @@
 import { FC } from "react";
 import ReCAPTCHA from "react-google-recaptcha-enterprise";
-import { Stack, Typography } from "@mui/material";
 
 import { AuthFlow } from "@pangeacyber/vanilla-js";
 
 import { AuthFlowComponentProps } from "@src/features/AuthFlow/types";
-import Button from "@src/components/core/Button";
 import ErrorMessage from "../ErrorMessage";
+import AuthFlowLayout from "../../views/Layout";
+import IdField from "@src/components/fields/IdField";
 
 const VerifyCaptchaView: FC<AuthFlowComponentProps> = ({
   options,
@@ -23,28 +23,19 @@ const VerifyCaptchaView: FC<AuthFlowComponentProps> = ({
   };
 
   return (
-    <Stack gap={2}>
-      <Stack>
-        <Typography variant="h6">{options.captchaHeading}</Typography>
-      </Stack>
-      <Stack gap={1}>
-        <ReCAPTCHA
-          sitekey={data?.captcha?.site_key}
-          onChange={handleChange}
-          className="recaptcha"
-        />
-        {error && <ErrorMessage response={error} />}
-      </Stack>
-      <Stack
-        direction={{ xs: "column", sm: "row" }}
-        justifyContent="center"
-        gap={{ xs: 0, sm: 1 }}
-      >
-        <Button color="primary" variant="text" onClick={reset}>
-          {options.cancelLabel}
-        </Button>
-      </Stack>
-    </Stack>
+    <AuthFlowLayout title={options.captchaHeading}>
+      <IdField
+        value={data?.email}
+        resetCallback={reset}
+        resetLabel={options.cancelLabel}
+      />
+      <ReCAPTCHA
+        sitekey={data?.captcha?.site_key}
+        onChange={handleChange}
+        className="recaptcha"
+      />
+      {error && <ErrorMessage response={error} />}
+    </AuthFlowLayout>
   );
 };
 

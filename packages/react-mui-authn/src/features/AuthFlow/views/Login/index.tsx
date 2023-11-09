@@ -1,65 +1,33 @@
 import { FC } from "react";
-import { Stack, Typography } from "@mui/material";
 
-import { AuthFlow } from "@pangeacyber/vanilla-js";
-
-import {
-  AuthFlowComponentProps,
-  AuthFlowViewOptions,
-} from "@src/features/AuthFlow/types";
-import Disclaimer from "../../components/Disclaimer";
+import { AuthFlowComponentProps } from "@src/features/AuthFlow/types";
+import AuthFlowLayout from "../Layout";
 import { AuthOptions, SocialOptions } from "../../components";
-import Button from "@src/components/core/Button";
-
-const getTitle = (
-  data: AuthFlow.StateData,
-  options: AuthFlowViewOptions
-): string => {
-  if (
-    data.password?.enrollment ||
-    data.smsOtp?.enrollment ||
-    data.emailOtp?.enrollment ||
-    data.totp?.enrollment
-  ) {
-    if (data.phase === "phase_secondary") {
-      return "Enroll Secondary Method";
-    } else {
-      return "Enroll Primary Method";
-    }
-  }
-
-  return options.passwordHeading || "";
-};
+import IdField from "@src/components/fields/IdField";
+import { BodyText } from "@src/components/core/Text";
 
 const LoginView: FC<AuthFlowComponentProps> = (props) => {
   const { options, data, reset } = props;
+  const disclaimer =
+    data.disclaimer && data.phase !== "phase_one_time" ? data.disclaimer : "";
 
   return (
-    <Stack gap={2}>
-      <Typography variant="h6">{getTitle(data, options)}</Typography>
-      <Typography variant="body2" sx={{ wordBreak: "break-word" }}>
-        {data.email}
-      </Typography>
+    <AuthFlowLayout title={options.passwordHeading} disclaimer={disclaimer}>
+      <IdField
+        value={data?.email}
+        resetCallback={reset}
+        resetLabel={options.cancelLabel}
+      />
       <AuthOptions {...props} />
-      {data.authChoices.length === 0 && data.socialChoices.length === 0 && (
-        <Typography variant="body2" color="error">
-          There are no valid authentication methods available
-        </Typography>
-      )}
+      {data.authChoices.length === 0 &&
+        data.socialChoices.length === 0 &&
+        data.samlChoices.length === 0 && (
+          <BodyText color="error" sxProps={{ padding: "0 16px" }}>
+            There are no valid authentication methods available
+          </BodyText>
+        )}
       <SocialOptions {...props} />
-      {data.authChoices.length === 0 && (
-        <Stack
-          direction={{ xs: "column", sm: "row" }}
-          justifyContent="center"
-          gap={{ xs: 0, sm: 1 }}
-        >
-          <Button variant="text" onClick={reset}>
-            {options.cancelLabel}
-          </Button>
-        </Stack>
-      )}
-      {data.disclaimer && <Disclaimer content={data.disclaimer} />}
-    </Stack>
+    </AuthFlowLayout>
   );
 };
 

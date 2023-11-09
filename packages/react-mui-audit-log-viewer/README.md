@@ -123,6 +123,11 @@ Audit Service API's(https://pangea.cloud/docs/api/audit)
 
 ## Development
 
+### Pre-requisites
+
+1. Node.js v16 (IMPORTANT!)
+1. yarn 1.x
+
 First, run the development server:
 
 ```bash

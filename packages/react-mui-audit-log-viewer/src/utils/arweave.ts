@@ -1,7 +1,6 @@
 // Copyright 2021 Pangea Cyber Corporation
 // Author: Pangea Cyber Corporation
 
-import axios from "axios";
 import { Audit } from "../types";
 
 const ARWEAVE_BASE_URL = "https://arweave.net";
@@ -52,13 +51,15 @@ export const getArweavePublishedRoots = async (
 }
     `;
 
-  const response = await axios.post(
-    ARWEAVE_GRAPHQL_URL,
-    { query },
-    {
-      responseType: "json",
-    }
-  );
+  const fetchResponse = await fetch(ARWEAVE_GRAPHQL_URL, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({ query }),
+  });
+  const response = await fetchResponse.json();
+
   if (response.status !== 200) return {};
 
   const publishedRoots: PublishedRoots = {};
@@ -75,7 +76,8 @@ export const getArweavePublishedRoots = async (
     const treeSize = treeSizeTags[0]?.value;
 
     const transactionUrl = arweaveTransactionUrl(nodeId);
-    const response = await axios.get(transactionUrl);
+    const getResponse = await fetch(transactionUrl);
+    const response = await getResponse.json();
     if (response.status !== 200 || response.statusText === "Pending") {
       continue;
     }

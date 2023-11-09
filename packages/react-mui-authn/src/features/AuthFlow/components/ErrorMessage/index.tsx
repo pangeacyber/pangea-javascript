@@ -1,7 +1,8 @@
 import { FC } from "react";
-import { Stack, Typography } from "@mui/material";
+import { Stack } from "@mui/material";
 
-import { APIResponse } from "@pangeacyber/react-auth";
+import { APIResponse } from "@pangeacyber/vanilla-js";
+import { ErrorText } from "@src/components/core/Text";
 
 interface Props {
   response: APIResponse;
@@ -19,21 +20,13 @@ const ErrorMessage: FC<Props> = ({ response }) => {
     response.result?.errors?.length > 0 ? (
       <>
         {response.result.errors.map((err: errorEntry, idx: number) => {
-          return (
-            <Typography variant="body2" color="error" key={`error-${idx}`}>
-              {err.detail}
-            </Typography>
-          );
+          return <ErrorText key={`error-${idx}`}>{err.detail}</ErrorText>;
         })}
       </>
     ) : response.result?.error ? (
-      <Typography variant="body2" color="error">
-        {response.result.error}
-      </Typography>
+      <ErrorText>{response.result.error}</ErrorText>
     ) : (
-      <Typography variant="body2" color="error">
-        {response.summary}
-      </Typography>
+      <ErrorText>{response.summary}</ErrorText>
     );
   return <Stack textAlign="center">{errorContent}</Stack>;
 };

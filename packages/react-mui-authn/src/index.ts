@@ -14,6 +14,7 @@ export {
 
 // Flow2 exports
 export {
+  AuthFlowLayout,
   StartView,
   LoginView,
   SignupView,

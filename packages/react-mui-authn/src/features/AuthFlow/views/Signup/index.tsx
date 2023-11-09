@@ -1,5 +1,4 @@
 import { FC } from "react";
-import { Stack, Typography } from "@mui/material";
 
 import { AuthFlow } from "@pangeacyber/vanilla-js";
 
@@ -7,55 +6,45 @@ import {
   AuthFlowComponentProps,
   AuthFlowViewOptions,
 } from "@src/features/AuthFlow/types";
+import AuthFlowLayout from "../Layout";
 import { AuthOptions, SocialOptions } from "../../components";
-import Button from "@src/components/core/Button";
-import Disclaimer from "../../components/Disclaimer";
+import IdField from "@src/components/fields/IdField";
+import { ErrorText } from "@src/components/core/Text";
 
 const getDisplayData = (
   data: AuthFlow.StateData,
   options: AuthFlowViewOptions
-): [string, string] => {
+): string => {
   if (data.phase === "phase_secondary") {
-    return ["Secondary Authentication", "Setup a secondary method for "];
+    return "Confirm your identity";
   }
 
-  return [options.signupHeading || "", "Create an account with"];
+  return options.signupHeading || "Create your account";
 };
 
 const SignupView: FC<AuthFlowComponentProps> = (props) => {
   const { options, data, reset } = props;
-  const [title, description] = getDisplayData(data, options);
+  const title = getDisplayData(data, options);
+  const disclaimer =
+    data.disclaimer && data.phase !== "phase_secondary" ? data.disclaimer : "";
 
   return (
-    <Stack gap={2}>
-      <Typography variant="h6">{title}</Typography>
-      <Typography variant="body2" sx={{ wordBreak: "break-word" }}>
-        {description} {data.email}
-      </Typography>
+    <AuthFlowLayout title={title} disclaimer={disclaimer}>
+      <IdField
+        value={data?.email}
+        resetCallback={reset}
+        resetLabel={options.cancelLabel}
+      />
       <AuthOptions {...props} />
       {data.authChoices.length === 0 && data.socialChoices.length === 0 && (
-        <Typography variant="body2" color="error">
+        <ErrorText>
           There are no valid authentication methods available
-        </Typography>
+        </ErrorText>
       )}
       {(data.invite ||
         data.phase === "phase_secondary" ||
         data.samlChoices.length > 0) && <SocialOptions {...props} />}
-      {data.authChoices.length === 0 && (
-        <Stack
-          direction={{ xs: "column", sm: "row" }}
-          justifyContent="center"
-          gap={{ xs: 0, sm: 1 }}
-        >
-          <Button variant="text" onClick={reset}>
-            {options.cancelLabel}
-          </Button>
-        </Stack>
-      )}
-      {data.disclaimer && data.phase !== "phase_secondary" && (
-        <Disclaimer content={data.disclaimer} />
-      )}
-    </Stack>
+    </AuthFlowLayout>
   );
 };
 
