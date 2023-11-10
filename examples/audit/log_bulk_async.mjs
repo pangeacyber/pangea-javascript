@@ -17,7 +17,7 @@ const audit = new AuditService(token, config);
 
   try {
     console.log("Send multiple events");
-    await audit.logBulkAsync([event1, event2], { verbose: true });    
+    await audit.logBulkAsync([event1, event2], { verbose: true });
   } catch (err) {
     if (err instanceof PangeaErrors.AcceptedRequestException) {
       console.log("AcceptedRequestException as expected");

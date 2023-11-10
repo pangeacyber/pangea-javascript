@@ -17,11 +17,12 @@ const audit = new AuditService(token, config);
 
   try {
     console.log("Logging multiple events");
-    const logResponse = await audit.logBulk([event1, event2], { verbose: true });
-    logResponse.result.results.forEach(result => {
-      console.log("Result: %s", result);      
+    const logResponse = await audit.logBulk([event1, event2], {
+      verbose: true,
     });
-    
+    logResponse.result.results.forEach((result) => {
+      console.log("Result: %s", result);
+    });
   } catch (err) {
     if (err instanceof PangeaErrors.APIError) {
       console.log(err.summary, err.pangeaResponse);
