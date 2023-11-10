@@ -3,13 +3,17 @@ import BaseService from "./base.js";
 import PangeaConfig from "@src/config.js";
 import { Redact } from "@src/types.js";
 
+export interface RedactOptions {
+  config_id?: string;
+}
+
 /**
  * RedactService class provides methods for interacting with the Redact Service
  * @extends BaseService
  */
 class RedactService extends BaseService {
-  constructor(token: string, config: PangeaConfig) {
-    super("redact", token, config);
+  constructor(token: string, config: PangeaConfig, options: RedactOptions = {}) {
+    super("redact", token, config, options.config_id);
   }
 
   /**
