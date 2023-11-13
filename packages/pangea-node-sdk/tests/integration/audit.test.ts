@@ -932,22 +932,3 @@ it("log an audit event bulk async", async () => {
 
   await expect(t()).rejects.toThrow(PangeaErrors.AcceptedRequestException);
 });
-
-it("log an audit event async", async () => {
-  const event: Audit.Event = {
-    actor: ACTOR,
-    message: MSG_NO_SIGNED,
-    status: STATUS_NO_SIGNED,
-  };
-
-  const options: Audit.LogOptions = {
-    verbose: true, // set verbose to true
-  };
-
-  const t = async () => {
-    const response = await auditGeneral.logAsync(event, options);
-    expect(response).toBeFalsy();
-  };
-
-  await expect(t()).rejects.toThrow(PangeaErrors.AcceptedRequestException);
-});

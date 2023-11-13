@@ -78,24 +78,6 @@ class AuditService extends BaseService {
     return response;
   }
 
-  async logAsync(
-    event: Audit.Event,
-    options: Audit.LogOptions = {}
-  ): Promise<PangeaResponse<Audit.LogResponse>> {
-    let data = this.getLogEvent(event, options) as Audit.LogData;
-    this.setRequestFields(data, options);
-    const postOptions: PostOptions = {
-      pollResultSync: false,
-    };
-    const response: PangeaResponse<Audit.LogResponse> = await this.post(
-      "v1/log_async",
-      data,
-      postOptions
-    );
-    this.processLogResponse(response.result, options);
-    return response;
-  }
-
   async logBulk(
     events: Audit.Event[],
     options: Audit.LogOptions = {}
