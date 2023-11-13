@@ -63,11 +63,11 @@ export namespace Audit {
 
   export interface LogRequestCommon {
     verbose?: boolean;
-    prev_root?: string;
   }
 
   export interface LogData extends LogEvent, LogRequestCommon {
     event: Audit.Event;
+    prev_root?: string;
   }
 
   export interface LogBulkRequest extends LogRequestCommon {

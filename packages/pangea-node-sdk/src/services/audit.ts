@@ -89,9 +89,10 @@ class AuditService extends BaseService {
 
     let data: Audit.LogBulkRequest = {
       events: logEvents,
+      verbose: options.verbose,
     };
-    this.setRequestFields(data, options);
 
+    options.verify = false; // Bulk API does not verify
     const response: PangeaResponse<Audit.LogBulkResponse> = await this.post("v2/log", data);
     response.result.results.forEach((result) => {
       this.processLogResponse(result, options);
@@ -110,8 +111,8 @@ class AuditService extends BaseService {
 
     let data: Audit.LogBulkRequest = {
       events: logEvents,
+      verbose: options.verbose,
     };
-    this.setRequestFields(data, options);
 
     const postOptions: PostOptions = {
       pollResultSync: false,
@@ -122,6 +123,8 @@ class AuditService extends BaseService {
       data,
       postOptions
     );
+
+    options.verify = false; // Bulk API does not verify
     response.result.results.forEach((result) => {
       this.processLogResponse(result, options);
     });
@@ -156,7 +159,7 @@ class AuditService extends BaseService {
     return data;
   }
 
-  setRequestFields(data: Audit.LogRequestCommon, options: Audit.LogOptions) {
+  setRequestFields(data: Audit.LogData, options: Audit.LogOptions) {
     if (options?.verbose) {
       data.verbose = options.verbose;
     }
