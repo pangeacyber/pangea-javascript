@@ -10,7 +10,7 @@ import {
   getConfigID,
 } from "../../src/utils/utils.js";
 
-const environment = TestEnvironment.DEVELOP;
+const environment = TestEnvironment.LIVE;
 
 const token = getTestToken(environment);
 const tokenMultiConfig = getMultiConfigTestToken(environment);
