@@ -39,6 +39,10 @@ const StoreFileSharing: FC<Props> = ({ object }) => {
     });
   };
 
+  const handleDeleteShare = () => {
+    handleFetchShares();
+  };
+
   return (
     <>
       {!!object?.id && (
@@ -47,7 +51,11 @@ const StoreFileSharing: FC<Props> = ({ object }) => {
       <Stack spacing={1} paddingTop={1}>
         {shares.map((share) => {
           return (
-            <ShareObject key={`share-object-${share.id}`} object={share} />
+            <ShareObject
+              key={`share-object-${share.id}`}
+              object={share}
+              onDelete={handleDeleteShare}
+            />
           );
         })}
       </Stack>

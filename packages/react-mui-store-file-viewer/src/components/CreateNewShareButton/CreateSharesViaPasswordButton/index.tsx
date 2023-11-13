@@ -56,25 +56,22 @@ const CreateSharesViaPasswordButton: FC<Props> = ({
     if (!apiRef.share?.create) return;
 
     setLoading(true);
-    return (
-      apiRef// @ts-ignore
-      .share
-        .create({
-          links: [
-            {
-              ...body,
-              targets: [object.id],
-            },
-          ],
-        })
-        .then(() => {
-          setLoading(false);
-          onDone();
-        })
-        .catch((error) => {
-          setLoading(false);
-        })
-    );
+    return apiRef.share // @ts-ignore
+      .create({
+        links: [
+          {
+            ...body,
+            targets: [object.id],
+          },
+        ],
+      })
+      .then(() => {
+        setLoading(false);
+        onDone();
+      })
+      .catch((error) => {
+        setLoading(false);
+      });
   };
 
   const fields = useMemo<
@@ -111,8 +108,8 @@ const CreateSharesViaPasswordButton: FC<Props> = ({
           object={obj}
           fields={fields}
           onSubmit={(values) => {
-            // @ts-ignore
             return handleCreateShare(
+              // @ts-ignore
               pickBy(values, (v, k) => !!v && k !== "password")
             ).finally(handleClose);
           }}

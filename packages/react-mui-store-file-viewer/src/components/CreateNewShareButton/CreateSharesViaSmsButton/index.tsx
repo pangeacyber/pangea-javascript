@@ -98,8 +98,8 @@ const CreateSharesViaSmsButton: FC<Props> = ({
           object={obj}
           fields={fields}
           onSubmit={(values) => {
-            // @ts-ignore
             return handleCreateShare(
+              // @ts-ignore
               pickBy(values, (v, k) => !!v && k !== "phones")
             )
               .then(() => {})

@@ -17,6 +17,14 @@ export const PreviewSessionFields: FieldsPreviewSchema<ObjectStore.ObjectRespons
     name: {
       label: "Name",
     },
+    format: {
+      label: "Format",
+      hideIfUndefined: true,
+    },
+    mimetype: {
+      label: "MIME Type",
+      hideIfUndefined: true,
+    },
     parent_id: {
       label: "Folder ID",
       type: "stringWithCopy",

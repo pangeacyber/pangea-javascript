@@ -1,4 +1,4 @@
-import { FC } from "react";
+import { FC, useMemo } from "react";
 import { ObjectStore } from "../../types";
 import { Button, Typography } from "@mui/material";
 import { FieldsPreview } from "@pangeacyber/react-mui-shared";
@@ -12,6 +12,13 @@ interface Props {
 }
 
 const StoreFileDetails: FC<Props> = ({ object, onClose }) => {
+  const obj = useMemo(() => {
+    return {
+      ...object,
+      ...object?.metadata_protected,
+    };
+  }, [object]);
+
   return (
     <>
       {!!object?.presigned_url && (
@@ -30,7 +37,7 @@ const StoreFileDetails: FC<Props> = ({ object, onClose }) => {
       <Typography variant="h6">Details</Typography>
       <FieldsPreview
         schema={PreviewSessionFields}
-        data={object}
+        data={obj}
         LabelPropDefaults={{
           color: "secondary",
         }}

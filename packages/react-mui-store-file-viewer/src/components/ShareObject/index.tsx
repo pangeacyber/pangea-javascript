@@ -1,4 +1,4 @@
-import { FC } from "react";
+import { FC, useState } from "react";
 import { ObjectStore } from "../../types";
 import { IconButton, Stack, Typography } from "@mui/material";
 
@@ -7,12 +7,33 @@ import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined";
 import { getDateDisplayName, getShareDisplayName } from "./utils";
 
 import SendIcon from "@mui/icons-material/Send";
+import RemoveCircleOutlineIcon from "@mui/icons-material/RemoveCircleOutline";
+import { useStoreFileViewerContext } from "../../hooks/context";
 
 interface Props {
   object: ObjectStore.ShareObjectResponse;
+  onDelete?: () => void;
 }
 
-const ShareObject: FC<Props> = ({ object }) => {
+const ShareObject: FC<Props> = ({ object, onDelete }) => {
+  const { apiRef } = useStoreFileViewerContext();
+
+  const [updating, setUpdating] = useState(false);
+
+  const handleRemove = () => {
+    if (!object?.id || !apiRef?.share?.delete) return;
+
+    setUpdating(true);
+    apiRef.share
+      .delete({
+        id: object.id,
+      })
+      .finally(() => {
+        if (onDelete) onDelete();
+        setUpdating(false);
+      });
+  };
+
   return (
     <Stack direction="row" alignItems="center" spacing={1}>
       {object?.sent ?? true ? (
@@ -54,10 +75,22 @@ const ShareObject: FC<Props> = ({ object }) => {
           </Stack>
         )}
       </Stack>
-      <Stack justifySelf="end" marginLeft="auto" direction="row" spacing={1}>
+      <Stack justifySelf="end" marginLeft="auto" direction="row" spacing={0}>
         {/* <CopyButton /> */}
-        <IconButton data-testid={`Send-Share-${object.id}-Btn`} disabled>
+        <IconButton
+          size="small"
+          data-testid={`Send-Share-${object.id}-Btn`}
+          disabled
+        >
           <SendIcon color="action" fontSize="small" />
+        </IconButton>
+        <IconButton
+          size="small"
+          disabled={updating}
+          data-testid={`Remove-Share-${object.id}-Btn`}
+          onClick={handleRemove}
+        >
+          <RemoveCircleOutlineIcon color="error" fontSize="small" />
         </IconButton>
       </Stack>
     </Stack>

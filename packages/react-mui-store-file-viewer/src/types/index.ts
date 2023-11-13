@@ -257,6 +257,15 @@ export namespace ObjectStore {
     type: string | ObjectType; // "folder", "" ...
 
     presigned_url?: string; // Added from get
+
+    metadata_protected?: {
+      format?: string;
+      mimetype?: string;
+    };
+
+    // Internal from flattenning metadata_protected
+    format?: string;
+    mimetype?: string;
   }
 
   export interface ListResponse {
