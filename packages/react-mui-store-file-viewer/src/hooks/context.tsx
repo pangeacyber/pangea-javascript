@@ -8,14 +8,21 @@ import React, {
   useEffect,
   useState,
 } from "react";
-import { ObjectStore, PangeaError, StoreProxyApiRef } from "../types";
+import {
+  ObjectStore,
+  PangeaError,
+  StoreConfigurations,
+  StoreProxyApiRef,
+} from "../types";
 import {
   PangeaListRequestProps,
+  PasswordPolicy,
   usePangeaListRequest,
 } from "@pangeacyber/react-mui-shared";
 
 export interface StoreFileViewerContextProps {
   apiRef: StoreProxyApiRef;
+  configurations?: StoreConfigurations;
 
   data: ObjectStore.ListResponse;
   error: PangeaError | undefined;
@@ -80,6 +87,7 @@ export interface StoreFileViewerProviderProps {
   children?: React.ReactNode;
 
   apiRef: StoreProxyApiRef;
+  configurations?: StoreConfigurations;
   defaultFilter?: ObjectStore.Filter;
   defaultSort?: "asc" | "desc";
   defaultSortBy?: keyof ObjectStore.ObjectResponse;
@@ -88,6 +96,7 @@ export interface StoreFileViewerProviderProps {
 const StoreFileViewerProvider: FC<StoreFileViewerProviderProps> = ({
   children,
   apiRef,
+  configurations,
   defaultFilter,
   defaultSort,
   defaultSortBy,
@@ -160,6 +169,7 @@ const StoreFileViewerProvider: FC<StoreFileViewerProviderProps> = ({
     <StoreFileViewerContext.Provider
       value={{
         apiRef,
+        configurations,
         data,
         error,
 

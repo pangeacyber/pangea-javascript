@@ -43,6 +43,7 @@ export const UnControlledStringField: FC<StringFieldProps> = ({
   };
   if (type === "password") {
     propOverrides.InputProps = {
+      ...propOverrides?.InputProps,
       endAdornment: (
         <IconButton
           onClick={() => {

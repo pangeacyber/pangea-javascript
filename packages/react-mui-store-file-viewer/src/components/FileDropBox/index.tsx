@@ -106,7 +106,6 @@ const FileDropBox: FC<Props> = ({ children, BoxSx }) => {
         <input
           // @ts-ignore
           ref={inputRef}
-          accept="image/*"
           style={{ display: "none" }}
           type="file"
           onChange={(e) => {

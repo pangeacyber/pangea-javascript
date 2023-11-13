@@ -15,6 +15,7 @@ import {
 import { FormObject, GenericGroupedFields } from "../../types";
 import { FormikValues } from "formik";
 import { FormikObject } from "./formik";
+import { PasswordPolicy } from "../fields/AuthPassword/types";
 
 export type ValueOptions =
   | string
@@ -48,7 +49,8 @@ export type FieldType =
   | "multiline"
   | "dateTime"
   | "switch"
-  | "checkbox";
+  | "checkbox"
+  | "passwordWithPolicy";
 
 export type FormFieldType = "field" | "unknownField" | "grouping";
 
@@ -81,6 +83,19 @@ export interface StringFieldSchemaProps {
   placeholder?: string;
 
   options?: ValueOptionsSchemaProps;
+}
+
+export interface AuthPasswordFieldSchemaProps {
+  type: "passwordWithPolicy";
+  InputProps?: InputProps;
+  TextFieldProps?: Partial<TextFieldProps>;
+  dataTestId?: string;
+
+  placeholder?: string;
+
+  options?: ValueOptionsSchemaProps;
+
+  policy?: PasswordPolicy;
 }
 
 export interface StringArrayFieldSchemaProps {
@@ -161,7 +176,8 @@ export interface BaseFormFieldSchema<T = FormObject> {
     | MultilineFieldSchemaProps
     | DateTimeFieldSchemaProps
     | SwitchFieldSchemaProps
-    | CheckboxFieldSchemaProps;
+    | CheckboxFieldSchemaProps
+    | AuthPasswordFieldSchemaProps;
 
   getFieldValue?: (values: Partial<T>) => any;
   onFieldChanged?: (value: string, values: Partial<T>) => Partial<T> | void;
@@ -181,6 +197,9 @@ export interface GenericFormFieldSchema<
   dynamicFieldOverrides?: (
     values: FormikValues
   ) => Promise<Partial<FieldSchema>>;
+
+  getFieldValue?: (values: Partial<T>) => any;
+  onFieldChanged?: (value: string, values: Partial<T>) => Partial<T> | void;
 }
 
 export interface CustomFormFieldSchema<T = FormObject>

@@ -96,7 +96,7 @@ const PangeaModal: FC<PangeaModalProps> = ({
                 ) : (
                   !!title && (
                     <>
-                      <Typography variant={size === "small" ? "h6" : "h4"}>
+                      <Typography variant={size === "small" ? "h6" : "h5"}>
                         {title}
                       </Typography>
                     </>

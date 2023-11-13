@@ -1932,14 +1932,16 @@
     mkdirp "^1.0.4"
     rimraf "^3.0.2"
 
-"@pangeacyber/react-mui-shared@^0.0.36-beta.6":
-  version "0.0.36-beta.6"
-  resolved "https://registry.yarnpkg.com/@pangeacyber/react-mui-shared/-/react-mui-shared-0.0.36-beta.6.tgz#e5758c9dc8ca9a800751e3789dbd56ede30de609"
-  integrity sha512-Pv09m0VeUjOaaVUAR2dhrD+Pp5+PYE4bAKbAM6IK45VObAERTfN53iZgeXmO15dYa9WAKWqP8hhNYCOhgRw8Tg==
+"@pangeacyber/react-mui-shared@^0.0.36-beta.12":
+  version "0.0.36-beta.12"
+  resolved "https://registry.yarnpkg.com/@pangeacyber/react-mui-shared/-/react-mui-shared-0.0.36-beta.12.tgz#3a01d61ed28cb2a8f757011318e788addfa34fd6"
+  integrity sha512-D+qJ0K97Py6I68wYHEH6EnppuZD3l9UvCVGu0dx9k3l2QKQXZ/ZsXAKHq6OotHlNSOjjO/83TdF0BPiZD+8TUw==
   dependencies:
     "@loadable/component" "^5.15.2"
     "@mui/x-data-grid" "^6.10.0"
     "@mui/x-date-pickers" "^6.10.1"
+    "@storybook/addon-backgrounds" "6.5.16"
+    "@storybook/addon-outline" "6.5.16"
     dayjs "^1.11.10"
     formik "^2.4.5"
     moment "^2.29.4"

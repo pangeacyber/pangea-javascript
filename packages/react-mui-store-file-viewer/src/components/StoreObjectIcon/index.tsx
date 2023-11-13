@@ -41,11 +41,11 @@ const StoreObjectIcon: FC<Props> = ({ type, mimeType, ...props }) => {
       <Box
         sx={{
           width: "fit-content",
-          height: "fit-content",
           position: "relative",
+          height: "24px",
         }}
       >
-        <InsertDriveFileIcon style={{ fill: color }} />
+        <InsertDriveFileIcon style={{ fill: color }} {...props} />
         <Typography
           sx={{
             position: "absolute",

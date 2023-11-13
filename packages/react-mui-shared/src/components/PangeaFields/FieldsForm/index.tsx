@@ -84,7 +84,10 @@ const Fields: FC<{
               name={name ?? field.label}
               formik={formik}
               disabled={disabled}
-              LabelProps={LabelProps}
+              LabelProps={{
+                ...LabelProps,
+                ...field?.LabelProps,
+              }}
             />
             {useDivider && <Divider sx={{ paddingTop: 2 }} />}
           </Grid>

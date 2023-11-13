@@ -1,14 +1,25 @@
-import { FC, useEffect, useState } from "react";
+import { FC, SyntheticEvent, useEffect, useState } from "react";
 
 import CloseIcon from "@mui/icons-material/Close";
 import DownloadIcon from "@mui/icons-material/Download";
-import { Stack, Typography, IconButton, Divider, Button } from "@mui/material";
+import {
+  Stack,
+  Typography,
+  IconButton,
+  Divider,
+  Button,
+  Tabs,
+  Tab,
+} from "@mui/material";
 
 import { PreviewSessionFields } from "./fields";
 import { ObjectStore } from "../../types";
 import { FieldsPreview } from "@pangeacyber/react-mui-shared";
 import FileOptions from "../FileOptions";
 import { useStoreFileViewerContext } from "../../hooks/context";
+import StoreFileDetails from "./StoreFileDetails";
+import StoreFileSharing from "./StoreFileSharing";
+import { PREVIEW_FILE_WIDTH } from "./constants";
 
 interface PreviewFileProps {
   data: ObjectStore.ObjectResponse;
@@ -17,6 +28,13 @@ interface PreviewFileProps {
 
 const PreviewStoreFile: FC<PreviewFileProps> = ({ data, onClose }) => {
   const { apiRef } = useStoreFileViewerContext();
+
+  const [currentTab, setCurrentTab] = useState("sharing");
+
+  const handleTabChange = (event: SyntheticEvent, newTabId: string) => {
+    setCurrentTab(newTabId);
+  };
+
   const [object, setObject] = useState<ObjectStore.ObjectResponse>(data);
 
   useEffect(() => {
@@ -32,11 +50,9 @@ const PreviewStoreFile: FC<PreviewFileProps> = ({ data, onClose }) => {
     });
   }, [data.id]);
 
-  console.log(object);
-
   return (
     <Stack
-      width="350px"
+      width={`${PREVIEW_FILE_WIDTH}px`}
       padding={1}
       spacing={1}
       paddingLeft={2}
@@ -66,27 +82,26 @@ const PreviewStoreFile: FC<PreviewFileProps> = ({ data, onClose }) => {
       <Divider
         sx={{ marginLeft: "-16px!important", marginRight: "-16px!important" }}
       />
-      {!!object?.presigned_url && (
-        <a href={object.presigned_url} download={object.name ?? object.id}>
-          <Button
-            sx={{ width: "100%" }}
-            color="primary"
-            startIcon={<DownloadIcon fontSize="small" />}
-            variant="outlined"
-            fullWidth
-          >
-            Download
-          </Button>
-        </a>
+      <Tabs value={currentTab} onChange={handleTabChange}>
+        <Tab
+          value="details"
+          id="details"
+          label="Details"
+          sx={{ width: "50%", minHeight: "50px" }}
+        />
+        <Tab
+          value="sharing"
+          id="sharing"
+          label="Sharing"
+          sx={{ width: "50%", minHeight: "50px" }}
+        />
+      </Tabs>
+      {currentTab === "details" && (
+        <StoreFileDetails object={object} onClose={onClose} />
       )}
-      <Typography variant="h6">Details</Typography>
-      <FieldsPreview
-        schema={PreviewSessionFields}
-        data={object}
-        LabelPropDefaults={{
-          color: "secondary",
-        }}
-      />
+      {currentTab === "sharing" && (
+        <StoreFileSharing object={object} onClose={onClose} />
+      )}
     </Stack>
   );
 };

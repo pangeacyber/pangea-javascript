@@ -16,7 +16,7 @@ export default {
 const ThemeTemplate: ComponentStory<typeof FieldsForm> = (args) => {
   return (
     <PangeaThemeProvider>
-      <Box className="widget" sx={{ padding: 1 }}>
+      <Box className="widget" sx={{ padding: 20 }}>
         <FieldsForm {...args} />
       </Box>
     </PangeaThemeProvider>
@@ -51,8 +51,12 @@ FolderFieldsFormDemo.args = {
             placement: "start",
           },
           FieldProps: {
-            type: "text",
+            type: "passwordWithPolicy",
             placeholder: "Awesome folder",
+            policy: {
+              chars_min: 10,
+              punct_min: 10,
+            },
           },
           schema: yup.string().required("Name is required"),
           autoFocus: true,

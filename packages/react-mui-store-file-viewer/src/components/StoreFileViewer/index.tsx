@@ -11,6 +11,7 @@ export interface StoreFileViewerProps
 
 const StoreFileViewer: FC<StoreFileViewerProps> = ({
   apiRef,
+  configurations,
   defaultFilter,
   defaultSort,
   defaultSortBy,
@@ -19,6 +20,7 @@ const StoreFileViewer: FC<StoreFileViewerProps> = ({
   return (
     <StoreFileViewerProvider
       apiRef={apiRef}
+      configurations={configurations}
       defaultFilter={defaultFilter}
       defaultSort={defaultSort}
       defaultSortBy={defaultSortBy}

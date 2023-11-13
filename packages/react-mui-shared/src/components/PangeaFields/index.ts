@@ -8,4 +8,11 @@ export type { FieldsPreviewSchema } from "./FieldsPreview/types";
 
 export { default as FieldsForm, FieldsFormProps } from "./FieldsForm";
 
-export type { FieldsFormSchema } from "./FieldsForm/types";
+export type { FieldsFormSchema, FieldComponentProps } from "./FieldsForm/types";
+export { default as FieldControl } from "./FieldsForm/FieldControl";
+
+export { validatePassword } from "./FieldsForm/fields/AuthPassword/utils";
+export type {
+  PasswordPolicy,
+  PasswordPolicyChecks,
+} from "./FieldsForm/fields/AuthPassword/types";

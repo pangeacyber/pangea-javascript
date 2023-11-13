@@ -1,3 +1,5 @@
+import { PasswordPolicy } from "@pangeacyber/react-mui-shared";
+
 export interface PangeaResponse<T = any> {
   request_id: string;
   status: string;
@@ -23,6 +25,19 @@ export interface StoreProxyApiRef {
       ) => Promise<PangeaResponse<ObjectStore.GetResponse>>)
     | undefined;
 
+  share?: {
+    list?: (
+      data: ObjectStore.ListRequest
+    ) => Promise<PangeaResponse<ObjectStore.ShareListResponse>>;
+    get?: (
+      data: ObjectStore.ShareGetRequest
+    ) => Promise<PangeaResponse<ObjectStore.ShareObjectResponse>>;
+    delete?: (data: ObjectStore.ShareDeleteRequest) => Promise<PangeaResponse>;
+    create?: (
+      data: ObjectStore.ShareCreateRequest
+    ) => Promise<PangeaResponse<ObjectStore.SharesObjectResponse>>;
+  };
+
   delete?: (
     data: ObjectStore.DeleteRequest
   ) => Promise<PangeaResponse<ObjectStore.DeleteResponse>>;
@@ -37,6 +52,10 @@ export interface StoreProxyApiRef {
   folderCreate?: (
     data: ObjectStore.FolderCreateRequest
   ) => Promise<PangeaResponse<ObjectStore.FolderCreateResponse>>;
+}
+
+export interface StoreConfigurations {
+  passwordPolicy?: PasswordPolicy;
 }
 
 export namespace ObjectStore {
@@ -99,6 +118,86 @@ export namespace ObjectStore {
     limit?: number;
     order?: string;
     order_by?: string;
+  }
+
+  export interface SingleShareCreateRequest {
+    targets?: string[];
+    link_type: string;
+    expires_at?: string;
+    max_access_count?: number;
+
+    authenticators?: ShareAuthenticator[];
+  }
+
+  export interface ShareCreateRequest {
+    links: SingleShareCreateRequest[];
+  }
+
+  export interface ShareGetRequest {
+    id: string;
+  }
+
+  export interface ShareDeleteRequest {
+    id: string;
+  }
+
+  export interface ShareResponse {
+    object: ShareObjectResponse;
+  }
+
+  export interface ShareListRequest {
+    filter?: Filter;
+
+    last?: string;
+    limit?: number;
+    order?: string;
+    order_by?: string;
+  }
+
+  export enum ShareAuthenticatorType {
+    Email = "email_otp",
+    Sms = "sms_otp",
+    Password = "password",
+  }
+
+  export interface ShareAuthenticator {
+    auth_type: string; // "password" | "email_otp" | "sms_otp"
+    auth_context: string;
+  }
+
+  export interface ShareObjectResponse {
+    id: string;
+    targets?: string[];
+    link_type?: string; // "upload" | "download";
+    access_count?: number;
+    max_access_count?: number;
+
+    created_at: string;
+    expires_at: string;
+    last_accessed_at: string;
+
+    authenticators?: ShareAuthenticator[];
+
+    link: string;
+
+    sent?: boolean; // FIXME: Unknown on this
+
+    storage_pool_id?: string;
+  }
+
+  export interface SharesObjectResponse {
+    share_link_objects: ShareObjectResponse[];
+  }
+
+  export enum ShareLinkType {
+    Upload = "upload",
+    Download = "download",
+  }
+
+  export interface ShareListResponse {
+    count: number;
+    last: string;
+    share_link_objects: ShareObjectResponse[];
   }
 
   /**

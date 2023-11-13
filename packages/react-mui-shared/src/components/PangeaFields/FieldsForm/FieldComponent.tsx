@@ -18,6 +18,7 @@ import JsonField from "./fields/JsonField";
 import CheckboxField from "./fields/CheckboxField";
 import { getFieldPropsFromFormik } from "./utils/formik";
 import { useDynamicField } from "./hooks/useDynamicField";
+import AuthPasswordField from "./fields/AuthPassword";
 
 const FIELD_TYPE_COMPONENT_MAP: Partial<
   Record<FieldType, FC<FieldComponentProps<any>>>
@@ -31,6 +32,7 @@ const FIELD_TYPE_COMPONENT_MAP: Partial<
   multiline: MultilineField,
   stringArray: StringArrayField,
   dateTime: DateTimeField,
+  passwordWithPolicy: AuthPasswordField,
 };
 
 const FieldComponent: FC<FormFieldComponentProps> = (props) => {
@@ -64,7 +66,6 @@ const FieldComponent: FC<FormFieldComponentProps> = (props) => {
 
   const Component: FC<FieldComponentProps<any>> =
     field?.component ?? get(FIELD_TYPE_COMPONENT_MAP, type, StringField);
-
   const props_: FieldComponentProps<any> | InputFieldComponentProps<any> = {
     name: props.name,
 
