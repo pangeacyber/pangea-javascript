@@ -907,7 +907,7 @@ it("log an audit event bulk. verbose but no verify", async () => {
     expect(typeof result.hash).toBe("string");
     expect(result.envelope).toBeDefined();
     expect(result.consistency_proof).toBeUndefined();
-    expect(result.membership_proof).toBeDefined();
+    expect(result.membership_proof).toBeUndefined();
     expect(result.consistency_verification).toBeUndefined();
     expect(result.membership_verification).toBeUndefined();
     expect(result.signature_verification).toBe("none");
