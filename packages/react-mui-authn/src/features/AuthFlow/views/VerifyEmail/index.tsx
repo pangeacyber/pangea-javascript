@@ -68,7 +68,7 @@ const VerifyEmailView: FC<AuthFlowComponentProps> = ({
     <AuthFlowLayout title="Verify your email" buttons={buttons}>
       <Stack gap={1}>
         <IdField
-          value={data.email}
+          value={data?.email}
           resetCallback={reset}
           resetLabel={options.cancelLabel}
         />

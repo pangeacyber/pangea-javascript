@@ -25,7 +25,7 @@ const VerifyCaptchaView: FC<AuthFlowComponentProps> = ({
   return (
     <AuthFlowLayout title={options.captchaHeading}>
       <IdField
-        value={data.email}
+        value={data?.email}
         resetCallback={reset}
         resetLabel={options.cancelLabel}
       />
