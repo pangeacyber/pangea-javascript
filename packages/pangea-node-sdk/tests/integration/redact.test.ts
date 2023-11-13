@@ -2,11 +2,20 @@ import PangeaConfig from "../../src/config.js";
 import { PangeaErrors } from "../../src/errors.js";
 import RedactService from "../../src/services/redact.js";
 import { it, expect } from "@jest/globals";
-import { TestEnvironment, getTestDomain, getTestToken } from "../../src/utils/utils.js";
+import {
+  TestEnvironment,
+  getTestDomain,
+  getTestToken,
+  getMultiConfigTestToken,
+  getConfigID,
+} from "../../src/utils/utils.js";
 
-const token = getTestToken(TestEnvironment.LIVE);
-const testHost = getTestDomain(TestEnvironment.LIVE);
-const config = new PangeaConfig({ domain: testHost, customUserAgent: "sdk-test" });
+const environment = TestEnvironment.DEVELOP;
+
+const token = getTestToken(environment);
+const tokenMultiConfig = getMultiConfigTestToken(environment);
+const domain = getTestDomain(environment);
+const config = new PangeaConfig({ domain: domain, customUserAgent: "sdk-test" });
 const redact = new RedactService(token, config);
 
 it("redact a data string", async () => {
@@ -71,4 +80,57 @@ it("bad token should fail", async () => {
   } catch (e) {
     expect(e).toBeInstanceOf(PangeaErrors.UnauthorizedError);
   }
+});
+
+it("redact multi config 1", async () => {
+  const configID = getConfigID(environment, "redact", 1);
+  const config = new PangeaConfig({
+    domain: domain,
+    customUserAgent: "sdk-test",
+  });
+  const redactMultiConfig = new RedactService(tokenMultiConfig, config, {
+    config_id: configID,
+  });
+
+  const data = "Jenny Jenny... 415-867-5309";
+  const expected = { redacted_text: "<PERSON>... <PHONE_NUMBER>", count: 2 };
+
+  const response = await redactMultiConfig.redact(data);
+  expect(response.status).toBe("Success");
+  expect(response.result).toEqual(expected);
+});
+
+it("redact multi config 2. no verbose", async () => {
+  const configID = getConfigID(environment, "redact", 2);
+  const config = new PangeaConfig({
+    domain: domain,
+    customUserAgent: "sdk-test",
+  });
+  const redactMultiConfig = new RedactService(tokenMultiConfig, config, {
+    config_id: configID,
+  });
+
+  const data = "Jenny Jenny... 415-867-5309";
+  const expected = { redacted_text: "<PERSON>... <PHONE_NUMBER>", count: 2 };
+
+  const response = await redactMultiConfig.redact(data);
+  expect(response.status).toBe("Success");
+  expect(response.result).toEqual(expected);
+});
+
+it("log multi config token, without config id ", async () => {
+  const config = new PangeaConfig({
+    domain: domain,
+    customUserAgent: "sdk-test",
+  });
+
+  const redactMultiConfig = new RedactService(tokenMultiConfig, config);
+  const data = "Jenny Jenny... 415-867-5309";
+
+  const t = async () => {
+    const response = await redactMultiConfig.redact(data);
+    expect(response).toBeFalsy();
+  };
+
+  await expect(t()).rejects.toThrow(PangeaErrors.APIError);
 });

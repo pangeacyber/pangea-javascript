@@ -824,9 +824,8 @@ it("log multi config 1. no verbose", async () => {
   const config = new PangeaConfig({
     domain: domain,
     customUserAgent: "sdk-test",
-    configID: configID,
   });
-  const audit = new AuditService(tokenMultiConfig, config);
+  const audit = new AuditService(tokenMultiConfig, config, undefined, configID);
 
   const event: Audit.Event = {
     actor: ACTOR,
@@ -850,9 +849,8 @@ it("log multi config 2. no verbose", async () => {
   const config = new PangeaConfig({
     domain: domain,
     customUserAgent: "sdk-test",
-    configID: configID,
   });
-  const audit = new AuditService(tokenMultiConfig, config);
+  const audit = new AuditService(tokenMultiConfig, config, undefined, configID);
 
   const event: Audit.Event = {
     actor: ACTOR,
