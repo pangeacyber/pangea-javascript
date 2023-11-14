@@ -1,6 +1,7 @@
 import { FieldsPreviewSchema } from "@pangeacyber/react-mui-shared";
 import { ObjectStore } from "../../types";
 import startCase from "lodash/startCase";
+import { formatBytes } from "../../utils";
 
 export const PreviewSessionFields: FieldsPreviewSchema<ObjectStore.ObjectResponse> =
   {
@@ -16,6 +17,23 @@ export const PreviewSessionFields: FieldsPreviewSchema<ObjectStore.ObjectRespons
     },
     name: {
       label: "Name",
+    },
+    size: {
+      label: "Size",
+      getValue: (data) => {
+        let value: any = data.size;
+        try {
+          if (!isNaN(value ?? 0)) {
+            const numValue = Number(value);
+            if (typeof numValue === "number") {
+              value = formatBytes(numValue);
+            }
+          }
+        } catch {}
+
+        return value;
+      },
+      hideIfUndefined: true,
     },
     format: {
       label: "Format",

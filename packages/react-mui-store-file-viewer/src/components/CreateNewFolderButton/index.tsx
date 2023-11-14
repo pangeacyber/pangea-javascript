@@ -1,10 +1,10 @@
 import { Button, ButtonProps } from "@mui/material";
-import { FC, useMemo, useState } from "react";
+import { FC, useMemo, useState, useEffect } from "react";
 import pickBy from "lodash/pickBy";
 
 import FolderIcon from "@mui/icons-material/Folder";
 import { FieldsForm, PangeaModal } from "@pangeacyber/react-mui-shared";
-import { CreateFolderFields } from "./fields";
+import { getCreateFolderFields } from "./fields";
 import { useStoreFileViewerContext } from "../../hooks/context";
 import { ObjectStore } from "../../types";
 
@@ -14,15 +14,25 @@ interface Props {
 }
 
 const CreateNewFolderButton: FC<Props> = ({ ButtonProps, onClose }) => {
-  const { apiRef } = useStoreFileViewerContext();
+  const { apiRef, reload, parent } = useStoreFileViewerContext();
   const [open, setOpen] = useState(false);
 
   const [loading, setLoading] = useState(false);
 
-  const obj = useMemo<ObjectStore.FolderCreateRequest>(() => {
-    return {
+  const [obj, setObj] = useState<ObjectStore.FolderCreateRequest>({
+    name: "",
+    parent_id: parent?.id ?? "",
+  });
+
+  useEffect(() => {
+    setObj({
       name: "",
-    };
+      parent_id: parent?.id ?? "",
+    });
+  }, [open]);
+
+  const fields = useMemo(() => {
+    return getCreateFolderFields({ apiRef });
   }, []);
 
   const handleClose = () => {
@@ -40,6 +50,7 @@ const CreateNewFolderButton: FC<Props> = ({ ButtonProps, onClose }) => {
         .folderCreate(pickBy(body, (v, k) => k !== "path"))
         .then(() => {
           setLoading(false);
+          reload();
         })
         .catch((error) => {
           setLoading(false);
@@ -65,7 +76,7 @@ const CreateNewFolderButton: FC<Props> = ({ ButtonProps, onClose }) => {
       >
         <FieldsForm
           object={obj}
-          fields={CreateFolderFields}
+          fields={fields}
           onSubmit={(values) => {
             // @ts-ignore
             return handleCreateFolder(pickBy(values, (v) => !!v)).finally(

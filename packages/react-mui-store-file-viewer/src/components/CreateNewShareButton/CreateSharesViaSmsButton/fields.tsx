@@ -70,7 +70,6 @@ export const CreatePhoneShareFields: FieldsFormSchema<ObjectStore.SingleShareCre
         // @ts-ignore
         const value_: string[] = value;
         return {
-          password: value,
           authenticators: value_.map((phone) => ({
             auth_type: ObjectStore.ShareAuthenticatorType.Sms,
             auth_context: phone,

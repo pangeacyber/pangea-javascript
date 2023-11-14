@@ -66,6 +66,20 @@ FolderFieldsFormDemo.args = {
           LabelProps: {
             placement: "start",
           },
+          FieldProps: {
+            type: "text",
+            options: {
+              fetchedValueOptions: async (values) => {
+                return [
+                  {
+                    value: "/testing",
+                    label: "/testing",
+                    caption: "A test",
+                  },
+                ];
+              },
+            },
+          },
           schema: yup
             .string()
             .test(

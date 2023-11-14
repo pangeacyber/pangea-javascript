@@ -7,6 +7,7 @@ import React, {
   useContext,
   useEffect,
   useState,
+  useMemo,
 } from "react";
 import {
   ObjectStore,
@@ -103,11 +104,26 @@ const StoreFileViewerProvider: FC<StoreFileViewerProviderProps> = ({
 }) => {
   const [loading, setLoading] = useState(false);
 
-  const request = usePangeaListRequest<ObjectStore.Filter>({
-    defaultFilter,
-    defaultSort,
-    defaultSortBy,
-  });
+  const defaultFilterWithFolder = useMemo(() => {
+    return {
+      parent_id: "",
+      ...defaultFilter,
+    };
+  }, [defaultFilter]);
+
+  const request = usePangeaListRequest<ObjectStore.Filter>(
+    {
+      defaultFilter: defaultFilterWithFolder,
+      defaultSort,
+      defaultSortBy,
+    },
+    {
+      parent_id: {
+        key: "parent_id",
+        ignoreFalsy: true,
+      },
+    }
+  );
 
   const [error, setError] = useState<PangeaError>();
   const [data, setData] = useState<ObjectStore.ListResponse>(
@@ -201,7 +217,10 @@ export const useStoreFileViewerFolder = () => {
 
   const setParentId = useCallback(
     (parentId: string) => {
-      if (!parentId) return request.setFilters({});
+      if (!parentId)
+        return request.setFilters({
+          parent_id: "",
+        });
 
       request.setFilters({ parent_id: parentId });
     },

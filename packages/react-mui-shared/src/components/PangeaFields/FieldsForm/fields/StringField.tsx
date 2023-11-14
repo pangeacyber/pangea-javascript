@@ -147,7 +147,19 @@ export const UnControlledAutocompleteStringField: FC<StringFieldProps> = (
           }}
           size="small"
           renderInput={(params) => {
-            return <UnControlledStringField {...props} />;
+            return (
+              <UnControlledStringField
+                {...props}
+                // @ts-ignore
+                FieldProps={{
+                  ...props?.FieldProps,
+                  TextFieldProps: {
+                    ...props?.FieldProps?.TextFieldProps,
+                    ...params,
+                  },
+                }}
+              />
+            );
           }}
         />
       ) : (

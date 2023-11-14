@@ -69,7 +69,6 @@ export const CreateEmailShareFields: FieldsFormSchema<ObjectStore.SingleShareCre
         // @ts-ignore
         const value_: string[] = value;
         return {
-          password: value,
           authenticators: value_.map((email) => ({
             auth_type: ObjectStore.ShareAuthenticatorType.Email,
             auth_context: email,
