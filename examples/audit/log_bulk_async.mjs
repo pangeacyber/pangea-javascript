@@ -18,13 +18,12 @@ const audit = new AuditService(token, config);
   try {
     console.log("Send multiple events");
     await audit.logBulkAsync([event1, event2], { verbose: true });
+    console.log("Success");
   } catch (err) {
-    if (err instanceof PangeaErrors.AcceptedRequestException) {
-      console.log("AcceptedRequestException as expected");
-    } else if (err instanceof PangeaErrors.APIError) {
+    if (err instanceof PangeaErrors.APIError) {
       console.log(err.summary, err.pangeaResponse);
     } else {
-      throw err;
+      console.log(err);
     }
   }
 })();
