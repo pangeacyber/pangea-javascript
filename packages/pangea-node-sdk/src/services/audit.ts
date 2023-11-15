@@ -118,11 +118,16 @@ class AuditService extends BaseService {
       pollResultSync: false,
     };
 
-    const response: PangeaResponse<Audit.LogBulkResponse> = await this.post(
-      "v2/log_async",
-      data,
-      postOptions
-    );
+    let response: PangeaResponse<Audit.LogBulkResponse>;
+    try {
+      response = await this.post("v2/log_async", data, postOptions);
+    } catch (e) {
+      if (e instanceof PangeaErrors.AcceptedRequestException) {
+        return e.pangeaResponse;
+      } else {
+        throw e;
+      }
+    }
 
     options.verify = false; // Bulk API does not verify
     response.result.results.forEach((result) => {

@@ -889,7 +889,7 @@ it("log multi config token, without config id ", async () => {
   await expect(t()).rejects.toThrow(PangeaErrors.APIError);
 });
 
-it("log an audit event bulk. verbose but no verify", async () => {
+it("log an audit event bulk. verbose", async () => {
   const event: Audit.Event = {
     actor: ACTOR,
     message: MSG_NO_SIGNED,
@@ -914,6 +914,35 @@ it("log an audit event bulk. verbose but no verify", async () => {
   });
 });
 
+it("log an audit event bulk. verbose and sign", async () => {
+  const event: Audit.Event = {
+    actor: ACTOR,
+    message: MSG_SIGNED_LOCAL,
+    status: STATUS_SIGNED,
+  };
+
+  const options: Audit.LogOptions = {
+    verbose: true, // set verbose to true
+    signer: signer,
+  };
+
+  const response = await auditGeneral.logBulk([event, event], options);
+
+  expect(response.status).toBe("Success");
+  response.result.results.forEach((result) => {
+    expect(typeof result.hash).toBe("string");
+    expect(result.envelope).toBeDefined();
+    expect(result.consistency_proof).toBeUndefined();
+    expect(result.membership_proof).toBeUndefined();
+    expect(result.consistency_verification).toBeUndefined();
+    expect(result.membership_verification).toBeUndefined();
+    expect(result.signature_verification).toBe("pass");
+    expect(result.envelope.public_key).toBe(
+      String.raw`{"algorithm":"ED25519","key":"-----BEGIN PUBLIC KEY-----\nMCowBQYDK2VwAyEAlvOyDMpK2DQ16NI8G41yINl01wMHzINBahtDPoh4+mE=\n-----END PUBLIC KEY-----\n"}`
+    );
+  });
+});
+
 it("log an audit event bulk async", async () => {
   const event: Audit.Event = {
     actor: ACTOR,
@@ -925,10 +954,7 @@ it("log an audit event bulk async", async () => {
     verbose: true, // set verbose to true
   };
 
-  const t = async () => {
-    const response = await auditGeneral.logBulkAsync([event, event], options);
-    expect(response).toBeFalsy();
-  };
-
-  await expect(t()).rejects.toThrow(PangeaErrors.AcceptedRequestException);
+  const response = await auditGeneral.logBulkAsync([event, event], options);
+  expect(response.result).toEqual({});
+  expect(response.accepted_result).toBeDefined();
 });
