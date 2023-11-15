@@ -957,4 +957,5 @@ it("log an audit event bulk async", async () => {
   const response = await auditGeneral.logBulkAsync([event, event], options);
   expect(response.result).toEqual({});
   expect(response.accepted_result).toBeDefined();
+  expect(response.request_id).toBeDefined();
 });
