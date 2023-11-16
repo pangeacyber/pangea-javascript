@@ -1,6 +1,6 @@
 {
   "name": "@pangeacyber/react-auth",
-  "version": "0.0.2-beta.11",
+  "version": "0.0.2-beta.11p1",
   "description": "Pangea auth provider React component",
   "main": "dist/cjs/index.js",
   "module": "dist/esm/index.js",
