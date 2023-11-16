@@ -52,7 +52,7 @@ class AuditService extends BaseService {
    *   - tenant_id (string): Used to record the tenant associated with this activity.
    * @param {Object} options - Log options. The following log options are supported:
    *   - verbose (bool): Return a verbose response, including the canonical event hash and received_at time.
-   * @returns {Promise} - A promise representing an async call to the log endpoint.
+   * @returns {Promise} - A promise representing an async call to the /v1/log endpoint.
    * @example
    * ```js
    * const auditData = {
@@ -63,8 +63,9 @@ class AuditService extends BaseService {
    *   message: `Resume denied - sanctioned country from ${clientIp}`,
    *   source: "web",
    * };
+   * const options = { verbose: true };
    *
-   * const logResponse = await audit.log(auditData);
+   * const response = await audit.log(auditData, options);
    * ```
    */
   async log(
@@ -78,6 +79,23 @@ class AuditService extends BaseService {
     return response;
   }
 
+  /**
+   * @summary Log multiple entries
+   * @description Create multiple log entries in the Secure Audit Log.
+   * @operationId audit_post_v2_log
+   * @param {Audit.Event[]} events
+   * @param {Audit.LogOptions} options
+   * @returns {Promise} - A promise representing an async call to the /v2/log endpoint.
+   * @example
+   * ```js
+   * const events = [
+   *  { message: "hello world" },
+   * ];
+   * const options = { verbose: true };
+   *
+   * const response = await audit.logBulk(events, options);
+   * ```
+   */
   async logBulk(
     events: Audit.Event[],
     options: Audit.LogOptions = {}
@@ -100,6 +118,23 @@ class AuditService extends BaseService {
     return response;
   }
 
+  /**
+   * @summary Log multiple entries asynchronously
+   * @description Asynchronously create multiple log entries in the Secure Audit Log.
+   * @operationId audit_post_v2_log_async
+   * @param {Audit.Event[]} events
+   * @param {Audit.LogOptions} options
+   * @returns {Promise} - A promise representing an async call to the /v2/log_async endpoint.
+   * @example
+   * ```js
+   * const events = [
+   *  { message: "hello world" },
+   * ];
+   * const options = { verbose: true };
+   *
+   * const response = await audit.logBulkAsync(events, options);
+   * ```
+   */
   async logBulkAsync(
     events: Audit.Event[],
     options: Audit.LogOptions = {}
