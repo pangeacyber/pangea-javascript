@@ -1,4 +1,5 @@
 import type { Response } from "got";
+import { AcceptedResult } from "./types.js";
 
 const SupportedJSONFields = ["message", "new", "old"];
 
@@ -12,6 +13,7 @@ export class ResponseObject<M> {
   response_time: string = "InvalidPayloadReceived";
   status: string = "InvalidPayloadReceived";
   result: M = {} as M;
+  accepted_result?: AcceptedResult;
   summary: string = "InvalidPayloadReceived";
 
   constructor(body: Object) {
@@ -29,6 +31,10 @@ export class PangeaResponse<M> extends ResponseObject<M> {
     this.gotResponse = response as Response;
     this.success = this.status === "Success";
     this.result = this.result == null ? ({} as M) : this.result;
+    if (this.gotResponse.statusCode == 202) {
+      this.accepted_result = this.result as AcceptedResult;
+      this.result = {} as M;
+    }
   }
 
   // Return raw Pangea API response body

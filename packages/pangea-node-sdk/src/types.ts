@@ -55,12 +55,23 @@ export namespace Audit {
     publicKeyInfo?: Object; // Key:Value object
   }
 
-  export interface LogData {
+  export interface LogEvent {
     event: Audit.Event;
-    verbose?: boolean;
     signature?: string;
     public_key?: string;
+  }
+
+  export interface LogRequestCommon {
+    verbose?: boolean;
+  }
+
+  export interface LogData extends LogEvent, LogRequestCommon {
+    event: Audit.Event;
     prev_root?: string;
+  }
+
+  export interface LogBulkRequest extends LogRequestCommon {
+    events: Audit.LogEvent[];
   }
 
   export interface Event {
@@ -103,6 +114,10 @@ export namespace Audit {
     consistency_verification?: string;
     membership_verification?: string;
     signature_verification?: string;
+  }
+
+  export interface LogBulkResponse {
+    results: LogResponse[];
   }
 
   export interface SearchOptions {
