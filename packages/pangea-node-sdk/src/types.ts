@@ -38,7 +38,7 @@ export interface Dictionary {
 }
 
 export interface FileData {
-  file: Blob | Buffer | string;
+  file: Buffer | string;
   name: string;
   file_details?: Dictionary;
 }
@@ -252,7 +252,9 @@ export namespace FileScan {
 
   export interface ScanFullRequest extends ScanRequest, ScanFileParams {}
 
-  export interface Options extends PostOptions {}
+  export interface Options {
+    pollResultSync?: boolean;
+  }
 
   export interface ScanResult {
     parameter?: Dictionary;

@@ -1,8 +1,8 @@
 import PangeaResponse from "@src/response.js";
 import BaseService from "./base.js";
 import PangeaConfig from "@src/config.js";
-import { FileData, FileScan, TransferMethod } from "@src/types.js";
-import { getFSparams } from "@src/utils/utils.js";
+import { FileData, FileScan, PostOptions, TransferMethod } from "@src/types.js";
+import { getFileParams } from "@src/utils/utils.js";
 import { PangeaErrors } from "@src/errors.js";
 import PangeaRequest from "@src/request.js";
 
@@ -27,7 +27,7 @@ export class FileScanService extends BaseService {
    */
   fileScan(
     request: FileScan.ScanRequest,
-    filepath: string,
+    file: string | FileData,
     options: FileScan.Options = {
       pollResultSync: true,
     }
@@ -40,26 +40,37 @@ export class FileScanService extends BaseService {
       );
     }
 
+    let postFile: FileData;
+
+    if (typeof file === "string") {
+      postFile = {
+        name: "file",
+        file: file,
+      };
+    } else {
+      postFile = file;
+    }
+
+    const postOptions: PostOptions = {
+      pollResultSync: options.pollResultSync,
+      files: {
+        file: postFile,
+      },
+    };
+
     if (
       !request.transfer_method ||
       request.transfer_method === TransferMethod.DIRECT ||
       request.transfer_method === TransferMethod.POST_URL
     ) {
-      fsData = getFSparams(filepath);
+      fsData = getFileParams(postFile.file);
     }
 
     const fullRequest: FileScan.ScanFullRequest = {
       ...fsData,
+      ...request,
     };
-    options.files = {
-      file: {
-        name: "file",
-        file: filepath,
-      },
-    };
-
-    Object.assign(fullRequest, request);
-    return this.post("v1/scan", fullRequest, options);
+    return this.post("v1/scan", fullRequest, postOptions);
   }
 
   async getUploadURL(request: FileScan.ScanRequest): Promise<PangeaResponse<FileScan.ScanResult>> {
