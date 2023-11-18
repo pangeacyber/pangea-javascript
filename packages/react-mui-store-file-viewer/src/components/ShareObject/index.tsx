@@ -10,6 +10,8 @@ import SendIcon from "@mui/icons-material/Send";
 import RemoveCircleOutlineIcon from "@mui/icons-material/RemoveCircleOutline";
 import { useStoreFileViewerContext } from "../../hooks/context";
 
+import { CopyButton } from "@pangeacyber/react-mui-shared";
+
 interface Props {
   object: ObjectStore.ShareObjectResponse;
   onDelete?: () => void;
@@ -75,15 +77,17 @@ const ShareObject: FC<Props> = ({ object, onDelete }) => {
           </Stack>
         )}
       </Stack>
-      <Stack justifySelf="end" marginLeft="auto" direction="row" spacing={0}>
-        {/* <CopyButton /> */}
-        <IconButton
-          size="small"
-          data-testid={`Send-Share-${object.id}-Btn`}
-          disabled
-        >
+      <Stack justifySelf="end" marginLeft="auto" direction="row" spacing={-0.8}>
+        <IconButton size="small" data-testid={`Send-Share-${object.id}-Btn`}>
           <SendIcon color="action" fontSize="small" />
         </IconButton>
+        {!!object.link && (
+          <CopyButton
+            value={object.link}
+            label={getShareDisplayName(object)}
+            size="small"
+          />
+        )}
         <IconButton
           size="small"
           disabled={updating}
