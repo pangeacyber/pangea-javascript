@@ -77,30 +77,30 @@ export class FileScanService extends BaseService {
   async getUploadURL(
     request: FileScan.ScanRequest,
     options: {
-      fileData?: FileData;
+      params?: FileScan.ScanFileParams;
     } = {}
   ): Promise<PangeaResponse<FileScan.ScanResult>> {
     if (
       (request.transfer_method === TransferMethod.DIRECT ||
         request.transfer_method === TransferMethod.POST_URL) &&
-      !options.fileData
+      !options.params
     ) {
       throw new PangeaErrors.PangeaError(
-        `If transfer_method is ${TransferMethod.DIRECT} or ${TransferMethod.POST_URL} need to set fileData`
+        `If transfer_method is ${TransferMethod.DIRECT} or ${TransferMethod.POST_URL} need to set options.params`
       );
     }
 
-    let fsData = {} as FileScan.ScanFileParams;
+    let fsParams = {} as FileScan.ScanFileParams;
     if (
       (request.transfer_method === TransferMethod.DIRECT ||
         request.transfer_method === TransferMethod.POST_URL) &&
-      options.fileData
+      options.params
     ) {
-      fsData = getFileParams(options.fileData.file);
+      fsParams = options.params;
     }
 
     const fullRequest: FileScan.ScanFullRequest = {
-      ...fsData,
+      ...fsParams,
       ...request,
     };
 

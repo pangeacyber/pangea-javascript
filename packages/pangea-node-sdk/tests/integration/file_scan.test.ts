@@ -1,6 +1,11 @@
 import PangeaConfig from "../../src/config.js";
 import { it, expect, jest } from "@jest/globals";
-import { TestEnvironment, getTestDomain, getTestToken } from "../../src/utils/utils.js";
+import {
+  TestEnvironment,
+  getFileParams,
+  getTestDomain,
+  getTestToken,
+} from "../../src/utils/utils.js";
 import { FileScanService, PangeaErrors } from "../../src/index.js";
 import { FileScan, TransferMethod } from "../../src/types.js";
 import { FileUploader } from "@src/services/file_scan.js";
@@ -226,11 +231,11 @@ it("File Scan get url and post upload", async () => {
       provider: "reversinglabs",
       transfer_method: TransferMethod.POST_URL,
     };
+
+    const params = getFileParams(testfilePath);
+
     response = await fileScan.getUploadURL(request, {
-      fileData: {
-        file: testfilePath,
-        name: "file",
-      },
+      params: params,
     });
   } catch (e) {
     console.log(e);
