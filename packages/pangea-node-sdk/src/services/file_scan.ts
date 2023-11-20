@@ -73,14 +73,37 @@ export class FileScanService extends BaseService {
     return this.post("v1/scan", fullRequest, postOptions);
   }
 
-  async getUploadURL(request: FileScan.ScanRequest): Promise<PangeaResponse<FileScan.ScanResult>> {
-    if (request.transfer_method && request.transfer_method !== TransferMethod.PUT_URL) {
+  async getUploadURL(
+    request: FileScan.ScanRequest,
+    options: {
+      fileData?: FileData;
+    } = {}
+  ): Promise<PangeaResponse<FileScan.ScanResult>> {
+    if (
+      (request.transfer_method === TransferMethod.DIRECT ||
+        request.transfer_method === TransferMethod.POST_URL) &&
+      !options.fileData
+    ) {
       throw new PangeaErrors.PangeaError(
-        `Only transfer_method=${TransferMethod.PUT_URL} is supported. User fileScan() instead.`
+        `If transfer_method is ${TransferMethod.DIRECT} or ${TransferMethod.POST_URL} need to set fileData`
       );
     }
 
-    return await this.request.requestPresignedURL("v1/scan", request);
+    let fsData = {} as FileScan.ScanFileParams;
+    if (
+      (request.transfer_method === TransferMethod.DIRECT ||
+        request.transfer_method === TransferMethod.POST_URL) &&
+      options.fileData
+    ) {
+      fsData = getFileParams(options.fileData.file);
+    }
+
+    const fullRequest: FileScan.ScanFullRequest = {
+      ...fsData,
+      ...request,
+    };
+
+    return await this.request.requestPresignedURL("v1/scan", fullRequest);
   }
 }
 
