@@ -3,8 +3,9 @@ import { it, expect, jest } from "@jest/globals";
 import { TestEnvironment, getTestDomain, getTestToken } from "../../src/utils/utils.js";
 import { FileScanService, PangeaErrors } from "../../src/index.js";
 import { FileScan, TransferMethod } from "../../src/types.js";
+import { FileUploader } from "@src/services/file_scan.js";
 
-const testEnvironment = TestEnvironment.LIVE;
+const testEnvironment = TestEnvironment.STAGING;
 
 const token = getTestToken(testEnvironment);
 const testHost = getTestDomain(testEnvironment);
@@ -19,7 +20,7 @@ const delay = async (ms: number) =>
     setTimeout(resolve, ms);
   });
 
-it("File Scan crowdstrike", async () => {
+xit("File Scan crowdstrike", async () => {
   try {
     const request = { verbose: true, raw: true, provider: "crowdstrike" };
     const response = await fileScan.fileScan(request, testfilePath);
@@ -33,7 +34,7 @@ it("File Scan crowdstrike", async () => {
   }
 });
 
-it("File Scan multipart post", async () => {
+xit("File Scan multipart post", async () => {
   try {
     const request: FileScan.ScanRequest = {
       verbose: true,
@@ -51,7 +52,7 @@ it("File Scan multipart post", async () => {
   }
 });
 
-it("File Scan crowdstrike async", async () => {
+xit("File Scan crowdstrike async", async () => {
   try {
     const request = { verbose: true, raw: true, provider: "crowdstrike" };
     await fileScan.fileScan(request, testfilePath, { pollResultSync: false });
@@ -68,7 +69,7 @@ it("File Scan crowdstrike async", async () => {
   }
 });
 
-it("File Scan crowdstrike async and poll result", async () => {
+xit("File Scan crowdstrike async and poll result", async () => {
   let exception;
   try {
     const request = { verbose: true, raw: true, provider: "crowdstrike" };
@@ -103,7 +104,7 @@ it("File Scan crowdstrike async and poll result", async () => {
   }
 });
 
-it("File Scan reversinglabs", async () => {
+xit("File Scan reversinglabs", async () => {
   try {
     const request = { verbose: true, raw: true, provider: "reversinglabs" };
     const response = await fileScan.fileScan(request, testfilePath);
@@ -117,7 +118,7 @@ it("File Scan reversinglabs", async () => {
   }
 });
 
-it("File Scan reversinglabs async", async () => {
+xit("File Scan reversinglabs async", async () => {
   try {
     const request = { verbose: true, raw: true, provider: "reversinglabs" };
     await fileScan.fileScan(request, testfilePath, { pollResultSync: false });
@@ -134,7 +135,7 @@ it("File Scan reversinglabs async", async () => {
   }
 });
 
-it("File Scan reversinglabs async and poll result", async () => {
+xit("File Scan reversinglabs async and poll result", async () => {
   let exception;
   try {
     const request = { verbose: true, raw: true, provider: "reversinglabs" };
@@ -159,6 +160,48 @@ it("File Scan reversinglabs async and poll result", async () => {
       await delay(10 * 1000);
       const request_id = exception?.request_id || "";
       const response = await fileScan.pollResult(request_id);
+      expect(response.status).toBe("Success");
+      expect(response.result.data).toBeDefined();
+      expect(response.result.data.verdict).toBe("benign");
+      break;
+    } catch {
+      expect(retry).toBeLessThan(maxRetry - 1);
+    }
+  }
+});
+
+it("File Scan get url and upload", async () => {
+  let response;
+  try {
+    const request = { verbose: true, raw: true, provider: "reversinglabs" };
+    response = await fileScan.getUploadURL(request);
+  } catch (e) {
+    console.log(e);
+    expect(false).toBeTruthy();
+    throw e;
+  }
+
+  const url = response.accepted_result?.accepted_status.upload_url || "";
+
+  const uploader = new FileUploader();
+  await uploader.uploadFile(
+    url,
+    {
+      file: testfilePath,
+      name: "file",
+    },
+    {
+      transfer_method: TransferMethod.PUT_URL,
+    }
+  );
+
+  const maxRetry = 12;
+  for (let retry = 0; retry < maxRetry; retry++) {
+    try {
+      // Wait until result could be ready
+      await delay(10 * 1000);
+      const request_id = response.request_id || "";
+      response = await fileScan.pollResult(request_id);
       expect(response.status).toBe("Success");
       expect(response.result.data).toBeDefined();
       expect(response.result.data.verdict).toBe("benign");

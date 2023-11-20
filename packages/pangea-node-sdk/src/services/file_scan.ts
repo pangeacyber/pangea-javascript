@@ -95,7 +95,7 @@ export class FileUploader {
       return this.request_;
     }
 
-    this.request_ = new PangeaRequest(this.serviceName, "", new PangeaConfig());
+    this.request_ = new PangeaRequest(this.serviceName, "unusedtoken", new PangeaConfig());
     return this.request_;
   }
 

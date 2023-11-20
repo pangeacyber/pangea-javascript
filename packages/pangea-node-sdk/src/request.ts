@@ -185,6 +185,10 @@ class PangeaRequest {
 
   public async requestPresignedURL(endpoint: string, data: Request): Promise<PangeaResponse<any>> {
     let acceptedError;
+    if (!data.transfer_method) {
+      data.transfer_method = TransferMethod.PUT_URL;
+    }
+
     try {
       await this.post(endpoint, data, {
         pollResultSync: false,
@@ -198,41 +202,43 @@ class PangeaRequest {
       }
     }
 
-    return await this.pollPresignedURL(acceptedError);
+    return await this.pollPresignedURL(acceptedError.response);
   }
 
   private async pollPresignedURL(
-    error: PangeaErrors.AcceptedRequestException
+    response: PangeaResponse<PangeaErrors.Errors>
   ): Promise<PangeaResponse<any>> {
-    if (error.pangeaResponse.result.accepted_status.upload_url) {
-      return error.pangeaResponse;
+    if (response.accepted_result?.accepted_status.upload_url) {
+      return response;
     }
     let retryCount = 0;
     const start = Date.now();
-    let pangeaResponse = error.pangeaResponse;
+    let loopResponse = response;
 
-    const body = pangeaResponse.gotResponse?.body as ResponseObject<any>;
+    const body = loopResponse.gotResponse?.body as ResponseObject<any>;
     const requestId = body?.request_id;
-    let loopError = error;
+    let loopError;
 
-    while (!loopError.accepted_result?.accepted_status.upload_url && !this.reachTimeout(start)) {
+    while (!loopResponse.accepted_result?.accepted_status.upload_url && !this.reachTimeout(start)) {
       retryCount += 1;
       const waitTime = this.getDelay(retryCount, start);
       await delay(waitTime);
 
       try {
-        pangeaResponse = await this.pollResult(requestId, false);
+        loopResponse = await this.pollResult(requestId, false);
         throw new PangeaErrors.PangeaError("This call should return 202");
       } catch (error) {
         if (!(error instanceof PangeaErrors.AcceptedRequestException)) {
           throw error;
         } else {
           loopError = error;
+          loopResponse = error.pangeaResponse;
         }
       }
     }
-    if (loopError.accepted_result?.accepted_status.upload_url) {
-      return loopError.response;
+
+    if (loopResponse.accepted_result?.accepted_status.upload_url) {
+      return loopResponse;
     } else {
       throw loopError;
     }
