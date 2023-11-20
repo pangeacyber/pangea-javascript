@@ -73,6 +73,7 @@ export class FileScanService extends BaseService {
     return this.post("v1/scan", fullRequest, postOptions);
   }
 
+  // TODO: Docs
   async getUploadURL(
     request: FileScan.ScanRequest,
     options: {
@@ -122,6 +123,7 @@ export class FileUploader {
     return this.request_;
   }
 
+  // TODO: Docs
   public async uploadFile(
     url: string,
     fileData: FileData,
