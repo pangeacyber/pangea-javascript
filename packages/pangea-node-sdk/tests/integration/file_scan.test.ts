@@ -2,13 +2,13 @@ import PangeaConfig from "../../src/config.js";
 import { it, expect, jest } from "@jest/globals";
 import {
   TestEnvironment,
-  getFileParams,
+  getFileUploadParams,
   getTestDomain,
   getTestToken,
 } from "../../src/utils/utils.js";
 import { FileScanService, PangeaErrors } from "../../src/index.js";
 import { FileScan, TransferMethod } from "../../src/types.js";
-import { FileUploader } from "@src/services/file_scan.js";
+import { FileScanUploader } from "@src/services/file_scan.js";
 
 const testEnvironment = TestEnvironment.STAGING;
 
@@ -184,7 +184,7 @@ it("File Scan get url and put upload", async () => {
       provider: "reversinglabs",
       transfer_method: TransferMethod.PUT_URL,
     };
-    response = await fileScan.getUploadURL(request);
+    response = await fileScan.requestUploadURL(request);
   } catch (e) {
     console.log(e);
     expect(false).toBeTruthy();
@@ -193,7 +193,7 @@ it("File Scan get url and put upload", async () => {
 
   const url = response.accepted_result?.accepted_status.upload_url || "";
 
-  const uploader = new FileUploader();
+  const uploader = new FileScanUploader();
   await uploader.uploadFile(
     url,
     {
@@ -232,9 +232,9 @@ it("File Scan get url and post upload", async () => {
       transfer_method: TransferMethod.POST_URL,
     };
 
-    const params = getFileParams(testfilePath);
+    const params = getFileUploadParams(testfilePath);
 
-    response = await fileScan.getUploadURL(request, {
+    response = await fileScan.requestUploadURL(request, {
       params: params,
     });
   } catch (e) {
@@ -246,7 +246,7 @@ it("File Scan get url and post upload", async () => {
   const url = response.accepted_result?.accepted_status.upload_url || "";
   const file_details = response.accepted_result?.accepted_status.upload_details;
 
-  const uploader = new FileUploader();
+  const uploader = new FileScanUploader();
   await uploader.uploadFile(
     url,
     {

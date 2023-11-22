@@ -135,7 +135,7 @@ export function getCustomSchemaTestToken(environment: string) {
   return process.env[name] || "";
 }
 
-export function getFileParams(file: string | Buffer): FileScan.ScanFileParams {
+export function getFileUploadParams(file: string | Buffer): FileScan.ScanFileParams {
   const hash = crypto.createHash("sha256");
   let data: Buffer;
   if (typeof file === "string") {

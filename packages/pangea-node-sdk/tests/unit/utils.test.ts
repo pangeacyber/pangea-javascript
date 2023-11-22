@@ -2,7 +2,7 @@ import { it, expect } from "@jest/globals";
 import crc32c from "@node-rs/crc32";
 import * as fs from "fs";
 import { hashSHA1, hashSHA256, getHashPrefix, strToB64, b64toStr, hashNTLM } from "@src/index.js";
-import { getFileParams } from "@src/utils/utils.js";
+import { getFileUploadParams } from "@src/utils/utils.js";
 
 const testfilePath = "./tests/testdata/testfile.pdf";
 
@@ -42,7 +42,7 @@ it("CRC32C test", async () => {
 });
 
 it("getFileParams test filepath", async () => {
-  const paramsFilepath = getFileParams(testfilePath);
+  const paramsFilepath = getFileUploadParams(testfilePath);
   expect(paramsFilepath.transfer_crc32c).toBe("754995fb");
   expect(paramsFilepath.transfer_sha256).toBe(
     "81655950d560e804a6315e09e74a7414e7b18ba99f722abe6122857e69a3aebd"
@@ -52,7 +52,7 @@ it("getFileParams test filepath", async () => {
 
 it("getFileParams test buffer", async () => {
   const file = fs.readFileSync(testfilePath);
-  const paramsFilepath = getFileParams(file);
+  const paramsFilepath = getFileUploadParams(file);
 
   expect(paramsFilepath.transfer_crc32c).toBe("754995fb");
   expect(paramsFilepath.transfer_sha256).toBe(

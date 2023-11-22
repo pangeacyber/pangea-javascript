@@ -2,7 +2,7 @@ import PangeaResponse from "@src/response.js";
 import BaseService from "./base.js";
 import PangeaConfig from "@src/config.js";
 import { FileData, FileScan, PostOptions, TransferMethod } from "@src/types.js";
-import { getFileParams } from "@src/utils/utils.js";
+import { getFileUploadParams } from "@src/utils/utils.js";
 import { PangeaErrors } from "@src/errors.js";
 import PangeaRequest from "@src/request.js";
 
@@ -63,7 +63,7 @@ export class FileScanService extends BaseService {
       request.transfer_method === TransferMethod.DIRECT ||
       request.transfer_method === TransferMethod.POST_URL
     ) {
-      fsData = getFileParams(postFile.file);
+      fsData = getFileUploadParams(postFile.file);
     }
 
     const fullRequest: FileScan.ScanFullRequest = {
@@ -74,7 +74,7 @@ export class FileScanService extends BaseService {
   }
 
   // TODO: Docs
-  async getUploadURL(
+  async requestUploadURL(
     request: FileScan.ScanRequest,
     options: {
       params?: FileScan.ScanFileParams;
@@ -108,7 +108,7 @@ export class FileScanService extends BaseService {
   }
 }
 
-export class FileUploader {
+export class FileScanUploader {
   protected serviceName: string = "FileScanFileUploader";
   protected request_: PangeaRequest | undefined = undefined;
 
