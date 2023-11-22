@@ -371,7 +371,7 @@ class PangeaRequest {
     }
   }
 
-  private getUrl(path: string): string {
+  public getUrl(path: string): string {
     let url;
     if (this.config.domain.startsWith("http://") || this.config.domain.startsWith("https://")) {
       url = `${this.config.domain}/${path}`;
