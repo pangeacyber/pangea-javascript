@@ -30,7 +30,7 @@ export const encode58 = (source: any) => {
     if (typeof TextEncoder !== "undefined") {
       source = new TextEncoder().encode(source);
     } else {
-      source = new Uint8Array(source.split("").map((c) => c.charCodeAt(0)));
+      source = new Uint8Array(source?.split("").map((c) => c.charCodeAt(0)));
     }
   }
 

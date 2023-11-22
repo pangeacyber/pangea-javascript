@@ -1,5 +1,5 @@
-import { APIResponse, AuthUser, SessionData } from "@src/types";
-import { AuthOptions, CookieOptions } from "@src/shared/types";
+import { APIResponse } from "@pangeacyber/vanilla-js";
+import { AuthOptions, AuthUser, CookieOptions, SessionData } from "@src/types";
 import { isLocalhost, diffInSeconds } from "./utils";
 
 type CookieObj = {
@@ -32,12 +32,12 @@ export const hasAuthParams = (searchParams = window.location.search): boolean =>
   Session storage functions
 */
 
-export function getStorageAPI(isUsingCookies: boolean): Storage {
+export const getStorageAPI = (isUsingCookies: boolean): Storage => {
   // Depending on if we're using cookies or not, we want to use a different storage Web API
   // When we use a cookie, use session storage
   // When we do not use a cookie, use local storage <--- default
   return isUsingCookies ? window.sessionStorage : window.localStorage;
-}
+};
 
 export const saveSessionData = (data: SessionData, options: AuthOptions) => {
   const storageAPI = getStorageAPI(options.useCookie);
@@ -93,7 +93,7 @@ export const getSessionTokenValues = (options: AuthOptions) => {
 export const getTokenCookieFields = (name: string) => {
   const cookies = getCookies();
   const cookie = cookies[name] || "";
-  const [token, expire] = cookie.split(",");
+  const [token, expire] = cookie?.split(",");
 
   return [token || "", expire || ""];
 };
@@ -107,7 +107,7 @@ export const getTokenFromCookie = (name: string): string => {
 
   // token cookie should contain the value and expiration timestamp separated by a comma
   if (cookie) {
-    const [token] = cookie.split(",");
+    const [token] = cookie?.split(",");
     return token || "";
   } else {
     return "";
@@ -167,10 +167,10 @@ export const maybeAddSecureFlag = (
 
 export const getCookies = (): CookieObj => {
   const cookies = document.cookie
-    .split(";")
+    ?.split(";")
     .map((str) => str.trim())
     .reduce((cookieObj: CookieObj, curr) => {
-      const [cookieName, cookieValue] = curr.split("=");
+      const [cookieName, cookieValue] = curr?.split("=");
 
       if (cookieName !== "") {
         cookieObj[cookieName] = cookieValue;

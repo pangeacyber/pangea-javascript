@@ -8,7 +8,11 @@ import {
   useState,
 } from "react";
 
-import AuthNClient from "@src/AuthNClient";
+import {
+  APIResponse,
+  AuthNClient,
+  ClientConfig,
+} from "@pangeacyber/vanilla-js";
 import { toUrlEncoded, generateBase58 } from "../shared/utils";
 import {
   getStorageAPI,
@@ -27,14 +31,13 @@ import {
 } from "@src/shared/session";
 
 import {
-  APIResponse,
   AuthConfig,
+  AuthOptions,
   AuthUser,
   AppState,
-  SessionData,
+  CookieOptions,
+  VerifyResponse,
 } from "@src/types";
-
-import { AuthOptions, CookieOptions, VerifyResponse } from "../shared/types";
 
 import { useValidateToken, useRefresh } from "../shared/hooks";
 
@@ -148,7 +151,12 @@ export const AuthProvider: FC<AuthProviderProps> = ({
   const [user, setUser] = useState<AuthUser>();
 
   const client = useMemo(() => {
-    return new AuthNClient(config);
+    const clientConfig: ClientConfig = {
+      domain: config?.domain,
+      clientToken: config.clientToken,
+      callbackUri: config?.callbackUri,
+    };
+    return new AuthNClient(clientConfig);
   }, [config]);
 
   // For local development, use port 4000 for API and 4001 for hosted UI
@@ -207,32 +215,29 @@ export const AuthProvider: FC<AuthProviderProps> = ({
   );
 
   useEffect(() => {
-    const [token, expire] = getSessionTokenValues(options);
-
-    if (hasAuthParams()) {
-      // if code and secret params are set, exchange code for a token
-      exchange();
-    } else if (token) {
-      // if token is expiring or expired, try refreshing
-      if (expire && isTokenExpiring(expire)) {
-        refresh();
-      } else {
-        const data: SessionData = getSessionData(options);
-        if (!!data.user) {
-          // if token has not expired, validate that it's still good
-          // Leave loading as true to allow user to still wait for a validated token
-          setAuthenticated(true);
-          setUser(data.user);
-        }
-
-        validate(token);
-      }
-
-      startTokenWatch();
-    } else {
-      // show unauthenticated state
-      setLoading(false);
-    }
+    // const [token, expire] = getSessionTokenValues(options);
+    // if (hasAuthParams()) {
+    //   // if code and secret params are set, exchange code for a token
+    //   exchange();
+    // } else if (token) {
+    //   // if token is expiring or expired, try refreshing
+    //   if (expire && isTokenExpiring(expire)) {
+    //     refresh();
+    //   } else {
+    //     const data: SessionData = getSessionData(options);
+    //     if (!!data.user) {
+    //       // if token has not expired, validate that it's still good
+    //       // Leave loading as true to allow user to still wait for a validated token
+    //       setAuthenticated(true);
+    //       setUser(data.user);
+    //     }
+    //     validate(token);
+    //   }
+    //   startTokenWatch();
+    // } else {
+    //   // show unauthenticated state
+    //   setLoading(false);
+    // }
   }, []);
 
   const exchange = async () => {
