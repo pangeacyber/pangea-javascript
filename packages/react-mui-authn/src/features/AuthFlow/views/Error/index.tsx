@@ -22,7 +22,7 @@ const ErrorView: FC<AuthFlowComponentProps> = ({
   data,
   reset,
 }) => {
-  const buttons = !data.email ? (
+  const buttons = !data?.email ? (
     <Button fullWidth color="secondary" onClick={reset}>
       {options.cancelLabel}
     </Button>
@@ -31,7 +31,7 @@ const ErrorView: FC<AuthFlowComponentProps> = ({
   return (
     <AuthFlowLayout title={getErrorTitle(error.status)} buttons={buttons}>
       <IdField
-        value={data.email}
+        value={data?.email}
         resetCallback={reset}
         resetLabel={options.cancelLabel}
       />

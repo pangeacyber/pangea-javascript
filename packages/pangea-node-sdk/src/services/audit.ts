@@ -1,7 +1,7 @@
 import PangeaResponse from "@src/response.js";
 import BaseService from "./base.js";
 import PangeaConfig from "@src/config.js";
-import { Audit } from "@src/types.js";
+import { Audit, PostOptions } from "@src/types.js";
 import { PublishedRoots, getArweavePublishedRoots } from "@src/utils/arweave.js";
 import {
   verifyRecordConsistencyProof,
@@ -52,7 +52,7 @@ class AuditService extends BaseService {
    *   - tenant_id (string): Used to record the tenant associated with this activity.
    * @param {Object} options - Log options. The following log options are supported:
    *   - verbose (bool): Return a verbose response, including the canonical event hash and received_at time.
-   * @returns {Promise} - A promise representing an async call to the log endpoint.
+   * @returns {Promise} - A promise representing an async call to the /v1/log endpoint.
    * @example
    * ```js
    * const auditData = {
@@ -63,21 +63,122 @@ class AuditService extends BaseService {
    *   message: `Resume denied - sanctioned country from ${clientIp}`,
    *   source: "web",
    * };
+   * const options = { verbose: true };
    *
-   * const logResponse = await audit.log(auditData);
+   * const response = await audit.log(auditData, options);
    * ```
    */
   async log(
     event: Audit.Event,
     options: Audit.LogOptions = {}
   ): Promise<PangeaResponse<Audit.LogResponse>> {
+    let data = this.getLogEvent(event, options) as Audit.LogData;
+    this.setRequestFields(data, options);
+    const response: PangeaResponse<Audit.LogResponse> = await this.post("v1/log", data);
+    this.processLogResponse(response.result, options);
+    return response;
+  }
+
+  /**
+   * @summary Log multiple entries
+   * @description Create multiple log entries in the Secure Audit Log.
+   * @operationId audit_post_v2_log
+   * @param {Audit.Event[]} events
+   * @param {Audit.LogOptions} options
+   * @returns {Promise} - A promise representing an async call to the /v2/log endpoint.
+   * @example
+   * ```js
+   * const events = [
+   *  { message: "hello world" },
+   * ];
+   * const options = { verbose: true };
+   *
+   * const response = await audit.logBulk(events, options);
+   * ```
+   */
+  async logBulk(
+    events: Audit.Event[],
+    options: Audit.LogOptions = {}
+  ): Promise<PangeaResponse<Audit.LogBulkResponse>> {
+    let logEvents: Audit.LogEvent[] = [];
+    events.forEach((event) => {
+      logEvents.push(this.getLogEvent(event, options));
+    });
+
+    let data: Audit.LogBulkRequest = {
+      events: logEvents,
+      verbose: options.verbose,
+    };
+
+    options.verify = false; // Bulk API does not verify
+    const response: PangeaResponse<Audit.LogBulkResponse> = await this.post("v2/log", data);
+    response.result.results.forEach((result) => {
+      this.processLogResponse(result, options);
+    });
+    return response;
+  }
+
+  /**
+   * @summary Log multiple entries asynchronously
+   * @description Asynchronously create multiple log entries in the Secure Audit Log.
+   * @operationId audit_post_v2_log_async
+   * @param {Audit.Event[]} events
+   * @param {Audit.LogOptions} options
+   * @returns {Promise} - A promise representing an async call to the /v2/log_async endpoint.
+   * @example
+   * ```js
+   * const events = [
+   *  { message: "hello world" },
+   * ];
+   * const options = { verbose: true };
+   *
+   * const response = await audit.logBulkAsync(events, options);
+   * ```
+   */
+  async logBulkAsync(
+    events: Audit.Event[],
+    options: Audit.LogOptions = {}
+  ): Promise<PangeaResponse<Audit.LogBulkResponse>> {
+    let logEvents: Audit.LogEvent[] = [];
+    events.forEach((event) => {
+      logEvents.push(this.getLogEvent(event, options));
+    });
+
+    let data: Audit.LogBulkRequest = {
+      events: logEvents,
+      verbose: options.verbose,
+    };
+
+    const postOptions: PostOptions = {
+      pollResultSync: false,
+    };
+
+    let response: PangeaResponse<Audit.LogBulkResponse>;
+    try {
+      response = await this.post("v2/log_async", data, postOptions);
+    } catch (e) {
+      if (e instanceof PangeaErrors.AcceptedRequestException) {
+        return e.pangeaResponse;
+      } else {
+        throw e;
+      }
+    }
+
+    options.verify = false; // Bulk API does not verify
+    response.result.results.forEach((result) => {
+      this.processLogResponse(result, options);
+    });
+    return response;
+  }
+
+  getLogEvent(event: Audit.Event, options: Audit.LogOptions): Audit.LogEvent {
     // Set tenant_id field if unset
     if (event.tenant_id === undefined && this.tenantID !== undefined) {
       event.tenant_id = this.tenantID;
     }
 
     event = eventOrderAndStringifySubfields(event);
-    const data: Audit.LogData = { event: event };
+    const data: Audit.LogEvent = { event: event };
 
     if (options.signer) {
       const signer = options.signer;
@@ -95,7 +196,10 @@ class AuditService extends BaseService {
       data.signature = signature;
       data.public_key = JSON.stringify(publicKeyInfo);
     }
+    return data;
+  }
 
+  setRequestFields(data: Audit.LogData, options: Audit.LogOptions) {
     if (options?.verbose) {
       data.verbose = options.verbose;
     }
@@ -106,34 +210,24 @@ class AuditService extends BaseService {
         data.prev_root = this.prevUnpublishedRootHash;
       }
     }
-
-    const response: PangeaResponse<Audit.LogResponse> = await this.post("v1/log", data);
-    return this.processLogResponse(response, options);
   }
 
-  async processLogResponse(
-    response: PangeaResponse<Audit.LogResponse>,
-    options: Audit.LogOptions
-  ): Promise<PangeaResponse<Audit.LogResponse>> {
-    if (!response.success) {
-      return response;
-    }
-
-    let newUnpublishedRootHash = response.result.unpublished_root;
+  processLogResponse(result: Audit.LogResponse, options: Audit.LogOptions) {
+    let newUnpublishedRootHash = result.unpublished_root;
 
     if (!options?.skipEventVerification) {
-      this.verifyHash(response.result.envelope, response.result.hash);
-      response.result.signature_verification = verifySignature(response.result.envelope);
+      this.verifyHash(result.envelope, result.hash);
+      result.signature_verification = verifySignature(result.envelope);
     }
 
     if (options?.verify) {
-      response.result.membership_verification = verifyLogMembershipProof({
-        log: response.result,
+      result.membership_verification = verifyLogMembershipProof({
+        log: result,
         newUnpublishedRootHash: newUnpublishedRootHash,
       });
 
-      response.result.consistency_verification = verifyLogConsistencyProof({
-        log: response.result,
+      result.consistency_verification = verifyLogConsistencyProof({
+        log: result,
         newUnpublishedRoot: newUnpublishedRootHash,
         prevUnpublishedRoot: this.prevUnpublishedRootHash,
       });
@@ -142,8 +236,6 @@ class AuditService extends BaseService {
     if (newUnpublishedRootHash !== undefined) {
       this.prevUnpublishedRootHash = newUnpublishedRootHash;
     }
-
-    return response;
   }
 
   verifyHash(envelope: Audit.EventEnvelope | undefined, hash: string | undefined): void {

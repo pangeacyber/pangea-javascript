@@ -1,7 +1,7 @@
 {
   "name": "@pangeacyber/vanilla-js",
   "description": "Generic javascript integrations with Pangea",
-  "version": "0.0.17",
+  "version": "0.1.0",
   "main": "dist/cjs/index.js",
   "module": "dist/esm/index.js",
   "types": "dist/index.d.ts",
@@ -17,7 +17,6 @@
     "prettier:fix": "npx prettier . -w"
   },
   "dependencies": {
-    "axios": "^1.4.0",
     "lodash": "^4.17.21"
   },
   "devDependencies": {

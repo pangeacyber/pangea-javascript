@@ -65,31 +65,32 @@ export class AuthNClient {
   */
   async post(endpoint: string, payload: any): Promise<ClientResponse> {
     try {
-      let response: AxiosResponse = await axios.post(
-        this.getUrl(endpoint),
-        payload,
-        this.getOptions()
-      );
+      let response: any = await fetch(this.getUrl(endpoint), {
+        method: "POST",
+        body: JSON.stringify(payload),
+        ...this.getOptions(),
+      });
 
       if (response.status === 202) {
         response = await this.handleAsync(response);
       }
 
-      const success = response.data?.status === "Success";
+      const json = await response.json();
+      const success = json.status === "Success";
 
-      return { success, response: response.data };
+      return { success, response: json };
     } catch (err) {
       return { success: false, response: this.getError(err) };
     }
   }
 
   // get request used only for async requests
-  async get(endpoint: string): Promise<AxiosResponse> {
+  async get(endpoint: string): Promise<Response> {
     try {
-      const response: AxiosResponse = await axios.get(
-        this.getUrl(endpoint),
-        this.getOptions()
-      );
+      const response: any = await fetch(this.getUrl(endpoint), {
+        method: "GET",
+        ...this.getOptions(),
+      });
 
       return response;
     } catch (err) {
@@ -97,8 +98,9 @@ export class AuthNClient {
     }
   }
 
-  async handleAsync(response: AxiosResponse): Promise<AxiosResponse> {
-    const endpoint = `request/${response.data?.request_id}`;
+  async handleAsync(response: Response): Promise<Response> {
+    const data = await response.json();
+    const endpoint = `request/${data?.request_id}`;
     const maxRetries = 3;
     let retryCount = 1;
 
@@ -139,18 +141,8 @@ export class AuthNClient {
       result: {},
     };
 
-    if (axios.isAxiosError(error) && error.response) {
-      message.status = error.response.data.status;
-      message.summary = error.response.data.summary;
-      message.result = error.response.data.result;
-    } else if (error.request) {
-      message.summary = `${error.request.status} ${error.request.statusText}`;
-      message.result = error.reqest;
-    } else {
-      message.summary = "Unhandled error";
-      message.result = error;
-      console.log("Unhandled error", error);
-    }
+    message.summary = error.message;
+    message.result = error.cause;
 
     return message;
   }
