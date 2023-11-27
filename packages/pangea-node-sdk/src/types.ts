@@ -1679,6 +1679,7 @@ export namespace AuthN {
     export namespace Update {
       export interface Options {
         disabled?: boolean;
+        unlock?: boolean;
       }
 
       export interface EmailRequest extends Options {
