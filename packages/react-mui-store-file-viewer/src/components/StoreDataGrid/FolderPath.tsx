@@ -34,7 +34,7 @@ const FolderPath: FC<Props> = () => {
         separator={<NavigateNextIcon fontSize="small" />}
         aria-label="breadcrumb"
       >
-        <FolderOption folder="Root" onClick={() => setParentId("")} />
+        <FolderOption folder="Root" onClick={() => setFolder("/")} />
         {folders.map((f, idx) => {
           return (
             <FolderOption

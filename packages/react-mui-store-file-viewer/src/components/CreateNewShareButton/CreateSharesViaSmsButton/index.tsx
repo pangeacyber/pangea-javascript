@@ -9,16 +9,27 @@ import {
   FieldsForm,
   FieldsFormSchema,
   PangeaModal,
+  SaveButtonProps,
 } from "@pangeacyber/react-mui-shared";
 import { ObjectStore } from "../../../types";
 import { useStoreFileViewerContext } from "../../../hooks/context";
 import { CreatePhoneShareFields } from "./fields";
 
-const CreateAndSendButton: FC<ButtonProps> = (props) => {
+const CreateAndSendButton: FC<
+  SaveButtonProps<ObjectStore.SingleShareCreateRequest>
+> = (props) => {
   // @ts-ignore
   const isSaving = props?.children?.endsWith("...");
+
+  const canSend = !!(props?.values?.authenticators ?? []).filter((a) => {
+    // @ts-ignore
+    return !!a.recipient;
+  }).length;
+
   return (
-    <Button {...props}>{isSaving ? "Sending..." : "Create and Send"}</Button>
+    <Button {...props}>
+      {isSaving ? "Sending..." : canSend ? "Create and Send" : "Create"}
+    </Button>
   );
 };
 

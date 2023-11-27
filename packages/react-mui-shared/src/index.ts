@@ -21,6 +21,7 @@ export {
   FieldsPreviewProps,
   FieldsPreviewSchema,
   FieldsForm,
+  SaveButtonProps,
   FieldsFormProps,
   FieldsFormSchema,
   validatePassword,

@@ -97,6 +97,11 @@ const Fields: FC<{
   );
 };
 
+export interface SaveButtonProps<T extends FormObject = any>
+  extends ButtonProps {
+  values?: Partial<T>;
+}
+
 export interface FieldsFormProps<T extends FormObject = any> {
   title?: string | ReactNode;
   description?: string | ReactNode;
@@ -141,7 +146,7 @@ export interface FieldsFormProps<T extends FormObject = any> {
   useInitialObject?: boolean;
 
   LabelProps?: FormFieldLabelProps;
-  SaveButton?: FC<ButtonProps>;
+  SaveButton?: FC<SaveButtonProps<T>>;
 
   autoSave?: boolean;
   autoSaveDelay?: number;
@@ -399,6 +404,7 @@ const FieldsForm: FC<FieldsFormProps> = ({
                     variant="contained"
                     disabled={isSaveDisabled}
                     onClick={() => formik.submitForm()}
+                    values={formik?.values}
                   >
                     {isSubmitting ? "Saving..." : "Save"}
                   </SaveButton>

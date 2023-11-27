@@ -6,7 +6,11 @@ export type { LabelProps } from "./FieldLabel";
 
 export type { FieldsPreviewSchema } from "./FieldsPreview/types";
 
-export { default as FieldsForm, FieldsFormProps } from "./FieldsForm";
+export {
+  default as FieldsForm,
+  SaveButtonProps,
+  FieldsFormProps,
+} from "./FieldsForm";
 
 export type { FieldsFormSchema, FieldComponentProps } from "./FieldsForm/types";
 export { default as FieldControl } from "./FieldsForm/FieldControl";

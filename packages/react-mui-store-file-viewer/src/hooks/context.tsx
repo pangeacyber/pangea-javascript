@@ -106,7 +106,7 @@ const StoreFileViewerProvider: FC<StoreFileViewerProviderProps> = ({
 
   const defaultFilterWithFolder = useMemo(() => {
     return {
-      parent_id: "",
+      folder: "/",
       ...defaultFilter,
     };
   }, [defaultFilter]);
@@ -176,10 +176,41 @@ const StoreFileViewerProvider: FC<StoreFileViewerProviderProps> = ({
           setParent(undefined);
           setLoading(false);
         });
+    } else if (!!request.filters.folder && !!apiRef.list) {
+      const folder: string = request.filters.folder;
+      const parts = folder.split("/").filter((p) => !!p);
+      if (parts.length >= 1) {
+        let name = parts.pop();
+
+        apiRef
+          .list({
+            filter: { folder: `/${parts.join("/")}`, name, type: "folder" },
+          })
+          .then((response) => {
+            if (
+              response.status === "Success" &&
+              response?.result?.objects?.length
+            )
+              setParent(response.result?.objects[0]);
+            else {
+              setError(response);
+              setParent(undefined);
+            }
+
+            setLoading(false);
+          })
+          .catch((error) => {
+            setError(error);
+            setParent(undefined);
+            setLoading(false);
+          });
+      } else {
+        setParent(undefined);
+      }
     } else {
       setParent(undefined);
     }
-  }, [request.filters.parent_id]);
+  }, [request.filters.parent_id, request.filters.folder]);
 
   useEffect(() => {
     search();

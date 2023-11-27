@@ -25,6 +25,12 @@ export interface StoreProxyApiRef {
       ) => Promise<PangeaResponse<ObjectStore.GetResponse>>)
     | undefined;
 
+  getArchive?:
+    | ((
+        data: ObjectStore.GetArchiveRequest
+      ) => Promise<PangeaResponse<ObjectStore.GetArchiveResponse>>)
+    | undefined;
+
   share?: {
     list?: (
       data: ObjectStore.ListRequest
@@ -415,5 +421,16 @@ export namespace ObjectStore {
 
   export interface GetResponse {
     object: ObjectResponse;
+  }
+
+  export interface GetArchiveRequest {
+    ids: string[];
+    format?: string; // tar, zip
+    transfer_method?: string; // direct, multipart
+  }
+
+  export interface GetArchiveResponse {
+    location: string;
+    objects: ObjectResponse[];
   }
 }

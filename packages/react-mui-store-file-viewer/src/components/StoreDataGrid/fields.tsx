@@ -48,8 +48,8 @@ export const StoreViewerFields: PDG.GridSchemaFields<ObjectStore.ObjectResponse>
   };
 
 export const StoreViewerFilters: FilterOptions<ObjectStore.Filter> = {
-  size: {
-    label: "Size",
+  folder: {
+    label: "Folder",
   },
   parent_id: {
     label: "Folder Id",
