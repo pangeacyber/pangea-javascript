@@ -346,7 +346,7 @@ class VaultService extends BaseService {
   /**
    * @summary Symmetric generate
    * @description Generate a symmetric key.
-   * @operationId vault_post_v1_key_generate 1
+   * @operationId vault_post_v1_key_generate 2
    * @param {Vault.SymmetricAlgorithm} algorithm - The algorithm of the key. Options
    * [listed in Vault documentation](https://pangea.cloud/docs/vault/manage-keys/generate-a-key#generating-a-symmetric-key).
    * @param {Vault.KeyPurpose} purpose - The purpose of this key
@@ -399,7 +399,7 @@ class VaultService extends BaseService {
   /**
    * @summary Asymmetric generate
    * @description Generate an asymmetric key.
-   * @operationId vault_post_v1_key_generate 2
+   * @operationId vault_post_v1_key_generate 1
    * @param {Vault.AsymmetricAlgorithm} algorithm - The algorithm of the key. Options
    * [listed in Vault documentation](https://pangea.cloud/docs/vault/manage-keys/generate-a-key#generating-asymmetric-key-pairs).
    * @param {Vault.KeyPurpose} purpose - The purpose of this key
