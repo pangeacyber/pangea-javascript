@@ -36,10 +36,9 @@ class BaseService {
   async post(
     endpoint: string,
     data: object,
-    options: PostOptions = {},
-    filepath?: string
+    options: PostOptions = {}
   ): Promise<PangeaResponse<any>> {
-    return await this.request.post(endpoint, data, options, filepath);
+    return await this.request.post(endpoint, data, options);
   }
 
   async pollResult(request_id: string): Promise<PangeaResponse<any>> {

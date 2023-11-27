@@ -3,6 +3,7 @@ import * as crypto from "crypto";
 import * as fs from "fs";
 import crc32c from "@node-rs/crc32";
 import { FileScan } from "@src/types.js";
+import { PangeaErrors } from "@src/errors.js";
 
 function orderKeysRecursive(obj: Object) {
   const orderedEntries = Object.entries(obj).sort((a, b) => a[0].localeCompare(b[0]));
@@ -134,9 +135,16 @@ export function getCustomSchemaTestToken(environment: string) {
   return process.env[name] || "";
 }
 
-export function getFSparams(filePath: string): FileScan.ScanFileParams {
+export function getFileUploadParams(file: string | Buffer): FileScan.ScanFileParams {
   const hash = crypto.createHash("sha256");
-  const data = fs.readFileSync(filePath);
+  let data: Buffer;
+  if (typeof file === "string") {
+    data = fs.readFileSync(file);
+  } else if (file instanceof Buffer) {
+    data = file;
+  } else {
+    throw new PangeaErrors.PangeaError("Invalid file type");
+  }
 
   const size = data.length;
   hash.update(data);
