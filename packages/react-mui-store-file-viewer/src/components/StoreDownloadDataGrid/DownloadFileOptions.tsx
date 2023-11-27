@@ -24,7 +24,7 @@ const DownloadFileOptions: FC<VaultItemOptionsProps> = ({ data }) => {
     setHasDownload(true);
 
     apiRef
-      .get({ id: data.id, transfer_method: "post-url" })
+      .get({ id: data.id, transfer_method: "url" })
       .then((response) => {
         if (response.status === "Success") {
           setHasDownload(true);
@@ -43,7 +43,7 @@ const DownloadFileOptions: FC<VaultItemOptionsProps> = ({ data }) => {
         .getArchive({
           ids: [object.id],
           format: "tar",
-          transfer_method: "post-url", // FIXME: Changing to post-url
+          transfer_method: "url",
         })
         .then((response) => {
           if (response.status === "Success" && !!response.result.location) {

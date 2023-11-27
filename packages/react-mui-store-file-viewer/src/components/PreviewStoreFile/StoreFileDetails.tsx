@@ -35,7 +35,7 @@ const StoreFileDetails: FC<Props> = ({ object, onClose }) => {
         .getArchive({
           ids: [object.id],
           format: "zip",
-          transfer_method: "post-url",
+          transfer_method: "url",
         })
         .then((response) => {
           if (response.status === "Success") {

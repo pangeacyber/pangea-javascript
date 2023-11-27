@@ -79,7 +79,7 @@ const StoreDownloadDataGrid: FC<StoreDataGridProps> = ({
           },
         }}
         loading={loading}
-        header={<FolderPath />}
+        header={<FolderPath useRootIcon defaultHidden />}
         ServerPagination={{
           page: page,
           onPageChange: (page) => setPage(page),

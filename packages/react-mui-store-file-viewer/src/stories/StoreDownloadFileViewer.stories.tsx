@@ -76,5 +76,24 @@ StoreFileViewerDemo.args = {
           throw err;
         });
     },
+    getArchive: async (body) => {
+      return axios
+        .post(
+          `https://store.${process.env.STORYBOOK_SERVICE_DOMAIN}/v1beta/get_archive`,
+          { ...body },
+          {
+            headers: {
+              Authorization: `Bearer ${process.env.STORYBOOK_PANGEA_TOKEN}`,
+            },
+          }
+        )
+        .then((response) => {
+          return response.data;
+        })
+        .catch((err) => {
+          console.log(err);
+          throw err;
+        });
+    },
   },
 };
