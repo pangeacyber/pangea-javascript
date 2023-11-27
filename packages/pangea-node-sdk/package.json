@@ -1,6 +1,6 @@
 {
   "name": "pangea-node-sdk",
-  "version": "3.1.0",
+  "version": "3.2.0",
   "type": "module",
   "exports": {
     "types": "./dist/index.d.ts",
@@ -12,7 +12,7 @@
   "license": "MIT",
   "dependencies": {
     "@node-rs/crc32": "^1.7.2",
-    "crypto-js": "^4.1.1",
+    "crypto-js": "^4.2.0",
     "form-data": "^4.0.0",
     "got": "^13.0.0",
     "merkle-tools": "^1.4.1"

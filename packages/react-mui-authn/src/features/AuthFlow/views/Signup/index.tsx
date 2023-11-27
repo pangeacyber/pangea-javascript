@@ -36,11 +36,11 @@ const SignupView: FC<AuthFlowComponentProps> = (props) => {
         resetLabel={options.cancelLabel}
       />
       <AuthOptions {...props} />
-      {data.authChoices.length === 0 && data.socialChoices.length === 0 && (
-        <ErrorText>
-          There are no valid authentication methods available
-        </ErrorText>
-      )}
+      {data.authChoices.length === 0 &&
+        (!data?.invite || data.socialChoices.length === 0) &&
+        data.samlChoices.length === 0 && (
+          <ErrorText>There are no authentication options available.</ErrorText>
+        )}
       {(data.invite ||
         data.phase === "phase_secondary" ||
         data.samlChoices.length > 0) && <SocialOptions {...props} />}

@@ -261,29 +261,6 @@ export class AuthNFlowClient extends AuthNClient {
     };
   }
 
-  /*
-    API Request functions
-  */
-
-  async post(endpoint: string, payload: any): Promise<ClientResponse> {
-    try {
-      let response: AxiosResponse = await axios.post(
-        this.getUrl(endpoint),
-        payload,
-        this.getOptions()
-      );
-
-      if (response.status === 202) {
-        response = await this.handleAsync(response);
-      }
-
-      const success = this.processResponse(response.data);
-      return { success, response: response.data };
-    } catch (err) {
-      return { success: false, response: this.getError(err) };
-    }
-  }
-
   // post wrapper for update calls
   async _update(payload: any): Promise<ClientResponse> {
     const path = this.getUpdatePath();
