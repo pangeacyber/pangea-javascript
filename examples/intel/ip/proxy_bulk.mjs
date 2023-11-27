@@ -7,7 +7,7 @@ const token = process.env.PANGEA_INTEL_TOKEN;
 const config = new PangeaConfig({ domain: domain });
 const ipIntel = new IPIntelService(String(token), config);
 
-function printData(ip, data){
+function printData(ip, data) {
   if (data.is_proxy === true) {
     console.log(`\t IP ${ip} is a proxy`);
   } else {
@@ -17,7 +17,7 @@ function printData(ip, data){
 
 function printBulkData(data) {
   for (const [key, value] of Object.entries(data)) {
-    printData(key, value)
+    printData(key, value);
   }
 }
 
@@ -26,7 +26,10 @@ function printBulkData(data) {
 
   const options = { verbose: true, raw: true };
   try {
-    const response = await ipIntel.isProxyBulk(["132.76.150.141", "24.235.114.61"], options);
+    const response = await ipIntel.isProxyBulk(
+      ["132.76.150.141", "24.235.114.61"],
+      options
+    );
 
     console.log("Result: ");
     printBulkData(response.result.data);

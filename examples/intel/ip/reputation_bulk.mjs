@@ -7,7 +7,7 @@ const token = process.env.PANGEA_INTEL_TOKEN;
 const config = new PangeaConfig({ domain: domain });
 const ipIntel = new IPIntelService(String(token), config);
 
-function printData(indicator, data){
+function printData(indicator, data) {
   console.log(`\t Indicator: ${indicator}`);
   console.log(`\t\t Verdict: ${data.verdict}`);
   console.log(`\t\t Score: ${data.score}`);
@@ -16,7 +16,7 @@ function printData(indicator, data){
 
 function printBulkData(data) {
   for (const [key, value] of Object.entries(data)) {
-    printData(key, value)
+    printData(key, value);
   }
 }
 

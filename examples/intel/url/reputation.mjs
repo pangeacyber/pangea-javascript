@@ -7,7 +7,7 @@ const token = process.env.PANGEA_INTEL_TOKEN;
 const config = new PangeaConfig({ domain: domain });
 const urlIntel = new URLIntelService(String(token), config);
 
-function printData(indicator, data){
+function printData(indicator, data) {
   console.log(`\t Indicator: ${indicator}`);
   console.log(`\t\t Verdict: ${data.verdict}`);
   console.log(`\t\t Score: ${data.score}`);
@@ -20,10 +20,7 @@ function printData(indicator, data){
   const options = { provider: "crowdstrike", verbose: true, raw: true };
   try {
     const indicator = "http://113.235.101.11:54384";
-    const response = await urlIntel.reputation(
-      indicator,
-      options
-    );
+    const response = await urlIntel.reputation(indicator, options);
 
     console.log("Result: ");
     printData(indicator, response.result.data);

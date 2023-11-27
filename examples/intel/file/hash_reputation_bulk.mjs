@@ -7,7 +7,7 @@ const token = process.env.PANGEA_INTEL_TOKEN;
 const config = new PangeaConfig({ domain: domain });
 const fileIntel = new FileIntelService(String(token), config);
 
-function printData(indicator, data){
+function printData(indicator, data) {
   console.log(`\t Indicator: ${indicator}`);
   console.log(`\t\t Verdict: ${data.verdict}`);
   console.log(`\t\t Score: ${data.score}`);
@@ -16,7 +16,7 @@ function printData(indicator, data){
 
 function printBulkData(data) {
   for (const [key, value] of Object.entries(data)) {
-    printData(key, value)
+    printData(key, value);
   }
 }
 
@@ -29,8 +29,12 @@ function printBulkData(data) {
       "142b638c6a60b60c7f9928da4fb85a5a8e1422a9ffdc9ee49e17e56ccca9cf6e",
       "179e2b8a4162372cd9344b81793cbf74a9513a002eda3324e6331243f3137a63",
     ];
-  
-    const response = await fileIntel.hashReputationBulk(hashes, "sha256", options);
+
+    const response = await fileIntel.hashReputationBulk(
+      hashes,
+      "sha256",
+      options
+    );
 
     console.log("Result: ");
     printBulkData(response.result.data);

@@ -7,7 +7,7 @@ const token = process.env.PANGEA_INTEL_TOKEN;
 const config = new PangeaConfig({ domain: domain });
 const ipIntel = new IPIntelService(String(token), config);
 
-function printData(indicator, data){
+function printData(indicator, data) {
   console.log(`\t Indicator: ${indicator}`);
   console.log(`\t\t country: ${data.country}`);
   console.log(`\t\t city: ${data.city}`);
@@ -19,16 +19,19 @@ function printData(indicator, data){
 
 function printBulkData(data) {
   for (const [key, value] of Object.entries(data)) {
-    printData(key, value)
+    printData(key, value);
   }
 }
 
 (async () => {
   console.log("Geolocate IPs...");
 
-  const options = {verbose: true, raw: true };
+  const options = { verbose: true, raw: true };
   try {
-    const response = await ipIntel.geolocateBulk(["93.231.182.110", "24.235.114.61"], options);
+    const response = await ipIntel.geolocateBulk(
+      ["93.231.182.110", "24.235.114.61"],
+      options
+    );
 
     console.log("Result: ");
     printBulkData(response.result.data);

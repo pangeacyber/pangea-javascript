@@ -7,7 +7,7 @@ const token = process.env.PANGEA_INTEL_TOKEN;
 const config = new PangeaConfig({ domain: domain });
 const fileIntel = new FileIntelService(String(token), config);
 
-function printData(data){
+function printData(data) {
   console.log(`\t\t Verdict: ${data.verdict}`);
   console.log(`\t\t Score: ${data.score}`);
   console.log(`\t\t Category: ${data.category}`);

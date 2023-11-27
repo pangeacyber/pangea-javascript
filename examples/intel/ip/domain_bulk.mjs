@@ -7,7 +7,7 @@ const token = process.env.PANGEA_INTEL_TOKEN;
 const config = new PangeaConfig({ domain: domain });
 const ipIntel = new IPIntelService(String(token), config);
 
-function printData(ip, data){
+function printData(ip, data) {
   if (data.domain_found === true) {
     console.log(`\t IP ${ip} domain is: ${data.domain}`);
   } else {
@@ -17,7 +17,7 @@ function printData(ip, data){
 
 function printBulkData(data) {
   for (const [key, value] of Object.entries(data)) {
-    printData(key, value)
+    printData(key, value);
   }
 }
 
@@ -26,7 +26,10 @@ function printBulkData(data) {
 
   const options = { provider: "digitalelement", verbose: true, raw: true };
   try {
-    const response = await ipIntel.getDomainBulk(["93.231.182.110", "24.235.114.61"], options);
+    const response = await ipIntel.getDomainBulk(
+      ["93.231.182.110", "24.235.114.61"],
+      options
+    );
 
     console.log("Result: ");
     printBulkData(response.result.data);

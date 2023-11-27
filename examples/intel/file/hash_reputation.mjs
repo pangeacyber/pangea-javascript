@@ -7,7 +7,7 @@ const token = process.env.PANGEA_INTEL_TOKEN;
 const config = new PangeaConfig({ domain: domain });
 const fileIntel = new FileIntelService(String(token), config);
 
-function printData(indicator, data){
+function printData(indicator, data) {
   console.log(`\t Indicator: ${indicator}`);
   console.log(`\t\t Verdict: ${data.verdict}`);
   console.log(`\t\t Score: ${data.score}`);
@@ -19,7 +19,8 @@ function printData(indicator, data){
 
   const options = { provider: "reversinglabs", verbose: true, raw: true };
   try {
-    const indicator = "142b638c6a60b60c7f9928da4fb85a5a8e1422a9ffdc9ee49e17e56ccca9cf6e";
+    const indicator =
+      "142b638c6a60b60c7f9928da4fb85a5a8e1422a9ffdc9ee49e17e56ccca9cf6e";
     const response = await fileIntel.hashReputation(
       indicator,
       "sha256",

@@ -7,7 +7,7 @@ const token = process.env.PANGEA_INTEL_TOKEN;
 const config = new PangeaConfig({ domain: domain });
 const ipIntel = new IPIntelService(String(token), config);
 
-function printData(ip, data){
+function printData(ip, data) {
   if (data.domain_found === true) {
     console.log(`\t IP ${ip} domain is: ${data.domain}`);
   } else {
