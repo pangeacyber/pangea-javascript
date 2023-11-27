@@ -5,7 +5,9 @@ import {
   ToggleButton,
   ToggleButtonGroup,
   Typography,
+  Tooltip,
 } from "@mui/material";
+import uniqBy from "lodash/uniqBy";
 import {
   FieldComponentProps,
   FieldControl,
@@ -14,20 +16,25 @@ import { FC, useEffect, useMemo, useState } from "react";
 import findIndex from "lodash/findIndex";
 import * as yup from "yup";
 
+import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined";
 import LocalPhoneIcon from "@mui/icons-material/LocalPhone";
 import RemoveCircleOutlineIcon from "@mui/icons-material/RemoveCircleOutline";
 
 const PHONE_REGEXP =
   /^((\\+[1-9]{1,4}[ \\-]*)|(\\([0-9]{2,3}\\)[ \\-]*)|(1|[0-9]{2,4})[ \\-]*)*?[0-9]{3,4}?[ \\-]*[0-9]{3,4}?$/;
 
+export interface PhoneValue {
+  phone_number: string;
+  recipient: string;
+}
+
 const UnControlledSharePhonesField: FC<FieldComponentProps> = ({
   onValueChange = () => {},
   ...props
 }) => {
-  const value = useMemo<string[]>(() => {
-    const value: string[] = props.value || props.default || [];
-    const valueSet = new Set(value);
-    return Array.from(valueSet);
+  const value = useMemo<PhoneValue[]>(() => {
+    const value: PhoneValue[] = props.value || props.default || [];
+    return uniqBy(value, "phone_number");
   }, [props.value, props.default]);
 
   const [newValue, setNewValue] = useState("");
@@ -47,6 +54,18 @@ const UnControlledSharePhonesField: FC<FieldComponentProps> = ({
       });
   };
 
+  const validateEmail = (email: string) => {
+    return yup
+      .string()
+      .trim()
+      .email("Must be a valid email address")
+      .isValid(email)
+      .then((isValid) => {
+        if (!isValid) setNewValueError("Must be a valid email address");
+        else setNewValueError(undefined);
+      });
+  };
+
   useEffect(() => {
     if (newValue === "") {
       setNewValueError(undefined);
@@ -62,17 +81,36 @@ const UnControlledSharePhonesField: FC<FieldComponentProps> = ({
     const newValue_ = !newValue.startsWith("+1") ? `+1${newValue}` : newValue;
 
     let value_ = [...value];
-    value_.push(newValue_);
+    value_.push({
+      phone_number: newValue_,
+      recipient: "",
+    });
 
-    const valueSet = new Set(value_);
-    value_ = Array.from(valueSet);
-
+    value_ = uniqBy(value_, "phone_number");
     onValueChange(value_);
     setNewValue("");
   };
 
-  const handleRemoveValue = (email: string) => {
-    const idx = findIndex(value, (v) => v === email);
+  const handleUpdateRecipient = (
+    phone: PhoneValue,
+    idx: number,
+    recipient: string
+  ) => {
+    if (idx < 0 || idx >= value.length) return;
+
+    let value_ = [...value];
+    value_[idx] = {
+      ...value_[idx],
+      recipient,
+    };
+
+    value_ = uniqBy(value_, "phone_number");
+    onValueChange(value_);
+    setNewValue("");
+  };
+
+  const handleRemoveValue = (phone: PhoneValue) => {
+    const idx = findIndex(value, (v) => v.phone_number === phone.phone_number);
     if (idx === -1) return;
 
     const value_ = value.slice(0, idx).concat(value.slice(idx + 1));
@@ -80,7 +118,7 @@ const UnControlledSharePhonesField: FC<FieldComponentProps> = ({
   };
 
   return (
-    <Stack spacing={1} width="100%">
+    <Stack spacing={1} width="100%" sx={{ minHeight: "300px" }}>
       <TextField
         value={newValue}
         label="Add recipient phone number"
@@ -101,11 +139,12 @@ const UnControlledSharePhonesField: FC<FieldComponentProps> = ({
             event.preventDefault();
           }
         }}
+        size="small"
       />
-      {value.map((email) => {
+      {value.map((phone, idx) => {
         return (
           <Stack
-            key={`share-email-${email}`}
+            key={`share-email-${phone.phone_number}`}
             spacing={1}
             direction="row"
             width="100%"
@@ -113,9 +152,31 @@ const UnControlledSharePhonesField: FC<FieldComponentProps> = ({
           >
             <LocalPhoneIcon fontSize="small" />
             <Typography variant="body2" sx={{ width: "100%" }}>
-              {email}
+              {phone.phone_number}
             </Typography>
-            <IconButton size="small" onClick={() => handleRemoveValue(email)}>
+            <TextField
+              value={phone.recipient}
+              placeholder="Add recipient email"
+              sx={{ minWidth: "250px" }}
+              onChange={(e) => {
+                let value = e.target.value;
+                handleUpdateRecipient(phone, idx, value);
+
+                e.stopPropagation();
+              }}
+              InputProps={{
+                startAdornment: (
+                  <Tooltip
+                    sx={{ marginLeft: -0.5, marginRight: 0.5 }}
+                    title="Add an optional email recipient, that will get the shared link sent to them automatically on 'Create and Send'."
+                  >
+                    <InfoOutlinedIcon color="info" fontSize="small" />
+                  </Tooltip>
+                ),
+              }}
+              size="small"
+            />
+            <IconButton size="small" onClick={() => handleRemoveValue(phone)}>
               <RemoveCircleOutlineIcon fontSize="small" />
             </IconButton>
           </Stack>

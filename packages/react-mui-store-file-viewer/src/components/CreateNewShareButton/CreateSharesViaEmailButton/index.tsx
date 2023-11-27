@@ -13,6 +13,14 @@ import { ObjectStore } from "../../../types";
 import { useStoreFileViewerContext } from "../../../hooks/context";
 import { CreateEmailShareFields } from "./fields";
 
+const CreateAndSendButton: FC<ButtonProps> = (props) => {
+  // @ts-ignore
+  const isSaving = props?.children?.endsWith("...");
+  return (
+    <Button {...props}>{isSaving ? "Sending..." : "Create and Send"}</Button>
+  );
+};
+
 interface Props {
   object: ObjectStore.ObjectResponse;
   ButtonProps?: ButtonProps;
@@ -66,6 +74,45 @@ const CreateSharesViaEmailButton: FC<Props> = ({
           };
         }),
       })
+      .then(async (response) => {
+        const links = response?.result?.share_link_objects ?? [];
+        if (links.length && apiRef.share?.send) {
+          const body: ObjectStore.ShareSendRequest = {
+            from_prefix: "",
+            links: [],
+          };
+
+          links?.forEach((l) => {
+            const newLinks: ObjectStore.ShareLinkToSend[] =
+              l.authenticators
+                ?.filter((auth) => {
+                  return (
+                    auth.auth_type ===
+                      ObjectStore.ShareAuthenticatorType.Email &&
+                    !!auth.auth_context
+                  );
+                })
+                .map((auth) => ({
+                  email: auth.auth_context,
+                  id: l.id,
+                })) ?? [];
+
+            body.links = body.links.concat(newLinks);
+          });
+
+          return apiRef.share
+            .send(body)
+            .then(() => links)
+            .catch((err) => {
+              throw err;
+            });
+        }
+
+        return response;
+      })
+      .catch((err) => {
+        throw err;
+      })
       .finally(() => {
         setLoading(false);
         onDone();
@@ -106,6 +153,7 @@ const CreateSharesViaEmailButton: FC<Props> = ({
               .finally(handleClose);
           }}
           disabled={loading}
+          SaveButton={CreateAndSendButton}
         />
       </PangeaModal>
     </>

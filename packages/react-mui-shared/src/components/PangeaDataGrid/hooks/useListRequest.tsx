@@ -111,7 +111,7 @@ export const usePangeaListRequest = <Filter extends FilterObj = FilterObj>(
   const [sorting, setSorting] = useState<PangeaListOrderRequest>({});
 
   // @ts-ignore
-  const [filters, setFilters] = useState<Filter>({});
+  const [filters, setFilters] = useState<Filter>(defaultFilter ?? {});
 
   useEffect(() => {
     if (defaultFilter) setFilters(defaultFilter);

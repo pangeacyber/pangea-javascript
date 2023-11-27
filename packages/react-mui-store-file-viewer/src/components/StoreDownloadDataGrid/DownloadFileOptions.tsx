@@ -22,17 +22,18 @@ const DownloadFileOptions: FC<VaultItemOptionsProps> = ({ data }) => {
       if (response.status === "Success") {
         setObject({
           ...response.result.object,
-          presigned_url: response.result.presigned_url,
+          location: response.result.object?.location,
         });
       }
     });
   }, [data.id]);
 
   if (!object.id) return null;
+  if (object?.type === "folder") return null;
   return (
     <Stack direction="row" spacing={0.5} alignItems="center">
-      {!!object?.presigned_url ? (
-        <a href={object.presigned_url} download={object.name ?? object.id}>
+      {!!object?.location ? (
+        <a href={object.location} download={object.name ?? object.id}>
           <IconButton>
             <DownloadIcon color="success" />
           </IconButton>

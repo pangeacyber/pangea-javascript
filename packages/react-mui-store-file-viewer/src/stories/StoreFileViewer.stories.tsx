@@ -39,7 +39,26 @@ StoreFileViewerDemo.args = {
       list: async (body) => {
         return axios
           .post(
-            `https://store.${process.env.STORYBOOK_SERVICE_DOMAIN}/v1/share/link/list`,
+            `https://store.${process.env.STORYBOOK_SERVICE_DOMAIN}/v1beta/share/link/list`,
+            { ...body },
+            {
+              headers: {
+                Authorization: `Bearer ${process.env.STORYBOOK_PANGEA_TOKEN}`,
+              },
+            }
+          )
+          .then((response) => {
+            return response.data;
+          })
+          .catch((err) => {
+            console.log(err);
+            throw err;
+          });
+      },
+      send: async (body) => {
+        return axios
+          .post(
+            `https://store.${process.env.STORYBOOK_SERVICE_DOMAIN}/v1beta/share/link/send`,
             { ...body },
             {
               headers: {
@@ -58,7 +77,7 @@ StoreFileViewerDemo.args = {
       get: async (body) => {
         return axios
           .post(
-            `https://store.${process.env.STORYBOOK_SERVICE_DOMAIN}/v1/share/link/read`,
+            `https://store.${process.env.STORYBOOK_SERVICE_DOMAIN}/v1beta/share/link/read`,
             { ...body },
             {
               headers: {
@@ -77,7 +96,7 @@ StoreFileViewerDemo.args = {
       create: async (body) => {
         return axios
           .post(
-            `https://store.${process.env.STORYBOOK_SERVICE_DOMAIN}/v1/share/link/create`,
+            `https://store.${process.env.STORYBOOK_SERVICE_DOMAIN}/v1beta/share/link/create`,
             { ...body },
             {
               headers: {
@@ -96,7 +115,7 @@ StoreFileViewerDemo.args = {
       delete: async (body) => {
         return axios
           .post(
-            `https://store.${process.env.STORYBOOK_SERVICE_DOMAIN}/v1/share/link/delete`,
+            `https://store.${process.env.STORYBOOK_SERVICE_DOMAIN}/v1beta/share/link/delete`,
             { ...body },
             {
               headers: {
@@ -116,7 +135,7 @@ StoreFileViewerDemo.args = {
     list: async (body) => {
       return axios
         .post(
-          `https://store.${process.env.STORYBOOK_SERVICE_DOMAIN}/v1/list`,
+          `https://store.${process.env.STORYBOOK_SERVICE_DOMAIN}/v1beta/list`,
           { ...body },
           {
             headers: {
@@ -135,7 +154,7 @@ StoreFileViewerDemo.args = {
     get: async (body) => {
       return axios
         .post(
-          `https://store.${process.env.STORYBOOK_SERVICE_DOMAIN}/v1/get`,
+          `https://store.${process.env.STORYBOOK_SERVICE_DOMAIN}/v1beta/get`,
           { ...body },
           {
             headers: {
@@ -154,7 +173,7 @@ StoreFileViewerDemo.args = {
     folderCreate: async (body) => {
       return axios
         .post(
-          `https://store.${process.env.STORYBOOK_SERVICE_DOMAIN}/v1/folder/create`,
+          `https://store.${process.env.STORYBOOK_SERVICE_DOMAIN}/v1beta/folder/create`,
           { ...body },
           {
             headers: {
@@ -173,7 +192,7 @@ StoreFileViewerDemo.args = {
     upload: async (body, contentType) => {
       return axios
         .post(
-          `https://store.${process.env.STORYBOOK_SERVICE_DOMAIN}/v1/put`,
+          `https://store.${process.env.STORYBOOK_SERVICE_DOMAIN}/v1beta/put`,
           body,
           {
             headers: {
@@ -193,7 +212,7 @@ StoreFileViewerDemo.args = {
     update: async (body) => {
       return axios
         .post(
-          `https://store.${process.env.STORYBOOK_SERVICE_DOMAIN}/v1/update`,
+          `https://store.${process.env.STORYBOOK_SERVICE_DOMAIN}/v1beta/update`,
           body,
           {
             headers: {

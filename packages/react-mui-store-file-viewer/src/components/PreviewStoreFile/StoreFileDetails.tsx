@@ -21,8 +21,8 @@ const StoreFileDetails: FC<Props> = ({ object, onClose }) => {
 
   return (
     <>
-      {!!object?.presigned_url && (
-        <a href={object.presigned_url} download={object.name ?? object.id}>
+      {!!object?.location && (
+        <a href={object.location} download={object.name ?? object.id}>
           <Button
             sx={{ width: "100%" }}
             color="primary"

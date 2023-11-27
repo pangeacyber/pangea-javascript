@@ -1,1 +1,1 @@
-export const PREVIEW_FILE_WIDTH = 350;
+export const PREVIEW_FILE_WIDTH = 420;

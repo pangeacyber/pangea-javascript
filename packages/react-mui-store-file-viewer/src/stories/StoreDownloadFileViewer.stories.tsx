@@ -41,7 +41,7 @@ StoreFileViewerDemo.args = {
     list: async (body) => {
       return axios
         .post(
-          `https://store.${process.env.STORYBOOK_SERVICE_DOMAIN}/v1/list`,
+          `https://store.${process.env.STORYBOOK_SERVICE_DOMAIN}/v1beta/list`,
           { ...body },
           {
             headers: {
@@ -60,7 +60,7 @@ StoreFileViewerDemo.args = {
     get: async (body) => {
       return axios
         .post(
-          `https://store.${process.env.STORYBOOK_SERVICE_DOMAIN}/v1/get`,
+          `https://store.${process.env.STORYBOOK_SERVICE_DOMAIN}/v1beta/get`,
           { ...body },
           {
             headers: {

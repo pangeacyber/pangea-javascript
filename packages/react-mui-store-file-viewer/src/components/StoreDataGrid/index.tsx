@@ -19,6 +19,7 @@ import CreateNewButton from "../CreateNewButton";
 import { Stack } from "@mui/material";
 import FileDropBox from "../FileDropBox";
 import FileOptions from "../FileOptions";
+import { PREVIEW_FILE_WIDTH } from "../PreviewStoreFile/constants";
 
 export interface StoreDataGridProps {
   defaultVisibilityModel?: Record<string, boolean>;
@@ -77,7 +78,7 @@ const StoreDataGrid: FC<StoreDataGridProps> = ({
         data={data.objects}
         PreviewPanel={{
           component: PreviewStoreFile,
-          width: "350px",
+          width: `${PREVIEW_FILE_WIDTH}px`,
           position: "fullHeight",
         }}
         previewId={filters?.id || previewId}

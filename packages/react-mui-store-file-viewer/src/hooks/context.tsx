@@ -122,6 +122,9 @@ const StoreFileViewerProvider: FC<StoreFileViewerProviderProps> = ({
         key: "parent_id",
         ignoreFalsy: true,
       },
+      folder: {
+        key: "folder",
+      },
     }
   );
 
@@ -152,11 +155,15 @@ const StoreFileViewerProvider: FC<StoreFileViewerProviderProps> = ({
   };
 
   useEffect(() => {
-    if (!!request.filters.parent_id && !!apiRef.get) {
+    if (!!request.filters.parent_id && !!apiRef.list) {
       apiRef
-        .get({ id: request.filters.parent_id })
+        .list({ filter: { id: request.filters.parent_id } })
         .then((response) => {
-          if (response.status === "Success") setParent(response.result.object);
+          if (
+            response.status === "Success" &&
+            response?.result?.objects?.length
+          )
+            setParent(response.result?.objects[0]);
           else {
             setError(response);
             setParent(undefined);
@@ -210,7 +217,7 @@ export const useStoreFileViewerFolder = () => {
 
   const setFolder = useCallback(
     (folder: string) => {
-      request.setFilters({ path: folder });
+      request.setFilters({ folder });
     },
     [request.setFilters]
   );
@@ -229,7 +236,10 @@ export const useStoreFileViewerFolder = () => {
 
   return {
     parent,
-    folder: parent?.path ?? !!parent ? `/${parent?.name}/` : "/",
+    folder:
+      parent?.path ?? !!parent
+        ? `${parent?.folder}/${parent?.name}/`.replace("//", "/")
+        : "/",
     setFolder,
     setParentId,
   };

@@ -75,7 +75,7 @@ const UnControlledShareEmailsField: FC<FieldComponentProps> = ({
   };
 
   return (
-    <Stack spacing={1} width="100%">
+    <Stack spacing={1} width="100%" sx={{ minHeight: "300px" }}>
       <TextField
         value={newValue}
         label="Add recipient email"
@@ -96,6 +96,7 @@ const UnControlledShareEmailsField: FC<FieldComponentProps> = ({
             event.preventDefault();
           }
         }}
+        size="small"
       />
       {value.map((email) => {
         return (

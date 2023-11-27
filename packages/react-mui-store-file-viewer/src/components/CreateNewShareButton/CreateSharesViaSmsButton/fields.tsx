@@ -2,10 +2,12 @@ import {
   FieldsFormSchema,
   validatePassword,
 } from "@pangeacyber/react-mui-shared";
+import some from "lodash/some";
+
 import { ObjectStore } from "../../../types";
 import ShareTypeField from "../ShareTypeField";
 import ShareEmailsField from "../ShareEmailsField";
-import SharePhonesField from "../SharePhonesField";
+import SharePhonesField, { PhoneValue } from "../SharePhonesField";
 import * as yup from "yup";
 
 export const CreatePhoneShareFields: FieldsFormSchema<ObjectStore.SingleShareCreateRequest> =
@@ -62,17 +64,41 @@ export const CreatePhoneShareFields: FieldsFormSchema<ObjectStore.SingleShareCre
       schema: yup
         .array()
         .min(1, "At least one phone number is required")
+        .test(
+          "valid-recipient",
+          "Phone numbers email recipient must be valid",
+          async function (value) {
+            const isInvalid = await Promise.all(
+              (value ?? []).map(async (p: PhoneValue) =>
+                yup
+                  .string()
+                  .trim()
+                  .email()
+                  .isValid(p.recipient)
+                  .then((isValid) => !isValid)
+              )
+            ).then((arr) => some(arr));
+
+            return !isInvalid;
+          }
+        )
         .required("At least one phone number is required"),
       getFieldValue: (values) => {
-        return (values?.authenticators ?? []).map((a) => a.auth_context);
+        return (values?.authenticators ?? []).map((a) => ({
+          phone_number: a.auth_context,
+          // @ts-ignore Internal field our sending SMS
+          recipient: a.recipient,
+        }));
       },
       onFieldChanged(value, values) {
         // @ts-ignore
-        const value_: string[] = value;
+        const value_: PhoneValue[] = value;
         return {
           authenticators: value_.map((phone) => ({
             auth_type: ObjectStore.ShareAuthenticatorType.Sms,
-            auth_context: phone,
+            auth_context: phone.phone_number,
+            // @ts-ignore Internal field our sending SMS
+            recipient: phone.recipient,
           })),
         };
       },

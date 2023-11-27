@@ -36,6 +36,9 @@ export interface StoreProxyApiRef {
     create?: (
       data: ObjectStore.ShareCreateRequest
     ) => Promise<PangeaResponse<ObjectStore.SharesObjectResponse>>;
+    send?: (
+      data: ObjectStore.ShareSendRequest
+    ) => Promise<PangeaResponse<ObjectStore.ShareSendResponse>>;
   };
 
   delete?: (
@@ -129,6 +132,21 @@ export namespace ObjectStore {
     authenticators?: ShareAuthenticator[];
   }
 
+  export interface ShareLinkToSend {
+    id: string;
+    email: string;
+  }
+
+  export interface ShareSendRequest {
+    links: ShareLinkToSend[];
+    from_prefix: string;
+  }
+
+  export interface ShareSendResponse {
+    // Incomplete share_link_objects (missing id)
+    share_link_objects: ShareObjectResponse[];
+  }
+
   export interface ShareCreateRequest {
     links: SingleShareCreateRequest[];
   }
@@ -138,7 +156,9 @@ export namespace ObjectStore {
   }
 
   export interface ShareDeleteRequest {
-    id: string;
+    links: {
+      id: string;
+    }[];
   }
 
   export interface ShareResponse {
@@ -242,6 +262,7 @@ export namespace ObjectStore {
 
     // Different than vault... no parent path
     parent_id?: string;
+    folder?: string;
     path?: string;
 
     billable_size: number;
@@ -256,7 +277,7 @@ export namespace ObjectStore {
 
     type: string | ObjectType; // "folder", "" ...
 
-    presigned_url?: string; // Added from get
+    location?: string; // Added from get
 
     metadata_protected?: {
       format?: string;
@@ -392,15 +413,7 @@ export namespace ObjectStore {
     transfer_method?: string; // direct, multipart
   }
 
-  /**
-     * type APIGetOutput struct {
-            Object       APIObject `json:"object"`
-            PresignedURL string    `json:"presigned_url,omitempty"`
-        }
-     */
-
   export interface GetResponse {
     object: ObjectResponse;
-    presigned_url: string;
   }
 }

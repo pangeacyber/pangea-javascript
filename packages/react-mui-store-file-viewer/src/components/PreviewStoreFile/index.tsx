@@ -44,7 +44,6 @@ const PreviewStoreFile: FC<PreviewFileProps> = ({ data, onClose }) => {
       if (response.status === "Success") {
         setObject({
           ...response.result.object,
-          presigned_url: response.result.presigned_url,
         });
       }
     });

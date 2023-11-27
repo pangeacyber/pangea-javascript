@@ -1,6 +1,7 @@
 import { Button, ButtonProps } from "@mui/material";
 import { FC, useMemo, useState } from "react";
 import pickBy from "lodash/pickBy";
+import keyBy from "lodash/keyBy";
 
 import LocalPhoneIcon from "@mui/icons-material/LocalPhone";
 
@@ -12,6 +13,14 @@ import {
 import { ObjectStore } from "../../../types";
 import { useStoreFileViewerContext } from "../../../hooks/context";
 import { CreatePhoneShareFields } from "./fields";
+
+const CreateAndSendButton: FC<ButtonProps> = (props) => {
+  // @ts-ignore
+  const isSaving = props?.children?.endsWith("...");
+  return (
+    <Button {...props}>{isSaving ? "Sending..." : "Create and Send"}</Button>
+  );
+};
 
 interface Props {
   object: ObjectStore.ObjectResponse;
@@ -62,9 +71,60 @@ const CreateSharesViaSmsButton: FC<Props> = ({
           return {
             ...body,
             targets: [object.id],
-            authenticators: [auth],
+            authenticators: [
+              {
+                auth_context: auth.auth_context,
+                auth_type: auth.auth_type,
+              },
+            ],
           };
         }),
+      })
+      .then(async (response) => {
+        const recipientMap = keyBy(body?.authenticators ?? [], "auth_context");
+
+        const links = response?.result?.share_link_objects ?? [];
+        if (links.length && apiRef.share?.send) {
+          const body: ObjectStore.ShareSendRequest = {
+            from_prefix: "",
+            links: [],
+          };
+
+          links?.forEach((l) => {
+            const newLinks: ObjectStore.ShareLinkToSend[] =
+              l.authenticators
+                ?.filter((auth) => {
+                  return (
+                    auth.auth_type === ObjectStore.ShareAuthenticatorType.Sms &&
+                    // @ts-ignore Internal field our sending SMS
+                    !!recipientMap[auth.auth_context]?.recipient
+                  );
+                })
+                .map((auth) => ({
+                  // @ts-ignore Internal field our sending SMS
+                  email: recipientMap[auth.auth_context]?.recipient,
+                  id: l.id,
+                })) ?? [];
+
+            body.links = body.links.concat(newLinks);
+          });
+
+          if (!links.length) {
+            return response;
+          }
+
+          return apiRef.share
+            .send(body)
+            .then(() => response)
+            .catch((err) => {
+              throw err;
+            });
+        }
+
+        return response;
+      })
+      .catch((err) => {
+        throw err;
       })
       .finally(() => {
         setLoading(false);
@@ -106,6 +166,7 @@ const CreateSharesViaSmsButton: FC<Props> = ({
               .finally(handleClose);
           }}
           disabled={loading}
+          SaveButton={CreateAndSendButton}
         />
       </PangeaModal>
     </>

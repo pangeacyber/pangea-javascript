@@ -13,6 +13,7 @@ import {
 import { ObjectStore } from "../../../types";
 import { useStoreFileViewerContext } from "../../../hooks/context";
 import { CreatePasswordShareFields } from "./fields";
+import SendShareViaEmailButton from "../SendShareViaEmailButton";
 
 interface Props {
   object: ObjectStore.ObjectResponse;
@@ -28,6 +29,11 @@ const CreateSharesViaPasswordButton: FC<Props> = ({
   onDone,
 }) => {
   const { apiRef, configurations } = useStoreFileViewerContext();
+
+  const [share, setShare] = useState<
+    ObjectStore.ShareObjectResponse | undefined
+  >(undefined);
+
   const [open, setOpen] = useState(false);
 
   const [loading, setLoading] = useState(false);
@@ -46,6 +52,7 @@ const CreateSharesViaPasswordButton: FC<Props> = ({
   }, []);
 
   const handleClose = () => {
+    setShare(undefined);
     setOpen(false);
     onClose();
   };
@@ -65,9 +72,15 @@ const CreateSharesViaPasswordButton: FC<Props> = ({
           },
         ],
       })
-      .then(() => {
+      .then((newShare) => {
         setLoading(false);
-        onDone();
+        if (newShare?.result?.share_link_objects?.length) {
+          setOpen(false);
+          setShare(newShare?.result?.share_link_objects[0]);
+        } else {
+          onDone();
+          handleClose();
+        }
       })
       .catch((error) => {
         setLoading(false);
@@ -111,11 +124,19 @@ const CreateSharesViaPasswordButton: FC<Props> = ({
             return handleCreateShare(
               // @ts-ignore
               pickBy(values, (v, k) => !!v && k !== "password")
-            ).finally(handleClose);
+            );
           }}
           disabled={loading}
         />
       </PangeaModal>
+      {!!share?.id && (
+        <SendShareViaEmailButton
+          object={share}
+          defaultOpen={true}
+          onClose={handleClose}
+          onDone={handleClose}
+        />
+      )}
     </>
   );
 };

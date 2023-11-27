@@ -41,8 +41,7 @@ const FolderPath: FC<Props> = () => {
               key={`folder-${idx}`}
               folder={f}
               onClick={() => {
-                // FIXME: This won't work without path working
-                // setFolder("/" + folders.slice(0, idx + 1).join("/"));
+                setFolder("/" + folders.slice(0, idx + 1).join("/"));
               }}
             />
           );

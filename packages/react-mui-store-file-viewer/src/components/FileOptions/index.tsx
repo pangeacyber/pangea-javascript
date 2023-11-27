@@ -31,8 +31,8 @@ const FileOptions: FC<VaultItemOptionsProps> = ({
   if (!object.id) return null;
   return (
     <Stack direction="row" spacing={0.5} alignItems="center">
-      {!!displayDownloadInline && !!object?.presigned_url && (
-        <a href={object.presigned_url} download={object.name ?? object.id}>
+      {!!displayDownloadInline && !!object?.location && (
+        <a href={object.location} download={object.name ?? object.id}>
           <IconButton>
             <DownloadIcon />
           </IconButton>
