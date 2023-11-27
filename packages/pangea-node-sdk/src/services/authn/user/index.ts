@@ -99,6 +99,7 @@ export default class User extends BaseService {
    *   - email (string): An email address
    *   - id (string): The identity of a user or a service
    *   - disabled (boolean): Disabling a user account will prevent them from logging in.
+   *   - unlock (boolean): Unlock a user account if it has been locked out due to failed Authentication attempts.
    * @returns {Promise<PangeaResponse<AuthN.User.UpdateResult>>} - A promise
    * representing an async call to the endpoint. Available response fields can be found in our
    * [API Documentation](https://pangea.cloud/docs/api/authn/user#/v2/user/update).
