@@ -37,7 +37,7 @@ const SocialOptions: FC<AuthFlowComponentProps> = ({ options, data }) => {
 
   return (
     <>
-      {(data?.authChoices.length > 0 || data.setEmail?.required_for) && (
+      {(data?.authChoices.length > 0 || !!data.setEmail) && (
         <Box width="100%">
           <Divider>
             <Typography
