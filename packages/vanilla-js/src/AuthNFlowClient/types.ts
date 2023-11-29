@@ -24,6 +24,7 @@ export namespace AuthFlow {
     SET_EMAIL = "set_email",
     PASSWORD = "password",
     SET_PASSWORD = "set_password",
+    SET_PHONE = "set_phone",
     RESET_PASSWORD = "reset_password",
     SOCIAL = "social",
     SAML = "saml",
@@ -178,9 +179,13 @@ export namespace AuthFlow {
 
   // Set Email
 
+  export interface SetEmailResponse {
+    required_for: string[];
+  }
+
   export interface SetEmailResult {
     choice: Choice.SET_EMAIL;
-    data: EmptyObject;
+    data: SetEmailResponse;
   }
 
   export interface EmailParams {
@@ -191,6 +196,23 @@ export namespace AuthFlow {
     flow_id: string;
     choice: Choice.SET_EMAIL;
     data: EmailParams;
+  }
+
+  // Set Phone
+
+  export interface SetPhoneResult {
+    choice: Choice.SET_PHONE;
+    data: EmptyObject;
+  }
+
+  export interface PhoneParams {
+    phone: string;
+  }
+
+  export interface SetPhoneRequest {
+    flow_id: string;
+    choice: Choice.SET_PHONE;
+    data: PhoneParams;
   }
 
   // Verify Email
@@ -417,6 +439,7 @@ export namespace AuthFlow {
 
   export type Result =
     | SetEmailResult
+    | SetPhoneResult
     | PasswordResult
     | ResetPasswordResult
     | SocialResult
@@ -447,7 +470,8 @@ export namespace AuthFlow {
     samlProviderMap: { [key: string]: SamlResponse };
     callbackStateMap: { [key: string]: string };
     agreements: AgreementData[];
-    setEmail?: EmptyObject;
+    setEmail?: SetEmailResponse;
+    setPhone?: EmptyObject;
     password?: PasswordResponse;
     setPassword?: EmptyObject;
     resetPassword?: ResetPasswordResponse;
@@ -470,6 +494,7 @@ export namespace AuthFlow {
 
   export type UpdateRequest =
     | SetEmailRequest
+    | SetPhoneRequest
     | VerifyEmailRequest
     | PasswordRequest
     | SetPasswordRequest
