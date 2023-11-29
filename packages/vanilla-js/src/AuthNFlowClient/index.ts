@@ -1,4 +1,3 @@
-import axios, { AxiosResponse } from "axios";
 import cloneDeep from "lodash/cloneDeep";
 import valuesIn from "lodash/valuesIn";
 
@@ -81,7 +80,7 @@ export class AuthNFlowClient extends AuthNClient {
       payload.email = data.email;
     }
 
-    return await this.post(path, payload);
+    return await this._post(path, payload);
   }
 
   async restart(
@@ -95,7 +94,7 @@ export class AuthNFlowClient extends AuthNClient {
       data: data || {},
     };
 
-    return await this.post(path, payload);
+    return await this._post(path, payload);
   }
 
   async complete(): Promise<ClientResponse> {
@@ -104,7 +103,7 @@ export class AuthNFlowClient extends AuthNClient {
       flow_id: this.state.flowId,
     };
 
-    return await this.post(path, payload);
+    return await this._post(path, payload);
   }
 
   /*
@@ -126,6 +125,16 @@ export class AuthNFlowClient extends AuthNClient {
     const payload: AuthFlow.SetEmailRequest = {
       flow_id: this.state.flowId,
       choice: AuthFlow.Choice.SET_EMAIL,
+      data: data,
+    };
+
+    return await this._update(payload);
+  }
+
+  async setPhone(data: AuthFlow.PhoneParams): Promise<ClientResponse> {
+    const payload: AuthFlow.SetPhoneRequest = {
+      flow_id: this.state.flowId,
+      choice: AuthFlow.Choice.SET_PHONE,
       data: data,
     };
 
@@ -261,11 +270,20 @@ export class AuthNFlowClient extends AuthNClient {
     };
   }
 
-  // post wrapper for update calls
+  // post wrapper to process response
+  async _post(path: string, payload: any): Promise<ClientResponse> {
+    const { response } = await this.post(path, payload);
+
+    const success = this.processResponse(response);
+
+    return { success, response };
+  }
+
+  // convienence method for update calls
   async _update(payload: any): Promise<ClientResponse> {
     const path = this.getUpdatePath();
 
-    return await this.post(path, payload);
+    return await this._post(path, payload);
   }
 
   getUpdatePath(): string {
@@ -349,7 +367,16 @@ export class AuthNFlowClient extends AuthNClient {
             this.state.captcha = choice.data;
             break;
           case AuthFlow.Choice.SET_EMAIL:
+            if (result.flow_phase === "phase_one_time") {
+              this.state.authChoices.push(choice.choice);
+            }
             this.state.setEmail = choice.data;
+            break;
+          case AuthFlow.Choice.SET_PHONE:
+            if (result.flow_phase === "phase_one_time") {
+              this.state.authChoices.push(choice.choice);
+            }
+            this.state.setPhone = choice.data;
             break;
           case AuthFlow.Choice.SET_PASSWORD:
             this.state.setPassword = choice.data;
@@ -365,6 +392,9 @@ export class AuthNFlowClient extends AuthNClient {
             break;
           case AuthFlow.Choice.PROVISIONAL:
             this.state.provisional = choice.data;
+            break;
+          default:
+            console.log("Unknown choice: ", choice);
         }
 
         // map social state to provider name
