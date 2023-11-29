@@ -14,6 +14,7 @@ export const CreateEmailShareFields: FieldsFormSchema<ObjectStore.SingleShareCre
       type: "field",
       LabelProps: {
         placement: "start",
+        minWidth: "180px",
       },
       component: ShareTypeField,
       default: "download",
@@ -37,15 +38,17 @@ export const CreateEmailShareFields: FieldsFormSchema<ObjectStore.SingleShareCre
       label: "Expires",
       LabelProps: {
         placement: "start",
+        minWidth: "180px",
       },
       FieldProps: {
         type: "dateTime",
       },
     },
     max_access_count: {
-      label: "Max views",
+      label: "Max views per recipient",
       LabelProps: {
         placement: "start",
+        minWidth: "180px",
       },
       FieldProps: {
         type: "number",

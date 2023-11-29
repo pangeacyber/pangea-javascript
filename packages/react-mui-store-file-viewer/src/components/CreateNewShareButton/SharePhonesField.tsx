@@ -16,6 +16,7 @@ import { FC, useEffect, useMemo, useState } from "react";
 import findIndex from "lodash/findIndex";
 import * as yup from "yup";
 
+import AddIcon from "@mui/icons-material/Add";
 import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined";
 import LocalPhoneIcon from "@mui/icons-material/LocalPhone";
 import RemoveCircleOutlineIcon from "@mui/icons-material/RemoveCircleOutline";
@@ -119,28 +120,38 @@ const UnControlledSharePhonesField: FC<FieldComponentProps> = ({
 
   return (
     <Stack spacing={1} width="100%" sx={{ minHeight: "300px" }}>
-      <TextField
-        value={newValue}
-        label="Add recipient phone number"
-        onChange={(e) => {
-          let value = e.target.value;
-          setNewValue(value);
+      <Stack width="100%" direction="row" alignItems="center" spacing={1}>
+        <TextField
+          value={newValue}
+          label="Add recipient phone number"
+          onChange={(e) => {
+            let value = e.target.value;
+            setNewValue(value);
 
-          e.stopPropagation();
-        }}
-        error={!!newValueError}
-        helperText={newValueError}
-        onKeyDown={(event) => event.stopPropagation()}
-        autoComplete="off"
-        fullWidth
-        onKeyUp={(event) => {
-          if (event.key === "Enter") {
-            handleAddNewValue();
-            event.preventDefault();
-          }
-        }}
-        size="small"
-      />
+            e.stopPropagation();
+          }}
+          error={!!newValueError}
+          helperText={newValueError}
+          onKeyDown={(event) => event.stopPropagation()}
+          autoComplete="off"
+          fullWidth
+          onBlur={handleAddNewValue}
+          onKeyUp={(event) => {
+            if (event.key === "Enter") {
+              handleAddNewValue();
+              event.preventDefault();
+            }
+          }}
+          size="small"
+        />
+        <IconButton
+          size="small"
+          title="Add phone number"
+          onClick={handleAddNewValue}
+        >
+          <AddIcon fontSize="small" />
+        </IconButton>
+      </Stack>
       {value.map((phone, idx) => {
         return (
           <Stack

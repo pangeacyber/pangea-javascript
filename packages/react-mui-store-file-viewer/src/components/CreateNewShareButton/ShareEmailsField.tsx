@@ -14,6 +14,8 @@ import { FC, useEffect, useMemo, useState } from "react";
 import findIndex from "lodash/findIndex";
 import * as yup from "yup";
 
+import AddIcon from "@mui/icons-material/Add";
+
 import MailOutlineIcon from "@mui/icons-material/MailOutline";
 import RemoveCircleOutlineIcon from "@mui/icons-material/RemoveCircleOutline";
 
@@ -76,28 +78,34 @@ const UnControlledShareEmailsField: FC<FieldComponentProps> = ({
 
   return (
     <Stack spacing={1} width="100%" sx={{ minHeight: "300px" }}>
-      <TextField
-        value={newValue}
-        label="Add recipient email"
-        onChange={(e) => {
-          let value = e.target.value;
-          setNewValue(value);
+      <Stack width="100%" direction="row" alignItems="center" spacing={1}>
+        <TextField
+          value={newValue}
+          label="Add recipient email"
+          onChange={(e) => {
+            let value = e.target.value;
+            setNewValue(value);
 
-          e.stopPropagation();
-        }}
-        error={!!newValueError}
-        helperText={newValueError}
-        onKeyDown={(event) => event.stopPropagation()}
-        autoComplete="off"
-        fullWidth
-        onKeyUp={(event) => {
-          if (event.key === "Enter") {
-            handleAddNewValue();
-            event.preventDefault();
-          }
-        }}
-        size="small"
-      />
+            e.stopPropagation();
+          }}
+          error={!!newValueError}
+          helperText={newValueError}
+          onKeyDown={(event) => event.stopPropagation()}
+          autoComplete="off"
+          fullWidth
+          onKeyUp={(event) => {
+            if (event.key === "Enter") {
+              handleAddNewValue();
+              event.preventDefault();
+            }
+          }}
+          onBlur={handleAddNewValue}
+          size="small"
+        />
+        <IconButton size="small" title="Add email" onClick={handleAddNewValue}>
+          <AddIcon fontSize="small" />
+        </IconButton>
+      </Stack>
       {value.map((email) => {
         return (
           <Stack
