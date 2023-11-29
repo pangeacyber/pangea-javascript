@@ -2,7 +2,6 @@ import { FC, useEffect, useState } from "react";
 import { Stack } from "@mui/material";
 
 import { AuthFlowComponentProps } from "@src/features/AuthFlow/types";
-import Button from "@src/components/core/Button";
 import AuthOptionsNav from "./components";
 import AuthEmailOtp from "../AuthEmailOtp";
 import AuthMagicLink from "../AuthMagicLink";
@@ -10,10 +9,12 @@ import AuthPassword from "../AuthPassword";
 import AuthSmsOtp from "../AuthSmsOtp";
 import AuthSmsPhone from "../AuthSmsPhone";
 import AuthTotp from "../AuthTotp";
+import AuthOnetimePhone from "../AuthOnetimePhone";
+import AuthOnetimeEmail from "../AuthOnetimeEmail";
 import { BodyText } from "@src/components/core/Text";
 
 const AuthOptions: FC<AuthFlowComponentProps> = (props) => {
-  const { options, data, error, reset } = props;
+  const { options, data, error } = props;
   const [activeProvider, setActiveProvider] = useState<string>("");
   const [content, setContent] = useState<JSX.Element>(<></>);
 
@@ -21,7 +22,19 @@ const AuthOptions: FC<AuthFlowComponentProps> = (props) => {
     if (data.authChoices?.length === 1) {
       setActiveProvider(data.authChoices[0]);
     } else if (!data.authChoices.includes(activeProvider)) {
-      setActiveProvider("");
+      if (
+        activeProvider.includes("set_email") &&
+        data.authChoices.includes("email_otp")
+      ) {
+        setActiveProvider("email_otp");
+      } else if (
+        activeProvider.includes("set_phone") &&
+        data.authChoices.includes("sms_otp")
+      ) {
+        setActiveProvider("sms_otp");
+      } else {
+        setActiveProvider("");
+      }
     }
   }, [data, error]);
 
@@ -38,6 +51,10 @@ const AuthOptions: FC<AuthFlowComponentProps> = (props) => {
       setContent(<AuthMagicLink {...props} />);
     } else if (activeProvider === "totp") {
       setContent(<AuthTotp {...props} />);
+    } else if (activeProvider === "set_email") {
+      setContent(<AuthOnetimeEmail {...props} />);
+    } else if (activeProvider === "set_phone") {
+      setContent(<AuthOnetimePhone {...props} />);
     } else {
       setContent(<></>);
     }

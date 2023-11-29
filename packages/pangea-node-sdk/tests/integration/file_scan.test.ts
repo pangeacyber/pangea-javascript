@@ -1,8 +1,14 @@
 import PangeaConfig from "../../src/config.js";
 import { it, expect, jest } from "@jest/globals";
-import { TestEnvironment, getTestDomain, getTestToken } from "../../src/utils/utils.js";
+import {
+  TestEnvironment,
+  getFileUploadParams,
+  getTestDomain,
+  getTestToken,
+} from "../../src/utils/utils.js";
 import { FileScanService, PangeaErrors } from "../../src/index.js";
 import { FileScan, TransferMethod } from "../../src/types.js";
+import { FileScanUploader } from "@src/services/file_scan.js";
 
 const testEnvironment = TestEnvironment.LIVE;
 
@@ -159,6 +165,107 @@ it("File Scan reversinglabs async and poll result", async () => {
       await delay(10 * 1000);
       const request_id = exception?.request_id || "";
       const response = await fileScan.pollResult(request_id);
+      expect(response.status).toBe("Success");
+      expect(response.result.data).toBeDefined();
+      expect(response.result.data.verdict).toBe("benign");
+      break;
+    } catch {
+      expect(retry).toBeLessThan(maxRetry - 1);
+    }
+  }
+});
+
+it("File Scan get url and put upload", async () => {
+  let response;
+  try {
+    const request: FileScan.ScanRequest = {
+      verbose: true,
+      raw: true,
+      provider: "reversinglabs",
+      transfer_method: TransferMethod.PUT_URL,
+    };
+    response = await fileScan.requestUploadURL(request);
+  } catch (e) {
+    console.log(e);
+    expect(false).toBeTruthy();
+    throw e;
+  }
+
+  const url = response.accepted_result?.accepted_status.upload_url || "";
+
+  const uploader = new FileScanUploader();
+  await uploader.uploadFile(
+    url,
+    {
+      file: testfilePath,
+      name: "file",
+    },
+    {
+      transfer_method: TransferMethod.PUT_URL,
+    }
+  );
+
+  const maxRetry = 12;
+  for (let retry = 0; retry < maxRetry; retry++) {
+    try {
+      // Wait until result could be ready
+      await delay(10 * 1000);
+      const request_id = response.request_id || "";
+      response = await fileScan.pollResult(request_id);
+      expect(response.status).toBe("Success");
+      expect(response.result.data).toBeDefined();
+      expect(response.result.data.verdict).toBe("benign");
+      break;
+    } catch {
+      expect(retry).toBeLessThan(maxRetry - 1);
+    }
+  }
+});
+
+it("File Scan get url and post upload", async () => {
+  let response;
+  try {
+    const request: FileScan.ScanRequest = {
+      verbose: true,
+      raw: true,
+      provider: "reversinglabs",
+      transfer_method: TransferMethod.POST_URL,
+    };
+
+    const params = getFileUploadParams(testfilePath);
+
+    response = await fileScan.requestUploadURL(request, {
+      params: params,
+    });
+  } catch (e) {
+    console.log(e);
+    expect(false).toBeTruthy();
+    throw e;
+  }
+
+  const url = response.accepted_result?.accepted_status.upload_url || "";
+  const file_details = response.accepted_result?.accepted_status.upload_details;
+
+  const uploader = new FileScanUploader();
+  await uploader.uploadFile(
+    url,
+    {
+      file: testfilePath,
+      name: "file",
+      file_details: file_details,
+    },
+    {
+      transfer_method: TransferMethod.POST_URL,
+    }
+  );
+
+  const maxRetry = 12;
+  for (let retry = 0; retry < maxRetry; retry++) {
+    try {
+      // Wait until result could be ready
+      await delay(10 * 1000);
+      const request_id = response.request_id || "";
+      response = await fileScan.pollResult(request_id);
       expect(response.status).toBe("Success");
       expect(response.result.data).toBeDefined();
       expect(response.result.data.verdict).toBe("benign");

@@ -1765,12 +1765,11 @@
     "@mui/icons-material" "^5.8.4"
     "@mui/material" "^5.0.0"
 
-"@pangeacyber/vanilla-js@^0.0.17":
-  version "0.0.17"
-  resolved "https://registry.yarnpkg.com/@pangeacyber/vanilla-js/-/vanilla-js-0.0.17.tgz#1a0b7f0a5ebf0b191efd5765d1d450e2dc6a89a1"
-  integrity sha512-Fwnog6jJlAnTmEoC2/jyD0ybfQKtTHJmTUaD76M+iLKTUoZzAMyqSV5BwIcH4HnNyAT9yvyBw7kP+wwQS3vUcQ==
+"@pangeacyber/vanilla-js@^0.1.1":
+  version "0.1.1"
+  resolved "https://registry.yarnpkg.com/@pangeacyber/vanilla-js/-/vanilla-js-0.1.1.tgz#1ee871a81d286a068ac96ac1f45283ad4b821c2e"
+  integrity sha512-nessQv/5Y8lz8yJDjimoyXGMQi8Lfa3M+D3w0/9HSxov+CAcbQv7U4+Qa7sY75yIobcwlZsDzsnDNnVyLe7rRg==
   dependencies:
-    axios "^1.4.0"
     lodash "^4.17.21"
 
 "@pkgjs/parseargs@^0.11.0":
@@ -3824,15 +3823,6 @@ available-typed-arrays@^1.0.5:
   resolved "https://registry.yarnpkg.com/available-typed-arrays/-/available-typed-arrays-1.0.5.tgz#92f95616501069d07d10edb2fc37d3e1c65123b7"
   integrity sha512-DMD0KiN46eipeziST1LPP/STfDU0sufISXmjSgvVsoU2tqxctQeASejWcfNtxYKqETM1UxQ8sp2OrSBWpHY6sw==
 
-axios@^1.4.0:
-  version "1.6.0"
-  resolved "https://registry.yarnpkg.com/axios/-/axios-1.6.0.tgz#f1e5292f26b2fd5c2e66876adc5b06cdbd7d2102"
-  integrity sha512-EZ1DYihju9pwVB+jg67ogm+Tmqc6JmhamRN6I4Zt8DfZu5lbcQGw3ozH9lFejSJgs/ibaef3A9PMXPLeefFGJg==
-  dependencies:
-    follow-redirects "^1.15.0"
-    form-data "^4.0.0"
-    proxy-from-env "^1.1.0"
-
 babel-core@^7.0.0-bridge.0:
   version "7.0.0-bridge.0"
   resolved "https://registry.yarnpkg.com/babel-core/-/babel-core-7.0.0-bridge.0.tgz#95a492ddd90f9b4e9a4a1da14eb335b87b634ece"
@@ -5372,11 +5362,6 @@ flow-parser@0.*:
   version "0.217.0"
   resolved "https://registry.yarnpkg.com/flow-parser/-/flow-parser-0.217.0.tgz#0e6bed214151fa3240dc9fd83ac8a9e050e523c5"
   integrity sha512-hEa5n0dta1RcaDwJDWbnyelw07PK7+Vx0f9kDht28JOt2hXgKdKGaT3wM45euWV2DxOXtzDSTaUgGSD/FPvC2Q==
-
-follow-redirects@^1.15.0:
-  version "1.15.3"
-  resolved "https://registry.yarnpkg.com/follow-redirects/-/follow-redirects-1.15.3.tgz#fe2f3ef2690afce7e82ed0b44db08165b207123a"
-  integrity sha512-1VzOtuEM8pC9SFU1E+8KfTjZyMztRsgEfwQl44z8A25uy13jSzTj6dyK2Df52iV0vgHCfBwLhDWevLn95w5v6Q==
 
 for-each@^0.3.3:
   version "0.3.3"
@@ -7770,7 +7755,7 @@ proxy-addr@~2.0.7:
     forwarded "0.2.0"
     ipaddr.js "1.9.1"
 
-proxy-from-env@^1.0.0, proxy-from-env@^1.1.0:
+proxy-from-env@^1.0.0:
   version "1.1.0"
   resolved "https://registry.yarnpkg.com/proxy-from-env/-/proxy-from-env-1.1.0.tgz#e102f16ca355424865755d2c9e8ea4f24d58c3e2"
   integrity sha512-D+zkORCbA9f1tdWRK0RaCR3GPv50cMxcrz4X8k5LTSUD1Dkw47mKJEZQNunItRTkWwgtaUSo1RVFRIG9ZXiFYg==

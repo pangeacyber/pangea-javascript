@@ -45,6 +45,10 @@ export const AuthProviderIcon: FC<AuthProviderIconProps> = ({
       return <EmailOutlined sx={sxStyle} />;
     case "totp":
       return <TimerOutlined sx={sxStyle} />;
+    case "set_email":
+      return <EmailOutlined sx={sxStyle} />;
+    case "set_phone":
+      return <MessageOutlined sx={sxStyle} />;
     default:
       return <QuestionMarkOutlined sx={sxStyle} />;
   }
@@ -62,6 +66,10 @@ const getProviderLabel = (provider: string): string => {
       return "Email";
     case "totp":
       return "TOTP";
+    case "set_email":
+      return "Email";
+    case "set_phone":
+      return "Phone";
     default:
       return provider;
   }

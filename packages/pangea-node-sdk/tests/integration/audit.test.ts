@@ -651,12 +651,13 @@ it("results audit log with search verbose", async () => {
     max_results: searchMaxResults,
     order: "asc",
     verbose: true,
-    start: "7d",
+    start: "14d",
   };
 
   const searchResponse = await auditGeneral.search(query, queryOptions, {});
   expect(searchResponse.status).toBe("Success");
   expect(searchResponse.result.events.length).toBeLessThanOrEqual(searchLimit);
+  expect(searchResponse.result.count).toBeLessThanOrEqual(searchMaxResults);
   searchResponse.result.events.forEach((record) => {
     expect(record.membership_verification).toBeUndefined(); // If not set verifyConsistency this remain undefined
     expect(record.consistency_verification).toBeUndefined();
@@ -824,9 +825,8 @@ it("log multi config 1. no verbose", async () => {
   const config = new PangeaConfig({
     domain: domain,
     customUserAgent: "sdk-test",
-    configID: configID,
   });
-  const audit = new AuditService(tokenMultiConfig, config);
+  const audit = new AuditService(tokenMultiConfig, config, undefined, configID);
 
   const event: Audit.Event = {
     actor: ACTOR,
@@ -850,9 +850,8 @@ it("log multi config 2. no verbose", async () => {
   const config = new PangeaConfig({
     domain: domain,
     customUserAgent: "sdk-test",
-    configID: configID,
   });
-  const audit = new AuditService(tokenMultiConfig, config);
+  const audit = new AuditService(tokenMultiConfig, config, undefined, configID);
 
   const event: Audit.Event = {
     actor: ACTOR,
