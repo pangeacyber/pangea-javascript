@@ -20,20 +20,21 @@ const userIntel = new UserIntelService(String(token), config);
   const options = { verbose: true, raw: true };
   try {
     // Set the password you would like to check
+    // Observe proper safety with passwords, do not check them into source control etc.
     const password = "mypassword";
-    // Calculate its hash, it could be sha256 or sha1
+    // Calculate its hash, it could be sha256, sha512 or sha1
     const hash = hashSHA256(password);
-    // get the hash prefix, right know it should be just 5 characters
+    // get the hash prefix, just the first 5 characters
     const hashPrefix = getHashPrefix(hash);
 
     const response = await userIntel.passwordBreached(
-      // should setup right hash_type here, sha256 or sha1
+      // should set the right hash_type here, sha256 or sha1
       Intel.HashType.SHA256,
       hashPrefix,
       options
     );
 
-    // This auxiliary function analyze service provider raw data to search for full hash in their registers
+    // isPasswordBreached is a helper function that can simplify searching the response's raw data for the full hash
     const status = UserIntelService.isPasswordBreached(response, hash);
     if (status == Intel.User.Password.PasswordStatus.BREACHED) {
       console.log(`Password '${password}' has been breached`);

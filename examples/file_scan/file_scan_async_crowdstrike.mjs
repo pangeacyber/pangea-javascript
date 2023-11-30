@@ -5,14 +5,14 @@ import { PangeaConfig, FileScanService, PangeaErrors } from "pangea-node-sdk";
 const domain = process.env.PANGEA_DOMAIN;
 const token = process.env.PANGEA_FILE_SCAN_TOKEN;
 
-// To work in async it's need to set up queuedRetryEnabled to false
-// When we call .fileScan() it will return an AcceptedRequestException inmediatly if server return a 202 response
+// To enable async mode, set queuedRetryEnabled to false
+// When .fileScan() is called it will return an AcceptedError immediately when server returns a 202 response
 const config = new PangeaConfig({ domain: domain, queuedRetryEnabled: false });
 const client = new FileScanService(String(token), config);
 
 const yourFilepath = "./testfile.pdf";
 
-// helper function. Sleep some time
+// helper function. Sleep for some time
 const delay = async (ms) =>
   new Promise((resolve) => {
     setTimeout(resolve, ms);
@@ -33,7 +33,7 @@ const delay = async (ms) =>
   } catch (e) {
     if (e instanceof PangeaErrors.AcceptedRequestException) {
       console.log("This is an expected exception");
-      // Let's save the exception to poll result in a while
+      // Save the exception for later, it has the request ID
       exception = e;
     } else {
       console.log("This is an unexpected exception");
@@ -42,10 +42,10 @@ const delay = async (ms) =>
     }
   }
 
-  // Wait until result could be ready
   await delay(20 * 1000);
   const request_id = exception?.request_id || "";
   try {
+    // multiple polling attempts may be required
     const response = await client.pollResult(request_id);
     console.log("Poll result success...");
     console.log("Result:", response.result);
