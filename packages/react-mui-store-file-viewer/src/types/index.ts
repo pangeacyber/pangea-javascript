@@ -162,9 +162,7 @@ export namespace ObjectStore {
   }
 
   export interface ShareDeleteRequest {
-    links: {
-      id: string;
-    }[];
+    ids: string[];
   }
 
   export interface ShareResponse {

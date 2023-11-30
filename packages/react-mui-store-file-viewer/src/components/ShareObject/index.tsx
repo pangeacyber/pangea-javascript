@@ -29,11 +29,7 @@ const ShareObject: FC<Props> = ({ object, onDelete }) => {
     setUpdating(true);
     apiRef.share
       .delete({
-        links: [
-          {
-            id: object.id,
-          },
-        ],
+        ids: [object.id],
       })
       .finally(() => {
         if (onDelete) onDelete();
