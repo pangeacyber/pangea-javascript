@@ -8,7 +8,7 @@ const config = new PangeaConfig({ domain: domain });
 const userIntel = new UserIntelService(String(token), config);
 
 (async () => {
-  console.log("Checking user breached by IP...");
+  console.log("Checking IP address...");
 
   const request = { ip: "192.168.140.37", verbose: true, raw: true };
   try {

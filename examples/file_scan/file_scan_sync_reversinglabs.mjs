@@ -5,8 +5,7 @@ import { PangeaConfig, FileScanService, PangeaErrors } from "pangea-node-sdk";
 const domain = process.env.PANGEA_DOMAIN;
 const token = process.env.PANGEA_FILE_SCAN_TOKEN;
 
-// To work in sync it's need to set up queuedRetryEnabled to true and set up a proper timeout
-// If timeout it's so little service won't end up and will return an AcceptedRequestException anyway
+// To enable sync mode, set queuedRetryEnabled to true and set a timeout
 const config = new PangeaConfig({
   domain: domain,
   queuedRetryEnabled: true,

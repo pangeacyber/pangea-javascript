@@ -8,7 +8,7 @@ const config = new PangeaConfig({ domain: domain });
 const userIntel = new UserIntelService(String(token), config);
 
 (async () => {
-  console.log("Checking user breached by username...");
+  console.log("Checking username...");
 
   const request = { username: "shortpatrick", verbose: true, raw: true };
   try {

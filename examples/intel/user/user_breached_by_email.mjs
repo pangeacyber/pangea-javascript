@@ -8,7 +8,7 @@ const config = new PangeaConfig({ domain: domain });
 const userIntel = new UserIntelService(String(token), config);
 
 (async () => {
-  console.log("Checking user breached by email...");
+  console.log("Checking email address...");
 
   const request = { email: "test@example.com", verbose: true, raw: true };
   try {
