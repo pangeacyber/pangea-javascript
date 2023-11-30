@@ -87,7 +87,7 @@ export class AuthNClient {
   // get request used only for async requests
   async get(endpoint: string): Promise<Response> {
     try {
-      const response: any = await fetch(this.getUrl(endpoint), {
+      const response: any = await fetch(this.getUrl(endpoint, "v1"), {
         method: "GET",
         ...this.getOptions(),
       });
@@ -116,11 +116,13 @@ export class AuthNClient {
     return response;
   }
 
-  getUrl(endpoint: string): string {
+  getUrl(endpoint: string, version?: string): string {
     const protocol = this.config.domain.match(/^local\.?host(:\d{2,5})?$/)
       ? "http"
       : "https";
-    return `${protocol}://authn.${this.config.domain}/${API_VERSION}/${endpoint}`;
+    return `${protocol}://authn.${this.config.domain}/${
+      version ? version : API_VERSION
+    }/${endpoint}`;
   }
 
   getOptions(): any {
