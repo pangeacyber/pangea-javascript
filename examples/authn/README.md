@@ -1,4 +1,4 @@
-# Pangea Vault Service Example
+# Pangea AuthN Service Example
 
 ## Setup
 
