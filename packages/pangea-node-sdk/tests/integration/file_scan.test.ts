@@ -10,7 +10,7 @@ import { FileScanService, PangeaErrors } from "../../src/index.js";
 import { FileScan, TransferMethod } from "../../src/types.js";
 import { FileScanUploader } from "@src/services/file_scan.js";
 
-const testEnvironment = TestEnvironment.LIVE;
+const testEnvironment = TestEnvironment.STAGING;
 
 const token = getTestToken(testEnvironment);
 const testHost = getTestDomain(testEnvironment);
