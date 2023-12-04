@@ -191,7 +191,7 @@ it("File Scan get url and put upload", async () => {
     throw e;
   }
 
-  const url = response.accepted_result?.accepted_status.upload_url || "";
+  const url = response.accepted_result?.put_url || "";
 
   const uploader = new FileScanUploader();
   await uploader.uploadFile(
@@ -243,8 +243,8 @@ it("File Scan get url and post upload", async () => {
     throw e;
   }
 
-  const url = response.accepted_result?.accepted_status.upload_url || "";
-  const file_details = response.accepted_result?.accepted_status.upload_details;
+  const url = response.accepted_result?.post_url || "";
+  const file_details = response.accepted_result?.post_form_data;
 
   const uploader = new FileScanUploader();
   await uploader.uploadFile(

@@ -50,9 +50,9 @@ const delay = async (ms) =>
     });
 
     // extract upload url and upload details that should be posted with the file
-    const url = response.accepted_result?.accepted_status.upload_url || "";
+    const url = response.accepted_result?.post_url || "";
     const file_details =
-      response.accepted_result?.accepted_status.upload_details;
+      response.accepted_result?.post_form_data;
     console.log(`Got presigned url: ${url}`);
 
     // Create an uploader and upload the file

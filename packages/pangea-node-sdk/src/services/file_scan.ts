@@ -1,7 +1,7 @@
 import PangeaResponse from "@src/response.js";
 import BaseService from "./base.js";
 import PangeaConfig from "@src/config.js";
-import { FileData, FileScan, PostOptions, TransferMethod } from "@src/types.js";
+import { FileData, FileScan, PostOptions, TransferMethod, FileItems } from "@src/types.js";
 import { getFileUploadParams } from "@src/utils/utils.js";
 import { PangeaErrors } from "@src/errors.js";
 import PangeaRequest from "@src/request.js";
@@ -27,7 +27,7 @@ export class FileScanService extends BaseService {
    */
   fileScan(
     request: FileScan.ScanRequest,
-    file: string | FileData,
+    file?: string | FileData, // This param is optional due to source_url is supported now
     options: FileScan.Options = {
       pollResultSync: true,
     }
@@ -40,7 +40,8 @@ export class FileScanService extends BaseService {
       );
     }
 
-    let postFile: FileData;
+    let postFile: FileData | undefined = undefined;
+    let files: FileItems | undefined = undefined;
 
     if (typeof file === "string") {
       postFile = {
@@ -51,17 +52,20 @@ export class FileScanService extends BaseService {
       postFile = file;
     }
 
+    if (postFile) {
+      files = {
+        file: postFile,
+      };
+    }
+
     const postOptions: PostOptions = {
       pollResultSync: options.pollResultSync,
-      files: {
-        file: postFile,
-      },
+      files: files,
     };
 
     if (
-      !request.transfer_method ||
-      request.transfer_method === TransferMethod.DIRECT ||
-      request.transfer_method === TransferMethod.POST_URL
+      (!request.transfer_method || request.transfer_method === TransferMethod.POST_URL) &&
+      postFile
     ) {
       fsData = getFileUploadParams(postFile.file);
     }
@@ -80,22 +84,14 @@ export class FileScanService extends BaseService {
       params?: FileScan.ScanFileParams;
     } = {}
   ): Promise<PangeaResponse<FileScan.ScanResult>> {
-    if (
-      (request.transfer_method === TransferMethod.DIRECT ||
-        request.transfer_method === TransferMethod.POST_URL) &&
-      !options.params
-    ) {
+    if (request.transfer_method === TransferMethod.POST_URL && !options.params) {
       throw new PangeaErrors.PangeaError(
-        `If transfer_method is ${TransferMethod.DIRECT} or ${TransferMethod.POST_URL} need to set options.params`
+        `If transfer_method is ${TransferMethod.POST_URL} need to set options.params`
       );
     }
 
     let fsParams = {} as FileScan.ScanFileParams;
-    if (
-      (request.transfer_method === TransferMethod.DIRECT ||
-        request.transfer_method === TransferMethod.POST_URL) &&
-      options.params
-    ) {
+    if (request.transfer_method === TransferMethod.POST_URL && options.params) {
       fsParams = options.params;
     }
 
@@ -133,10 +129,7 @@ export class FileScanUploader {
   ) {
     if (!options.transfer_method || options.transfer_method === TransferMethod.PUT_URL) {
       await this.request.putPresignedURL(url, fileData);
-    } else if (
-      options.transfer_method === TransferMethod.POST_URL ||
-      options.transfer_method === TransferMethod.DIRECT
-    ) {
+    } else if (options.transfer_method === TransferMethod.POST_URL) {
       await this.request.postPresignedURL(url, fileData);
     }
   }

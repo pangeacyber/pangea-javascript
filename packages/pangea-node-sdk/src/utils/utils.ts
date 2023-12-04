@@ -152,8 +152,8 @@ export function getFileUploadParams(file: string | Buffer): FileScan.ScanFilePar
   const sha256hex = hash.digest("hex");
 
   return {
-    transfer_sha256: sha256hex,
-    transfer_crc32c: crcValue.toString(16),
-    transfer_size: size,
+    sha256: sha256hex,
+    crc32c: crcValue.toString(16),
+    size: size,
   };
 }
