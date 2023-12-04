@@ -18,6 +18,7 @@ export interface ConfigOptions {
 
 export interface PostOptions {
   pollResultSync?: boolean;
+  files?: FileItems;
 }
 
 export enum ConfigEnv {
@@ -26,12 +27,24 @@ export enum ConfigEnv {
 }
 
 export enum TransferMethod {
-  DIRECT = "direct",
+  DIRECT = "direct", // Deprecated, use POST_URL instead
   MULTIPART = "multipart",
+  POST_URL = "post-url",
+  PUT_URL = "put-url",
 }
 
 export interface Dictionary {
   [key: string]: string | boolean | number | Dictionary;
+}
+
+export interface FileData {
+  file: Buffer | string;
+  name: string;
+  file_details?: Dictionary;
+}
+
+export interface FileItems {
+  [key: string]: FileData;
 }
 
 export interface AcceptedStatus {
@@ -239,7 +252,9 @@ export namespace FileScan {
 
   export interface ScanFullRequest extends ScanRequest, ScanFileParams {}
 
-  export interface Options extends PostOptions {}
+  export interface Options {
+    pollResultSync?: boolean;
+  }
 
   export interface ScanResult {
     parameter?: Dictionary;

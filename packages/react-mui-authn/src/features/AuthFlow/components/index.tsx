@@ -5,5 +5,7 @@ export { default as AuthMagicLink } from "./AuthMagicLink";
 export { default as AuthPassword } from "./AuthPassword";
 export { default as AuthSmsOtp } from "./AuthSmsOtp";
 export { default as AuthTotp } from "./AuthTotp";
+export { default as AuthOnetimeEmail } from "./AuthOnetimeEmail";
+export { default as AuthOnetimePhone } from "./AuthOnetimePhone";
 export { default as VerifyCaptcha } from "./VerifyCaptcha";
 export { default as ErrorMessage } from "./ErrorMessage";

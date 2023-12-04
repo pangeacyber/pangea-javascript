@@ -18,7 +18,10 @@ export {
   getHashPrefix,
   b64toStr,
   strToB64,
+  getFileUploadParams,
 } from "./utils/utils.js";
+
+export { FileScanUploader } from "./services/file_scan.js";
 
 export const PangeaConfig = _PangeaConfig;
 export const PangeaRequest = _PangeaRequest;

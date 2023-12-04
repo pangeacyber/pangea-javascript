@@ -67,11 +67,21 @@ const AuthPassword: FC<AuthFlowComponentProps> = ({
     restart(AuthFlow.Choice.RESET_PASSWORD);
   };
 
-  const submitLabel = data.setPassword
-    ? "Reset"
-    : data.password?.enrollment
-    ? options.signupButtonLabel
-    : options.passwordButtonLabel;
+  const getSubmitLabel = (): string => {
+    if (data.setPassword) {
+      return "Reset";
+    }
+
+    if (data.password?.enrollment) {
+      return options.signupButtonLabel || "Continue";
+    }
+
+    if (data.phase === "phase_one_time") {
+      return "Continue";
+    }
+
+    return options.passwordButtonLabel || "Log in";
+  };
 
   return (
     <Stack gap={2} width="100%">
@@ -96,7 +106,7 @@ const AuthPassword: FC<AuthFlowComponentProps> = ({
             disabled={loading}
             fullWidth={true}
           >
-            {submitLabel}
+            {getSubmitLabel()}
           </Button>
         </Stack>
       </form>

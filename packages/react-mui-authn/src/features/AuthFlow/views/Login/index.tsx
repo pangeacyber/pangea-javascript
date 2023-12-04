@@ -13,11 +13,13 @@ const LoginView: FC<AuthFlowComponentProps> = (props) => {
 
   return (
     <AuthFlowLayout title={options.passwordHeading} disclaimer={disclaimer}>
-      <IdField
-        value={data?.email}
-        resetCallback={reset}
-        resetLabel={options.cancelLabel}
-      />
+      {data.phase !== "phase_one_time" && (
+        <IdField
+          value={data?.email}
+          resetCallback={reset}
+          resetLabel={options.cancelLabel}
+        />
+      )}
       <AuthOptions {...props} />
       {data.authChoices.length === 0 &&
         data.socialChoices.length === 0 &&
