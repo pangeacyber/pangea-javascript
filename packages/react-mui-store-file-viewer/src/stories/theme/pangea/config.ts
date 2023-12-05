@@ -45,7 +45,7 @@ export const PANGEA: any = {
   text_primary_color: "#23315A",
   text_secondary_color: "#727A92",
   updated_at: "2023-01-18T19:21:40.716282Z",
-  custom: {
+  custom_metadata: {
     audit: {
       column_header_bg_color: "#F1F4F7",
       selected_row_bg_color: "#F1F4F7",

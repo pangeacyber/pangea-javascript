@@ -21,16 +21,7 @@ export const CreateEmailShareFields: FieldsFormSchema<ObjectStore.SingleShareCre
       FieldProps: {
         type: "singleSelect",
         options: {
-          valueOptions: [
-            {
-              label: "Upload",
-              value: "upload",
-            },
-            {
-              label: "Download",
-              value: "download",
-            },
-          ],
+          valueOptions: ["upload", "download"],
         },
       },
     },

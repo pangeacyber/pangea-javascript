@@ -20,16 +20,7 @@ export const CreatePasswordShareFields: FieldsFormSchema<ObjectStore.SingleShare
       FieldProps: {
         type: "singleSelect",
         options: {
-          valueOptions: [
-            {
-              label: "Upload",
-              value: "upload",
-            },
-            {
-              label: "Download",
-              value: "download",
-            },
-          ],
+          valueOptions: ["upload", "download"],
         },
       },
     },

@@ -1,6 +1,8 @@
 import { Button, ButtonProps } from "@mui/material";
 import { FC, useMemo, useState } from "react";
 import pickBy from "lodash/pickBy";
+import merge from "lodash/merge";
+import cloneDeep from "lodash/cloneDeep";
 
 import MailOutlineIcon from "@mui/icons-material/MailOutline";
 
@@ -122,8 +124,20 @@ const CreateSharesViaEmailButton: FC<Props> = ({
   const fields = useMemo<
     FieldsFormSchema<ObjectStore.SingleShareCreateRequest>
   >(() => {
-    return CreateEmailShareFields;
-  }, []);
+    if (object?.type === "folder") {
+      return CreateEmailShareFields;
+    }
+
+    return merge(cloneDeep(CreateEmailShareFields), {
+      link_type: {
+        FieldProps: {
+          options: {
+            valueOptions: ["download"],
+          },
+        },
+      },
+    });
+  }, [object?.type]);
 
   return (
     <>
@@ -154,6 +168,11 @@ const CreateSharesViaEmailButton: FC<Props> = ({
           }}
           disabled={loading}
           SaveButton={CreateAndSendButton}
+          StackSx={{
+            ".MuiFormControl-root": {
+              margin: 0,
+            },
+          }}
         />
       </PangeaModal>
     </>

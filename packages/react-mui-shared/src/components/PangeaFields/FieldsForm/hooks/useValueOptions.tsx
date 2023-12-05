@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import pickBy from "lodash/pickBy";
 import { ValueOptions, ValueOptionsSchemaProps } from "../types";
 
@@ -19,6 +19,7 @@ export const useValueOptions = ({
     defaultFieldOptions(options)
   );
 
+  const previous = useRef("");
   const fetchDepValues = useMemo(() => {
     const deps = new Set(options?.fetchedDependantFields ?? []);
 
@@ -26,6 +27,13 @@ export const useValueOptions = ({
   }, [options?.fetchedDependantFields, values]);
 
   useEffect(() => {
+    const stringValues = JSON.stringify(fetchDepValues);
+    if (stringValues !== previous.current) {
+      previous.current = stringValues;
+    } else {
+      return;
+    }
+
     if (options?.fetchedValueOptions !== undefined) {
       options
         ?.fetchedValueOptions(fetchDepValues)

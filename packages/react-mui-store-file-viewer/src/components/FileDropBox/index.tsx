@@ -1,10 +1,12 @@
-import { Box, Stack, Typography } from "@mui/material";
+import { Box, Stack, Typography, LinearProgress } from "@mui/material";
 import { SxProps, useTheme, lighten } from "@mui/material/styles";
 
 import React, { FC, useMemo, useRef, useState } from "react";
 import { ObjectStore } from "../../types";
 import { useStoreFileViewerContext } from "../../hooks/context";
 import { createMultipartUploadForm } from "../../utils/file";
+
+import FileUploadOutlinedIcon from "@mui/icons-material/FileUploadOutlined";
 
 interface Props {
   children?: React.ReactNode;
@@ -32,6 +34,7 @@ const FileDropBox: FC<Props> = ({ children, BoxSx }) => {
 
   const handleCreateFile = async (files: FileList) => {
     if (!apiRef.upload || !files) return;
+    setDragging(false);
 
     setLoading(true);
     return apiRef
@@ -100,6 +103,11 @@ const FileDropBox: FC<Props> = ({ children, BoxSx }) => {
     }
   };
 
+  const main = theme.palette.info.main;
+  const light = loading
+    ? theme.palette.secondary.light
+    : theme.palette.info.light;
+
   return (
     <>
       {!isVisibleOnHoverOnly && (
@@ -121,22 +129,20 @@ const FileDropBox: FC<Props> = ({ children, BoxSx }) => {
           position: "relative",
           ...(!isVisibleOnHoverOnly && {
             cursor: "pointer",
-            border: `2px solid ${theme.palette.info.main}`,
+            border: `2px solid ${main}`,
             borderStyle: "dashed",
-            backgroundColor: lighten(theme.palette.info.light, 0.9),
             width: "100%",
-            height: "80px",
+            height: "150px",
           }),
           ":hover": {
             cursor: "pointer",
-            border: `2px dashed solid ${theme.palette.info.main}`,
+            border: `2px dashed solid ${main}`,
             borderStyle: "dashed",
-            backgroundColor: lighten(theme.palette.info.light, 0.9),
           },
           ...BoxSx,
         }}
         onClick={(e) => {
-          if (isVisibleOnHoverOnly) return;
+          if (isVisibleOnHoverOnly || loading) return;
 
           e.stopPropagation();
           e.preventDefault();
@@ -159,17 +165,35 @@ const FileDropBox: FC<Props> = ({ children, BoxSx }) => {
         )}
         {children ?? (
           <Stack
+            gap={1}
             width="100%"
             height="100%"
+            paddingY={6}
             alignItems="center"
             justifyContent="center"
           >
-            {dragging ? (
-              <Typography variant="body2">Drop File to Upload</Typography>
-            ) : (
-              <Typography variant="body2">
-                Drag & Drop File to Upload
-              </Typography>
+            <FileUploadOutlinedIcon sx={{ fontSize: "40px" }} />
+            {!loading && dragging && (
+              <Typography variant="body2">Drop files to upload</Typography>
+            )}
+            {!loading && !dragging && (
+              <>
+                <Typography variant="body2">
+                  Drag files here to upload
+                </Typography>
+                <Typography
+                  variant="body2"
+                  sx={{ color: theme.palette.info.main }}
+                >
+                  or choose a file
+                </Typography>
+              </>
+            )}
+            {loading && (
+              <LinearProgress
+                color="info"
+                sx={{ height: "2px", width: "100%", maxWidth: "200px" }}
+              />
             )}
           </Stack>
         )}

@@ -2,6 +2,7 @@ import { Button, ButtonProps } from "@mui/material";
 import { FC, useMemo, useState } from "react";
 import pickBy from "lodash/pickBy";
 import merge from "lodash/merge";
+import cloneDeep from "lodash/cloneDeep";
 
 import PasswordIcon from "@mui/icons-material/Password";
 
@@ -90,7 +91,7 @@ const CreateSharesViaPasswordButton: FC<Props> = ({
   const fields = useMemo<
     FieldsFormSchema<ObjectStore.SingleShareCreateRequest>
   >(() => {
-    return merge(CreatePasswordShareFields, {
+    return merge(cloneDeep(CreatePasswordShareFields), {
       password: {
         FieldProps: {
           policy: configurations?.passwordPolicy ?? {
@@ -98,8 +99,17 @@ const CreateSharesViaPasswordButton: FC<Props> = ({
           },
         },
       },
+      ...(object.type !== "folder" && {
+        link_type: {
+          FieldProps: {
+            options: {
+              valueOptions: ["download"],
+            },
+          },
+        },
+      }),
     });
-  }, [configurations?.passwordPolicy]);
+  }, [object?.type, configurations?.passwordPolicy]);
 
   return (
     <>

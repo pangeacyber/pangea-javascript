@@ -32,7 +32,6 @@ export const getCreateFolderFields = ({
         FieldProps: {
           type: "text",
           options: {
-            fetchedDependantFields: ["parent_id"],
             fetchedValueOptions: async (values) => {
               if (!apiRef.list) return [];
 

@@ -2,6 +2,8 @@ import { Button, ButtonProps } from "@mui/material";
 import { FC, useMemo, useState } from "react";
 import pickBy from "lodash/pickBy";
 import keyBy from "lodash/keyBy";
+import merge from "lodash/merge";
+import cloneDeep from "lodash/cloneDeep";
 
 import LocalPhoneIcon from "@mui/icons-material/LocalPhone";
 
@@ -146,8 +148,20 @@ const CreateSharesViaSmsButton: FC<Props> = ({
   const fields = useMemo<
     FieldsFormSchema<ObjectStore.SingleShareCreateRequest>
   >(() => {
-    return CreatePhoneShareFields;
-  }, []);
+    if (object?.type === "folder") {
+      return CreatePhoneShareFields;
+    }
+
+    return merge(cloneDeep(CreatePhoneShareFields), {
+      link_type: {
+        FieldProps: {
+          options: {
+            valueOptions: ["download"],
+          },
+        },
+      },
+    });
+  }, [object?.type]);
 
   return (
     <>
@@ -178,6 +192,11 @@ const CreateSharesViaSmsButton: FC<Props> = ({
           }}
           disabled={loading}
           SaveButton={CreateAndSendButton}
+          StackSx={{
+            ".MuiFormControl-root": {
+              margin: 0,
+            },
+          }}
         />
       </PangeaModal>
     </>

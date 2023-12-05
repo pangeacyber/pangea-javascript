@@ -113,6 +113,7 @@ export interface PangeaDataGridProps<
     param: GridRowParams<DataType>,
     event: MuiEvent<MouseEvent>
   ) => boolean | void;
+  onPreview?: (preview: GridRowParams<DataType> | null) => void;
   DataGridProps?: Partial<DataGridProps>;
   DataGridWrappingStackProps?: Partial<StackProps>;
   sx?: SxProps;
@@ -136,12 +137,18 @@ const PangeaDataGrid = <
   previewId,
   onRowClick,
   onRowDoubleClick,
+  onPreview,
   ColumnCustomization,
   sx,
 }: PangeaDataGridProps<DataType, FiltersObj>): JSX.Element => {
   const theme = useTheme();
 
-  const [preview, setPreview] = useState<GridRowParams<DataType> | null>(null);
+  const [preview, setPreview_] = useState<GridRowParams<DataType> | null>(null);
+  const setPreview = (preview: GridRowParams<DataType> | null) => {
+    setPreview_(preview);
+    if (onPreview) onPreview(preview);
+  };
+
   const previewPanelRef = useRef<HTMLDivElement | undefined>();
 
   const isRowClickable = !!ExpansionRow?.render || !!onRowClick;

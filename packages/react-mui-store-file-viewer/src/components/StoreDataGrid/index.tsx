@@ -1,6 +1,7 @@
-import { FC, useMemo } from "react";
+import { FC, useMemo, useState } from "react";
 import isEmpty from "lodash/isEmpty";
 import pickBy from "lodash/pickBy";
+import find from "lodash/find";
 
 import {
   LinedPangeaDataGrid,
@@ -16,10 +17,11 @@ import {
 import FolderPath from "./FolderPath";
 import PreviewStoreFile from "../PreviewStoreFile";
 import CreateNewButton from "../CreateNewButton";
-import { Stack } from "@mui/material";
+import { Stack, Chip } from "@mui/material";
 import FileDropBox from "../FileDropBox";
 import FileOptions from "../FileOptions";
 import { PREVIEW_FILE_WIDTH } from "../PreviewStoreFile/constants";
+import MultiSelectMenu from "./MultiSelectMenu";
 
 export interface StoreDataGridProps {
   defaultVisibilityModel?: Record<string, boolean>;
@@ -42,7 +44,7 @@ const StoreDataGrid: FC<StoreDataGridProps> = ({
   defaultVisibilityModel,
   defaultColumnOrder,
 }) => {
-  const { data, request, reload, loading, previewId } =
+  const { data, request, reload, loading, previewId, apiRef } =
     useStoreFileViewerContext();
   const { folder, setFolder, setParentId } = useStoreFileViewerFolder();
   const {
@@ -57,6 +59,41 @@ const StoreDataGrid: FC<StoreDataGridProps> = ({
     setSorting,
   } = request;
   const columns = useGridSchemaColumns(StoreViewerFields);
+
+  const [contextMenu, setContextMenu] = useState<{
+    mouseX: number;
+    mouseY: number;
+  } | null>(null);
+  const [multiSelected, setMultiSelected] = useState<string[]>([]);
+
+  const handleGetRowClassName = (params: {
+    id: string | number;
+    row: ObjectStore.ObjectResponse;
+  }) => {
+    const selected = find(multiSelected, (id) => id === params.row.id);
+    if (selected) {
+      return "Mui-selected";
+    }
+
+    return "";
+  };
+
+  const handleContextMenu = (event: React.MouseEvent) => {
+    if (!multiSelected) return;
+
+    event.preventDefault();
+    setContextMenu(
+      contextMenu === null
+        ? {
+            mouseX: event.clientX + 2,
+            mouseY: event.clientY - 6,
+          }
+        : // repeated contextmenu when it is already open closes it with Chrome 84 on Ubuntu
+          // Other native context menus might behave different.
+          // With this behavior we prevent contextmenu from the backdrop to re-locale existing context menus.
+          null
+    );
+  };
 
   const isFiltered = !isEmpty(
     pickBy(filters ?? {}, (v, k) => !!v && k !== "parent_id")
@@ -93,7 +130,30 @@ const StoreDataGrid: FC<StoreDataGridProps> = ({
             return false;
           }
         }}
-        onRowClick={(params) => {}}
+        onRowClick={(params, event) => {
+          if (event.shiftKey) {
+            event.preventDefault();
+            document.getSelection()?.removeAllRanges();
+            setMultiSelected((state) => state.concat([params.row.id]));
+          } else {
+            setMultiSelected([params.row.id]);
+          }
+        }}
+        onPreview={(preview) => {
+          if (!preview) setMultiSelected([]);
+        }}
+        DataGridProps={{
+          ...(!!multiSelected.length &&
+            !!apiRef.getArchive && {
+              getRowClassName: handleGetRowClassName,
+              slotProps: {
+                row: {
+                  onContextMenu: handleContextMenu,
+                  style: { cursor: "context-menu" },
+                },
+              },
+            }),
+        }}
         ColumnCustomization={{
           visibilityModel,
           order: defaultColumnOrder ?? DEFAULT_COLUMN_ORDER,
@@ -114,7 +174,25 @@ const StoreDataGrid: FC<StoreDataGridProps> = ({
           },
         }}
         loading={loading}
-        header={<FolderPath />}
+        header={
+          <Stack
+            direction="row"
+            alignItems="center"
+            justifyContent="space-between"
+            width="100%"
+          >
+            <FolderPath />
+            {multiSelected.length > 1 && (
+              <Chip
+                size="small"
+                label={`${multiSelected.length} Selected`}
+                onDelete={() => {
+                  setMultiSelected([]);
+                }}
+              />
+            )}
+          </Stack>
+        }
         Search={{
           query: filters?.name ?? "",
           placeholder: "Search name...",
@@ -157,6 +235,11 @@ const StoreDataGrid: FC<StoreDataGridProps> = ({
         }}
       />
       <FileDropBox />
+      <MultiSelectMenu
+        selected={multiSelected}
+        contextMenu={contextMenu}
+        setContextMenu={setContextMenu}
+      />
     </Stack>
   );
 };

@@ -12,10 +12,20 @@ import { FC } from "react";
 
 import CheckIcon from "@mui/icons-material/Check";
 
-const UnControlledShareTypeField: FC<FieldComponentProps> = ({
+interface FieldProps {
+  options?: {
+    valueOptions?: string[];
+  };
+}
+
+const UnControlledShareTypeField: FC<FieldComponentProps<FieldProps>> = ({
   value,
   onValueChange = () => {},
+  FieldProps,
 }) => {
+  const hasDownload = FieldProps?.options?.valueOptions?.includes("download");
+  const hasUpload = FieldProps?.options?.valueOptions?.includes("upload");
+
   const handleChange = (
     event: React.MouseEvent<HTMLElement>,
     newType: string
@@ -34,35 +44,39 @@ const UnControlledShareTypeField: FC<FieldComponentProps> = ({
         width: "100%",
       }}
     >
-      <ToggleButton
-        color="info"
-        sx={{ width: "100%" }}
-        size="small"
-        fullWidth
-        value="upload"
-      >
-        <Stack direction="row" spacing={1} alignItems="center">
-          {value === "upload" && <CheckIcon fontSize="small" />}
-          <Typography variant="body2">Upload</Typography>
-        </Stack>
-      </ToggleButton>
-      <ToggleButton
-        fullWidth
-        sx={{ width: "100%" }}
-        size="small"
-        color="info"
-        value="download"
-      >
-        <Stack direction="row" spacing={1} alignItems="center">
-          {value === "download" && <CheckIcon fontSize="small" />}
-          <Typography variant="body2">Download</Typography>
-        </Stack>
-      </ToggleButton>
+      {hasUpload && (
+        <ToggleButton
+          color="info"
+          sx={{ width: "100%" }}
+          size="small"
+          fullWidth
+          value="upload"
+        >
+          <Stack direction="row" spacing={1} alignItems="center">
+            {value === "upload" && <CheckIcon fontSize="small" />}
+            <Typography variant="body2">Upload</Typography>
+          </Stack>
+        </ToggleButton>
+      )}
+      {hasDownload && (
+        <ToggleButton
+          fullWidth
+          sx={{ width: "100%" }}
+          size="small"
+          color="info"
+          value="download"
+        >
+          <Stack direction="row" spacing={1} alignItems="center">
+            {value === "download" && <CheckIcon fontSize="small" />}
+            <Typography variant="body2">Download</Typography>
+          </Stack>
+        </ToggleButton>
+      )}
     </ToggleButtonGroup>
   );
 };
 
-const ShareTypeField: FC<FieldComponentProps> = (props) => {
+const ShareTypeField: FC<FieldComponentProps<FieldProps>> = (props) => {
   return (
     <FieldControl {...props}>
       <UnControlledShareTypeField {...props} />

@@ -120,26 +120,45 @@ const ConfigThemeProvider: FC<{
                 ".MuiDataGrid-root": {
                   ".MuiDataGrid-columnHeaders": {
                     backgroundColor:
-                      config?.custom?.audit?.column_header_bg_color ??
+                      config?.custom_metadata?.audit?.column_header_bg_color ??
                       config?.panel_bg_color,
                   },
                   ".MuiDataGrid-row.Mui-selected": {
                     backgroundColor:
-                      config?.custom?.audit?.selected_row_bg_color ??
+                      config?.custom_metadata?.audit?.selected_row_bg_color ??
                       config?.panel_bg_color,
+                    ".PangeaDataGrid-Pinned-Right": {
+                      backgroundColor:
+                        config?.custom_metadata?.audit?.selected_row_bg_color ??
+                        config?.panel_bg_color,
+                    },
                     ":hover": {
                       backgroundColor:
-                        config?.custom?.audit?.hover_row_bg_color ??
-                        config?.custom?.audit?.selected_row_bg_color ??
+                        config?.custom_metadata?.audit?.hover_row_bg_color ??
+                        config?.custom_metadata?.audit?.selected_row_bg_color ??
                         config?.panel_bg_color,
+                      ".PangeaDataGrid-Pinned-Right": {
+                        backgroundColor:
+                          config?.custom_metadata?.audit?.hover_row_bg_color ??
+                          config?.custom_metadata?.audit
+                            ?.selected_row_bg_color ??
+                          config?.panel_bg_color,
+                      },
                     },
                   },
                   ".MuiDataGrid-row": {
                     ":hover": {
                       backgroundColor:
-                        config?.custom?.audit?.hover_row_bg_color ??
-                        config?.custom?.audit?.selected_row_bg_color ??
+                        config?.custom_metadata?.audit?.hover_row_bg_color ??
+                        config?.custom_metadata?.audit?.selected_row_bg_color ??
                         config?.panel_bg_color,
+                      ".PangeaDataGrid-Pinned-Right": {
+                        backgroundColor:
+                          config?.custom_metadata?.audit?.hover_row_bg_color ??
+                          config?.custom_metadata?.audit
+                            ?.selected_row_bg_color ??
+                          config?.panel_bg_color,
+                      },
                     },
                   },
                   ".PangeaDataGrid-ExpansionRow, .PangeaDataGrid-Chip": {
