@@ -27,7 +27,7 @@ export class FileScanService extends BaseService {
    */
   fileScan(
     request: FileScan.ScanRequest,
-    file?: string | FileData, // This param is optional due to source_url is supported now
+    file?: string | FileData, // This param is optional. It should be null when using the source_url method
     options: FileScan.Options = {
       pollResultSync: true,
     }
