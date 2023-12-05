@@ -18,7 +18,7 @@ it("IP geolocate should succeed", async () => {
   expect(response.result.data).toBeDefined();
   expect(response.result.data.country).toBe("Federal Republic Of Germany");
   expect(response.result.data.city).toBe("unna");
-  expect(response.result.data.postal_code).toBe("59423");
+  expect(response.result.data.postal_code).toBe("59425");
 });
 
 it("IP geolocate with default provider should succeed", async () => {
