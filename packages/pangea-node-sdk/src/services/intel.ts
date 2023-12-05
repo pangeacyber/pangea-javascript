@@ -74,7 +74,7 @@ export class FileIntelService extends BaseService {
   }
 
   /**
-   * @summary Bulk reputation
+   * @summary Reputation V2
    * @description Retrieve reputations for a list of file hashes, from a provider, including an optional detailed report.
    * @operationId file_intel_post_v2_reputation
    * @param {String[]} hashes - Hashes of each file to be looked up
@@ -153,6 +153,24 @@ export class FileIntelService extends BaseService {
     return this.post("v1/reputation", data);
   }
 
+  /**
+   * @summary Reputation, from file paths
+   * @description Retrieve file reputations from a provider, using the files' hashes.
+   * @param {String[]} filepaths - Paths to the files to be looked up
+   * @param {Object} options - An object of optional parameters. Parameters supported:
+   *   - provider {String} - Use reputation data from this provider: "reversinglabs".
+   *   Default provider defined by the configuration.
+   *   - verbose {Boolean} - Echo the API parameters in the response. Default: verbose=false.
+   *   - raw {Boolean} - Include raw data from this provider. Default: raw=false.
+   * @returns {Promise} - A promise representing an async call to the lookup endpoint.
+   * @example
+   * ```js
+   * const response = await fileIntel.filepathReputationBulk(
+   *   ["./myfile1.exe", "./myfile2.exe"],
+   *   { provider: "reversinglabs" }
+   * );
+   * ```
+   */
   filepathReputationBulk(
     filepaths: string[],
     options?: Intel.File.ReputationOptions
@@ -367,9 +385,9 @@ export class IPIntelService extends BaseService {
   }
 
   /**
-   * @summary Bulk reputation
-   * @description Retrieve a reputation scores for IP addresses, from a provider, including an optional detailed report.
-   * @operationId FIXME:
+   * @summary Reputation V2
+   * @description Retrieve reputation scores for IP addresses from a provider, including an optional detailed report.
+   * @operationId ip_intel_post_v2_reputation
    * @param {String[]} ips - A list of IPs to be looked up
    * @param {Object} options - An object of optional parameters. Parameters supported:
    *   - provider {String} - Use reputation data from this provider.
@@ -379,7 +397,12 @@ export class IPIntelService extends BaseService {
    * @returns {Promise} - A promise representing an async call to the /reputation endpoint.
    * @example
    * ```js
-   * FIXME:
+   * const response = await ipIntel.reputationBulk(
+   *   ["190.28.74.251"],
+   *   {
+   *     provider: "crowdstrike"
+   *   }
+   * );
    * ```
    */
   reputationBulk(
@@ -434,10 +457,10 @@ export class IPIntelService extends BaseService {
   }
 
   /**
-   * @summary Geolocate
-   * @description Retrieve geolocation information for an IP address' list from a provider, including an optional detailed report.
-   * @operationId FIXME:
-   * @param {String} ips - The IP's list to be looked up
+   * @summary Geolocate V2
+   * @description Retrieve geolocation information for a list of IP addresses, from a provider, including an optional detailed report.
+   * @operationId ip_intel_post_v2_geolocate
+   * @param {String} ips - The list of IP addresses to be looked up
    * @param {Object} options - An object of optional parameters. Parameters supported:
    *   - provider {String} - Use geolocation data from this provider: "digitalelement".
    *   Default provider defined by the configuration.
@@ -446,8 +469,8 @@ export class IPIntelService extends BaseService {
    * @returns {Promise} - A promise representing an async call to the geolocate endpoint.
    * @example
    * ```js
-   * const response = await ipIntel.geolocate(
-   *   "1.1.1.1",
+   * const response = await ipIntel.geolocateBulk(
+   *   ["1.1.1.1"],
    *   {
    *     provider: "digitalelement"
    *   }
@@ -506,10 +529,10 @@ export class IPIntelService extends BaseService {
   }
 
   /**
-   * @summary Domain
-   * @description Retrieve the domain name associated with an IP address' list.
-   * @operationId FIXME:
-   * @param {String} ips - The IP's list to be looked up
+   * @summary Domain V2
+   * @description Retrieve the domain names associated with a list of IP addresses.
+   * @operationId ip_intel_post_v2_domain
+   * @param {String} ips - The list of IP addresses to be looked up
    * @param {Object} options - An object of optional parameters. Parameters supported:
    *   - provider {String} - Use data from this provider: "digitalelement".
    *   Default provider defined by the configuration.
@@ -518,7 +541,12 @@ export class IPIntelService extends BaseService {
    * @returns {Promise} - A promise representing an async call to the domain endpoint.
    * @example
    * ```js
-   * FIXME:
+   * const response = await ipIntel.getDomainBulk(
+   *   ["1.1.1.1"],
+   *   {
+   *     provider: "digitalelement"
+   *   }
+   * );
    * ```
    */
   getDomainBulk(
@@ -538,7 +566,7 @@ export class IPIntelService extends BaseService {
 
   /**
    * @summary VPN
-   * @description Determine if an IP address is provided by a VPN service.
+   * @description Determine if an IP address originates from a VPN.
    * @operationId ip_intel_post_v1_vpn
    * @param {String} ip - The IP to be looked up
    * @param {Object} options - An object of optional parameters. Parameters supported:
@@ -570,9 +598,9 @@ export class IPIntelService extends BaseService {
   }
 
   /**
-   * @summary VPN
-   * @description Determine if an IP address is provided by a VPN service.
-   * @operationId FIXME:
+   * @summary VPN V2
+   * @description Determine which IP addresses originate from a VPN.
+   * @operationId ip_intel_post_v2_vpn
    * @param {String} ip - The IP to be looked up
    * @param {Object} options - An object of optional parameters. Parameters supported:
    *   - provider {String} - Use data from this provider: "digitalelement".
@@ -582,7 +610,12 @@ export class IPIntelService extends BaseService {
    * @returns {Promise} - A promise representing an async call to the vpn endpoint.
    * @example
    * ```js
-   * FIXME:
+   * const response = await ipIntel.isVPNBulk(
+   *   ["1.1.1.1"],
+   *   {
+   *     provider: "digitalelement"
+   *   }
+   * );
    * ```
    */
   isVPNBulk(
@@ -602,7 +635,7 @@ export class IPIntelService extends BaseService {
 
   /**
    * @summary Proxy
-   * @description Determine if an IP address is provided by a proxy service.
+   * @description Determine if an IP address originates from a proxy.
    * @operationId ip_intel_post_v1_proxy
    * @param {String} ip - The IP to be looked up
    * @param {Object} options - An object of optional parameters. Parameters supported:
@@ -637,10 +670,10 @@ export class IPIntelService extends BaseService {
   }
 
   /**
-   * @summary Proxy
-   * @description Determine if an IP address is provided by a proxy service.
-   * @operationId FIXME:
-   * @param {String} ips - The IP's list to be looked up
+   * @summary Proxy V2
+   * @description Determine if an IP address originates from a proxy.
+   * @operationId ip_intel_post_v2_proxy
+   * @param {String} ips - The list of IP addresses to be looked up
    * @param {Object} options - An object of optional parameters. Parameters supported:
    *   - provider {String} - Use data from this provider: "digitalelement".
    *   Default provider defined by the configuration.
@@ -649,7 +682,12 @@ export class IPIntelService extends BaseService {
    * @returns {Promise} - A promise representing an async call to the vpn endpoint.
    * @example
    * ```js
-   * FIXME:
+   * const response = await ipIntel.isProxyBulk(
+   *   ["1.1.1.1"],
+   *   {
+   *     provider: "digitalelement"
+   *   }
+   * );
    * ```
    */
   isProxyBulk(
@@ -699,7 +737,7 @@ export class URLIntelService extends BaseService {
   /**
    * @summary Reputation check
    * @description Retrieve a reputation score for a URL from a provider, including an optional detailed report.
-   * @operationId url_intel_post_v1_reputation
+   * @operationId url_intel_post_v2_reputation
    * @param {String} url - The URL to be looked up
    * @param {Object} options - An object of optional parameters. Parameters supported:
    *   - provider {String} - Use reputation data from this provider.
@@ -733,9 +771,9 @@ export class URLIntelService extends BaseService {
   }
 
   /**
-   * @summary Bulk reputation check
+   * @summary Reputation check V2
    * @description Retrieve reputation scores for URLs, from a provider, including an optional detailed report.
-   * @operationId FIXME:
+   * @operationId url_intel_post_v2_reputation
    * @param {String[]} urls - A list of URLs to be looked up
    * @param {Object} options - An object of optional parameters. Parameters supported:
    *   - provider {String} - Use reputation data from this provider.
@@ -745,7 +783,12 @@ export class URLIntelService extends BaseService {
    * @returns {Promise} - A promise representing an async call to the lookup endpoint.
    * @example
    * ```js
-   * FIXME:
+   * const response = await urlIntel.reputationBulk(
+   *   ["http://113.235.101.11:54384"],
+   *   {
+   *     provider: "crowdstrike"
+   *   }
+   * );
    * ```
    */
   reputationBulk(
@@ -795,9 +838,9 @@ export class UserIntelService extends BaseService {
 
   /**
    * @summary Look up breached users
-   * @description Find out if an email address, username, phone number, or IP address was exposed in a security breach.
+   * @description Determine if an email address, username, phone number, or IP address was exposed in a security breach.
    * @operationId user_intel_post_v1_user_breached
-   * @param {BrechedRequest} request - Request to be send to user/breached endpoint
+   * @param {Intel.User.User.BreachedRequest} request - Request to send to user/breached endpoint
    * @param {Object} options - An object of optional parameters. Parameters supported:
    *   - provider {String} - Use breached data from this provider: "spycloud".
    *   Default provider defined by the configuration.
@@ -805,8 +848,13 @@ export class UserIntelService extends BaseService {
    *   - raw {Boolean} - Include raw data from this provider. Default: raw=false.
    * @returns {Promise} - A promise representing an async call to the user/breached endpoint.
    * @example
-   *  const request = {phone_number: "8005550123", verbose: true, raw: true };
-   *  const response = await userIntel.userBreached(request);
+   * ```js
+   * const response = await userIntel.userBreached({
+   *   phone_number: "8005550123",
+   *   verbose: true,
+   *   raw: true,
+   * });
+   * ```
    */
   userBreached(
     request: Intel.User.User.BreachedRequest
@@ -815,10 +863,10 @@ export class UserIntelService extends BaseService {
   }
 
   /**
-   * @summary Look up breached users
-   * @description Find out if an email address, username, phone number, or IP address was exposed in a security breach.
-   * @operationId user_intel_post_v1_user_breached
-   * @param {BrechedRequest} request - Request to be send to user/breached endpoint
+   * @summary Look up breached users V2
+   * @description Determine if an email address, username, phone number, or IP address was exposed in a security breach.
+   * @operationId user_intel_post_v2_user_breached
+   * @param {Intel.User.User.BreachedBulkRequest} request - Request to send to user/breached endpoint
    * @param {Object} options - An object of optional parameters. Parameters supported:
    *   - provider {String} - Use breached data from this provider: "spycloud".
    *   Default provider defined by the configuration.
@@ -826,8 +874,13 @@ export class UserIntelService extends BaseService {
    *   - raw {Boolean} - Include raw data from this provider. Default: raw=false.
    * @returns {Promise} - A promise representing an async call to the user/breached endpoint.
    * @example
-   *  const request = {phone_number: "8005550123", verbose: true, raw: true };
-   *  const response = await userIntel.userBreached(request);
+   * ```js
+   * const response = await userIntel.userBreachedBulk({
+   *   phone_numbers: ["8005550123"],
+   *   verbose: true,
+   *   raw: true,
+   * });
+   * ```
    */
   userBreachedBulk(
     request: Intel.User.User.BreachedBulkRequest
@@ -837,9 +890,9 @@ export class UserIntelService extends BaseService {
 
   /**
    * @summary Look up breached passwords
-   * @description Find out if a password has been exposed in security breaches by providing a 5 character prefix of the password hash.
+   * @description Determine if a password has been exposed in a security breach using a 5 character prefix of the password hash.
    * @operationId user_intel_post_v1_password_breached
-   * @param {String} hashType - Hash type to be looked up
+   * @param {Intel.HashType} hashType - Hash type to be looked up
    * @param {String} hashPrefix - The prefix of the hash to be looked up.
    * @param {Object} options - An object of optional parameters. Parameters supported:
    *   - provider {String} - Use breached data from this provider: "spycloud".
@@ -848,8 +901,17 @@ export class UserIntelService extends BaseService {
    *   - raw {Boolean} - Include raw data from this provider. Default: raw=false.
    * @returns {Promise} - A promise representing an async call to the password/breached endpoint.
    * @example
-   * const options = {provider: "spycloud", verbose: true, raw: true };
-   * const response = await userIntel.passwordBreached(Intel.HashType.SHA256, "5baa6", options);
+   * ```js
+   * const response = await userIntel.passwordBreached(
+   *   Intel.HashType.SHA256,
+   *   "5baa6",
+   *   {
+   *     provider: "spycloud",
+   *     verbose: true,
+   *     raw: true
+   *   }
+   * );
+   * ```
    */
   passwordBreached(
     hashType: Intel.HashType,
@@ -866,11 +928,11 @@ export class UserIntelService extends BaseService {
   }
 
   /**
-   * @summary Look up breached passwords
+   * @summary Look up breached passwords V2
    * @description Find out if a password has been exposed in security breaches by providing a 5 character prefix of the password hash.
-   * @operationId FIXME:
-   * @param {String} hashType - Hash type to be looked up
-   * @param {String} hashPrefixes - The list of prefixes of the hash to be looked up.
+   * @operationId user_intel_post_v2_password_breached
+   * @param {Intel.HashType} hashType - Hash type to be looked up
+   * @param {String[]} hashPrefixes - The list of prefixes of the hash to be looked up.
    * @param {Object} options - An object of optional parameters. Parameters supported:
    *   - provider {String} - Use breached data from this provider: "spycloud".
    *   Default provider defined by the configuration.
@@ -878,8 +940,17 @@ export class UserIntelService extends BaseService {
    *   - raw {Boolean} - Include raw data from this provider. Default: raw=false.
    * @returns {Promise} - A promise representing an async call to the password/breached endpoint.
    * @example
-   * const options = {provider: "spycloud", verbose: true, raw: true };
-   * FIXME:
+   * ```js
+   * const response = await userIntel.passwordBreachedBulk(
+   *   Intel.HashType.SHA256,
+   *   ["5baa6"],
+   *   {
+   *     provider: "spycloud",
+   *     verbose: true,
+   *     raw: true
+   *   }
+   * );
+   * ```
    */
   passwordBreachedBulk(
     hashType: Intel.HashType,
