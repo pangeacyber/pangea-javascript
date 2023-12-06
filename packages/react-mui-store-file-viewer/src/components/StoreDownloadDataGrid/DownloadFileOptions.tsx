@@ -24,13 +24,14 @@ const DownloadFileOptions: FC<VaultItemOptionsProps> = ({ data }) => {
     setHasDownload(true);
 
     apiRef
-      .get({ id: data.id, transfer_method: "url" })
+      .get({ id: data.id, transfer_method: "dest-url" })
       .then((response) => {
         if (response.status === "Success") {
           setHasDownload(true);
           setObject({
             ...response.result.object,
-            location: response.result.object?.location,
+            dest_url:
+              response.result?.dest_url ?? response?.result?.object?.dest_url,
           });
         }
       })
@@ -43,14 +44,14 @@ const DownloadFileOptions: FC<VaultItemOptionsProps> = ({ data }) => {
         .getArchive({
           ids: [object.id],
           format: "tar",
-          transfer_method: "url",
+          transfer_method: "dest-url",
         })
         .then((response) => {
-          if (response.status === "Success" && !!response.result.location) {
+          if (response.status === "Success" && !!response.result.dest_url) {
             setHasDownload(true);
             setObject((state) => ({
               ...state,
-              location: response.result.location,
+              dest_url: response.result.dest_url,
             }));
           }
         })
@@ -78,8 +79,8 @@ const DownloadFileOptions: FC<VaultItemOptionsProps> = ({ data }) => {
   }
   return (
     <Stack direction="row" spacing={0.5} alignItems="center">
-      {!!object?.location ? (
-        <a href={object.location} download={object.name ?? object.id}>
+      {!!object?.dest_url ? (
+        <a href={object.dest_url} download={object.name ?? object.id}>
           <IconButton>
             <DownloadIcon color="success" />
           </IconButton>

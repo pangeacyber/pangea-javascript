@@ -23,8 +23,8 @@ const StoreFileDetails: FC<Props> = ({ object, onClose }) => {
     return {
       ...object,
       ...object?.metadata_protected,
-      ...(!!archive?.location && {
-        location: archive?.location,
+      ...(!!archive?.dest_url && {
+        dest_url: archive?.dest_url,
       }),
     };
   }, [object, archive]);
@@ -35,7 +35,7 @@ const StoreFileDetails: FC<Props> = ({ object, onClose }) => {
         .getArchive({
           ids: [object.id],
           format: "zip",
-          transfer_method: "url",
+          transfer_method: "dest-url",
         })
         .then((response) => {
           if (response.status === "Success") {
@@ -47,8 +47,8 @@ const StoreFileDetails: FC<Props> = ({ object, onClose }) => {
 
   return (
     <>
-      {!!object?.location && (
-        <a href={object.location} download={object.name ?? object.id}>
+      {!!object?.dest_url && (
+        <a href={object.dest_url} download={object.name ?? object.id}>
           <Button
             sx={{ width: "100%" }}
             color="primary"

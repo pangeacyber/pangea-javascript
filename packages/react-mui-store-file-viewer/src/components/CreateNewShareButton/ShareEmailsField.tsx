@@ -81,6 +81,7 @@ const UnControlledShareEmailsField: FC<FieldComponentProps> = ({
       <Stack width="100%" direction="row" alignItems="center" spacing={1}>
         <TextField
           value={newValue}
+          name="recipient_email"
           label="Add recipient email"
           onChange={(e) => {
             let value = e.target.value;

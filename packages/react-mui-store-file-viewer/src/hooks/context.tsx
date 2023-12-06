@@ -156,6 +156,7 @@ const StoreFileViewerProvider: FC<StoreFileViewerProviderProps> = ({
 
   useEffect(() => {
     if (!!request.filters.parent_id && !!apiRef.list) {
+      setLoading(true);
       apiRef
         .list({ filter: { id: request.filters.parent_id } })
         .then((response) => {
@@ -182,6 +183,7 @@ const StoreFileViewerProvider: FC<StoreFileViewerProviderProps> = ({
       if (parts.length >= 1) {
         let name = parts.pop();
 
+        setLoading(true);
         apiRef
           .list({
             filter: { folder: `/${parts.join("/")}`, name, type: "folder" },

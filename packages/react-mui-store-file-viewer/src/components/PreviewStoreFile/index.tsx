@@ -40,13 +40,18 @@ const PreviewStoreFile: FC<PreviewFileProps> = ({ data, onClose }) => {
   useEffect(() => {
     if (!data.id || !apiRef.get) return;
 
-    apiRef.get({ id: data.id, transfer_method: "url" }).then((response) => {
-      if (response.status === "Success") {
-        setObject({
-          ...response.result.object,
-        });
-      }
-    });
+    apiRef
+      .get({ id: data.id, transfer_method: "dest-url" })
+      .then((response) => {
+        if (response.status === "Success") {
+          setObject({
+            ...response.result.object,
+            ...(response.result?.dest_url && {
+              dest_url: response.result?.dest_url,
+            }),
+          });
+        }
+      });
   }, [data.id]);
 
   return (

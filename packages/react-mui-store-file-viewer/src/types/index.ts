@@ -281,7 +281,7 @@ export namespace ObjectStore {
 
     type: string | ObjectType; // "folder", "" ...
 
-    location?: string; // Added from get
+    dest_url?: string; // Added from get
 
     metadata_protected?: {
       format?: string;
@@ -418,6 +418,7 @@ export namespace ObjectStore {
   }
 
   export interface GetResponse {
+    dest_url?: string;
     object: ObjectResponse;
   }
 
@@ -428,7 +429,7 @@ export namespace ObjectStore {
   }
 
   export interface GetArchiveResponse {
-    location: string;
+    dest_url: string;
     objects: ObjectResponse[];
   }
 }

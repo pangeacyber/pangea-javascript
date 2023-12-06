@@ -195,7 +195,7 @@ const StoreDataGrid: FC<StoreDataGridProps> = ({
         }
         Search={{
           query: filters?.name ?? "",
-          placeholder: "Search name...",
+          placeholder: "Search by name...",
           onChange: (query) => {
             // @ts-ignore
             if (query !== filters?.name) {

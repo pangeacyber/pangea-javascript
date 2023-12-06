@@ -103,11 +103,7 @@ const FileDropBox: FC<Props> = ({ children, BoxSx }) => {
     }
   };
 
-  const main = theme.palette.info.main;
-  const light = loading
-    ? theme.palette.secondary.light
-    : theme.palette.info.light;
-
+  const main = theme.palette.secondary.dark;
   return (
     <>
       {!isVisibleOnHoverOnly && (

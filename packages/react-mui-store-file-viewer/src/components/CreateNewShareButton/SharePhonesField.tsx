@@ -123,6 +123,7 @@ const UnControlledSharePhonesField: FC<FieldComponentProps> = ({
       <Stack width="100%" direction="row" alignItems="center" spacing={1}>
         <TextField
           value={newValue}
+          name="recipient_phone"
           label="Add recipient phone number"
           onChange={(e) => {
             let value = e.target.value;

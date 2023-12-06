@@ -121,6 +121,7 @@ const SendShareViaEmailButton: FC<Props> = ({
               color="primary"
               fullWidth
               label={`Share link (${object.id})`}
+              data-testid={"Share-Copy-Btn"}
               value={object.link}
             >
               Copy Link

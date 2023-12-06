@@ -56,17 +56,16 @@ const ShareObject: FC<Props> = ({ object, onDelete }) => {
             </Typography>
           </Stack>
         )}
-        {!!object.access_count ||
-          (!!object.max_access_count && (
-            <Stack direction="row" alignItems="center" spacing={1}>
-              <Typography variant="body2" color="textSecondary">
-                Remaining access count:
-              </Typography>
-              <Typography variant="body2" color="textSecondary">
-                {object.max_access_count - (object.access_count ?? 0)}
-              </Typography>
-            </Stack>
-          ))}
+        {object.access_count !== undefined && !!object.max_access_count && (
+          <Stack direction="row" alignItems="center" spacing={1}>
+            <Typography variant="body2" color="textSecondary">
+              Remaining access count:
+            </Typography>
+            <Typography variant="body2" color="textSecondary">
+              {object.max_access_count - (object.access_count ?? 0)}
+            </Typography>
+          </Stack>
+        )}
         {!!object.last_accessed_at && (
           <Stack direction="row" alignItems="center" spacing={1}>
             <Typography variant="body2" color="textSecondary">

@@ -38,11 +38,11 @@ const MultiSelectMenu: FC<Props> = ({
       .getArchive({
         ids: selected,
         format: "zip",
-        transfer_method: "url",
+        transfer_method: "dest-url",
       })
       .then((response) => {
         if (response.status === "Success") {
-          const location = response.result.location;
+          const location = response.result.dest_url;
           if (location) {
             window.open(location, "_blank");
           }
