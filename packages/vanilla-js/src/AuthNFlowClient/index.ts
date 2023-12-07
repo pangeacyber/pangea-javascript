@@ -309,6 +309,10 @@ export class AuthNFlowClient extends AuthNClient {
         this.state.email = result.email;
       }
 
+      if (result.phone) {
+        this.state.phone = result.phone;
+      }
+
       if (result.flow_phase === "phase_completed") {
         this.state.complete = true;
       }
