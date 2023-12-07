@@ -651,7 +651,7 @@ it("results audit log with search verbose", async () => {
     max_results: searchMaxResults,
     order: "asc",
     verbose: true,
-    start: "14d",
+    start: "30d",
   };
 
   const searchResponse = await auditGeneral.search(query, queryOptions, {});
