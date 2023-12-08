@@ -48,7 +48,7 @@ const FolderPath: FC<Props> = ({ useRootIcon, defaultHidden }) => {
       >
         {useRootIcon ? (
           <IconButton onClick={() => setFolder("/")}>
-            <HomeIcon color="action" fontSize="small" />
+            <HomeIcon fontSize="small" />
           </IconButton>
         ) : (
           <FolderOption folder="Root" onClick={() => setFolder("/")} />

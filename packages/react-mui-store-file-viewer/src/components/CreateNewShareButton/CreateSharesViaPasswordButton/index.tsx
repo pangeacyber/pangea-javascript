@@ -119,7 +119,7 @@ const CreateSharesViaPasswordButton: FC<Props> = ({
         startIcon={<PasswordIcon fontSize="small" />}
         onClick={() => setOpen(true)}
       >
-        Secure with Password
+        {ButtonProps?.children || "Secure with Password"}
       </Button>
       <PangeaModal
         open={open}

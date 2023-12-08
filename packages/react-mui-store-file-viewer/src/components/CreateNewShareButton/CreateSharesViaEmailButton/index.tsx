@@ -147,7 +147,7 @@ const CreateSharesViaEmailButton: FC<Props> = ({
         startIcon={<MailOutlineIcon fontSize="small" />}
         onClick={() => setOpen(true)}
       >
-        Secure with Email
+        {ButtonProps?.children || "Secure with Email"}
       </Button>
       <PangeaModal
         open={open}

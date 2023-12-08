@@ -2,6 +2,7 @@ import { FC, useMemo, useState } from "react";
 import isEmpty from "lodash/isEmpty";
 import pickBy from "lodash/pickBy";
 import find from "lodash/find";
+import uniq from "lodash/uniq";
 
 import {
   LinedPangeaDataGrid,
@@ -81,6 +82,19 @@ const StoreDataGrid: FC<StoreDataGridProps> = ({
   const handleContextMenu = (event: React.MouseEvent) => {
     if (!multiSelected) return;
 
+    let foundParent = false;
+
+    const rowEl = event.currentTarget.closest(".MuiDataGrid-row");
+    if (rowEl) {
+      const row = Number(rowEl.getAttribute("data-rowindex"));
+      if (!Number.isNaN(row) && row >= 0 && row < data.objects.length) {
+        const object = data.objects[row];
+        setMultiSelected((state) => uniq(state.concat([object.id])));
+        foundParent = true;
+      }
+    }
+
+    if (!foundParent && !multiSelected.length) return;
     event.preventDefault();
     setContextMenu(
       contextMenu === null
@@ -93,6 +107,29 @@ const StoreDataGrid: FC<StoreDataGridProps> = ({
           // With this behavior we prevent contextmenu from the backdrop to re-locale existing context menus.
           null
     );
+  };
+
+  const [downloading, setDownloading] = useState(false);
+  const handleDownloadFile = (id: string) => {
+    if (downloading || !id || !apiRef?.get) return;
+
+    setDownloading(true);
+    apiRef
+      .get({
+        id,
+        transfer_method: "dest-url",
+      })
+      .then((response) => {
+        if (response.status === "Success") {
+          const location = response.result.dest_url;
+          if (location) {
+            window.open(location, "_blank");
+          }
+        }
+      })
+      .finally(() => {
+        setDownloading(false);
+      });
   };
 
   const isFiltered = !isEmpty(
@@ -128,6 +165,8 @@ const StoreDataGrid: FC<StoreDataGridProps> = ({
                     );
                     */
             return false;
+          } else {
+            handleDownloadFile(params.row.id);
           }
         }}
         onRowClick={(params, event) => {
@@ -143,16 +182,15 @@ const StoreDataGrid: FC<StoreDataGridProps> = ({
           if (!preview) setMultiSelected([]);
         }}
         DataGridProps={{
-          ...(!!multiSelected.length &&
-            !!apiRef.getArchive && {
-              getRowClassName: handleGetRowClassName,
-              slotProps: {
-                row: {
-                  onContextMenu: handleContextMenu,
-                  style: { cursor: "context-menu" },
-                },
+          ...(!!apiRef.getArchive && {
+            getRowClassName: handleGetRowClassName,
+            slotProps: {
+              row: {
+                onContextMenu: handleContextMenu,
+                style: { cursor: "context-menu" },
               },
-            }),
+            },
+          }),
         }}
         ColumnCustomization={{
           visibilityModel,

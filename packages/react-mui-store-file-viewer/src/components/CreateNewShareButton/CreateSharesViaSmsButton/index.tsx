@@ -171,7 +171,7 @@ const CreateSharesViaSmsButton: FC<Props> = ({
         startIcon={<LocalPhoneIcon fontSize="small" />}
         onClick={() => setOpen(true)}
       >
-        Secure with Phone Number
+        {ButtonProps?.children || "Secure with Phone Number"}
       </Button>
       <PangeaModal
         open={open}
