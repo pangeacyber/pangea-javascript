@@ -1,7 +1,7 @@
 import CryptoJS from "crypto-js";
-import * as crypto from "crypto";
-import * as fs from "fs";
-import crc32c from "@node-rs/crc32";
+import crypto from "crypto";
+import fs from "fs";
+import { crc32c } from "hash-wasm";
 import { FileScan } from "@src/types.js";
 import { PangeaErrors } from "@src/errors.js";
 
@@ -135,7 +135,14 @@ export function getCustomSchemaTestToken(environment: string) {
   return process.env[name] || "";
 }
 
-export function getFileUploadParams(file: string | Buffer): FileScan.ScanFileParams {
+export async function getCRC32C(data: Buffer): Promise<string> {
+  const uint8Buffer = new Uint8Array(data);
+  const c = await crc32c(uint8Buffer);
+
+  return c;
+}
+
+export async function getFileUploadParams(file: string | Buffer): Promise<FileScan.ScanFileParams> {
   const hash = crypto.createHash("sha256");
   let data: Buffer;
   if (typeof file === "string") {
@@ -148,12 +155,12 @@ export function getFileUploadParams(file: string | Buffer): FileScan.ScanFilePar
 
   const size = data.length;
   hash.update(data);
-  const crcValue = crc32c.crc32c(data);
+  const crcValue = await getCRC32C(data);
   const sha256hex = hash.digest("hex");
 
   return {
     sha256: sha256hex,
-    crc32c: crcValue.toString(16),
+    crc32c: crcValue,
     size: size,
   };
 }

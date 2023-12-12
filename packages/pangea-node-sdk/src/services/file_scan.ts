@@ -25,7 +25,7 @@ export class FileScanService extends BaseService {
    * const response = await client.fileScan(request, "./path/to/file.pdf");
    * ```
    */
-  fileScan(
+  async fileScan(
     request: FileScan.ScanRequest,
     file?: string | FileData, // This param is optional. It should be null when using the source_url method
     options: FileScan.Options = {
@@ -67,14 +67,14 @@ export class FileScanService extends BaseService {
       (!request.transfer_method || request.transfer_method === TransferMethod.POST_URL) &&
       postFile
     ) {
-      fsData = getFileUploadParams(postFile.file);
+      fsData = await getFileUploadParams(postFile.file);
     }
 
     const fullRequest: FileScan.ScanFullRequest = {
       ...fsData,
       ...request,
     };
-    return this.post("v1/scan", fullRequest, postOptions);
+    return await this.post("v1/scan", fullRequest, postOptions);
   }
 
   // TODO: Docs
