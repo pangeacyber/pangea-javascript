@@ -139,7 +139,7 @@ export async function getCRC32C(data: Buffer): Promise<string> {
   const uint8Buffer = new Uint8Array(data);
   const c = await crc32c(uint8Buffer);
 
-  return c;
+  return await crc32c(uint8Buffer);
 }
 
 export async function getFileUploadParams(file: string | Buffer): Promise<FileScan.ScanFileParams> {
