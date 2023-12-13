@@ -115,7 +115,7 @@ it("User password breached complete workflow", async () => {
   expect(status).toBe(Intel.User.Password.PasswordStatus.BREACHED);
 });
 
-it("User password breached using ntlm hash", async () => {
+it("User password breached complete workflow using ntlm hash", async () => {
   const ntlmHash = await hashNTLM("password");
   const ntlmHashPrefix = ntlmHash.slice(0, 6);
 
