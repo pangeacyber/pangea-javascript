@@ -11,6 +11,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Dropped `@node-rs/crc32` in favor of `hash-wasm` to fully support using our SDK in a Next.js app.
 
+# Added
+
+- export `hashCRC32C` utility function
+
 ## [3.4.0] - 2023-12-07
 
 # Changed

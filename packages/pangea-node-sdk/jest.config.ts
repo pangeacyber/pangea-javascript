@@ -10,9 +10,20 @@ const jestConfig: JestConfigWithTsJest = {
     "^@src/(.*)\\.js$": "<rootDir>/src/$1.ts",
     "^(\\.{1,2}/.*)\\.js$": "$1",
   },
-  bail: false,
+  bail: true,
   verbose: true,
   coverageDirectory: "./coverage/",
+  globals: {
+    "ts-jest": {
+      /**
+       * Needed because importing hash-wasm causes jest to hang
+       *
+       * from: https://github.com/kulshekhar/ts-jest/issues/3507#issuecomment-1136761818
+       */
+      isolatedModules: true,
+      useESM: true,
+    },
+  },
 };
 
 export default jestConfig;

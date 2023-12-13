@@ -1,7 +1,7 @@
 import CryptoJS from "crypto-js";
 import crypto from "crypto";
 import fs from "fs";
-import { crc32c } from "hash-wasm";
+import { crc32c, md4 } from "hash-wasm";
 import { FileScan } from "@src/types.js";
 import { PangeaErrors } from "@src/errors.js";
 
@@ -78,13 +78,16 @@ export function hashSHA512(data: string): string {
   return sha512.finalize().toString();
 }
 
-export function hashNTLM(password: string): string {
-  // Calculate the MD4 hash
-  const md4Hash = crypto.createHash("md4");
-  md4Hash.update(Buffer.from(password, "utf16le"));
+export async function hashNTLM(password: string): Promise<string> {
+  // Calculate the NTLM hash using MD4 hash of a 16-byte key
+  const ntlm = await md4(Buffer.from(password, "utf16le"));
 
-  // Get the NTLM hash as a hexadecimal string
-  return md4Hash.digest("hex").toUpperCase();
+  return ntlm.toUpperCase();
+}
+
+export async function hashCRC32C(data: Buffer): Promise<string> {
+  const uint8Buffer = new Uint8Array(data);
+  return await crc32c(uint8Buffer);
 }
 
 export function getHashPrefix(hash: string, len: number = 5) {
@@ -135,11 +138,6 @@ export function getCustomSchemaTestToken(environment: string) {
   return process.env[name] || "";
 }
 
-export async function getCRC32C(data: Buffer): Promise<string> {
-  const uint8Buffer = new Uint8Array(data);
-  return await crc32c(uint8Buffer);
-}
-
 export async function getFileUploadParams(file: string | Buffer): Promise<FileScan.ScanFileParams> {
   const hash = crypto.createHash("sha256");
   let data: Buffer;
@@ -153,7 +151,7 @@ export async function getFileUploadParams(file: string | Buffer): Promise<FileSc
 
   const size = data.length;
   hash.update(data);
-  const crcValue = await getCRC32C(data);
+  const crcValue = await hashCRC32C(data);
   const sha256hex = hash.digest("hex");
 
   return {

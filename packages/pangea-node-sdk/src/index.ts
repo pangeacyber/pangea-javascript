@@ -15,6 +15,7 @@ export {
   hashSHA1,
   hashSHA512,
   hashNTLM,
+  hashCRC32C,
   getHashPrefix,
   b64toStr,
   strToB64,
