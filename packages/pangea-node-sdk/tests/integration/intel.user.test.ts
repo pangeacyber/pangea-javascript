@@ -8,7 +8,7 @@ import {
 } from "../../src/utils/utils.js";
 import { UserIntelService } from "../../src/index.js";
 import { Intel } from "../../src/types.js";
-import { hashSHA256 } from "../../src/utils/utils.js";
+import { hashSHA256, hashNTLM } from "../../src/utils/utils.js";
 
 const testEnvironment = TestEnvironment.LIVE;
 
@@ -112,5 +112,21 @@ it("User password breached complete workflow", async () => {
   expect(response.result.data.breach_count).toBeGreaterThan(0);
 
   const status = UserIntelService.isPasswordBreached(response, hash);
+  expect(status).toBe(Intel.User.Password.PasswordStatus.BREACHED);
+});
+
+it("User password breached using ntlm hash", async () => {
+  const ntlmHash = await hashNTLM("password");
+  const ntlmHashPrefix = ntlmHash.slice(0, 6);
+
+  const options = { verbose: true, raw: true };
+  const response = await userIntel.passwordBreached(Intel.HashType.NTLM, ntlmHashPrefix, options);
+
+  expect(response.status).toBe("Success");
+  expect(response.result.data).toBeDefined();
+  expect(response.result.data.found_in_breach).toBe(true);
+  expect(response.result.data.breach_count).toBeGreaterThan(0);
+
+  const status = UserIntelService.isPasswordBreached(response, ntlmHashPrefix);
   expect(status).toBe(Intel.User.Password.PasswordStatus.BREACHED);
 });

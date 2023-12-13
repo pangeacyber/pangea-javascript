@@ -232,7 +232,7 @@ it("File Scan get url and post upload", async () => {
       transfer_method: TransferMethod.POST_URL,
     };
 
-    const params = getFileUploadParams(testfilePath);
+    const params = await getFileUploadParams(testfilePath);
 
     response = await fileScan.requestUploadURL(request, {
       params: params,
