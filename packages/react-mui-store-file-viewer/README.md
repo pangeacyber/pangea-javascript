@@ -113,13 +113,13 @@ const MyComponent: React.FC = () => {
 
 ### Customization
 
-The AuditLogViewer component uses the Material-UI component library, so styling of the component can be controlled through a MUI Theme. See Theming documentation [here](https://mui.com/material-ui/customization/theming/)
+The StoreFileViewer component uses the Material-UI component library, so styling of the component can be controlled through a MUI Theme. See Theming documentation [here](https://mui.com/material-ui/customization/theming/)
 
 What to apply your Pangea branding to your end application? Check out the `@pangeacyber/react-mui-branding` NPM package [here](https://github.com/pangeacyber/pangea-javascript/tree/main/packages/react-mui-branding). The BrandingThemeProvider can fetch your Pangea Projects Branding and apply the styling to a Material-UI Theme.
 
 ## API Reference
 
-Audit Service API's(https://pangea.cloud/docs/api/audit)
+Store Service API's(https://pangea.cloud/docs/api/store)
 
 ## Development
 
