@@ -47,7 +47,7 @@ const delay = async (ms) =>
 
     // extract upload url and upload details that should be posted with the file
     // If use TransferMethod.PUT_URL it's not needed file_details
-    const url = response.accepted_result?.accepted_status.upload_url || "";
+    const url = response.accepted_result?.put_url || "";
     console.log(`Got presigned url: ${url}`);
 
     // Create an uploader and upload the file

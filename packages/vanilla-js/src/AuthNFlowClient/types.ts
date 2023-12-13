@@ -460,6 +460,7 @@ export namespace AuthFlow {
     flowChoices: Result[];
     phase?: string;
     email?: string;
+    phone?: string;
     invite?: boolean;
     complete?: boolean;
     disclaimer?: string;

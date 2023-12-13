@@ -33,7 +33,6 @@ const AuthOnetimePhone: FC<AuthFlowComponentProps> = (props) => {
       const payload: AuthFlow.PhoneParams = {
         ...values,
       };
-      console.log("phone payload", payload);
       update(AuthFlow.Choice.SET_PHONE, payload);
     },
   });

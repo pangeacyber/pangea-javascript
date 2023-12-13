@@ -27,7 +27,6 @@ const AuthOnetimeEmail: FC<AuthFlowComponentProps> = (props) => {
       const payload = {
         ...values,
       };
-      console.log("email payload", payload);
       update(AuthFlow.Choice.SET_EMAIL, payload);
     },
   });

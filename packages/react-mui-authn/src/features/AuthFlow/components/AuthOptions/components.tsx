@@ -69,7 +69,7 @@ const getProviderLabel = (provider: string): string => {
     case "set_email":
       return "Email";
     case "set_phone":
-      return "Phone";
+      return "SMS";
     default:
       return provider;
   }

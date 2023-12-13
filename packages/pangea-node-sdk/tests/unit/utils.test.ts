@@ -43,20 +43,20 @@ it("CRC32C test", async () => {
 
 it("getFileParams test filepath", async () => {
   const paramsFilepath = getFileUploadParams(testfilePath);
-  expect(paramsFilepath.transfer_crc32c).toBe("754995fb");
-  expect(paramsFilepath.transfer_sha256).toBe(
+  expect(paramsFilepath.crc32c).toBe("754995fb");
+  expect(paramsFilepath.sha256).toBe(
     "81655950d560e804a6315e09e74a7414e7b18ba99f722abe6122857e69a3aebd"
   );
-  expect(paramsFilepath.transfer_size).toBe(10028);
+  expect(paramsFilepath.size).toBe(10028);
 });
 
 it("getFileParams test buffer", async () => {
   const file = fs.readFileSync(testfilePath);
   const paramsFilepath = getFileUploadParams(file);
 
-  expect(paramsFilepath.transfer_crc32c).toBe("754995fb");
-  expect(paramsFilepath.transfer_sha256).toBe(
+  expect(paramsFilepath.crc32c).toBe("754995fb");
+  expect(paramsFilepath.sha256).toBe(
     "81655950d560e804a6315e09e74a7414e7b18ba99f722abe6122857e69a3aebd"
   );
-  expect(paramsFilepath.transfer_size).toBe(10028);
+  expect(paramsFilepath.size).toBe(10028);
 });

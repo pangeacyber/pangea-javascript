@@ -1,5 +1,12 @@
 import { FC } from "react";
-import { FormControl, FormHelperText, OutlinedInput } from "@mui/material";
+import {
+  FormControl,
+  FormHelperText,
+  InputAdornment,
+  OutlinedInput,
+  Tooltip,
+} from "@mui/material";
+import { Check, ErrorRounded } from "@mui/icons-material";
 
 export interface Props {
   name: string;
@@ -21,6 +28,22 @@ const StringField: FC<Props> = ({
   const emailProps =
     type === "email" ? { autoCapitalize: "none", autoCorrect: "off" } : {};
 
+  const getEndIcon = () => {
+    if (!formik.touched[name]) {
+      return null;
+    }
+
+    if (formik.touched[name] && formik.errors[name]) {
+      return (
+        <Tooltip title={formik.errors[name]}>
+          <ErrorRounded fontSize="medium" color="error" />
+        </Tooltip>
+      );
+    }
+
+    return <Check fontSize="medium" color="success" />;
+  };
+
   return (
     <FormControl
       variant="outlined"
@@ -37,11 +60,9 @@ const StringField: FC<Props> = ({
         autoComplete={autoComplete}
         value={formik.values[name]}
         placeholder={label}
+        endAdornment={getEndIcon()}
         {...emailProps}
       />
-      {formik.errors[name] && (
-        <FormHelperText error>{formik.errors[name]}</FormHelperText>
-      )}
     </FormControl>
   );
 };

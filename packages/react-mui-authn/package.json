@@ -1,6 +1,6 @@
 {
   "name": "@pangeacyber/react-mui-authn",
-  "version": "0.4.6",
+  "version": "0.4.8",
   "description": "Components for integration with Pangea AuthN Service",
   "main": "dist/cjs/index.js",
   "module": "dist/esm/index.js",
@@ -19,14 +19,13 @@
     "prettier:fix": "npx prettier . -w"
   },
   "devDependencies": {
-    "@babel/core": "^7.19.1",
+    "@babel/core": "7.23.5",
     "@emotion/react": "^11.10.4",
     "@emotion/styled": "^11.10.4",
     "@mui/icons-material": "^5.10.6",
     "@mui/material": "^5.10.6",
     "@mui/types": "^7.2.0",
-    "@pangeacyber/react-mui-branding": "^0.0.8",
-    "@rollup/plugin-babel": "6.0.3",
+    "@rollup/plugin-babel": "6.0.4",
     "@rollup/plugin-commonjs": "24.0.1",
     "@rollup/plugin-json": "6.0.0",
     "@rollup/plugin-node-resolve": "^14.1.0",
@@ -62,11 +61,12 @@
   },
   "dependencies": {
     "@lexical/react": "^0.11.3",
-    "@pangeacyber/vanilla-js": "0.1.3",
+    "@pangeacyber/react-mui-branding": "^0.0.9",
+    "@pangeacyber/vanilla-js": "0.1.4",
     "@rollup/plugin-terser": "^0.4.0",
     "add": "^2.0.6",
     "formik": "^2.2.9",
-    "lexical": "^0.11.3",
+    "lexical": "0.12.5",
     "react-google-recaptcha-enterprise": "^1.0.3",
     "yarn": "^1.22.19",
     "yup": "^0.32.11"

@@ -1,4 +1,4 @@
-import { FC, useEffect, useState } from "react";
+import { FC, useEffect, useMemo, useState } from "react";
 import { Stack } from "@mui/material";
 
 import { AuthFlowComponentProps } from "@src/features/AuthFlow/types";
@@ -14,29 +14,54 @@ import AuthOnetimeEmail from "../AuthOnetimeEmail";
 import { BodyText } from "@src/components/core/Text";
 
 const AuthOptions: FC<AuthFlowComponentProps> = (props) => {
-  const { options, data, error } = props;
+  const { data, error } = props;
   const [activeProvider, setActiveProvider] = useState<string>("");
   const [content, setContent] = useState<JSX.Element>(<></>);
 
+  const choices = useMemo(() => {
+    const otpMethods: string[] = data.authChoices.filter((provider: string) => {
+      if (provider === "email_otp" || provider === "sms_otp") {
+        return provider;
+      }
+    });
+
+    // filter set_email and set_phone if corresponding otp methods is available
+    if (otpMethods.length > 0) {
+      const filteredProviders: string[] = data.authChoices.filter(
+        (provider: string) => {
+          if (
+            !(
+              (provider === "set_email" && otpMethods.includes("email_otp")) ||
+              (provider === "set_phone" && otpMethods.includes("sms_otp"))
+            )
+          ) {
+            return provider;
+          }
+        }
+      );
+
+      return filteredProviders;
+    }
+
+    return [...data.authChoices];
+  }, [data]);
+
   useEffect(() => {
-    if (data.authChoices?.length === 1) {
+    if (choices.length === 1) {
       setActiveProvider(data.authChoices[0]);
-    } else if (!data.authChoices.includes(activeProvider)) {
-      if (
-        activeProvider.includes("set_email") &&
-        data.authChoices.includes("email_otp")
-      ) {
+    } else if (!choices.includes(activeProvider)) {
+      if (activeProvider === "set_email" && choices.includes("email_otp")) {
         setActiveProvider("email_otp");
       } else if (
-        activeProvider.includes("set_phone") &&
-        data.authChoices.includes("sms_otp")
+        activeProvider === "set_phone" &&
+        choices.includes("sms_otp")
       ) {
         setActiveProvider("sms_otp");
       } else {
         setActiveProvider("");
       }
     }
-  }, [data, error]);
+  }, [choices, error]);
 
   useEffect(() => {
     if (activeProvider === "password") {
@@ -75,19 +100,19 @@ const AuthOptions: FC<AuthFlowComponentProps> = (props) => {
     setActiveProvider(provider);
   };
 
-  if (data.authChoices.length === 0) {
+  if (choices.length === 0) {
     return null;
   }
 
   return (
     <Stack gap={2} alignItems="center" width="100%">
-      {data.authChoices?.length > 1 && (
+      {choices.length > 1 && (
         <>
           <BodyText sxProps={{ margin: "8px 0", padding: "0 32px" }}>
             {getDescriptionText(data.phase)}
           </BodyText>
           <AuthOptionsNav
-            authChoices={data.authChoices}
+            authChoices={choices}
             selected={activeProvider}
             selectCallback={selectHandler}
           />
