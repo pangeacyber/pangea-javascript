@@ -35,6 +35,8 @@ const AuthPasswordField: FC<AuthPasswordFieldProps> = (props) => {
         FieldProps={merge(props.FieldProps ?? {}, {
           type: "password",
           InputProps: {
+            "auto-complete": "new-password",
+            "aria-labelledby": "new-password-id",
             onFocus: openTooltip,
             onBlur: closeTooltip,
           },
