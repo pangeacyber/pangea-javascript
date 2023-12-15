@@ -21,13 +21,13 @@ const CreateNewFolderButton: FC<Props> = ({ ButtonProps, onClose }) => {
 
   const [obj, setObj] = useState<ObjectStore.FolderCreateRequest>({
     name: "",
-    parent_id: parent?.id ?? "",
+    parent_id: parent?.id ?? "/",
   });
 
   useEffect(() => {
     setObj({
       name: "",
-      parent_id: parent?.id ?? "",
+      parent_id: parent?.id ?? "/",
     });
   }, [open]);
 
@@ -78,6 +78,10 @@ const CreateNewFolderButton: FC<Props> = ({ ButtonProps, onClose }) => {
           object={obj}
           fields={fields}
           onSubmit={(values) => {
+            if (values.parent_id === "/") {
+              values.parent_id = "";
+            }
+
             // @ts-ignore
             return handleCreateFolder(pickBy(values, (v) => !!v)).finally(
               handleClose

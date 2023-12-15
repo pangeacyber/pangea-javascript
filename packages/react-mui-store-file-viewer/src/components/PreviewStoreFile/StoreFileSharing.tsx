@@ -46,7 +46,14 @@ const StoreFileSharing: FC<Props> = ({ object }) => {
   return (
     <>
       {!!object?.id && (
-        <CreateNewShareButton object={object} onDone={handleFetchShares} />
+        <CreateNewShareButton
+          object={object}
+          onDone={() => {
+            setTimeout(() => {
+              handleFetchShares();
+            }, 500);
+          }}
+        />
       )}
       <Stack spacing={1} paddingTop={1}>
         {shares.map((share) => {

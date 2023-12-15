@@ -33,7 +33,7 @@ const CreateNewShareButton: FC<Props> = ({ object, onDone }) => {
         sx={{ width: "100%" }}
         fullWidth
       >
-        Secure Share
+        Share-Link
       </Button>
       <Menu
         open={!!optionsEl}

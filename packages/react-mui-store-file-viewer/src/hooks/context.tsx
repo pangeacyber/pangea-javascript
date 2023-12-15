@@ -143,8 +143,10 @@ const StoreFileViewerProvider: FC<StoreFileViewerProviderProps> = ({
     apiRef
       .list(request.body)
       .then((response) => {
-        if (response.status === "Success") setData(response.result);
-        else setError(response);
+        if (response.status === "Success") {
+          setData(response.result);
+          request.setCurrentLast(response.result.last);
+        } else setError(response);
 
         setLoading(false);
       })

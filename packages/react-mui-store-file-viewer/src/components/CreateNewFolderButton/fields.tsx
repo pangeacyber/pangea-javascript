@@ -25,25 +25,35 @@ export const getCreateFolderFields = ({
         autoFocus: true,
       },
       parent_id: {
-        label: "Parent Folder ID",
+        label: "Parent Folder",
         LabelProps: {
           placement: "start",
         },
+        default: "/",
         FieldProps: {
-          type: "text",
+          type: "singleSelect",
           options: {
             fetchedValueOptions: async (values) => {
-              if (!apiRef.list) return [];
+              const defaultOptions = [
+                {
+                  value: "/",
+                  label: "/",
+                  caption: "Root",
+                },
+              ];
+              if (!apiRef.list) return defaultOptions;
 
               const response = await apiRef.list({
                 filter: { type: "folder" },
               });
 
-              return response?.result?.objects?.map((o) => ({
-                value: o.id,
-                label: `/${o.name}`,
-                caption: o.id,
-              }));
+              return defaultOptions.concat(
+                response?.result?.objects?.map((o) => ({
+                  value: o.id,
+                  label: `/${o.name}`,
+                  caption: o.id,
+                }))
+              );
             },
           },
         },

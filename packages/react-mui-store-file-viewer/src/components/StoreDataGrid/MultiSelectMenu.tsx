@@ -157,7 +157,7 @@ const MultiSelectMenu: FC<Props> = ({
               >
                 Download
               </Button>
-              {objects.length === 1 && (
+              {!!apiRef?.share?.create && objects.length === 1 && (
                 <>
                   <Divider />
                   <CreateSharesViaEmailButton

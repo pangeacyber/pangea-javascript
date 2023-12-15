@@ -12,11 +12,11 @@ export const getShareDisplayName = (
     identityAuth?.auth_type === ObjectStore.ShareAuthenticatorType.Email ||
     identityAuth?.auth_type === ObjectStore.ShareAuthenticatorType.Sms
   ) {
-    return `Share with ${identityAuth.auth_context}`;
+    return `Secured with ${identityAuth.auth_context}`;
   }
 
   if (identityAuth?.auth_type === ObjectStore.ShareAuthenticatorType.Password) {
-    return `Share with password`;
+    return `Secured with password`;
   }
 
   return `Shared using ${authCount} authenticators`;

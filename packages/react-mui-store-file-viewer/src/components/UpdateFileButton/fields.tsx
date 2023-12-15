@@ -1,8 +1,12 @@
 import { FieldsFormSchema } from "@pangeacyber/react-mui-shared";
 import * as yup from "yup";
-import { ObjectStore } from "../../types";
+import { ObjectStore, StoreProxyApiRef } from "../../types";
 
-export const UpdateFields: FieldsFormSchema<ObjectStore.UpdateRequest> = {
+export const getUpdateFields = ({
+  apiRef,
+}: {
+  apiRef: StoreProxyApiRef;
+}): FieldsFormSchema<ObjectStore.UpdateRequest> => ({
   general: {
     type: "grouping",
     label: "",
@@ -21,9 +25,37 @@ export const UpdateFields: FieldsFormSchema<ObjectStore.UpdateRequest> = {
         autoFocus: true,
       },
       parent_id: {
-        label: "Folder ID",
+        label: "Parent Folder",
         LabelProps: {
           placement: "start",
+        },
+        default: "/",
+        FieldProps: {
+          type: "singleSelect",
+          options: {
+            fetchedValueOptions: async (values) => {
+              const defaultOptions = [
+                {
+                  value: "/",
+                  label: "/",
+                  caption: "Root",
+                },
+              ];
+              if (!apiRef.list) return defaultOptions;
+
+              const response = await apiRef.list({
+                filter: { type: "folder" },
+              });
+
+              return defaultOptions.concat(
+                response?.result?.objects?.map((o) => ({
+                  value: o.id,
+                  label: `/${o.name}`,
+                  caption: "",
+                }))
+              );
+            },
+          },
         },
         /**
             schema: yup
@@ -73,4 +105,4 @@ export const UpdateFields: FieldsFormSchema<ObjectStore.UpdateRequest> = {
       },
     },
   },
-};
+});

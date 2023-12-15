@@ -102,6 +102,10 @@ const CreateSharesViaEmailButton: FC<Props> = ({
             body.links = body.links.concat(newLinks);
           });
 
+          if (!body.links.length) {
+            return response;
+          }
+
           return apiRef.share
             .send(body)
             .then(() => links)

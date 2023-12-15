@@ -4,7 +4,7 @@ import pickBy from "lodash/pickBy";
 
 import EditOutlinedIcon from "@mui/icons-material/EditOutlined";
 import { FieldsForm, PangeaModal } from "@pangeacyber/react-mui-shared";
-import { UpdateFields } from "./fields";
+import { getUpdateFields } from "./fields";
 import { useStoreFileViewerContext } from "../../hooks/context";
 import { ObjectStore } from "../../types";
 
@@ -13,6 +13,14 @@ interface Props {
   ButtonProps?: ButtonProps;
   onClose: () => void;
 }
+
+export const UpdateAPIFields = new Set([
+  "id",
+  "name",
+  "parent_id",
+  "tags",
+  "metadata",
+]);
 
 const UpdateFileButton: FC<Props> = ({ object, ButtonProps, onClose }) => {
   const { apiRef, reload } = useStoreFileViewerContext();
@@ -25,6 +33,10 @@ const UpdateFileButton: FC<Props> = ({ object, ButtonProps, onClose }) => {
     onClose();
   };
 
+  const fields = useMemo(() => {
+    return getUpdateFields({ apiRef });
+  }, [apiRef]);
+
   const handleUpdate = async (body: ObjectStore.UpdateRequest) => {
     if (!apiRef.update) return;
 
@@ -33,8 +45,9 @@ const UpdateFileButton: FC<Props> = ({ object, ButtonProps, onClose }) => {
     return (
       apiRef
         // @ts-ignore
-        .update(pickBy(body, (v) => !!v))
+        .update(pickBy(body, (v, k) => UpdateAPIFields.has(k)))
         .then(() => {
+          handleClose();
           setLoading(false);
           reload();
         })
@@ -64,11 +77,15 @@ const UpdateFileButton: FC<Props> = ({ object, ButtonProps, onClose }) => {
       >
         <FieldsForm
           object={object}
-          fields={UpdateFields}
+          fields={fields}
           onSubmit={(values) => {
+            if (values.parent_id === "/") {
+              values.parent_id = "";
+            }
+
             // @ts-ignore
-            return handleUpdate(pickBy(values, (v) => !!v)).finally(
-              handleClose
+            return handleUpdate(
+              pickBy(values, (v, k) => !!v || k === "parent_id")
             );
           }}
           disabled={loading}

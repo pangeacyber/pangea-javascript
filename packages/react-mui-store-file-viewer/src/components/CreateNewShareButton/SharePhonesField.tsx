@@ -144,6 +144,13 @@ const UnControlledSharePhonesField: FC<FieldComponentProps> = ({
             }
           }}
           size="small"
+          InputProps={{
+            startAdornment: (
+              <Typography color="textSecondary" sx={{ paddingRight: 1 }}>
+                +1
+              </Typography>
+            ),
+          }}
         />
         <IconButton
           size="small"

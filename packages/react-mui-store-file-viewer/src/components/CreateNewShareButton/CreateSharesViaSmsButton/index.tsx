@@ -122,7 +122,7 @@ const CreateSharesViaSmsButton: FC<Props> = ({
             body.links = body.links.concat(newLinks);
           });
 
-          if (!links.length) {
+          if (!body.links.length) {
             return response;
           }
 

@@ -54,4 +54,8 @@ export const StoreViewerFilters: FilterOptions<ObjectStore.Filter> = {
   parent_id: {
     label: "Folder Id",
   },
+  tags: {
+    label: "Tags",
+    type: "csv",
+  },
 };
