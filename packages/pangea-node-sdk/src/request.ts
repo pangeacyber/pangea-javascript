@@ -56,10 +56,7 @@ class PangeaRequest {
     let response;
     let entry = options.files ? Object.entries(options.files)[0] : undefined;
     if (options.files && entry) {
-      if (
-        data.transfer_method === TransferMethod.DIRECT ||
-        data.transfer_method === TransferMethod.POST_URL
-      ) {
+      if (data.transfer_method === TransferMethod.POST_URL) {
         response = await this.fullPostPresignedURL(endpoint, data, entry[1]);
       } else {
         response = await this.postMultipart(endpoint, data, options.files);
@@ -116,12 +113,12 @@ class PangeaRequest {
     fileData: FileData
   ): Promise<Response> {
     const response = await this.requestPresignedURL(endpoint, data);
-    if (!response.gotResponse || !response.accepted_result?.accepted_status.upload_url) {
-      throw new PangeaErrors.PangeaError("Failed to request presigned URL");
+    if (!response.gotResponse || !response.accepted_result?.post_url) {
+      throw new PangeaErrors.PangeaError("Failed to request post presigned URL");
     }
 
-    const presigned_url = response.accepted_result.accepted_status.upload_url;
-    const file_details = response.accepted_result?.accepted_status.upload_details;
+    const presigned_url = response.accepted_result.post_url;
+    const file_details = response.accepted_result?.post_form_data;
 
     this.toPresignedURL(presigned_url, {
       file: fileData.file,
@@ -208,7 +205,10 @@ class PangeaRequest {
   private async pollPresignedURL(
     response: PangeaResponse<PangeaErrors.Errors>
   ): Promise<PangeaResponse<any>> {
-    if (response.accepted_result?.accepted_status.upload_url) {
+    if (
+      response.accepted_result &&
+      (response.accepted_result.post_url || response.accepted_result.put_url)
+    ) {
       return response;
     }
     let retryCount = 0;
@@ -219,7 +219,11 @@ class PangeaRequest {
     const requestId = body?.request_id;
     let loopError;
 
-    while (!loopResponse.accepted_result?.accepted_status.upload_url && !this.reachTimeout(start)) {
+    while (
+      !loopResponse.accepted_result?.post_url &&
+      loopResponse.accepted_result?.put_url &&
+      !this.reachTimeout(start)
+    ) {
       retryCount += 1;
       const waitTime = this.getDelay(retryCount, start);
       await delay(waitTime);
@@ -237,7 +241,7 @@ class PangeaRequest {
       }
     }
 
-    if (loopResponse.accepted_result?.accepted_status.upload_url) {
+    if (loopResponse.accepted_result?.post_url || loopResponse.accepted_result?.put_url) {
       return loopResponse;
     } else {
       throw loopError;

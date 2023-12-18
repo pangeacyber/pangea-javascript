@@ -1,7 +1,7 @@
 .pangea_node_sdk_base:
   before_script:
     - cd packages/pangea-node-sdk
-    - yarn install
+    - yarn install --frozen-lockfile
   cache:
     - key:
         files:
@@ -17,7 +17,7 @@
 .pangea_node_sdk_publish:
   before_script:
     - cd packages/pangea-node-sdk
-    - yarn install
+    - yarn install --frozen-lockfile
     - apt-get -qq update
     - apt-get install -y jq
   cache:

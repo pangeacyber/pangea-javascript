@@ -31,7 +31,9 @@ const InvalidAuthView: FC<AuthFlowComponentProps> = ({
   update,
   reset,
 }) => {
-  const providerLabel = getProviderName(error.result?.correct_provider);
+  const providerLabel =
+    error.result?.display_name ||
+    getProviderName(error.result?.correct_provider);
   const emailAddress = error.result?.email || "";
 
   const doUpdate = () => {

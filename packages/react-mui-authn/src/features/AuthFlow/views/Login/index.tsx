@@ -11,8 +11,14 @@ const LoginView: FC<AuthFlowComponentProps> = (props) => {
   const disclaimer =
     data.disclaimer && data.phase !== "phase_one_time" ? data.disclaimer : "";
 
+  // TODO: Add branding option for onetime title
+  const title =
+    data.phase === "phase_one_time"
+      ? "Confirm your identity"
+      : options.passwordHeading;
+
   return (
-    <AuthFlowLayout title={options.passwordHeading} disclaimer={disclaimer}>
+    <AuthFlowLayout title={title} disclaimer={disclaimer}>
       {data.phase !== "phase_one_time" && (
         <IdField
           value={data?.email}

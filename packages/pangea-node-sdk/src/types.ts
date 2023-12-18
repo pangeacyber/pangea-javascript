@@ -27,10 +27,10 @@ export enum ConfigEnv {
 }
 
 export enum TransferMethod {
-  DIRECT = "direct", // Deprecated, use POST_URL instead
   MULTIPART = "multipart",
   POST_URL = "post-url",
   PUT_URL = "put-url",
+  SOURCE_URL = "source-url",
 }
 
 export interface Dictionary {
@@ -47,13 +47,13 @@ export interface FileItems {
   [key: string]: FileData;
 }
 
-export interface AcceptedStatus {
-  upload_url?: string;
-  upload_details?: Dictionary;
-}
-
 export interface AcceptedResult {
-  accepted_status: AcceptedStatus;
+  ttl_mins: number;
+  retry_counter: number;
+  location: string;
+  post_url?: string;
+  put_url?: string;
+  post_form_data?: Dictionary;
 }
 
 /**
@@ -242,12 +242,13 @@ export namespace FileScan {
     raw?: boolean;
     provider?: string;
     transfer_method?: TransferMethod;
+    source_url?: string;
   }
 
   export interface ScanFileParams {
-    transfer_size: number;
-    transfer_crc32c: string;
-    transfer_sha256: string;
+    size: number;
+    crc32c: string;
+    sha256: string;
   }
 
   export interface ScanFullRequest extends ScanRequest, ScanFileParams {}

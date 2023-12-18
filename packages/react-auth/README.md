@@ -28,4 +28,4 @@ yarn add @pangeacyber/react-auth
   A client class for using common AuthN client endpoints.
 
 - **[AuthNFlow](src/AuthNFlow)**
-  A context provider and client for implmenting authentication using AuthN Flow endpoints.
+  A context provider and client for implementing authentication using AuthN Flow endpoints.
