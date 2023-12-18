@@ -3,7 +3,7 @@ import { jest, it, expect } from "@jest/globals";
 import { TestEnvironment, getTestDomain, getTestToken } from "../../src/utils/utils.js";
 import { DomainIntelService } from "../../src/index.js";
 
-const testEnvironment = TestEnvironment.LIVE;
+const testEnvironment = TestEnvironment.DEVELOP;
 
 const token = getTestToken(testEnvironment);
 const testHost = getTestDomain(testEnvironment);
@@ -18,6 +18,16 @@ it("Domain reputation should succeed", async () => {
   expect(response.status).toBe("Success");
   expect(response.result.data).toBeDefined();
   expect(response.result.data.verdict).toBe("malicious");
+});
+
+it("Domain bulk reputation should succeed", async () => {
+  const options = { provider: "crowdstrike", verbose: true, raw: true };
+  const domains = ["pemewizubidob.cafij.co.za", "redbomb.com.tr", "kmbk8.hicp.net"];
+  const response = await domainIntel.reputationBulk(domains, options);
+
+  expect(response.status).toBe("Success");
+  expect(response.result.data).toBeDefined();
+  expect(Object.keys(response.result.data ?? {}).length).toBe(3);
 });
 
 it("Domain reputation should succeed. Default provider.", async () => {

@@ -3,7 +3,7 @@ import { it, expect } from "@jest/globals";
 import { TestEnvironment, getTestDomain, getTestToken } from "../../src/utils/utils.js";
 import { URLIntelService } from "../../src/index.js";
 
-const testEnvironment = TestEnvironment.LIVE;
+const testEnvironment = TestEnvironment.DEVELOP;
 
 const token = getTestToken(testEnvironment);
 const testHost = getTestDomain(testEnvironment);
@@ -17,6 +17,20 @@ it("URL reputation should succeed", async () => {
   expect(response.status).toBe("Success");
   expect(response.result.data).toBeDefined();
   expect(response.result.data.verdict).toBe("malicious");
+});
+
+it("URL reputation bulk should succeed", async () => {
+  const urls = [
+    "http://113.235.101.11:54384",
+    "http://45.14.49.109:54819",
+    "https://chcial.ru/uplcv?utm_term%3Dcost%2Bto%2Brezone%2Bland",
+  ];
+  const options = { provider: "crowdstrike", verbose: true, raw: true };
+  const response = await urlIntel.reputationBulk(urls, options);
+
+  expect(response.status).toBe("Success");
+  expect(response.result.data).toBeDefined();
+  expect(Object.keys(response.result.data).length).toBe(3);
 });
 
 it("URL reputation with default provider should succeed", async () => {
