@@ -1,0 +1,55 @@
+{
+  "request_id": "prq_kipxgtezk4grdscxvzzkto6d36dmqtwk",
+  "request_time": "2023-12-07T17:28:01.895017Z",
+  "response_time": "2023-12-07T17:28:01.923583Z",
+  "status": "Success",
+  "summary": "Flow updated",
+  "result": {
+    "flow_id": "pfl_3ykf54kj4hi72m6wdfaoczbxggdllel3",
+    "flow_type": ["one_time"],
+    "email": "glenn.gallien@pangea.cloud",
+    "phone": "14158590133",
+    "disclaimer": "By clicking “Continue” you agree to our\n [Terms of Use](https://pangea.cloud/terms-of-use/) and [Privacy Policy](https://pangea.cloud/privacy-policy/)",
+    "flow_phase": "phase_one_time",
+    "flow_choices": [
+      {
+        "choice": "email_otp",
+        "data": {
+          "sent": false,
+          "enrollment": false,
+          "resend_time": "0001-01-01T00:00:00Z"
+        }
+      },
+      {
+        "choice": "sms_otp",
+        "data": {
+          "sent": false,
+          "enrollment": false,
+          "resend_time": "0001-01-01T00:00:00Z"
+        }
+      },
+      {
+        "choice": "password",
+        "data": {
+          "enrollment": false,
+          "password_policy": {
+            "chars_min": 8,
+            "chars_max": 256,
+            "lower_min": 1,
+            "upper_min": 1,
+            "punct_min": 1,
+            "number_min": 0
+          }
+        }
+      },
+      {
+        "choice": "set_email",
+        "data": {}
+      },
+      {
+        "choice": "set_phone",
+        "data": {}
+      }
+    ]
+  }
+}

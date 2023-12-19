@@ -12,11 +12,12 @@ import StringField from "@src/components/fields/StringField";
 import ErrorMessage from "../../components/ErrorMessage";
 import Disclaimer from "../../components/Disclaimer";
 import { SocialOptions } from "../../components";
+import { BodyText } from "@src/components/core/Text";
 
 const StartView: FC<AuthFlowComponentProps> = (props) => {
   const { options, data, loading, error, update } = props;
   const validationSchema = yup.object({
-    email: yup.string().email("Enter a valid email").required("Required"),
+    email: yup.string().required("Required").email("Enter a valid email"),
   });
 
   const formik = useFormik({
@@ -24,6 +25,7 @@ const StartView: FC<AuthFlowComponentProps> = (props) => {
       email: "",
     },
     validationSchema: validationSchema,
+    validateOnBlur: true,
     onSubmit: (values) => {
       const payload = {
         ...values,
@@ -34,7 +36,7 @@ const StartView: FC<AuthFlowComponentProps> = (props) => {
 
   return (
     <AuthFlowLayout title={options?.startHeading}>
-      {!!data.setEmail && (
+      {!!data.setEmail?.required_for && (
         <form onSubmit={formik.handleSubmit}>
           <Stack gap={1}>
             <StringField
@@ -51,6 +53,13 @@ const StartView: FC<AuthFlowComponentProps> = (props) => {
           </Stack>
         </form>
       )}
+      {data.authChoices.length === 0 &&
+        data.socialChoices.length === 0 &&
+        data.samlChoices.length === 0 && (
+          <BodyText color="error" sxProps={{ padding: "0 16px" }}>
+            There are no valid authentication methods available
+          </BodyText>
+        )}
       <SocialOptions {...props} />
       {data.disclaimer && <Disclaimer content={data.disclaimer} />}
     </AuthFlowLayout>

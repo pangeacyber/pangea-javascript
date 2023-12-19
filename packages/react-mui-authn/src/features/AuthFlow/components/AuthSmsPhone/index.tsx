@@ -38,6 +38,7 @@ const AuthSmsPhone: FC<AuthFlowComponentProps> = (props) => {
       phone: "",
     },
     validationSchema: validationSchema,
+    validateOnBlur: true,
     onSubmit: (values) => {
       const payload: AuthFlow.SmsOtpRestart = {
         ...values,

@@ -15,7 +15,7 @@ const AuthOnetimeEmail: FC<AuthFlowComponentProps> = (props) => {
   const { options, error, loading, update } = props;
 
   const validationSchema = yup.object({
-    email: yup.string().email("Enter a valid email").required("Required"),
+    email: yup.string().required("Required").email("Enter a valid email"),
   });
 
   const formik = useFormik({
@@ -23,6 +23,7 @@ const AuthOnetimeEmail: FC<AuthFlowComponentProps> = (props) => {
       email: "",
     },
     validationSchema: validationSchema,
+    validateOnBlur: true,
     onSubmit: (values) => {
       const payload = {
         ...values,
