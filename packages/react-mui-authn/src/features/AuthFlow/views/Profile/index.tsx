@@ -47,6 +47,7 @@ const ProfileView: FC<AuthFlowComponentProps> = (props) => {
   const formik = useFormik({
     initialValues: defaultValues,
     validationSchema: validationSchema,
+    validateOnBlur: true,
     onSubmit: (values) => {
       const payload: AuthFlow.ProfileParams = {
         profile: {

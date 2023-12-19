@@ -37,6 +37,7 @@ const OtpForm: FC<Props> = ({
       code: "",
     },
     validationSchema: validationSchema,
+    validateOnBlur: true,
     onSubmit: (values) => {
       if (otpType === "email_otp") {
         const payload: AuthFlow.EmailOtpParams = {
