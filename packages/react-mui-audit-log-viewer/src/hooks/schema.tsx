@@ -120,7 +120,11 @@ export const useSchema = (
         "Content-Type": "application/json",
         Authorization: `Bearer ${auth.clientToken}`,
       },
-      body: JSON.stringify({}),
+      body: JSON.stringify({
+        ...(!!auth.configId && {
+          config_id: auth.configId,
+        }),
+      }),
     }).then(async (res) => {
       const data = await res.json();
       if (data.result && Array.isArray(data.result?.fields)) {

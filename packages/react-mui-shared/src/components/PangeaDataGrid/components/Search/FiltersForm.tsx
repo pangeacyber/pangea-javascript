@@ -4,7 +4,7 @@ import { Grid, TextField, Button, Stack, ChipProps } from "@mui/material";
 
 interface FilterOption {
   label: string;
-  type?: "string";
+  type?: "string" | "csv";
 }
 
 export interface FilterOptions<FiltersObj> {
@@ -55,15 +55,23 @@ const FiltersForm = <FiltersObj extends { [key: string]: string }>({
           {Object.keys(options).map((fieldName) => {
             const field = options[fieldName];
 
+            const value: any = get(
+              values,
+              fieldName,
+              field.type === "csv" ? [] : ""
+            );
             return (
               <Grid xs={6} item key={`audit-field-${fieldName}`}>
                 <TextField
-                  value={get(values, fieldName, "")}
+                  value={field.type === "csv" ? value.join(",") : value}
                   onChange={(event) => {
                     const newValue = event.target.value;
                     setValues((state) => ({
                       ...state,
-                      [fieldName]: newValue,
+                      [fieldName]:
+                        field.type === "csv"
+                          ? newValue.split(",").map((v) => v.trim())
+                          : newValue,
                     }));
                   }}
                   label={field.label}

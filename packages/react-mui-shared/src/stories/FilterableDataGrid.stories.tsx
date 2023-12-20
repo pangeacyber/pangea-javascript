@@ -89,6 +89,10 @@ const Template: ComponentStory<typeof LinedPangeaDataGrid> = (args) => {
               title: {
                 label: "Title",
               },
+              tags: {
+                label: "Tags",
+                type: "csv",
+              },
             },
             showFilterChips: true,
           },
