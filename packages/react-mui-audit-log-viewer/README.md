@@ -72,6 +72,7 @@ The AuditLogViewer component accepts the following props:
 - config (optional): An object representing the authentication configuration. Used to fetch your project custom Audit schema, so the AuditLogViewer component can dynamically update as you update your configuration in Pangea Console.
   - clientToken: string;
   - domain: string;
+  - configId (conditionally-optional): A configId is conditionally optional depending on if your project in Pangea has multiple Audit configurations. With multiple Audit configurations the configId is required to identify which Audit schema should be fetched.
 - schema (optional): An object representing the audit schema. With Audit Service custom schema support, you can change the expected Audit schema. This will control what fields are rendered.
 
 For a deeper dive into the Prop interface check the source code [here](https://github.com/pangeacyber/pangea-javascript/blob/main/packages/react-mui-audit-log-viewer/src/AuditLogViewer.tsx)

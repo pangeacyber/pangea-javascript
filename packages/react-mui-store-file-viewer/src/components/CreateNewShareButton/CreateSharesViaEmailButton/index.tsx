@@ -36,7 +36,7 @@ const CreateSharesViaEmailButton: FC<Props> = ({
   onClose,
   onDone,
 }) => {
-  const { apiRef } = useStoreFileViewerContext();
+  const { apiRef, triggerUpdate } = useStoreFileViewerContext();
   const [open, setOpen] = useState(false);
 
   const [loading, setLoading] = useState(false);
@@ -77,6 +77,8 @@ const CreateSharesViaEmailButton: FC<Props> = ({
         }),
       })
       .then(async (response) => {
+        triggerUpdate();
+
         const links = response?.result?.share_link_objects ?? [];
         if (links.length && apiRef.share?.send) {
           const body: ObjectStore.ShareSendRequest = {

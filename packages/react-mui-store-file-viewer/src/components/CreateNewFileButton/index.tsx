@@ -56,7 +56,6 @@ const CreateNewFileButton: FC<Props> = ({ ButtonProps, onClose }) => {
       <input
         // @ts-ignore
         ref={inputRef}
-        accept="image/*"
         style={{ display: "none" }}
         type="file"
         onChange={(e) => {

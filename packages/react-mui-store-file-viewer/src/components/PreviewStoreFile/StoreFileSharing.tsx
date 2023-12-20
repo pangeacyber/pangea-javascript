@@ -11,13 +11,13 @@ interface Props {
 }
 
 const StoreFileSharing: FC<Props> = ({ object }) => {
-  const { apiRef } = useStoreFileViewerContext();
+  const { apiRef, updated } = useStoreFileViewerContext();
 
   const [shares, setShares] = useState<ObjectStore.ShareObjectResponse[]>([]);
 
   useEffect(() => {
     handleFetchShares();
-  }, [object.id]);
+  }, [object.id, updated]);
 
   const handleFetchShares = () => {
     if (!object.id || !apiRef.share?.list) return;
@@ -49,9 +49,7 @@ const StoreFileSharing: FC<Props> = ({ object }) => {
         <CreateNewShareButton
           object={object}
           onDone={() => {
-            setTimeout(() => {
-              handleFetchShares();
-            }, 500);
+            return;
           }}
         />
       )}

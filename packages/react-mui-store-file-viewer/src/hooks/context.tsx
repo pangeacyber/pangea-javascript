@@ -37,6 +37,9 @@ export interface StoreFileViewerContextProps {
   setPreviewId: Dispatch<SetStateAction<string | undefined>>;
 
   parent: ObjectStore.ObjectResponse | undefined;
+
+  updated: number | undefined;
+  triggerUpdate: () => void;
 }
 
 const DEFAULT_LIST_RESPONSE = {
@@ -82,6 +85,9 @@ const StoreFileViewerContext = createContext<StoreFileViewerContextProps>({
   setPreviewId: () => {},
 
   parent: undefined,
+
+  updated: 0,
+  triggerUpdate: () => {},
 });
 
 export interface StoreFileViewerProviderProps {
@@ -127,6 +133,11 @@ const StoreFileViewerProvider: FC<StoreFileViewerProviderProps> = ({
       },
     }
   );
+
+  const [updated, setUpdated] = useState(0);
+  const triggerUpdate = useCallback(() => {
+    setUpdated((state) => state + 1);
+  }, [setUpdated]);
 
   const [error, setError] = useState<PangeaError>();
   const [data, setData] = useState<ObjectStore.ListResponse>(
@@ -240,6 +251,9 @@ const StoreFileViewerProvider: FC<StoreFileViewerProviderProps> = ({
         setPreviewId,
 
         parent,
+
+        updated,
+        triggerUpdate,
       }}
     >
       {children}

@@ -48,7 +48,7 @@ const CreateSharesViaSmsButton: FC<Props> = ({
   onClose,
   onDone,
 }) => {
-  const { apiRef } = useStoreFileViewerContext();
+  const { apiRef, triggerUpdate } = useStoreFileViewerContext();
   const [open, setOpen] = useState(false);
 
   const [loading, setLoading] = useState(false);
@@ -94,6 +94,7 @@ const CreateSharesViaSmsButton: FC<Props> = ({
         }),
       })
       .then(async (response) => {
+        triggerUpdate();
         const recipientMap = keyBy(body?.authenticators ?? [], "auth_context");
 
         const links = response?.result?.share_link_objects ?? [];

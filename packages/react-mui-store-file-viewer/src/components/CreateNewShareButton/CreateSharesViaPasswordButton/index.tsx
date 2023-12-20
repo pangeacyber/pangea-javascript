@@ -29,7 +29,7 @@ const CreateSharesViaPasswordButton: FC<Props> = ({
   onClose,
   onDone,
 }) => {
-  const { apiRef, configurations } = useStoreFileViewerContext();
+  const { apiRef, configurations, triggerUpdate } = useStoreFileViewerContext();
 
   const [share, setShare] = useState<
     ObjectStore.ShareObjectResponse | undefined
@@ -74,6 +74,8 @@ const CreateSharesViaPasswordButton: FC<Props> = ({
         ],
       })
       .then((newShare) => {
+        triggerUpdate();
+
         setLoading(false);
         if (newShare?.result?.share_link_objects?.length) {
           setOpen(false);

@@ -83,8 +83,8 @@ const UpdateFileButton: FC<Props> = ({ object, ButtonProps, onClose }) => {
               values.parent_id = "";
             }
 
-            // @ts-ignore
             return handleUpdate(
+              // @ts-ignore
               pickBy(values, (v, k) => !!v || k === "parent_id")
             );
           }}

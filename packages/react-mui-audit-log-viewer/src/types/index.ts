@@ -171,4 +171,5 @@ export namespace Audit {
 export interface AuthConfig {
   clientToken: string;
   domain: string;
+  configId?: string;
 }
