@@ -1,12 +1,10 @@
 import { FC, FormEvent, MouseEvent, useState } from "react";
 import {
   FormControl,
-  Popper,
   IconButton,
   InputAdornment,
-  InputLabel,
   OutlinedInput,
-  FormHelperText,
+  Tooltip,
 } from "@mui/material";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
 import useMediaQuery from "@mui/material/useMediaQuery";
@@ -29,46 +27,25 @@ export const checkPassword = (value: string | undefined, policy: any) => {
 };
 
 const PasswordField: FC<Props> = ({ name, label, formik, policy }) => {
-  const theme = useTheme();
-  const tooltipTop = useMediaQuery("(max-width:1500px)");
   const [showPassword, setShowPassword] = useState<boolean>(false);
-  const [tooltipAnchor, setTooltipAnchor] = useState<null | HTMLElement>(null);
-  const tooltipOpen = Boolean(tooltipAnchor);
+  const [showStatus, setShowStatus] = useState<boolean>(false);
 
+  const handleBlur = () => setShowStatus(true);
   const handleClickShowPassword = () => setShowPassword((show) => !show);
   const handleMouseDownPassword = (event: MouseEvent<HTMLButtonElement>) => {
     event.preventDefault();
   };
 
-  const openTooltip = (e: FormEvent<HTMLElement>) => {
-    if (policy) {
-      setTooltipAnchor(e.currentTarget);
-    }
-  };
-
-  const closeTooltip = (e: FormEvent<HTMLElement>) => {
-    if (policy) {
-      formik.handleBlur(e);
-      setTooltipAnchor(null);
-    }
-  };
-
   return (
     <>
-      <FormControl
-        variant="outlined"
-        fullWidth
-        error={Boolean(formik.touched[name] && Boolean(formik.errors[name]))}
-        onFocus={openTooltip}
-        onBlur={closeTooltip}
-      >
-        {/* <InputLabel htmlFor={`outlined-adornment-${name}`}>{label}</InputLabel> */}
+      <FormControl variant="outlined" fullWidth error={!!formik.errors[name]}>
         <OutlinedInput
           id={`outlined-adornment-${name}`}
           name={name}
           type={showPassword ? "text" : "password"}
           error={formik.touched[name] && formik.errors[name]}
           onChange={formik.handleChange}
+          onBlur={handleBlur}
           autoComplete={policy ? "new-password" : "current-password"}
           endAdornment={
             <InputAdornment position="end">
@@ -77,8 +54,13 @@ const PasswordField: FC<Props> = ({ name, label, formik, policy }) => {
                 onClick={handleClickShowPassword}
                 onMouseDown={handleMouseDownPassword}
                 edge="end"
+                color={
+                  showStatus && !!formik.errors[name] ? "error" : "default"
+                }
               >
-                {showPassword ? <VisibilityOff /> : <Visibility />}
+                <Tooltip title={formik.errors[name]}>
+                  {showPassword ? <VisibilityOff /> : <Visibility />}
+                </Tooltip>
               </IconButton>
             </InputAdornment>
           }
@@ -86,34 +68,8 @@ const PasswordField: FC<Props> = ({ name, label, formik, policy }) => {
           placeholder={label}
           autoFocus
         />
-        {formik.errors[name] && (
-          <FormHelperText error>{formik.errors[name]}</FormHelperText>
-        )}
       </FormControl>
-      <Popper
-        open={tooltipOpen}
-        anchorEl={tooltipAnchor}
-        disablePortal={true}
-        placement={tooltipTop ? "top" : "right"}
-        sx={{
-          backgroundColor: theme.palette.background.paper,
-          zIndex: "100",
-        }}
-        modifiers={[
-          {
-            name: "offset",
-            options: {
-              offset: tooltipTop ? [80, 10] : [0, 20],
-            },
-          },
-        ]}
-      >
-        <PasswordRequirements
-          value={formik.values[name]}
-          policy={policy}
-          positionTop={tooltipTop}
-        />
-      </Popper>
+      <PasswordRequirements value={formik.values[name]} policy={policy} />
     </>
   );
 };

@@ -46,6 +46,7 @@ const AuthPassword: FC<AuthFlowComponentProps> = ({
       password: "",
     },
     validationSchema: validationSchema,
+    validateOnBlur: true,
     onSubmit: (values) => {
       const payload: AuthFlow.PasswordParams = {
         ...values,

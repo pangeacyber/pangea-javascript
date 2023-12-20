@@ -279,7 +279,7 @@ class PangeaRequest {
     try {
       let pangeaResponse = new PangeaResponse(response);
       if (response.statusCode === 202) {
-        if (options.pollResultSync) {
+        if (options.pollResultSync !== false) {
           pangeaResponse = await this.handleAsync(pangeaResponse);
         }
         return this.checkResponse(pangeaResponse);
@@ -410,6 +410,10 @@ class PangeaRequest {
   private checkResponse(response: PangeaResponse<any>) {
     if (response.success) {
       return response;
+    }
+
+    if (response.gotResponse?.statusCode === 503) {
+      throw new PangeaErrors.ServiceTemporarilyUnavailable(JSON.stringify(response.body));
     }
 
     switch (response.status) {

@@ -11,7 +11,7 @@ export class ResponseObject<M> {
   request_id: string = "InvalidPayloadReceived";
   request_time: string = "InvalidPayloadReceived";
   response_time: string = "InvalidPayloadReceived";
-  status: string = "InvalidPayloadReceived";
+  status: string = "NoStatus";
   result: M = {} as M;
   accepted_result?: AcceptedResult;
   summary: string = "InvalidPayloadReceived";
