@@ -19,7 +19,7 @@
 
 The Store Viewer can be used to search, view, and upload files or folders to your Pangea Secure Object Store.
 
-An application using the Secure Object Store may also require that files are presented in the end application, because of this we made the file viewer React component that Pangea uses within it's Console available as an NPM package, such that it could be embed directly into an app. The primary prop require is an api interface, which should contain callback handlers that handle making API requests to a server which proxy the Secure Object Store APIs, expecting a proxy server since service token from Pangeas should not be embed within a client.
+An application using the Secure Object Store may also require that files are presented in the end application, because of this we made the file viewer React component that Pangea uses within its Console available as an NPM package, such that it could be embedded directly into other applications. The primary prop required is an API interface, which should contain callback handlers that handle making API requests to a server which proxies the Secure Object Store APIs. A proxy server is required because the service token from Pangea should not be embedded within a client.
 
 The StoreFileViewer component is a React component built using the Material-UI (MUI) component library. MUI was used because it is the same component used within the Pangea Console.
 
@@ -88,7 +88,7 @@ interface StoreFileViewerProps {
 - `defaultSortBy` (keyof ObjectStore.ObjectResponse, optional): Default property to sort the file viewer by.
 - `defaultVisibilityModel` (Record<string, boolean>, optional): Default visibility model for elements in the file viewer.
 - `defaultColumnOrder` (string[], optional): Default order of columns in the file viewer.
-- `PangeaDataGridProps` (Partial<PangeaDataGridProps<ObjectStore.ObjectResponse>>, optional): Customization options for the internal PangeaDataGrid component used by the StoreFileViewer.From @pangeacyber/react-mui-shared
+- `PangeaDataGridProps` (Partial<PangeaDataGridProps<ObjectStore.ObjectResponse>>, optional): Customization options for the internal PangeaDataGrid component used by the StoreFileViewer. From @pangeacyber/react-mui-shared.
 
 ## StoreProxyApiRef Interface
 
@@ -96,7 +96,7 @@ interface StoreFileViewerProps {
 
 The `StoreProxyApiRef` interface defines methods and properties for interacting with a store proxy API. It includes functions for listing, getting, archiving, sharing, deleting, updating, uploading, and creating folders in the object store.
 
-Only list and get are required to run the StoreFileViewer.
+Only `list` and `get` are required to run the StoreFileViewer.
 
 ### Interface Definition
 
@@ -152,7 +152,7 @@ interface StoreProxyApiRef {
 }
 ```
 
-For a deeper dive into the Prop interface check the source code [here](https://github.com/pangeacyber/pangea-javascript/blob/main/packages/react-mui-store-file-viewer/src/components/StoreFileViewer/index.tsx)
+For a deeper dive into the Prop interface check the source code [here](https://github.com/pangeacyber/pangea-javascript/blob/main/packages/react-mui-store-file-viewer/src/components/StoreFileViewer/index.tsx).
 
 ## Example
 
