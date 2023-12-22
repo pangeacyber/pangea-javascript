@@ -494,9 +494,9 @@ const PangeaDataGrid = <
               }}
               slots={{
                 row: ExpandableRow,
-                pagination: !!ServerPagination
-                  ? () => <Pagination {...ServerPagination} />
-                  : undefined,
+                ...(!!ServerPagination && {
+                  pagination: () => <Pagination {...ServerPagination} />,
+                }),
                 columnHeaders: ColumnHeaders,
                 ...(DataGridProps.slots ?? {}),
               }}
