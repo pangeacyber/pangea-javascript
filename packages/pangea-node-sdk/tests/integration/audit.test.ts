@@ -597,7 +597,7 @@ it("search audit log and verify consistency", async () => {
     limit: limit,
     order: "asc", // Oldest events should have consistency proofs
     max_results: maxResults,
-    start: "7d",
+    start: "30d",
   };
 
   let response = await auditGeneral.search(query, queryOptions, options);
