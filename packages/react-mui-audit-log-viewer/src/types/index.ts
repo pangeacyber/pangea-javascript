@@ -74,8 +74,8 @@ export namespace Audit {
   }
 
   export interface Root {
-    url: string;
-    published_at: string;
+    url?: string;
+    published_at?: string;
     size: number;
     root_hash: string;
     consistency_proof: string[];
@@ -171,4 +171,5 @@ export namespace Audit {
 export interface AuthConfig {
   clientToken: string;
   domain: string;
+  configId?: string;
 }

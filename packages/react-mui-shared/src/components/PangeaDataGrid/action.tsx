@@ -15,7 +15,6 @@ export const constructActionColumn = <T extends any = any>(
     sortable: false,
     resizable: false,
     filterable: false,
-    minWidth: 54,
     flex: 1,
     editable: false,
     headerName: "",
@@ -28,5 +27,6 @@ export const constructActionColumn = <T extends any = any>(
       );
     },
     ...overrides,
+    minWidth: overrides.minWidth ?? 54,
   };
 };

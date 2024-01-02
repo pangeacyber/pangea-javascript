@@ -106,7 +106,7 @@ const ThemeTemplate: ComponentStory<typeof AuditLogViewer> = (args) => {
   return (
     <PangeaThemeProvider>
       <Box className="widget" sx={{ padding: 1 }}>
-        <AuditLogViewer {...args} schema={schema} />
+        <AuditLogViewer {...args} />
       </Box>
     </PangeaThemeProvider>
   );
@@ -122,7 +122,13 @@ VerificationAuditLogViewer.args = {
       `https://audit.${process.env.STORYBOOK_SERVICE_DOMAIN}/v1/search`,
       {
         method: "POST",
-        body: JSON.stringify({ ...body, verify_signature: true }),
+        body: JSON.stringify({
+          ...body,
+          verify_signature: true,
+          ...(!!process.env.STORYBOOK_CONFIG_ID && {
+            config_id: process.env.STORYBOOK_CONFIG_ID,
+          }),
+        }),
         headers: {
           Authorization: `Bearer ${process.env.STORYBOOK_PANGEA_TOKEN}`,
         },
@@ -140,7 +146,13 @@ VerificationAuditLogViewer.args = {
       `https://audit.${process.env.STORYBOOK_SERVICE_DOMAIN}/v1/results`,
       {
         method: "POST",
-        body: JSON.stringify({ ...body, verify_signature: true }),
+        body: JSON.stringify({
+          ...body,
+          verify_signature: true,
+          ...(!!process.env.STORYBOOK_CONFIG_ID && {
+            config_id: process.env.STORYBOOK_CONFIG_ID,
+          }),
+        }),
         headers: {
           Authorization: `Bearer ${process.env.STORYBOOK_PANGEA_TOKEN}`,
         },
@@ -156,7 +168,12 @@ VerificationAuditLogViewer.args = {
         `https://audit.${process.env.STORYBOOK_SERVICE_DOMAIN}/v1/root`,
         {
           method: "POST",
-          body: JSON.stringify({ ...body }),
+          body: JSON.stringify({
+            ...body,
+            ...(!!process.env.STORYBOOK_CONFIG_ID && {
+              config_id: process.env.STORYBOOK_CONFIG_ID,
+            }),
+          }),
           headers: {
             Authorization: `Bearer ${process.env.STORYBOOK_PANGEA_TOKEN}`,
           },
@@ -170,5 +187,6 @@ VerificationAuditLogViewer.args = {
   config: {
     domain: process.env.STORYBOOK_SERVICE_DOMAIN ?? "",
     clientToken: process.env.STORYBOOK_CLIENT_TOKEN ?? "",
+    configId: process.env.STORYBOOK_CONFIG_ID ?? "",
   },
 };

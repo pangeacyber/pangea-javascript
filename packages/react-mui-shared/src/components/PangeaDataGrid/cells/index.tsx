@@ -30,7 +30,7 @@ export const DateCell: FC<PDG.CellProps> = ({ params }) => {
   return <Typography variant="body2">{date.toDateString()}</Typography>;
 };
 
-export const DateTimeCell: FC<PDG.CellProps> = ({ params }) => {
+export const DateTimeCell: FC<PDG.CellProps> = ({ params, color }) => {
   const { value } = params;
 
   const date = new Date(value);
@@ -38,7 +38,7 @@ export const DateTimeCell: FC<PDG.CellProps> = ({ params }) => {
     return <Typography variant="body2">Never</Typography>;
   }
   return (
-    <Typography variant="body2">
+    <Typography variant="body2" color={color}>
       {date.toLocaleString(undefined, {
         year: "numeric",
         month: "2-digit",

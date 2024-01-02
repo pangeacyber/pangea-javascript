@@ -6,6 +6,7 @@ import {
   useState,
   MouseEvent,
   useRef,
+  useCallback,
 } from "react";
 import cloneDeep from "lodash/cloneDeep";
 import keyBy from "lodash/keyBy";
@@ -13,6 +14,7 @@ import mapValues from "lodash/mapValues";
 import get from "lodash/get";
 import find from "lodash/find";
 import findLast from "lodash/findLast";
+import isEmpty from "lodash/isEmpty";
 
 import Grid from "@mui/material/Grid";
 import {
@@ -23,6 +25,7 @@ import {
   GridRowParams,
   MuiEvent,
   GridColumnHeaderParams,
+  GridSortModel,
 } from "@mui/x-data-grid";
 import { useTheme, lighten, SxProps } from "@mui/material/styles";
 
@@ -70,6 +73,14 @@ export interface PangeaDataGridProps<
     onMaxResultChange?: (maxResults: number) => void;
     maxResultOptions?: number[];
   };
+  ServerSorting?: {
+    sort?: "asc" | "desc";
+    sortBy?: string;
+    onSortChange: (
+      sort: string | undefined,
+      sortBy: string | undefined
+    ) => void;
+  };
   Search?: {
     query?: string;
     error?: PDG.SearchError;
@@ -102,6 +113,7 @@ export interface PangeaDataGridProps<
     param: GridRowParams<DataType>,
     event: MuiEvent<MouseEvent>
   ) => boolean | void;
+  onPreview?: (preview: GridRowParams<DataType> | null) => void;
   DataGridProps?: Partial<DataGridProps>;
   DataGridWrappingStackProps?: Partial<StackProps>;
   sx?: SxProps;
@@ -117,6 +129,7 @@ const PangeaDataGrid = <
   loading,
   Search,
   ServerPagination,
+  ServerSorting,
   ActionColumn,
   ExpansionRow,
   DataGridProps = {},
@@ -124,12 +137,18 @@ const PangeaDataGrid = <
   previewId,
   onRowClick,
   onRowDoubleClick,
+  onPreview,
   ColumnCustomization,
   sx,
 }: PangeaDataGridProps<DataType, FiltersObj>): JSX.Element => {
   const theme = useTheme();
 
-  const [preview, setPreview] = useState<GridRowParams<DataType> | null>(null);
+  const [preview, setPreview_] = useState<GridRowParams<DataType> | null>(null);
+  const setPreview = (preview: GridRowParams<DataType> | null) => {
+    setPreview_(preview);
+    if (onPreview) onPreview(preview);
+  };
+
   const previewPanelRef = useRef<HTMLDivElement | undefined>();
 
   const isRowClickable = !!ExpansionRow?.render || !!onRowClick;
@@ -210,6 +229,37 @@ const PangeaDataGrid = <
     ColumnCustomization?.position,
     ColumnCustomization?.dynamicFlexColumn,
   ]);
+
+  const sortModel = useMemo<GridSortModel | undefined>(() => {
+    if (!ServerSorting?.sort || !ServerSorting?.sortBy) return undefined;
+
+    return [
+      {
+        field: ServerSorting.sortBy,
+        sort: ServerSorting.sort,
+      },
+    ];
+  }, [ServerSorting?.sort, ServerSorting?.sortBy]);
+
+  const handleSortModelChange = useCallback(
+    (model: GridSortModel) => {
+      if (!ServerSorting?.onSortChange) return;
+
+      if (isEmpty(model) || !model.length) {
+        ServerSorting.onSortChange(undefined, undefined);
+        return;
+      }
+
+      const sort = model[0];
+      if (!sort.sort) {
+        ServerSorting.onSortChange(undefined, undefined);
+        return;
+      }
+
+      ServerSorting.onSortChange(sort.sort, sort.field);
+    },
+    [ServerSorting?.onSortChange]
+  );
 
   const columnsMap = useMemo(() => keyBy(columns, "field"), [columns]);
 
@@ -337,6 +387,12 @@ const PangeaDataGrid = <
               }}
               rowCount={
                 !!ServerPagination ? ServerPagination.rowCount : undefined
+              }
+              filterMode={!!ServerSorting ? "server" : undefined}
+              sortingMode={!!ServerSorting ? "server" : undefined}
+              sortModel={sortModel}
+              onSortModelChange={
+                !!ServerSorting ? handleSortModelChange : undefined
               }
               {...(DataGridProps ?? {})}
               sx={{

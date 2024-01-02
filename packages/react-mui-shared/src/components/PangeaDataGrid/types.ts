@@ -23,18 +23,19 @@ export namespace PDG {
       | "warning";
   }
 
-  export interface GridField extends GridBaseColDef {
+  export interface GridObject {
+    [key: string]: any;
+  }
+
+  // @ts-ignore Ignore field being required
+  export interface GridField<T = GridObject> extends GridBaseColDef<T> {
     name?: string;
     label?: string;
     type?: FieldType;
   }
 
-  export interface GridObject {
-    [key: string]: any;
-  }
-
   export type GridSchemaFields<T = GridObject> = Partial<
-    Record<keyof T, Partial<GridField>>
+    Record<keyof T, Partial<GridField<T>>>
   >;
 
   export interface CustomPinnedGridColDef
