@@ -5,6 +5,7 @@ import {
   useContext,
   useEffect,
   useMemo,
+  useRef,
   useState,
 } from "react";
 
@@ -143,6 +144,11 @@ export const AuthProvider: FC<AuthProviderProps> = ({
   children,
 }) => {
   const [authenticated, setAuthenticated] = useState<boolean>(false);
+
+  // Track initialization state, to handle react 18 strict dev mode, running mount effects twice
+  // https://legacy.reactjs.org/docs/strict-mode.html#ensuring-reusable-state
+  const initState = useRef("unmounted");
+
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string>("");
   const [user, setUser] = useState<AuthUser>();
@@ -210,13 +216,16 @@ export const AuthProvider: FC<AuthProviderProps> = ({
     const [token, expire] = getSessionTokenValues(options);
 
     if (hasAuthParams()) {
+      initState.current = "exchange";
       // if code and secret params are set, exchange code for a token
       exchange();
     } else if (token) {
       // if token is expiring or expired, try refreshing
       if (expire && isTokenExpiring(expire)) {
+        initState.current = "refresh";
         refresh();
       } else {
+        initState.current = "restore";
         const data: SessionData = getSessionData(options);
         if (!!data.user) {
           // if token has not expired, validate that it's still good
@@ -229,10 +238,14 @@ export const AuthProvider: FC<AuthProviderProps> = ({
       }
 
       startTokenWatch();
-    } else {
+    } else if (initState.current === "unmounted") {
       // show unauthenticated state
       setLoading(false);
     }
+
+    return () => {
+      setLoading(true);
+    };
   }, []);
 
   const exchange = async () => {
