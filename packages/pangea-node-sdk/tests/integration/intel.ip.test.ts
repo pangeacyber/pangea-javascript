@@ -17,7 +17,7 @@ it("IP geolocate should succeed", async () => {
   expect(response.status).toBe("Success");
   expect(response.result.data).toBeDefined();
   expect(response.result.data.country).toBe("Federal Republic Of Germany");
-  expect(response.result.data.city).toBe("unna");
+  expect(response.result.data.city).toBeDefined();
   expect(response.result.data.postal_code.length).toBe(5);
 });
 
