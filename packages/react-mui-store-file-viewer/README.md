@@ -17,11 +17,11 @@
 
 ## Motivation
 
-The Audit Log Viewer can be used to search, view, and verify tamperproofing of all logs stored by the Secure Audit Log service. It allows users to perform searches, navigate through pages of results, and interact with the audit log data.
+The Store Viewer can be used to search, view, and upload files or folders to your Pangea Secure Object Store.
 
-An application using the Pangea Audit Service may also require that the audit logs are presented in the end application, because of this we made the log viewer React component that Pangea uses within it's Console available as an NPM package, such that it could be embed directly into an app.
+An application using the Secure Object Store may also require that files are presented in the end application, because of this we made the file viewer React component that Pangea uses within its Console available as an NPM package, such that it could be embedded directly into other applications. The primary prop required is an API interface, which should contain callback handlers that handle making API requests to a server which proxies the Secure Object Store APIs. A proxy server is required because the service token from Pangea should not be embedded within a client.
 
-The AuditLogViewer component is a React component built using the Material-UI (MUI) component librarby. MUI was used because it is the same component used within the Pangea Console.
+The StoreFileViewer component is a React component built using the Material-UI (MUI) component library. MUI was used because it is the same component used within the Pangea Console.
 
 ## Getting Started
 
@@ -30,13 +30,13 @@ Install Material-UI library and the AuditLogViewer NPM package.
 #### npm
 
 ```bash
-npm install @mui/material @emotion/react @emotion/styled @pangeacyber/react-mui-audit-log-viewer
+npm install @mui/material @emotion/react @emotion/styled @pangeacyber/react-mui-store-file-viewer
 ```
 
 #### yarn
 
 ```bash
-yarn add @mui/material @emotion/react @emotion/styled @pangeacyber/react-mui-audit-log-viewer
+yarn add @mui/material @emotion/react @emotion/styled @pangeacyber/react-mui-store-file-viewer
 ```
 
 ### Peer dependencies
@@ -52,66 +52,136 @@ Please note that react and react-dom are peer dependencies too:
 
 To learn more about Material-UI (MUI) check out their official documention(https://mui.com/material-ui/getting-started/installation/).
 
+## StoreFileViewerProps Interface
+
+### Description
+
+The `StoreFileViewerProps` interface defines properties for configuring a file viewer component that interacts with a Secure Object Store service through the provided `StoreProxyApiRef`.
+
+### Interface Definition
+
+```typescript
+interface StoreFileViewerProps {
+  children?: React.ReactNode;
+  apiRef: StoreProxyApiRef;
+  configurations?: StoreConfigurations;
+  defaultFilter?: ObjectStore.Filter;
+  defaultSort?: "asc" | "desc";
+  defaultSortBy?: keyof ObjectStore.ObjectResponse;
+
+  defaultVisibilityModel?: Record<string, boolean>;
+  defaultColumnOrder?: string[];
+
+  PangeaDataGridProps?: Partial<
+    PangeaDataGridProps<ObjectStore.ObjectResponse>
+  >;
+}
+```
+
 ### Props
 
-The AuditLogViewer component accepts the following props:
+- `children` (ReactNode, optional): Child components or elements.
+- `apiRef` (StoreProxyApiRef, required): Reference to the store proxy API for communication with the object store.
+- `configurations` (StoreConfigurations, optional): Configuration options for the file viewer.
+- `defaultFilter` (ObjectStore.Filter, optional): Default filter to apply to the file viewer.
+- `defaultSort` ("asc" | "desc", optional): Default sorting order for the file viewer.
+- `defaultSortBy` (keyof ObjectStore.ObjectResponse, optional): Default property to sort the file viewer by.
+- `defaultVisibilityModel` (Record<string, boolean>, optional): Default visibility model for elements in the file viewer.
+- `defaultColumnOrder` (string[], optional): Default order of columns in the file viewer.
+- `PangeaDataGridProps` (Partial<PangeaDataGridProps<ObjectStore.ObjectResponse>>, optional): Customization options for the internal PangeaDataGrid component used by the StoreFileViewer. From @pangeacyber/react-mui-shared.
 
-- initialQuery (optional): A string representing the default initial search query.
-- onSearch: A function that takes a body of type Audit.SearchRequest and returns a promise resolving to a Audit.SearchResponse. This function is called when the user performs a search. Should make a call to the Audit Service `/search` endpoint proxied through your application server.
-- onPageChange: A function that takes a body of type Audit.ResultRequest and returns a promise resolving to a Audit.ResultResponse. This function is called when the user navigates to a different page of results. Should make a call to the Audit Service `/results` endpoint proxied through your application server.
-- verificationOptions (optional): An object containing verification options. Letting you control whether or not to include client side verification check on audit logs.
-  - onFetchRoot: A function that takes a body of type Audit.RootRequest and returns a promise resolving to a Audit.RootResponse. This function is called when the root data needs to be fetched. Should make a call to the Audit Service `/root` endpoint proxied through your application server.
-  - ModalChildComponent (optional): A functional component that serves as a child component for the VerificationModal dialog.
-  - onCopy (optional): A function that takes a message string and a value string. It is called when the user copies a value from the component from the VerificationModal component
-- sx (optional): Additional CSS styles applied to the component using the SxProps interface.
-- pageSize (optional): The number of items to display per page.
-- dataGridProps (optional): Additional props to be passed to the underlying MUI DataGrid component.
-- fields (optional): An object containing partial definitions for the grid columns. The keys of the object correspond to properties of the Event type, and the values are partial definitions of the GridColDef type.
-- visibilityModel (optional): An object containing partial definitions for the visibility of the grid columns. The keys of the object correspond to properties of the Event type, and the values are boolean values indicating the visibility of the column.
-- filters (optional): An object representing the public audit query used to filter the audit log data.
-- config (optional): An object representing the authentication configuration. Used to fetch your project custom Audit schema, so the AuditLogViewer component can dyanmically update as you udpate your configuration in Pangea Console.
-  - clientToken: string;
-  - domain: string;
-- schema (optional): An object representing the audit schema. With Audit Service custom schema support, you can change the expected Audit schema. This will control what fields are rendered.
+## StoreProxyApiRef Interface
 
-For a deeper dive into the Prop interface check the source code [here](https://github.com/pangeacyber/pangea-javascript/blob/main/packages/react-mui-audit-log-viewer/src/AuditLogViewer.tsx)
+### Description
 
-### Example
+The `StoreProxyApiRef` interface defines methods and properties for interacting with a store proxy API. It includes functions for listing, getting, archiving, sharing, deleting, updating, uploading, and creating folders in the object store.
+
+Only `list` and `get` are required to run the StoreFileViewer.
+
+### Interface Definition
+
+```typescript
+interface StoreProxyApiRef {
+  list:
+    | ((
+        data: ObjectStore.ListRequest
+      ) => Promise<PangeaResponse<ObjectStore.ListResponse>>)
+    | undefined;
+  get:
+    | ((
+        data: ObjectStore.GetRequest
+      ) => Promise<PangeaResponse<ObjectStore.GetResponse>>)
+    | undefined;
+
+  getArchive?:
+    | ((
+        data: ObjectStore.GetArchiveRequest
+      ) => Promise<PangeaResponse<ObjectStore.GetArchiveResponse>>)
+    | undefined;
+
+  share?: {
+    list?: (
+      data: ObjectStore.ListRequest
+    ) => Promise<PangeaResponse<ObjectStore.ShareListResponse>>;
+    get?: (
+      data: ObjectStore.ShareGetRequest
+    ) => Promise<PangeaResponse<ObjectStore.ShareObjectResponse>>;
+    delete?: (data: ObjectStore.ShareDeleteRequest) => Promise<PangeaResponse>;
+    create?: (
+      data: ObjectStore.ShareCreateRequest
+    ) => Promise<PangeaResponse<ObjectStore.SharesObjectResponse>>;
+    send?: (
+      data: ObjectStore.ShareSendRequest
+    ) => Promise<PangeaResponse<ObjectStore.ShareSendResponse>>;
+  };
+
+  delete?: (
+    data: ObjectStore.DeleteRequest
+  ) => Promise<PangeaResponse<ObjectStore.DeleteResponse>>;
+  update?: (
+    data: ObjectStore.UpdateRequest
+  ) => Promise<PangeaResponse<ObjectStore.UpdateResponse>>;
+
+  upload?: (
+    data: FormData,
+    contentType: "multipart/form-data"
+  ) => Promise<PangeaResponse<ObjectStore.PutResponse>>;
+  folderCreate?: (
+    data: ObjectStore.FolderCreateRequest
+  ) => Promise<PangeaResponse<ObjectStore.FolderCreateResponse>>;
+}
+```
+
+For a deeper dive into the Prop interface check the source code [here](https://github.com/pangeacyber/pangea-javascript/blob/main/packages/react-mui-store-file-viewer/src/components/StoreFileViewer/index.tsx).
+
+## Example
 
 The following is brief example for how to initialize the AuditLogViewer component.
 
 ```jsx
 import React from "react";
 import {
-  Audit,
-  AuditLogViewerProps,
-  AuditLogViewer,
-} from "@pangeacyber/react-mui-audit-log-viewer";
+  StoreProxyApiRef,
+  StoreFileViewer,
+} from "@pangeacyber/react-mui-store-file-viewer";
+
+const storeCallbackHandler: StoreProxyApiRef = {
+  get: async (data) => {
+    const response = await api.storeGet(data);
+    return response;
+  },
+  list: async (data) => {
+    const response = await api.storeList(data);
+    return response;
+  },
+};
 
 const MyComponent: React.FC = () => {
-  const handleSearch = async (body: Audit.SearchRequest) => {
-    // Perform search logic here
-    const response = await api.searchAuditLogs(body);
-    return response;
-  };
-
-  const handlePageChange = async (body: Audit.ResultRequest) => {
-    // Handle page change logic here
-    const response = await api.getAuditLogResults(body);
-    return response;
-  };
-
-  return (
-    <AuditLogViewer
-      initialQuery="message:testing"
-      onSearch={handleSearch}
-      onPageChange={handlePageChange}
-    />
-  );
+  return <StoreFileViewer apiRef={storeCallbackHandler} />;
 };
 ```
 
-### Customization
+## Customization
 
 The StoreFileViewer component uses the Material-UI component library, so styling of the component can be controlled through a MUI Theme. See Theming documentation [here](https://mui.com/material-ui/customization/theming/)
 
@@ -130,9 +200,9 @@ yarn install
 yarn storybook
 ```
 
-The `VerificationAuditLogViewer` storybook example does not use mock audit logs to render the `AuditLogViewer` instead it will read a `.env` file to hit your Audit Service Config.
+The `StoreFileViewer.stories.tsx` storybook example does not use mock files to render the `StoreFileViewer` instead it will read a `.env` file to hit your Store Service Config.
 
-Retrieve your audit service token, client token and domain from the Pangea Console Audit service dashboard and add the to a `.env` file. The enviroment file is git ignored.
+Retrieve your Secure Object Store service token, client token and domain from the Pangea Console Store service dashboard and add the following to a `.env` file. The enviroment file is git ignored.
 
 ```env
 STORYBOOK_PANGEA_TOKEN = "{SERVICE_TOKEN}"
