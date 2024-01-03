@@ -45,15 +45,24 @@ class PangeaRequest {
     }
   }
 
-  async post(
+  /**
+   * `POST` request.
+   *
+   * @template R Result type.
+   * @param endpoint Endpoint path.
+   * @param data Request body.
+   * @param options Additional options.
+   * @returns A `Promise` of the response.
+   */
+  async post<R>(
     endpoint: string,
     data: Request,
     options: PostOptions = {}
-  ): Promise<PangeaResponse<any>> {
+  ): Promise<PangeaResponse<R>> {
     const url = this.getUrl(endpoint);
     this.checkConfigID(data);
 
-    let response;
+    let response: Response;
     let entry = options.files ? Object.entries(options.files)[0] : undefined;
     if (options.files && entry) {
       if (data.transfer_method === TransferMethod.POST_URL) {
@@ -272,12 +281,12 @@ class PangeaRequest {
     }
   }
 
-  private async handleHttpResponse(
+  private async handleHttpResponse<R>(
     response: Response,
     options: PostOptions = {}
-  ): Promise<PangeaResponse<any>> {
+  ): Promise<PangeaResponse<R>> {
     try {
-      let pangeaResponse = new PangeaResponse(response);
+      let pangeaResponse = new PangeaResponse<R>(response);
       if (response.statusCode === 202) {
         if (options.pollResultSync !== false) {
           pangeaResponse = await this.handleAsync(pangeaResponse);
@@ -407,7 +416,7 @@ class PangeaRequest {
     return headers;
   }
 
-  private checkResponse(response: PangeaResponse<any>) {
+  private checkResponse<T>(response: PangeaResponse<T>): PangeaResponse<T> {
     if (response.success) {
       return response;
     }

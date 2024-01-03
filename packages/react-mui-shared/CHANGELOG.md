@@ -81,7 +81,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Fixed
 
-- Updated PangeaDataGrid to export useGridScheamColumns helper hook to construct columns from a dictionary of typed columns
+- Updated PangeaDataGrid to export useGridSchemaColumns helper hook to construct columns from a dictionary of typed columns
 
 ## [0.0.6] - 2023-02-21
 

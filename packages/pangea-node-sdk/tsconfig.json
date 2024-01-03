@@ -30,7 +30,7 @@
     }
   },
   "types": ["@types/jest"],
-  "include": ["src", "tests"],
+  "include": ["src", "tests", "jest.config.ts"],
   "ts-node": {
     "transpileOnly": true,
     "files": true,

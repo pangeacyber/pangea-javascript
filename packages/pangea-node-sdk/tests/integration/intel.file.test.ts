@@ -55,7 +55,7 @@ it("file filepathReputationBulk with filepath should succeed", async () => {
   expect(Object.keys(response.result.data).length).toBe(2);
 });
 
-it("file reputation with filepath should faild", async () => {
+it("file reputation with filepath should fail", async () => {
   const options = { provider: "reversinglabs", verbose: true, raw: true };
 
   try {

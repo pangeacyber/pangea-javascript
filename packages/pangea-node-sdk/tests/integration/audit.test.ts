@@ -870,7 +870,7 @@ it("log multi config 2. no verbose", async () => {
   expect(response.result.signature_verification).toBe("none");
 });
 
-it("log multi config token, without config id ", async () => {
+it("log multi config token, without config id", async () => {
   const config = new PangeaConfig({ domain: domain, customUserAgent: "sdk-test" });
   const audit = new AuditService(tokenMultiConfig, config);
 

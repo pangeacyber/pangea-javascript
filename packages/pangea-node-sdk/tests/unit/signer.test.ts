@@ -1,6 +1,5 @@
 import { Signer, Verifier } from "@src/utils/signer.js";
 import { it, expect } from "@jest/globals";
-import assert from "node:assert";
 import { Vault } from "@src/types.js";
 
 it("Signer sign and verify successful", async () => {
@@ -36,12 +35,7 @@ it("Verify old public key format successful", async () => {
   expect(result).toBe(true);
 });
 
-it("Signer file does not exist", async () => {
+it("Signer file does not exist", () => {
   const privateKeyFilename = "./this/is/not/a/file";
-  // Verify error output:
-  try {
-    new Signer(privateKeyFilename);
-  } catch (err: any) {
-    assert(err.code == "ENOENT");
-  }
+  expect(() => new Signer(privateKeyFilename)).toThrowErrorMatchingSnapshot();
 });

@@ -62,7 +62,6 @@ export namespace PangeaErrors {
     constructor(message: string, response: PangeaResponse<any>) {
       super(message);
       this.name = "PangeanAPIError";
-      response.result = response.result as Errors;
       this.response = response;
     }
 
