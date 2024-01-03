@@ -487,7 +487,7 @@ it("AES encrypting life cycle", async () => {
   const algorithm = Vault.SymmetricAlgorithm.AES;
   const purpose = Vault.KeyPurpose.ENCRYPTION;
   try {
-    const id = await symGenerateDefault(algorithm as Vault.SymmetricAlgorithm, purpose);
+    const id = await symGenerateDefault(algorithm, purpose);
     await encryptingCycle(id);
     await vault.delete(id);
   } catch (e) {
@@ -572,4 +572,34 @@ it("Folder endpoint", async () => {
   // Delete parent folder
   const deleteParentResp = await vault.delete(createParentResp.result.id);
   expect(createParentResp.result.id).toBe(deleteParentResp.result.id);
+});
+
+it("encrypt structured", async () => {
+  const key = await symGenerateDefault(
+    Vault.SymmetricAlgorithm.AES256_CFB,
+    Vault.KeyPurpose.ENCRYPTION
+  );
+  const data = { field1: [1, 2, "true", "false"], field2: "data2" };
+
+  // Encrypt.
+  const encrypted = await vault.encryptStructured({
+    id: key,
+    structured_data: data,
+    filter: "$.field1[2:4]",
+  });
+  expect(encrypted.result.id).toStrictEqual(key);
+  const encryptedData = encrypted.result.structured_data;
+  expect(encryptedData.field1).toHaveLength(data.field1.length);
+  expect(encryptedData.field2).toStrictEqual(data.field2);
+
+  // Decrypt.
+  const decrypted = await vault.decryptStructured({
+    id: key,
+    structured_data: encryptedData,
+    filter: "$.field1[2:4]",
+  });
+  expect(decrypted.result.id).toStrictEqual(key);
+  const decryptedData = decrypted.result.structured_data;
+  expect(decryptedData.field1).toStrictEqual(data.field1);
+  expect(decryptedData.field2).toStrictEqual(data.field2);
 });

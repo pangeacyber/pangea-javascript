@@ -105,7 +105,7 @@ class VaultService extends BaseService {
    * @summary List
    * @description Look up a list of secrets, keys and folders, and their associated information.
    * @operationId vault_post_v1_list
-   * @param {Object} options - The following options are supported:
+   * @param {Vault.ListOptions} options - The following options are supported:
    *   - filter (object): A set of filters to help you customize your search. Examples:
    *     `"folder": "/tmp"`, `"tags": "personal"`, `"name__contains": "xxx"`, `"created_at__gt": "2020-02-05T10:00:00Z"`
    *     For metadata, use: `"metadata_": "<value>"`
@@ -698,7 +698,6 @@ class VaultService extends BaseService {
    *   "pvi_p6g5i3gtbvqvc3u6zugab6qs6r63tqf5",
    *   "lJkk0gCLux+Q+rPNqLPEYw=="
    *   "FfWuT2Mq/+cxa7wIugfhzi7ktZxVf926idJNgBDCysF/knY9B7M6wxqHMMPDEBs86D8OsEGuED21y3J7IGOpCQ==",
-   *   1
    * );
    * ```
    */
@@ -805,6 +804,48 @@ class VaultService extends BaseService {
     request: Vault.Folder.CreateRequest
   ): Promise<PangeaResponse<Vault.Folder.CreateResult>> {
     return this.post("v1/folder/create", request);
+  }
+
+  /**
+   * @summary Encrypt structured
+   * @description Encrypt parts of a JSON object.
+   * @operationId vault_post_v1_key_encrypt_structured
+   * @param request Request parameters.
+   * @returns A `Promise` of the encrypted result.
+   * @example
+   * ```js
+   * const response = await vault.encryptStructured({
+   *   id: "pvi_[...]",
+   *   structured_data: {"field1": [1, 2, "true", "false"], "field2": "data2"},
+   *   filter: "$.field1[2:4]",
+   * });
+   * ```
+   */
+  async encryptStructured<O>(
+    request: Vault.Key.EncryptStructuredRequest<O>
+  ): Promise<PangeaResponse<Vault.Key.EncryptStructuredResult<O>>> {
+    return this.post("v1/key/encrypt/structured", request);
+  }
+
+  /**
+   * @summary Decrypt structured
+   * @description Decrypt parts of a JSON object.
+   * @operationId vault_post_v1_key_decrypt_structured
+   * @param request Request parameters.
+   * @returns A `Promise` of the decrypted result.
+   * @example
+   * ```js
+   * const response = await vault.decryptStructured({
+   *   id: "pvi_[...]",
+   *   structured_data: {"field1": [1, 2, "[...]", "[...]"], "field2": "data2"},
+   *   filter: "$.field1[2:4]",
+   * });
+   * ```
+   */
+  async decryptStructured<O>(
+    request: Vault.Key.EncryptStructuredRequest<O>
+  ): Promise<PangeaResponse<Vault.Key.EncryptStructuredResult<O>>> {
+    return this.post("v1/key/decrypt/structured", request);
   }
 }
 

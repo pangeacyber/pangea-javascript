@@ -3,12 +3,16 @@
     "node": true
   },
   "parser": "@typescript-eslint/parser",
-  "plugins": ["@typescript-eslint"],
-  "extends": ["prettier", "@gitlab"],
+  "parserOptions": {
+    "project": true
+  },
+  "plugins": ["@typescript-eslint", "node"],
+  "extends": ["prettier", "plugin:@gitlab/jest"],
   "ignorePatterns": ["/coverage/**", "/dev/**", "/dist/**"],
   "rules": {
     "semi": ["error", "always"],
-    "quotes": ["error", "double"],
+    "quotes": ["error", "double", { "avoidEscape": true }],
+    "jest/no-restricted-matchers": "off",
     "node/no-unsupported-features/es-syntax": [
       "error",
       {
