@@ -1,5 +1,6 @@
 import React, { FC } from "react";
 import range from "lodash/range";
+import { useTheme } from "@mui/material/styles";
 import { Button, IconButton, Stack, Tooltip, Typography } from "@mui/material";
 
 import NavigateNextOutlinedIcon from "@mui/icons-material/NavigateNextOutlined";
@@ -41,7 +42,9 @@ const PageButton: FC<{
         padding: 0,
         width: "26px",
         height: "26px",
-        backgroundColor: page === currentPage ? "" : "#fff",
+        ...(page !== currentPage && {
+          backgroundColor: "transparent",
+        }),
       }}
       variant={"contained"}
     >
@@ -63,9 +66,7 @@ const GapButton: FC = () => {
       }}
       variant={"text"}
     >
-      <Typography variant="body2" color={"textSecondary"}>
-        ...
-      </Typography>
+      <Typography variant="body2">...</Typography>
     </Button>
   );
 };
