@@ -148,7 +148,7 @@ const MultiSelectMenu: FC<Props> = ({
                 onClick={handleDownload}
                 disabled={downloading || loading}
                 sx={{
-                  color: theme.palette.text.secondary,
+                  color: theme.palette.text.primary,
                   width: "100%",
                   paddingLeft: 2,
                   justifyContent: "start",
@@ -163,7 +163,7 @@ const MultiSelectMenu: FC<Props> = ({
                   <CreateSharesViaEmailButton
                     ButtonProps={{
                       sx: {
-                        color: theme.palette.text.secondary,
+                        color: theme.palette.text.primary,
                         width: "100%",
                         paddingLeft: 2,
                         justifyContent: "start",
@@ -179,7 +179,7 @@ const MultiSelectMenu: FC<Props> = ({
                   <CreateSharesViaSmsButton
                     ButtonProps={{
                       sx: {
-                        color: theme.palette.text.secondary,
+                        color: theme.palette.text.primary,
                         width: "100%",
                         paddingLeft: 2,
                         justifyContent: "start",
@@ -195,7 +195,7 @@ const MultiSelectMenu: FC<Props> = ({
                   <CreateSharesViaPasswordButton
                     ButtonProps={{
                       sx: {
-                        color: theme.palette.text.secondary,
+                        color: theme.palette.text.primary,
                         width: "100%",
                         paddingLeft: 2,
                         justifyContent: "start",
@@ -218,7 +218,7 @@ const MultiSelectMenu: FC<Props> = ({
               disabled={downloading}
               startIcon={<DownloadIcon fontSize="small" />}
               sx={{
-                color: theme.palette.text.secondary,
+                color: theme.palette.text.primary,
                 width: "100%",
                 paddingLeft: 2,
                 justifyContent: "start",

@@ -1,6 +1,7 @@
 import { FC } from "react";
 import pick from "lodash/pick";
 
+import { useTheme } from "@mui/material/styles";
 import {
   FilterFormProps,
   TimeRangeSelect,
@@ -11,6 +12,7 @@ const AuditTimeFilterButton: FC<FilterFormProps<AuditQuery>> = ({
   filters,
   onFilterChange,
 }) => {
+  const theme = useTheme();
   return (
     <TimeRangeSelect
       value={pick(filters, ["after", "before", "since", "active"]) ?? {}}
@@ -19,9 +21,25 @@ const AuditTimeFilterButton: FC<FilterFormProps<AuditQuery>> = ({
         className: "PangeaInput-root",
         sx: {
           borderLeft: "none",
+          borderLeftStyle: "solid",
+          borderLeftWidth: 1,
+          borderLeftColor: theme.palette.secondary.dark,
           borderBottomLeftRadius: "0!important",
           borderTopLeftRadius: "0!important",
-          maxHeight: "42px",
+          borderColor: theme.palette.secondary.dark,
+          ":hover": {
+            borderColor: theme.palette.secondary.contrastText,
+            borderLeftColor: theme.palette.secondary.contrastText,
+            borderLeft: "none",
+            borderLeftStyle: "solid",
+            borderLeftWidth: 1,
+          },
+          ":active": {
+            borderLeft: "none",
+            borderLeftStyle: "solid",
+            borderLeftWidth: 1,
+            borderLeftColor: theme.palette.secondary.dark,
+          },
         },
       }}
     />

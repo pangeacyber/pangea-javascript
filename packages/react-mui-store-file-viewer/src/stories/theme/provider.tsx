@@ -35,11 +35,6 @@ const ConfigThemeProvider: FC<{
               root: {
                 height: config?.density === "comfortable" ? "50px" : "40px",
                 borderRadius: config?.button_border_radius ?? "8px",
-                "&.Mui-disabled": {
-                  color: config?.text_contrast_color,
-                  backgroundColor: config?.primary_color,
-                  opacity: "0.75",
-                },
               },
             },
           },

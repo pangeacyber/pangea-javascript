@@ -5,6 +5,13 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.0.56] - 2024-01-04
+
+### Changed
+
+- Updated time range select border color to use theme secondary, matching outlined input
+- Updated @pangeacyber/react-mui-shared to version 0.0.36-beta.24. Which updates pagination coloring of buttons to use transparent background when not the active page
+
 ## [0.0.49] - 2023-11-6
 
 ### Changed

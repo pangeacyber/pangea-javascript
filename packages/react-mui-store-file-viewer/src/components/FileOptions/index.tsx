@@ -58,7 +58,7 @@ const FileOptions: FC<VaultItemOptionsProps> = ({
               paddingLeft: 2,
             },
             ".MuiButton-textPrimary": {
-              color: theme.palette.text.secondary,
+              color: theme.palette.text.primary,
             },
           }}
         >

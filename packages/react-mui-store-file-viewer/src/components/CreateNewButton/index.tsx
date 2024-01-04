@@ -49,7 +49,7 @@ const CreateNewButton: FC = ({}) => {
           <CreateNewFolderButton
             ButtonProps={{
               sx: {
-                color: theme.palette.text.secondary,
+                color: theme.palette.text.primary,
                 width: "100%",
                 paddingLeft: 2,
                 justifyContent: "start",
@@ -62,7 +62,7 @@ const CreateNewButton: FC = ({}) => {
           <CreateNewFileButton
             ButtonProps={{
               sx: {
-                color: theme.palette.text.secondary,
+                color: theme.palette.text.primary,
                 width: "100%",
                 paddingLeft: 2,
                 justifyContent: "start",

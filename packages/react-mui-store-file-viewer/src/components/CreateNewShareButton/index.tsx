@@ -59,7 +59,7 @@ const CreateNewShareButton: FC<Props> = ({ object, onDone }) => {
           <CreateSharesViaEmailButton
             ButtonProps={{
               sx: {
-                color: theme.palette.text.secondary,
+                color: theme.palette.text.primary,
                 width: "100%",
                 paddingLeft: 2,
                 justifyContent: "start",
@@ -74,7 +74,7 @@ const CreateNewShareButton: FC<Props> = ({ object, onDone }) => {
           <CreateSharesViaSmsButton
             ButtonProps={{
               sx: {
-                color: theme.palette.text.secondary,
+                color: theme.palette.text.primary,
                 width: "100%",
                 paddingLeft: 2,
                 justifyContent: "start",
@@ -89,7 +89,7 @@ const CreateNewShareButton: FC<Props> = ({ object, onDone }) => {
           <CreateSharesViaPasswordButton
             ButtonProps={{
               sx: {
-                color: theme.palette.text.secondary,
+                color: theme.palette.text.primary,
                 width: "100%",
                 paddingLeft: 2,
                 justifyContent: "start",
