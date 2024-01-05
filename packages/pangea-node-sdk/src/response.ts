@@ -1,5 +1,7 @@
 import type { Response } from "got";
 import { AcceptedResult } from "./types.js";
+import { getBoundary, parse } from "./utils/multipart.js";
+import fs from "fs";
 
 const SupportedJSONFields = ["message", "new", "old"];
 
@@ -21,13 +23,61 @@ export class ResponseObject<M> {
   }
 }
 
+export class AttachedFile {
+  filename: string;
+  file: Buffer;
+  contentType: string;
+
+  constructor(filename: string, file: Buffer, contentType: string) {
+    this.filename = filename;
+    this.file = file;
+    this.contentType = contentType;
+  }
+
+  save(destFolder?: string, filename?: string) {
+    if (!destFolder) {
+      destFolder = ".";
+    }
+    if (!filename) {
+      filename = this.filename ? this.filename : "defaultName.txt";
+    }
+    if (!fs.existsSync(destFolder)) {
+      // If it doesn't exist, create it
+      fs.mkdirSync(destFolder, { recursive: true });
+    }
+
+    const filepath = destFolder + "/" + filename;
+    fs.writeFileSync(filepath, this.file);
+  }
+}
+
 export class PangeaResponse<M> extends ResponseObject<M> {
-  gotResponse: Response | undefined;
+  gotResponse?: Response;
   success: boolean;
+  attachedFiles: AttachedFile[] = [];
 
   constructor(response: Response) {
-    const obj = JSON.parse(JSON.stringify(response.body), parseJSONfields);
-    super(obj);
+    let jsonResp = {};
+    let attachedFilesTemp: AttachedFile[] = [];
+
+    if (
+      response.headers["content-type"] &&
+      response.headers["content-type"].includes("multipart")
+    ) {
+      const boundary = getBoundary(response.headers["content-type"]);
+      const parts = parse(response.rawBody, boundary);
+      parts.forEach((part, index) => {
+        if (index == 0) {
+          jsonResp = JSON.parse(part.data.toString("utf-8"));
+        } else {
+          attachedFilesTemp.push(new AttachedFile(part.filename, part.data, part.type));
+        }
+      });
+    } else {
+      jsonResp = JSON.parse(JSON.stringify(response.body), parseJSONfields);
+    }
+    super(jsonResp);
+    this.attachedFiles = attachedFilesTemp;
     this.gotResponse = response as Response;
     this.success = this.status === "Success";
     this.result = this.result == null ? ({} as M) : this.result;

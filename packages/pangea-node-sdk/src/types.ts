@@ -31,6 +31,7 @@ export enum TransferMethod {
   POST_URL = "post-url",
   PUT_URL = "put-url",
   SOURCE_URL = "source-url",
+  DEST_URL = "dest-url",
 }
 
 export interface Dictionary {
@@ -41,6 +42,12 @@ export interface FileData {
   file: Buffer | string;
   name: string;
   file_details?: Dictionary;
+}
+
+export interface FileUploadParams {
+  size: number;
+  crc32c: string;
+  sha256: string;
 }
 
 export interface FileItems {
@@ -1837,5 +1844,432 @@ export namespace AuthN {
     }
 
     export interface UpdateResult extends UserItem {}
+  }
+}
+
+export namespace Store {
+  export enum FileFormat {
+    F3G2 = "3G2",
+    F3GP = "3GP",
+    F3MF = "3MF",
+    F7Z = "7Z",
+    A = "A",
+    AAC = "AAC",
+    ACCDB = "ACCDB",
+    AIFF = "AIFF",
+    AMF = "AMF",
+    AMR = "AMR",
+    APE = "APE",
+    ASF = "ASF",
+    ATOM = "ATOM",
+    AU = "AU",
+    AVI = "AVI",
+    AVIF = "AVIF",
+    BIN = "BIN",
+    BMP = "BMP",
+    BPG = "BPG",
+    BZ2 = "BZ2",
+    CAB = "CAB",
+    CLASS = "CLASS",
+    CPIO = "CPIO",
+    CRX = "CRX",
+    CSV = "CSV",
+    DAE = "DAE",
+    DBF = "DBF",
+    DCM = "DCM",
+    DEB = "DEB",
+    DJVU = "DJVU",
+    DLL = "DLL",
+    DOC = "DOC",
+    DOCX = "DOCX",
+    DWG = "DWG",
+    EOT = "EOT",
+    EPUB = "EPUB",
+    EXE = "EXE",
+    FDF = "FDF",
+    FITS = "FITS",
+    FLAC = "FLAC",
+    FLV = "FLV",
+    GBR = "GBR",
+    GEOJSON = "GEOJSON",
+    GIF = "GIF",
+    GLB = "GLB",
+    GML = "GML",
+    GPX = "GPX",
+    GZ = "GZ",
+    HAR = "HAR",
+    HDR = "HDR",
+    HEIC = "HEIC",
+    HEIF = "HEIF",
+    HTML = "HTML",
+    ICNS = "ICNS",
+    ICO = "ICO",
+    ICS = "ICS",
+    ISO = "ISO",
+    JAR = "JAR",
+    JP2 = "JP2",
+    JPF = "JPF",
+    JPG = "JPG",
+    JPM = "JPM",
+    JS = "JS",
+    JSON = "JSON",
+    JXL = "JXL",
+    JXR = "JXR",
+    KML = "KML",
+    LIT = "LIT",
+    LNK = "LNK",
+    LUA = "LUA",
+    LZ = "LZ",
+    M3U = "M3U",
+    M4A = "M4A",
+    MACHO = "MACHO",
+    MDB = "MDB",
+    MIDI = "MIDI",
+    MKV = "MKV",
+    MOBI = "MOBI",
+    MOV = "MOV",
+    MP3 = "MP3",
+    MP4 = "MP4",
+    MPC = "MPC",
+    MPEG = "MPEG",
+    MQV = "MQV",
+    MRC = "MRC",
+    MSG = "MSG",
+    MSI = "MSI",
+    NDJSON = "NDJSON",
+    NES = "NES",
+    ODC = "ODC",
+    ODF = "ODF",
+    ODG = "ODG",
+    ODP = "ODP",
+    ODS = "ODS",
+    ODT = "ODT",
+    OGA = "OGA",
+    OGV = "OGV",
+    OTF = "OTF",
+    OTG = "OTG",
+    OTP = "OTP",
+    OTS = "OTS",
+    OTT = "OTT",
+    OWL = "OWL",
+    P7S = "P7S",
+    PAT = "PAT",
+    PDF = "PDF",
+    PHP = "PHP",
+    PL = "PL",
+    PNG = "PNG",
+    PPT = "PPT",
+    PPTX = "PPTX",
+    PS = "PS",
+    PSD = "PSD",
+    PUB = "PUB",
+    PY = "PY",
+    QCP = "QCP",
+    RAR = "RAR",
+    RMVB = "RMVB",
+    RPM = "RPM",
+    RSS = "RSS",
+    RTF = "RTF",
+    SHP = "SHP",
+    SHX = "SHX",
+    SO = "SO",
+    SQLITE = "SQLITE",
+    SRT = "SRT",
+    SVG = "SVG",
+    SWF = "SWF",
+    SXC = "SXC",
+    TAR = "TAR",
+    TCL = "TCL",
+    TCX = "TCX",
+    TIFF = "TIFF",
+    TORRENT = "TORRENT",
+    TSV = "TSV",
+    TTC = "TTC",
+    TTF = "TTF",
+    TXT = "TXT",
+    VCF = "VCF",
+    VOC = "VOC",
+    VTT = "VTT",
+    WARC = "WARC",
+    WASM = "WASM",
+    WAV = "WAV",
+    WEBM = "WEBM",
+    WEBP = "WEBP",
+    WOFF = "WOFF",
+    WOFF2 = "WOFF2",
+    X3D = "X3D",
+    XAR = "XAR",
+    XCF = "XCF",
+    XFDF = "XFDF",
+    XLF = "XLF",
+    XLS = "XLS",
+    XLSX = "XLSX",
+    XML = "XML",
+    XPM = "XPM",
+    XZ = "XZ",
+    ZIP = "ZIP",
+    ZST = "ZST",
+  }
+
+  export enum ArchiveFormat {
+    TAR = "tar",
+    ZIP = "zip",
+  }
+
+  export enum LinkType {
+    UPLOAD = "upload",
+    DOWNLOAD = "download",
+    ALL = "all",
+  }
+  export enum AuthenticatorType {
+    EMAIL_OTP = "email_otp",
+    PASSWORD = "password",
+    SMS_OTP = "sms_otp",
+    SOCIAL = "social",
+  }
+
+  export enum ItemOrder {
+    ASC = "asc",
+    DESC = "desc",
+  }
+
+  export enum ItemOrderBy {
+    ID = "id",
+    CREATED_AT = "created_at",
+    NAME = "name",
+    PARENT_ID = "parent_id",
+    TYPE = "type",
+    UPDATED_AT = "updated_at",
+  }
+
+  export interface Metadata {
+    [key: string]: string;
+  }
+
+  export type Tags = string[];
+
+  export interface ItemData {
+    id: string;
+    type: string;
+    name: string;
+    created_at: string;
+    updated_at: string;
+    parent_id: string;
+    size?: number;
+    billable_size?: number;
+    location?: string;
+    tags?: Tags;
+    metadata?: Metadata;
+    md5?: string;
+    sha256?: string;
+    sha512?: string;
+  }
+
+  export interface DeleteRequest {
+    id?: string;
+    force?: boolean;
+    path?: string;
+  }
+
+  export interface Authenticator {
+    auth_type: AuthenticatorType;
+    auth_context: string;
+  }
+
+  export interface DeleteResult {
+    count: number;
+  }
+
+  export interface FolderCreateRequest {
+    name?: string;
+    metadata?: Metadata;
+    parent_id?: string;
+    path?: string;
+    tags?: Tags;
+  }
+
+  export interface FolderCreateResult {
+    object: ItemData;
+  }
+
+  export interface GetRequest {
+    id?: string;
+    path?: string;
+    transfer_method?: TransferMethod;
+  }
+
+  export interface GetResult {
+    object: ItemData;
+    dest_url?: string;
+  }
+
+  export interface PutRequest {
+    name?: string;
+    format?: FileFormat;
+    metadata?: Metadata;
+    mimetype?: string;
+    parent_id?: string;
+    path?: string;
+    crc32c?: string;
+    md5?: string;
+    sha1?: string;
+    sha256?: string;
+    sha512?: string;
+    size?: number;
+    tags?: Tags;
+    transfer_method?: TransferMethod;
+  }
+
+  export interface PutResult {
+    object: ItemData;
+  }
+
+  export interface UpdateRequest {
+    id: string;
+    path?: string;
+    add_metadata?: Metadata;
+    remove_metadata?: Metadata;
+    metadata?: Metadata;
+    add_tags?: Tags;
+    remove_tags?: Tags;
+    tags?: Tags;
+    parent_id?: string;
+    updated_at?: string;
+  }
+
+  export interface UpdateResult {
+    object: ItemData;
+  }
+
+  export interface ListRequest {
+    filter?: { [key: string]: string };
+    last?: string;
+    order?: ItemOrder;
+    order_by?: ItemOrderBy;
+    size?: number;
+  }
+
+  export interface ListResult {
+    count: number;
+    last?: string;
+    objects: ItemData[];
+  }
+
+  export interface GetArchiveRequest {
+    ids: string[];
+    format?: ArchiveFormat;
+    transfer_method?: TransferMethod;
+  }
+
+  export interface GetArchiveResult {
+    dest_url?: string;
+    count: number;
+  }
+
+  export interface Authenticator {
+    auth_type: AuthenticatorType;
+    auth_context: string;
+  }
+
+  export interface ShareLinkCreateItem {
+    targets: string[];
+    link_type?: LinkType;
+    expires_at?: string;
+    max_access_count?: number;
+    authenticators: Authenticator[];
+  }
+
+  export interface ShareLinkCreateRequest {
+    links: ShareLinkCreateItem[];
+  }
+
+  export interface ShareLinkItem {
+    id: string;
+    storage_pool_id: string;
+    targets: string[];
+    link_type: string;
+    access_count: number;
+    max_access_count: number;
+    created_at: string;
+    expires_at: string;
+    last_accessed_at?: string;
+    authenticators: Authenticator[];
+    link: string;
+  }
+
+  export interface ShareLinkCreateResult {
+    share_link_objects: ShareLinkItem[];
+  }
+
+  export interface ShareLinkGetRequest {
+    id: string;
+  }
+
+  export interface ShareLinkGetResult {
+    share_link_object: ShareLinkItem;
+  }
+
+  export interface ShareLinkListFilter {
+    id?: string;
+    id__contains?: string[];
+    id__in?: string[];
+    storage_pool_id?: string;
+    storage_pool_id__contains?: string[];
+    storage_pool_id__in?: string[];
+    target?: string;
+    target__contains?: string[];
+    target__in?: string[];
+    link_type?: string;
+    link_type__contains?: string[];
+    link_type__in?: string[];
+    access_count?: number;
+    access_count__gt?: number;
+    access_count__gte?: number;
+    access_count__lt?: number;
+    access_count__lte?: number;
+    max_access_count?: number;
+    max_access_count__gt?: number;
+    max_access_count__gte?: number;
+    max_access_count__lt?: number;
+    max_access_count__lte?: number;
+    created_at?: string;
+    created_at__gt?: string;
+    created_at__gte?: string;
+    created_at__lt?: string;
+    created_at__lte?: string;
+    expires_at?: string;
+    expires_at__gt?: string;
+    expires_at__gte?: string;
+    expires_at__lt?: string;
+    expires_at__lte?: string;
+    last_accessed_at?: string;
+    last_accessed_at__gt?: string;
+    last_accessed_at__gte?: string;
+    last_accessed_at__lt?: string;
+    last_accessed_at__lte?: string;
+    link?: string;
+    link__contains?: string[];
+    link__in?: string[];
+  }
+
+  export interface ShareLinkListRequest {
+    filter?: ShareLinkListFilter;
+    last?: string;
+    order?: ItemOrder;
+    order_by?: ItemOrderBy;
+    size?: number;
+  }
+
+  export interface ShareLinkListResult {
+    count: number;
+    share_link_objects: ShareLinkItem[];
+  }
+
+  export interface ShareLinkDeleteRequest {
+    ids: string[];
+  }
+
+  export interface ShareLinkDeleteResult {
+    share_link_objects: ShareLinkItem[];
   }
 }

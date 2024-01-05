@@ -39,3 +39,4 @@ export const URLIntelService = services.URLIntelService;
 export const UserIntelService = services.UserIntelService;
 export const VaultService = services.VaultService;
 export const FileScanService = services.FileScanService;
+export const StoreService = services.StoreService;
