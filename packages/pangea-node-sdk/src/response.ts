@@ -46,7 +46,7 @@ export class AttachedFile {
       fs.mkdirSync(destFolder, { recursive: true });
     }
 
-    const filepath = destFolder + "/" + filename;
+    const filepath = path.resolve(destFolder, filename);
     fs.writeFileSync(filepath, this.file);
   }
 }
