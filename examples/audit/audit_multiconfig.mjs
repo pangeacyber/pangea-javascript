@@ -3,8 +3,7 @@
 import { PangeaConfig, AuditService, PangeaErrors } from "pangea-node-sdk";
 
 const token = process.env.PANGEA_AUDIT_MULTICONFIG_TOKEN;
-// const configId = process.env.PANGEA_AUDIT_CONFIG_ID;
-const configId = "";
+const configId = process.env.PANGEA_AUDIT_CONFIG_ID;
 const config = new PangeaConfig({ domain: process.env.PANGEA_DOMAIN });
 
 // Set configId in service constructor
