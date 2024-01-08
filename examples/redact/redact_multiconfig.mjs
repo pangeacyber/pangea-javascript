@@ -7,7 +7,7 @@ const configId = process.env.PANGEA_REDACT_CONFIG_ID;
 const config = new PangeaConfig({ domain: process.env.PANGEA_DOMAIN });
 
 // Set configId in service constructor
-const redact = new RedactService(token, config, {config_id: configId});
+const redact = new RedactService(token, config, { config_id: configId });
 
 (async () => {
   const text = "Hello, my phone number is 123-456-7890";
@@ -22,5 +22,4 @@ const redact = new RedactService(token, config, {config_id: configId});
       throw err;
     }
   }
-
 })();
