@@ -13,7 +13,7 @@ it("Hash functions", async () => {
   expect(hashSHA1(msg)).toBe("53d7223d32f18504cd22de99647a6b5eab0c530c");
 });
 
-it("Hash functions", async () => {
+it("Hash prefix", async () => {
   const hash = "123456789";
 
   expect(getHashPrefix(hash)).toBe("12345");

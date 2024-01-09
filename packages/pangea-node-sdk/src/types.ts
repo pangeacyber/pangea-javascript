@@ -977,6 +977,63 @@ export namespace Vault {
       purpose: string;
       public_key?: EncodedPublicKey;
     }
+
+    /**
+     * Parameters for an encrypt/decrypt structured request.
+     */
+    export interface EncryptStructuredRequest<O = object> {
+      /**
+       * The ID of the key to use. It must be an item of type `symmetric_key` or
+       * `asymmetric_key` and purpose `encryption`.
+       */
+      id: string;
+
+      /**
+       * Structured data for applying bulk operations.
+       */
+      structured_data: O;
+
+      /**
+       * A filter expression. It must point to string elements of the
+       * `structured_data` field.
+       */
+      filter: string;
+
+      /**
+       * The item version. Defaults to the current version.
+       */
+      version?: number;
+
+      /**
+       * User provided authentication data.
+       */
+      additional_data?: string;
+    }
+
+    /**
+     * Result of an encrypt/decrypt structured request.
+     */
+    export interface EncryptStructuredResult<O = object> {
+      /**
+       * The ID of the item.
+       */
+      id: string;
+
+      /**
+       * The item version.
+       */
+      version: number;
+
+      /**
+       * The algorithm of the key.
+       */
+      algorithm: string;
+
+      /**
+       * Structured data with filtered fields encrypted.
+       */
+      structured_data: O;
+    }
   }
 
   export namespace Asymmetric {

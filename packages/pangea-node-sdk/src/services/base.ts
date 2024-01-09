@@ -33,11 +33,20 @@ class BaseService {
     return await this.request.get(endpoint);
   }
 
-  async post(
+  /**
+   * `POST` request.
+   *
+   * @template R Result type.
+   * @param endpoint Endpoint path.
+   * @param data Request body.
+   * @param options Additional options.
+   * @returns A `Promise` of the response.
+   */
+  async post<R>(
     endpoint: string,
     data: object,
     options: PostOptions = {}
-  ): Promise<PangeaResponse<any>> {
+  ): Promise<PangeaResponse<R>> {
     return await this.request.post(endpoint, data, options);
   }
 

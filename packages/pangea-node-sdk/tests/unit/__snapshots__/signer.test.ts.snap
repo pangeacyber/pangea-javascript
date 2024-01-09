@@ -1,0 +1,3 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Signer file does not exist 1`] = `"ENOENT: no such file or directory, open './this/is/not/a/file'"`;

@@ -118,7 +118,7 @@ it("redact multi config 2. no verbose", async () => {
   expect(response.result).toEqual(expected);
 });
 
-it("log multi config token, without config id ", async () => {
+it("log multi config token, without config id", async () => {
   const config = new PangeaConfig({
     domain: domain,
     customUserAgent: "sdk-test",

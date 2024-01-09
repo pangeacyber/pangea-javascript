@@ -79,7 +79,8 @@ export class PangeaResponse<M> extends ResponseObject<M> {
     }
     super(jsonResp);
     this.attachedFiles = attachedFilesTemp;
-    this.gotResponse = response as Response;
+    this.gotResponse = response;
+
     this.success = this.status === "Success";
     this.result = this.result == null ? ({} as M) : this.result;
     if (this.gotResponse.statusCode == 202) {
