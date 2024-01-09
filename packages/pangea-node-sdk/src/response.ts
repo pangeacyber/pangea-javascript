@@ -1,6 +1,7 @@
 import type { Response } from "got";
 import { AcceptedResult } from "./types.js";
 import { getBoundary, parse } from "./utils/multipart.js";
+import * as path from "path";
 import fs from "fs";
 
 const SupportedJSONFields = ["message", "new", "old"];
