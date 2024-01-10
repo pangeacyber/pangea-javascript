@@ -201,7 +201,6 @@ class StoreService extends BaseService {
    * @description Update a file.
    * @operationId store_post_v1beta_update
    * @param {Store.UpdateRequest} request
-   * @param {FileData} fileData
    * @returns {Promise} - A promise representing an async call to the update endpoint.
    * @example
    * ```js
@@ -214,13 +213,8 @@ class StoreService extends BaseService {
    *   }
    *   remove_tags: ["irs_2023", "personal"],
    * };
-   * const file = fs.readFileSync("./path/to/file.pdf");
-   * const fileData = {
-   *   file,
-   *   name: "file",
-   * };
    *
-   * const response = await client.update(request, fileData);
+   * const response = await client.update(request);
    * ```
    */
   update(request: Store.UpdateRequest): Promise<PangeaResponse<Store.UpdateResult>> {
