@@ -43,19 +43,21 @@ const RenameFileIconButton: FC<Props> = ({
 
     setLoading(true);
 
-    return (
-      apiRef
-        // @ts-ignore
-        .update(pickBy(body, (v, k) => UpdateAPIFields.has(k)))
-        .then(() => {
-          handleClose();
-          setLoading(false);
-          reload();
-        })
-        .catch((error) => {
-          setLoading(false);
-        })
-    );
+    const data: ObjectStore.UpdateRequest = {
+      id: body.id,
+      ...pickBy(body, (v, k) => RenameAPIFields.has(k)),
+    };
+
+    return apiRef
+      .update(data)
+      .then(() => {
+        handleClose();
+        setLoading(false);
+        reload();
+      })
+      .catch((error) => {
+        setLoading(false);
+      });
   };
 
   if (!object.id) return null;

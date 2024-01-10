@@ -14,7 +14,6 @@ import NavigateNextIcon from "@mui/icons-material/NavigateNext";
 import { useStoreFileViewerFolder } from "../../hooks/context";
 
 interface Props {
-  useRootIcon?: boolean;
   defaultHidden?: boolean;
 }
 
@@ -36,7 +35,7 @@ const FolderOption: FC<{ folder: string; onClick: () => void }> = ({
   );
 };
 
-const FolderPath: FC<Props> = ({ useRootIcon, defaultHidden }) => {
+const FolderPath: FC<Props> = ({ defaultHidden }) => {
   const theme = useTheme();
   const { folder, setFolder, setParentId } = useStoreFileViewerFolder();
   const folders = folder.split("/").filter((f) => !!f);
@@ -48,17 +47,13 @@ const FolderPath: FC<Props> = ({ useRootIcon, defaultHidden }) => {
         separator={<NavigateNextIcon fontSize="small" />}
         aria-label="breadcrumb"
       >
-        {true ? (
-          <IconButton onClick={() => setFolder("/")}>
-            <HomeIcon
-              fontSize="small"
-              color="inherit"
-              sx={{ color: theme.palette.text.primary }}
-            />
-          </IconButton>
-        ) : (
-          <FolderOption folder="Root" onClick={() => setFolder("/")} />
-        )}
+        <IconButton onClick={() => setFolder("/")}>
+          <HomeIcon
+            fontSize="small"
+            color="inherit"
+            sx={{ color: theme.palette.text.primary }}
+          />
+        </IconButton>
         {folders.map((f, idx) => {
           return (
             <FolderOption

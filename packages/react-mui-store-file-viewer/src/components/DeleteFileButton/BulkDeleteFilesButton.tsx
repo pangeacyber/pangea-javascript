@@ -23,7 +23,7 @@ const BulkDeleteFilesButton: FC<Props> = ({
 
   return (
     <PangeaDeleteModal
-      description={`Are you sure you wish to delete the ${selected.length} selected along with all versions which will be permanently removed from the secure file store.`}
+      description={`Are you sure you wish to delete the ${selected.length} selected along with all versions which will be permanently removed from the secure file store?`}
       title={`Delete ${selected.length} selected`}
       onDelete={async () => {
         if (!apiRef.delete) return;

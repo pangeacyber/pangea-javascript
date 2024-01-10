@@ -184,7 +184,7 @@ const StoreDownloadDataGrid: FC<StoreDataGridProps> = ({
             width="100%"
           >
             <Stack>
-              <FolderPath useRootIcon defaultHidden />
+              <FolderPath defaultHidden />
             </Stack>
             {multiSelected.length >= 1 && (
               <Chip
