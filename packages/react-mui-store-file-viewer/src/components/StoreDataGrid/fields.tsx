@@ -1,7 +1,7 @@
 import { FilterOptions, PDG, TextCell } from "@pangeacyber/react-mui-shared";
 import { ObjectStore } from "../../types";
 import StoreObjectIcon from "../StoreObjectIcon";
-import { Stack } from "@mui/material";
+import { Box, Stack } from "@mui/material";
 import { formatBytes } from "../../utils";
 
 export const StoreViewerFields: PDG.GridSchemaFields<ObjectStore.ObjectResponse> =

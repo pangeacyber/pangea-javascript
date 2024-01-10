@@ -15,6 +15,8 @@ import DownloadIcon from "@mui/icons-material/Download";
 import CreateSharesViaPasswordButton from "../CreateNewShareButton/CreateSharesViaPasswordButton";
 import CreateSharesViaSmsButton from "../CreateNewShareButton/CreateSharesViaSmsButton";
 import CreateSharesViaEmailButton from "../CreateNewShareButton/CreateSharesViaEmailButton";
+import DeleteFileButton from "../DeleteFileButton";
+import BulkDeleteFilesButton from "../DeleteFileButton/BulkDeleteFilesButton";
 
 interface Props {
   selected: string[];
@@ -157,6 +159,20 @@ const MultiSelectMenu: FC<Props> = ({
               >
                 Download
               </Button>
+              {!!apiRef?.delete && objects.length === 1 && (
+                <DeleteFileButton
+                  object={objects[0]}
+                  ButtonProps={{
+                    sx: {
+                      color: theme.palette.text.primary,
+                      width: "100%",
+                      paddingLeft: 2,
+                      justifyContent: "start",
+                    },
+                  }}
+                  onClose={handleDone}
+                />
+              )}
               {!!apiRef?.share?.create && objects.length === 1 && (
                 <>
                   <Divider />
@@ -212,20 +228,36 @@ const MultiSelectMenu: FC<Props> = ({
               )}
             </>
           ) : (
-            <Button
-              variant="text"
-              onClick={handleDownload}
-              disabled={downloading}
-              startIcon={<DownloadIcon fontSize="small" />}
-              sx={{
-                color: theme.palette.text.primary,
-                width: "100%",
-                paddingLeft: 2,
-                justifyContent: "start",
-              }}
-            >
-              Download ZIP
-            </Button>
+            <>
+              <Button
+                variant="text"
+                onClick={handleDownload}
+                disabled={downloading}
+                startIcon={<DownloadIcon fontSize="small" />}
+                sx={{
+                  color: theme.palette.text.primary,
+                  width: "100%",
+                  paddingLeft: 2,
+                  justifyContent: "start",
+                }}
+              >
+                Download ZIP
+              </Button>
+              {!!apiRef?.delete && (
+                <BulkDeleteFilesButton
+                  selected={selected}
+                  ButtonProps={{
+                    sx: {
+                      color: theme.palette.text.primary,
+                      width: "100%",
+                      paddingLeft: 2,
+                      justifyContent: "start",
+                    },
+                  }}
+                  onClose={handleDone}
+                />
+              )}
+            </>
           )}
         </Paper>
       </Menu>

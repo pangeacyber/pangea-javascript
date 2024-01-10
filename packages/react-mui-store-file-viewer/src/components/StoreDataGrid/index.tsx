@@ -23,6 +23,8 @@ import FileDropBox from "../FileDropBox";
 import FileOptions from "../FileOptions";
 import { PREVIEW_FILE_WIDTH } from "../PreviewStoreFile/constants";
 import MultiSelectMenu from "./MultiSelectMenu";
+import UploadPopover from "../UploadPopover";
+import DataGridParentStack from "./DataGridParentStack";
 
 export interface StoreDataGridProps {
   defaultVisibilityModel?: Record<string, boolean>;
@@ -271,8 +273,11 @@ const StoreDataGrid: FC<StoreDataGridProps> = ({
             });
           },
         }}
+        components={{
+          DataGridParentStack,
+        }}
       />
-      <FileDropBox />
+      <UploadPopover />
       <MultiSelectMenu
         selected={multiSelected}
         contextMenu={contextMenu}
