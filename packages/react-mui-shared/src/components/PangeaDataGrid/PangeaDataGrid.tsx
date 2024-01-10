@@ -117,6 +117,9 @@ export interface PangeaDataGridProps<
   DataGridProps?: Partial<DataGridProps>;
   DataGridWrappingStackProps?: Partial<StackProps>;
   sx?: SxProps;
+  components?: {
+    DataGridParentStack?: FC<StackProps>;
+  };
 }
 
 const PangeaDataGrid = <
@@ -140,8 +143,10 @@ const PangeaDataGrid = <
   onPreview,
   ColumnCustomization,
   sx,
+  components = {},
 }: PangeaDataGridProps<DataType, FiltersObj>): JSX.Element => {
   const theme = useTheme();
+  const { DataGridParentStack = Stack } = components;
 
   const [preview, setPreview_] = useState<GridRowParams<DataType> | null>(null);
   const setPreview = (preview: GridRowParams<DataType> | null) => {
@@ -335,7 +340,10 @@ const PangeaDataGrid = <
             )}
             {!!ServerPagination && <ResultsBar {...ServerPagination} />}
           </Stack>
-          <Stack className="PangeaDataGrid-WrappingStack-root" direction="row">
+          <DataGridParentStack
+            className="PangeaDataGrid-WrappingStack-root"
+            direction="row"
+          >
             <DataGrid
               autoHeight
               columnHeaderHeight={44}
@@ -513,7 +521,7 @@ const PangeaDataGrid = <
                   />
                 </Box>
               )}
-          </Stack>
+          </DataGridParentStack>
         </Grid>
         {!!PreviewPanel?.component &&
           !!preview &&

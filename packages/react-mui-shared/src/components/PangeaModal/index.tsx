@@ -96,7 +96,10 @@ const PangeaModal: FC<PangeaModalProps> = ({
                 ) : (
                   !!title && (
                     <>
-                      <Typography variant={size === "small" ? "h6" : "h5"}>
+                      <Typography
+                        variant={size === "small" ? "h6" : "h5"}
+                        sx={{ overflow: "hidden", wordBreak: "break-all" }}
+                      >
                         {title}
                       </Typography>
                     </>
@@ -117,7 +120,10 @@ const PangeaModal: FC<PangeaModalProps> = ({
             )}
             {!!title && (!!header || !displayCloseIcon) && (
               <>
-                <Typography variant={size === "small" ? "h6" : "h4"}>
+                <Typography
+                  variant={size === "small" ? "h6" : "h4"}
+                  sx={{ overflow: "hidden", wordBreak: "break-all" }}
+                >
                   {title}
                 </Typography>
               </>

@@ -16,7 +16,6 @@ function App() {
       >
         <Container sx={{ paddingTop: 4 }}>
           <AuditLogViewer
-            // @ts-ignore
             onSearch={async () => {
               return {
                 id: "none",

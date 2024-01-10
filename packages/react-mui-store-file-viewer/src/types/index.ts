@@ -388,7 +388,7 @@ export namespace ObjectStore {
   export interface UpdateResponse {}
 
   export interface DeleteRequest {
-    id: string;
+    id?: string;
     path?: string;
 
     force?: boolean;

@@ -40,7 +40,10 @@ const FileOptions: FC<VaultItemOptionsProps> = ({
       )}
       <Box sx={{ marginLeft: "auto" }}>
         <IconButton
-          onClick={(event) => setOptionsEl(event.currentTarget)}
+          onClick={(event) => {
+            setOptionsEl(event.currentTarget);
+            event.stopPropagation();
+          }}
           data-testid="VaultItem-Options-Btn"
         >
           <MoreVertIcon />

@@ -6,6 +6,7 @@ import {
   Typography,
   IconButton,
 } from "@mui/material";
+import { useTheme } from "@mui/material/styles";
 
 import HomeIcon from "@mui/icons-material/Home";
 
@@ -36,6 +37,7 @@ const FolderOption: FC<{ folder: string; onClick: () => void }> = ({
 };
 
 const FolderPath: FC<Props> = ({ useRootIcon, defaultHidden }) => {
+  const theme = useTheme();
   const { folder, setFolder, setParentId } = useStoreFileViewerFolder();
   const folders = folder.split("/").filter((f) => !!f);
 
@@ -46,9 +48,13 @@ const FolderPath: FC<Props> = ({ useRootIcon, defaultHidden }) => {
         separator={<NavigateNextIcon fontSize="small" />}
         aria-label="breadcrumb"
       >
-        {useRootIcon ? (
+        {true ? (
           <IconButton onClick={() => setFolder("/")}>
-            <HomeIcon fontSize="small" />
+            <HomeIcon
+              fontSize="small"
+              color="inherit"
+              sx={{ color: theme.palette.text.primary }}
+            />
           </IconButton>
         ) : (
           <FolderOption folder="Root" onClick={() => setFolder("/")} />
