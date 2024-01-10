@@ -9,7 +9,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Fixed
 
-- Rixed bug on donwload file viewer rename form
+- Fixed bug on download file viewer rename form
 
 ## [0.0.8] - 2024-01-10
 
