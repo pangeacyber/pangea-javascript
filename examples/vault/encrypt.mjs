@@ -16,13 +16,13 @@ const vault = new VaultService(token, config);
     console.log("Create...");
     // Name should be unique
     const name = "Node encrypt example " + Date.now();
-    const createRespose = await vault.symmetricGenerate(
+    const createResponse = await vault.symmetricGenerate(
       Vault.SymmetricAlgorithm.AES128_CFB,
       Vault.KeyPurpose.ENCRYPTION,
       name
     );
-    console.log("Response: %s", createRespose.result);
-    const keyID = createRespose.result.id;
+    console.log("Response: %s", createResponse.result);
+    const keyID = createResponse.result.id;
 
     console.log("Encrypt...");
     const text = "mymessagetoencrypt";
