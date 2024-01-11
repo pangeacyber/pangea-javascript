@@ -14,7 +14,7 @@ const vault = new VaultService(token, config);
   const createResponse = await vault.symmetricGenerate(
     Vault.SymmetricAlgorithm.AES256_CFB,
     Vault.KeyPurpose.ENCRYPTION,
-    "any unique name"
+    "Node.js encrypt example " + Date.now()
   );
   const encryptionKeyId = createResponse.result.id;
 
