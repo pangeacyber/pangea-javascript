@@ -2198,8 +2198,14 @@ export namespace Store {
     object: ItemData;
   }
 
+  export interface ListFilter {
+    folder?: string;
+    folder__contains?: string[];
+    folder__in?: string[];
+  }
+
   export interface ListRequest {
-    filter?: { [key: string]: string };
+    filter?: ListFilter;
     last?: string;
     order?: ItemOrder;
     order_by?: ItemOrderBy;

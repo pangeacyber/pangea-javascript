@@ -106,7 +106,7 @@ class StoreService extends BaseService {
    * const response = await client.list(request);
    * ```
    */
-  list(request: Store.ListRequest): Promise<PangeaResponse<Store.ListResult>> {
+  list(request: Store.ListRequest = {}): Promise<PangeaResponse<Store.ListResult>> {
     return this.post("v1beta/list", request);
   }
 
