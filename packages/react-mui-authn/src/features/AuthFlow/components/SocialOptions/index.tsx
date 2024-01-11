@@ -11,7 +11,11 @@ import {
 } from "@src/features/AuthFlow/utils";
 import Button from "@src/components/core/Button";
 
-const SocialOptions: FC<AuthFlowComponentProps> = ({ options, data }) => {
+const SocialOptions: FC<AuthFlowComponentProps> = ({
+  options,
+  update,
+  data,
+}) => {
   const theme = useTheme();
 
   const socialLogin = (redirect: string) => {
@@ -26,8 +30,18 @@ const SocialOptions: FC<AuthFlowComponentProps> = ({ options, data }) => {
       data.socialChoices.length === 0 &&
       data.samlChoices.length === 1
     ) {
+      // handle SAML IDP flow
       const samlOption = data.samlChoices[0];
-      socialLogin(samlOption.redirect_uri);
+      if (samlOption.idp_init_flow) {
+        const payload: AuthFlow.SamlParams = {
+          provider_id: samlOption.provider_id,
+          provider_name: samlOption.provider_name,
+          idp_flow_state: samlOption.state,
+        };
+        update(AuthFlow.Choice.SAML, payload);
+      } else {
+        socialLogin(samlOption.redirect_uri);
+      }
     }
   }, []);
 

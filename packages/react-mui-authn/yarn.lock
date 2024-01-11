@@ -1741,10 +1741,10 @@
   resolved "https://registry.yarnpkg.com/@pangeacyber/react-mui-branding/-/react-mui-branding-0.0.10.tgz#803c10513887a91d1faba77c2d0ed0ab0bea65ea"
   integrity sha512-iK/FNj6XepX1yJaLFxsfC2x8boYz0WkAz0sPXM9d/+DfzAdo0F6xkxHrUL3w33KH5/DX0roBTUwe35gAhgK4Tw==
 
-"@pangeacyber/vanilla-js@0.1.4":
-  version "0.1.4"
-  resolved "https://registry.yarnpkg.com/@pangeacyber/vanilla-js/-/vanilla-js-0.1.4.tgz#fd584675133e55780feee76f3e3123539f9d8728"
-  integrity sha512-X8fI8eatywx1UosfLOkfQGdNYSaoJ/6euL3klY3fMq91o9HWPcCIG4o8zhZ9dXLWs0Zgz38GUDclw7AYQ5RAhQ==
+"@pangeacyber/vanilla-js@0.1.5":
+  version "0.1.5"
+  resolved "https://registry.yarnpkg.com/@pangeacyber/vanilla-js/-/vanilla-js-0.1.5.tgz#9c4f0e0dc5606e2c8b056b4f68d19fa3637a620e"
+  integrity sha512-clKRqf+FtcZP7mW6G7yDaIaMQpMtF/Mb5cEcHHzSJbzMbKip9uGF97r2dW8xrV6+u5qAhkzKdJnAh6obEm7K6Q==
   dependencies:
     lodash "^4.17.21"
 
