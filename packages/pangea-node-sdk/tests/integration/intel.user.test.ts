@@ -10,7 +10,7 @@ import { UserIntelService } from "../../src/index.js";
 import { Intel } from "../../src/types.js";
 import { hashSHA256 } from "../../src/utils/utils.js";
 
-const testEnvironment = TestEnvironment.DEVELOP;
+const testEnvironment = TestEnvironment.LIVE;
 
 const token = getTestToken(testEnvironment);
 const testHost = getTestDomain(testEnvironment);
