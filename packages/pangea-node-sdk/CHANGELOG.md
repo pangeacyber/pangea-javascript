@@ -2,12 +2,20 @@
 
 All notable changes to this project will be documented in this file.
 
-The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
+The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
+
+## [Unreleased]
+
+## [3.6.0] - 2024-01-12
+
+### Added
+
+- Vault encrypt structured support.
 
 ## [3.5.0] - 2023-12-18
 
-# Added
+### Added
 
 - File Intel /v2/reputation support
 - IP Intel /v2/reputation, /v2/domain, /v2/proxy, v2/vpn and /v2/geolocate support
@@ -17,21 +25,21 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [3.4.0] - 2023-12-07
 
-# Changed
+### Changed
 
 - 202 result format
 
-# Removed
+### Removed
 
 - accepted_status in 202 result
 
-# Added
+### Added
 
 - put_url, post_url, post_form_data fields in 202 result
 
 ## [3.3.0] - 2023-11-28
 
-# Added
+### Added
 
 - Authn unlock user support
 - Redact multiconfig support
@@ -39,100 +47,100 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [3.2.0] - 2023-11-15
 
-# Added
+### Added
 
 - Support for audit /v2/log and /v2/log_async endpoints
 
 ## [3.1.0] - 2023-11-09
 
-# Added
+### Added
 
 - Presigned URL upload support on FileScan service
 - Folder settings support in Vault service
 
 ## [3.0.0] - 2023-10-23
 
-# Added
+### Added
 
 - AuthN v2 support
 
-# Removed
+### Removed
 
 - AuthN v1 support
 
 ## [2.3.0] - 2023-09-26
 
-# Added
+### Added
 
 - FileScan Reversinglabs provider example
 - Domain WhoIs endpoint support
 
-# Changed
+### Changed
 
 - Deprecated config_id in PangeaConfig. Now is set in service initialization.
 
-# Fixed
+### Fixed
 
 - HashType supported in File Intel
 
 ## [2.2.1] - 2023-09-14
 
-# Added
+### Added
 
 - Authn dropped use_new parameter for user listing
 
 ## [2.2.0] - 2023-09-05
 
-# Added
+### Added
 
 - Redact rulesets field support
 - FileScan service support
 
 ## [2.1.0] - 2023-07-14
 
-# Added
+### Added
 
 - Vault /folder/create endpoint support
 
 ## [2.0.0] - 2023-07-06
 
-# Changed
+### Changed
 
 - Event interface is now a key:object map
 - Rename some result interfaces with "result" postfix
 - Create new Intel request/result interfaces per service
 
-# Removed
+### Removed
 
 - Intel services all deprecated methods
 - Audit.Log options: Remove signMode due to vault signing is done by token
 
 ## [1.10.0] - 2023-06-26
 
-# Added
+### Added
 
 - Multiconfig support
 - Instructions to setup token and domain in examples
 
 ## [1.9.1] - 2023-06-08
 
-# Added
+### Added
 
 - Defang examples
 - Intel IP /domain, /vpn and /proxy endpoint examples
 
-# Changed
+### Changed
 
 - Intel User password breached full workflow example
 - Update got package to fix vulnerability
 
-# Fixed
+### Fixed
 
 - Redact service was ignoring return_result param
 
 ## [1.9.0] - 2023-05-25
 
-# Added
+### Added
 
 - New algorithm support in Vault Service
 - Algorithm field support in Audit Service
@@ -260,7 +268,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Domain Intel client
 - Redact client
 
-[unreleased]: https://github.com/pangeacyber/pangea-javascript/compare/v3.5.0...main
+[unreleased]: https://github.com/pangeacyber/pangea-javascript/compare/v3.6.0...main
+[3.6.0]: https://github.com/pangeacyber/pangea-javascript/compare/v3.5.0...v3.6.0
 [3.5.0]: https://github.com/pangeacyber/pangea-javascript/compare/v3.4.0...v3.5.0
 [3.4.0]: https://github.com/pangeacyber/pangea-javascript/compare/v3.3.0...v3.4.0
 [3.3.0]: https://github.com/pangeacyber/pangea-javascript/compare/v3.2.0...v3.3.0
