@@ -32,7 +32,7 @@ const delay = async (ms: number) =>
     setTimeout(resolve, ms);
   });
 
-xit("Folder create/delete", async () => {
+it("Folder create/delete", async () => {
   try {
     const respCreate = await client.folderCreate({
       path: FOLDER_DELETE,
@@ -56,7 +56,7 @@ xit("Folder create/delete", async () => {
   }
 });
 
-xit("Put file. Multipart transfer_method", async () => {
+it("Put file. Multipart transfer_method", async () => {
   try {
     const name = TIME + "_file_post_url";
     const respPut = await client.put(
@@ -77,7 +77,7 @@ xit("Put file. Multipart transfer_method", async () => {
   }
 });
 
-xit("Put file. post-url transfer_method", async () => {
+it("Put file. post-url transfer_method", async () => {
   try {
     const name = TIME + "_file_post_url";
     const respPut = await client.put(
@@ -97,7 +97,7 @@ xit("Put file. post-url transfer_method", async () => {
   }
 });
 
-xit("get url and put upload", async () => {
+it("get url and put upload", async () => {
   let response;
   const name = TIME + "_file_split_put_url";
   try {
@@ -141,7 +141,7 @@ xit("get url and put upload", async () => {
   }
 });
 
-xit("get url and post upload", async () => {
+it("get url and post upload", async () => {
   let response;
   const name = TIME + "_file_split_post_url";
   try {
@@ -306,7 +306,7 @@ it("get url and post upload", async () => {
   const linkList: Store.ShareLinkCreateItem[] = [
     {
       targets: [folderID],
-      link_type: Store.LinkType.ALL,
+      link_type: Store.LinkType.EDITOR,
       max_access_count: 3,
       authenticators: authenticators,
     },

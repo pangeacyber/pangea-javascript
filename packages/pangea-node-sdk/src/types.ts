@@ -2076,7 +2076,7 @@ export namespace Store {
   export enum LinkType {
     UPLOAD = "upload",
     DOWNLOAD = "download",
-    ALL = "all",
+    EDITOR = "editor",
   }
   export enum AuthenticatorType {
     EMAIL_OTP = "email_otp",
