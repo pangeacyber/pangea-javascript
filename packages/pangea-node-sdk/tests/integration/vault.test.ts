@@ -281,10 +281,6 @@ async function encryptingCycle(id: string) {
   const decDefaultResp = await vault.decrypt(id, enc2Resp.result.cipher_text);
   expect(decDefaultResp.result.plain_text).toBe(dataB64);
 
-  // // Decrypt wrong version
-  // const decBad1Resp = await vault.decrypt(id, enc1Resp.result.cipher_text);
-  // expect(decBad1Resp.result.plain_text).not.toBe(dataB64);
-
   let f = async () => {
     await vault.decrypt("notandid", enc2Resp.result.cipher_text);
   };
