@@ -158,6 +158,7 @@ export namespace AuthFlow {
     provider_id: string;
     state: string;
     redirect_uri: string;
+    idp_init_flow?: boolean;
   }
 
   export interface SamlResult {
@@ -168,7 +169,8 @@ export namespace AuthFlow {
   export interface SamlParams {
     provider_id: string;
     provider_name: string;
-    uri: string;
+    uri?: string;
+    idp_flow_state?: string;
   }
 
   export interface SamlRequest {
@@ -498,6 +500,7 @@ export namespace AuthFlow {
     | SetPhoneRequest
     | VerifyEmailRequest
     | PasswordRequest
+    | SamlRequest
     | SetPasswordRequest
     | ResetPasswordRequest
     | CaptchaRequest

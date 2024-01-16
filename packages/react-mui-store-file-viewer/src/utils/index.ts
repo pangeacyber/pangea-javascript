@@ -30,3 +30,16 @@ export function formatBytes(
     shortform
   )} ${sizes[i]}`;
 }
+
+export const parseErrorFromPangea = (error: any): string => {
+  const response = error.response ?? {};
+  if (!response) {
+    return `${error}`;
+  }
+
+  if (response?.data?.status || response?.data?.summary) {
+    return `${response?.data?.status}: ${response?.data?.summary}`;
+  }
+
+  return `${error}`;
+};

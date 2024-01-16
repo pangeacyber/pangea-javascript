@@ -2,48 +2,45 @@ import { PangeaDeleteModal } from "@pangeacyber/react-mui-shared";
 import { FC } from "react";
 import { ObjectStore } from "../../types";
 import { Button, ButtonProps, IconButton } from "@mui/material";
-import { useTheme } from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
 
 import { useStoreFileViewerContext } from "../../hooks/context";
 
 interface Props {
-  object: ObjectStore.ObjectResponse;
+  selected: string[];
   view?: "text" | "icon";
   ButtonProps?: ButtonProps;
   onClose?: () => void;
 }
 
-const DeleteFileButton: FC<Props> = ({
-  object,
+const BulkDeleteFilesButton: FC<Props> = ({
+  selected,
   ButtonProps,
   onClose = () => {},
   view = "text",
 }) => {
-  const theme = useTheme();
   const { apiRef, reload } = useStoreFileViewerContext();
 
   return (
     <PangeaDeleteModal
-      description={`${
-        object.name || object.id
-      } and all versions will be permanently removed from the secure file store.`}
-      title={`Delete ${object.name || object.id}`}
+      description={`Are you sure you wish to delete the ${selected.length} selected along with all versions which will be permanently removed from the secure file store?`}
+      title={`Delete ${selected.length} selected`}
       onDelete={async () => {
         if (!apiRef.delete) return;
 
-        return apiRef.delete({ id: object.id }).then(() => {
-          onClose();
-          reload();
-        });
+        return Promise.all([
+          selected.map((id) => !!apiRef.delete && apiRef.delete({ id })),
+        ])
+          .then(() => {})
+          .finally(() => {
+            onClose();
+            reload();
+          });
       }}
       Button={(props) =>
         view === "icon" ? (
           <IconButton onClick={props.onClick}>
-            <DeleteIcon
-              fontSize="small"
-              sx={{ color: theme.palette.text.primary }}
-            />
+            <DeleteIcon fontSize="small" color="error" />
           </IconButton>
         ) : (
           <Button
@@ -62,4 +59,4 @@ const DeleteFileButton: FC<Props> = ({
   );
 };
 
-export default DeleteFileButton;
+export default BulkDeleteFilesButton;

@@ -106,3 +106,18 @@ export const getUpdateFields = ({
     },
   },
 });
+
+export const RenameUpdateFields: FieldsFormSchema<ObjectStore.UpdateRequest> = {
+  name: {
+    label: "Name",
+    LabelProps: {
+      placement: "top",
+    },
+    FieldProps: {
+      type: "text",
+      placeholder: "",
+    },
+    schema: yup.string().required("Name is required"),
+    autoFocus: true,
+  },
+};

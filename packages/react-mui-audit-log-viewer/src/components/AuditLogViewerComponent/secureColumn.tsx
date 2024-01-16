@@ -271,18 +271,19 @@ const VerificationModal: FC<VerificationModalProps> = ({
                 </Typography>
               </Stack>
             )}
-            {record?.valid_signature !== undefined && !record?.valid_signature && (
-              <Stack direction="row">
-                <Typography
-                  color="textSecondary"
-                  variant="body2"
-                  sx={{ paddingTop: 1 }}
-                >
-                  Audit log has failed Vault signature verification. Please
-                  contact Pangea.
-                </Typography>
-              </Stack>
-            )}
+            {record?.valid_signature !== undefined &&
+              !record?.valid_signature && (
+                <Stack direction="row">
+                  <Typography
+                    color="textSecondary"
+                    variant="body2"
+                    sx={{ paddingTop: 1 }}
+                  >
+                    Audit log has failed Vault signature verification. Please
+                    contact Pangea.
+                  </Typography>
+                </Stack>
+              )}
             {!isMembershipValid && !isPendingVerification && (
               <Stack direction="row">
                 <Typography

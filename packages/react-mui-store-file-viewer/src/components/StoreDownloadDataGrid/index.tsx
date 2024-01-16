@@ -20,6 +20,8 @@ import { Stack, Chip } from "@mui/material";
 import DownloadFileOptions from "./DownloadFileOptions";
 import { StoreDataGridProps } from "../StoreDataGrid";
 import MultiSelectMenu from "../StoreDataGrid/MultiSelectMenu";
+import DataGridParentStack from "../StoreDataGrid/DataGridParentStack";
+import UploadPopover from "../UploadPopover";
 
 export const DEFAULT_VISIBILITY_MODEL = {
   name: true,
@@ -170,7 +172,7 @@ const StoreDownloadDataGrid: FC<StoreDataGridProps> = ({
           render: (object) => <DownloadFileOptions data={object} />,
           isPinned: true,
           GridColDef: {
-            minWidth: 100,
+            minWidth: 150,
           },
         }}
         loading={loading}
@@ -182,7 +184,7 @@ const StoreDownloadDataGrid: FC<StoreDataGridProps> = ({
             width="100%"
           >
             <Stack>
-              <FolderPath useRootIcon defaultHidden />
+              <FolderPath defaultHidden />
             </Stack>
             {multiSelected.length >= 1 && (
               <Chip
@@ -215,7 +217,15 @@ const StoreDownloadDataGrid: FC<StoreDataGridProps> = ({
             });
           },
         }}
+        components={
+          apiRef?.upload
+            ? {
+                DataGridParentStack,
+              }
+            : undefined
+        }
       />
+      {!!apiRef?.upload && <UploadPopover />}
       <MultiSelectMenu
         selected={multiSelected}
         contextMenu={contextMenu}

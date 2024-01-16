@@ -1,7 +1,7 @@
 import { ObjectStore } from "../types";
 
 export function createMultipartUploadForm(
-  files: FileList,
+  file: File,
   body: ObjectStore.PutRequest
 ): FormData {
   /**
@@ -17,11 +17,11 @@ export function createMultipartUploadForm(
     })
   );
 
-  if (files.length) {
+  if (file) {
     // Supporting file upload only ATM
     formData.append(
       "upload",
-      new File([files[0]], files[0].name, {
+      new File([file], file.name, {
         type: "application/octet-stream",
       })
     );
