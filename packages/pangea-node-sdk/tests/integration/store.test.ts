@@ -193,7 +193,7 @@ it("get url and post upload", async () => {
   }
 });
 
-it("get url and post upload", async () => {
+it("Item life cycle", async () => {
   // Create a folder
   const respCreate = await client.folderCreate({
     path: FOLDER_FILES,
