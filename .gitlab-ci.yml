@@ -1,5 +1,5 @@
 default:
-  image: node
+  image: node:18.19.0
   tags:
     - pangea-internal
 
@@ -12,7 +12,6 @@ stages:
   - Test Public
 
 .packages_base:
-  image: node
   before_script:
     - yarn install
   cache:

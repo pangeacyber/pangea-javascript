@@ -18,8 +18,8 @@
   before_script:
     - cd packages/pangea-node-sdk
     - yarn install --frozen-lockfile
-    - apt-get -qq update
-    - apt-get install -y jq
+    - apt update -y
+    - apt install -y jq
   cache:
     - key:
         files:
@@ -73,9 +73,7 @@ tag_pangea_node_sdk:
   extends: .pangea_node_sdk_publish
   stage: Tag Release
   script:
-    - apt-get install python3 -y
-    - apt-get install python3-pip -y
-    - apt-get install pygithub -y
+    - apt install -y python3 python3-github
     - VERSION=$(node -p "require('./package.json').version")
     - cp ../../scripts/tag_release.py .
     - python3 tag_release.py ${GITHUB_TOKEN} ${VERSION} ${CI_COMMIT_SHA} "pangea-node-sdk" "Pangea Node SDK"

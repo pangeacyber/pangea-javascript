@@ -1,7 +1,7 @@
 import argparse
-import sys
 
 from github import Github
+
 
 def parse_args():
     parser = argparse.ArgumentParser(description="Tag a release in GitHub")
@@ -12,6 +12,7 @@ def parse_args():
     parser.add_argument("tag_name", help="Tag Name")
     args = parser.parse_args()
     return args
+
 
 def main():
     args = parse_args()
@@ -27,7 +28,6 @@ def main():
 
     print(f"Tag version: {tag}")
     if args.version.find('beta'):
-        
         repo.create_git_tag(
             tag,
             tag_message,
@@ -44,7 +44,7 @@ def main():
             object,
             type
         )
-    
+
 
 if __name__ == "__main__":
     main()

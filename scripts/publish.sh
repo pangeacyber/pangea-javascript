@@ -1,4 +1,5 @@
-#!/bin/sh
+#!/usr/bin/env bash
+
 PACKAGE_NAME=$(jq .name package.json | tr -d '"')
 echo "Looking to update: $PACKAGE_NAME"
 if [ $PACKAGE_NAME = "" ] ; then
@@ -13,7 +14,7 @@ echo "Published packaged version $LATEST_PACKAGE_VERSION"
 
 if [ "$PACKAGE_VERSION" != "$LATEST_PACKAGE_VERSION" ] ; then
     yarn build
-	yarn publish --new-version $PACKAGE_VERSION
+	  yarn publish --new-version $PACKAGE_VERSION
 else
-    echo "Package not updated. Skipping publish" 
+    echo "Package not updated. Skipping publish"
 fi
