@@ -484,16 +484,24 @@ it("RSA encrypting life cycle", async () => {
 });
 
 it("AES encrypting life cycle", async () => {
-  const algorithm = Vault.SymmetricAlgorithm.AES;
+  const algorithms = [
+    Vault.SymmetricAlgorithm.AES128_CBC,
+    Vault.SymmetricAlgorithm.AES256_CBC,
+    Vault.SymmetricAlgorithm.AES128_CFB,
+    Vault.SymmetricAlgorithm.AES256_CFB,
+    Vault.SymmetricAlgorithm.AES256_GCM,
+  ];
   const purpose = Vault.KeyPurpose.ENCRYPTION;
-  try {
-    const id = await symGenerateDefault(algorithm, purpose);
-    await encryptingCycle(id);
-    await vault.delete(id);
-  } catch (e) {
-    console.log(`Failed symmetric encrypting life cycle with ${algorithm} and ${purpose}`);
-    expect(false).toBeTruthy();
-  }
+  algorithms.forEach(async (algorithm) => {
+    try {
+      const id = await symGenerateDefault(algorithm, purpose);
+      await encryptingCycle(id);
+      await vault.delete(id);
+    } catch (e) {
+      console.log(`Failed symmetric encrypting life cycle with ${algorithm} and ${purpose}`);
+      expect(false).toBeTruthy();
+    }
+  });
 });
 
 it("JWT asymmetric signing life cycle", async () => {
