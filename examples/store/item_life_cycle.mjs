@@ -8,7 +8,7 @@ import {
 } from "pangea-node-sdk";
 import * as fs from "fs";
 
-// Load pangea token and domain from environment variables
+// Load Pangea token and domain from environment variables
 const token = process.env.PANGEA_STORE_TOKEN;
 const config = new PangeaConfig({ domain: process.env.PANGEA_DOMAIN });
 
@@ -77,7 +77,7 @@ const filepath = "./testfile.pdf";
     console.log(`\tTags: ${respPutId.result.object.tags}`);
 
     console.log("\nUpdating file with full metadata and tags...");
-    // Update file. full metadata and tags
+    // Update file with full metadata and tags
     const respUpdate = await client.update({
       id: respPutPath.result.object.id,
       metadata: metadata,
@@ -89,8 +89,8 @@ const filepath = "./testfile.pdf";
     console.log(`\tMetadata: ${respUpdate.result.object.metadata}`);
     console.log(`\tTags: ${respUpdate.result.object.tags}`);
 
-    console.log("\nUpdating file adding metadata and tags...");
-    // Update file. add metadata and tags
+    console.log("\nUpdating file with additional metadata and tags...");
+    // Update file with added metadata and tags
     const addMetadata = { field3: "value3" };
     const addTags = ["tag3"];
 

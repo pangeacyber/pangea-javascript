@@ -3,7 +3,7 @@
 import { PangeaConfig, StoreService, TransferMethod } from "pangea-node-sdk";
 import * as fs from "fs";
 
-// Load pangea token and domain from environment variables
+// Load Pangea token and domain from environment variables
 const token = process.env.PANGEA_STORE_TOKEN;
 const config = new PangeaConfig({ domain: process.env.PANGEA_DOMAIN });
 
