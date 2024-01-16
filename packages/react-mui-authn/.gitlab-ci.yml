@@ -1,5 +1,5 @@
 .react_mui_authn_base:
-  image: node
+  image: node:18.19.0
   before_script:
     - cd packages/react-mui-authn
     - yarn install --frozen-lockfile
@@ -29,9 +29,7 @@ tag_react_auth:
   extends: .react_mui_authn_base
   stage: Tag Release
   script:
-    - apt-get install python3 -y
-    - apt-get install python3-pip -y
-    - apt-get install pygithub -y
+    - apt install -y python3 python3-github
     - VERSION=$(node -p "require('./package.json').version")
     - cp ../../scripts/tag_release.py .
     - python3 tag_release.py ${GITHUB_TOKEN} ${VERSION} ${CI_COMMIT_SHA} "react-mui-authn" "React MUI AuthN"
