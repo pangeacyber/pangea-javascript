@@ -199,7 +199,7 @@ async function jwtAsymSigningCycle(id: string) {
     expect(verify1Resp.result.valid_signature).toBe(true);
   } catch (e) {
     e instanceof PangeaErrors.APIError ? console.log(e.toString()) : console.log(e);
-    expect(false).toBeTruthy();
+    throw e;
   }
 }
 
@@ -240,7 +240,7 @@ async function jwtSymSigningCycle(id: string) {
     expect(verify1Resp.result.valid_signature).toBe(true);
   } catch (e) {
     e instanceof PangeaErrors.APIError ? console.log(e.toString()) : console.log(e);
-    expect(false).toBeTruthy();
+    throw e;
   }
 }
 
@@ -475,7 +475,7 @@ it("RSA encrypting life cycle", async () => {
   } catch (e) {
     e instanceof PangeaErrors.APIError ? console.log(e.toString()) : console.log(e);
     console.log(`Failed asymmetric encrypting life cycle with ${algorithm} and ${purpose}`);
-    expect(false).toBeTruthy();
+    throw e;
   }
 });
 
@@ -488,16 +488,16 @@ it("AES encrypting life cycle", async () => {
     Vault.SymmetricAlgorithm.AES256_GCM,
   ];
   const purpose = Vault.KeyPurpose.ENCRYPTION;
-  algorithms.forEach(async (algorithm) => {
+  for (const algorithm of algorithms) {
     try {
       const id = await symGenerateDefault(algorithm, purpose);
       await encryptingCycle(id);
       await vault.delete(id);
     } catch (e) {
       console.log(`Failed symmetric encrypting life cycle with ${algorithm} and ${purpose}`);
-      expect(false).toBeTruthy();
+      throw e;
     }
-  });
+  }
 });
 
 it("JWT asymmetric signing life cycle", async () => {
@@ -507,29 +507,35 @@ it("JWT asymmetric signing life cycle", async () => {
     Vault.AsymmetricAlgorithm.ES512,
   ];
   const purpose = Vault.KeyPurpose.JWT;
-  algorithms.forEach(async (algorithm) => {
+  for (const algorithm of algorithms) {
     try {
       const id = await asymGenerateDefault(algorithm, purpose);
       await jwtAsymSigningCycle(id);
       await vault.delete(id);
     } catch (e) {
       console.log(`Failed JWT asymmetric signing life cycle with ${algorithm} and ${purpose}`);
-      expect(false).toBeTruthy();
+      throw e;
     }
-  });
+  }
 });
 
 it("JWT symmetric signing life cycle", async () => {
-  const algorithm = Vault.SymmetricAlgorithm.HS256;
   const purpose = Vault.KeyPurpose.JWT;
-  try {
-    const id = await symGenerateDefault(algorithm, purpose);
-    await jwtSymSigningCycle(id);
-    await vault.delete(id);
-  } catch (e) {
-    e instanceof PangeaErrors.APIError ? console.log(e.toString()) : console.log(e);
-    console.log(`Failed JWT symmetric signing life cycle with ${algorithm} and ${purpose}`);
-    expect(false).toBeTruthy();
+  const algorithms = [
+    Vault.SymmetricAlgorithm.HS256,
+    Vault.SymmetricAlgorithm.HS384,
+    Vault.SymmetricAlgorithm.HS512,
+  ];
+  for (const algorithm of algorithms) {
+    try {
+      const id = await symGenerateDefault(algorithm, purpose);
+      await jwtSymSigningCycle(id);
+      await vault.delete(id);
+    } catch (e) {
+      e instanceof PangeaErrors.APIError ? console.log(e.toString()) : console.log(e);
+      console.log(`Failed JWT symmetric signing life cycle with ${algorithm} and ${purpose}`);
+      throw e;
+    }
   }
 });
 
