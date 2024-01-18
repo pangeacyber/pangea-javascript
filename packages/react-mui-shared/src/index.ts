@@ -29,6 +29,14 @@ export {
   PasswordPolicyChecks,
   FieldComponentProps,
   FieldControl,
+  AuthPasswordField,
+  JsonField,
+  CheckboxField,
+  DateTimeField,
+  StringArrayField,
+  StringField,
+  SwitchField,
+  SelectField,
 } from "./components/PangeaFields";
 export {
   default as PangeaModal,

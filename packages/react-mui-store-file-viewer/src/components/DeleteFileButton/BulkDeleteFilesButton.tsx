@@ -29,12 +29,19 @@ const BulkDeleteFilesButton: FC<Props> = ({
         if (!apiRef.delete) return;
 
         return Promise.all([
-          selected.map((id) => !!apiRef.delete && apiRef.delete({ id })),
+          selected.map(
+            (id) => !!apiRef.delete && apiRef.delete({ id, force: true })
+          ),
         ])
           .then(() => {})
           .finally(() => {
             onClose();
             reload();
+
+            setTimeout(() => {
+              // Add a delayed reload as the first reloading may still return items that were just deleted..
+              reload();
+            }, 1500);
           });
       }}
       Button={(props) =>

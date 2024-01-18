@@ -276,4 +276,5 @@ StoreFileViewerDemo.args = {
       punct_min: 1,
     },
   },
+  defaultShareLinkTitle: "Pepe Silvia has securely shared a file with you!",
 };

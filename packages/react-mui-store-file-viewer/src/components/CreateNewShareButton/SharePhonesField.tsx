@@ -6,6 +6,7 @@ import {
   ToggleButtonGroup,
   Typography,
   Tooltip,
+  Chip,
 } from "@mui/material";
 import uniqBy from "lodash/uniqBy";
 import {
@@ -17,9 +18,6 @@ import findIndex from "lodash/findIndex";
 import * as yup from "yup";
 
 import AddIcon from "@mui/icons-material/Add";
-import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined";
-import LocalPhoneIcon from "@mui/icons-material/LocalPhone";
-import RemoveCircleOutlineIcon from "@mui/icons-material/RemoveCircleOutline";
 
 const PHONE_REGEXP =
   /^((\\+[1-9]{1,4}[ \\-]*)|(\\([0-9]{2,3}\\)[ \\-]*)|(1|[0-9]{2,4})[ \\-]*)*?[0-9]{3,4}?[ \\-]*[0-9]{3,4}?$/;
@@ -51,18 +49,6 @@ const UnControlledSharePhonesField: FC<FieldComponentProps> = ({
       .isValid(newValue)
       .then((isValid) => {
         if (!isValid) setNewValueError("Must be a valid phone number");
-        else setNewValueError(undefined);
-      });
-  };
-
-  const validateEmail = (email: string) => {
-    return yup
-      .string()
-      .trim()
-      .email("Must be a valid email address")
-      .isValid(email)
-      .then((isValid) => {
-        if (!isValid) setNewValueError("Must be a valid email address");
         else setNewValueError(undefined);
       });
   };
@@ -119,12 +105,12 @@ const UnControlledSharePhonesField: FC<FieldComponentProps> = ({
   };
 
   return (
-    <Stack spacing={1} width="100%" sx={{ minHeight: "300px" }}>
+    <Stack spacing={1} width="100%">
       <Stack width="100%" direction="row" alignItems="center" spacing={1}>
         <TextField
           value={newValue}
           name="recipient_phone"
-          label="Add recipient phone number"
+          label="Add phone number"
           onChange={(e) => {
             let value = e.target.value;
             setNewValue(value);
@@ -160,47 +146,27 @@ const UnControlledSharePhonesField: FC<FieldComponentProps> = ({
           <AddIcon fontSize="small" />
         </IconButton>
       </Stack>
-      {value.map((phone, idx) => {
-        return (
-          <Stack
-            key={`share-email-${phone.phone_number}`}
-            spacing={1}
-            direction="row"
-            width="100%"
-            alignItems="center"
-          >
-            <LocalPhoneIcon fontSize="small" />
-            <Typography variant="body2" sx={{ width: "100%" }}>
-              {phone.phone_number}
-            </Typography>
-            <TextField
-              value={phone.recipient}
-              placeholder="Add recipient email"
-              sx={{ minWidth: "250px" }}
-              onChange={(e) => {
-                let value = e.target.value;
-                handleUpdateRecipient(phone, idx, value);
-
-                e.stopPropagation();
-              }}
-              InputProps={{
-                startAdornment: (
-                  <Tooltip
-                    sx={{ marginLeft: -0.5, marginRight: 0.5 }}
-                    title="Add an optional email recipient, that will get the shared link sent to them automatically on 'Create and Send'."
-                  >
-                    <InfoOutlinedIcon color="info" fontSize="small" />
-                  </Tooltip>
-                ),
-              }}
-              size="small"
+      <Stack
+        direction="row"
+        gap={1}
+        sx={{
+          flexWrap: "wrap",
+          minHeight: "80px",
+          overflow: "hidden",
+          overflowY: "auto",
+          maxHeight: "calc(100vh - 600px)",
+        }}
+      >
+        {value.map((phone, idx) => {
+          return (
+            <Chip
+              key={`phone-${idx}-${phone.phone_number}`}
+              label={phone.phone_number}
+              onDelete={() => handleRemoveValue(phone)}
             />
-            <IconButton size="small" onClick={() => handleRemoveValue(phone)}>
-              <RemoveCircleOutlineIcon fontSize="small" />
-            </IconButton>
-          </Stack>
-        );
-      })}
+          );
+        })}
+      </Stack>
     </Stack>
   );
 };

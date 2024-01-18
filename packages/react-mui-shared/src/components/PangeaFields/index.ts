@@ -20,3 +20,5 @@ export type {
   PasswordPolicy,
   PasswordPolicyChecks,
 } from "./FieldsForm/fields/AuthPassword/types";
+
+export * from "./FieldsForm/fields/index";

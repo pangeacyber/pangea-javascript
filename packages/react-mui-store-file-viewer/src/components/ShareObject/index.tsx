@@ -1,10 +1,14 @@
 import { FC, useState } from "react";
 import { ObjectStore } from "../../types";
-import { IconButton, Stack, Typography } from "@mui/material";
+import { IconButton, Stack, Tooltip, Typography } from "@mui/material";
 
 import CheckIcon from "@mui/icons-material/Check";
 import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined";
-import { getDateDisplayName, getShareDisplayName } from "./utils";
+import {
+  getDateDisplayName,
+  getShareDisplayIcon,
+  getShareDisplayName,
+} from "./utils";
 
 import SendIcon from "@mui/icons-material/Send";
 import RemoveCircleOutlineIcon from "@mui/icons-material/RemoveCircleOutline";
@@ -17,6 +21,45 @@ interface Props {
   object: ObjectStore.ShareObjectResponse;
   onDelete?: () => void;
 }
+
+const LinkInfo: FC<{
+  object: ObjectStore.ShareObjectResponse;
+}> = ({ object }) => {
+  return (
+    <Stack spacing={0} width="100%" sx={{ bgcolor: "#fff", padding: 1 }}>
+      {!!object.expires_at && (
+        <Stack direction="row" alignItems="center" spacing={1}>
+          <Typography variant="body2" color="textSecondary">
+            Expires at:
+          </Typography>
+          <Typography variant="body2" color="textSecondary">
+            {getDateDisplayName(object.expires_at)}
+          </Typography>
+        </Stack>
+      )}
+      {object.access_count !== undefined && !!object.max_access_count && (
+        <Stack direction="row" alignItems="center" spacing={1}>
+          <Typography variant="body2" color="textSecondary">
+            Remaining access count:
+          </Typography>
+          <Typography variant="body2" color="textSecondary">
+            {object.max_access_count - (object.access_count ?? 0)}
+          </Typography>
+        </Stack>
+      )}
+      {!!object.last_accessed_at && (
+        <Stack direction="row" alignItems="center" spacing={1}>
+          <Typography variant="body2" color="textSecondary">
+            Last accessed at:
+          </Typography>
+          <Typography variant="body2" color="textSecondary">
+            {getDateDisplayName(object.last_accessed_at)}
+          </Typography>
+        </Stack>
+      )}
+    </Stack>
+  );
+};
 
 const ShareObject: FC<Props> = ({ object, onDelete }) => {
   const { apiRef } = useStoreFileViewerContext();
@@ -37,56 +80,34 @@ const ShareObject: FC<Props> = ({ object, onDelete }) => {
       });
   };
 
+  const LinkIcon = getShareDisplayIcon(object);
   return (
     <Stack direction="row" alignItems="center" spacing={1}>
-      {object?.sent ?? true ? (
-        <CheckIcon color="success" />
-      ) : (
-        <InfoOutlinedIcon color="info" />
-      )}
+      <Tooltip
+        title={<LinkInfo object={object} />}
+        componentsProps={{
+          tooltip: {
+            sx: {
+              bgcolor: "transparent",
+            },
+          },
+        }}
+      >
+        <LinkIcon color="action" />
+      </Tooltip>
       <Stack spacing={0} width="100%">
         <Typography variant="body2">{getShareDisplayName(object)}</Typography>
-        {!!object.expires_at && (
-          <Stack direction="row" alignItems="center" spacing={1}>
-            <Typography variant="body2" color="textSecondary">
-              Expires at:
-            </Typography>
-            <Typography variant="body2" color="textSecondary">
-              {getDateDisplayName(object.expires_at)}
-            </Typography>
-          </Stack>
-        )}
-        {object.access_count !== undefined && !!object.max_access_count && (
-          <Stack direction="row" alignItems="center" spacing={1}>
-            <Typography variant="body2" color="textSecondary">
-              Remaining access count:
-            </Typography>
-            <Typography variant="body2" color="textSecondary">
-              {object.max_access_count - (object.access_count ?? 0)}
-            </Typography>
-          </Stack>
-        )}
-        {!!object.last_accessed_at && (
-          <Stack direction="row" alignItems="center" spacing={1}>
-            <Typography variant="body2" color="textSecondary">
-              Last accessed at:
-            </Typography>
-            <Typography variant="body2" color="textSecondary">
-              {getDateDisplayName(object.last_accessed_at)}
-            </Typography>
-          </Stack>
-        )}
       </Stack>
       <Stack justifySelf="end" marginLeft="auto" direction="row" spacing={-0.8}>
-        {!!object.id && !!object.link && (
-          <SendShareViaEmailButton object={object} />
-        )}
         {!!object.link && (
           <CopyButton
             value={object.link}
             label={getShareDisplayName(object)}
             size="small"
           />
+        )}
+        {!!object.id && !!object.link && (
+          <SendShareViaEmailButton object={object} />
         )}
         <IconButton
           size="small"

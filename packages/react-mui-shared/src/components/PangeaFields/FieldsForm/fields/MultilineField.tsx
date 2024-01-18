@@ -11,7 +11,7 @@ const UnControlledMultilineField: FC<
   InputFieldComponentProps<MultilineFieldSchemaProps>
 > = (props) => {
   const value = props.value;
-  const { rows = 4 } = props?.FieldProps ?? {};
+  const { rows = 4, placeholder, TextFieldProps } = props?.FieldProps ?? {};
 
   return (
     <UnControlledStringField
@@ -23,10 +23,12 @@ const UnControlledMultilineField: FC<
           multiline: true,
           rows,
           onKeyDown: (event) => event.stopPropagation(),
+          ...TextFieldProps,
         },
         InputProps: {
           onKeyDown: (event) => event.stopPropagation(),
         },
+        placeholder,
       }}
     />
   );

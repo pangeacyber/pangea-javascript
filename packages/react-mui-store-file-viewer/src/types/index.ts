@@ -136,6 +136,9 @@ export namespace ObjectStore {
     max_access_count?: number;
 
     authenticators?: ShareAuthenticator[];
+
+    title?: string;
+    message?: string;
   }
 
   export interface ShareLinkToSend {

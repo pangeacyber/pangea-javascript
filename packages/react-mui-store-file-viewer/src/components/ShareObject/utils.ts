@@ -1,4 +1,11 @@
+import { FC } from "react";
 import { ObjectStore } from "../../types";
+
+import LinkIcon from "@mui/icons-material/Link";
+import EmailIcon from "@mui/icons-material/Email";
+import SmartphoneIcon from "@mui/icons-material/Smartphone";
+import PasswordIcon from "@mui/icons-material/Password";
+import { IconProps, SvgIconProps } from "@mui/material";
 
 export const getShareDisplayName = (
   object: ObjectStore.ShareObjectResponse
@@ -12,7 +19,7 @@ export const getShareDisplayName = (
     identityAuth?.auth_type === ObjectStore.ShareAuthenticatorType.Email ||
     identityAuth?.auth_type === ObjectStore.ShareAuthenticatorType.Sms
   ) {
-    return `Secured with ${identityAuth.auth_context}`;
+    return `${identityAuth.auth_context}`;
   }
 
   if (identityAuth?.auth_type === ObjectStore.ShareAuthenticatorType.Password) {
@@ -20,6 +27,29 @@ export const getShareDisplayName = (
   }
 
   return `Shared using ${authCount} authenticators`;
+};
+
+export const getShareDisplayIcon = (
+  object: ObjectStore.ShareObjectResponse
+): FC<SvgIconProps> => {
+  if (!object || !object?.authenticators) return LinkIcon;
+  const authCount = object?.authenticators?.length ?? 0;
+
+  const identityAuth = authCount === 1 ? object.authenticators[0] : undefined;
+
+  if (identityAuth?.auth_type === ObjectStore.ShareAuthenticatorType.Email) {
+    return EmailIcon;
+  }
+
+  if (identityAuth?.auth_type === ObjectStore.ShareAuthenticatorType.Sms) {
+    return SmartphoneIcon;
+  }
+
+  if (identityAuth?.auth_type === ObjectStore.ShareAuthenticatorType.Password) {
+    return PasswordIcon;
+  }
+
+  return LinkIcon;
 };
 
 export const getDateDisplayName = (dateString: string) => {

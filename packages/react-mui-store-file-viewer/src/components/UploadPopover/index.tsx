@@ -112,9 +112,10 @@ export default function UploadPopover() {
     if (conflict?.state === "replace" && apiRef?.delete) {
       await apiRef
         .delete({
-          path: `${conflict.folder?.name ?? ""}/${
+          path: `/${conflict.folder?.name ?? ""}/${
             conflict?.upload?.file?.name ?? "unknown"
-          }`,
+          }`.replace("//", "/"),
+          force: true,
         })
         .then(() => {
           reload();

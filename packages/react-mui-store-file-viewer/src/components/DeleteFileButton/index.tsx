@@ -32,7 +32,7 @@ const DeleteFileButton: FC<Props> = ({
       onDelete={async () => {
         if (!apiRef.delete) return;
 
-        return apiRef.delete({ id: object.id }).then(() => {
+        return apiRef.delete({ id: object.id, force: true }).then(() => {
           onClose();
           reload();
         });

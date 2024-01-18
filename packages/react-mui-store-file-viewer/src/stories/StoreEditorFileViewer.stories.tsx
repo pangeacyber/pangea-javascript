@@ -95,7 +95,7 @@ StoreFileViewerDemo.args = {
           throw err;
         });
     },
-    upload: async (body) => {
+    upload: async (body, contentType) => {
       return axios
         .post(
           `https://store.${process.env.STORYBOOK_SERVICE_DOMAIN}/v1beta/put`,
@@ -103,6 +103,7 @@ StoreFileViewerDemo.args = {
           {
             headers: {
               Authorization: `Bearer ${process.env.STORYBOOK_PANGEA_TOKEN}`,
+              "Content-Type": contentType,
             },
           }
         )

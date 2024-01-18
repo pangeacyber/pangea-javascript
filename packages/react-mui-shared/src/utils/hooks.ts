@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 
 function useDebounce(value: any, delay: any) {
   // State and setters for debounced value
@@ -26,12 +26,15 @@ export const useInternalState = (value: any, setValue: any) => {
 
   const debouncedValue = useDebounce(value_, 1000);
 
+  const setValueRef = useRef(setValue);
+  setValueRef.current = setValue;
+
   useEffect(() => {
     setValue_(value);
   }, [value]);
 
   useEffect(() => {
-    if (debouncedValue !== value) setValue(debouncedValue);
+    if (debouncedValue === value_) setValueRef.current(debouncedValue);
   }, [debouncedValue]);
 
   return [value_, setValue_];

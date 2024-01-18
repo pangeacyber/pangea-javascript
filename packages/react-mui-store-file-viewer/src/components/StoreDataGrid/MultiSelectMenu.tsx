@@ -12,11 +12,9 @@ import { useTheme } from "@mui/material/styles";
 import { useStoreFileViewerContext } from "../../hooks/context";
 import { ObjectStore } from "../../types";
 import DownloadIcon from "@mui/icons-material/Download";
-import CreateSharesViaPasswordButton from "../CreateNewShareButton/CreateSharesViaPasswordButton";
-import CreateSharesViaSmsButton from "../CreateNewShareButton/CreateSharesViaSmsButton";
-import CreateSharesViaEmailButton from "../CreateNewShareButton/CreateSharesViaEmailButton";
 import DeleteFileButton from "../DeleteFileButton";
 import BulkDeleteFilesButton from "../DeleteFileButton/BulkDeleteFilesButton";
+import CreateSharesButton from "../CreateNewShareButton/CreateSharesButton";
 
 interface Props {
   selected: string[];
@@ -176,7 +174,7 @@ const MultiSelectMenu: FC<Props> = ({
               {!!apiRef?.share?.create && objects.length === 1 && (
                 <>
                   <Divider />
-                  <CreateSharesViaEmailButton
+                  <CreateSharesButton
                     ButtonProps={{
                       sx: {
                         color: theme.palette.text.primary,
@@ -185,40 +183,7 @@ const MultiSelectMenu: FC<Props> = ({
                         justifyContent: "start",
                       },
                       // @ts-ignore
-                      "data-testid": "New-Share-Email-Btn",
-                      children: "Share via emails",
-                    }}
-                    onClose={handleDone}
-                    object={objects[0]}
-                    onDone={handleDone}
-                  />
-                  <CreateSharesViaSmsButton
-                    ButtonProps={{
-                      sx: {
-                        color: theme.palette.text.primary,
-                        width: "100%",
-                        paddingLeft: 2,
-                        justifyContent: "start",
-                      },
-                      // @ts-ignore
-                      "data-testid": "New-Share-Phone-Btn",
-                      children: "Share via phone numbers",
-                    }}
-                    onClose={handleDone}
-                    object={objects[0]}
-                    onDone={handleDone}
-                  />
-                  <CreateSharesViaPasswordButton
-                    ButtonProps={{
-                      sx: {
-                        color: theme.palette.text.primary,
-                        width: "100%",
-                        paddingLeft: 2,
-                        justifyContent: "start",
-                      },
-                      // @ts-ignore
-                      "data-testid": "New-Share-Password-Btn",
-                      children: "Share via password",
+                      "data-testid": "New-Share-Btn",
                     }}
                     onClose={handleDone}
                     object={objects[0]}
