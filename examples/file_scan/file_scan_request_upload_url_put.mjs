@@ -45,7 +45,7 @@ const delay = async (ms) =>
     response = await client.requestUploadURL(request);
 
     // extract upload url that should be posted with the file
-    const url = response.accepted_result?.accepted_status.upload_url || "";
+    const url = response.accepted_result?.put_url || "";
     console.log(`Got presigned url: ${url}`);
 
     // Create an uploader and upload the file
