@@ -99,7 +99,7 @@ StoreFileViewerDemo.args = {
       return axios
         .post(
           `https://store.${process.env.STORYBOOK_SERVICE_DOMAIN}/v1beta/put`,
-          { ...body },
+          body,
           {
             headers: {
               Authorization: `Bearer ${process.env.STORYBOOK_PANGEA_TOKEN}`,
