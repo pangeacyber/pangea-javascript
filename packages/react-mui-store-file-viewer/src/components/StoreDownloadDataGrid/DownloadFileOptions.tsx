@@ -32,7 +32,7 @@ const DownloadFileOptions: FC<VaultItemOptionsProps> = ({ data }) => {
       return apiRef
         .getArchive({
           ids: [data.id],
-          format: "tar",
+          format: "zip",
           transfer_method: "dest-url",
         })
         .then((response) => {
