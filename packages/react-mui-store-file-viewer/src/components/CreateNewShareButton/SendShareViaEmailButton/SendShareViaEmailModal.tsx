@@ -105,9 +105,7 @@ const SendShareViaEmailModal: FC<Props> = ({
 
   const handleSendShare = async (data: Record<string, ShareSendObj>) => {
     if (!apiRef.share?.send || !shares) return;
-
     setLoading(true);
-    if (!apiRef.share?.send) return;
 
     const links: ObjectStore.ShareLinkToSend[] = [];
     Object.values(data).forEach((d) => {
@@ -130,7 +128,7 @@ const SendShareViaEmailModal: FC<Props> = ({
 
     return apiRef.share
       .send({
-        from_prefix: "",
+        sender_email: "",
         links,
       })
       .finally(() => {

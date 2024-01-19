@@ -114,14 +114,14 @@ const ShareSettings: FC<Props> = ({
           <Box
             className="Pangea-Flyout-Container"
             sx={{
-              width: "200px",
+              width: "220px",
               height: "468px",
               bgcolor: "#23315A",
               color: theme.palette.primary.contrastText,
               position: "absolute",
               padding: 1,
               top: "24px",
-              right: "-200px",
+              right: "-220px",
               borderRadius: "0px 12px 12px 0px",
               ".MuiTypography-root, .MuiStack-root > .MuiIconButton-root > .MuiSvgIcon-root":
                 {

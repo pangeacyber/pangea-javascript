@@ -148,7 +148,8 @@ export namespace ObjectStore {
 
   export interface ShareSendRequest {
     links: ShareLinkToSend[];
-    from_prefix: string;
+    sender_email: string;
+    sender_name?: string;
   }
 
   export interface ShareSendResponse {

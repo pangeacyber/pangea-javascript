@@ -16,7 +16,7 @@ import {
   useStoreFileViewerFolder,
 } from "../../hooks/context";
 import FolderPath from "../StoreDataGrid/FolderPath";
-import { Stack, Chip } from "@mui/material";
+import { Stack, Chip, LinearProgress, Box } from "@mui/material";
 import DownloadFileOptions from "./DownloadFileOptions";
 import { StoreDataGridProps } from "../StoreDataGrid";
 import MultiSelectMenu from "../StoreDataGrid/MultiSelectMenu";
@@ -136,7 +136,17 @@ const StoreDownloadDataGrid: FC<StoreDataGridProps> = ({
 
   const rowCount = data?.count ?? data?.objects?.length ?? 0;
   return (
-    <Stack spacing={1}>
+    <Stack spacing={0}>
+      {loading && (
+        <LinearProgress
+          color="info"
+          sx={{
+            marginTop: "4px!important",
+            height: "2px",
+            marginBottom: "4px!important",
+          }}
+        />
+      )}
       <LinedPangeaDataGrid
         columns={columns}
         data={data.objects}

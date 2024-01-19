@@ -82,7 +82,7 @@ const CreateSharesViaEmailButton: FC<Props> = ({
         const links = response?.result?.share_link_objects ?? [];
         if (links.length && apiRef.share?.send) {
           const body: ObjectStore.ShareSendRequest = {
-            from_prefix: "",
+            sender_email: "",
             links: [],
           };
 

@@ -25,7 +25,7 @@ const FolderOption: FC<{ folder: string; onClick: () => void }> = ({
     <Button
       variant="text"
       size="small"
-      sx={{ minWidth: "fit-content" }}
+      sx={{ minWidth: "fit-content", textTransform: "none" }}
       onClick={onClick}
     >
       <Typography variant="subtitle2" color="textPrimary">

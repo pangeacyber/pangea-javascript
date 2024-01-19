@@ -64,7 +64,7 @@ For a deeper dive into the Prop interface check the source code [here](https://g
 
 ### Example
 
-The following is brief example for how to initialize the AuditLogViewer component.
+The following is a brief example on how to initialize the AuditLogViewer component.
 
 ```jsx
 import React from "react";
@@ -86,5 +86,3 @@ const MyComponent: React.FC = () => {
 ### Customization
 
 The BrandingThemeProvider component is primarly a light wrapper around tthe Material-UI component library, ThemeProvider component. so styling of the component can be controlled through a MUI Theme. See Theming documentation [here](https://mui.com/material-ui/customization/theming/)
-
-## Development

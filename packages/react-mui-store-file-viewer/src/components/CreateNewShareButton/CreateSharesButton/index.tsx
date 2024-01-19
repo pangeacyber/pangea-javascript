@@ -131,7 +131,7 @@ const CreateSharesButton: FC<Props> = ({
           };
         }),
       })
-      .then(async (response) => {
+      .then((response) => {
         triggerUpdate();
 
         // Instead we need to prompt open the modal
@@ -142,9 +142,6 @@ const CreateSharesButton: FC<Props> = ({
         }
 
         return response;
-      })
-      .catch((err) => {
-        throw err;
       })
       .finally(() => {
         setLoading(false);
