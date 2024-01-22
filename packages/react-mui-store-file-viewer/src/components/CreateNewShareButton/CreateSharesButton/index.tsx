@@ -69,6 +69,7 @@ const CreateSharesButton: FC<Props> = ({
   const [loading, setLoading] = useState(false);
 
   const [sending, setSending] = useState<ObjectStore.ShareObjectResponse[]>([]);
+  const [password, setPassword] = useState<string>("");
 
   const [obj, setObj] = useState<ShareCreateForm>({
     targets: [],
@@ -139,6 +140,14 @@ const CreateSharesButton: FC<Props> = ({
         if (links.length) {
           setOpen(false);
           setSending(links);
+          if (
+            body?.authenticators?.length === 1 &&
+            body?.authenticators[0].auth_type === "password"
+          ) {
+            setPassword(body?.authenticators[0]?.auth_context ?? "");
+          } else {
+            setPassword("");
+          }
         }
 
         return response;
@@ -227,8 +236,12 @@ const CreateSharesButton: FC<Props> = ({
       </PangeaModal>
       <SendShareViaEmailModal
         open={!!sending.length}
-        onClose={() => setSending([])}
+        onClose={() => {
+          setSending([]);
+          setPassword("");
+        }}
         shares={sending}
+        password={password}
         onDone={onDone}
       />
     </>

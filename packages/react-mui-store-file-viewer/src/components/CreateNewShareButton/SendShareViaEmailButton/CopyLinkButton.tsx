@@ -9,6 +9,7 @@ import { FC, useEffect, useState } from "react";
 export interface CopyProps extends ButtonProps {
   label: string;
   IconProps?: SvgIconProps;
+  copiedText?: string;
 }
 
 export const handleOnCopy = (value: any, label: string) => {
@@ -22,6 +23,7 @@ const CopyLinkButton: FC<CopyProps> = ({
   value,
   children,
   IconProps = {},
+  copiedText = "Link copied!",
   ...props
 }) => {
   const [copied, setCopied] = useState(false);
@@ -63,7 +65,7 @@ const CopyLinkButton: FC<CopyProps> = ({
           textOverflow: "ellipsis",
         }}
       >
-        {copied ? "Link copied!" : children}
+        {copied ? copiedText : children}
       </Typography>
     </Button>
   );

@@ -5,6 +5,11 @@ import LinkIcon from "@mui/icons-material/Link";
 import EmailIcon from "@mui/icons-material/Email";
 import SmartphoneIcon from "@mui/icons-material/Smartphone";
 import PasswordIcon from "@mui/icons-material/Password";
+
+import UploadIcon from "@mui/icons-material/Upload";
+import DownloadIcon from "@mui/icons-material/Download";
+import BorderColorIcon from "@mui/icons-material/BorderColor";
+
 import { IconProps, SvgIconProps } from "@mui/material";
 
 export const getShareDisplayName = (
@@ -32,21 +37,18 @@ export const getShareDisplayName = (
 export const getShareDisplayIcon = (
   object: ObjectStore.ShareObjectResponse
 ): FC<SvgIconProps> => {
-  if (!object || !object?.authenticators) return LinkIcon;
-  const authCount = object?.authenticators?.length ?? 0;
+  if (!object) return LinkIcon;
 
-  const identityAuth = authCount === 1 ? object.authenticators[0] : undefined;
-
-  if (identityAuth?.auth_type === ObjectStore.ShareAuthenticatorType.Email) {
-    return EmailIcon;
+  if (object?.link_type === ObjectStore.ShareLinkType.Download) {
+    return DownloadIcon;
   }
 
-  if (identityAuth?.auth_type === ObjectStore.ShareAuthenticatorType.Sms) {
-    return SmartphoneIcon;
+  if (object?.link_type === ObjectStore.ShareLinkType.Upload) {
+    return UploadIcon;
   }
 
-  if (identityAuth?.auth_type === ObjectStore.ShareAuthenticatorType.Password) {
-    return PasswordIcon;
+  if (object?.link_type === ObjectStore.ShareLinkType.Editor) {
+    return BorderColorIcon;
   }
 
   return LinkIcon;

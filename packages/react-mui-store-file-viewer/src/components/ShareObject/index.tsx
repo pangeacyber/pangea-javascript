@@ -93,8 +93,16 @@ const ShareObject: FC<Props> = ({ object, onDelete }) => {
           },
         }}
       >
-        <LinkIcon color="action" />
+        <InfoOutlinedIcon color="info" fontSize="small" />
       </Tooltip>
+      <LinkIcon
+        color="action"
+        fontSize={
+          object?.link_type === ObjectStore.ShareLinkType.Editor
+            ? "small"
+            : undefined
+        }
+      />
       <Stack spacing={0} width="100%">
         <Typography variant="body2">{getShareDisplayName(object)}</Typography>
       </Stack>

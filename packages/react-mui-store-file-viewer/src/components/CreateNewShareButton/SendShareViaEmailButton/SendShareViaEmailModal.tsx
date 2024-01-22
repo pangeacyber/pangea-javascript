@@ -17,9 +17,12 @@ import {
   ShareSmsShareViaEmailFields,
   ShareEmailShareViaEmailFields,
 } from "./fields";
+import CopyLinkButton from "./CopyLinkButton";
+import PasswordIcon from "@mui/icons-material/Password";
 
 interface Props {
   shares: ObjectStore.ShareObjectResponse[];
+  password?: string;
 
   open: boolean;
   onClose?: () => void;
@@ -40,6 +43,7 @@ type ShareSendObj =
 
 const SendShareViaEmailModal: FC<Props> = ({
   shares,
+  password,
   open,
   onClose = () => {},
   onDone = () => {},
@@ -194,6 +198,19 @@ const SendShareViaEmailModal: FC<Props> = ({
         size="medium"
       >
         <Stack spacing={1} width="100%">
+          {objAuthType === "password" && !!password && (
+            <CopyLinkButton
+              variant="contained"
+              color="info"
+              fullWidth
+              label={`Share link password`}
+              data-testid={"SharePassword-Copy-Btn"}
+              value={password}
+              startIcon={<PasswordIcon fontSize="small" />}
+            >
+              Copy share link password
+            </CopyLinkButton>
+          )}
           <FieldsForm
             object={obj}
             fields={fields}

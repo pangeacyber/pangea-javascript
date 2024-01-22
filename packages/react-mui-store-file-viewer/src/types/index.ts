@@ -196,7 +196,7 @@ export namespace ObjectStore {
   export interface ShareObjectResponse {
     id: string;
     targets?: string[];
-    link_type?: string; // "upload" | "download";
+    link_type?: string; // "upload" | "download" | "editor";
     access_count?: number;
     max_access_count?: number;
 
@@ -220,6 +220,7 @@ export namespace ObjectStore {
   export enum ShareLinkType {
     Upload = "upload",
     Download = "download",
+    Editor = "editor",
   }
 
   export interface ShareListResponse {
