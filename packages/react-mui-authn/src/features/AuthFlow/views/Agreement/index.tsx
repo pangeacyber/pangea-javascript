@@ -41,6 +41,8 @@ const AgreementView: FC<AuthFlowComponentProps> = ({
     }
     if (el && el.scrollHeight - el.scrollTop === el.clientHeight) {
       setDisable(false);
+    } else {
+      setDisable(true);
     }
   }, [data]);
 
