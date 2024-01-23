@@ -27,11 +27,22 @@ import ShareSettings from "./ShareSettings";
 const CreateButton: FC<ButtonProps> = (props) => {
   // @ts-ignore
   const isSaving = props?.children?.endsWith("...");
-  return (
-    <Button {...props}>
-      {isSaving ? "Sending..." : "Create secure link(s)"}
-    </Button>
-  );
+
+  // @ts-ignore
+  const authenticatorType: string = props?.values?.authenticatorType;
+
+  let label = "Create secure link";
+  if (authenticatorType === ObjectStore.ShareAuthenticatorType.Email) {
+    label = "Create email secured links";
+  } else if (
+    authenticatorType === ObjectStore.ShareAuthenticatorType.Password
+  ) {
+    label = "Create password secured link";
+  } else if (authenticatorType === ObjectStore.ShareAuthenticatorType.Sms) {
+    label = "Create SMS secured links";
+  }
+
+  return <Button {...props}>{isSaving ? "Sending..." : label}</Button>;
 };
 
 interface Props {

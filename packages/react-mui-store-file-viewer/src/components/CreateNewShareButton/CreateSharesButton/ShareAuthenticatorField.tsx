@@ -49,6 +49,13 @@ const UnControlledShareAuthenticatorField: FC<
     event: React.MouseEvent<HTMLElement>,
     newType: string
   ) => {
+    if (!newType) return;
+    if (!!onValueChange) {
+      onValueChange({
+        ...value,
+        authenticatorType: newType as ObjectStore.ShareAuthenticatorType,
+      });
+    }
     setAuthenticatorType(newType as ObjectStore.ShareAuthenticatorType);
   };
 
@@ -70,6 +77,7 @@ const UnControlledShareAuthenticatorField: FC<
     if (!onValueChange) return;
     onValueChange({
       ...value,
+      authenticatorType: ObjectStore.ShareAuthenticatorType.Email,
       authenticators: emails.map((email) => ({
         auth_type: ObjectStore.ShareAuthenticatorType.Email,
         auth_context: email,
@@ -81,6 +89,7 @@ const UnControlledShareAuthenticatorField: FC<
     if (!onValueChange) return;
     onValueChange({
       ...value,
+      authenticatorType: ObjectStore.ShareAuthenticatorType.Sms,
       authenticators: phones.map((phone) => ({
         auth_type: ObjectStore.ShareAuthenticatorType.Sms,
         auth_context: phone.phone_number,
@@ -92,6 +101,7 @@ const UnControlledShareAuthenticatorField: FC<
     if (!onValueChange) return;
     onValueChange({
       ...value,
+      authenticatorType: ObjectStore.ShareAuthenticatorType.Password,
       authenticators: [
         {
           auth_type: ObjectStore.ShareAuthenticatorType.Password,
