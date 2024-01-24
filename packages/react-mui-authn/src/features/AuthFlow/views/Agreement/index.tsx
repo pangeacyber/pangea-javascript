@@ -1,5 +1,5 @@
 import { FC, UIEvent, useEffect, useState } from "react";
-import { Stack, Typography, useTheme } from "@mui/material";
+import { Stack, Tooltip, Typography, useTheme } from "@mui/material";
 
 import { AuthFlow } from "@pangeacyber/vanilla-js";
 
@@ -7,6 +7,7 @@ import { AuthFlowComponentProps } from "@src/features/AuthFlow/types";
 import LexicalViewer from "./component";
 import IdField from "@src/components/fields/IdField";
 import Button from "@src/components/core/Button";
+import { BodyText } from "@src/components/core/Text";
 
 const AgreementView: FC<AuthFlowComponentProps> = ({
   options,
@@ -98,16 +99,22 @@ const AgreementView: FC<AuthFlowComponentProps> = ({
         <Button fullWidth color="secondary" onClick={reset}>
           Decline
         </Button>
-        <Button
-          fullWidth
-          color="primary"
-          disabled={disable}
-          onClick={() => {
-            acceptAgreement(true);
-          }}
+        <Tooltip
+          title={disable ? "Scroll through entire agreement to accept" : ""}
         >
-          Accept
-        </Button>
+          <span style={{ width: "100%" }}>
+            <Button
+              fullWidth
+              color="primary"
+              disabled={disable}
+              onClick={() => {
+                acceptAgreement(true);
+              }}
+            >
+              Accept
+            </Button>
+          </span>
+        </Tooltip>
       </Stack>
     </Stack>
   );
