@@ -9,8 +9,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Fixed
 
-- Support sorting columns by all fields, except unindexed string fields
--
+- Update audit log viewer to display error if onSearch response is missing required fields
 
 ## [0.0.58] - 2024-01-22
 
