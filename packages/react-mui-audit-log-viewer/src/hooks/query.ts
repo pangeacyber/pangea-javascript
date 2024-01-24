@@ -79,9 +79,13 @@ export const useAuditSearchError = (
       length?: number;
     } => {
   const err = useMemo(() => {
-    const response = error?.response ?? {};
+    if (!error) return undefined;
 
-    let searchError = undefined;
+    const response = error?.response ?? {};
+    let searchError = {
+      message: `${response?.data?.summary ?? error}`,
+    };
+
     if (
       response?.data?.status === "ValidationError" &&
       response?.data?.result?.errors

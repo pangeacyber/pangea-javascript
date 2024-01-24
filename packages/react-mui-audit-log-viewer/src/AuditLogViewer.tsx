@@ -54,14 +54,25 @@ const AuditLogViewerWithProvider = <Event,>({
   const [resultsResponse, setResultsResponse] = useState<
     Audit.ResultResponse | undefined
   >();
-  const [error, setError] = useState();
+  const [error, setError] = useState<any>();
 
   const handleSearch = (body: Audit.SearchRequest): Promise<void> => {
     setLoading(true);
     return onSearch(body)
       .then((response) => {
         setLoading(false);
-        if (!response) return;
+        if (!response || !response.events) {
+          // @ts-ignore
+          if (!!response?.location && response?.retry_counter !== undefined) {
+            setError(
+              "Search callback returned empty result, your request is still in progress and requires polling"
+            );
+            return;
+          }
+
+          setError("Search callback returned empty result");
+          return;
+        }
 
         setError(undefined);
         setSearchResponse(response);
