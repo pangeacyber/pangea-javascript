@@ -62,7 +62,7 @@ const AuditLogViewerWithProvider = <Event,>({
       .then((response) => {
         setLoading(false);
         if (!response || !response.events) {
-          // @ts-ignore
+          // @ts-ignore If response.result appears to be 202 result, communicate additional details
           if (!!response?.location && response?.retry_counter !== undefined) {
             setError(
               "Search callback returned empty result, your request is still in progress and requires polling"
@@ -70,7 +70,7 @@ const AuditLogViewerWithProvider = <Event,>({
             return;
           }
 
-          setError("Search callback returned empty result");
+          setError("Search callback returned unexcepted response");
           return;
         }
 
