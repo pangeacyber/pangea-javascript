@@ -7,6 +7,7 @@ import { AuthFlowComponentProps } from "@src/features/AuthFlow/types";
 import LexicalViewer from "./component";
 import IdField from "@src/components/fields/IdField";
 import Button from "@src/components/core/Button";
+import { BodyText } from "@src/components/core/Text";
 
 const AgreementView: FC<AuthFlowComponentProps> = ({
   options,
@@ -89,6 +90,9 @@ const AgreementView: FC<AuthFlowComponentProps> = ({
           key={`agreement-viewer-${data?.agreements[0].type}`}
         />
       </Stack>
+      {!!disable && (
+        <BodyText>Scroll through entire agreement to accept</BodyText>
+      )}
       <Stack
         direction="row"
         gap={2}
