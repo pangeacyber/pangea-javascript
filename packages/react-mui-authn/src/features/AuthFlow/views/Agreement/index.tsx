@@ -1,5 +1,5 @@
 import { FC, UIEvent, useEffect, useState } from "react";
-import { Stack, Typography, useTheme } from "@mui/material";
+import { Stack, Tooltip, Typography, useTheme } from "@mui/material";
 
 import { AuthFlow } from "@pangeacyber/vanilla-js";
 
@@ -17,6 +17,8 @@ const AgreementView: FC<AuthFlowComponentProps> = ({
 }) => {
   const [disable, setDisable] = useState<boolean>(true);
   const theme = useTheme();
+
+  console.log(options);
 
   const content = data?.agreements[0].text || "";
 
@@ -90,9 +92,6 @@ const AgreementView: FC<AuthFlowComponentProps> = ({
           key={`agreement-viewer-${data?.agreements[0].type}`}
         />
       </Stack>
-      {!!disable && (
-        <BodyText>Scroll through entire agreement to accept</BodyText>
-      )}
       <Stack
         direction="row"
         gap={2}
@@ -102,16 +101,22 @@ const AgreementView: FC<AuthFlowComponentProps> = ({
         <Button fullWidth color="secondary" onClick={reset}>
           Decline
         </Button>
-        <Button
-          fullWidth
-          color="primary"
-          disabled={disable}
-          onClick={() => {
-            acceptAgreement(true);
-          }}
+        <Tooltip
+          title={disable ? "Scroll through entire agreement to accept" : ""}
         >
-          Accept
-        </Button>
+          <span style={{ width: "100%" }}>
+            <Button
+              fullWidth
+              color="primary"
+              disabled={disable}
+              onClick={() => {
+                acceptAgreement(true);
+              }}
+            >
+              Accept
+            </Button>
+          </span>
+        </Tooltip>
       </Stack>
     </Stack>
   );
