@@ -53,10 +53,8 @@ const audit = new AuditService(token, config);
 const response = await audit.log({ message: "Hello, World!" });
 ```
 
-
-
-   [Documentation]: https://pangea.cloud/docs/sdk/js/
-   [Examples]: https://github.com/pangeacyber/pangea-javascript/tree/main/examples
-   [Pangea Console]: https://console.pangea.cloud/
-   [Slack]: https://pangea.cloud/join-slack/
-   [Secure Audit Log]: https://pangea.cloud/docs/audit
+[Documentation]: https://pangea.cloud/docs/sdk/js/
+[Examples]: https://github.com/pangeacyber/pangea-javascript/tree/main/examples
+[Pangea Console]: https://console.pangea.cloud/
+[Slack]: https://pangea.cloud/join-slack/
+[Secure Audit Log]: https://pangea.cloud/docs/audit
