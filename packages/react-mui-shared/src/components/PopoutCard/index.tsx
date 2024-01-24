@@ -1,7 +1,7 @@
 import React, { FC, MutableRefObject, useRef, useEffect } from "react";
 
 import { PopperPlacementType } from "@mui/base";
-import { Popper, Paper, Card } from "@mui/material";
+import { Popper, Paper, Card, PopperProps } from "@mui/material";
 import { SxProps } from "@mui/system";
 import ClickAwayListener from "@mui/material/ClickAwayListener";
 
@@ -18,6 +18,7 @@ interface Props {
   cardSx?: SxProps;
   flatTop?: boolean;
   children?: React.ReactNode;
+  PopperProps?: Partial<PopperProps>;
 }
 
 const PopperCard: FC<Props> = ({
@@ -30,6 +31,7 @@ const PopperCard: FC<Props> = ({
   placement = "bottom-start",
   cardSx: cardSxOverrides = {},
   flatTop = false,
+  PopperProps,
 }) => {
   const cardSx = {
     borderColor: "transparent",
@@ -100,6 +102,7 @@ const PopperCard: FC<Props> = ({
           },
         ],
       }}
+      {...PopperProps}
     >
       {({ TransitionProps }) => (
         <Transitions in={open} position={"top"} {...TransitionProps}>

@@ -16,6 +16,7 @@ const StoreFileViewer: FC<StoreFileViewerProps> = ({
   defaultFilter,
   defaultSort,
   defaultSortBy,
+  defaultShareLinkTitle,
   ...props
 }) => {
   return (
@@ -25,6 +26,7 @@ const StoreFileViewer: FC<StoreFileViewerProps> = ({
       defaultFilter={defaultFilter}
       defaultSort={defaultSort}
       defaultSortBy={defaultSortBy}
+      defaultShareLinkTitle={defaultShareLinkTitle}
     >
       <StoreDataGrid {...props} />
     </StoreFileViewerProvider>
@@ -37,6 +39,7 @@ export const StoreDownloadFileViewer: FC<StoreFileViewerProps> = ({
   defaultFilter,
   defaultSort,
   defaultSortBy,
+  defaultShareLinkTitle,
   ...props
 }) => {
   return (
@@ -46,6 +49,7 @@ export const StoreDownloadFileViewer: FC<StoreFileViewerProps> = ({
       defaultFilter={defaultFilter}
       defaultSort={defaultSort}
       defaultSortBy={defaultSortBy}
+      defaultShareLinkTitle={defaultShareLinkTitle}
     >
       <StoreDownloadDataGrid {...props} />
     </StoreFileViewerProvider>

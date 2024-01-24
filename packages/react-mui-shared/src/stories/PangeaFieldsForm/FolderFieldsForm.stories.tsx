@@ -39,6 +39,7 @@ export const FolderFieldsFormDemo: {
 
 FolderFieldsFormDemo.args = {
   object: {},
+  autoSave: true,
   fields: {
     general: {
       type: "grouping",

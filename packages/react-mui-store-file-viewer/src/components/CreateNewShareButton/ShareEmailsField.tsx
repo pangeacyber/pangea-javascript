@@ -1,4 +1,5 @@
 import {
+  Chip,
   IconButton,
   Stack,
   TextField,
@@ -77,12 +78,12 @@ const UnControlledShareEmailsField: FC<FieldComponentProps> = ({
   };
 
   return (
-    <Stack spacing={1} width="100%" sx={{ minHeight: "300px" }}>
+    <Stack spacing={1} width="100%">
       <Stack width="100%" direction="row" alignItems="center" spacing={1}>
         <TextField
           value={newValue}
           name="recipient_email"
-          label="Add recipient email"
+          label="Add email"
           onChange={(e) => {
             let value = e.target.value;
             setNewValue(value);
@@ -107,25 +108,27 @@ const UnControlledShareEmailsField: FC<FieldComponentProps> = ({
           <AddIcon fontSize="small" />
         </IconButton>
       </Stack>
-      {value.map((email) => {
-        return (
-          <Stack
-            key={`share-email-${email}`}
-            spacing={1}
-            direction="row"
-            width="100%"
-            alignItems="center"
-          >
-            <MailOutlineIcon fontSize="small" />
-            <Typography variant="body2" sx={{ width: "100%" }}>
-              {email}
-            </Typography>
-            <IconButton size="small" onClick={() => handleRemoveValue(email)}>
-              <RemoveCircleOutlineIcon fontSize="small" />
-            </IconButton>
-          </Stack>
-        );
-      })}
+      <Stack
+        direction="row"
+        gap={0.5}
+        sx={{
+          flexWrap: "wrap",
+          minHeight: "80px",
+          overflow: "hidden",
+          overflowY: "auto",
+          maxHeight: "calc(100vh - 600px)",
+        }}
+      >
+        {value.map((email, idx) => {
+          return (
+            <Chip
+              key={`email-${idx}-${email}`}
+              label={email}
+              onDelete={() => handleRemoveValue(email)}
+            />
+          );
+        })}
+      </Stack>
     </Stack>
   );
 };

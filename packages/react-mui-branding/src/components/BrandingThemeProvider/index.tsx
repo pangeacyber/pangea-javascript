@@ -1,4 +1,6 @@
 import { FC, useMemo } from "react";
+import merge from "lodash/merge";
+import cloneDeep from "lodash";
 
 import { ThemeProviderProps } from "@mui/material/styles/ThemeProvider";
 import { ThemeProvider, ThemeOptions, createTheme } from "@mui/material/styles";
@@ -34,8 +36,9 @@ const BrandingThemeProvider: FC<BrandingThemeProviderProps> = ({
       const themeOptions_ = getBrandingThemeOptions(
         configProp ?? (config || {})
       );
-      return createTheme({ ...themeOptions_, ...themeOptions });
-    } catch {
+      return createTheme(merge({ ...themeOptions_ }, { ...themeOptions }));
+    } catch (e) {
+      console.error(e);
       // FIXME: Argument of type '{ components: AllComponents; }' is not assignable to parameter of type 'ThemeOptions'.
       // @ts-ignore
       return createTheme(themeOptions);

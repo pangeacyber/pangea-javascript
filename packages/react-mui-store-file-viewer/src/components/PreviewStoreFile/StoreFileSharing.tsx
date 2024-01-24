@@ -4,6 +4,7 @@ import { useStoreFileViewerContext } from "../../hooks/context";
 import ShareObject from "../ShareObject";
 import { Stack } from "@mui/material";
 import CreateNewShareButton from "../CreateNewShareButton";
+import CreateSharesButton from "../CreateNewShareButton/CreateSharesButton";
 
 interface Props {
   object: ObjectStore.ObjectResponse;
@@ -46,8 +47,15 @@ const StoreFileSharing: FC<Props> = ({ object }) => {
   return (
     <>
       {!!object?.id && (
-        <CreateNewShareButton
+        <CreateSharesButton
           object={object}
+          ButtonProps={{
+            variant: "contained",
+            color: "primary",
+            sx: { width: "100%" },
+            fullWidth: true,
+          }}
+          onClose={() => {}}
           onDone={() => {
             return;
           }}

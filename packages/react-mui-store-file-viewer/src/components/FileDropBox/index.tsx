@@ -188,7 +188,7 @@ const FileDropBox: FC<Props> = ({ children, BoxSx }) => {
               >
                 <Typography variant="body2">
                   <span style={{ fontWeight: "bold" }}>Drag and drop</span>{" "}
-                  files or click to the button to upload
+                  files or click the button to upload
                 </Typography>
                 <Button
                   startIcon={<AddIcon fontSize="small" />}

@@ -31,12 +31,7 @@ const FieldLabel: FC<Props> = ({
       alignItems="center"
     >
       <Typography color={`text${startCase(color)}`} component="span">
-        <Stack
-          direction="row"
-          alignItems="center"
-          textAlign="center"
-          spacing={1}
-        >
+        <Stack direction="row" alignItems="end" textAlign="center" spacing={1}>
           <Typography variant={variant}>
             {label ?? startCase(fieldName)}
           </Typography>

@@ -40,6 +40,8 @@ export interface StoreFileViewerContextProps {
 
   updated: number | undefined;
   triggerUpdate: () => void;
+
+  defaultShareLinkTitle?: string;
 }
 
 const DEFAULT_LIST_RESPONSE = {
@@ -95,9 +97,12 @@ export interface StoreFileViewerProviderProps {
 
   apiRef: StoreProxyApiRef;
   configurations?: StoreConfigurations;
+
   defaultFilter?: ObjectStore.Filter;
   defaultSort?: "asc" | "desc";
   defaultSortBy?: keyof ObjectStore.ObjectResponse;
+
+  defaultShareLinkTitle?: string;
 }
 
 const StoreFileViewerProvider: FC<StoreFileViewerProviderProps> = ({
@@ -107,6 +112,7 @@ const StoreFileViewerProvider: FC<StoreFileViewerProviderProps> = ({
   defaultFilter,
   defaultSort,
   defaultSortBy,
+  defaultShareLinkTitle,
 }) => {
   const [loading, setLoading] = useState(false);
 
@@ -254,6 +260,8 @@ const StoreFileViewerProvider: FC<StoreFileViewerProviderProps> = ({
 
         updated,
         triggerUpdate,
+
+        defaultShareLinkTitle,
       }}
     >
       {children}

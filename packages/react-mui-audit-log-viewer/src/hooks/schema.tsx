@@ -184,7 +184,7 @@ export const useAuditColumns = <Event,>(
             !!field.description ? ". " + field.description : ""
           }`,
           type: get(COLUMN_TYPE_MAP, field.type, "string"),
-          sortable: field.type === "datetime", // FIXME: What fields exactly should be sortable
+          sortable: field.type !== "string-unindexed", // FIXME: What fields exactly should be sortable
           width: 150,
           ...(field.type === "datetime" && {
             width: 180,
