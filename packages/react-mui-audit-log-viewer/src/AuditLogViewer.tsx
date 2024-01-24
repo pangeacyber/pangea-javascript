@@ -61,7 +61,7 @@ const AuditLogViewerWithProvider = <Event,>({
     return onSearch(body)
       .then((response) => {
         setLoading(false);
-        if (!response || !response.events) {
+        if (!response || response?.events === undefined) {
           // @ts-ignore If response.result appears to be 202 result, communicate additional details
           if (!!response?.location && response?.retry_counter !== undefined) {
             setError(
