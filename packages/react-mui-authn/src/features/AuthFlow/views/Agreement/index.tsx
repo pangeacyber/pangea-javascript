@@ -18,8 +18,6 @@ const AgreementView: FC<AuthFlowComponentProps> = ({
   const [disable, setDisable] = useState<boolean>(true);
   const theme = useTheme();
 
-  console.log(options);
-
   const content = data?.agreements[0].text || "";
 
   const acceptAgreement = (accept: boolean) => {
