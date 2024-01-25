@@ -1,0 +1,115 @@
+name: CI
+
+on:
+  push:
+    branches:
+      - main
+
+  pull_request:
+    types:
+      - opened
+      - synchronize
+      - reopened
+      - ready_for_review
+
+  merge_group:
+
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.number || github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  prefetch:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4.1.1
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4.0.1
+        with:
+          node-version: 20
+          cache: yarn
+          cache-dependency-path: "**/yarn.lock"
+
+  build:
+    needs: [prefetch]
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./packages/pangea-node-sdk
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4.1.1
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4.0.1
+        with:
+          node-version: 20
+          cache: yarn
+          cache-dependency-path: ./packages/pangea-node-sdk/yarn.lock
+
+      - name: Install dependencies
+        run: yarn install --frozen-lockfile --immutable
+
+      - run: npm ls
+
+      - name: Build
+        run: yarn build
+
+      - name: Pack
+        run: yarn pack
+
+      - name: Upload
+        uses: actions/upload-artifact@v4.3.0
+        with:
+          name: pangea-node-sdk-package
+          path: ./packages/pangea-node-sdk/pangea-node-sdk-v*.tgz
+
+  examples:
+    needs: [prefetch, build]
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        example:
+          - audit
+          - authn
+          - embargo
+          - file_scan
+          - intel
+          - react-audit-log-viewer
+          - redact
+          - vault
+    defaults:
+      run:
+        working-directory: ./examples/${{ matrix.example }}
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4.1.1
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4.0.1
+        with:
+          node-version: 20
+          cache: yarn
+          cache-dependency-path: ./examples/${{ matrix.example }}/yarn.lock
+
+      - name: Install dependencies
+        run: yarn install --frozen-lockfile --immutable
+
+      - name: Download locally built pangea-node-sdk
+        uses: actions/download-artifact@v4.1.1
+        with:
+          name: pangea-node-sdk-package
+          path: ./packages/pangea-node-sdk
+
+      - name: Extract locally built pangea-node-sdk
+        run: tar -xf pangea-node-sdk-v*.tgz --strip-components 1 -C .
+        working-directory: ./packages/pangea-node-sdk
+
+      - run: yarn list

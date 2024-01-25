@@ -1,7 +1,7 @@
 .pangea_node_sdk_base:
   before_script:
     - cd packages/pangea-node-sdk
-    - yarn install --frozen-lockfile
+    - yarn install --frozen-lockfile --immutable
   cache:
     - key:
         files:
@@ -11,6 +11,7 @@
   rules:
     - if: $CI_COMMIT_BRANCH || $CI_PIPELINE_SOURCE == "push"
       changes:
+        - examples/**/*
         - packages/pangea-node-sdk/**/*
       when: on_success
 
@@ -31,6 +32,34 @@
       changes:
         - packages/pangea-node-sdk/**/*
       when: on_success
+
+build_pangea_node_sdk:
+  extends: .pangea_node_sdk_base
+  needs: []
+  stage: Build
+  script:
+    - yarn build
+  artifacts:
+    paths: ["packages/pangea-node-sdk/dist"]
+    when: on_success
+  rules:
+    - changes:
+        - examples/**/*
+        - packages/pangea-node-sdk/**/*
+
+pack_pangea_node_sdk:
+  extends: .pangea_node_sdk_base
+  needs: [build_pangea_node_sdk]
+  stage: Build
+  script:
+    - yarn pack
+  artifacts:
+    paths: ["packages/pangea-node-sdk/pangea-node-sdk-v*.tgz"]
+    when: on_success
+  rules:
+    - changes:
+        - examples/**/*
+        - packages/pangea-node-sdk/**/*
 
 lint_pangea_node_sdk:
   extends: .pangea_node_sdk_base
