@@ -20,6 +20,7 @@ import {
   PasswordPolicy,
   usePangeaListRequest,
 } from "@pangeacyber/react-mui-shared";
+import AlertsSnackbar from "../components/AlertSnackbar";
 
 export interface StoreFileViewerContextProps {
   apiRef: StoreProxyApiRef;
@@ -265,6 +266,9 @@ const StoreFileViewerProvider: FC<StoreFileViewerProviderProps> = ({
       }}
     >
       {children}
+      {!!configurations?.alerts?.displayAlertOnError && (
+        <AlertsSnackbar {...configurations?.alerts?.AlertSnackbarProps} />
+      )}
     </StoreFileViewerContext.Provider>
   );
 };

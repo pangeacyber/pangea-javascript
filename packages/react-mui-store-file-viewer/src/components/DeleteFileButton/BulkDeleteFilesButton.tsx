@@ -5,6 +5,7 @@ import { Button, ButtonProps, IconButton } from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
 
 import { useStoreFileViewerContext } from "../../hooks/context";
+import { alertOnError } from "../AlertSnackbar/hooks";
 
 interface Props {
   selected: string[];
@@ -30,7 +31,11 @@ const BulkDeleteFilesButton: FC<Props> = ({
 
         return Promise.all([
           selected.map(
-            (id) => !!apiRef.delete && apiRef.delete({ id, force: true })
+            (id) =>
+              !!apiRef.delete &&
+              apiRef.delete({ id, force: true }).catch((err) => {
+                alertOnError(err);
+              })
           ),
         ])
           .then(() => {})

@@ -16,6 +16,7 @@ import {
 import { ObjectStore } from "../../../types";
 import { useStoreFileViewerContext } from "../../../hooks/context";
 import { CreatePhoneShareFields } from "./fields";
+import { alertOnError } from "../../AlertSnackbar/hooks";
 
 const CreateAndSendButton: FC<
   SaveButtonProps<ObjectStore.SingleShareCreateRequest>
@@ -138,7 +139,7 @@ const CreateSharesViaSmsButton: FC<Props> = ({
         return response;
       })
       .catch((err) => {
-        throw err;
+        alertOnError(err);
       })
       .finally(() => {
         setLoading(false);

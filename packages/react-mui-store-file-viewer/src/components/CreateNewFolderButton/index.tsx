@@ -7,6 +7,7 @@ import { FieldsForm, PangeaModal } from "@pangeacyber/react-mui-shared";
 import { getCreateFolderFields } from "./fields";
 import { useStoreFileViewerContext } from "../../hooks/context";
 import { ObjectStore } from "../../types";
+import { alertOnError } from "../AlertSnackbar/hooks";
 
 interface Props {
   ButtonProps?: ButtonProps;
@@ -53,6 +54,8 @@ const CreateNewFolderButton: FC<Props> = ({ ButtonProps, onClose }) => {
           reload();
         })
         .catch((error) => {
+          reload();
+          alertOnError(error);
           setLoading(false);
         })
     );

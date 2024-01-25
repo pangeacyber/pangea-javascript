@@ -14,6 +14,7 @@ import {
 import { ObjectStore } from "../../../types";
 import { useStoreFileViewerContext } from "../../../hooks/context";
 import { CreateEmailShareFields } from "./fields";
+import { alertOnError } from "../../AlertSnackbar/hooks";
 
 const CreateAndSendButton: FC<ButtonProps> = (props) => {
   // @ts-ignore
@@ -119,7 +120,7 @@ const CreateSharesViaEmailButton: FC<Props> = ({
         return response;
       })
       .catch((err) => {
-        throw err;
+        alertOnError(err);
       })
       .finally(() => {
         setLoading(false);

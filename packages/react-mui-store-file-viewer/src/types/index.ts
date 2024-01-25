@@ -1,4 +1,5 @@
 import { PasswordPolicy } from "@pangeacyber/react-mui-shared";
+import { AlertsSnackbarProps } from "../components/AlertSnackbar";
 
 export interface PangeaResponse<T = any> {
   request_id: string;
@@ -65,6 +66,10 @@ export interface StoreProxyApiRef {
 
 export interface StoreConfigurations {
   passwordPolicy?: PasswordPolicy;
+  alerts?: {
+    displayAlertOnError: boolean;
+    AlertSnackbarProps?: AlertsSnackbarProps;
+  };
 }
 
 export namespace ObjectStore {

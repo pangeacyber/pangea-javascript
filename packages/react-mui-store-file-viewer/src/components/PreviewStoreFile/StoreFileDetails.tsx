@@ -6,6 +6,7 @@ import { PreviewSessionFields } from "./fields";
 
 import DownloadIcon from "@mui/icons-material/Download";
 import { useStoreFileViewerContext } from "../../hooks/context";
+import { alertOnError } from "../AlertSnackbar/hooks";
 
 interface Props {
   object: ObjectStore.ObjectResponse;
@@ -41,6 +42,9 @@ const StoreFileDetails: FC<Props> = ({ object, onClose }) => {
           if (response.status === "Success") {
             setArchive(response.result);
           }
+        })
+        .catch((err) => {
+          alertOnError(err);
         });
     }
   }, [object]);
