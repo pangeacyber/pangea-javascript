@@ -23,6 +23,7 @@ import { useStoreFileViewerContext } from "../../../hooks/context";
 import { ShareCreateForm, getCreateShareFields } from "./fields";
 import SendShareViaEmailModal from "../SendShareViaEmailButton/SendShareViaEmailModal";
 import ShareSettings from "./ShareSettings";
+import { alertOnError } from "../../AlertSnackbar/hooks";
 
 const CreateButton: FC<ButtonProps> = (props) => {
   // @ts-ignore
@@ -162,6 +163,10 @@ const CreateSharesButton: FC<Props> = ({
         }
 
         return response;
+      })
+      .catch((err) => {
+        alertOnError(err);
+        setLoading(false);
       })
       .finally(() => {
         setLoading(false);

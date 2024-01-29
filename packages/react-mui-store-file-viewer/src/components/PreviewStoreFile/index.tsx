@@ -20,6 +20,7 @@ import { useStoreFileViewerContext } from "../../hooks/context";
 import StoreFileDetails from "./StoreFileDetails";
 import StoreFileSharing from "./StoreFileSharing";
 import { PREVIEW_FILE_WIDTH } from "./constants";
+import { alertOnError } from "../AlertSnackbar/hooks";
 
 interface PreviewFileProps {
   data: ObjectStore.ObjectResponse;
@@ -27,7 +28,7 @@ interface PreviewFileProps {
 }
 
 const PreviewStoreFile: FC<PreviewFileProps> = ({ data, onClose }) => {
-  const { apiRef } = useStoreFileViewerContext();
+  const { apiRef, reload } = useStoreFileViewerContext();
 
   const [currentTab, setCurrentTab] = useState("sharing");
 
@@ -51,6 +52,10 @@ const PreviewStoreFile: FC<PreviewFileProps> = ({ data, onClose }) => {
             }),
           });
         }
+      })
+      .catch((err) => {
+        alertOnError(err);
+        reload();
       });
   }, [data.id]);
 

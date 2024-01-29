@@ -15,6 +15,7 @@ import DownloadIcon from "@mui/icons-material/Download";
 import DeleteFileButton from "../DeleteFileButton";
 import BulkDeleteFilesButton from "../DeleteFileButton/BulkDeleteFilesButton";
 import CreateSharesButton from "../CreateNewShareButton/CreateSharesButton";
+import { alertOnError } from "../AlertSnackbar/hooks";
 
 interface Props {
   selected: string[];
@@ -71,6 +72,9 @@ const MultiSelectMenu: FC<Props> = ({
             window.open(location, "_blank");
           }
         }
+      })
+      .catch((err) => {
+        alertOnError(err);
       })
       .finally(() => {
         setDownloading(false);
