@@ -4,12 +4,14 @@ default:
     - pangea-internal
 
 stages:
+  - Build
   - Lint
   - Unit Test
   - Integration Test
   - Publish
   - Tag Release
   - Test Public
+  - Examples
 
 .packages_base:
   before_script:
@@ -37,3 +39,4 @@ include:
   - /packages/pangea-node-sdk/.gitlab-ci.yml
   - /packages/vanilla-js/.gitlab-ci.yml
   - /examples/react-audit-log-viewer/.gitlab-ci.yml
+  - /examples/.examples-ci.yml

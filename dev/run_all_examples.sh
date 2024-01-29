@@ -1,9 +1,9 @@
-#!/bin/bash
+#!/usr/bin/env bash
+
+set -e
 
 # Root directory
 root_directory=$(pwd)
-
-yarn install
 
 # Find all *.mjs files and run them with node
 find . -type f -name '*.mjs' | while read -r file; do
