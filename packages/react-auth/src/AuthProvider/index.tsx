@@ -112,6 +112,16 @@ export interface AuthProviderProps {
    */
   useStrictStateCheck?: boolean;
 
+  /**
+   * passAuthMethod: optional boolean
+   *
+   * When set to true, an email addresses or social provider name can be passed as a url parameter.
+   * The Hosted Login page will then attempt to use the provided value as the primary auth method.
+   *
+   * Default is false
+   */
+  passAuthMethod?: boolean;
+
   children: JSX.Element;
 }
 
@@ -141,6 +151,7 @@ export const AuthProvider: FC<AuthProviderProps> = ({
   redirectPathname,
   redirectOnLogout = false,
   useStrictStateCheck = true,
+  passAuthMethod = false,
   children,
 }) => {
   const [authenticated, setAuthenticated] = useState<boolean>(false);
@@ -315,6 +326,24 @@ export const AuthProvider: FC<AuthProviderProps> = ({
     query.append("redirect_uri", localRedirectUri);
     query.append("state", stateCode);
 
+    // pass email/social param to login page
+    if (passAuthMethod) {
+      if (urlParams.has("email")) {
+        const emailIn = urlParams.get("email") || "";
+        if (
+          emailIn.length < 255 &&
+          emailIn.match(/^[A-Za-z0-9_!#$%&'*+\/=?`{|}~^.-]+@[A-Za-z0-9.-]+$/gm)
+        ) {
+          query.append("email", emailIn);
+        }
+      } else if (urlParams.has("social")) {
+        const socialIn = urlParams.get("social") || "";
+        if (socialIn.length < 32 && socialIn.match(/^[a-z_]*$/)) {
+          query.append("social", socialIn);
+        }
+      }
+    }
+
     const queryParams = query.toString();
     const redirectTo = loginURL;
     const url = queryParams ? `${redirectTo}?${queryParams}` : redirectTo;
@@ -337,6 +366,7 @@ export const AuthProvider: FC<AuthProviderProps> = ({
         localRedirectUri,
         state: stateCode,
       };
+
       const url = `${logoutURL}?${toUrlEncoded(query)}`;
 
       setLoggedOut();
