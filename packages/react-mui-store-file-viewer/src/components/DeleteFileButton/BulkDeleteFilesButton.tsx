@@ -5,6 +5,7 @@ import { Button, ButtonProps, IconButton } from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
 
 import { useStoreFileViewerContext } from "../../hooks/context";
+import { alertOnError } from "../AlertSnackbar/hooks";
 
 interface Props {
   selected: string[];
@@ -29,12 +30,23 @@ const BulkDeleteFilesButton: FC<Props> = ({
         if (!apiRef.delete) return;
 
         return Promise.all([
-          selected.map((id) => !!apiRef.delete && apiRef.delete({ id })),
+          selected.map(
+            (id) =>
+              !!apiRef.delete &&
+              apiRef.delete({ id, force: true }).catch((err) => {
+                alertOnError(err);
+              })
+          ),
         ])
           .then(() => {})
           .finally(() => {
             onClose();
             reload();
+
+            setTimeout(() => {
+              // Add a delayed reload as the first reloading may still return items that were just deleted..
+              reload();
+            }, 1500);
           });
       }}
       Button={(props) =>

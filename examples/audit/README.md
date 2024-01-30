@@ -8,5 +8,5 @@ Set up environment variables ([Instructions](https://pangea.cloud/docs/getting-s
 
 ```
 yarn install
-node log.mjs
+node log_bulk.mjs
 ```

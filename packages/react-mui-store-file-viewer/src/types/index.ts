@@ -1,4 +1,5 @@
 import { PasswordPolicy } from "@pangeacyber/react-mui-shared";
+import { AlertsSnackbarProps } from "../components/AlertSnackbar";
 
 export interface PangeaResponse<T = any> {
   request_id: string;
@@ -65,6 +66,10 @@ export interface StoreProxyApiRef {
 
 export interface StoreConfigurations {
   passwordPolicy?: PasswordPolicy;
+  alerts?: {
+    displayAlertOnError: boolean;
+    AlertSnackbarProps?: AlertsSnackbarProps;
+  };
 }
 
 export namespace ObjectStore {
@@ -136,6 +141,9 @@ export namespace ObjectStore {
     max_access_count?: number;
 
     authenticators?: ShareAuthenticator[];
+
+    title?: string;
+    message?: string;
   }
 
   export interface ShareLinkToSend {
@@ -145,7 +153,8 @@ export namespace ObjectStore {
 
   export interface ShareSendRequest {
     links: ShareLinkToSend[];
-    from_prefix: string;
+    sender_email: string;
+    sender_name?: string;
   }
 
   export interface ShareSendResponse {
@@ -192,7 +201,7 @@ export namespace ObjectStore {
   export interface ShareObjectResponse {
     id: string;
     targets?: string[];
-    link_type?: string; // "upload" | "download";
+    link_type?: string; // "upload" | "download" | "editor";
     access_count?: number;
     max_access_count?: number;
 
@@ -216,6 +225,7 @@ export namespace ObjectStore {
   export enum ShareLinkType {
     Upload = "upload",
     Download = "download",
+    Editor = "editor",
   }
 
   export interface ShareListResponse {

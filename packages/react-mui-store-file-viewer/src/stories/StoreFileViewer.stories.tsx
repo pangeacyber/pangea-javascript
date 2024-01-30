@@ -275,5 +275,9 @@ StoreFileViewerDemo.args = {
       number_min: 1,
       punct_min: 1,
     },
+    alerts: {
+      displayAlertOnError: true,
+    },
   },
+  defaultShareLinkTitle: "Pepe Silvia has securely shared a file with you!",
 };

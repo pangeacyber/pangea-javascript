@@ -103,9 +103,10 @@ export class AuthNClient {
     };
 
     if (axios.isAxiosError(error) && error.response) {
-      message.status = error.response.data.status;
-      message.summary = error.response.data.summary;
-      message.result = error.response.data.result;
+      const response = error.response as AxiosResponse;
+      message.status = response?.data?.status;
+      message.summary = response?.data?.summary;
+      message.result = response?.data?.result;
     } else if (error.request) {
       message.summary = `${error.request.status} ${error.request.statusText}`;
       message.result = error.reqest;

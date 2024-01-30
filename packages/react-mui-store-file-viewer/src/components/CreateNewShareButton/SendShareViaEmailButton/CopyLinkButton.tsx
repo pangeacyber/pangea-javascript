@@ -1,12 +1,15 @@
-import { ButtonProps, Button, SvgIconProps } from "@mui/material";
+import { ButtonProps, Button, SvgIconProps, Typography } from "@mui/material";
 
 import ContentCopyOutlinedIcon from "@mui/icons-material/ContentCopyOutlined";
 import CheckCircleOutlineOutlinedIcon from "@mui/icons-material/CheckCircleOutlineOutlined";
+import LockIcon from "@mui/icons-material/Lock";
+
 import { FC, useEffect, useState } from "react";
 
 export interface CopyProps extends ButtonProps {
   label: string;
   IconProps?: SvgIconProps;
+  copiedText?: string;
 }
 
 export const handleOnCopy = (value: any, label: string) => {
@@ -20,6 +23,7 @@ const CopyLinkButton: FC<CopyProps> = ({
   value,
   children,
   IconProps = {},
+  copiedText = "Link copied!",
   ...props
 }) => {
   const [copied, setCopied] = useState(false);
@@ -40,20 +44,29 @@ const CopyLinkButton: FC<CopyProps> = ({
         handleOnCopy(value, label);
         setCopied(true);
       }}
-      startIcon={
+      startIcon={<LockIcon fontSize="small" />}
+      endIcon={
         copied ? (
-          <CheckCircleOutlineOutlinedIcon
-            color="success"
-            fontSize="small"
-            {...IconProps}
-          />
+          <CheckCircleOutlineOutlinedIcon fontSize="small" {...IconProps} />
         ) : (
           <ContentCopyOutlinedIcon fontSize="small" {...IconProps} />
         )
       }
       {...props}
+      {...(copied && {
+        color: "success",
+      })}
     >
-      {children}
+      <Typography
+        variant="body2"
+        sx={{
+          width: "calc(100% - 40px)",
+          overflow: "hidden",
+          textOverflow: "ellipsis",
+        }}
+      >
+        {copied ? copiedText : children}
+      </Typography>
     </Button>
   );
 };

@@ -14,6 +14,7 @@ import {
 import { ObjectStore } from "../../../types";
 import { useStoreFileViewerContext } from "../../../hooks/context";
 import { CreateEmailShareFields } from "./fields";
+import { alertOnError } from "../../AlertSnackbar/hooks";
 
 const CreateAndSendButton: FC<ButtonProps> = (props) => {
   // @ts-ignore
@@ -82,7 +83,7 @@ const CreateSharesViaEmailButton: FC<Props> = ({
         const links = response?.result?.share_link_objects ?? [];
         if (links.length && apiRef.share?.send) {
           const body: ObjectStore.ShareSendRequest = {
-            from_prefix: "",
+            sender_email: "",
             links: [],
           };
 
@@ -119,7 +120,7 @@ const CreateSharesViaEmailButton: FC<Props> = ({
         return response;
       })
       .catch((err) => {
-        throw err;
+        alertOnError(err);
       })
       .finally(() => {
         setLoading(false);

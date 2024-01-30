@@ -6,6 +6,7 @@ import { useTheme } from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
 
 import { useStoreFileViewerContext } from "../../hooks/context";
+import { alertOnError } from "../AlertSnackbar/hooks";
 
 interface Props {
   object: ObjectStore.ObjectResponse;
@@ -32,10 +33,17 @@ const DeleteFileButton: FC<Props> = ({
       onDelete={async () => {
         if (!apiRef.delete) return;
 
-        return apiRef.delete({ id: object.id }).then(() => {
-          onClose();
-          reload();
-        });
+        return apiRef
+          .delete({ id: object.id, force: true })
+          .then(() => {
+            onClose();
+            reload();
+          })
+          .catch((err) => {
+            alertOnError(err);
+            reload();
+            onClose();
+          });
       }}
       Button={(props) =>
         view === "icon" ? (

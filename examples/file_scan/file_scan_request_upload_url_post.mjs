@@ -12,8 +12,7 @@ import {
 const domain = process.env.PANGEA_DOMAIN;
 const token = process.env.PANGEA_FILE_SCAN_TOKEN;
 
-// To work in sync it's need to set up queuedRetryEnabled to true and set up a proper timeout
-// If timeout it's so little service won't end up and will return an AcceptedRequestException anyway
+// To enable sync mode, set queuedRetryEnabled to true and set a timeout
 const config = new PangeaConfig({
   domain: domain,
   queuedRetryEnabled: true,
@@ -23,7 +22,7 @@ const client = new FileScanService(String(token), config);
 
 const yourFilepath = "./testfile.pdf";
 
-// helper function. Sleep some time
+// helper function. Sleep for some time
 const delay = async (ms) =>
   new Promise((resolve) => {
     setTimeout(resolve, ms);
@@ -41,7 +40,7 @@ const delay = async (ms) =>
       transfer_method: TransferMethod.POST_URL,
     };
 
-    // get file params needed to request upload url
+    // extract upload url and upload details that should be posted with the file
     const params = getFileUploadParams(yourFilepath);
 
     // request an upload url
@@ -75,9 +74,9 @@ const delay = async (ms) =>
 
     for (let retry = 0; retry < maxRetry; retry++) {
       try {
-        // Wait until result could be ready
         await delay(10 * 1000);
         const request_id = response.request_id || "";
+        // multiple polling attempts may be required
         response = await client.pollResult(request_id);
         console.log("Result:", response.result);
         break;

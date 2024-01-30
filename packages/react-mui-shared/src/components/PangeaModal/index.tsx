@@ -59,6 +59,14 @@ const PangeaModal: FC<PangeaModalProps> = ({
         },
       }}
       {...props}
+      onClose={(event, reason) => {
+        if (!!displayCloseIcon && reason === "backdropClick") {
+          // Do not close on click away if modal is using close icon
+          return;
+        }
+
+        if (props.onClose) props.onClose(event, reason);
+      }}
     >
       <Box
         sx={{

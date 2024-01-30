@@ -1,37 +1,44 @@
-import {
-  FieldsFormSchema,
-  validatePassword,
-} from "@pangeacyber/react-mui-shared";
+import { FieldsFormSchema } from "@pangeacyber/react-mui-shared";
 import { ObjectStore } from "../../../types";
-import ShareTypeField from "../ShareTypeField";
-import ShareEmailsField from "../ShareEmailsField";
 import * as yup from "yup";
+import EmailPasswordShareField from "./EmailPasswordShareField";
+import EmailEmailShareField from "./EmailEmailShareField";
+import EmailSmsShareField from "./EmailSmsShareField";
 
-export const ShareShareViaEmailFields: FieldsFormSchema<ObjectStore.ShareSendRequest> =
+export const SharePasswordShareViaEmailFields: FieldsFormSchema<ObjectStore.ShareSendRequest> =
   {
     links: {
       label: "",
       LabelProps: {
         placement: "top",
       },
-      component: ShareEmailsField,
-      // type: "unknownField",
-      schema: yup
-        .array()
-        .min(1, "At least one email is required")
-        .required("At least one email is required"),
-      getFieldValue: (values) => {
-        return (values?.links ?? []).map((l) => l.email);
+      component: EmailPasswordShareField,
+      schema: yup.object({}),
+    },
+  };
+
+export const ShareEmailShareViaEmailFields: FieldsFormSchema<ObjectStore.ShareSendRequest> =
+  {
+    links: {
+      label: "",
+      LabelProps: {
+        placement: "top",
       },
-      onFieldChanged(value, values) {
-        // @ts-ignore
-        const value_: string[] = value;
-        return {
-          links: value_.map((email) => ({
-            id: "",
-            email,
-          })),
-        };
+      component: EmailEmailShareField,
+      schema: yup.object({}),
+    },
+  };
+
+export const ShareSmsShareViaEmailFields: FieldsFormSchema<ObjectStore.ShareSendRequest> =
+  {
+    links: {
+      label: "",
+      LabelProps: {
+        placement: "top",
       },
+      component: EmailSmsShareField,
+      schema: yup.object({
+        email: yup.string().trim().email("Must be a valid email address"),
+      }),
     },
   };

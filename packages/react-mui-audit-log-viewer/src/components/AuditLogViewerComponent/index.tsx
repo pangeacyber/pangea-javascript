@@ -162,12 +162,12 @@ const AuditLogViewerComponent: FC<ViewerProps> = ({
           filterMode: "server",
           sortingMode: "server",
           onSortModelChange: (model: GridSortModel) => {
-            const created = find(model, (sort) => sort.field === "received_at");
-            if (created) {
+            const sort = !!model.length ? model[0] : undefined;
+            if (sort) {
               return setSort({
-                order_by: "received_at",
+                order_by: sort.field,
                 // @ts-ignore
-                order: created.sort,
+                order: sort.sort,
               });
             }
 

@@ -133,6 +133,9 @@ export interface JsonFieldSchemaProps {
 export interface MultilineFieldSchemaProps {
   type: "multiline";
   rows?: number;
+
+  placeholder?: string;
+  TextFieldProps?: Partial<TextFieldProps>;
 }
 
 export interface DateTimeFieldSchemaProps {

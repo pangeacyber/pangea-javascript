@@ -36,6 +36,7 @@ import { useStoreFileViewerContext } from "../../hooks/context";
 import { parseErrorFromPangea } from "../../utils";
 import { PangeaModal } from "@pangeacyber/react-mui-shared";
 import { ObjectStore } from "../../types";
+import { alertOnError } from "../AlertSnackbar/hooks";
 
 export default function UploadPopover() {
   const theme = useTheme();
@@ -102,6 +103,9 @@ export default function UploadPopover() {
             name: name ?? upload.file.name ?? "unknown",
             state: "replace",
           });
+        } else {
+          reload();
+          alertOnError(error);
         }
       });
   };
@@ -112,16 +116,18 @@ export default function UploadPopover() {
     if (conflict?.state === "replace" && apiRef?.delete) {
       await apiRef
         .delete({
-          path: `${conflict.folder?.name ?? ""}/${
+          path: `/${conflict.folder?.name ?? ""}/${
             conflict?.upload?.file?.name ?? "unknown"
-          }`,
+          }`.replace("//", "/"),
+          force: true,
         })
         .then(() => {
           reload();
           return handleCreateFile(conflict.id);
         })
         .catch((err) => {
-          console.error(err);
+          reload();
+          alertOnError(err);
         });
     } else {
       return handleCreateFile(conflict.id, conflict.name);

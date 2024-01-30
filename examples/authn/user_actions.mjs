@@ -17,7 +17,7 @@ const PASSWORD_UPDATE = "My1s+Password_new";
 const PROFILE_INITIAL = { first_name: "Name", last_name: "User" };
 const PROFILE_UPDATE = { first_name: "NameUpdate" };
 const CB_URI = "https://www.usgs.gov/faqs/what-was-pangea"; // Need to setup callbacks in PUC AuthN settings
-let USER_ID; // Will be set once user is created
+let USER_ID; // This will be set once user is created
 
 async function flowHandlePasswordPhase(authn, flow_id, password) {
   console.log("Update flow with password");
@@ -81,7 +81,7 @@ function choiceIsAvailable(result, choice) {
   try {
     // Create
     console.log("Creating user...");
-    console.log("Start flow with signup and signin");
+    console.log("Start flow by signing up and signing in");
     const startResp = await authn.flow.start({
       email: USER_EMAIL,
       flow_types: [AuthN.FlowType.SIGNUP, AuthN.FlowType.SIGNIN],

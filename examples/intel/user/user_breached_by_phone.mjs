@@ -8,7 +8,7 @@ const config = new PangeaConfig({ domain: domain });
 const userIntel = new UserIntelService(String(token), config);
 
 (async () => {
-  console.log("Checking user breached by phone...");
+  console.log("Checking phone number...");
 
   const request = { phone_number: "8005550123", verbose: true, raw: true };
   try {

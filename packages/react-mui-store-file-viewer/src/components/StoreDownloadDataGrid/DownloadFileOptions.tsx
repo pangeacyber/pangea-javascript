@@ -12,6 +12,7 @@ import { useStoreFileViewerContext } from "../../hooks/context";
 import { parseErrorFromPangea } from "../../utils";
 import DeleteFileButton from "../DeleteFileButton";
 import RenameFileIconButton from "../UpdateFileButton/RenameFileIconButton";
+import { alertOnError } from "../AlertSnackbar/hooks";
 
 interface VaultItemOptionsProps {
   data: ObjectStore.ObjectResponse;
@@ -32,7 +33,7 @@ const DownloadFileOptions: FC<VaultItemOptionsProps> = ({ data }) => {
       return apiRef
         .getArchive({
           ids: [data.id],
-          format: "tar",
+          format: "zip",
           transfer_method: "dest-url",
         })
         .then((response) => {
@@ -46,6 +47,7 @@ const DownloadFileOptions: FC<VaultItemOptionsProps> = ({ data }) => {
           }
         })
         .catch((err) => {
+          alertOnError(err);
           setError(parseErrorFromPangea(err));
           setDownloading(false);
         });
@@ -64,6 +66,7 @@ const DownloadFileOptions: FC<VaultItemOptionsProps> = ({ data }) => {
         }
       })
       .catch((err) => {
+        alertOnError(err);
         setError(parseErrorFromPangea(err));
         setDownloading(false);
       });
