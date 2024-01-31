@@ -1,5 +1,5 @@
 import PangeaConfig from "../../src/config.js";
-import { it, expect } from "@jest/globals";
+import { it, expect, jest } from "@jest/globals";
 import { TestEnvironment, getTestDomain, getTestToken } from "../../src/utils/utils.js";
 import { IPIntelService } from "../../src/index.js";
 
@@ -9,6 +9,7 @@ const token = getTestToken(testEnvironment);
 const testHost = getTestDomain(testEnvironment);
 const config = new PangeaConfig({ domain: testHost, customUserAgent: "sdk-test" });
 const ipIntel = new IPIntelService(token, config);
+jest.setTimeout(60000);
 
 it("IP geolocate should succeed", async () => {
   const options = { provider: "digitalelement", verbose: true, raw: true };

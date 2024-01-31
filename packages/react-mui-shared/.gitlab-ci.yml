@@ -14,7 +14,7 @@
 
 test_react_mui_shared:
   extends: .react_mui_shared_base
-  stage: Unit Test
+  stage: unit_tests
   script: yarn test
   rules:
     - if: $CI_PIPELINE_SOURCE == "merge_request_event"
@@ -28,7 +28,7 @@ test_react_mui_shared:
 
 publish_react_mui_shared:
   extends: .react_mui_shared_base
-  stage: Publish
+  stage: publish
   script:
     - cp ../../scripts/publish.sh .
     - echo "${NPMRC}" > .npmrc && ./publish.sh && rm .npmrc

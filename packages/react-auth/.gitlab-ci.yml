@@ -14,7 +14,7 @@
 
 publish_react_auth:
   extends: .react_auth_base
-  stage: Publish
+  stage: publish
   script:
     - cp ../../scripts/publish.sh .
     - echo "${NPMRC}" > .npmrc && ./publish.sh && rm .npmrc
@@ -27,7 +27,7 @@ publish_react_auth:
 
 tag_react_auth:
   extends: .react_auth_base
-  stage: Tag Release
+  stage: tag_release
   script:
     - apt install -y python3 python3-github
     - VERSION=$(node -p "require('./package.json').version")
