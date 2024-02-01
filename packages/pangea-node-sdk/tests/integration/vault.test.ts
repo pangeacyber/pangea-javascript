@@ -55,7 +55,9 @@ it("Secret life cycle", async () => {
 
   // Rotate
   const secretV2 = "newsecret";
-  const rotateResp = await vault.secretRotate(id, secretV2);
+  const rotateResp = await vault.secretRotate(id, secretV2, {
+    rotation_state: Vault.ItemVersionState.SUSPENDED,
+  });
   expect(rotateResp.result.secret).toBe(secretV2);
   expect(rotateResp.result.version).toBe(2);
 
@@ -67,7 +69,7 @@ it("Secret life cycle", async () => {
   expect(getResp.result.current_version?.public_key).toBeUndefined();
 
   // Deactivate
-  const stateChangeResp = await vault.stateChange(id, Vault.ItemVersionState.SUSPENDED, {
+  const stateChangeResp = await vault.stateChange(id, Vault.ItemVersionState.DEACTIVATED, {
     version: 1,
   });
   expect(stateChangeResp.result.id).toBe(id);
@@ -90,7 +92,9 @@ async function asymSigningCycle(id: string) {
   expect(sign1Resp.result.signature).toBeDefined();
 
   // Rotate
-  const rotateResp = await vault.keyRotate(id);
+  const rotateResp = await vault.keyRotate(id, {
+    rotation_state: Vault.ItemVersionState.SUSPENDED,
+  });
   expect(rotateResp.result.version).toBe(2);
   expect(rotateResp.result.id).toBe(id);
 
@@ -135,7 +139,7 @@ async function asymSigningCycle(id: string) {
   expect(verifyBad2Resp.result.valid_signature).toBe(false);
 
   // Deactivate key
-  const stateChangeResp = await vault.stateChange(id, Vault.ItemVersionState.SUSPENDED, {
+  const stateChangeResp = await vault.stateChange(id, Vault.ItemVersionState.DEACTIVATED, {
     version: 1,
   });
   expect(stateChangeResp.result.id).toBe(id);
@@ -161,7 +165,9 @@ async function jwtAsymSigningCycle(id: string) {
     expect(sign1Resp.result.jws).toBeDefined();
 
     // Rotate
-    const rotateResp = await vault.keyRotate(id);
+    const rotateResp = await vault.keyRotate(id, {
+      rotation_state: Vault.ItemVersionState.SUSPENDED,
+    });
     expect(rotateResp.result.version).toBe(2);
     expect(rotateResp.result.id).toBe(id);
 
@@ -190,7 +196,7 @@ async function jwtAsymSigningCycle(id: string) {
     expect(getResp.result.keys.length).toBe(2);
 
     // Deactivate key
-    const stateChangeResp = await vault.stateChange(id, Vault.ItemVersionState.SUSPENDED, {
+    const stateChangeResp = await vault.stateChange(id, Vault.ItemVersionState.DEACTIVATED, {
       version: 1,
     });
     expect(stateChangeResp.result.id).toBe(id);
@@ -218,7 +224,9 @@ async function jwtSymSigningCycle(id: string) {
     expect(sign1Resp.result.jws).toBeDefined();
 
     // Rotate
-    const rotateResp = await vault.keyRotate(id);
+    const rotateResp = await vault.keyRotate(id, {
+      rotation_state: Vault.ItemVersionState.SUSPENDED,
+    });
     expect(rotateResp.result.version).toBe(2);
     expect(rotateResp.result.id).toBe(id);
 
@@ -231,7 +239,7 @@ async function jwtSymSigningCycle(id: string) {
     expect(verify2Resp.result.valid_signature).toBe(true);
 
     // Deactivate key
-    const stateChangeResp = await vault.stateChange(id, Vault.ItemVersionState.SUSPENDED, {
+    const stateChangeResp = await vault.stateChange(id, Vault.ItemVersionState.DEACTIVATED, {
       version: 1,
     });
     expect(stateChangeResp.result.id).toBe(id);
@@ -256,7 +264,9 @@ async function encryptingCycle(id: string) {
   expect(enc1Resp.result.cipher_text).toBeDefined();
 
   // Rotate
-  const rotateResp = await vault.keyRotate(id);
+  const rotateResp = await vault.keyRotate(id, {
+    rotation_state: Vault.ItemVersionState.SUSPENDED,
+  });
   expect(rotateResp.result.id).toBe(id);
   expect(rotateResp.result.version).toBe(2);
 
@@ -289,7 +299,7 @@ async function encryptingCycle(id: string) {
   await expect(f()).rejects.toThrow(PangeaErrors.APIError);
 
   // Deactivate key
-  const stateChangeResp = await vault.stateChange(id, Vault.ItemVersionState.SUSPENDED, {
+  const stateChangeResp = await vault.stateChange(id, Vault.ItemVersionState.DEACTIVATED, {
     version: 1,
   });
   expect(stateChangeResp.result.id).toBe(id);

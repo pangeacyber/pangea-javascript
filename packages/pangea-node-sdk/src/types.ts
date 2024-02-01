@@ -959,7 +959,7 @@ export namespace Vault {
   }
 
   export namespace Key {
-    export interface RotateOptions {
+    export interface RotateOptions extends Common.RotateOptions {
       key?: EncodedSymmetricKey;
       public_key?: EncodedPublicKey;
       private_key?: EncodedPrivateKey;

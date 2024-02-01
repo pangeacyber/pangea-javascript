@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+- `rotation_state` field support in key rotation in Vault service.
+
 ### Changed
 
 - Rewrote `README.md`.
