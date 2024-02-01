@@ -9,11 +9,11 @@ import {
 import { UserIntelService } from "../../src/index.js";
 import { Intel } from "../../src/types.js";
 import { hashSHA256 } from "../../src/utils/utils.js";
+import { loadTestEnvironment } from "./utils.js";
 
-const testEnvironment = TestEnvironment.LIVE;
-
-const token = getTestToken(testEnvironment);
-const testHost = getTestDomain(testEnvironment);
+const environment = loadTestEnvironment("user-intel", TestEnvironment.LIVE);
+const token = getTestToken(environment);
+const testHost = getTestDomain(environment);
 const config = new PangeaConfig({ domain: testHost, customUserAgent: "sdk-test" });
 const userIntel = new UserIntelService(token, config);
 

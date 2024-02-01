@@ -9,9 +9,9 @@ import {
   getMultiConfigTestToken,
   getConfigID,
 } from "../../src/utils/utils.js";
+import { loadTestEnvironment } from "./utils.js";
 
-const environment = TestEnvironment.LIVE;
-
+const environment = loadTestEnvironment("redact", TestEnvironment.LIVE);
 const token = getTestToken(environment);
 const tokenMultiConfig = getMultiConfigTestToken(environment);
 const domain = getTestDomain(environment);

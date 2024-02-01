@@ -5,8 +5,9 @@ import { jest, it, expect } from "@jest/globals";
 import { PangeaErrors } from "../../src/errors.js";
 import { strToB64 } from "../../src/utils/utils.js";
 import { TestEnvironment, getTestDomain, getTestToken } from "../../src/utils/utils.js";
+import { loadTestEnvironment } from "./utils.js";
 
-const environment = TestEnvironment.LIVE;
+const environment = loadTestEnvironment("vault", TestEnvironment.LIVE);
 const token = getTestToken(environment);
 const testHost = getTestDomain(environment);
 const config = new PangeaConfig({ domain: testHost, customUserAgent: "sdk-test" });

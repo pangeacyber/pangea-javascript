@@ -30,6 +30,7 @@
     SERVICE_USER_INTEL_ENV: LVE
     SERVICE_REDACT_ENV: LVE
     SERVICE_VAULT_ENV: LVE
+    NODE_OPTIONS: "--experimental-vm-modules --openssl-legacy-provider"
   before_script:
     - echo $ENV
     - echo $CLOUD
@@ -138,28 +139,28 @@ pangea-node-sdk-it-audit:
   variables:
     ENV: ${SERVICE_AUDIT_ENV}
   script:
-    - npx cross-env NODE_OPTIONS="--experimental-vm-modules --openssl-legacy-provider" npx jest --testPathPattern=tests/integration/audit.test.ts
+    - npx jest --testPathPattern=tests/integration/audit.test.ts
 
 pangea-node-sdk-it-authn:
   extends: .pangea-node-sdk-test-base
   variables:
     ENV: ${SERVICE_AUTHN_ENV}
   script:
-    - npx cross-env NODE_OPTIONS="--experimental-vm-modules --openssl-legacy-provider" npx jest --testPathPattern=tests/integration/authn.test.ts
+    - npx jest --testPathPattern=tests/integration/authn.test.ts
 
 pangea-node-sdk-it-embargo:
   extends: .pangea-node-sdk-test-base
   variables:
     ENV: ${SERVICE_EMBARGO_ENV}
   script:
-    - npx cross-env NODE_OPTIONS="--experimental-vm-modules --openssl-legacy-provider" npx jest --testPathPattern=tests/integration/embargo.test.ts
+    - npx jest --testPathPattern=tests/integration/embargo.test.ts
 
 pangea-node-sdk-it-file-scan:
   extends: .pangea-node-sdk-test-base
   variables:
     ENV: ${SERVICE_FILE_SCAN_ENV}
   script:
-    - npx cross-env NODE_OPTIONS="--experimental-vm-modules --openssl-legacy-provider" npx jest --testPathPattern=tests/integration/file_scan.test.ts
+    - npx jest --testPathPattern=tests/integration/file_scan.test.ts
   rules:
     - if: '$CLOUD == "GCP"'
       allow_failure: true
@@ -171,49 +172,49 @@ pangea-node-sdk-it-domain-intel:
   variables:
     ENV: ${SERVICE_DOMAIN_INTEL_ENV}
   script:
-    - npx cross-env NODE_OPTIONS="--experimental-vm-modules --openssl-legacy-provider" npx jest --testPathPattern=tests/integration/intel.domain.test.ts
+    - npx jest --testPathPattern=tests/integration/intel.domain.test.ts
 
 pangea-node-sdk-it-file-intel:
   extends: .pangea-node-sdk-test-base
   variables:
     ENV: ${SERVICE_FILE_INTEL_ENV}
   script:
-    - npx cross-env NODE_OPTIONS="--experimental-vm-modules --openssl-legacy-provider" npx jest --testPathPattern=tests/integration/intel.file.test.ts
+    - npx jest --testPathPattern=tests/integration/intel.file.test.ts
 
 pangea-node-sdk-it-ip-intel:
   extends: .pangea-node-sdk-test-base
   variables:
     ENV: ${SERVICE_IP_INTEL_ENV}
   script:
-    - npx cross-env NODE_OPTIONS="--experimental-vm-modules --openssl-legacy-provider" npx jest --testPathPattern=tests/integration/intel.ip.test.ts
+    - npx jest --testPathPattern=tests/integration/intel.ip.test.ts
 
 pangea-node-sdk-it-url-intel:
   extends: .pangea-node-sdk-test-base
   variables:
     ENV: ${SERVICE_URL_INTEL_ENV}
   script:
-    - npx cross-env NODE_OPTIONS="--experimental-vm-modules --openssl-legacy-provider" npx jest --testPathPattern=tests/integration/intel.url.test.ts
+    - npx jest --testPathPattern=tests/integration/intel.url.test.ts
 
 pangea-node-sdk-it-user-intel:
   extends: .pangea-node-sdk-test-base
   variables:
     ENV: ${SERVICE_USER_INTEL_ENV}
   script:
-    - npx cross-env NODE_OPTIONS="--experimental-vm-modules --openssl-legacy-provider" npx jest --testPathPattern=tests/integration/intel.user.test.ts
+    - npx jest --testPathPattern=tests/integration/intel.user.test.ts
 
 pangea-node-sdk-it-redact:
   extends: .pangea-node-sdk-test-base
   variables:
     ENV: ${SERVICE_REDACT_ENV}
   script:
-    - npx cross-env NODE_OPTIONS="--experimental-vm-modules --openssl-legacy-provider" npx jest --testPathPattern=tests/integration/redact.test.ts
+    - npx jest --testPathPattern=tests/integration/redact.test.ts
 
 pangea-node-sdk-it-vault:
   extends: .pangea-node-sdk-test-base
   variables:
     ENV: ${SERVICE_VAULT_ENV}
   script:
-    - npx cross-env NODE_OPTIONS="--experimental-vm-modules --openssl-legacy-provider" npx jest --testPathPattern=tests/integration/vault.test.ts
+    - npx jest --testPathPattern=tests/integration/vault.test.ts
 
 .pangea-node-sdk-staging-tests:
   extends: .pangea-node-sdk-test-base

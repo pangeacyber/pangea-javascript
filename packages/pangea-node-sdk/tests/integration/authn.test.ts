@@ -4,8 +4,9 @@ import { it, expect, jest } from "@jest/globals";
 import { PangeaErrors } from "../../src/errors.js";
 import { TestEnvironment, getTestDomain, getTestToken } from "../../src/utils/utils.js";
 import { AuthN } from "../../src/types.js";
+import { loadTestEnvironment } from "./utils.js";
 
-const environment = TestEnvironment.LIVE;
+const environment = loadTestEnvironment("authn", TestEnvironment.LIVE);
 const token = getTestToken(environment);
 const testHost = getTestDomain(environment);
 
