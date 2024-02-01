@@ -9,7 +9,7 @@ export function loadTestEnvironment(serviceName: string, def: string) {
       `Environment variable "${name}" is not set. Return default test environment value: ${def}`
     );
     return def;
-  } else if (value in [TestEnvironment.DEVELOP, TestEnvironment.LIVE, TestEnvironment.STAGING]) {
+  } else if (Object.values(TestEnvironment).includes(value)) {
     return value;
   } else {
     throw new Error(`${name} not allowed value: ${value}`);
