@@ -14,7 +14,7 @@
 
 publish_react_mui_branding:
   extends: .react_mui_branding_base
-  stage: Publish
+  stage: publish
   script:
     - cp ../../scripts/publish.sh .
     - echo "${NPMRC}" > .npmrc && ./publish.sh && rm .npmrc

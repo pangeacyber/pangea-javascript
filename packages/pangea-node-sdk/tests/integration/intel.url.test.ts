@@ -1,14 +1,15 @@
 import PangeaConfig from "../../src/config.js";
-import { it, expect } from "@jest/globals";
+import { it, expect, jest } from "@jest/globals";
 import { TestEnvironment, getTestDomain, getTestToken } from "../../src/utils/utils.js";
 import { URLIntelService } from "../../src/index.js";
+import { loadTestEnvironment } from "./utils.js";
 
-const testEnvironment = TestEnvironment.LIVE;
-
-const token = getTestToken(testEnvironment);
-const testHost = getTestDomain(testEnvironment);
+const environment = loadTestEnvironment("url-intel", TestEnvironment.LIVE);
+const token = getTestToken(environment);
+const testHost = getTestDomain(environment);
 const config = new PangeaConfig({ domain: testHost, customUserAgent: "sdk-test" });
 const urlIntel = new URLIntelService(token, config);
+jest.setTimeout(60000);
 
 it("URL reputation should succeed", async () => {
   const options = { provider: "crowdstrike", verbose: true, raw: true };

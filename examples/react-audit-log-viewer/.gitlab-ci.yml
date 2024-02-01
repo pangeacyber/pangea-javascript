@@ -17,7 +17,7 @@
 
 .validate_example_audit_is_latest:
   extends: .example_audit_log_viewer_base
-  stage: Lint
+  stage: lint
   script:
     - cp ../../scripts/validate_latest_installed.sh .
     - ./validate_latest_installed.sh @pangeacyber/react-mui-audit-log-viewer
@@ -31,7 +31,7 @@
 
 test_example_audit_app:
   extends: .example_audit_log_viewer_base
-  stage: Integration Test
+  stage: integration_tests
   script:
     - yarn cypress:ci
   artifacts:

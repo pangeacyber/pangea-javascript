@@ -91,6 +91,7 @@ export function getHashPrefix(hash: string, len: number = 5) {
   return hash.substring(0, len);
 }
 
+// TODO: convert to enum
 export const TestEnvironment = {
   DEVELOP: "DEV",
   LIVE: "LVE",

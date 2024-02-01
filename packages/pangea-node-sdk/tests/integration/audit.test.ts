@@ -13,6 +13,7 @@ import {
   getMultiConfigTestToken,
   getConfigID,
 } from "../../src/utils/utils.js";
+import { loadTestEnvironment } from "./utils.js";
 
 const ACTOR = "node-sdk";
 const MSG_NO_SIGNED = "test-message";
@@ -48,7 +49,7 @@ const JSON_OLD_DATA = {
 };
 
 const signer = new Signer("./tests/testdata/privkey");
-const environment = TestEnvironment.LIVE;
+const environment = loadTestEnvironment("audit", TestEnvironment.LIVE);
 const tokenVault = getVaultSignatureTestToken(environment);
 const tokenCustomSchema = getCustomSchemaTestToken(environment);
 const tokenGeneral = getTestToken(environment);

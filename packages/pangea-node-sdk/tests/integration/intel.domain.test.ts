@@ -2,11 +2,12 @@ import PangeaConfig from "../../src/config.js";
 import { jest, it, expect } from "@jest/globals";
 import { TestEnvironment, getTestDomain, getTestToken } from "../../src/utils/utils.js";
 import { DomainIntelService } from "../../src/index.js";
+import { loadTestEnvironment } from "./utils.js";
 
-const testEnvironment = TestEnvironment.LIVE;
+const environment = loadTestEnvironment("domain-intel", TestEnvironment.LIVE);
 
-const token = getTestToken(testEnvironment);
-const testHost = getTestDomain(testEnvironment);
+const token = getTestToken(environment);
+const testHost = getTestDomain(environment);
 const config = new PangeaConfig({ domain: testHost, customUserAgent: "sdk-test" });
 const domainIntel = new DomainIntelService(token, config);
 jest.setTimeout(60000);

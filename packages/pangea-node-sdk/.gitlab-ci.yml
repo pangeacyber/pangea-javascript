@@ -1,4 +1,4 @@
-.pangea_node_sdk_base:
+.pangea-node-sdk-base:
   before_script:
     - cd packages/pangea-node-sdk
     - yarn install --frozen-lockfile --immutable
@@ -15,7 +15,58 @@
         - packages/pangea-node-sdk/**/*
       when: on_success
 
-.pangea_node_sdk_publish:
+.pangea-node-sdk-test-base:
+  stage: integration_tests
+  variables:
+    # Set each service test environment
+    SERVICE_AUDIT_ENV: LVE
+    SERVICE_AUTHN_ENV: LVE
+    SERVICE_EMBARGO_ENV: LVE
+    SERVICE_FILE_SCAN_ENV: LVE
+    SERVICE_IP_INTEL_ENV: LVE
+    SERVICE_DOMAIN_INTEL_ENV: LVE
+    SERVICE_URL_INTEL_ENV: LVE
+    SERVICE_FILE_INTEL_ENV: LVE
+    SERVICE_USER_INTEL_ENV: LVE
+    SERVICE_REDACT_ENV: LVE
+    SERVICE_VAULT_ENV: LVE
+    NODE_OPTIONS: "--experimental-vm-modules --openssl-legacy-provider"
+  before_script:
+    - echo $ENV
+    - echo $CLOUD
+    # Update environment variables
+    # Domain
+    - export PANGEA_INTEGRATION_DOMAIN_${ENV}="$(eval echo \$PANGEA_INTEGRATION_DOMAIN_${ENV}_${CLOUD})"
+    # Tokens
+    - export PANGEA_INTEGRATION_TOKEN_${ENV}="$(eval echo \$PANGEA_INTEGRATION_TOKEN_${ENV}_${CLOUD})"
+    - export PANGEA_INTEGRATION_VAULT_TOKEN_${ENV}="$(eval echo \$PANGEA_INTEGRATION_VAULT_TOKEN_${ENV}_${CLOUD})"
+    - export PANGEA_INTEGRATION_CUSTOM_SCHEMA_TOKEN_${ENV}="$(eval echo \$PANGEA_INTEGRATION_CUSTOM_SCHEMA_TOKEN_${ENV}_${CLOUD})"
+    - export PANGEA_INTEGRATION_MULTI_CONFIG_TOKEN_${ENV}="$(eval echo \$PANGEA_INTEGRATION_MULTI_CONFIG_TOKEN_${ENV}_${CLOUD})"
+    # Config IDs
+    - export PANGEA_AUDIT_CONFIG_ID_1_${ENV}="$(eval echo \$PANGEA_AUDIT_CONFIG_ID_1_${ENV}_${CLOUD})"
+    - export PANGEA_AUDIT_CONFIG_ID_2_${ENV}="$(eval echo \$PANGEA_AUDIT_CONFIG_ID_2_${ENV}_${CLOUD})"
+    - export PANGEA_REDACT_CONFIG_ID_1_${ENV}="$(eval echo \$PANGEA_REDACT_CONFIG_ID_1_${ENV}_${CLOUD})"
+    - export PANGEA_REDACT_CONFIG_ID_2_${ENV}="$(eval echo \$PANGEA_REDACT_CONFIG_ID_2_${ENV}_${CLOUD})"
+
+    - cd packages/pangea-node-sdk
+    - yarn install --frozen-lockfile --immutable
+  cache:
+    - key:
+        files:
+          - yarn.lock
+      paths:
+        - node_modules
+  parallel:
+    matrix:
+      - CLOUD: [AWS, GCP]
+  rules:
+    - if: $CI_COMMIT_BRANCH || $CI_PIPELINE_SOURCE == "push"
+      changes:
+        - examples/**/*
+        - packages/pangea-node-sdk/**/*
+      when: on_success
+
+.pangea-node-sdk-publish:
   before_script:
     - cd packages/pangea-node-sdk
     - yarn install --frozen-lockfile
@@ -33,10 +84,9 @@
         - packages/pangea-node-sdk/**/*
       when: on_success
 
-build_pangea_node_sdk:
-  extends: .pangea_node_sdk_base
-  needs: []
-  stage: Build
+pangea-node-sdk-build:
+  extends: .pangea-node-sdk-base
+  stage: build
   script:
     - yarn build
   artifacts:
@@ -47,10 +97,10 @@ build_pangea_node_sdk:
         - examples/**/*
         - packages/pangea-node-sdk/**/*
 
-pack_pangea_node_sdk:
-  extends: .pangea_node_sdk_base
-  needs: [build_pangea_node_sdk]
-  stage: Build
+pangea-node-sdk-pack:
+  extends: .pangea-node-sdk-base
+  needs: [pangea-node-sdk-build]
+  stage: build
   script:
     - yarn pack
   artifacts:
@@ -61,15 +111,15 @@ pack_pangea_node_sdk:
         - examples/**/*
         - packages/pangea-node-sdk/**/*
 
-lint_pangea_node_sdk:
-  extends: .pangea_node_sdk_base
-  stage: Lint
+pangea-node-sdk-lint:
+  extends: .pangea-node-sdk-base
+  stage: lint
   script:
     - yarn lint
 
 generate_docs:
-  extends: .pangea_node_sdk_base
-  stage: Lint
+  extends: .pangea-node-sdk-base
+  stage: lint
   script:
     - yarn generate:docs
   artifacts:
@@ -78,29 +128,124 @@ generate_docs:
     paths: ["packages/pangea-node-sdk/docs.json"]
     when: on_success
 
-test_pangea_node_sdk:
-  extends: .pangea_node_sdk_base
-  stage: Unit Test
+pangea-node-sdk-unit-tests:
+  extends: .pangea-node-sdk-base
+  stage: unit_tests
   script:
     - yarn test:unit
 
-integration_pangea_node_sdk:
-  extends: .pangea_node_sdk_base
-  stage: Integration Test
+pangea-node-sdk-it-audit:
+  extends: .pangea-node-sdk-test-base
+  variables:
+    ENV: ${SERVICE_AUDIT_ENV}
+  script:
+    - npx jest --testPathPattern=tests/integration/audit.test.ts
+
+pangea-node-sdk-it-authn:
+  extends: .pangea-node-sdk-test-base
+  variables:
+    ENV: ${SERVICE_AUTHN_ENV}
+  script:
+    - npx jest --testPathPattern=tests/integration/authn.test.ts
+
+pangea-node-sdk-it-embargo:
+  extends: .pangea-node-sdk-test-base
+  variables:
+    ENV: ${SERVICE_EMBARGO_ENV}
+  script:
+    - npx jest --testPathPattern=tests/integration/embargo.test.ts
+
+pangea-node-sdk-it-file-scan:
+  extends: .pangea-node-sdk-test-base
+  variables:
+    ENV: ${SERVICE_FILE_SCAN_ENV}
+  script:
+    - npx jest --testPathPattern=tests/integration/file_scan.test.ts
+  rules:
+    - if: '$CLOUD == "GCP"'
+      allow_failure: true
+    - if: '$CLOUD != "GCP"'
+      allow_failure: false
+
+pangea-node-sdk-it-domain-intel:
+  extends: .pangea-node-sdk-test-base
+  variables:
+    ENV: ${SERVICE_DOMAIN_INTEL_ENV}
+  script:
+    - npx jest --testPathPattern=tests/integration/intel.domain.test.ts
+
+pangea-node-sdk-it-file-intel:
+  extends: .pangea-node-sdk-test-base
+  variables:
+    ENV: ${SERVICE_FILE_INTEL_ENV}
+  script:
+    - npx jest --testPathPattern=tests/integration/intel.file.test.ts
+
+pangea-node-sdk-it-ip-intel:
+  extends: .pangea-node-sdk-test-base
+  variables:
+    ENV: ${SERVICE_IP_INTEL_ENV}
+  script:
+    - npx jest --testPathPattern=tests/integration/intel.ip.test.ts
+
+pangea-node-sdk-it-url-intel:
+  extends: .pangea-node-sdk-test-base
+  variables:
+    ENV: ${SERVICE_URL_INTEL_ENV}
+  script:
+    - npx jest --testPathPattern=tests/integration/intel.url.test.ts
+
+pangea-node-sdk-it-user-intel:
+  extends: .pangea-node-sdk-test-base
+  variables:
+    ENV: ${SERVICE_USER_INTEL_ENV}
+  script:
+    - npx jest --testPathPattern=tests/integration/intel.user.test.ts
+
+pangea-node-sdk-it-redact:
+  extends: .pangea-node-sdk-test-base
+  variables:
+    ENV: ${SERVICE_REDACT_ENV}
+  script:
+    - npx jest --testPathPattern=tests/integration/redact.test.ts
+
+pangea-node-sdk-it-vault:
+  extends: .pangea-node-sdk-test-base
+  variables:
+    ENV: ${SERVICE_VAULT_ENV}
+  script:
+    - npx jest --testPathPattern=tests/integration/vault.test.ts
+
+.pangea-node-sdk-staging-tests:
+  extends: .pangea-node-sdk-test-base
+  variables:
+    ENV: STG
+    # Set each service test environment
+    SERVICE_AUDIT_ENV: STG
+    SERVICE_AUTHN_ENV: STG
+    SERVICE_EMBARGO_ENV: STG
+    SERVICE_FILE_SCAN_ENV: STG
+    SERVICE_IP_INTEL_ENV: STG
+    SERVICE_DOMAIN_INTEL_ENV: STG
+    SERVICE_URL_INTEL_ENV: STG
+    SERVICE_FILE_INTEL_ENV: STG
+    SERVICE_USER_INTEL_ENV: STG
+    SERVICE_REDACT_ENV: STG
+    SERVICE_VAULT_ENV: STG
   script:
     - yarn test:integration
 
-publish_pangea_node_sdk:
-  extends: .pangea_node_sdk_publish
-  stage: Publish
+pangea-node-sdk-publish:
+  extends: .pangea-node-sdk-publish
+  stage: publish
   script:
     - cp ../../scripts/publish.sh .
     - echo "${NPMRC}" > .npmrc && ./publish.sh && rm .npmrc
     - rm publish.sh
 
-tag_pangea_node_sdk:
-  extends: .pangea_node_sdk_publish
-  stage: Tag Release
+pangea-node-sdk-tag-release:
+  extends: .pangea-node-sdk-publish
+  stage: tag_release
   script:
     - apt install -y python3 python3-github
     - VERSION=$(node -p "require('./package.json').version")
