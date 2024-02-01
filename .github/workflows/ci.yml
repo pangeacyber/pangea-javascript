@@ -42,7 +42,6 @@ jobs:
             "examples-matrix=" + (split("\n") | map(select(length > 0)) | tostring)
         run: find . -type f -name 'yarn.lock' -printf '%h\n' | cut -c 3- | sort -u | jq -cRrs '${{ env.JQ_FILTER }}' >> "$GITHUB_OUTPUT"
 
-
   prefetch:
     runs-on: ubuntu-latest
     steps:
