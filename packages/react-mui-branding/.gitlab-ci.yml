@@ -2,7 +2,7 @@
   image: node:18.19.0
   before_script:
     - cd packages/react-mui-branding
-    - yarn install
+    - yarn install --frozen-lockfile --immutable
     - apt-get -qq update
     - apt-get install -y jq
   cache:
