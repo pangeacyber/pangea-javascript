@@ -5,7 +5,7 @@ updates:
     schedule:
       interval: daily
 
-  - package-ecosystem: yarn
-    directory: /examples
+  - package-ecosystem: npm
+    directory: /
     schedule:
       interval: daily
