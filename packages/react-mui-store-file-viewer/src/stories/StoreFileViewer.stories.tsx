@@ -279,7 +279,7 @@ StoreFileViewerDemo.args = {
       displayAlertOnError: true,
     },
     settings: {
-      maxAccessCount: 15,
+      defaultAccessCount: 15,
     },
   },
   defaultShareLinkTitle: "Pepe Silvia has securely shared a file with you!",
