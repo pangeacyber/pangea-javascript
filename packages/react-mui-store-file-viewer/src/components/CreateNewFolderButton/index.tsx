@@ -90,6 +90,8 @@ const CreateNewFolderButton: FC<Props> = ({ ButtonProps, onClose }) => {
               handleClose
             );
           }}
+          clearable
+          onCancel={handleClose}
           disabled={loading}
         />
       </PangeaModal>

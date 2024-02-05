@@ -1,8 +1,9 @@
-import { FC, useMemo, useState } from "react";
+import { FC, SetStateAction, useCallback, useMemo, useState } from "react";
 import isEmpty from "lodash/isEmpty";
 import pickBy from "lodash/pickBy";
 import find from "lodash/find";
 import uniq from "lodash/uniq";
+import keyBy from "lodash/keyBy";
 
 import {
   LinedPangeaDataGrid,
@@ -55,7 +56,29 @@ const StoreDownloadDataGrid: FC<StoreDataGridProps> = ({
     mouseX: number;
     mouseY: number;
   } | null>(null);
-  const [multiSelected, setMultiSelected] = useState<string[]>([]);
+
+  const [selected, setSelected] = useState<string[]>([]);
+  const setMultiSelected = useCallback(
+    (update: SetStateAction<string[]>) => {
+      setSelected((state) => {
+        let newState = state;
+        if (typeof update === "function") {
+          newState = update(state);
+        } else {
+          newState = update;
+        }
+
+        const objectMap = keyBy(data.objects ?? [], "id");
+        return uniq(newState).filter((objectId) => !!objectMap[objectId]);
+      });
+    },
+    [data, setSelected]
+  );
+
+  const multiSelected = useMemo(() => {
+    const objectMap = keyBy(data.objects ?? [], "id");
+    return selected.filter((objectId) => !!objectMap[objectId]);
+  }, [selected, data]);
 
   const handleGetRowClassName = (params: {
     id: string | number;
@@ -79,7 +102,11 @@ const StoreDownloadDataGrid: FC<StoreDataGridProps> = ({
       const row = Number(rowEl.getAttribute("data-rowindex"));
       if (!Number.isNaN(row) && row >= 0 && row < data.objects.length) {
         const object = data.objects[row];
-        setMultiSelected((state) => uniq(state.concat([object.id])));
+        if (event.shiftKey || multiSelected.includes(object.id)) {
+          setMultiSelected((state) => state.concat([object.id]));
+        } else {
+          setMultiSelected([object.id]);
+        }
         foundParent = true;
       }
     }
@@ -162,7 +189,7 @@ const StoreDownloadDataGrid: FC<StoreDataGridProps> = ({
           if (event.shiftKey) {
             event.preventDefault();
             document.getSelection()?.removeAllRanges();
-            setMultiSelected((state) => uniq(state.concat([params.row.id])));
+            setMultiSelected((state) => state.concat([params.row.id]));
           } else {
             setMultiSelected([params.row.id]);
           }

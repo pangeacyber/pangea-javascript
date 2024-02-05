@@ -83,12 +83,13 @@ const CreateSharesButton: FC<Props> = ({
   const [sending, setSending] = useState<ObjectStore.ShareObjectResponse[]>([]);
   const [password, setPassword] = useState<string>("");
 
+  const defaultAccessCount = configurations?.settings?.defaultAccessCount ?? 10;
   const [obj, setObj] = useState<ShareCreateForm>({
     targets: [],
     authenticators: [],
     link_type: "download",
     expires_at: "",
-    max_access_count: 10,
+    max_access_count: defaultAccessCount,
     contentType: object?.type ?? "file",
     authenticatorType: ObjectStore.ShareAuthenticatorType.Sms,
     title: defaultShareLinkTitle,
@@ -96,15 +97,18 @@ const CreateSharesButton: FC<Props> = ({
   const [settingsObj, setSettingsObj] = useState(obj);
 
   useEffect(() => {
-    var date = new Date();
-    date.setDate(date.getDate() + 7);
+    var date = configurations?.settings?.defaultExpiresAt;
+    if (!date) {
+      date = new Date();
+      date.setDate(date.getDate() + 7);
+    }
 
     const newObj = {
       targets: [],
       authenticators: [],
       link_type: "download",
       expires_at: date.toISOString(),
-      max_access_count: 10,
+      max_access_count: defaultAccessCount,
       contentType: object?.type ?? "file",
       authenticatorType: ObjectStore.ShareAuthenticatorType.Sms,
       title: defaultShareLinkTitle,
@@ -259,6 +263,7 @@ const CreateSharesButton: FC<Props> = ({
         shares={sending}
         password={password}
         onDone={onDone}
+        clearButtonLabel="Done"
       />
     </>
   );

@@ -49,6 +49,36 @@ SimpleDataGrid.args = {
   data: SHOWS,
 };
 
+export const SimpleClientPaginationDataGrid: {
+  args: PangeaDataGridProps<Show>;
+} = Template.bind({});
+// More on args: https://storybook.js.org/docs/react/writing-stories/args
+
+SimpleClientPaginationDataGrid.args = {
+  columns: [
+    {
+      field: "title",
+    },
+    {
+      field: "description",
+      flex: 10,
+    },
+  ],
+  data: SHOWS,
+  DataGridProps: {
+    paginationMode: "client",
+    hideFooterPagination: false,
+    initialState: {
+      pagination: {
+        paginationModel: {
+          page: 0,
+          pageSize: 5,
+        },
+      },
+    },
+  },
+};
+
 export const FilterableDataGrid: {
   args: PangeaDataGridProps<Show>;
 } = Template.bind({});

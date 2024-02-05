@@ -5,6 +5,18 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.0.47] - 2024-02-02
+
+### Fixed
+
+- Support controlled previewId prop on PangeaDataGrid. previewId of null will remove preview
+
+## [0.0.46] - 2024-01-31
+
+### Fixed
+
+- Updated default PangeaDataGrid pagination to none, must be explicitly specified through ServerPagination or DataGridProps
+
 ## [0.0.45] - 2024-01-24
 
 ### Fixed

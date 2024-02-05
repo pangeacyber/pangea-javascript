@@ -1,8 +1,6 @@
 import { useTheme, lighten } from "@mui/material/styles";
-import mapValues from "lodash/mapValues";
 import Box from "@mui/material/Box";
 import Popper from "@mui/material/Popper";
-import Fade from "@mui/material/Fade";
 import {
   Button,
   CircularProgress,
@@ -135,6 +133,10 @@ export default function UploadPopover() {
   };
 
   useEffect(() => {
+    useUploadPopover.setState({ uploads: {} });
+  }, []);
+
+  useEffect(() => {
     const uploadIds = Object.keys(uploads);
 
     const waiting = uploadIds.filter((id) => {
@@ -245,7 +247,16 @@ export default function UploadPopover() {
                         </Typography>
                       </Stack>
                     )}
-                    <Stack padding={1} paddingTop={0} spacing={1}>
+                    <Stack
+                      padding={1}
+                      paddingTop={0}
+                      spacing={1}
+                      sx={{
+                        overflowY: "auto",
+                        overflowX: "hidden",
+                        maxHeight: "calc(100vh - 400px)",
+                      }}
+                    >
                       {Object.values(uploads).map((upload, idx) => {
                         const mimeType =
                           (upload.file.name ?? "").split(".").at(-1) ?? "";
