@@ -84,7 +84,7 @@ jobs:
         run: yarn pack
 
       - name: Upload
-        uses: actions/upload-artifact@v4.3.0
+        uses: actions/upload-artifact@v4.3.1
         with:
           name: pangea-node-sdk-package
           path: ./packages/pangea-node-sdk/pangea-node-sdk-v*.tgz
