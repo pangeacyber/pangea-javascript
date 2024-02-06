@@ -5,9 +5,8 @@ import { AuthFlow } from "@pangeacyber/vanilla-js";
 
 import { AuthFlowComponentProps } from "@src/features/AuthFlow/types";
 import LexicalViewer from "./component";
-import IdField from "@src/components/fields/IdField";
+import { formatDateString } from "@src/utils";
 import Button from "@src/components/core/Button";
-import { BodyText } from "@src/components/core/Text";
 
 const AgreementView: FC<AuthFlowComponentProps> = ({
   options,
@@ -59,11 +58,12 @@ const AgreementView: FC<AuthFlowComponentProps> = ({
   return (
     <Stack gap={2} sx={{ borderWidth: "1px" }} ml={-1} mr={-1}>
       <Typography variant="h6">{acceptHeading()}</Typography>
-      <IdField
-        value={data?.email}
-        resetCallback={reset}
-        resetLabel={options.cancelLabel}
-      />
+      <Stack direction="row" justifyContent="center">
+        <Typography variant="body1">
+          Published Data:{" "}
+          {formatDateString(data?.agreements[0].published_at || "")}
+        </Typography>
+      </Stack>
       <Stack
         id="agreement-container"
         onScroll={handleScroll}
