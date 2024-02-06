@@ -1,0 +1,25 @@
+{
+  "flowId": "pfl_flowflowflowflowflowflowflow",
+  "flowType": ["signin"],
+  "phase": "phase_agreements",
+  "flowChoices": [],
+  "email": "storybook@pangea.cloud",
+  "authChoices": ["agreements"],
+  "socialChoices": [],
+  "socialProviderMap": {},
+  "samlChoices": [],
+  "samlProviderMap": {},
+  "callbackStateMap": {},
+  "agreements": [
+    {
+      "id": "peu_mx2aruzhs6k32m6tixyyqtukhng4htt4",
+      "type": "eula",
+      "created_at": "2024-02-06T18:43:15.608900Z",
+      "updated_at": "2024-02-06T18:43:19.270819Z",
+      "published_at": "2024-02-06T18:43:19.269193Z",
+      "name": "This is a new EULA",
+      "text": "{\"root\":{\"children\":[{\"children\":[{\"detail\":0,\"format\":0,\"mode\":\"normal\",\"style\":\"\",\"text\":\"You must agree\",\"type\":\"text\",\"version\":1}],\"direction\":\"ltr\",\"format\":\"\",\"indent\":0,\"type\":\"paragraph\",\"version\":1}],\"direction\":\"ltr\",\"format\":\"\",\"indent\":0,\"type\":\"root\",\"version\":1}}",
+      "active": true
+    }
+  ]
+}

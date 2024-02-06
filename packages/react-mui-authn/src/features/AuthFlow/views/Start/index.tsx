@@ -35,7 +35,13 @@ const StartView: FC<AuthFlowComponentProps> = (props) => {
   });
 
   return (
-    <AuthFlowLayout title={options?.startHeading}>
+    <AuthFlowLayout
+      title={
+        data?.flowType.includes("signup")
+          ? options?.startHeading
+          : options?.passwordHeading
+      }
+    >
       {!!data.setEmail?.required_for && (
         <form onSubmit={formik.handleSubmit}>
           <Stack gap={1}>

@@ -1,6 +1,5 @@
 import { FC } from "react";
 import { Stack, Typography } from "@mui/material";
-import IdField from "@src/components/fields/IdField";
 import Disclaimer from "../../components/Disclaimer";
 
 interface Props {

@@ -9,10 +9,10 @@ import { AuthFlowViewOptions } from "../features/AuthFlow/types";
 import PangeaThemeProvider from "./theme/pangea/provider";
 import { PANGEA } from "./theme/pangea/config";
 import AuthNPanel from "../components/core/Panel";
-import StartView from "../features/AuthFlow/views/Start";
+import LoginView from "../features/AuthFlow/views/Login";
 import { getOptions } from "./utils";
 
-import data from "./data/flow_start.json";
+import data from "./data/flow_login.json";
 
 const options = getOptions(data);
 const update = (data: any) => {};
@@ -22,7 +22,7 @@ interface Props {
   options: AuthFlowViewOptions;
 }
 
-const FlowStart: FC<Props> = ({ data, options }) => {
+const FlowLogin: FC<Props> = ({ data, options }) => {
   return (
     <PangeaThemeProvider>
       <AuthNPanel
@@ -33,20 +33,20 @@ const FlowStart: FC<Props> = ({ data, options }) => {
         bgImage={PANGEA?.bg_image}
         density={PANGEA?.density}
       >
-        <StartView options={options} data={data} error={{}} update={update} />
+        <LoginView options={options} data={data} error={{}} update={update} />
       </AuthNPanel>
     </PangeaThemeProvider>
   );
 };
 
-const meta: Meta<typeof StartView> = {
-  component: FlowStart,
+const meta: Meta<typeof LoginView> = {
+  component: FlowLogin,
 };
 
-type Story = StoryObj<typeof FlowStart>;
+type Story = StoryObj<typeof FlowLogin>;
 
-export const Start: Story = {
-  render: () => <FlowStart options={options} data={data} />,
+export const Login: Story = {
+  render: () => <FlowLogin options={options} data={data} />,
 };
 
 export default meta;

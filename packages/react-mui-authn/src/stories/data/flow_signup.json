@@ -1,0 +1,25 @@
+{
+  "flowId": "pfl_flowflowflowflowflowflowflow",
+  "flowType": ["signup"],
+  "phase": "phase_primary",
+  "flowChoices": [],
+  "email": "storybook@pangea.cloud",
+  "password": {
+    "enrollment": false,
+    "password_policy": {
+      "chars_min": 8,
+      "chars_max": 256,
+      "lower_min": 1,
+      "upper_min": 1,
+      "punct_min": 1,
+      "number_min": 0
+    }
+  },
+  "authChoices": ["password"],
+  "socialChoices": [],
+  "socialProviderMap": {},
+  "samlChoices": [],
+  "samlProviderMap": {},
+  "callbackStateMap": {},
+  "agreements": []
+}
