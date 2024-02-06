@@ -5,9 +5,9 @@
   cache:
     - key:
         files:
-          - yarn.lock
+          - packages/pangea-node-sdk/yarn.lock
       paths:
-        - node_modules
+        - packages/pangea-node-sdk/node_modules
   rules:
     - if: $CI_COMMIT_BRANCH || $CI_PIPELINE_SOURCE == "push"
       changes:
@@ -53,9 +53,9 @@
   cache:
     - key:
         files:
-          - yarn.lock
+          - packages/pangea-node-sdk/yarn.lock
       paths:
-        - node_modules
+        - packages/pangea-node-sdk/node_modules
   parallel:
     matrix:
       - CLOUD: [AWS, GCP]
@@ -75,9 +75,9 @@
   cache:
     - key:
         files:
-          - yarn.lock
+          - packages/pangea-node-sdk/yarn.lock
       paths:
-        - node_modules
+        - packages/pangea-node-sdk/node_modules
   rules:
     - if: $CI_COMMIT_BRANCH == "release"
       changes:
