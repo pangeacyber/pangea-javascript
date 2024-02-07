@@ -5,6 +5,25 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.0.27] - 2024-02-01
+
+### Fixed
+
+- StoreFileViewer multi-select functionality. Multi-select now closes single file focus, opening context menu restarts multi-selection, unless opening on an already selected item or holding shift
+
+## [0.0.26] - 2024-02-01
+
+### Fixed
+
+- Updated configurations for maxViewCount to defaultViewCount and add defaultExpiresAt
+
+## [0.0.25] - 2024-01-29
+
+### Added
+
+- Update cancel labels for folder creation and send shares modal
+- Support settings in configurations for maxViewCount
+
 ## [0.0.24] - 2024-01-25
 
 ### Added

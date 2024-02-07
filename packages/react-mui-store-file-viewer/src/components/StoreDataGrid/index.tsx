@@ -1,8 +1,9 @@
-import { FC, useMemo, useState } from "react";
+import { FC, SetStateAction, useCallback, useMemo, useState } from "react";
 import isEmpty from "lodash/isEmpty";
 import pickBy from "lodash/pickBy";
 import find from "lodash/find";
 import uniq from "lodash/uniq";
+import keyBy from "lodash/keyBy";
 
 import {
   LinedPangeaDataGrid,
@@ -47,7 +48,7 @@ const StoreDataGrid: FC<StoreDataGridProps> = ({
   defaultVisibilityModel,
   defaultColumnOrder,
 }) => {
-  const { data, request, reload, loading, previewId, apiRef } =
+  const { data, request, reload, loading, previewId, setPreviewId, apiRef } =
     useStoreFileViewerContext();
   const { folder, setFolder, setParentId } = useStoreFileViewerFolder();
   const {
@@ -67,7 +68,29 @@ const StoreDataGrid: FC<StoreDataGridProps> = ({
     mouseX: number;
     mouseY: number;
   } | null>(null);
-  const [multiSelected, setMultiSelected] = useState<string[]>([]);
+
+  const [selected, setSelected] = useState<string[]>([]);
+  const setMultiSelected = useCallback(
+    (update: SetStateAction<string[]>) => {
+      setSelected((state) => {
+        let newState = state;
+        if (typeof update === "function") {
+          newState = update(state);
+        } else {
+          newState = update;
+        }
+
+        const objectMap = keyBy(data.objects ?? [], "id");
+        return uniq(newState).filter((objectId) => !!objectMap[objectId]);
+      });
+    },
+    [data, setSelected]
+  );
+
+  const multiSelected = useMemo(() => {
+    const objectMap = keyBy(data.objects ?? [], "id");
+    return selected.filter((objectId) => !!objectMap[objectId]);
+  }, [selected, data]);
 
   const handleGetRowClassName = (params: {
     id: string | number;
@@ -91,7 +114,12 @@ const StoreDataGrid: FC<StoreDataGridProps> = ({
       const row = Number(rowEl.getAttribute("data-rowindex"));
       if (!Number.isNaN(row) && row >= 0 && row < data.objects.length) {
         const object = data.objects[row];
-        setMultiSelected((state) => uniq(state.concat([object.id])));
+        if (event.shiftKey || multiSelected.includes(object.id)) {
+          setMultiSelected((state) => state.concat([object.id]));
+        } else {
+          setPreviewId(object.id);
+          setMultiSelected([object.id]);
+        }
         foundParent = true;
       }
     }
@@ -146,6 +174,14 @@ const StoreDataGrid: FC<StoreDataGridProps> = ({
     );
   }, [defaultVisibilityModel, columns, isFiltered]);
 
+  const displayPreviewId = useMemo(() => {
+    if (multiSelected.length > 1) {
+      return null;
+    }
+
+    return filters?.id || previewId;
+  }, [filters, previewId, multiSelected]);
+
   const rowCount = data?.count ?? data?.objects?.length ?? 0;
   return (
     <Stack spacing={1}>
@@ -157,7 +193,7 @@ const StoreDataGrid: FC<StoreDataGridProps> = ({
           width: `${PREVIEW_FILE_WIDTH}px`,
           position: "fullHeight",
         }}
-        previewId={filters?.id || previewId}
+        previewId={displayPreviewId}
         onRowDoubleClick={(params) => {
           if (params.row.type === ObjectStore.ObjectType.Folder) {
             setParentId(params.row.id);
@@ -177,11 +213,14 @@ const StoreDataGrid: FC<StoreDataGridProps> = ({
             document.getSelection()?.removeAllRanges();
             setMultiSelected((state) => state.concat([params.row.id]));
           } else {
+            setPreviewId(params.row.id);
             setMultiSelected([params.row.id]);
           }
+
+          return false;
         }}
         onPreview={(preview) => {
-          if (!preview) setMultiSelected([]);
+          if (!preview && multiSelected.length === 1) setMultiSelected([]);
         }}
         DataGridProps={{
           ...(!!apiRef.getArchive && {

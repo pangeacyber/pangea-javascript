@@ -70,6 +70,10 @@ export interface StoreConfigurations {
     displayAlertOnError: boolean;
     AlertSnackbarProps?: AlertsSnackbarProps;
   };
+  settings?: {
+    defaultAccessCount?: number;
+    defaultExpiresAt?: Date;
+  };
 }
 
 export namespace ObjectStore {

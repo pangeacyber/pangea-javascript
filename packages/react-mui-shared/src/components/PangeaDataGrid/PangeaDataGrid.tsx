@@ -104,7 +104,7 @@ export interface PangeaDataGridProps<
     width: string;
     position?: "inline" | "fullHeight";
   };
-  previewId?: string;
+  previewId?: string | null;
   onRowClick?: (
     param: GridRowParams<DataType>,
     event: MuiEvent<MouseEvent>
@@ -157,10 +157,7 @@ const PangeaDataGrid = <
   const previewPanelRef = useRef<HTMLDivElement | undefined>();
 
   const isRowClickable = !!ExpansionRow?.render || !!onRowClick;
-  const pageSize =
-    DataGridProps?.paginationModel?.pageSize ||
-    ServerPagination?.pageSize ||
-    20;
+  const pageSize = ServerPagination?.pageSize || 20;
 
   const [visibility, setVisibility] = useState<Visibility>({});
   const [order, setOrder] = useState<string[]>([]);
@@ -301,6 +298,10 @@ const PangeaDataGrid = <
         setPreview({ row });
       }
     }
+
+    if (previewId === null) {
+      setPreview(null);
+    }
   }, [data, previewId]);
 
   return (
@@ -357,9 +358,7 @@ const PangeaDataGrid = <
                 (val) => val.isVisible
               )}
               hideFooterSelectedRowCount
-              hideFooterPagination={
-                !ServerPagination && data?.length < pageSize
-              }
+              hideFooterPagination={!ServerPagination}
               rowSelectionModel={preview?.row?.id ?? []}
               onRowClick={(params, event) => {
                 if (!isRowClickable || event.defaultPrevented) return;
@@ -388,11 +387,14 @@ const PangeaDataGrid = <
                 }
               }}
               paginationMode={!!ServerPagination ? "server" : undefined}
-              paginationModel={{
-                page: 1,
-                ...DataGridProps.paginationModel,
-                pageSize,
-              }}
+              paginationModel={
+                !!ServerPagination
+                  ? {
+                      page: 1,
+                      pageSize,
+                    }
+                  : undefined
+              }
               rowCount={
                 !!ServerPagination ? ServerPagination.rowCount : undefined
               }
