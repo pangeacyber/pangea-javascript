@@ -41,11 +41,11 @@
     "typescript": "^5.1.6"
   },
   "scripts": {
-    "test": "cross-env NODE_OPTIONS=--experimental-vm-modules npx jest",
-    "test:unit": "cross-env NODE_OPTIONS=\"--experimental-vm-modules --openssl-legacy-provider\" npx jest --testPathPattern=tests/unit",
-    "test:integration": "cross-env NODE_OPTIONS=\"--experimental-vm-modules --openssl-legacy-provider\" npx jest --testPathPattern=tests/integration",
-    "lint": "npx prettier --check . && npx eslint --ext .ts .",
-    "prettier:fix": "npx prettier . -w",
+    "test": "cross-env NODE_OPTIONS=--experimental-vm-modules jest",
+    "test:unit": "cross-env NODE_OPTIONS=\"--experimental-vm-modules --openssl-legacy-provider\" jest --testPathPattern=tests/unit",
+    "test:integration": "cross-env NODE_OPTIONS=\"--experimental-vm-modules --openssl-legacy-provider\" jest --testPathPattern=tests/integration",
+    "lint": "prettier --check . && eslint --ext .ts .",
+    "prettier:fix": "prettier . -w",
     "generate:docs": "typedoc --tsconfig ./tsconfig.prod.json",
     "build": "rm -fr dist/* && tsc -p tsconfig.prod.json && tsc-alias -p tsconfig.prod.json"
   },

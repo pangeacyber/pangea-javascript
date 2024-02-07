@@ -9,9 +9,8 @@
 
 # Pangea Node.js SDK
 
-A Node.js SDK for integrating with Pangea services.
-
-This package is provided with support for ESM and CommonJS.
+A Node.js SDK for integrating with Pangea services. Supports Node.js v18 and
+v20.
 
 ## Installation
 
