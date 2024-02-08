@@ -73,9 +73,9 @@ jobs:
           cache-dependency-path: ./packages/pangea-node-sdk/yarn.lock
 
       - name: Install dependencies
-        run: yarn install --frozen-lockfile --immutable
+        run: yarn install --frozen-lockfile
 
-      - run: npm ls
+      - run: yarn list
 
       - name: Build
         run: yarn build
@@ -88,6 +88,34 @@ jobs:
         with:
           name: pangea-node-sdk-package
           path: ./packages/pangea-node-sdk/pangea-node-sdk-v*.tgz
+
+  test-unit:
+    needs: [build]
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [18, 20]
+    defaults:
+      run:
+        working-directory: ./packages/pangea-node-sdk
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4.1.1
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4.0.1
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: yarn
+          cache-dependency-path: ./packages/pangea-node-sdk/yarn.lock
+
+      - name: Install dependencies
+        run: yarn install --frozen-lockfile
+
+      - run: yarn list
+
+      - name: Unit test
+        run: yarn test:unit --ci --coverage
 
   examples:
     needs: [setup, prefetch, build]
@@ -110,7 +138,7 @@ jobs:
           cache-dependency-path: ./examples/${{ matrix.example }}/yarn.lock
 
       - name: Install dependencies
-        run: yarn install --frozen-lockfile --immutable
+        run: yarn install --frozen-lockfile
 
       - name: Download locally built pangea-node-sdk
         uses: actions/download-artifact@v4.1.2

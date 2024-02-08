@@ -1,7 +1,7 @@
 .pangea-node-sdk-base:
   before_script:
     - cd packages/pangea-node-sdk
-    - yarn install --frozen-lockfile --immutable
+    - yarn install --frozen-lockfile
   cache:
     - key:
         files:
@@ -50,7 +50,7 @@ pangea-node-sdk-integration-tests:
     - export PANGEA_REDACT_CONFIG_ID_2_${ENV}="$(eval echo \$PANGEA_REDACT_CONFIG_ID_2_${ENV}_${CLOUD})"
 
     - cd packages/pangea-node-sdk
-    - yarn install --frozen-lockfile --immutable
+    - yarn install --frozen-lockfile
   cache:
     - key:
         files:
@@ -175,7 +175,7 @@ pangea-node-sdk-unit-tests:
   extends: .pangea-node-sdk-base
   stage: unit_tests
   script:
-    - yarn test:unit
+    - yarn test:unit --ci --coverage
 
 pangea-node-sdk-publish:
   extends: .pangea-node-sdk-publish
