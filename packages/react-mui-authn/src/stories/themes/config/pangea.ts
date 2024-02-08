@@ -19,7 +19,6 @@ export const PANGEA: any = {
   font_family: "Kanit",
   header_font_size: "24px",
   header_font_weight: "600",
-  id: "pro_ser3ddzl66t4hdxit7hazqimc674xzk5",
   input_bg_color: "#FFFFFF",
   input_border_color: "",
   input_border_radius: "4px",
@@ -28,7 +27,6 @@ export const PANGEA: any = {
   login_button_label: "Sign in",
   login_heading: "Sign in",
   login_social_heading: "Other ways to sign in",
-  name: "Tmp 1",
   otp_button_label: "Submit",
   otp_font_size: "42px",
   panel_bg_color: "#FFFFFF",
@@ -44,14 +42,6 @@ export const PANGEA: any = {
   text_contrast_color: "#FFF",
   text_primary_color: "#23315A",
   text_secondary_color: "#727A92",
-  updated_at: "2023-01-18T19:21:40.716282Z",
-  custom_metadata: {
-    audit: {
-      column_header_bg_color: "#F1F4F7",
-      selected_row_bg_color: "#F1F4F7",
-      // hover_row_bg_color: "#d4dce5",
-    },
-  },
   eula_heading: "License Agreement",
   privacy_heading: "Privacy Policy",
 };

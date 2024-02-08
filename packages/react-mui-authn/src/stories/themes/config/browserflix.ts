@@ -1,6 +1,4 @@
 export const BROWSERFLIX: any = {
-  preset: "browserflix",
-
   brand_name: "Browserflix",
   brand_logo: "https://i.ibb.co/wB4VNcm/browserflix.png",
   brand_page_logo: "https://i.ibb.co/wB4VNcm/browserflix.png",

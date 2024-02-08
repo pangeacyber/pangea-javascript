@@ -1,0 +1,17 @@
+{
+  "flowId": "pfl_flowflowflowflowflowflowflow",
+  "flowType": ["signup"],
+  "phase": "phase_captcha",
+  "flowChoices": [],
+  "email": "storybook@pangea.cloud",
+  "captcha": {
+    "site_key": "6LeB-7sfAAAAAH6XhArL8pygmv9ciswMzZ5iVdC6"
+  },
+  "authChoices": [],
+  "socialChoices": [],
+  "socialProviderMap": {},
+  "samlChoices": [],
+  "samlProviderMap": {},
+  "callbackStateMap": {},
+  "agreements": []
+}
