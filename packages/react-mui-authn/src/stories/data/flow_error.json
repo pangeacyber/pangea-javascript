@@ -1,0 +1,14 @@
+{
+  "flowId": "pfl_flowflowflowflowflowflowflow",
+  "flowType": ["signin"],
+  "phase": "phase_primary",
+  "flowChoices": [],
+  "email": "storybook@pangea.cloud",
+  "authChoices": [],
+  "socialChoices": [],
+  "socialProviderMap": {},
+  "samlChoices": [],
+  "samlProviderMap": {},
+  "callbackStateMap": {},
+  "agreements": []
+}

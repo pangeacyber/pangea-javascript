@@ -1,5 +1,22 @@
-export const getOptions = (data: any) => {
-  const options = {
+import { AuthFlowViewOptions } from "../src/features/AuthFlow/types";
+import { PANGEA } from "../src/stories/themes/config/pangea";
+import { BROWSERFLIX } from "../src/stories/themes/config/browserflix";
+import { GENERIC } from "../src/stories/themes/config/generic";
+
+export const getBrandingData = (theme: string) => {
+  if (theme === "browserflix") {
+    return BROWSERFLIX;
+  }
+
+  if (theme === "pangea") {
+    return PANGEA;
+  }
+
+  return GENERIC;
+};
+
+export const getOptions = (data: any): AuthFlowViewOptions => {
+  const options: AuthFlowViewOptions = {
     brandName: data.brand_name || "",
     startHeading: data.start_heading || "Log in or Sign up",
     startButtonLabel: data.start_button_label || "Continue with email",
