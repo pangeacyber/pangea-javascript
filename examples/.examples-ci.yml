@@ -1,6 +1,8 @@
 examples-tests:
   stage: examples
-  needs: [pangea-node-sdk-pack]
+  needs:
+    - pangea-node-sdk-pack
+    - pangea-node-sdk-integration-tests
   parallel:
     matrix:
       - NODE_VERSION: [18, 20]
