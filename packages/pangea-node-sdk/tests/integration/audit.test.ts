@@ -643,16 +643,16 @@ it("search audit log and skip consistency verification", async () => {
 });
 
 it("results audit log with search verbose", async () => {
-  const query = 'message:""';
+  const query = "message:" + MSG_SIGNED_LOCAL;
   const searchLimit = 2;
-  const searchMaxResults = 4;
+  const searchMaxResults = 6;
 
   const queryOptions: Audit.SearchParamsOptions = {
     limit: searchLimit,
     max_results: searchMaxResults,
     order: "asc",
     verbose: true,
-    start: "30d",
+    start: "7d",
   };
 
   const searchResponse = await auditGeneral.search(query, queryOptions, {});
