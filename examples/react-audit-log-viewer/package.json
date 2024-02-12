@@ -4,7 +4,7 @@
   "private": true,
   "dependencies": {
     "@emotion/react": "^11.10.4",
-    "@emotion/styled": "^11.10.4",
+    "@emotion/styled": "^11.11.0",
     "@mui/icons-material": "^5.10.6",
     "@mui/material": "^5.10.8",
     "@pangeacyber/react-mui-audit-log-viewer": "^0.0.61",
