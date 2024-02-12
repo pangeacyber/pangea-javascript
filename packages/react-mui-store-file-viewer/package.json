@@ -61,7 +61,7 @@
     "lodash": "^4.17.21",
     "merkle-tools": "^1.4.1",
     "react-beautiful-dnd": "^13.1.0",
-    "zustand": "^4.4.7"
+    "zustand": "^4.5.0"
   },
   "peerDependencies": {
     "@emotion/react": "^11.11.3",
