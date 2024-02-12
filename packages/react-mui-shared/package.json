@@ -10,7 +10,7 @@
   "types": "dist/index.d.ts",
   "devDependencies": {
     "@babel/core": "^7.19.1",
-    "@emotion/react": "^11.10.4",
+    "@emotion/react": "^11.11.3",
     "@emotion/styled": "^11.10.4",
     "@mui/icons-material": "^5.10.3",
     "@mui/material": "^5.10.5",
@@ -68,7 +68,7 @@
     "test": "jest"
   },
   "peerDependencies": {
-    "@emotion/react": "^11.10.4",
+    "@emotion/react": "^11.11.3",
     "@emotion/styled": "^11.10.4",
     "@mui/icons-material": "^5.10.3",
     "@mui/material": "^5.10.5",
