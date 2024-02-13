@@ -37,7 +37,7 @@
     "ts-jest": "^29.1.2",
     "ts-node": "^9.1.1",
     "tsc-alias": "^1.8.8",
-    "typedoc": "^0.24.8",
+    "typedoc": "^0.25.8",
     "typescript": "^5.1.6"
   },
   "scripts": {
