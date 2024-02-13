@@ -21,7 +21,7 @@
     "@rollup/plugin-replace": "^5.0.2",
     "@rollup/plugin-terser": "^0.4.3",
     "@rollup/plugin-typescript": "^8.5.0",
-    "@storybook/addon-actions": "^6.5.12",
+    "@storybook/addon-actions": "^7.6.15",
     "@storybook/addon-essentials": "^6.5.12",
     "@storybook/addon-interactions": "^6.5.12",
     "@storybook/addon-links": "^6.5.12",
