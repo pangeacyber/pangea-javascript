@@ -151,3 +151,36 @@ jobs:
         working-directory: ./packages/pangea-node-sdk
 
       - run: yarn list
+
+  examples-react-audit-log-viewer:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./examples/react-audit-log-viewer
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4.1.1
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4.0.2
+        with:
+          node-version: 18
+          cache: yarn
+          cache-dependency-path: ./examples/react-audit-log-viewer/yarn.lock
+
+      - name: Install dependencies
+        run: yarn install --frozen-lockfile
+
+      - run: yarn list
+
+      - name: Build
+        run: yarn build
+
+      - name: Unit test
+        run: yarn test
+
+      - name: Cypress run
+        uses: cypress-io/github-action@v6.6.1
+        with:
+          start: yarn start:ci
+          working-directory: ./examples/react-audit-log-viewer

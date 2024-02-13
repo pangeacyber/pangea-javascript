@@ -1,68 +1,40 @@
 {
-  "name": "audit",
+  "name": "react-audit-log-viewer",
   "version": "0.1.0",
   "private": true,
-  "dependencies": {
-    "@emotion/react": "^11.11.3",
-    "@emotion/styled": "^11.11.0",
-    "@mui/icons-material": "^5.10.6",
-    "@mui/material": "^5.10.8",
-    "@pangeacyber/react-mui-audit-log-viewer": "^0.0.61",
-    "@pangeacyber/react-mui-branding": "^0.0.11",
-    "@testing-library/jest-dom": "^6.4.2",
-    "@testing-library/react": "^13.4.0",
-    "@testing-library/user-event": "^13.5.0",
-    "@types/jest": "^27.5.2",
-    "@types/node": "^20.11.17",
-    "@types/react": "^18.2.55",
-    "@types/react-dom": "^18.2.19",
-    "react": "^18.2.0",
-    "react-dom": "^18.2.0",
-    "react-scripts": "5.0.1",
-    "typescript": "^5.3.3",
-    "web-vitals": "^2.1.4"
-  },
+  "type": "module",
   "scripts": {
-    "start": "react-app-rewired start",
-    "start:ci": "PORT=8080 react-app-rewired start",
-    "build": "react-app-rewired build",
-    "test": "react-app-rewired test",
-    "eject": "react-app-rewired eject",
-    "cypress:ci": "start-server-and-test \"npm run start:ci\" http://127.0.0.1:8080 \"npm run cypress:run\"",
+    "start": "vite",
+    "start:ci": "npm start -- --port 8080",
+    "build": "tsc && vite build",
+    "test": "vitest",
+    "cypress:ci": "start-server-and-test \"npm run start:ci\" http://localhost:8080 \"npm run cypress:run\"",
     "cypress:run": "cypress run",
     "cypress:open": "cypress open",
-    "cypress:info": "cypress info",
-    "lint": "npx prettier --check .",
-    "prettier:fix": "npx prettier . -w"
+    "cypress:info": "cypress info"
   },
-  "eslintConfig": {
-    "extends": [
-      "react-app",
-      "react-app/jest"
-    ]
-  },
-  "browserslist": {
-    "production": [
-      ">0.2%",
-      "not dead",
-      "not op_mini all"
-    ],
-    "development": [
-      "last 1 chrome version",
-      "last 1 firefox version",
-      "last 1 safari version"
-    ]
+  "dependencies": {
+    "@emotion/react": "11.11.3",
+    "@emotion/styled": "11.11.0",
+    "@mui/icons-material": "5.15.10",
+    "@mui/material": "5.15.10",
+    "@pangeacyber/react-mui-audit-log-viewer": "0.0.61",
+    "@pangeacyber/react-mui-branding": "0.0.13",
+    "react": "18.2.0",
+    "react-dom": "18.2.0"
   },
   "devDependencies": {
-    "@testing-library/cypress": "^8.0.3",
-    "buffer": "^6.0.3",
-    "cypress": "^11.2.0",
-    "react-app-rewired": "^2.2.1",
-    "start-server-and-test": "^2.0.3",
-    "stream-browserify": "^3.0.0",
-    "util": "^0.12.5"
-  },
-  "resolutions": {
-    "resolve-url-loader": "5.0.0"
+    "@testing-library/jest-dom": "6.4.2",
+    "@testing-library/react": "14.2.1",
+    "@tsconfig/cypress": "1.0.1",
+    "@tsconfig/vite-react": "3.0.0",
+    "@types/react-dom": "18.2.19",
+    "@vitejs/plugin-react": "4.2.1",
+    "cypress": "13.6.4",
+    "happy-dom": "13.3.8",
+    "start-server-and-test": "2.0.3",
+    "typescript": "5.3.3",
+    "vite": "5.1.1",
+    "vitest": "1.2.2"
   }
 }
