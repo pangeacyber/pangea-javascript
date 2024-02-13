@@ -28,7 +28,7 @@
     "@storybook/builder-webpack4": "^6.5.12",
     "@storybook/manager-webpack4": "^6.5.12",
     "@storybook/react": "^6.5.12",
-    "@storybook/testing-library": "^0.0.13",
+    "@storybook/testing-library": "^0.2.2",
     "@testing-library/jest-dom": "^5.16.5",
     "@testing-library/react": "^14.2.1",
     "@types/jest": "^29.1.1",
