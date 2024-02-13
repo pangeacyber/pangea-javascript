@@ -1,4 +1,3 @@
-// /rollup.config.js
 import resolve from "@rollup/plugin-node-resolve";
 import external from "rollup-plugin-peer-deps-external";
 import terser from "@rollup/plugin-terser";
@@ -10,7 +9,7 @@ import dts from "rollup-plugin-dts";
 import json from "@rollup/plugin-json";
 import nodePolyfills from "rollup-plugin-polyfill-node";
 
-import pkg from "./package.json";
+import pkg from "./package.json" assert { type: "json" };
 
 export default [
   {
