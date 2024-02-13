@@ -42,21 +42,7 @@ jobs:
             "examples-matrix=" + (split("\n") | map(select(length > 0)) | tostring)
         run: find . -type f -name 'yarn.lock' -printf '%h\n' | cut -c 3- | sort -u | jq -cRrs '${{ env.JQ_FILTER }}' >> "$GITHUB_OUTPUT"
 
-  prefetch:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v4.1.1
-
-      - name: Setup Node.js
-        uses: actions/setup-node@v4.0.2
-        with:
-          node-version: 20
-          cache: yarn
-          cache-dependency-path: "**/yarn.lock"
-
   build:
-    needs: [prefetch]
     runs-on: ubuntu-latest
     defaults:
       run:
@@ -118,7 +104,7 @@ jobs:
         run: yarn test:unit --ci --coverage
 
   examples:
-    needs: [setup, prefetch, build]
+    needs: [setup, build]
     runs-on: ubuntu-latest
     strategy:
       matrix:
