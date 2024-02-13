@@ -10,7 +10,7 @@
     "@pangeacyber/react-mui-audit-log-viewer": "^0.0.61",
     "@pangeacyber/react-mui-branding": "^0.0.11",
     "@testing-library/jest-dom": "^6.4.2",
-    "@testing-library/react": "^13.4.0",
+    "@testing-library/react": "^14.2.1",
     "@testing-library/user-event": "^13.5.0",
     "@types/jest": "^27.5.2",
     "@types/node": "^20.11.17",
