@@ -5,7 +5,7 @@ import postcss from "rollup-plugin-postcss";
 import typescript from "@rollup/plugin-typescript";
 import commonjs from "@rollup/plugin-commonjs";
 import replace from "@rollup/plugin-replace";
-import dts from "rollup-plugin-dts";
+import { dts } from "rollup-plugin-dts";
 import json from "@rollup/plugin-json";
 import nodePolyfills from "rollup-plugin-polyfill-node";
 
@@ -44,7 +44,7 @@ export default [
     external: Object.keys(pkg.peerDependencies || {}),
   },
   {
-    input: "dist/esm/index.d.ts",
+    input: "dist/esm/types/index.d.ts",
     output: [{ file: "dist/index.d.ts", format: "esm" }],
     external: [/\.css$/],
     plugins: [dts()],
