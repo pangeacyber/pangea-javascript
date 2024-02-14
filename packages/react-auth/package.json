@@ -29,7 +29,7 @@
     "@rollup/plugin-json": "^6.1.0",
     "@rollup/plugin-node-resolve": "^15.2.3",
     "@rollup/plugin-terser": "^0.4.4",
-    "@rollup/plugin-typescript": "^9.0.2",
+    "@rollup/plugin-typescript": "^11.1.6",
     "@types/lodash": "^4.14.186",
     "@types/node": "^18.11.7",
     "@types/react": "^18.0.24",
