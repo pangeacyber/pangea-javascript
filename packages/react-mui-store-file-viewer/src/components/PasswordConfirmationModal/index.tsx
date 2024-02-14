@@ -1,6 +1,7 @@
 import { FC, ReactNode, useEffect, useState } from "react";
 import { Button, ButtonProps, Stack, TextField } from "@mui/material";
 import { AuthPasswordField, PangeaModal } from "@pangeacyber/react-mui-shared";
+import { useBreakpoint } from "../../utils";
 
 export interface PangeaDeleteModalProps {
   open: boolean;
@@ -17,7 +18,7 @@ const PasswordConfirmationModal: FC<PangeaDeleteModalProps> = ({
   description,
   onContinue,
 }) => {
-  const isSmall = false; // useBreakpoint("sm");
+  const isSmall = useBreakpoint("sm");
   const [name, setName] = useState("");
   const [loading, setLoading] = useState(false);
 

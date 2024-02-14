@@ -134,6 +134,8 @@ const StoreObjectIcon: FC<Props> = ({ type, mimeType, password, ...props }) => {
               left: "5px",
               fontSize: "7px",
               color: "#fff",
+              height: "17px",
+              lineHeight: "1.5rem",
             }}
           >
             {upperCase(mimeType)}
