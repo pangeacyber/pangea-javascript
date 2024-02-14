@@ -1,4 +1,4 @@
-export { default as FieldsPreview, FieldsPreviewProps } from "./FieldsPreview";
+export { default as FieldsPreview, type FieldsPreviewProps } from "./FieldsPreview";
 
 export { default as FieldsLabel } from "./FieldLabel";
 
@@ -8,8 +8,8 @@ export type { FieldsPreviewSchema } from "./FieldsPreview/types";
 
 export {
   default as FieldsForm,
-  SaveButtonProps,
-  FieldsFormProps,
+  type SaveButtonProps,
+  type FieldsFormProps,
 } from "./FieldsForm";
 
 export type { FieldsFormSchema, FieldComponentProps } from "./FieldsForm/types";

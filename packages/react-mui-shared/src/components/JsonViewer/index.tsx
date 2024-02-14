@@ -1,13 +1,8 @@
-import { FC, lazy } from "react";
+import { FC } from "react";
 import { Box } from "@mui/material";
 import { useTheme } from "@mui/material/styles";
 import { useReactJsonViewHighlight, Highlight } from "./utils";
-import { ReactJsonViewProps } from "react-json-view";
-
-let ReactJson: FC<ReactJsonViewProps> = () => null;
-if (typeof window !== "undefined") {
-  ReactJson = require("react-json-view").default;
-}
+import ReactJson from "react-json-view";
 
 export interface JsonViewerProps {
   src: object;
