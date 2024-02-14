@@ -5,6 +5,7 @@ import AddIcon from "@mui/icons-material/Add";
 
 import CreateNewFileButton from "../CreateNewFileButton";
 import CreateNewFolderButton from "../CreateNewFolderButton";
+import CreateNewProtectedFileButton from "../CreateNewProtectedFileButton";
 
 const CreateNewButton: FC = ({}) => {
   const theme = useTheme();
@@ -30,11 +31,11 @@ const CreateNewButton: FC = ({}) => {
         anchorEl={optionsEl}
         onClose={() => setOptionsEl(null)}
         sx={{
-          width: "200px",
+          width: "300px",
         }}
         PaperProps={{
           sx: {
-            width: "200px",
+            width: "300px",
           },
         }}
       >
@@ -69,6 +70,19 @@ const CreateNewButton: FC = ({}) => {
               },
               // @ts-ignore
               "data-testid": "New-File-Btn",
+            }}
+            onClose={handleClick}
+          />
+          <CreateNewProtectedFileButton
+            ButtonProps={{
+              sx: {
+                color: theme.palette.text.primary,
+                width: "100%",
+                paddingLeft: 2,
+                justifyContent: "start",
+              },
+              // @ts-ignore
+              "data-testid": "New-ProtectedFile-Btn",
             }}
             onClose={handleClick}
           />

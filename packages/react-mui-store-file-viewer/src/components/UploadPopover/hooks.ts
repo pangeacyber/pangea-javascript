@@ -7,6 +7,7 @@ export interface FileUpload {
   state: FileUploadState;
   message?: string;
   parent?: ObjectStore.ObjectResponse;
+  body?: Partial<ObjectStore.PutRequest>;
 }
 
 export interface UploadPopoverStore {
@@ -19,7 +20,8 @@ export const useUploadPopover = create<UploadPopoverStore>(() => ({
 
 export const uploadFiles = (
   files: FileList,
-  parent: ObjectStore.ObjectResponse | undefined = undefined
+  parent: ObjectStore.ObjectResponse | undefined = undefined,
+  body: Partial<ObjectStore.PutRequest> | undefined = undefined
 ) => {
   const uploads = { ...useUploadPopover.getState().uploads };
 
@@ -31,6 +33,9 @@ export const uploadFiles = (
       state: "waiting",
       ...(!!parent && {
         parent,
+      }),
+      ...(!!body && {
+        body,
       }),
     };
   }

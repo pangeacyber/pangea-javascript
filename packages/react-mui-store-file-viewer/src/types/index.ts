@@ -300,11 +300,14 @@ export namespace ObjectStore {
     metadata_protected?: {
       format?: string;
       mimetype?: string;
+
+      "vault-password-algorithm"?: string;
     };
 
     // Internal from flattenning metadata_protected
     format?: string;
     mimetype?: string;
+    "vault-password-algorithm"?: string;
   }
 
   export interface ListResponse {
@@ -354,6 +357,9 @@ export namespace ObjectStore {
 
     // TODO: Why is this needed in request?
     size?: number;
+
+    password?: string;
+    password_algorithm?: "AES-CFB-128" | "AES-CFB-256";
   }
 
   export interface PutResponse {
@@ -397,6 +403,11 @@ export namespace ObjectStore {
 
     metadata?: Record<string, any>;
     tags?: string[];
+
+    add_password?: string;
+    add_password_algorithm?: "AES-CFB-128" | "AES-CFB-256";
+
+    remove_password?: string;
   }
 
   export interface UpdateResponse {}
@@ -429,6 +440,8 @@ export namespace ObjectStore {
 
     // ?
     transfer_method?: string; // direct, multipart
+
+    password?: string;
   }
 
   export interface GetResponse {

@@ -1,18 +1,17 @@
-import { FC, useState, useEffect } from "react";
-import { Box, IconButton, Menu, Stack, Tooltip } from "@mui/material";
+import { FC, useState } from "react";
+import { IconButton, Stack, Tooltip } from "@mui/material";
 import { useTheme } from "@mui/material/styles";
 import DownloadIcon from "@mui/icons-material/Download";
 
 import { ObjectStore } from "../../types";
 
 import DownloadingIcon from "@mui/icons-material/Downloading";
-import ReplayIcon from "@mui/icons-material/Replay";
 
 import { useStoreFileViewerContext } from "../../hooks/context";
 import { parseErrorFromPangea } from "../../utils";
 import DeleteFileButton from "../DeleteFileButton";
 import RenameFileIconButton from "../UpdateFileButton/RenameFileIconButton";
-import { alertOnError } from "../AlertSnackbar/hooks";
+import { downloadFile } from "../../utils/file";
 
 interface VaultItemOptionsProps {
   data: ObjectStore.ObjectResponse;
@@ -26,47 +25,15 @@ const DownloadFileOptions: FC<VaultItemOptionsProps> = ({ data }) => {
   const [error, setError] = useState<string | null>(null);
 
   const handleDownloadFile = () => {
-    if (downloading || !data.id || !apiRef.get) return;
+    if (downloading) return;
     setDownloading(true);
 
-    if (data.type === "folder" && !!apiRef.getArchive) {
-      return apiRef
-        .getArchive({
-          ids: [data.id],
-          format: "zip",
-          transfer_method: "dest-url",
-        })
-        .then((response) => {
-          setDownloading(false);
-          if (response.status === "Success" && !!response.result.dest_url) {
-            setError(null);
-            const location = response.result.dest_url;
-            if (location) {
-              window.open(location, "_blank");
-            }
-          }
-        })
-        .catch((err) => {
-          alertOnError(err);
-          setError(parseErrorFromPangea(err));
-          setDownloading(false);
-        });
-    }
-
-    return apiRef
-      .get({ id: data.id, transfer_method: "dest-url" })
-      .then((response) => {
+    return downloadFile(data, apiRef)
+      .then(() => {
         setDownloading(false);
-        if (response.status === "Success") {
-          setError(null);
-          const location = response.result.dest_url;
-          if (location) {
-            window.open(location, "_blank");
-          }
-        }
+        setError(null);
       })
       .catch((err) => {
-        alertOnError(err);
         setError(parseErrorFromPangea(err));
         setDownloading(false);
       });

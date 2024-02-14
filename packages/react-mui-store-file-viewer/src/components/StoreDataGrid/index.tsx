@@ -26,6 +26,8 @@ import { PREVIEW_FILE_WIDTH } from "../PreviewStoreFile/constants";
 import MultiSelectMenu from "./MultiSelectMenu";
 import UploadPopover from "../UploadPopover";
 import DataGridParentStack from "./DataGridParentStack";
+import { downloadFile } from "../../utils/file";
+import DownloadPopover from "../DownloadPasswordPopover";
 
 export interface StoreDataGridProps {
   defaultVisibilityModel?: Record<string, boolean>;
@@ -141,23 +143,18 @@ const StoreDataGrid: FC<StoreDataGridProps> = ({
 
   const [downloading, setDownloading] = useState(false);
   const handleDownloadFile = (id: string) => {
-    if (downloading || !id || !apiRef?.get) return;
+    if (downloading || !id) return;
+
+    const objectMap = keyBy(data.objects ?? [], "id");
+    const object = objectMap[id];
+    if (!object) return;
 
     setDownloading(true);
-    apiRef
-      .get({
-        id,
-        transfer_method: "dest-url",
+    return downloadFile(object, apiRef)
+      .then(() => {
+        setDownloading(false);
       })
-      .then((response) => {
-        if (response.status === "Success") {
-          const location = response.result.dest_url;
-          if (location) {
-            window.open(location, "_blank");
-          }
-        }
-      })
-      .finally(() => {
+      .catch((err) => {
         setDownloading(false);
       });
   };
@@ -198,10 +195,10 @@ const StoreDataGrid: FC<StoreDataGridProps> = ({
           if (params.row.type === ObjectStore.ObjectType.Folder) {
             setParentId(params.row.id);
             /** 
-                    setFolder(
-                        ["", folder, params.row.name].join("/").replaceAll("//", "/")
-                    );
-                    */
+            setFolder(
+                ["", folder, params.row.name].join("/").replaceAll("//", "/")
+            );
+            */
             return false;
           } else {
             handleDownloadFile(params.row.id);
@@ -243,6 +240,10 @@ const StoreDataGrid: FC<StoreDataGridProps> = ({
           render: (object) => (
             <FileOptions
               object={object}
+              onOpen={() => {
+                setPreviewId(object.id);
+                setMultiSelected([object.id]);
+              }}
               onClose={() => {}}
               displayDownloadInline
             />
@@ -317,6 +318,7 @@ const StoreDataGrid: FC<StoreDataGridProps> = ({
         }}
       />
       <UploadPopover />
+      <DownloadPopover />
       <MultiSelectMenu
         selected={multiSelected}
         contextMenu={contextMenu}

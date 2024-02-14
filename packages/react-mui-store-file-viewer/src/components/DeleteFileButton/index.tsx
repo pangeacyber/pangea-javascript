@@ -56,7 +56,6 @@ const DeleteFileButton: FC<Props> = ({
         ) : (
           <Button
             sx={{ width: "100%" }}
-            color="error"
             variant="text"
             startIcon={<DeleteIcon fontSize="small" />}
             onClick={props.onClick}
