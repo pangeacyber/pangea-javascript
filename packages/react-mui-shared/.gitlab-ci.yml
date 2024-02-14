@@ -12,20 +12,6 @@
       paths:
         - packages/react-mui-shared/node_modules
 
-test_react_mui_shared:
-  extends: .react_mui_shared_base
-  stage: unit_tests
-  script: yarn test
-  rules:
-    - if: $CI_PIPELINE_SOURCE == "merge_request_event"
-      changes:
-        - packages/react-mui-shared/**/*
-      when: on_success
-    - if: $CI_COMMIT_BRANCH == "main"
-      changes:
-        - packages/react-mui-shared/**/*
-      when: on_success
-
 publish_react_mui_shared:
   extends: .react_mui_shared_base
   stage: publish

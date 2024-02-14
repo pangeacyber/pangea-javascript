@@ -146,7 +146,9 @@ export const getDisplayDateRange = (range: string): string => {
   const { amount, span, relativeRange } = getRelativeDateRange(range);
 
   const spanDisplay = get(RANGE_TO_DISPLAY, relativeRange, startCase(span));
-  const plural = !spanDisplay.endsWith("s") && amount > 1 ? "s" : "";
+  const plural = !spanDisplay.endsWith("s") && typeof amount === "number" && amount > 1
+    ? "s"
+    : "";
   return `${amount} ${spanDisplay}${plural}`;
 };
 
@@ -195,7 +197,7 @@ const RelativeDateRangeField: FC<RelativeDateRangeFieldProps> = ({
     }
   };
 
-  const plural = amount > 1 ? "s" : "";
+  const plural = typeof amount === "number" && amount > 1 ? "s" : "";
   return (
     <>
       <FormGroup
