@@ -14,7 +14,7 @@
     "node": "18 || >=20"
   },
   "dependencies": {
-    "@node-rs/crc32": "^1.7.2",
+    "@aws-crypto/crc32c": "^5.2.0",
     "crypto-js": "^4.2.0",
     "form-data": "^4.0.0",
     "got": "^13.0.0",
