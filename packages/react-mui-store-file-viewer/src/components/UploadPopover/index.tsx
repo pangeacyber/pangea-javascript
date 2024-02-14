@@ -76,6 +76,9 @@ export default function UploadPopover() {
     return apiRef
       .upload(
         createMultipartUploadForm(upload.file, {
+          ...(!!upload.body && {
+            ...upload.body,
+          }),
           ...(!!(parent || upload.parent) && {
             parent_id: upload.parent?.id ?? parent?.id,
           }),
@@ -279,7 +282,14 @@ export default function UploadPopover() {
                                 overflow: "hidden",
                               }}
                             >
-                              <StoreObjectIcon type={""} mimeType={mimeType} />
+                              <StoreObjectIcon
+                                type={""}
+                                mimeType={mimeType}
+                                password={
+                                  !!upload?.body?.password &&
+                                  !!upload?.body?.password_algorithm
+                                }
+                              />
                               <Typography
                                 color={
                                   upload.state === "uploaded"

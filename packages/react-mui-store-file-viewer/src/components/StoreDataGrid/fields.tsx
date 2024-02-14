@@ -18,7 +18,14 @@ export const StoreViewerFields: PDG.GridSchemaFields<ObjectStore.ObjectResponse>
         const mimeType = (obj.name ?? "").split(".").at(-1) ?? "";
         return (
           <Stack direction="row" alignItems="center" spacing={1}>
-            <StoreObjectIcon type={obj.type} mimeType={mimeType} />
+            <StoreObjectIcon
+              type={obj.type}
+              mimeType={mimeType}
+              password={
+                !!obj?.["vault-password-algorithm"] ||
+                !!obj.metadata_protected?.["vault-password-algorithm"]
+              }
+            />
             <TextCell params={params} />
           </Stack>
         );

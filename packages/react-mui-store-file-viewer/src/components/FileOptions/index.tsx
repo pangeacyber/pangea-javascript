@@ -8,15 +8,19 @@ import DownloadIcon from "@mui/icons-material/Download";
 import DeleteFileButton from "../DeleteFileButton";
 import { ObjectStore } from "../../types";
 import UpdateFileButton from "../UpdateFileButton";
+import RemoveFilePasswordButton from "../RemoveFilePasswordButton";
+import AddFilePasswordButton from "../AddFilePasswordButton";
 
 interface VaultItemOptionsProps {
   object: ObjectStore.ObjectResponse;
+  onOpen?: () => void;
   onClose: () => void;
   displayDownloadInline?: boolean;
 }
 
 const FileOptions: FC<VaultItemOptionsProps> = ({
   object,
+  onOpen,
   onClose,
   displayDownloadInline,
 }) => {
@@ -41,6 +45,7 @@ const FileOptions: FC<VaultItemOptionsProps> = ({
       <Box sx={{ marginLeft: "auto" }}>
         <IconButton
           onClick={(event) => {
+            if (!!onOpen) onOpen();
             setOptionsEl(event.currentTarget);
             event.stopPropagation();
           }}
@@ -65,6 +70,12 @@ const FileOptions: FC<VaultItemOptionsProps> = ({
             },
           }}
         >
+          {!!object?.["vault-password-algorithm"] ||
+          !!object?.metadata_protected?.["vault-password-algorithm"] ? (
+            <RemoveFilePasswordButton object={object} onClose={handleClose} />
+          ) : (
+            <AddFilePasswordButton object={object} onClose={handleClose} />
+          )}
           <UpdateFileButton object={object} onClose={handleClose} />
           <DeleteFileButton object={object} onClose={handleClose} />
         </Menu>

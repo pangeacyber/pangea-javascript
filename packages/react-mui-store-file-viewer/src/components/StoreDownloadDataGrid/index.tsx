@@ -23,6 +23,7 @@ import { StoreDataGridProps } from "../StoreDataGrid";
 import MultiSelectMenu from "../StoreDataGrid/MultiSelectMenu";
 import DataGridParentStack from "../StoreDataGrid/DataGridParentStack";
 import UploadPopover from "../UploadPopover";
+import { downloadFile } from "../../utils/file";
 
 export const DEFAULT_VISIBILITY_MODEL = {
   name: true,
@@ -128,23 +129,18 @@ const StoreDownloadDataGrid: FC<StoreDataGridProps> = ({
 
   const [downloading, setDownloading] = useState(false);
   const handleDownloadFile = (id: string) => {
-    if (downloading || !id || !apiRef?.get) return;
+    if (downloading || !id) return;
+
+    const objectMap = keyBy(data.objects ?? [], "id");
+    const object = objectMap[id];
+    if (!object) return;
 
     setDownloading(true);
-    apiRef
-      .get({
-        id,
-        transfer_method: "dest-url",
+    return downloadFile(object, apiRef)
+      .then(() => {
+        setDownloading(false);
       })
-      .then((response) => {
-        if (response.status === "Success") {
-          const location = response.result.dest_url;
-          if (location) {
-            window.open(location, "_blank");
-          }
-        }
-      })
-      .finally(() => {
+      .catch((err) => {
         setDownloading(false);
       });
   };
