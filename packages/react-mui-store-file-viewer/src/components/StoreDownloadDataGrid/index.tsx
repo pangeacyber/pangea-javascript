@@ -24,6 +24,7 @@ import MultiSelectMenu from "../StoreDataGrid/MultiSelectMenu";
 import DataGridParentStack from "../StoreDataGrid/DataGridParentStack";
 import UploadPopover from "../UploadPopover";
 import { downloadFile } from "../../utils/file";
+import DownloadPopover from "../DownloadPasswordPopover";
 
 export const DEFAULT_VISIBILITY_MODEL = {
   name: true,
@@ -133,7 +134,7 @@ const StoreDownloadDataGrid: FC<StoreDataGridProps> = ({
 
     const objectMap = keyBy(data.objects ?? [], "id");
     const object = objectMap[id];
-    if (!object) return;
+    if (!object?.id) return;
 
     setDownloading(true);
     return downloadFile(object, apiRef)
@@ -259,6 +260,7 @@ const StoreDownloadDataGrid: FC<StoreDataGridProps> = ({
         }
       />
       {!!apiRef?.upload && <UploadPopover />}
+      <DownloadPopover />
       <MultiSelectMenu
         selected={multiSelected}
         contextMenu={contextMenu}
