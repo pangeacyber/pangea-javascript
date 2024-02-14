@@ -2307,10 +2307,10 @@
     sass-loader "^13.2.2"
     style-loader "^3.3.2"
 
-"@storybook/addon-themes@7.6.13":
-  version "7.6.13"
-  resolved "https://registry.yarnpkg.com/@storybook/addon-themes/-/addon-themes-7.6.13.tgz#5ab4f134602baef8af555e0cd307212ffbb1c2c5"
-  integrity sha512-7Qgvwt8RGTLeEYHB4Hj7kzrKonINLQN4Bf9MTmEfAPtG1bgvc1lHYiG4ZmfAjlkvZCLvQGOMzZSt+PCdb9FKfQ==
+"@storybook/addon-themes@7.6.15":
+  version "7.6.15"
+  resolved "https://registry.yarnpkg.com/@storybook/addon-themes/-/addon-themes-7.6.15.tgz#4ad1b45e095a79ab837d7b81d40e5372fd4f0938"
+  integrity sha512-wslDMMCRuIxTKkws0tux+8rs329HhQjlra1eCGQjNveYjhW7RHVxRKKnwV1KBAmnQN6R5Lxx3RRlGOB/Q94Uqg==
   dependencies:
     ts-dedent "^2.0.0"
 
