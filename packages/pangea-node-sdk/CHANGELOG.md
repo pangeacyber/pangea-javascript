@@ -10,6 +10,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 
 - `rotation_state` field support in key rotation in Vault service.
+- Vault service. Post quantum signing algorithms support
 
 ### Changed
 
