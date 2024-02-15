@@ -30,7 +30,7 @@
     "@rollup/plugin-typescript": "^11.1.6",
     "@storybook/addon-actions": "^7.6.15",
     "@storybook/addon-essentials": "^7.6.15",
-    "@storybook/addon-interactions": "^7.6.15",
+    "@storybook/addon-interactions": "^7.6.16",
     "@storybook/addon-links": "^7.6.15",
     "@storybook/react": "^7.6.15",
     "@storybook/react-vite": "^7.6.15",
