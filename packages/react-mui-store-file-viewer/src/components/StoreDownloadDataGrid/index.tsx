@@ -1,8 +1,9 @@
-import { FC, useMemo, useState } from "react";
+import { FC, SetStateAction, useCallback, useMemo, useState } from "react";
 import isEmpty from "lodash/isEmpty";
 import pickBy from "lodash/pickBy";
 import find from "lodash/find";
 import uniq from "lodash/uniq";
+import keyBy from "lodash/keyBy";
 
 import {
   LinedPangeaDataGrid,
@@ -22,6 +23,8 @@ import { StoreDataGridProps } from "../StoreDataGrid";
 import MultiSelectMenu from "../StoreDataGrid/MultiSelectMenu";
 import DataGridParentStack from "../StoreDataGrid/DataGridParentStack";
 import UploadPopover from "../UploadPopover";
+import { downloadFile } from "../../utils/file";
+import DownloadPopover from "../DownloadPasswordPopover";
 
 export const DEFAULT_VISIBILITY_MODEL = {
   name: true,
@@ -55,7 +58,29 @@ const StoreDownloadDataGrid: FC<StoreDataGridProps> = ({
     mouseX: number;
     mouseY: number;
   } | null>(null);
-  const [multiSelected, setMultiSelected] = useState<string[]>([]);
+
+  const [selected, setSelected] = useState<string[]>([]);
+  const setMultiSelected = useCallback(
+    (update: SetStateAction<string[]>) => {
+      setSelected((state) => {
+        let newState = state;
+        if (typeof update === "function") {
+          newState = update(state);
+        } else {
+          newState = update;
+        }
+
+        const objectMap = keyBy(data.objects ?? [], "id");
+        return uniq(newState).filter((objectId) => !!objectMap[objectId]);
+      });
+    },
+    [data, setSelected]
+  );
+
+  const multiSelected = useMemo(() => {
+    const objectMap = keyBy(data.objects ?? [], "id");
+    return selected.filter((objectId) => !!objectMap[objectId]);
+  }, [selected, data]);
 
   const handleGetRowClassName = (params: {
     id: string | number;
@@ -79,7 +104,11 @@ const StoreDownloadDataGrid: FC<StoreDataGridProps> = ({
       const row = Number(rowEl.getAttribute("data-rowindex"));
       if (!Number.isNaN(row) && row >= 0 && row < data.objects.length) {
         const object = data.objects[row];
-        setMultiSelected((state) => uniq(state.concat([object.id])));
+        if (event.shiftKey || multiSelected.includes(object.id)) {
+          setMultiSelected((state) => state.concat([object.id]));
+        } else {
+          setMultiSelected([object.id]);
+        }
         foundParent = true;
       }
     }
@@ -101,23 +130,18 @@ const StoreDownloadDataGrid: FC<StoreDataGridProps> = ({
 
   const [downloading, setDownloading] = useState(false);
   const handleDownloadFile = (id: string) => {
-    if (downloading || !id || !apiRef?.get) return;
+    if (downloading || !id) return;
+
+    const objectMap = keyBy(data.objects ?? [], "id");
+    const object = objectMap[id];
+    if (!object?.id) return;
 
     setDownloading(true);
-    apiRef
-      .get({
-        id,
-        transfer_method: "dest-url",
+    return downloadFile(object, apiRef)
+      .then(() => {
+        setDownloading(false);
       })
-      .then((response) => {
-        if (response.status === "Success") {
-          const location = response.result.dest_url;
-          if (location) {
-            window.open(location, "_blank");
-          }
-        }
-      })
-      .finally(() => {
+      .catch((err) => {
         setDownloading(false);
       });
   };
@@ -162,7 +186,7 @@ const StoreDownloadDataGrid: FC<StoreDataGridProps> = ({
           if (event.shiftKey) {
             event.preventDefault();
             document.getSelection()?.removeAllRanges();
-            setMultiSelected((state) => uniq(state.concat([params.row.id])));
+            setMultiSelected((state) => state.concat([params.row.id]));
           } else {
             setMultiSelected([params.row.id]);
           }
@@ -236,6 +260,7 @@ const StoreDownloadDataGrid: FC<StoreDataGridProps> = ({
         }
       />
       {!!apiRef?.upload && <UploadPopover />}
+      <DownloadPopover />
       <MultiSelectMenu
         selected={multiSelected}
         contextMenu={contextMenu}

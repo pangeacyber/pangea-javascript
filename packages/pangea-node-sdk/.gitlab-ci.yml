@@ -1,13 +1,13 @@
-.pangea_node_sdk_base:
+.pangea-node-sdk-base:
   before_script:
     - cd packages/pangea-node-sdk
-    - yarn install --frozen-lockfile --immutable
+    - yarn install --frozen-lockfile
   cache:
     - key:
         files:
-          - yarn.lock
+          - packages/pangea-node-sdk/yarn.lock
       paths:
-        - node_modules
+        - packages/pangea-node-sdk/node_modules
   rules:
     - if: $CI_COMMIT_BRANCH || $CI_PIPELINE_SOURCE == "push"
       changes:
@@ -15,7 +15,101 @@
         - packages/pangea-node-sdk/**/*
       when: on_success
 
-.pangea_node_sdk_publish:
+pangea-node-sdk-integration-tests:
+  stage: integration_tests
+  variables:
+    # Set each service test environment
+    SERVICE_AUDIT_ENV: LVE
+    SERVICE_AUTHN_ENV: LVE
+    SERVICE_EMBARGO_ENV: LVE
+    SERVICE_FILE_SCAN_ENV: LVE
+    SERVICE_IP_INTEL_ENV: LVE
+    SERVICE_DOMAIN_INTEL_ENV: LVE
+    SERVICE_URL_INTEL_ENV: LVE
+    SERVICE_FILE_INTEL_ENV: LVE
+    SERVICE_USER_INTEL_ENV: LVE
+    SERVICE_REDACT_ENV: LVE
+    SERVICE_VAULT_ENV: LVE
+    NODE_OPTIONS: "--experimental-vm-modules --openssl-legacy-provider"
+  before_script:
+    - echo $ENV
+    - echo $CLOUD
+    - echo $TEST
+    # Update environment variables
+    # Domain
+    - export PANGEA_INTEGRATION_DOMAIN_${ENV}="$(eval echo \$PANGEA_INTEGRATION_DOMAIN_${ENV}_${CLOUD})"
+    # Tokens
+    - export PANGEA_INTEGRATION_TOKEN_${ENV}="$(eval echo \$PANGEA_INTEGRATION_TOKEN_${ENV}_${CLOUD})"
+    - export PANGEA_INTEGRATION_VAULT_TOKEN_${ENV}="$(eval echo \$PANGEA_INTEGRATION_VAULT_TOKEN_${ENV}_${CLOUD})"
+    - export PANGEA_INTEGRATION_CUSTOM_SCHEMA_TOKEN_${ENV}="$(eval echo \$PANGEA_INTEGRATION_CUSTOM_SCHEMA_TOKEN_${ENV}_${CLOUD})"
+    - export PANGEA_INTEGRATION_MULTI_CONFIG_TOKEN_${ENV}="$(eval echo \$PANGEA_INTEGRATION_MULTI_CONFIG_TOKEN_${ENV}_${CLOUD})"
+    # Config IDs
+    - export PANGEA_AUDIT_CONFIG_ID_1_${ENV}="$(eval echo \$PANGEA_AUDIT_CONFIG_ID_1_${ENV}_${CLOUD})"
+    - export PANGEA_AUDIT_CONFIG_ID_2_${ENV}="$(eval echo \$PANGEA_AUDIT_CONFIG_ID_2_${ENV}_${CLOUD})"
+    - export PANGEA_REDACT_CONFIG_ID_1_${ENV}="$(eval echo \$PANGEA_REDACT_CONFIG_ID_1_${ENV}_${CLOUD})"
+    - export PANGEA_REDACT_CONFIG_ID_2_${ENV}="$(eval echo \$PANGEA_REDACT_CONFIG_ID_2_${ENV}_${CLOUD})"
+
+    - cd packages/pangea-node-sdk
+    - yarn install --frozen-lockfile
+  cache:
+    - key:
+        files:
+          - packages/pangea-node-sdk/yarn.lock
+      paths:
+        - packages/pangea-node-sdk/node_modules
+  parallel:
+    matrix:
+      - CLOUD: [AWS, GCP]
+        ENV: ${SERVICE_AUDIT_ENV}
+        TEST: audit
+      - CLOUD: [AWS, GCP]
+        ENV: ${SERVICE_AUTHN_ENV}
+        TEST: authn
+      - CLOUD: [AWS, GCP]
+        ENV: ${SERVICE_EMBARGO_ENV}
+        TEST: embargo
+      - CLOUD: [AWS, GCP]
+        ENV: ${SERVICE_DOMAIN_INTEL_ENV}
+        TEST: intel.domain
+      - CLOUD: [AWS, GCP]
+        ENV: ${SERVICE_IP_INTEL_ENV}
+        TEST: intel.ip
+      - CLOUD: [AWS, GCP]
+        ENV: ${SERVICE_URL_INTEL_ENV}
+        TEST: intel.url
+      - CLOUD: [AWS, GCP]
+        ENV: ${SERVICE_USER_INTEL_ENV}
+        TEST: intel.user
+      - CLOUD: [AWS, GCP]
+        ENV: ${SERVICE_FILE_INTEL_ENV}
+        TEST: intel.file
+      - CLOUD: [AWS]
+        ENV: ${SERVICE_FILE_SCAN_ENV}
+        TEST: file_scan
+      - CLOUD: [AWS, GCP]
+        ENV: ${SERVICE_REDACT_ENV}
+        TEST: redact
+      - CLOUD: [AWS, GCP]
+        ENV: ${SERVICE_VAULT_ENV}
+        TEST: vault
+  rules:
+    - if: '$CI_COMMIT_BRANCH || $CI_PIPELINE_SOURCE == "push"'
+      changes:
+        - examples/**/*
+        - packages/pangea-node-sdk/**/*
+  script:
+    - npx jest --testPathPattern=tests/integration/${TEST}.test.ts
+
+pangea-node-sdk-integration-tests-may-fail:
+  extends: pangea-node-sdk-integration-tests
+  parallel:
+    matrix:
+      - CLOUD: [GCP]
+        ENV: ${SERVICE_FILE_SCAN_ENV}
+        TEST: file_scan
+  allow_failure: true
+
+.pangea-node-sdk-publish:
   before_script:
     - cd packages/pangea-node-sdk
     - yarn install --frozen-lockfile
@@ -24,19 +118,18 @@
   cache:
     - key:
         files:
-          - yarn.lock
+          - packages/pangea-node-sdk/yarn.lock
       paths:
-        - node_modules
+        - packages/pangea-node-sdk/node_modules
   rules:
     - if: $CI_COMMIT_BRANCH == "release"
       changes:
         - packages/pangea-node-sdk/**/*
       when: on_success
 
-build_pangea_node_sdk:
-  extends: .pangea_node_sdk_base
-  needs: []
-  stage: Build
+pangea-node-sdk-build:
+  extends: .pangea-node-sdk-base
+  stage: build
   script:
     - yarn build
   artifacts:
@@ -47,10 +140,10 @@ build_pangea_node_sdk:
         - examples/**/*
         - packages/pangea-node-sdk/**/*
 
-pack_pangea_node_sdk:
-  extends: .pangea_node_sdk_base
-  needs: [build_pangea_node_sdk]
-  stage: Build
+pangea-node-sdk-pack:
+  extends: .pangea-node-sdk-base
+  needs: [pangea-node-sdk-build]
+  stage: build
   script:
     - yarn pack
   artifacts:
@@ -61,15 +154,15 @@ pack_pangea_node_sdk:
         - examples/**/*
         - packages/pangea-node-sdk/**/*
 
-lint_pangea_node_sdk:
-  extends: .pangea_node_sdk_base
-  stage: Lint
+pangea-node-sdk-lint:
+  extends: .pangea-node-sdk-base
+  stage: lint
   script:
     - yarn lint
 
 generate_docs:
-  extends: .pangea_node_sdk_base
-  stage: Lint
+  extends: .pangea-node-sdk-base
+  stage: lint
   script:
     - yarn generate:docs
   artifacts:
@@ -78,29 +171,23 @@ generate_docs:
     paths: ["packages/pangea-node-sdk/docs.json"]
     when: on_success
 
-test_pangea_node_sdk:
-  extends: .pangea_node_sdk_base
-  stage: Unit Test
+pangea-node-sdk-unit-tests:
+  extends: .pangea-node-sdk-base
+  stage: unit_tests
   script:
-    - yarn test:unit
+    - yarn test:unit --ci --coverage
 
-integration_pangea_node_sdk:
-  extends: .pangea_node_sdk_base
-  stage: Integration Test
-  script:
-    - yarn test:integration
-
-publish_pangea_node_sdk:
-  extends: .pangea_node_sdk_publish
-  stage: Publish
+pangea-node-sdk-publish:
+  extends: .pangea-node-sdk-publish
+  stage: publish
   script:
     - cp ../../scripts/publish.sh .
     - echo "${NPMRC}" > .npmrc && ./publish.sh && rm .npmrc
     - rm publish.sh
 
-tag_pangea_node_sdk:
-  extends: .pangea_node_sdk_publish
-  stage: Tag Release
+pangea-node-sdk-tag-release:
+  extends: .pangea-node-sdk-publish
+  stage: tag_release
   script:
     - apt install -y python3 python3-github
     - VERSION=$(node -p "require('./package.json').version")

@@ -9,11 +9,11 @@ import {
 import { FileScanService, PangeaErrors } from "../../src/index.js";
 import { FileScan, TransferMethod } from "../../src/types.js";
 import { FileScanUploader } from "@src/services/file_scan.js";
+import { loadTestEnvironment } from "./utils.js";
 
-const testEnvironment = TestEnvironment.LIVE;
-
-const token = getTestToken(testEnvironment);
-const testHost = getTestDomain(testEnvironment);
+const environment = loadTestEnvironment("file-scan", TestEnvironment.LIVE);
+const token = getTestToken(environment);
+const testHost = getTestDomain(environment);
 const config = new PangeaConfig({ domain: testHost, customUserAgent: "sdk-test" });
 const fileScan = new FileScanService(token, config);
 

@@ -1,8 +1,6 @@
 import { useTheme, lighten } from "@mui/material/styles";
-import mapValues from "lodash/mapValues";
 import Box from "@mui/material/Box";
 import Popper from "@mui/material/Popper";
-import Fade from "@mui/material/Fade";
 import {
   Button,
   CircularProgress,
@@ -78,6 +76,9 @@ export default function UploadPopover() {
     return apiRef
       .upload(
         createMultipartUploadForm(upload.file, {
+          ...(!!upload.body && {
+            ...upload.body,
+          }),
           ...(!!(parent || upload.parent) && {
             parent_id: upload.parent?.id ?? parent?.id,
           }),
@@ -133,6 +134,10 @@ export default function UploadPopover() {
       return handleCreateFile(conflict.id, conflict.name);
     }
   };
+
+  useEffect(() => {
+    useUploadPopover.setState({ uploads: {} });
+  }, []);
 
   useEffect(() => {
     const uploadIds = Object.keys(uploads);
@@ -245,7 +250,16 @@ export default function UploadPopover() {
                         </Typography>
                       </Stack>
                     )}
-                    <Stack padding={1} paddingTop={0} spacing={1}>
+                    <Stack
+                      padding={1}
+                      paddingTop={0}
+                      spacing={1}
+                      sx={{
+                        overflowY: "auto",
+                        overflowX: "hidden",
+                        maxHeight: "calc(100vh - 400px)",
+                      }}
+                    >
                       {Object.values(uploads).map((upload, idx) => {
                         const mimeType =
                           (upload.file.name ?? "").split(".").at(-1) ?? "";
@@ -268,7 +282,14 @@ export default function UploadPopover() {
                                 overflow: "hidden",
                               }}
                             >
-                              <StoreObjectIcon type={""} mimeType={mimeType} />
+                              <StoreObjectIcon
+                                type={""}
+                                mimeType={mimeType}
+                                password={
+                                  !!upload?.body?.password &&
+                                  !!upload?.body?.password_algorithm
+                                }
+                              />
                               <Typography
                                 color={
                                   upload.state === "uploaded"

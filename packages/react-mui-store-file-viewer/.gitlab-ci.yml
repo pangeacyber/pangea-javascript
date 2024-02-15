@@ -2,7 +2,7 @@
   image: node:18.19.0
   before_script:
     - cd packages/react-mui-store-file-viewer
-    - yarn install
+    - yarn install --frozen-lockfile
     - apt-get -qq update
     - apt-get install -y jq
   cache:
@@ -14,7 +14,7 @@
 
 publish_react_mui_store_file_viewer:
   extends: .react_mui_store_file_viewer_base
-  stage: Publish
+  stage: publish
   script:
     - cp ../../scripts/publish.sh .
     - echo "${NPMRC}" > .npmrc && ./publish.sh && rm .npmrc

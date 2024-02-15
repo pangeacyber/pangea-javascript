@@ -2,19 +2,19 @@
   image: node:18.19.0
   before_script:
     - cd packages/react-mui-shared
-    - yarn install
+    - yarn install --frozen-lockfile
     - apt-get -qq update
     - apt-get install -y jq
   cache:
     - key:
         files:
-          - yarn.lock
+          - packages/react-mui-shared/yarn.lock
       paths:
-        - node_modules
+        - packages/react-mui-shared/node_modules
 
 test_react_mui_shared:
   extends: .react_mui_shared_base
-  stage: Unit Test
+  stage: unit_tests
   script: yarn test
   rules:
     - if: $CI_PIPELINE_SOURCE == "merge_request_event"
@@ -28,7 +28,7 @@ test_react_mui_shared:
 
 publish_react_mui_shared:
   extends: .react_mui_shared_base
-  stage: Publish
+  stage: publish
   script:
     - cp ../../scripts/publish.sh .
     - echo "${NPMRC}" > .npmrc && ./publish.sh && rm .npmrc

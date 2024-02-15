@@ -303,10 +303,10 @@ p-cancelable@^3.0.0:
   resolved "https://registry.yarnpkg.com/p-cancelable/-/p-cancelable-3.0.0.tgz#63826694b54d61ca1c20ebcb6d3ecf5e14cd8050"
   integrity sha512-mlVgR3PGuzlo0MmTdk4cXqXWlwQDLnONTAg6sm62XkMJEiRxN3GL3SffkYvqwonbkJBcrI7Uvv5Zh9yjvn2iUw==
 
-pangea-node-sdk@3.5.0:
-  version "3.5.0"
-  resolved "https://registry.yarnpkg.com/pangea-node-sdk/-/pangea-node-sdk-3.5.0.tgz#f636a091eb652eb148dee03572ae8c76b3385d0c"
-  integrity sha512-hpPAJmp+6HYy66f5ZdYLbFIDpt6/tCEhxtMvyYg+p7npq5r5dgo20p5unEZbQGvZEXea91pOnlceeLxGXLhMJw==
+pangea-node-sdk@3.6.0:
+  version "3.6.0"
+  resolved "https://registry.yarnpkg.com/pangea-node-sdk/-/pangea-node-sdk-3.6.0.tgz#5a95769feda2398482d7221d29b9ed62f081ad3f"
+  integrity sha512-OJz+/flEpv1+wcKP+3xk9Dfol5mWLQr9X7uxPxCBw4YStUqcXdTeVkQC0v3QWrdHC47fwILju5zdlz6WeRBhSA==
   dependencies:
     "@node-rs/crc32" "^1.7.2"
     crypto-js "^4.2.0"

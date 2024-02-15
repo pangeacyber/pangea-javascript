@@ -24,6 +24,8 @@ interface Props {
   shares: ObjectStore.ShareObjectResponse[];
   password?: string;
 
+  clearButtonLabel?: string;
+
   open: boolean;
   onClose?: () => void;
   onDone?: () => void;
@@ -44,6 +46,7 @@ type ShareSendObj =
 const SendShareViaEmailModal: FC<Props> = ({
   shares,
   password,
+  clearButtonLabel,
   open,
   onClose = () => {},
   onDone = () => {},
@@ -215,6 +218,7 @@ const SendShareViaEmailModal: FC<Props> = ({
             object={obj}
             fields={fields}
             clearable
+            clearButtonLabel={clearButtonLabel}
             onCancel={handleClose}
             onSubmit={(values) => {
               // @ts-ignore

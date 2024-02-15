@@ -7,9 +7,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+- `rotation_state` field support in key rotation in Vault service.
+
 ### Changed
 
 - Rewrote `README.md`.
+- The dependency on node-rs/crc32 has been replaced by one on aws-crypto/crc32c,
+  a pure-JS implementation of CRC32C.
 
 ## [3.6.0] - 2024-01-12
 

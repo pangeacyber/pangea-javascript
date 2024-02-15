@@ -27,7 +27,7 @@ const StringField: FC<Props> = ({
     type === "email" ? { autoCapitalize: "none", autoCorrect: "off" } : {};
 
   const getEndIcon = () => {
-    if (!showStatus) {
+    if (!showStatus || !formik.values[name]) {
       return null;
     }
 

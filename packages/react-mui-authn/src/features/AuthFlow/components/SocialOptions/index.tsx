@@ -69,12 +69,12 @@ const SocialOptions: FC<AuthFlowComponentProps> = ({
         {data.socialChoices.map((provider: AuthFlow.SocialResponse) => {
           return (
             <Button
+              key={`social-${provider.social_provider}`}
               color="secondary"
               fullWidth={true}
               onClick={() => {
                 socialLogin(provider.redirect_uri);
               }}
-              key={provider.social_provider}
             >
               {options.showSocialIcons && (
                 <>
@@ -89,12 +89,12 @@ const SocialOptions: FC<AuthFlowComponentProps> = ({
         {data.samlChoices.map((provider: AuthFlow.SamlResponse) => {
           return (
             <Button
+              key={`saml-${provider.provider_id}`}
               color="secondary"
               fullWidth={true}
               onClick={() => {
                 socialLogin(provider.redirect_uri);
               }}
-              key={provider.provider_id}
             >
               Continue with {provider.provider_name}
             </Button>

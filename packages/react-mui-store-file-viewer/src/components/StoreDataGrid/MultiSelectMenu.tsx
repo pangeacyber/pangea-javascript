@@ -16,6 +16,7 @@ import DeleteFileButton from "../DeleteFileButton";
 import BulkDeleteFilesButton from "../DeleteFileButton/BulkDeleteFilesButton";
 import CreateSharesButton from "../CreateNewShareButton/CreateSharesButton";
 import { alertOnError } from "../AlertSnackbar/hooks";
+import { downloadFile } from "../../utils/file";
 
 interface Props {
   selected: string[];
@@ -48,12 +49,16 @@ const MultiSelectMenu: FC<Props> = ({
     if (selected.length === 1) {
       if (
         objects.length === 1 &&
-        objects[0]?.type !== ObjectStore.ObjectType.Folder &&
-        objects[0]?.dest_url
+        objects[0]?.type !== ObjectStore.ObjectType.Folder
       ) {
-        const location = objects[0].dest_url;
-        window.open(location, "_blank");
-        return;
+        setDownloading(true);
+        return downloadFile(objects[0], apiRef)
+          .then(() => {
+            setDownloading(false);
+          })
+          .catch((err) => {
+            setDownloading(false);
+          });
       }
     }
 
@@ -87,14 +92,12 @@ const MultiSelectMenu: FC<Props> = ({
       apiRef
         .get({
           id: selected[0],
-          transfer_method: "dest-url",
         })
         .then((response) => {
           if (response.status === "Success") {
             setObjects([
               {
                 ...response.result.object,
-                dest_url: response.result.dest_url,
               },
             ]);
           }

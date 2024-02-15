@@ -68,3 +68,20 @@ export const isJSON = (content: string): boolean => {
     return false;
   }
 };
+
+export const formatDateString = (
+  dateString: string,
+  year: "numeric" | null = "numeric",
+  day: "numeric" | null = "numeric"
+): string => {
+  try {
+    const d = new Date(dateString);
+    return new Intl.DateTimeFormat("en", {
+      month: "short",
+      day: !day ? undefined : day,
+      year: !year ? undefined : year,
+    }).format(d);
+  } catch (e) {
+    return "";
+  }
+};

@@ -1,14 +1,17 @@
 {
-  "flow_id": "pfl_flowflowflowflowflowflowflow",
-  "flow_type": ["signup"],
-  "email": "glenn.gallien@pangea.cloud",
-  "flow_phase": "phase_captcha",
-  "flow_choices": [
-    {
-      "choice": "captcha",
-      "data": {
-        "site_key": "6LfT7OIeAAAAAAQGqCcX8tQV7J83JdihdvdddQ7E"
-      }
-    }
-  ]
+  "flowId": "pfl_flowflowflowflowflowflowflow",
+  "flowType": ["signup"],
+  "phase": "phase_captcha",
+  "flowChoices": [],
+  "email": "storybook@pangea.cloud",
+  "captcha": {
+    "site_key": "6LeB-7sfAAAAAH6XhArL8pygmv9ciswMzZ5iVdC6"
+  },
+  "authChoices": [],
+  "socialChoices": [],
+  "socialProviderMap": {},
+  "samlChoices": [],
+  "samlProviderMap": {},
+  "callbackStateMap": {},
+  "agreements": []
 }

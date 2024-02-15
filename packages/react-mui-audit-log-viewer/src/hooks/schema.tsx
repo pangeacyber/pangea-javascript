@@ -17,6 +17,7 @@ import {
 } from "@pangeacyber/react-mui-shared";
 import { AuditErrorsColumn } from "../components/AuditLogViewerComponent/errorColumn";
 import DateTimeFilterCell from "../components/AuditLogViewerComponent/DateTimeFilterCell";
+import { StringCell } from "../components/AuditLogViewerComponent/StringCell";
 
 export const DEFAULT_AUDIT_SCHEMA: Audit.Schema = {
   client_signable: true,
@@ -162,6 +163,7 @@ const COLUMN_TYPE_MAP = {
 
 const CUSTOM_CELLS = {
   [Audit.SchemaFieldType.DateTime]: DateTimeFilterCell,
+  [Audit.SchemaFieldType.String]: StringCell,
 };
 
 export const useAuditColumns = <Event,>(

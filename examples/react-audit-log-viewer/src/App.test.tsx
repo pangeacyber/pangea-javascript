@@ -1,5 +1,4 @@
-import React from "react";
-import { render, screen, act } from "@testing-library/react";
+import { render, screen } from "@testing-library/react";
 import App from "./App";
 
 beforeEach(() => {
@@ -8,7 +7,7 @@ beforeEach(() => {
   process.env.REACT_APP_PANGEA_SERVICE_DOMAIN = "aws.us.pangea.cloud";
 });
 
-test("renders learn react link", async () => {
+test("renders mock record", async () => {
   render(<App />);
 
   const linkElement = await screen.findByText(/Pepe Silvia/i);

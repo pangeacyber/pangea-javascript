@@ -1,9 +1,12 @@
+import { Buffer } from "node:buffer";
+import crypto from "node:crypto";
+import fs from "node:fs";
+
+import { crc32c } from "@aws-crypto/crc32c";
 import CryptoJS from "crypto-js";
-import * as crypto from "crypto";
-import * as fs from "fs";
-import crc32c from "@node-rs/crc32";
-import { FileScan } from "@src/types.js";
+
 import { PangeaErrors } from "@src/errors.js";
+import { FileScan } from "@src/types.js";
 
 function orderKeysRecursive(obj: Object) {
   const orderedEntries = Object.entries(obj).sort((a, b) => a[0].localeCompare(b[0]));
@@ -91,6 +94,7 @@ export function getHashPrefix(hash: string, len: number = 5) {
   return hash.substring(0, len);
 }
 
+// TODO: convert to enum
 export const TestEnvironment = {
   DEVELOP: "DEV",
   LIVE: "LVE",
@@ -140,7 +144,7 @@ export function getFileUploadParams(file: string | Buffer): FileScan.ScanFilePar
   let data: Buffer;
   if (typeof file === "string") {
     data = fs.readFileSync(file);
-  } else if (file instanceof Buffer) {
+  } else if (Buffer.isBuffer(file)) {
     data = file;
   } else {
     throw new PangeaErrors.PangeaError("Invalid file type");
@@ -148,9 +152,8 @@ export function getFileUploadParams(file: string | Buffer): FileScan.ScanFilePar
 
   const size = data.length;
   hash.update(data);
-  const crcValue = crc32c.crc32c(data);
   const sha256hex = hash.digest("hex");
-
+  const crcValue = crc32c(data);
   return {
     sha256: sha256hex,
     crc32c: crcValue.toString(16),

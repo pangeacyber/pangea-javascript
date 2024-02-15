@@ -57,7 +57,7 @@ The BrandingThemeProvider component accepts the following props:
 - auth (optional): An object representing the authentication configuration. Used to fetch your branding configurations from Pangea
   - clientToken: string;
   - domain: string;
-- brandingId (optional): Found in the Project -> Branding page within console is requried along with "auth" in order to retrieve Pangea branding configurations.
+- brandingId (optional): Found in the Project -> Branding page within console is required along with "auth" in order to retrieve Pangea branding configurations.
 - ThemeProviderProps (optional): An object container MUI ThemeProvider props overrides
 
 For a deeper dive into the Prop interface check the source code [here](https://github.com/pangeacyber/pangea-javascript/blob/main/packages/react-mui-branding/src/components/BrandingThemeProvider/index.tsx)
@@ -85,4 +85,4 @@ const MyComponent: React.FC = () => {
 
 ### Customization
 
-The BrandingThemeProvider component is primarly a light wrapper around tthe Material-UI component library, ThemeProvider component. so styling of the component can be controlled through a MUI Theme. See Theming documentation [here](https://mui.com/material-ui/customization/theming/)
+The BrandingThemeProvider component is primarily a light wrapper around the Material-UI component library, ThemeProvider component. so styling of the component can be controlled through a MUI Theme. See Theming documentation [here](https://mui.com/material-ui/customization/theming/)

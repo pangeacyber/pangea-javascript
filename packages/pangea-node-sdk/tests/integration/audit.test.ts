@@ -13,6 +13,7 @@ import {
   getMultiConfigTestToken,
   getConfigID,
 } from "../../src/utils/utils.js";
+import { loadTestEnvironment } from "./utils.js";
 
 const ACTOR = "node-sdk";
 const MSG_NO_SIGNED = "test-message";
@@ -48,7 +49,7 @@ const JSON_OLD_DATA = {
 };
 
 const signer = new Signer("./tests/testdata/privkey");
-const environment = TestEnvironment.LIVE;
+const environment = loadTestEnvironment("audit", TestEnvironment.LIVE);
 const tokenVault = getVaultSignatureTestToken(environment);
 const tokenCustomSchema = getCustomSchemaTestToken(environment);
 const tokenGeneral = getTestToken(environment);
@@ -642,16 +643,16 @@ it("search audit log and skip consistency verification", async () => {
 });
 
 it("results audit log with search verbose", async () => {
-  const query = 'message:""';
+  const query = "message:" + MSG_SIGNED_LOCAL;
   const searchLimit = 2;
-  const searchMaxResults = 4;
+  const searchMaxResults = 6;
 
   const queryOptions: Audit.SearchParamsOptions = {
     limit: searchLimit,
     max_results: searchMaxResults,
     order: "asc",
     verbose: true,
-    start: "30d",
+    start: "7d",
   };
 
   const searchResponse = await auditGeneral.search(query, queryOptions, {});

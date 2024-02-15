@@ -7,6 +7,7 @@ import { FieldsForm, PangeaModal } from "@pangeacyber/react-mui-shared";
 import { getUpdateFields } from "./fields";
 import { useStoreFileViewerContext } from "../../hooks/context";
 import { ObjectStore } from "../../types";
+import { alertOnError } from "../AlertSnackbar/hooks";
 
 interface Props {
   object: ObjectStore.ObjectResponse;
@@ -52,6 +53,7 @@ const UpdateFileButton: FC<Props> = ({ object, ButtonProps, onClose }) => {
           reload();
         })
         .catch((error) => {
+          alertOnError(error);
           setLoading(false);
         })
     );
@@ -78,6 +80,8 @@ const UpdateFileButton: FC<Props> = ({ object, ButtonProps, onClose }) => {
         <FieldsForm
           object={object}
           fields={fields}
+          onCancel={handleClose}
+          clearable
           onSubmit={(values) => {
             if (values.parent_id === "/") {
               values.parent_id = "";

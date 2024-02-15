@@ -1,47 +1,43 @@
 {
-  "flow_id": "pfl_flowflowflowflowflowflowflow",
-  "flow_type": ["signup", "signin"],
-  "flow_phase": "phase_primary",
-  "flow_choices": [
+  "flowId": "pfl_flowflowflowflowflowflowflow",
+  "flowType": ["signup", "signin"],
+  "phase": "phase_primary",
+  "flowChoices": [],
+  "setEmail": {
+    "required_for": "password"
+  },
+  "authChoices": [],
+  "socialChoices": [
     {
-      "choice": "social",
-      "data": {
-        "enrollment": true,
-        "social_provider": "google",
-        "state": "pcb_4fnr5vwez3a5rykvm3y7hr2thhmtsdbl",
-        "redirect_uri": "http://localhost:4001/flow/oauth/google?redirect_uri=http%3A%2F%2Flocalhost%3A3000\u0026state=pcb_4fnr5vwez3a5rykvm3y7hr2thhmtsdbl"
-      }
+      "enrollment": true,
+      "social_provider": "google",
+      "state": "pcb_abcd1234abcd1234abcd1234",
+      "redirect_uri": "http://localhost:4001/flow/oauth/google?redirect_uri=http%3A%2F%2Flocalhost%3A3000\u0026state=pcb_abcd1234abcd1234abcd1234"
+    },
+    {
+      "enrollment": true,
+      "social_provider": "github",
+      "state": "pcb_abcd1234abcd1234abcd1234",
+      "redirect_uri": "http://localhost:4001/flow/oauth/github?redirect_uri=http%3A%2F%2Flocalhost%3A3000\u0026state=pcb_abcd1234abcd1234abcd1234"
     },
     {
       "choice": "social",
-      "data": {
-        "enrollment": true,
-        "social_provider": "github",
-        "state": "pcb_zysinxupcmdndpstexovtl3wspzcpqkd",
-        "redirect_uri": "http://localhost:4001/flow/oauth/github?redirect_uri=http%3A%2F%2Flocalhost%3A3000\u0026state=pcb_zysinxupcmdndpstexovtl3wspzcpqkd"
-      }
+      "enrollment": true,
+      "social_provider": "facebook",
+      "state": "pcb_abcd1234abcd1234abcd1234",
+      "redirect_uri": "http://localhost:4001/flow/oauth/facebook?redirect_uri=http%3A%2F%2Flocalhost%3A3000\u0026state=pcb_abcd1234abcd1234abcd1234"
     },
     {
-      "choice": "social",
-      "data": {
-        "enrollment": true,
-        "social_provider": "facebook",
-        "state": "pcb_mfmg6dc325g2vmxbgmvkhfbgahucwluq",
-        "redirect_uri": "http://localhost:4001/flow/oauth/facebook?redirect_uri=http%3A%2F%2Flocalhost%3A3000\u0026state=pcb_mfmg6dc325g2vmxbgmvkhfbgahucwluq"
-      }
-    },
-    {
-      "choice": "social",
-      "data": {
-        "enrollment": true,
-        "social_provider": "microsoftonline",
-        "state": "pcb_vvxupa4y2l7iccqbs2hhevlqgf2tndhx",
-        "redirect_uri": "http://localhost:4001/flow/oauth/microsoftonline?redirect_uri=http%3A%2F%2Flocalhost%3A3000\u0026state=pcb_vvxupa4y2l7iccqbs2hhevlqgf2tndhx"
-      }
-    },
-    {
-      "choice": "set_email",
-      "data": {}
+      "enrollment": true,
+      "social_provider": "microsoftonline",
+      "state": "pcb_abcd1234abcd1234abcd1234",
+      "redirect_uri": "http://localhost:4001/flow/oauth/microsoftonline?redirect_uri=http%3A%2F%2Flocalhost%3A3000\u0026state=pcb_abcd1234abcd1234abcd1234"
     }
-  ]
+  ],
+  "socialProviderMap": {},
+  "samlChoices": [],
+  "samlProviderMap": {},
+  "callbackStateMap": {},
+  "agreements": [],
+  "disclaimer": "By clicking “Continue” you agree to our\n [Terms of Use](https://pangea.cloud/terms-of-use/) and [Privacy Policy](https://pangea.cloud/privacy-policy/)"
 }

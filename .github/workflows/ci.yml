@@ -24,21 +24,25 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  prefetch:
+  setup:
     runs-on: ubuntu-latest
+
+    outputs:
+      examples-matrix: ${{ steps.examples-matrix.outputs.examples-matrix }}
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v4.1.1
 
-      - name: Setup Node.js
-        uses: actions/setup-node@v4.0.1
-        with:
-          node-version: 20
-          cache: yarn
-          cache-dependency-path: "**/yarn.lock"
+      - name: Calculate `examples-matrix` output
+        id: examples-matrix
+        working-directory: ./examples
+        env:
+          JQ_FILTER: >-
+            "examples-matrix=" + (split("\n") | map(select(length > 0)) | tostring)
+        run: find . -type f -name 'yarn.lock' -printf '%h\n' | cut -c 3- | sort -u | jq -cRrs '${{ env.JQ_FILTER }}' >> "$GITHUB_OUTPUT"
 
   build:
-    needs: [prefetch]
     runs-on: ubuntu-latest
     defaults:
       run:
@@ -48,16 +52,16 @@ jobs:
         uses: actions/checkout@v4.1.1
 
       - name: Setup Node.js
-        uses: actions/setup-node@v4.0.1
+        uses: actions/setup-node@v4.0.2
         with:
           node-version: 20
           cache: yarn
           cache-dependency-path: ./packages/pangea-node-sdk/yarn.lock
 
       - name: Install dependencies
-        run: yarn install --frozen-lockfile --immutable
+        run: yarn install --frozen-lockfile
 
-      - run: npm ls
+      - run: yarn list
 
       - name: Build
         run: yarn build
@@ -66,25 +70,72 @@ jobs:
         run: yarn pack
 
       - name: Upload
-        uses: actions/upload-artifact@v4.3.0
+        uses: actions/upload-artifact@v4.3.1
         with:
           name: pangea-node-sdk-package
           path: ./packages/pangea-node-sdk/pangea-node-sdk-v*.tgz
 
-  examples:
-    needs: [prefetch, build]
+  build-react-mui-store-file-viewer:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./packages/react-mui-store-file-viewer
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4.1.1
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4.0.2
+        with:
+          node-version: 20
+          cache: yarn
+          cache-dependency-path: ./packages/react-mui-store-file-viewer/yarn.lock
+
+      - name: Install dependencies
+        run: yarn install --frozen-lockfile
+
+      - run: yarn list
+
+      - name: Build
+        run: yarn build
+
+      - name: Storybook
+        run: yarn build-storybook
+
+  test-unit:
+    needs: [build]
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        example:
-          - audit
-          - authn
-          - embargo
-          - file_scan
-          - intel
-          - react-audit-log-viewer
-          - redact
-          - vault
+        node-version: [18, 20]
+    defaults:
+      run:
+        working-directory: ./packages/pangea-node-sdk
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4.1.1
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4.0.2
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: yarn
+          cache-dependency-path: ./packages/pangea-node-sdk/yarn.lock
+
+      - name: Install dependencies
+        run: yarn install --frozen-lockfile
+
+      - run: yarn list
+
+      - name: Unit test
+        run: yarn test:unit --ci --coverage
+
+  examples:
+    needs: [setup, build]
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        example: ${{ fromJSON(needs.setup.outputs.examples-matrix) }}
     defaults:
       run:
         working-directory: ./examples/${{ matrix.example }}
@@ -93,17 +144,17 @@ jobs:
         uses: actions/checkout@v4.1.1
 
       - name: Setup Node.js
-        uses: actions/setup-node@v4.0.1
+        uses: actions/setup-node@v4.0.2
         with:
           node-version: 20
           cache: yarn
           cache-dependency-path: ./examples/${{ matrix.example }}/yarn.lock
 
       - name: Install dependencies
-        run: yarn install --frozen-lockfile --immutable
+        run: yarn install --frozen-lockfile
 
       - name: Download locally built pangea-node-sdk
-        uses: actions/download-artifact@v4.1.1
+        uses: actions/download-artifact@v4.1.2
         with:
           name: pangea-node-sdk-package
           path: ./packages/pangea-node-sdk
@@ -113,3 +164,36 @@ jobs:
         working-directory: ./packages/pangea-node-sdk
 
       - run: yarn list
+
+  examples-react-audit-log-viewer:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./examples/react-audit-log-viewer
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4.1.1
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4.0.2
+        with:
+          node-version: 18
+          cache: yarn
+          cache-dependency-path: ./examples/react-audit-log-viewer/yarn.lock
+
+      - name: Install dependencies
+        run: yarn install --frozen-lockfile
+
+      - run: yarn list
+
+      - name: Build
+        run: yarn build
+
+      - name: Unit test
+        run: yarn test
+
+      - name: Cypress run
+        uses: cypress-io/github-action@v6.6.1
+        with:
+          start: yarn start:ci
+          working-directory: ./examples/react-audit-log-viewer

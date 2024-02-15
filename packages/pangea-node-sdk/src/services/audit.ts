@@ -39,7 +39,7 @@ class AuditService extends BaseService {
    * @summary Log an entry
    * @description Create a log entry in the Secure Audit Log.
    * @operationId audit_post_v1_log
-   * @param {Object} content - A structured event describing an auditable activity. Supported fields are:
+   * @param event A structured event describing an auditable activity. Supported fields are:
    *   - actor (string): Record who performed the auditable activity.
    *   - action (string): The auditable action that occurred.
    *   - status (string): Record whether or not the activity was successful.
@@ -50,9 +50,9 @@ class AuditService extends BaseService {
    *   - new (string|object): The value of a record after it was changed.
    *   - old (string|object): The value of a record before it was changed.
    *   - tenant_id (string): Used to record the tenant associated with this activity.
-   * @param {Object} options - Log options. The following log options are supported:
+   * @param options Log options. The following log options are supported:
    *   - verbose (bool): Return a verbose response, including the canonical event hash and received_at time.
-   * @returns {Promise} - A promise representing an async call to the /v1/log endpoint.
+   * @returns A promise representing an async call to the /v1/log endpoint.
    * @example
    * ```js
    * const auditData = {

@@ -6,13 +6,13 @@
   "author": "Pangea (https://pangea.cloud)",
   "license": "MIT",
   "devDependencies": {
-    "husky": "^8.0.3",
-    "lint-staged": "^15.2.0",
+    "husky": "^9.0.11",
+    "lint-staged": "^15.2.2",
     "prettier": "^2.8.8"
   },
   "scripts": {
     "lint": "npx prettier --check .",
-    "prepare": "husky install"
+    "prepare": "husky"
   },
   "lint-staged": {
     "*.{js,jsx,ts,tsx,css,md}": "npx prettier --write"
