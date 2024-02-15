@@ -38,7 +38,7 @@ This is a list of tools or useful stuff that you will found out in this reposito
 |----- **react-mui-authn**: React Authn component [Click here](/packages/react-mui-authn/)  
 |----- **react-mui-branding**: React branding component [Click here](/packages/react-mui-branding/)  
 |----- **react-mui-shared**: React shared components [Click here](/packages/react-mui-shared/)  
-|----- **vanilla-js**: Vanilla JS SDK [Click here](/packages/vanilla-js/)  
+|----- **vanilla-js**: Vanilla JS SDK [Click here](/packages/vanilla-js/)
 
 ## Development Setup
 
