@@ -2242,6 +2242,8 @@ export namespace Store {
     expires_at?: string;
     max_access_count?: number;
     authenticators: Authenticator[];
+    message?: string;
+    title?: string;
   }
 
   export interface ShareLinkCreateRequest {
@@ -2335,6 +2337,21 @@ export namespace Store {
   }
 
   export interface ShareLinkDeleteResult {
+    share_link_objects: ShareLinkItem[];
+  }
+
+  export interface ShareLinkSendItem {
+    id: string;
+    email: string;
+  }
+
+  export interface ShareLinkSendRequest {
+    links: ShareLinkSendItem[];
+    sender_email: string;
+    sender_name?: string;
+  }
+
+  export interface ShareLinkSendResult {
     share_link_objects: ShareLinkItem[];
   }
 }

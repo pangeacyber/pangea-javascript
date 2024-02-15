@@ -70,7 +70,6 @@ it("Put file. Multipart transfer_method", async () => {
       }
     );
     expect(respPut.success).toBeTruthy();
-    console.log(respPut.result);
   } catch (e) {
     console.log(e);
     expect(false).toBeTruthy();
@@ -329,8 +328,22 @@ it("Item life cycle", async () => {
   expect(link?.id).toBeDefined();
   expect(link?.targets.length).toBe(1);
 
-  // Get share link
   const linkID = link?.id ?? "";
+
+  // Send share link
+  const respSendLink = await client.shareLinkSend({
+    links: [
+      {
+        id: linkID,
+        email: "user@email.com",
+      },
+    ],
+    sender_email: "sender@email.com",
+    sender_name: "Sender Name",
+  });
+  expect(respSendLink.result.share_link_objects.length).toBe(1);
+
+  // Get share link
   const respGetLink = await client.shareLinkGet({
     id: linkID,
   });

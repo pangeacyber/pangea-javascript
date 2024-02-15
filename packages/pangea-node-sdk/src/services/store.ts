@@ -301,6 +301,29 @@ class StoreService extends BaseService {
   ): Promise<PangeaResponse<Store.ShareLinkDeleteResult>> {
     return this.post("v1beta/share/link/delete", request);
   }
+
+  /**
+   * @summary Send share links
+   * @description Send share links.
+   * @operationId store_post_v1beta_share_link_send
+   * @param {Store.ShareLinkDeleteRequest} request
+   * @returns {Promise} - A promise representing an async call to the send share links endpoint.
+   * @example
+   * ```js
+   *  const resp = await client.shareLinkSend({
+   *    links: [{
+   *      id: linkID,
+   *      email: "user@email.com",
+   *    }],
+   *    sender_email: "sender@email.com",
+   *    sender_name: "Sender Name"
+   *  })
+   */
+  shareLinkSend(
+    request: Store.ShareLinkSendRequest
+  ): Promise<PangeaResponse<Store.ShareLinkSendResult>> {
+    return this.post("v1beta/share/link/send", request);
+  }
 }
 
 export class StoreUploader {
