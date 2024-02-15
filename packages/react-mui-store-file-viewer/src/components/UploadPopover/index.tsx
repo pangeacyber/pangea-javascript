@@ -1,4 +1,4 @@
-import { useTheme, lighten } from "@mui/material/styles";
+import { useTheme, lighten, darken } from "@mui/material/styles";
 import Box from "@mui/material/Box";
 import Popper from "@mui/material/Popper";
 import {
@@ -159,6 +159,8 @@ export default function UploadPopover() {
   const uploading = Object.values(uploads).filter(
     (u) => u.state === "uploading" || u.state === "waiting"
   );
+
+  const modify = theme.palette.mode === "dark" ? darken : lighten;
   return (
     <div>
       <Popper
@@ -182,7 +184,7 @@ export default function UploadPopover() {
                 boxShadow: "0px 0px 24px rgba(40, 48, 94, 0.12)",
                 borderRadius: "8px 8px 0px 0px",
                 borderBottom: "none",
-                borderColor: lighten(theme.palette.secondary.dark, 0.5),
+                borderColor: modify(theme.palette.secondary.dark, 0.5),
                 bgcolor: "background.paper",
                 width: "400px",
               }}
@@ -237,7 +239,7 @@ export default function UploadPopover() {
                         direction="row"
                         sx={{
                           padding: 1,
-                          bgcolor: lighten(theme.palette.info.light, 0.8),
+                          bgcolor: modify(theme.palette.info.light, 0.8),
                         }}
                       >
                         <Typography variant="body2">
