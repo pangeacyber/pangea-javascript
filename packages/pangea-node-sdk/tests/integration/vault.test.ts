@@ -397,17 +397,44 @@ async function asymGenerateParams(
   return getResp.result.id ? getResp.result.id : "";
 }
 
-it("Ed25519 signing generate all params", async () => {
-  const algorithm = Vault.AsymmetricAlgorithm.Ed25519;
+it("Asymmetric signing generate all params", async () => {
   const purpose = Vault.KeyPurpose.SIGNING;
-  try {
-    const id = await asymGenerateParams(algorithm, purpose);
-    await vault.delete(id);
-  } catch (e) {
-    e instanceof PangeaErrors.APIError ? console.log(e.toString()) : console.log(e);
-    console.log(`Failed asymGenerateParams with ${algorithm} and ${purpose}`);
-    expect(true).toBeTruthy();
+  let failed = false;
+  const algorithms = [
+    Vault.AsymmetricAlgorithm.Ed25519,
+    Vault.AsymmetricAlgorithm.RSA2048_PKCS1V15_SHA256,
+    Vault.AsymmetricAlgorithm.ES256K,
+    Vault.AsymmetricAlgorithm.RSA2048_PSS_SHA256,
+    Vault.AsymmetricAlgorithm.RSA3072_PSS_SHA256,
+    Vault.AsymmetricAlgorithm.RSA4096_PSS_SHA256,
+    Vault.AsymmetricAlgorithm.RSA4096_PSS_SHA512,
+    Vault.AsymmetricAlgorithm.Ed25519_DILITHIUM2_BETA,
+    Vault.AsymmetricAlgorithm.Ed448_DILITHIUM3_BETA,
+    Vault.AsymmetricAlgorithm.SPHINCSPLUS_128F_SHAKE256_SIMPLE_BETA,
+    Vault.AsymmetricAlgorithm.SPHINCSPLUS_128F_SHAKE256_ROBUST_BETA,
+    Vault.AsymmetricAlgorithm.SPHINCSPLUS_192F_SHAKE256_SIMPLE_BETA,
+    Vault.AsymmetricAlgorithm.SPHINCSPLUS_192F_SHAKE256_ROBUST_BETA,
+    Vault.AsymmetricAlgorithm.SPHINCSPLUS_256F_SHAKE256_SIMPLE_BETA,
+    Vault.AsymmetricAlgorithm.SPHINCSPLUS_256F_SHAKE256_ROBUST_BETA,
+    Vault.AsymmetricAlgorithm.SPHINCSPLUS_128F_SHA256_SIMPLE_BETA,
+    Vault.AsymmetricAlgorithm.SPHINCSPLUS_128F_SHA256_ROBUST_BETA,
+    Vault.AsymmetricAlgorithm.SPHINCSPLUS_192F_SHA256_SIMPLE_BETA,
+    Vault.AsymmetricAlgorithm.SPHINCSPLUS_192F_SHA256_ROBUST_BETA,
+    Vault.AsymmetricAlgorithm.SPHINCSPLUS_256F_SHA256_SIMPLE_BETA,
+    Vault.AsymmetricAlgorithm.SPHINCSPLUS_256F_SHA256_ROBUST_BETA,
+    Vault.AsymmetricAlgorithm.FALCON_1024_BETA,
+  ];
+  for (const algorithm of algorithms) {
+    try {
+      const id = await asymGenerateParams(algorithm, purpose);
+      await vault.delete(id);
+    } catch (e) {
+      e instanceof PangeaErrors.APIError ? console.log(e.toString()) : console.log(e);
+      console.log(`Failed asymGenerateParams with ${algorithm} and ${purpose}`);
+      failed = true;
+    }
   }
+  expect(failed).toBeFalsy();
 });
 
 it("Ed25519 default store", async () => {
@@ -438,41 +465,69 @@ it("AES default store", async () => {
 });
 
 it("AES encrypting generate all params", async () => {
-  const algorithm = Vault.SymmetricAlgorithm.AES128_CFB;
   const purpose = Vault.KeyPurpose.ENCRYPTION;
-  try {
-    const id = await symGenerateParams(algorithm, purpose);
-    await vault.delete(id);
-  } catch (e) {
-    e instanceof PangeaErrors.APIError ? console.log(e.toString()) : console.log(e);
-    console.log(`Failed symGenerateParams with ${algorithm} and ${purpose}`);
-    expect(true).toBeTruthy();
+  let failed = false;
+  const algorithms = [
+    Vault.SymmetricAlgorithm.AES128_CFB,
+    Vault.SymmetricAlgorithm.AES256_CFB,
+    Vault.SymmetricAlgorithm.AES256_GCM,
+    Vault.SymmetricAlgorithm.AES128_CBC,
+    Vault.SymmetricAlgorithm.AES256_CBC,
+  ];
+  for (const algorithm of algorithms) {
+    try {
+      const id = await symGenerateParams(algorithm, purpose);
+      await vault.delete(id);
+    } catch (e) {
+      e instanceof PangeaErrors.APIError ? console.log(e.toString()) : console.log(e);
+      console.log(`Failed symGenerateParams with ${algorithm} and ${purpose}`);
+      failed = true;
+    }
   }
+  expect(failed).toBeFalsy();
 });
 
-it("RSA encrypting generate all params", async () => {
-  const algorithm = Vault.AsymmetricAlgorithm.RSA2048_OAEP_SHA256;
+it("Asymmetric encrypting generate all params", async () => {
   const purpose = Vault.KeyPurpose.ENCRYPTION;
-  try {
-    const id = await asymGenerateParams(algorithm as Vault.AsymmetricAlgorithm, purpose);
-    await vault.delete(id);
-  } catch (e) {
-    e instanceof PangeaErrors.APIError ? console.log(e.toString()) : console.log(e);
-    console.log(`Failed asymGenerateParams with ${algorithm} and ${purpose}`);
-    expect(true).toBeTruthy();
+  let failed = false;
+  const algorithms = [
+    Vault.AsymmetricAlgorithm.RSA2048_OAEP_SHA1,
+    Vault.AsymmetricAlgorithm.RSA2048_OAEP_SHA512,
+    Vault.AsymmetricAlgorithm.RSA3072_OAEP_SHA1,
+    Vault.AsymmetricAlgorithm.RSA3072_OAEP_SHA256,
+    Vault.AsymmetricAlgorithm.RSA3072_OAEP_SHA512,
+    Vault.AsymmetricAlgorithm.RSA4096_OAEP_SHA1,
+    Vault.AsymmetricAlgorithm.RSA4096_OAEP_SHA256,
+    Vault.AsymmetricAlgorithm.RSA4096_OAEP_SHA512,
+  ];
+  for (const algorithm of algorithms) {
+    try {
+      const id = await asymGenerateParams(algorithm as Vault.AsymmetricAlgorithm, purpose);
+      await vault.delete(id);
+    } catch (e) {
+      e instanceof PangeaErrors.APIError ? console.log(e.toString()) : console.log(e);
+      console.log(`Failed asymGenerateParams with ${algorithm} and ${purpose}`);
+      failed = true;
+    }
   }
+  expect(failed).toBeFalsy();
 });
 
 it("Ed25519 signing life cycle", async () => {
-  const algorithm = Vault.AsymmetricAlgorithm.Ed25519;
   const purpose = Vault.KeyPurpose.SIGNING;
-  try {
-    const id = await asymGenerateDefault(algorithm, purpose);
-    await asymSigningCycle(id);
-    await vault.delete(id);
-  } catch (e) {
-    console.log(`Failed asymmetric signing life cycle with ${algorithm} and ${purpose}`);
-    expect(true).toBeTruthy();
+  const algorithms = [
+    Vault.AsymmetricAlgorithm.Ed25519,
+    Vault.AsymmetricAlgorithm.RSA2048_PKCS1V15_SHA256,
+  ];
+  for (const algorithm of algorithms) {
+    try {
+      const id = await asymGenerateDefault(algorithm, purpose);
+      await asymSigningCycle(id);
+      await vault.delete(id);
+    } catch (e) {
+      console.log(`Failed asymmetric signing life cycle with ${algorithm} and ${purpose}`);
+      expect(true).toBeTruthy();
+    }
   }
 });
 
