@@ -557,7 +557,7 @@
     "@jridgewell/resolve-uri" "^3.1.0"
     "@jridgewell/sourcemap-codec" "^1.4.14"
 
-"@loadable/component@^5.15.2":
+"@loadable/component@^5.16.3":
   version "5.16.3"
   resolved "https://registry.yarnpkg.com/@loadable/component/-/component-5.16.3.tgz#3fc96d48defd8ff47aa624b8ce7f70248943e102"
   integrity sha512-2mVvHs2988oVX2/zM0y6nYhJ4rTVHhkhRnpupBA0Rjl5tS8op9uSR4u5SLVfMLxzpspr2UiIBQD+wEuMsuq4Dg==
@@ -681,14 +681,14 @@
     prop-types "^15.8.1"
     react-transition-group "^4.4.5"
 
-"@pangeacyber/react-mui-audit-log-viewer@0.0.61":
-  version "0.0.61"
-  resolved "https://registry.yarnpkg.com/@pangeacyber/react-mui-audit-log-viewer/-/react-mui-audit-log-viewer-0.0.61.tgz#5ebaa70705caee62efc0660c6b395354cb6ad44a"
-  integrity sha512-S5WZ267OnovUBYnn2kgCe+sjjdtcM8a5YB4jaFUwhZIwPMCembMlmiAmUOqf9EMT4sMgKAOoVdOA1erKbjss2A==
+"@pangeacyber/react-mui-audit-log-viewer@0.0.62":
+  version "0.0.62"
+  resolved "https://registry.yarnpkg.com/@pangeacyber/react-mui-audit-log-viewer/-/react-mui-audit-log-viewer-0.0.62.tgz#02552cf52c0e9465315b28b84998344cbf0a6ebd"
+  integrity sha512-y9OI8lm84W6yOQn7VFew8TkSaZ3bT0fZb9XU/uwjGIsebndCcgnHNTiM0D8SqiS69DxrVufCoYptotZ+PurzEQ==
   dependencies:
-    "@pangeacyber/react-mui-shared" "0.0.37"
+    "@pangeacyber/react-mui-shared" "0.0.48"
     crypto-js "^4.2.0"
-    diff "^5.1.0"
+    diff "^5.2.0"
     lodash "^4.17.21"
     merkle-tools "^1.4.1"
     react-beautiful-dnd "^13.1.0"
@@ -698,20 +698,20 @@
   resolved "https://registry.yarnpkg.com/@pangeacyber/react-mui-branding/-/react-mui-branding-0.0.13.tgz#5b696d686e1d4e56f8b190b8ccc182e92c71bc6c"
   integrity sha512-D6J+00zHH3f0GOcY+HiX3zrfGKJq5KE1tfSnEtdA2zW+0ORbtynxY85Wtp+AzXOwANKbCK3r6FkgV3XqJgzNhA==
 
-"@pangeacyber/react-mui-shared@0.0.37":
-  version "0.0.37"
-  resolved "https://registry.yarnpkg.com/@pangeacyber/react-mui-shared/-/react-mui-shared-0.0.37.tgz#bfd1310f8779acb6ee8d4aba29a8e736923673e8"
-  integrity sha512-b8Tq+Vh0fQQ5rfFMlrtQk3jNve2+UamIEWVPzMW98+kxuDpbszPGIeq2qZ/XWCleuVd6Ck2vBON07S0FrJ3uGA==
+"@pangeacyber/react-mui-shared@0.0.48":
+  version "0.0.48"
+  resolved "https://registry.yarnpkg.com/@pangeacyber/react-mui-shared/-/react-mui-shared-0.0.48.tgz#63004ab202b734a62c573f7f8c481b8005389325"
+  integrity sha512-MxkwxtRVBVJXUMaKnxPoScWtgFQ+mMGV+NlxM3DQ/KKrI49yAFanSteJtrohbnAXbmDrWCQz7s/mkUSsDbuIIQ==
   dependencies:
-    "@loadable/component" "^5.15.2"
+    "@loadable/component" "^5.16.3"
     "@mui/x-data-grid" "^6.10.0"
     "@mui/x-date-pickers" "^6.10.1"
     dayjs "^1.11.10"
     formik "^2.4.5"
-    moment "^2.29.4"
+    moment "^2.30.1"
     react-beautiful-dnd "^13.1.1"
     react-json-view "^1.21.3"
-    yup "^1.3.1"
+    yup "^1.3.3"
 
 "@popperjs/core@^2.11.8":
   version "2.11.8"
@@ -1637,7 +1637,7 @@ diff-sequences@^29.6.3:
   resolved "https://registry.yarnpkg.com/diff-sequences/-/diff-sequences-29.6.3.tgz#4deaf894d11407c51efc8418012f9e70b84ea921"
   integrity sha512-EjePK1srD3P08o2j4f0ExnylqRs5B9tJjcp9t1krH2qRi8CCdsYfwe9JgSLurFBWwq4uOlipzfk5fHNvwFKr8Q==
 
-diff@^5.1.0:
+diff@^5.2.0:
   version "5.2.0"
   resolved "https://registry.yarnpkg.com/diff/-/diff-5.2.0.tgz#26ded047cd1179b78b9537d5ef725503ce1ae531"
   integrity sha512-uIFDxqpRZGZ6ThOk84hEfqWoHx2devRFvpTZcTHur85vImfaxUbTW9Ryh4CpCuDnToOP1CEtXKIgytHBPVff5A==
@@ -2667,7 +2667,7 @@ mlly@^1.2.0, mlly@^1.4.2:
     pkg-types "^1.0.3"
     ufo "^1.3.2"
 
-moment@^2.29.4:
+moment@^2.30.1:
   version "2.30.1"
   resolved "https://registry.yarnpkg.com/moment/-/moment-2.30.1.tgz#f8c91c07b7a786e30c59926df530b4eac96974ae"
   integrity sha512-uEmtNhbDOrWPFS+hdjFCBfy9f2YoyzRpwcl+DqpC6taX21FzsTLQVbMV/W7PzNSX6x/bhC1zA3c2UQ5NzH6how==
@@ -3831,7 +3831,7 @@ yocto-queue@^1.0.0:
   resolved "https://registry.yarnpkg.com/yocto-queue/-/yocto-queue-1.0.0.tgz#7f816433fb2cbc511ec8bf7d263c3b58a1a3c251"
   integrity sha512-9bnSc/HEW2uRy67wc+T8UwauLuPJVn28jb+GtJY16iiKWyvmYJRXVT4UamsAEGQfPohgr2q4Tq0sQbQlxTfi1g==
 
-yup@^1.3.1:
+yup@^1.3.3:
   version "1.3.3"
   resolved "https://registry.yarnpkg.com/yup/-/yup-1.3.3.tgz#d2f6020ad1679754c5f8178a29243d5447dead04"
   integrity sha512-v8QwZSsHH2K3/G9WSkp6mZKO+hugKT1EmnMqLNUcfu51HU9MDyhlETT/JgtzprnrnQHPWsjc6MUDMBp/l9fNnw==
