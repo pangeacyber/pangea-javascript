@@ -7,7 +7,7 @@ import {
   Tooltip,
   Typography,
 } from "@mui/material";
-import { useTheme, lighten } from "@mui/material/styles";
+import { useTheme, lighten, darken } from "@mui/material/styles";
 import {
   AuthPasswordField,
   FieldComponentProps,
@@ -111,6 +111,7 @@ const UnControlledShareAuthenticatorField: FC<
     });
   };
 
+  const modify = theme.palette.mode === "dark" ? darken : lighten;
   return (
     <Stack spacing={0.5}>
       <Stack>
@@ -122,15 +123,15 @@ const UnControlledShareAuthenticatorField: FC<
           sx={{
             width: "100%",
             borderWidth: 0,
-            bgcolor: lighten(theme.palette.info.main, 0.9),
+            bgcolor: modify(theme.palette.info.main, 0.9),
             ".MuiToggleButton-root": {
               borderWidth: 0,
               borderRadius: "6px!important",
               paddingY: 1.5,
-              bgcolor: lighten(theme.palette.info.main, 0.9),
+              bgcolor: modify(theme.palette.info.main, 0.9),
               color: theme.palette.info.main,
               ":hover": {
-                bgcolor: lighten(theme.palette.info.main, 0.8),
+                bgcolor: modify(theme.palette.info.main, 0.8),
               },
             },
             ".MuiToggleButton-root.Mui-selected": {
@@ -203,7 +204,7 @@ const UnControlledShareAuthenticatorField: FC<
         <Stack width="100%" spacing={2}>
           <Typography
             variant="body2"
-            color={lighten(theme.palette.text.secondary, 0.5)}
+            color={modify(theme.palette.text.secondary, 0.5)}
           >
             Links secured by SMS will ask for the phone number and a code to
             gain access.
@@ -219,7 +220,7 @@ const UnControlledShareAuthenticatorField: FC<
         <Stack width="100%" spacing={2}>
           <Typography
             variant="body2"
-            color={lighten(theme.palette.text.secondary, 0.5)}
+            color={modify(theme.palette.text.secondary, 0.5)}
           >
             Links secured by email will ask for the email and a code to gain
             access.
@@ -235,7 +236,7 @@ const UnControlledShareAuthenticatorField: FC<
         <Stack width="100%" spacing={2} sx={{ minHeight: "170px" }}>
           <Typography
             variant="body2"
-            color={lighten(theme.palette.text.secondary, 0.5)}
+            color={modify(theme.palette.text.secondary, 0.5)}
           >
             Links secured by password will ask for the password to gain access.
           </Typography>

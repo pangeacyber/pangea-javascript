@@ -1,5 +1,5 @@
 import { Box, IconButton, Select, Stack, Typography } from "@mui/material";
-import { useTheme, lighten } from "@mui/material/styles";
+import { useTheme, lighten, darken } from "@mui/material/styles";
 import {
   FieldComponentProps,
   FieldControl,
@@ -26,9 +26,12 @@ const ShareLinkAccess: FC<{
   value: any;
   labels: string[];
 }> = ({ labels, value }) => {
+  const theme = useTheme();
+
+  const modify = theme.palette.mode === "dark" ? darken : lighten;
   return (
     <Stack direction="row" alignItems="center" spacing={1}>
-      <IconButton sx={{ bgcolor: "#F6F9FC" }}>
+      <IconButton sx={{ bgcolor: modify(theme.palette.info.main, 0.9) }}>
         {value === "download" && <DownloadIcon fontSize="small" />}
         {value === "upload" && <UploadIcon fontSize="small" />}
         {value === "editor" && <BorderColorIcon fontSize="small" />}
