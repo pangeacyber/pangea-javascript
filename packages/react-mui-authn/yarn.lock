@@ -2145,18 +2145,6 @@
   resolved "https://registry.yarnpkg.com/@sinclair/typebox/-/typebox-0.27.8.tgz#6667fac16c436b5434a387a34dedb013198f6e6e"
   integrity sha512-+Fj43pSMwJs4KRrH/938Uf+uAELIgVBmQzg/q1YG10djyfA3TnrU8N8XzqCh/okZdszqBQTZf96idMfE5lnwTA==
 
-"@storybook/addon-actions@7.6.15":
-  version "7.6.15"
-  resolved "https://registry.yarnpkg.com/@storybook/addon-actions/-/addon-actions-7.6.15.tgz#020dd943b3b423edf394367186a1eaf3a1590f11"
-  integrity sha512-2Jfvbahe/tmq1iNnNxmcP0JnX0rqCuijjXXai9yMDV3koIMawn6t88MPVrdcso5ch/fxE45522nZqA3SZJbM4g==
-  dependencies:
-    "@storybook/core-events" "7.6.15"
-    "@storybook/global" "^5.0.0"
-    "@types/uuid" "^9.0.1"
-    dequal "^2.0.2"
-    polished "^4.2.2"
-    uuid "^9.0.0"
-
 "@storybook/addon-actions@7.6.16":
   version "7.6.16"
   resolved "https://registry.yarnpkg.com/@storybook/addon-actions/-/addon-actions-7.6.16.tgz#aed33b43743832f037aede8ce2bfda26b3b91fe6"
@@ -2868,19 +2856,6 @@
   resolved "https://registry.yarnpkg.com/@storybook/docs-mdx/-/docs-mdx-0.1.0.tgz#33ba0e39d1461caf048b57db354b2cc410705316"
   integrity sha512-JDaBR9lwVY4eSH5W8EGHrhODjygPd6QImRbwjAuJNEnY0Vw4ie3bPkeGfnacB3OBW6u/agqPv2aRlR46JcAQLg==
 
-"@storybook/docs-tools@7.6.15":
-  version "7.6.15"
-  resolved "https://registry.yarnpkg.com/@storybook/docs-tools/-/docs-tools-7.6.15.tgz#ca2215571ecf66570cffb401be1cdcd373ba795e"
-  integrity sha512-npZEaI9Wpn9uJcRXFElqyiRw8bSxt95mLywPiEEGMT2kE5FfXM8d5Uj5O64kzoXdRI9IhRPEEZZidOtA/UInfQ==
-  dependencies:
-    "@storybook/core-common" "7.6.15"
-    "@storybook/preview-api" "7.6.15"
-    "@storybook/types" "7.6.15"
-    "@types/doctrine" "^0.0.3"
-    assert "^2.1.0"
-    doctrine "^3.0.0"
-    lodash "^4.17.21"
-
 "@storybook/docs-tools@7.6.16":
   version "7.6.16"
   resolved "https://registry.yarnpkg.com/@storybook/docs-tools/-/docs-tools-7.6.16.tgz#61a2c3178ca6a0537855f0aa7a562b46276fe337"
@@ -3062,11 +3037,6 @@
     micromatch "^4.0.2"
     react-docgen-typescript "^2.2.2"
     tslib "^2.0.0"
-
-"@storybook/react-dom-shim@7.6.15":
-  version "7.6.15"
-  resolved "https://registry.yarnpkg.com/@storybook/react-dom-shim/-/react-dom-shim-7.6.15.tgz#5696c0dfee2eaf2ecddc4537f13fde3c41986e2f"
-  integrity sha512-2+X0HIxIyvjfSKVyGGjSJJLEFJ2ox7Rr8FjlMiRo5QfoOJhohZuWH7p4Lw7JMwm5PotnjrwlfsZI3cCilYJeYA==
 
 "@storybook/react-dom-shim@7.6.16":
   version "7.6.16"
