@@ -29,7 +29,7 @@
     "@rollup/plugin-typescript": "^11.1.6",
     "@storybook/addon-actions": "^6.5.12",
     "@storybook/addon-essentials": "^6.5.12",
-    "@storybook/addon-interactions": "^6.5.12",
+    "@storybook/addon-interactions": "^7.6.16",
     "@storybook/addon-links": "^6.5.12",
     "@storybook/builder-webpack4": "^6.5.16",
     "@storybook/manager-webpack4": "^6.5.12",
