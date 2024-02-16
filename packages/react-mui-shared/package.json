@@ -28,7 +28,7 @@
     "@storybook/addon-essentials": "^7.6.15",
     "@storybook/addon-interactions": "^7.6.15",
     "@storybook/addon-links": "^7.6.15",
-    "@storybook/react": "^7.6.15",
+    "@storybook/react": "^7.6.16",
     "@storybook/react-vite": "^7.6.15",
     "@types/jest": "^29.1.1",
     "@types/loadable__component": "^5.13.8",
