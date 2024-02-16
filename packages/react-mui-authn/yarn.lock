@@ -2326,14 +2326,14 @@
   dependencies:
     memoizerific "^1.11.3"
 
-"@storybook/addons@7.6.14":
-  version "7.6.14"
-  resolved "https://registry.yarnpkg.com/@storybook/addons/-/addons-7.6.14.tgz#59cc3f27c0a1048a4fb8beb3d745494d4172ec3f"
-  integrity sha512-J/TpNl7dzKthv7hAXkUoPF5GSonLINFgoVgl7gBj5RnAIqKUnliMOMohYTteHEIiOsXRk3uDx+trSGsp42jsdw==
+"@storybook/addons@7.6.16":
+  version "7.6.16"
+  resolved "https://registry.yarnpkg.com/@storybook/addons/-/addons-7.6.16.tgz#7bea41284dfb9386f27035f1197a9107e247a275"
+  integrity sha512-6QibnKs7UHYuJFmRfR70gSs3W9prHZ51Tl0Cj7ShgkPKdavBRXD89oNp0hIw+Mhdh8IlUCBViKRhe50QFa4DjQ==
   dependencies:
-    "@storybook/manager-api" "7.6.14"
-    "@storybook/preview-api" "7.6.14"
-    "@storybook/types" "7.6.14"
+    "@storybook/manager-api" "7.6.16"
+    "@storybook/preview-api" "7.6.16"
+    "@storybook/types" "7.6.16"
 
 "@storybook/api@^7.0.12":
   version "7.6.12"
@@ -2940,26 +2940,6 @@
     telejson "^7.2.0"
     ts-dedent "^2.0.0"
 
-"@storybook/manager-api@7.6.14":
-  version "7.6.14"
-  resolved "https://registry.yarnpkg.com/@storybook/manager-api/-/manager-api-7.6.14.tgz#2df38750f1b89dee98053839efb67f43a8d6bcf9"
-  integrity sha512-kZbcudrpQaYgUCrnBumDBPOvaEcvFBrZjM5v3AvMenVMXTjwlAHF8mZswE/ptpDsico2iSN96nMhd97OyaAuqA==
-  dependencies:
-    "@storybook/channels" "7.6.14"
-    "@storybook/client-logger" "7.6.14"
-    "@storybook/core-events" "7.6.14"
-    "@storybook/csf" "^0.1.2"
-    "@storybook/global" "^5.0.0"
-    "@storybook/router" "7.6.14"
-    "@storybook/theming" "7.6.14"
-    "@storybook/types" "7.6.14"
-    dequal "^2.0.2"
-    lodash "^4.17.21"
-    memoizerific "^1.11.3"
-    store2 "^2.14.2"
-    telejson "^7.2.0"
-    ts-dedent "^2.0.0"
-
 "@storybook/manager-api@7.6.16", "@storybook/manager-api@^7.0.12":
   version "7.6.16"
   resolved "https://registry.yarnpkg.com/@storybook/manager-api/-/manager-api-7.6.16.tgz#ad74839cc51a6e3318ce651eb9bf03752eb43851"
@@ -3032,26 +3012,6 @@
     react-refresh "^0.14.0"
     semver "^7.3.7"
     webpack "5"
-
-"@storybook/preview-api@7.6.14":
-  version "7.6.14"
-  resolved "https://registry.yarnpkg.com/@storybook/preview-api/-/preview-api-7.6.14.tgz#50d2794e269c5182f285aaf3a07d50a2e1cf6a54"
-  integrity sha512-CnUEkTUK3ei3vw4Ypa9EOxEO9lCKc3HvVHxXu4z6Caoe/hRUc10Q6Nj1A7brqok1QLZ304qc715XdYFMahDhyA==
-  dependencies:
-    "@storybook/channels" "7.6.14"
-    "@storybook/client-logger" "7.6.14"
-    "@storybook/core-events" "7.6.14"
-    "@storybook/csf" "^0.1.2"
-    "@storybook/global" "^5.0.0"
-    "@storybook/types" "7.6.14"
-    "@types/qs" "^6.9.5"
-    dequal "^2.0.2"
-    lodash "^4.17.21"
-    memoizerific "^1.11.3"
-    qs "^6.10.0"
-    synchronous-promise "^2.0.15"
-    ts-dedent "^2.0.0"
-    util-deprecate "^1.0.2"
 
 "@storybook/preview-api@7.6.15":
   version "7.6.15"
@@ -3194,15 +3154,6 @@
     memoizerific "^1.11.3"
     qs "^6.10.0"
 
-"@storybook/router@7.6.14":
-  version "7.6.14"
-  resolved "https://registry.yarnpkg.com/@storybook/router/-/router-7.6.14.tgz#b04d6eef3c7c18e005b31f79f539c8d7811fda1c"
-  integrity sha512-eVD7jVZeM8mppEtHsvkKIEN92stsdbiXDHG49iNVnw+ojOSjJ1HR8+Pm8wy5Cc2pcyoZEHeU356kaP9gXOhuOQ==
-  dependencies:
-    "@storybook/client-logger" "7.6.14"
-    memoizerific "^1.11.3"
-    qs "^6.10.0"
-
 "@storybook/router@7.6.16":
   version "7.6.16"
   resolved "https://registry.yarnpkg.com/@storybook/router/-/router-7.6.16.tgz#a971f9b0350a8b7ab9969900645c3271505a449a"
@@ -3274,16 +3225,6 @@
   dependencies:
     "@emotion/use-insertion-effect-with-fallbacks" "^1.0.0"
     "@storybook/client-logger" "7.6.12"
-    "@storybook/global" "^5.0.0"
-    memoizerific "^1.11.3"
-
-"@storybook/theming@7.6.14":
-  version "7.6.14"
-  resolved "https://registry.yarnpkg.com/@storybook/theming/-/theming-7.6.14.tgz#c2ecaf2e54dd1b79171e34135572339c68104087"
-  integrity sha512-jpryYjBAGLkFauSyNEoflSfYqO3srn98llNxhgxpc1P1ocmOzeDwdg7PUWDI9DCuJC+OWaXa1zzLO6uRLyEJAQ==
-  dependencies:
-    "@emotion/use-insertion-effect-with-fallbacks" "^1.0.0"
-    "@storybook/client-logger" "7.6.14"
     "@storybook/global" "^5.0.0"
     memoizerific "^1.11.3"
 
