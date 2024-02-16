@@ -46,6 +46,13 @@ updates:
     versioning-strategy: increase
     schedule:
       interval: daily
+    groups:
+      react:
+        patterns:
+          - "react"
+          - "react-dom"
+          - "@types/react"
+          - "@types/react-dom"
 
   - package-ecosystem: npm
     directory: /examples/redact
@@ -70,36 +77,103 @@ updates:
     versioning-strategy: increase
     schedule:
       interval: daily
+    groups:
+      react:
+        patterns:
+          - "react"
+          - "react-dom"
+          - "@types/react"
+          - "@types/react-dom"
 
   - package-ecosystem: npm
     directory: /packages/react-mui-audit-log-viewer
     versioning-strategy: increase
     schedule:
       interval: daily
+    groups:
+      react:
+        patterns:
+          - "react"
+          - "react-dom"
+          - "@types/react"
+          - "@types/react-dom"
+      storybook:
+        patterns:
+          - "storybook"
+          - "@storybook/*"
+          - "eslint-plugin-storybook"
 
   - package-ecosystem: npm
     directory: /packages/react-mui-authn
     versioning-strategy: increase
     schedule:
       interval: daily
+    groups:
+      react:
+        patterns:
+          - "react"
+          - "react-dom"
+          - "@types/react"
+          - "@types/react-dom"
+      storybook:
+        patterns:
+          - "storybook"
+          - "@storybook/*"
+          - "eslint-plugin-storybook"
 
   - package-ecosystem: npm
     directory: /packages/react-mui-branding
     versioning-strategy: increase
     schedule:
       interval: daily
+    groups:
+      react:
+        patterns:
+          - "react"
+          - "react-dom"
+          - "@types/react"
+          - "@types/react-dom"
+      storybook:
+        patterns:
+          - "storybook"
+          - "@storybook/*"
+          - "eslint-plugin-storybook"
 
   - package-ecosystem: npm
     directory: /packages/react-mui-shared
     versioning-strategy: increase
     schedule:
       interval: daily
+    groups:
+      react:
+        patterns:
+          - "react"
+          - "react-dom"
+          - "@types/react"
+          - "@types/react-dom"
+      storybook:
+        patterns:
+          - "storybook"
+          - "@storybook/*"
+          - "eslint-plugin-storybook"
 
   - package-ecosystem: npm
     directory: /packages/react-mui-store-file-viewer
     versioning-strategy: increase
     schedule:
       interval: daily
+    groups:
+      react:
+        patterns:
+          - "react"
+          - "react-dom"
+          - "@types/react"
+          - "@types/react-dom"
+      storybook:
+        patterns:
+          - "storybook"
+          - "@storybook/*"
+          - "eslint-plugin-storybook"
 
   - package-ecosystem: npm
     directory: /packages/vanilla-js
