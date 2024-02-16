@@ -513,7 +513,7 @@ it("Asymmetric encrypting generate all params", async () => {
   expect(failed).toBeFalsy();
 });
 
-it("Ed25519 signing life cycle", async () => {
+it("Asymmetric signing life cycle", async () => {
   const purpose = Vault.KeyPurpose.SIGNING;
   const algorithms = [
     Vault.AsymmetricAlgorithm.Ed25519,
