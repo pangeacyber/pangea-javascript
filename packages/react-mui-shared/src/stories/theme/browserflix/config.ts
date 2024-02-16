@@ -1,4 +1,4 @@
-export const BROWSERFLIX: any = {
+export const BROWSERFLIX = {
   preset: "browserflix",
 
   brand_name: "Browserflix",

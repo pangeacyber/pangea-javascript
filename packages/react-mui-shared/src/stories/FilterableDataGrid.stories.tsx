@@ -5,9 +5,9 @@ import mapValues from "lodash/mapValues";
 import { IconButton, Stack, Typography } from "@mui/material";
 import { ThemeProvider, createTheme } from "@mui/material/styles";
 import CloseIcon from "@mui/icons-material/Close";
-import { ComponentStory, ComponentMeta } from "@storybook/react";
+import { StoryFn, Meta } from "@storybook/react";
 
-import PangeaDataGrid, {
+import {
   LinedPangeaDataGrid,
   PangeaDataGridProps,
 } from "../components/PangeaDataGrid";
@@ -15,14 +15,14 @@ import { Show, SHOWS } from "./data/television";
 import { SingleSelectCell, TextCell } from "../components/PangeaDataGrid/cells";
 
 export default {
-  title: "PangeaDataGrid",
+  title: "LinedPangeaDataGrid",
   component: LinedPangeaDataGrid,
   argTypes: {
     name: {
       type: "string",
     },
   },
-} as ComponentMeta<typeof LinedPangeaDataGrid>;
+} as Meta<typeof LinedPangeaDataGrid>;
 
 const PreviewPanel = ({ data, onClose }) => {
   return (
@@ -47,7 +47,7 @@ const PreviewPanel = ({ data, onClose }) => {
   );
 };
 
-const Template: ComponentStory<typeof LinedPangeaDataGrid> = (args) => {
+const Template: StoryFn<typeof LinedPangeaDataGrid> = (args) => {
   const [query, setQuery] = useState("");
   const [filters, setFilters] = useState({});
 

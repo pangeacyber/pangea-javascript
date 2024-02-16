@@ -1,4 +1,3 @@
-// /rollup.config.js
 import resolve from "@rollup/plugin-node-resolve";
 import external from "rollup-plugin-peer-deps-external";
 import terser from "@rollup/plugin-terser";
@@ -7,9 +6,9 @@ import typescript from "@rollup/plugin-typescript";
 import commonjs from "@rollup/plugin-commonjs";
 import replace from "@rollup/plugin-replace";
 import nodePolyfills from "rollup-plugin-polyfill-node";
-import dts from "rollup-plugin-dts";
+import { dts } from "rollup-plugin-dts";
 
-import pkg from "./package.json";
+import pkg from "./package.json" assert { type: "json" };
 
 export default [
   {
@@ -41,10 +40,9 @@ export default [
       }),
     ],
     external: Object.keys(pkg.peerDependencies || {}),
-    inlineDynamicImports: true,
   },
   {
-    input: "dist/esm/index.d.ts",
+    input: "dist/esm/types/index.d.ts",
     output: [{ file: "dist/index.d.ts", format: "esm" }],
     external: [/\.css$/],
     plugins: [dts()],

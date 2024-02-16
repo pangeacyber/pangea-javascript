@@ -2,9 +2,7 @@ import React, { useEffect, useState } from "react";
 import keyBy from "lodash/keyBy";
 import mapValues from "lodash/mapValues";
 
-import { IconButton, Stack, Typography } from "@mui/material";
-import CloseIcon from "@mui/icons-material/Close";
-import { ComponentStory, ComponentMeta } from "@storybook/react";
+import { StoryFn, Meta } from "@storybook/react";
 
 import PangeaDataGrid, {
   PangeaDataGridProps,
@@ -19,9 +17,9 @@ export default {
       type: "string",
     },
   },
-} as ComponentMeta<typeof PangeaDataGrid>;
+} as Meta<typeof PangeaDataGrid>;
 
-const Template: ComponentStory<typeof PangeaDataGrid> = (args) => {
+const Template: StoryFn<typeof PangeaDataGrid> = (args) => {
   const [query, setQuery] = useState("");
   const [filters, setFilters] = useState({});
 

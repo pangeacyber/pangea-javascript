@@ -1,5 +1,5 @@
 import get from "lodash/get";
-import { Stack, Grid } from "@mui/material";
+import { Grid } from "@mui/material";
 
 import PreviewField from "./PreviewField";
 import { FieldsPreviewSchema, PreviewFieldSchema } from "./types";
