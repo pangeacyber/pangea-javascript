@@ -2858,16 +2858,16 @@
   resolved "https://registry.yarnpkg.com/@storybook/global/-/global-5.0.0.tgz#b793d34b94f572c1d7d9e0f44fac4e0dbc9572ed"
   integrity sha512-FcOqPAXACP0I3oJ/ws6/rrPT9WGhu915Cg8D02a9YxLo0DE9zI+a9A5gRGvmQ09fiWPukqI8ZAEoQEdWUKMQdQ==
 
-"@storybook/instrumenter@7.6.16":
-  version "7.6.16"
-  resolved "https://registry.yarnpkg.com/@storybook/instrumenter/-/instrumenter-7.6.16.tgz#771d348e063b47af8fdcc6a535cb9928ae143e9c"
-  integrity sha512-b/X34w08yhWxN+hFjjO09LP9ubwVLOPaF1P2uvOfzbnhv7E5xNsbCG3Czk00Rx8OUeeU97Q0ZArUjOAj3HFNcQ==
+"@storybook/instrumenter@7.6.17":
+  version "7.6.17"
+  resolved "https://registry.yarnpkg.com/@storybook/instrumenter/-/instrumenter-7.6.17.tgz#58a8aa78ecb35ab8240fa2759ff4655165cdee57"
+  integrity sha512-zTLIPTt1fvlWgkIVUyQpF327iVE+EiPdpM0Or0aARaNfIikPRBTcjU+6cK96E+Ust2E1qKajEjIuv4i4lLQPng==
   dependencies:
-    "@storybook/channels" "7.6.16"
-    "@storybook/client-logger" "7.6.16"
-    "@storybook/core-events" "7.6.16"
+    "@storybook/channels" "7.6.17"
+    "@storybook/client-logger" "7.6.17"
+    "@storybook/core-events" "7.6.17"
     "@storybook/global" "^5.0.0"
-    "@storybook/preview-api" "7.6.16"
+    "@storybook/preview-api" "7.6.17"
     "@vitest/utils" "^0.34.6"
     util "^0.12.4"
 
@@ -3115,15 +3115,15 @@
     fs-extra "^11.1.0"
     read-pkg-up "^7.0.1"
 
-"@storybook/test@^7.6.16":
-  version "7.6.16"
-  resolved "https://registry.yarnpkg.com/@storybook/test/-/test-7.6.16.tgz#48e4879f1bde8d1b169db30d1c7442e825bef579"
-  integrity sha512-rHLk4b6ZhswAHfVI+G/2rGeoXbP04NoPkDSf3l9dJ0Oj5TKMKw6O8bakrbeFTzpJxk4O3mIgaNH92rgtcC0AFA==
+"@storybook/test@^7.6.17":
+  version "7.6.17"
+  resolved "https://registry.yarnpkg.com/@storybook/test/-/test-7.6.17.tgz#26cff891ce7b4170b2d7541a70c744b402defdf5"
+  integrity sha512-WGrmUUtKiuq3bzDsN4MUvluGcX120jwczMik1GDTyxS+JBoe7P0t2Y8dDuVs/l3nZd1J7qY4z0RGxMDYqONIOw==
   dependencies:
-    "@storybook/client-logger" "7.6.16"
-    "@storybook/core-events" "7.6.16"
-    "@storybook/instrumenter" "7.6.16"
-    "@storybook/preview-api" "7.6.16"
+    "@storybook/client-logger" "7.6.17"
+    "@storybook/core-events" "7.6.17"
+    "@storybook/instrumenter" "7.6.17"
+    "@storybook/preview-api" "7.6.17"
     "@testing-library/dom" "^9.3.1"
     "@testing-library/jest-dom" "^6.1.3"
     "@testing-library/user-event" "14.3.0"
