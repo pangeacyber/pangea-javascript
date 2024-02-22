@@ -1,13 +1,10 @@
 import React from "react";
 import startCase from "lodash/startCase";
 
-import * as yup from "yup";
-import { TextField } from "@mui/material";
-import { ComponentStory, ComponentMeta } from "@storybook/react";
+import { StoryFn, Meta } from "@storybook/react";
 
 import {
   FieldsPreview,
-  FieldsPreviewSchema,
   FieldsPreviewProps,
 } from "../../components/PangeaFields";
 import { Box } from "@mui/material";
@@ -17,9 +14,9 @@ export default {
   title: "FolderFieldsPreview",
   component: FieldsPreview,
   argTypes: {},
-} as ComponentMeta<typeof FieldsPreview>;
+} as Meta<typeof FieldsPreview>;
 
-const ThemeTemplate: ComponentStory<typeof FieldsPreview> = (args) => {
+const ThemeTemplate: StoryFn<typeof FieldsPreview> = (args) => {
   return (
     <PangeaThemeProvider>
       <Box className="widget" sx={{ padding: 1 }}>

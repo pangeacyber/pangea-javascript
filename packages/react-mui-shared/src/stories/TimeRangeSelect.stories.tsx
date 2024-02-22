@@ -1,6 +1,6 @@
-import React, { FC, useEffect, useState } from "react";
+import React, { FC, useState } from "react";
 import pick from "lodash/pick";
-import { ComponentStory, ComponentMeta } from "@storybook/react";
+import { StoryFn, Meta } from "@storybook/react";
 
 import TimeRangeSelect, {
   TimeRangeSelectProps,
@@ -14,9 +14,9 @@ export default {
       type: "string",
     },
   },
-} as ComponentMeta<typeof TimeRangeSelect>;
+} as Meta<typeof TimeRangeSelect>;
 
-const Template: ComponentStory<FC<Partial<TimeRangeSelectProps>>> = (args) => {
+const Template: StoryFn<FC<Partial<TimeRangeSelectProps>>> = (args) => {
   const [filters, onFilterChange] = useState({});
 
   return (

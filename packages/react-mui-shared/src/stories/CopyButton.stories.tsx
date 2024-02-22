@@ -1,5 +1,5 @@
-import React, { FC, useEffect, useState } from "react";
-import { ComponentStory, ComponentMeta } from "@storybook/react";
+import React, { FC } from "react";
+import { StoryFn, Meta } from "@storybook/react";
 
 import CopyButton, { CopyProps } from "../components/IconButtons/CopyButton";
 
@@ -11,9 +11,9 @@ export default {
       type: "string",
     },
   },
-} as ComponentMeta<typeof CopyButton>;
+} as Meta<typeof CopyButton>;
 
-const Template: ComponentStory<FC<Partial<CopyProps>>> = (args) => {
+const Template: StoryFn<FC<Partial<CopyProps>>> = (args) => {
   return <CopyButton value={"testing"} label="test" {...args} />;
 };
 
