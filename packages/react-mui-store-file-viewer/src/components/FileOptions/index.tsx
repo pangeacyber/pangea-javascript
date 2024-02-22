@@ -1,5 +1,5 @@
 import { FC, useState } from "react";
-import { Box, IconButton, Menu, Stack } from "@mui/material";
+import { Box, IconButton, Menu, Paper, Stack } from "@mui/material";
 import { useTheme } from "@mui/material/styles";
 
 import MoreVertIcon from "@mui/icons-material/MoreVert";
@@ -70,14 +70,33 @@ const FileOptions: FC<VaultItemOptionsProps> = ({
             },
           }}
         >
-          {!!object?.["vault-password-algorithm"] ||
-          !!object?.metadata_protected?.["vault-password-algorithm"] ? (
-            <RemoveFilePasswordButton object={object} onClose={handleClose} />
-          ) : (
-            <AddFilePasswordButton object={object} onClose={handleClose} />
-          )}
-          <UpdateFileButton object={object} onClose={handleClose} />
-          <DeleteFileButton object={object} onClose={handleClose} />
+          <Paper
+            tabIndex={-1}
+            onKeyDown={(event) => {
+              if (event.key === "Tab") {
+                event.stopPropagation();
+              }
+            }}
+          >
+            {object?.type !== "folder" && (
+              <>
+                {!!object?.["vault-password-algorithm"] ||
+                !!object?.metadata_protected?.["vault-password-algorithm"] ? (
+                  <RemoveFilePasswordButton
+                    object={object}
+                    onClose={handleClose}
+                  />
+                ) : (
+                  <AddFilePasswordButton
+                    object={object}
+                    onClose={handleClose}
+                  />
+                )}
+              </>
+            )}
+            <UpdateFileButton object={object} onClose={handleClose} />
+            <DeleteFileButton object={object} onClose={handleClose} />
+          </Paper>
         </Menu>
       </Box>
     </Stack>
