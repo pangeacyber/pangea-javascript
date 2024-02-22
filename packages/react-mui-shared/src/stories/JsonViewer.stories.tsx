@@ -1,6 +1,5 @@
-import React, { FC, useEffect, useState } from "react";
-import pick from "lodash/pick";
-import { ComponentStory, ComponentMeta } from "@storybook/react";
+import React, { FC } from "react";
+import { StoryFn, Meta } from "@storybook/react";
 
 import JsonViewer, { JsonViewerProps } from "../components/JsonViewer";
 
@@ -12,9 +11,9 @@ export default {
       type: "string",
     },
   },
-} as ComponentMeta<typeof JsonViewer>;
+} as Meta<typeof JsonViewer>;
 
-const Template: ComponentStory<FC<Partial<JsonViewerProps>>> = (args) => {
+const Template: StoryFn<FC<Partial<JsonViewerProps>>> = (args) => {
   return (
     <JsonViewer
       src={args.src ?? {}}

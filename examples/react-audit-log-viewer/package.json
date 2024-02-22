@@ -18,7 +18,7 @@
     "@emotion/styled": "11.11.0",
     "@mui/icons-material": "5.15.10",
     "@mui/material": "5.15.10",
-    "@pangeacyber/react-mui-audit-log-viewer": "0.0.61",
+    "@pangeacyber/react-mui-audit-log-viewer": "0.0.62",
     "@pangeacyber/react-mui-branding": "0.0.13",
     "react": "18.2.0",
     "react-dom": "18.2.0"
@@ -30,11 +30,11 @@
     "@tsconfig/vite-react": "3.0.0",
     "@types/react-dom": "18.2.19",
     "@vitejs/plugin-react": "4.2.1",
-    "cypress": "13.6.4",
+    "cypress": "13.6.5",
     "happy-dom": "13.3.8",
     "start-server-and-test": "2.0.3",
     "typescript": "5.3.3",
-    "vite": "5.1.2",
-    "vitest": "1.2.2"
+    "vite": "5.1.4",
+    "vitest": "1.3.1"
   }
 }

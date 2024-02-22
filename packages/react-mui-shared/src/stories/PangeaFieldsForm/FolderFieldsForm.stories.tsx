@@ -1,7 +1,6 @@
 import React from "react";
 import * as yup from "yup";
-import { TextField } from "@mui/material";
-import { ComponentStory, ComponentMeta } from "@storybook/react";
+import { StoryFn, Meta } from "@storybook/react";
 
 import { FieldsForm, FieldsFormProps } from "../../components/PangeaFields";
 import { Box } from "@mui/material";
@@ -11,9 +10,9 @@ export default {
   title: "FolderFieldsForm",
   component: FieldsForm,
   argTypes: {},
-} as ComponentMeta<typeof FieldsForm>;
+} as Meta<typeof FieldsForm>;
 
-const ThemeTemplate: ComponentStory<typeof FieldsForm> = (args) => {
+const ThemeTemplate: StoryFn<typeof FieldsForm> = (args) => {
   return (
     <PangeaThemeProvider>
       <Box className="widget" sx={{ padding: 20 }}>
