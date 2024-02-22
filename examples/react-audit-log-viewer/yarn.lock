@@ -657,7 +657,7 @@
     prop-types "^15.8.1"
     react-is "^18.2.0"
 
-"@mui/x-data-grid@^6.10.0":
+"@mui/x-data-grid@^6.19.4":
   version "6.19.4"
   resolved "https://registry.yarnpkg.com/@mui/x-data-grid/-/x-data-grid-6.19.4.tgz#c75e7d0316d2db12098b517cc5429c0bc3ad141a"
   integrity sha512-qXBe2mSetdsl3ZPqB/1LpKNkEiaYUiFXIaMHTIjuzLyusXgt+w7UsHYO7R+aJYUU7c3FeHla0R1nwRMY3kZ5ng==
@@ -668,7 +668,7 @@
     prop-types "^15.8.1"
     reselect "^4.1.8"
 
-"@mui/x-date-pickers@^6.10.1":
+"@mui/x-date-pickers@^6.19.4":
   version "6.19.4"
   resolved "https://registry.yarnpkg.com/@mui/x-date-pickers/-/x-date-pickers-6.19.4.tgz#7df5ea081bdf9e2ce75c346bd95af340b1b56e9f"
   integrity sha512-LekaacLGnoQNN5hD6iXeHFL4LbZPnr1BM57hnUKy5UgKDHqzHzZSdPGc2p7Ktv/Z2NDbpPaLEAgrLwISKIYcow==
@@ -681,31 +681,31 @@
     prop-types "^15.8.1"
     react-transition-group "^4.4.5"
 
-"@pangeacyber/react-mui-audit-log-viewer@0.0.62":
-  version "0.0.62"
-  resolved "https://registry.yarnpkg.com/@pangeacyber/react-mui-audit-log-viewer/-/react-mui-audit-log-viewer-0.0.62.tgz#02552cf52c0e9465315b28b84998344cbf0a6ebd"
-  integrity sha512-y9OI8lm84W6yOQn7VFew8TkSaZ3bT0fZb9XU/uwjGIsebndCcgnHNTiM0D8SqiS69DxrVufCoYptotZ+PurzEQ==
+"@pangeacyber/react-mui-audit-log-viewer@0.0.63":
+  version "0.0.63"
+  resolved "https://registry.yarnpkg.com/@pangeacyber/react-mui-audit-log-viewer/-/react-mui-audit-log-viewer-0.0.63.tgz#6b049b7c91ed8cf8a831223d845619cd7c75ecca"
+  integrity sha512-tgHhi3J65BY+0/D1WprnBNgtx/H6CD6WPI0pGzNXN3SjVpMdT4T/Rd9WzL8k3nexcUg9Mi/A39cpQmG81MhSfA==
   dependencies:
-    "@pangeacyber/react-mui-shared" "0.0.48"
+    "@pangeacyber/react-mui-shared" "0.0.50"
     crypto-js "^4.2.0"
     diff "^5.2.0"
     lodash "^4.17.21"
     merkle-tools "^1.4.1"
-    react-beautiful-dnd "^13.1.0"
+    react-beautiful-dnd "^13.1.1"
 
 "@pangeacyber/react-mui-branding@0.0.13":
   version "0.0.13"
   resolved "https://registry.yarnpkg.com/@pangeacyber/react-mui-branding/-/react-mui-branding-0.0.13.tgz#5b696d686e1d4e56f8b190b8ccc182e92c71bc6c"
   integrity sha512-D6J+00zHH3f0GOcY+HiX3zrfGKJq5KE1tfSnEtdA2zW+0ORbtynxY85Wtp+AzXOwANKbCK3r6FkgV3XqJgzNhA==
 
-"@pangeacyber/react-mui-shared@0.0.48":
-  version "0.0.48"
-  resolved "https://registry.yarnpkg.com/@pangeacyber/react-mui-shared/-/react-mui-shared-0.0.48.tgz#63004ab202b734a62c573f7f8c481b8005389325"
-  integrity sha512-MxkwxtRVBVJXUMaKnxPoScWtgFQ+mMGV+NlxM3DQ/KKrI49yAFanSteJtrohbnAXbmDrWCQz7s/mkUSsDbuIIQ==
+"@pangeacyber/react-mui-shared@0.0.50":
+  version "0.0.50"
+  resolved "https://registry.yarnpkg.com/@pangeacyber/react-mui-shared/-/react-mui-shared-0.0.50.tgz#a366898cc2650a33400adfdb711b2af1b142813b"
+  integrity sha512-725K6fXsVV8dDqGq93JWQBJcoZGZWail2Al9X7jVuV4lYZB6krB9GBQ4MQNygyLWaav2WZP8eCt0e+LImkDKIA==
   dependencies:
     "@loadable/component" "^5.16.3"
-    "@mui/x-data-grid" "^6.10.0"
-    "@mui/x-date-pickers" "^6.10.1"
+    "@mui/x-data-grid" "^6.19.4"
+    "@mui/x-date-pickers" "^6.19.4"
     dayjs "^1.11.10"
     formik "^2.4.5"
     moment "^2.30.1"
@@ -3004,7 +3004,7 @@ react-base16-styling@^0.6.0:
     lodash.flow "^3.3.0"
     pure-color "^1.2.0"
 
-react-beautiful-dnd@^13.1.0, react-beautiful-dnd@^13.1.1:
+react-beautiful-dnd@^13.1.1:
   version "13.1.1"
   resolved "https://registry.yarnpkg.com/react-beautiful-dnd/-/react-beautiful-dnd-13.1.1.tgz#b0f3087a5840920abf8bb2325f1ffa46d8c4d0a2"
   integrity sha512-0Lvs4tq2VcrEjEgDXHjT98r+63drkKEgqyxdA7qD3mvKwga6a5SscbdLPO2IExotU1jW8L0Ksdl0Cj2AF67nPQ==
