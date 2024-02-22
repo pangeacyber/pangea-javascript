@@ -28,7 +28,7 @@
     "@mui/material": "^5.15.10",
     "@mui/types": "^7.2.13",
     "@rollup/plugin-babel": "6.0.4",
-    "@rollup/plugin-commonjs": "24.0.1",
+    "@rollup/plugin-commonjs": "24.1.0",
     "@rollup/plugin-json": "6.1.0",
     "@rollup/plugin-node-resolve": "^15.2.3",
     "@rollup/plugin-typescript": "^11.1.6",
