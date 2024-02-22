@@ -1,8 +1,9 @@
-import { FC } from "react";
+import { FC, Suspense, lazy } from "react";
 import { Box } from "@mui/material";
 import { useTheme } from "@mui/material/styles";
 import { useReactJsonViewHighlight, Highlight } from "./utils";
-import ReactJson from "react-json-view";
+
+const ReactJson = lazy(() => import("react-json-view"));
 
 export interface JsonViewerProps {
   src: object;
@@ -66,19 +67,21 @@ const JsonViewer: FC<JsonViewerProps> = ({
         },
       }}
     >
-      <ReactJson
-        name={null}
-        src={allowEmpty && !src ? {} : src}
-        collapsed={!!depth ? depth : false}
-        displayDataTypes={false}
-        displayObjectSize={false}
-        enableClipboard={false}
-        style={{
-          backgroundColor: "transparent",
-          fontFamily: "'Source Code Pro', monospace",
-          fontSize: "0.875rem",
-        }}
-      />
+      <Suspense fallback="Loading...">
+        <ReactJson
+          name={null}
+          src={allowEmpty && !src ? {} : src}
+          collapsed={!!depth ? depth : false}
+          displayDataTypes={false}
+          displayObjectSize={false}
+          enableClipboard={false}
+          style={{
+            backgroundColor: "transparent",
+            fontFamily: "'Source Code Pro', monospace",
+            fontSize: "0.875rem",
+          }}
+        />
+      </Suspense>
     </Box>
   );
 };
