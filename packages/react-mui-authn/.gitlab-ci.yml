@@ -8,9 +8,9 @@
   cache:
     - key:
         files:
-          - yarn.lock
+          - packages/react-mui-authn/yarn.lock
       paths:
-        - node_modules
+        - packages/react-mui-authn/node_modules
 
 publish_react_mui_authn:
   extends: .react_mui_authn_base
