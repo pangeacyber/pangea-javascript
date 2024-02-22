@@ -30,7 +30,7 @@
     "@storybook/addon-links": "^7.6.15",
     "@storybook/react": "^7.6.17",
     "@storybook/react-vite": "^7.6.17",
-    "@types/jest": "^29.1.1",
+    "@types/jest": "^29.5.12",
     "@types/loadable__component": "^5.13.8",
     "@types/react": "^18.0.14",
     "@types/react-beautiful-dnd": "^13.1.8",
