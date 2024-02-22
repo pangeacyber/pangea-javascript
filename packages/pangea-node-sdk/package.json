@@ -38,7 +38,7 @@
     "ts-node": "^9.1.1",
     "tsc-alias": "^1.8.8",
     "typedoc": "^0.25.8",
-    "typescript": "^5.1.6"
+    "typescript": "^5.3.3"
   },
   "scripts": {
     "test": "cross-env NODE_OPTIONS=--experimental-vm-modules jest",
