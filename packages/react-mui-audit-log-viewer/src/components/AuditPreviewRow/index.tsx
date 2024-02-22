@@ -3,7 +3,7 @@ import map from "lodash/map";
 import get from "lodash/get";
 import some from "lodash/some";
 import { Stack } from "@mui/material";
-import { useTheme, lighten } from "@mui/material/styles";
+import { useTheme, lighten, darken } from "@mui/material/styles";
 
 import { Audit } from "../../types";
 
@@ -72,6 +72,7 @@ const AuditPreviewRow: FC<Props> = ({
   // @ts-ignore - Is an internal optional field used when some incorrect fields are logged
   const hasErrorValues = !!record.err;
 
+  const modify = theme.palette.mode === "dark" ? darken : lighten;
   return (
     <Stack
       padding={1}
@@ -82,7 +83,7 @@ const AuditPreviewRow: FC<Props> = ({
         display: "grid",
         borderBottomLeftRadius: "4px",
         borderBottomRightRadius: "4px",
-        backgroundColor: lighten(theme.palette.secondary.main, 0.9),
+        backgroundColor: modify(theme.palette.secondary.main, 0.9),
       }}
     >
       <Stack pl={"0px"} direction="row" sx={{ width: "100%" }}>

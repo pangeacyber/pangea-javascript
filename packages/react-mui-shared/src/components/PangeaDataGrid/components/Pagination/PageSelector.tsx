@@ -44,6 +44,10 @@ const PageButton: FC<{
         height: "26px",
         ...(page !== currentPage && {
           backgroundColor: "transparent",
+          color: (theme) => theme.palette.text.primary,
+          ":hover": {
+            color: (theme) => theme.palette.secondary.contrastText,
+          },
         }),
       }}
       variant={"contained"}
