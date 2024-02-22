@@ -54,7 +54,7 @@
     "typescript": "^4.9.5"
   },
   "dependencies": {
-    "@pangeacyber/react-mui-shared": "0.0.50",
+    "@pangeacyber/react-mui-shared": "0.0.51",
     "crypto-js": "^4.2.0",
     "diff": "^5.2.0",
     "lodash": "^4.17.21",
