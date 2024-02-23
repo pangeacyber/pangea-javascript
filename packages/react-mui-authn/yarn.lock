@@ -1744,10 +1744,10 @@
   resolved "https://registry.yarnpkg.com/@pangeacyber/react-mui-branding/-/react-mui-branding-0.0.13.tgz#5b696d686e1d4e56f8b190b8ccc182e92c71bc6c"
   integrity sha512-D6J+00zHH3f0GOcY+HiX3zrfGKJq5KE1tfSnEtdA2zW+0ORbtynxY85Wtp+AzXOwANKbCK3r6FkgV3XqJgzNhA==
 
-"@pangeacyber/vanilla-js@0.1.5":
-  version "0.1.5"
-  resolved "https://registry.yarnpkg.com/@pangeacyber/vanilla-js/-/vanilla-js-0.1.5.tgz#9c4f0e0dc5606e2c8b056b4f68d19fa3637a620e"
-  integrity sha512-clKRqf+FtcZP7mW6G7yDaIaMQpMtF/Mb5cEcHHzSJbzMbKip9uGF97r2dW8xrV6+u5qAhkzKdJnAh6obEm7K6Q==
+"@pangeacyber/vanilla-js@0.1.6":
+  version "0.1.6"
+  resolved "https://registry.yarnpkg.com/@pangeacyber/vanilla-js/-/vanilla-js-0.1.6.tgz#dc2abd9109b341e0db92d0d3305e202f2581e3c1"
+  integrity sha512-rC0zMR0LF3ITlB+h0ypQDCeABY6jYzudCP31PuO60gzOsS59lb7ozr0Hlrz9RIsDM1VouOCEBrfu2v9z0u1Smw==
   dependencies:
     lodash "^4.17.21"
 
@@ -2114,7 +2114,7 @@
     is-module "^1.0.0"
     resolve "^1.22.1"
 
-"@rollup/plugin-terser@^0.4.4":
+"@rollup/plugin-terser@0.4.4":
   version "0.4.4"
   resolved "https://registry.yarnpkg.com/@rollup/plugin-terser/-/plugin-terser-0.4.4.tgz#15dffdb3f73f121aa4fbb37e7ca6be9aeea91962"
   integrity sha512-XHeJC5Bgvs8LfukDwWZp7yeqin6ns8RTl2B9avbejt6tZqsqvVoWI7ZTQrcNsfKEDWBTnTxM8nMDkO2IFFbd0A==
@@ -2139,6 +2139,18 @@
     "@types/estree" "^1.0.0"
     estree-walker "^2.0.2"
     picomatch "^2.3.1"
+
+"@simplewebauthn/browser@^9.0.1":
+  version "9.0.1"
+  resolved "https://registry.yarnpkg.com/@simplewebauthn/browser/-/browser-9.0.1.tgz#46a12c2bcefcb199f7fcb6a7e883531cd6efde17"
+  integrity sha512-wD2WpbkaEP4170s13/HUxPcAV5y4ZXaKo1TfNklS5zDefPinIgXOpgz1kpEvobAsaLPa2KeH7AKKX/od1mrBJw==
+  dependencies:
+    "@simplewebauthn/types" "^9.0.1"
+
+"@simplewebauthn/types@^9.0.1":
+  version "9.0.1"
+  resolved "https://registry.yarnpkg.com/@simplewebauthn/types/-/types-9.0.1.tgz#3a68d50e63d8821cf2067de3324c68d5e8120d0c"
+  integrity sha512-tGSRP1QvsAvsJmnOlRQyw/mvK9gnPtjEc5fg2+m8n+QUa+D7rvrKkOYyfpy42GTs90X3RDOnqJgfHt+qO67/+w==
 
 "@sinclair/typebox@^0.27.8":
   version "0.27.8"

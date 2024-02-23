@@ -9,6 +9,7 @@ import Button from "@src/components/core/Button";
 import { AuthFlowComponentProps } from "@src/features/AuthFlow/types";
 import StringField from "@src/components/fields/StringField";
 import ErrorMessage from "../ErrorMessage";
+import { BodyText } from "@src/components/core/Text";
 
 const AuthSmsPhone: FC<AuthFlowComponentProps> = (props) => {
   const { options, data, error, loading, reset, restart } = props;
@@ -51,9 +52,7 @@ const AuthSmsPhone: FC<AuthFlowComponentProps> = (props) => {
     <Stack gap={2} width="100%">
       <form onSubmit={formik.handleSubmit} style={{ width: "100%" }}>
         <Stack gap={1}>
-          <Typography variant="body2" color="secondary">
-            Enroll a phone number.
-          </Typography>
+          <BodyText>Enroll a phone number.</BodyText>
           <StringField
             name="phone"
             label="Phone Number"
