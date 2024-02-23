@@ -24,6 +24,7 @@ export {
   AgreementView,
   VerifyEmailView,
   VerifyResetView,
+  PasskeyView,
   ResetPasswordView,
   MismatchEmailView,
   StatusMessageView,

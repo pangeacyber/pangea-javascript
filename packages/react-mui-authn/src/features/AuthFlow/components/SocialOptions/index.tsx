@@ -50,58 +50,42 @@ const SocialOptions: FC<AuthFlowComponentProps> = ({
   }
 
   return (
-    <>
-      {(data?.authChoices.length > 0 || !!data.setEmail) && (
-        <Box width="100%">
-          <Divider>
-            <Typography
-              variant="overline"
-              sx={{
-                color: theme.palette.divider,
-              }}
-            >
-              {options.socialHeading}
-            </Typography>
-          </Divider>
-        </Box>
-      )}
-      <Stack gap={1}>
-        {data.socialChoices.map((provider: AuthFlow.SocialResponse) => {
-          return (
-            <Button
-              key={`social-${provider.social_provider}`}
-              color="secondary"
-              fullWidth={true}
-              onClick={() => {
-                socialLogin(provider.redirect_uri);
-              }}
-            >
-              {options.showSocialIcons && (
-                <>
-                  {getSocialProviderIcon(provider.social_provider)}
-                  <Box component="span" sx={{ marginRight: 1 }} />
-                </>
-              )}
-              Continue with {getSocialProviderLabel(provider.social_provider)}
-            </Button>
-          );
-        })}
-        {data.samlChoices.map((provider: AuthFlow.SamlResponse) => {
-          return (
-            <Button
-              key={`saml-${provider.provider_id}`}
-              color="secondary"
-              fullWidth={true}
-              onClick={() => {
-                socialLogin(provider.redirect_uri);
-              }}
-            >
-              Continue with {provider.provider_name}
-            </Button>
-          );
-        })}
-      </Stack>
-    </>
+    <Stack gap={1}>
+      {data.socialChoices.map((provider: AuthFlow.SocialResponse) => {
+        return (
+          <Button
+            key={`social-${provider.social_provider}`}
+            color="secondary"
+            fullWidth={true}
+            onClick={() => {
+              socialLogin(provider.redirect_uri);
+            }}
+          >
+            {options.showSocialIcons && (
+              <>
+                {getSocialProviderIcon(provider.social_provider)}
+                <Box component="span" sx={{ marginRight: 1 }} />
+              </>
+            )}
+            Continue with {getSocialProviderLabel(provider.social_provider)}
+          </Button>
+        );
+      })}
+      {data.samlChoices.map((provider: AuthFlow.SamlResponse) => {
+        return (
+          <Button
+            key={`saml-${provider.provider_id}`}
+            color="secondary"
+            fullWidth={true}
+            onClick={() => {
+              socialLogin(provider.redirect_uri);
+            }}
+          >
+            Continue with {provider.provider_name}
+          </Button>
+        );
+      })}
+    </Stack>
   );
 };
 

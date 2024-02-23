@@ -11,6 +11,7 @@ import AgreementView from "./views/Agreement";
 import StatusMessageView from "./components/StatusMessage";
 import VerifyEmailView from "./views/VerifyEmail";
 import VerifyResetView from "./views/VerifyReset";
+import PasskeyView from "./views/Passkey";
 import ResetPasswordView from "./views/ResetPassword";
 import InvalidAuthView from "./views/InvalidAuth";
 import MismatchEmailView from "./views/MismatchEmail";
@@ -28,6 +29,7 @@ export {
   AgreementView,
   VerifyEmailView,
   VerifyResetView,
+  PasskeyView,
   ResetPasswordView,
   StatusMessageView,
   MismatchEmailView,

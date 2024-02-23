@@ -8,8 +8,13 @@ import { AuthPassword } from "../../components";
 const ResetPasswordView: FC<AuthFlowComponentProps> = (props) => {
   const { options, data, reset } = props;
 
+  const title =
+    data?.phase === "phase_set_password"
+      ? "Password Reset Required"
+      : "Reset Password";
+
   return (
-    <AuthFlowLayout title="Reset Password">
+    <AuthFlowLayout title={title}>
       <IdField
         value={data?.email}
         resetCallback={reset}
