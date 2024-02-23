@@ -116,8 +116,9 @@ const AuditLogViewerWithProvider = <Event,>({
     setLoading(true);
     return onDownload(body)
       .then(async (response: Response) => {
-        const blob = await response.blob();
-        let name = `results_${body.result_id}.csv.gz`;
+        let blob = await response.blob();
+        let name = `results_${body.result_id}.json.gz`;
+
         const parts: string[] =
           response.headers.get("Content-Disposition")?.split(";") ?? [];
         parts.forEach((part) => {

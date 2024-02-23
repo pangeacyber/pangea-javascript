@@ -6,7 +6,7 @@ import { useAuditContext } from "../../hooks/context";
 
 const DownloadButton: FC = () => {
   const [loading, setLoading] = useState(false);
-  const { downloadResults, resultsId } = useAuditContext();
+  const { downloadResults, resultsId, total } = useAuditContext();
 
   const handleDownloadResults = () => {
     if (!downloadResults || !resultsId) return;
@@ -14,7 +14,7 @@ const DownloadButton: FC = () => {
     setLoading(true);
     downloadResults({
       result_id: resultsId,
-      format: "csv",
+      format: "json",
     }).finally(() => setLoading(false));
   };
 
@@ -23,7 +23,7 @@ const DownloadButton: FC = () => {
     <Button
       variant="contained"
       color="primary"
-      disabled={!resultsId || loading}
+      disabled={!resultsId || loading || !total}
       onClick={handleDownloadResults}
       startIcon={<DownloadIcon fontSize="small" />}
     >
