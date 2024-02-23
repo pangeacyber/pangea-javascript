@@ -6,8 +6,11 @@ import { SxProps } from "@mui/system";
 import { DataGridProps, GridColDef, GridSortModel } from "@mui/x-data-grid";
 
 import { Audit } from "../../types";
-import { useAuditBody } from "../../utils/query";
-import { useAuditContext, usePagination } from "../../hooks/context";
+import {
+  useAuditContext,
+  usePagination,
+  useAuditBody,
+} from "../../hooks/context";
 import {
   LinedPangeaDataGrid,
   PangeaDataGrid,

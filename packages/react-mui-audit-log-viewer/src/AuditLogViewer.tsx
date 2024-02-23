@@ -183,6 +183,7 @@ const AuditLogViewerWithProvider = <Event,>({
   return (
     <AuditContextProvider
       total={count}
+      loading={loading}
       resultsId={searchResponse?.id}
       fetchResults={handleResults}
       downloadResults={!!onDownload ? handleDownloadResults : undefined}

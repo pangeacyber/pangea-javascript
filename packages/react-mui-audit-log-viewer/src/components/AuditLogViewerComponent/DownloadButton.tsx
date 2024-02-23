@@ -1,12 +1,18 @@
 import { Button } from "@mui/material";
 import { FC, useState } from "react";
 
+import DownloadingIcon from "@mui/icons-material/Downloading";
 import DownloadIcon from "@mui/icons-material/Download";
 import { useAuditContext } from "../../hooks/context";
 
 const DownloadButton: FC = () => {
   const [loading, setLoading] = useState(false);
-  const { downloadResults, resultsId, total } = useAuditContext();
+  const {
+    downloadResults,
+    resultsId,
+    total,
+    loading: searching,
+  } = useAuditContext();
 
   const handleDownloadResults = () => {
     if (!downloadResults || !resultsId) return;
@@ -23,9 +29,15 @@ const DownloadButton: FC = () => {
     <Button
       variant="contained"
       color="primary"
-      disabled={!resultsId || loading || !total}
+      disabled={!resultsId || loading || !total || !!searching}
       onClick={handleDownloadResults}
-      startIcon={<DownloadIcon fontSize="small" />}
+      startIcon={
+        loading ? (
+          <DownloadingIcon fontSize="small" />
+        ) : (
+          <DownloadIcon fontSize="small" />
+        )
+      }
     >
       {loading ? "Downloading..." : "Download"}
     </Button>

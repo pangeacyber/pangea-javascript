@@ -7,9 +7,10 @@ import React, {
   SetStateAction,
   useEffect,
   useRef,
+  useMemo,
 } from "react";
 import get from "lodash/get";
-import cloneDeep from "lodash/cloneDeep";
+import isEmpty from "lodash/isEmpty";
 
 import { Audit } from "../types";
 import {
@@ -17,6 +18,7 @@ import {
   verifyMembershipProof,
 } from "../utils/verification";
 import { PublishedRoots } from "../utils/arweave";
+import { constructQueryString, getTimeFilterKwargs } from "../utils/query";
 import { AuditQuery, PublicAuditQuery, Sort } from "../types/query";
 import { useAuditQueryState } from "./query";
 
@@ -51,6 +53,7 @@ interface AuditContextShape<Event = Audit.DefaultEvent> {
   setMaxResults: Dispatch<SetStateAction<number>>;
   resultsId: string | undefined;
   total: number;
+  loading?: boolean;
   fetchResults: (body: Audit.ResultRequest) => Promise<void>;
   consistencyRef?: any;
   isVerificationCheckEnabled?: boolean;
@@ -98,6 +101,7 @@ const AuditContext = createContext<AuditContextShape>({
 
 interface AuditContextProviderProps<Event = Audit.DefaultEvent> {
   total: number;
+  loading?: boolean;
   resultsId: string | undefined;
 
   downloadResults?: (body: Audit.DownloadResultRequest) => Promise<void>;
@@ -125,6 +129,7 @@ interface AuditContextProviderProps<Event = Audit.DefaultEvent> {
 const AuditContextProvider = <Event,>({
   children,
   total,
+  loading,
   resultsId,
 
   downloadResults,
@@ -169,6 +174,7 @@ const AuditContextProvider = <Event,>({
         offset,
         setOffset,
         total,
+        loading,
         resultsId,
         fetchResults,
         limit,
@@ -451,6 +457,42 @@ export const useVerification = (
     unpublishedRoot,
     VerificationModalChildComp,
   };
+};
+
+interface UseAuditQuery {
+  body: Audit.SearchRequest | null;
+}
+
+export const useAuditBody = (
+  limit: number,
+  maxResults: number
+): UseAuditQuery => {
+  const {
+    query,
+    queryObj,
+    sort,
+
+    setQuery,
+  } = useAuditContext();
+
+  const body = useMemo<Audit.SearchRequest | null>(() => {
+    if (isEmpty(queryObj)) return null;
+    return {
+      query: query,
+      ...getTimeFilterKwargs(queryObj),
+      ...(sort ?? {}),
+      limit,
+      max_results: maxResults,
+      verbose: true,
+    };
+  }, [query, queryObj, sort, maxResults]);
+
+  useEffect(() => {
+    const queryString = constructQueryString(queryObj);
+    if (queryString) setQuery(queryString);
+  }, [queryObj]);
+
+  return { body };
 };
 
 export default AuditContextProvider;
