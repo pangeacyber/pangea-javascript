@@ -24,6 +24,7 @@ import {
   useDefaultVisibility,
 } from "../../hooks/schema";
 import { PublicAuditQuery } from "../../types/query";
+import DownloadButton from "./DownloadButton";
 
 export interface ViewerProps<Event = Audit.DefaultEvent> {
   initialQuery?: string;
@@ -155,6 +156,7 @@ const AuditLogViewerComponent: FC<ViewerProps> = ({
           conditionalOptions,
           // @ts-ignore
           EndFilterButton: AuditTimeFilterButton,
+          EndBarComponent: <DownloadButton />,
         }}
         ServerPagination={pagination}
         DataGridProps={{

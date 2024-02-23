@@ -1,6 +1,8 @@
 import { FC, ReactNode, useMemo, useState } from "react";
 import keyBy from "lodash/keyBy";
 
+import { saveAs } from "file-saver";
+
 import { SxProps } from "@mui/system";
 import { DataGridProps, GridColDef } from "@mui/x-data-grid";
 
@@ -15,8 +17,11 @@ import { useAuditSearchError } from "./hooks/query";
 
 export interface AuditLogViewerProps<Event = Audit.DefaultEvent> {
   initialQuery?: string;
+
   onSearch: (body: Audit.SearchRequest) => Promise<Audit.SearchResponse>;
   onPageChange: (body: Audit.ResultRequest) => Promise<Audit.ResultResponse>;
+  onDownload?: (body: Audit.DownloadResultRequest) => Promise<any>;
+
   verificationOptions?: {
     onFetchRoot: (body: Audit.RootRequest) => Promise<Audit.RootResponse>;
     ModalChildComponent?: FC;
@@ -37,6 +42,7 @@ export interface AuditLogViewerProps<Event = Audit.DefaultEvent> {
 
 const AuditLogViewerWithProvider = <Event,>({
   onSearch,
+  onDownload,
   onPageChange,
   verificationOptions,
   config,
@@ -102,6 +108,34 @@ const AuditLogViewerWithProvider = <Event,>({
       });
   };
 
+  const handleDownloadResults = async (
+    body: Audit.DownloadResultRequest
+  ): Promise<void> => {
+    if (!onDownload) return;
+
+    setLoading(true);
+    return onDownload(body)
+      .then(async (response: Response) => {
+        const blob = await response.blob();
+        let name = `results_${body.result_id}.csv.gz`;
+        const parts: string[] =
+          response.headers.get("Content-Disposition")?.split(";") ?? [];
+        parts.forEach((part) => {
+          if (part.startsWith("filename=")) {
+            name = part.split("filename=")[1];
+          }
+        });
+
+        saveAs(blob, name);
+        setLoading(false);
+      })
+      .catch((err) => {
+        setLoading(false);
+        setError(err);
+        console.error(`Error from search handler - ${err}`);
+      });
+  };
+
   const logs: Audit.FlattenedAuditRecord[] = useMemo(
     () =>
       (resultsResponse?.events || searchResponse?.events || []).map(
@@ -150,6 +184,7 @@ const AuditLogViewerWithProvider = <Event,>({
       total={count}
       resultsId={searchResponse?.id}
       fetchResults={handleResults}
+      downloadResults={!!onDownload ? handleDownloadResults : undefined}
       visibilityModel={props.visibilityModel}
       limit={limit}
       // Props required for calculating verification

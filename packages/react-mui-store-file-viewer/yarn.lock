@@ -1642,7 +1642,7 @@
     prop-types "^15.8.1"
     react-is "^18.2.0"
 
-"@mui/x-data-grid@^6.10.0":
+"@mui/x-data-grid@^6.19.4":
   version "6.19.4"
   resolved "https://registry.yarnpkg.com/@mui/x-data-grid/-/x-data-grid-6.19.4.tgz#c75e7d0316d2db12098b517cc5429c0bc3ad141a"
   integrity sha512-qXBe2mSetdsl3ZPqB/1LpKNkEiaYUiFXIaMHTIjuzLyusXgt+w7UsHYO7R+aJYUU7c3FeHla0R1nwRMY3kZ5ng==
@@ -1653,7 +1653,7 @@
     prop-types "^15.8.1"
     reselect "^4.1.8"
 
-"@mui/x-date-pickers@^6.10.1":
+"@mui/x-date-pickers@^6.19.4":
   version "6.19.4"
   resolved "https://registry.yarnpkg.com/@mui/x-date-pickers/-/x-date-pickers-6.19.4.tgz#7df5ea081bdf9e2ce75c346bd95af340b1b56e9f"
   integrity sha512-LekaacLGnoQNN5hD6iXeHFL4LbZPnr1BM57hnUKy5UgKDHqzHzZSdPGc2p7Ktv/Z2NDbpPaLEAgrLwISKIYcow==
@@ -1696,14 +1696,14 @@
     "@nodelib/fs.scandir" "2.1.5"
     fastq "^1.6.0"
 
-"@pangeacyber/react-mui-shared@0.0.48":
-  version "0.0.48"
-  resolved "https://registry.yarnpkg.com/@pangeacyber/react-mui-shared/-/react-mui-shared-0.0.48.tgz#63004ab202b734a62c573f7f8c481b8005389325"
-  integrity sha512-MxkwxtRVBVJXUMaKnxPoScWtgFQ+mMGV+NlxM3DQ/KKrI49yAFanSteJtrohbnAXbmDrWCQz7s/mkUSsDbuIIQ==
+"@pangeacyber/react-mui-shared@0.0.52":
+  version "0.0.52"
+  resolved "https://registry.yarnpkg.com/@pangeacyber/react-mui-shared/-/react-mui-shared-0.0.52.tgz#1772d464daec2a42ed51bcf628b39885ab898397"
+  integrity sha512-Dw0GWMExteV+B5asiGbaQRcvY8JfjKTUP2b5TrsgwUqWN9E5I1a40hmHK/WIS5tiopJPaXe9bsVGq9dGiIbcgg==
   dependencies:
     "@loadable/component" "^5.16.3"
-    "@mui/x-data-grid" "^6.10.0"
-    "@mui/x-date-pickers" "^6.10.1"
+    "@mui/x-data-grid" "^6.19.4"
+    "@mui/x-date-pickers" "^6.19.4"
     dayjs "^1.11.10"
     formik "^2.4.5"
     moment "^2.30.1"

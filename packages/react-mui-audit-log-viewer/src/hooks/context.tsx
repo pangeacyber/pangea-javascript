@@ -64,6 +64,8 @@ interface AuditContextShape<Event = Audit.DefaultEvent> {
   setQuery: Dispatch<SetStateAction<string>>;
   queryObj: AuditQuery | null;
   setQueryObj: Dispatch<SetStateAction<AuditQuery | null>>;
+
+  downloadResults?: (body: Audit.DownloadResultRequest) => Promise<void>;
 }
 
 const AuditContext = createContext<AuditContextShape>({
@@ -97,7 +99,10 @@ const AuditContext = createContext<AuditContextShape>({
 interface AuditContextProviderProps<Event = Audit.DefaultEvent> {
   total: number;
   resultsId: string | undefined;
+
+  downloadResults?: (body: Audit.DownloadResultRequest) => Promise<void>;
   fetchResults: (body: Audit.ResultRequest) => Promise<void>;
+
   limit?: number;
   limitOptions?: number[];
   maxResults?: number;
@@ -121,7 +126,10 @@ const AuditContextProvider = <Event,>({
   children,
   total,
   resultsId,
+
+  downloadResults,
   fetchResults,
+
   limit: propLimit,
   limitOptions = DEFAULT_LIMIT_OPTIONS,
   maxResults: propMaxResults,
@@ -185,6 +193,8 @@ const AuditContextProvider = <Event,>({
         isVerificationCheckEnabled,
         VerificationModalChildComp,
         handleVerificationCopy,
+
+        downloadResults,
 
         sort,
         setSort,

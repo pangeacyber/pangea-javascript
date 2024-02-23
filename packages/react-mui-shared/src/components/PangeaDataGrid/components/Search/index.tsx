@@ -8,6 +8,7 @@ import {
   LinearProgress,
   Box,
   IconButton,
+  SxProps,
 } from "@mui/material";
 import ConditionalAutocomplete, {
   ConditionalOption,
@@ -32,6 +33,7 @@ interface SearchProps<FiltersObj> {
   EndFilterButton?: FC<FilterFormProps<FiltersObj>>;
   EndBarComponent?: ReactNode;
   StartBarComponent?: ReactNode;
+  SearchButtonSx?: SxProps;
 }
 
 const Search = <
@@ -48,6 +50,7 @@ const Search = <
   EndFilterButton,
   EndBarComponent,
   StartBarComponent,
+  SearchButtonSx,
 }: SearchProps<FiltersObj>): JSX.Element => {
   const [query_, setQuery_] = useInternalState(query, onChange);
   const searchRef = useRef<HTMLDivElement | null>(null);
@@ -119,12 +122,12 @@ const Search = <
           color="secondary"
           onClick={() => onChange(query_)}
           disabled={loading}
-          sx={{ maxHeight: "42px" }}
+          sx={{ maxHeight: "42px", ...SearchButtonSx }}
         >
           Search
         </Button>
-        {!!ColumnsPopoutProps && <ColumnsPopout {...ColumnsPopoutProps} />}
         {!!EndBarComponent && EndBarComponent}
+        {!!ColumnsPopoutProps && <ColumnsPopout {...ColumnsPopoutProps} />}
       </Stack>
       {!!Filters && Filters.showFilterChips && (
         <FiltersBar<FiltersObj> {...Filters} />
