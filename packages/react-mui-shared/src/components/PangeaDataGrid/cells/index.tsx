@@ -1,7 +1,7 @@
 import { FC } from "react";
 
 import { Tooltip, Typography, Chip, Stack } from "@mui/material";
-import { lighten, useTheme } from "@mui/material/styles";
+import { lighten, darken, useTheme } from "@mui/material/styles";
 import { PDG } from "../types";
 import { limitCharacters } from "../../../utils";
 
@@ -65,6 +65,7 @@ export const MultiSelectCell: FC<PDG.CellProps> = ({ params }) => {
   const { value } = params;
   const theme = useTheme();
 
+  const modify = theme.palette.mode === "dark" ? darken : lighten;
   if (Array.isArray(value)) {
     return (
       <Stack
@@ -83,7 +84,7 @@ export const MultiSelectCell: FC<PDG.CellProps> = ({ params }) => {
               className={"PangeaDataGrid-Chip"}
               sx={{
                 color: "text.secondary",
-                backgroundColor: lighten(theme.palette.primary.main, 0.2),
+                backgroundColor: modify(theme.palette.primary.main, 0.2),
               }}
               label={v}
             />

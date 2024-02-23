@@ -1,4 +1,4 @@
-import { useTheme, lighten } from "@mui/material/styles";
+import { useTheme, lighten, darken } from "@mui/material/styles";
 import Box from "@mui/material/Box";
 import {
   Collapse,
@@ -23,6 +23,7 @@ interface Props {
 const TargetPopper: FC<Props> = ({ open, parent }) => {
   const theme = useTheme();
 
+  const modify = theme.palette.mode === "dark" ? darken : lighten;
   return (
     <>
       <Popper
@@ -58,8 +59,8 @@ const TargetPopper: FC<Props> = ({ open, parent }) => {
                 p: 1,
                 boxShadow: "0px 0px 24px rgba(40, 48, 94, 0.12)",
                 borderRadius: "16px",
-                borderColor: lighten(theme.palette.secondary.dark, 0.5),
-                bgcolor: lighten(theme.palette.info.light, 0.8),
+                borderColor: modify(theme.palette.secondary.dark, 0.5),
+                bgcolor: modify(theme.palette.info.light, 0.8),
                 width: "200px",
               }}
               alignItems="center"
