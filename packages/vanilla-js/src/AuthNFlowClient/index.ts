@@ -263,6 +263,16 @@ export class AuthNFlowClient extends AuthNClient {
     return await this._update(payload);
   }
 
+  async sendPasskey(data: AuthFlow.PasswordParams): Promise<ClientResponse> {
+    const payload: AuthFlow.PasskeyRequest = {
+      flow_id: this.state.flowId,
+      choice: AuthFlow.Choice.PASSKEY,
+      data: data,
+    };
+
+    return await this._update(payload);
+  }
+
   // reset state to default
   reset() {
     this.state = {
@@ -344,6 +354,9 @@ export class AuthNFlowClient extends AuthNClient {
             this.state.samlChoices.push(samlData);
             this.state.samlProviderMap[samlData.provider_id] = samlData;
             break;
+          case AuthFlow.Choice.PASSKEY:
+            this.state.passkey = choice.data;
+            break;
           case AuthFlow.Choice.PASSWORD:
             this.state.password = choice.data;
             this.state.authChoices.push(choice.choice);
@@ -398,7 +411,7 @@ export class AuthNFlowClient extends AuthNClient {
             this.state.provisional = choice.data;
             break;
           default:
-            console.log("Unknown choice: ", choice);
+            console.warn("Unknown choice: ", choice);
         }
 
         // map social state to provider name
