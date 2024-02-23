@@ -5,6 +5,24 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.0.67] - 2024-02-23
+
+### Changed
+
+- Switch download to json
+
+## [0.0.65] - 2024-02-22
+
+### Changed
+
+- Only support download if there is more than one result
+
+## [0.0.64] - 2024-02-22
+
+### Changed
+
+- Update to include optional onDownload callback
+
 ## [0.0.63] - 2024-02-22
 
 ### Changed

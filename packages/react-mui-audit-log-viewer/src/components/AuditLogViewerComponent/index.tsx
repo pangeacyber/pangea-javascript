@@ -6,8 +6,11 @@ import { SxProps } from "@mui/system";
 import { DataGridProps, GridColDef, GridSortModel } from "@mui/x-data-grid";
 
 import { Audit } from "../../types";
-import { useAuditBody } from "../../utils/query";
-import { useAuditContext, usePagination } from "../../hooks/context";
+import {
+  useAuditContext,
+  usePagination,
+  useAuditBody,
+} from "../../hooks/context";
 import {
   LinedPangeaDataGrid,
   PangeaDataGrid,
@@ -24,6 +27,7 @@ import {
   useDefaultVisibility,
 } from "../../hooks/schema";
 import { PublicAuditQuery } from "../../types/query";
+import DownloadButton from "./DownloadButton";
 
 export interface ViewerProps<Event = Audit.DefaultEvent> {
   initialQuery?: string;
@@ -155,6 +159,7 @@ const AuditLogViewerComponent: FC<ViewerProps> = ({
           conditionalOptions,
           // @ts-ignore
           EndFilterButton: AuditTimeFilterButton,
+          EndBarComponent: <DownloadButton />,
         }}
         ServerPagination={pagination}
         DataGridProps={{

@@ -1,10 +1,6 @@
 // Copyright 2021 Pangea Cyber Corporation
 // Author: Pangea Cyber Corporation
-import isEmpty from "lodash/isEmpty";
-import { useMemo, useEffect } from "react";
-import { Audit } from "../types";
 import { AuditQuery, FieldFilter } from "../types/query";
-import { useAuditContext } from "../hooks/context";
 
 export const parseLexTokenError = (error: string) => {
   // "syntax error at ): LexToken(CPAREN,')',1,6)"
@@ -42,7 +38,7 @@ export const getQuerySymbol = (operation: FieldFilter) => {
   return ":";
 };
 
-const constructQueryString = (queryObj: AuditQuery | null): string => {
+export const constructQueryString = (queryObj: AuditQuery | null): string => {
   if (queryObj) {
     const queryList: string[] = [];
     Object.keys(queryObj)
@@ -83,7 +79,9 @@ interface TimeFilter {
   start?: string;
 }
 
-const getTimeFilterKwargs = (queryObj: AuditQuery | null): TimeFilter => {
+export const getTimeFilterKwargs = (
+  queryObj: AuditQuery | null
+): TimeFilter => {
   const timeFilter: TimeFilter = {};
   if (queryObj != null && queryObj?.active) {
     if (queryObj.active === "between") {
@@ -104,40 +102,4 @@ const getTimeFilterKwargs = (queryObj: AuditQuery | null): TimeFilter => {
   }
 
   return timeFilter;
-};
-
-interface UseAuditQuery {
-  body: Audit.SearchRequest | null;
-}
-
-export const useAuditBody = (
-  limit: number,
-  maxResults: number
-): UseAuditQuery => {
-  const {
-    query,
-    queryObj,
-    sort,
-
-    setQuery,
-  } = useAuditContext();
-
-  const body = useMemo<Audit.SearchRequest | null>(() => {
-    if (isEmpty(queryObj)) return null;
-    return {
-      query: query,
-      ...getTimeFilterKwargs(queryObj),
-      ...(sort ?? {}),
-      limit,
-      max_results: maxResults,
-      verbose: true,
-    };
-  }, [query, queryObj, sort, maxResults]);
-
-  useEffect(() => {
-    const queryString = constructQueryString(queryObj);
-    if (queryString) setQuery(queryString);
-  }, [queryObj]);
-
-  return { body };
 };

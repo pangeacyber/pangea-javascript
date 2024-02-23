@@ -17,13 +17,13 @@ export default [
     input: "src/index.ts",
     output: [
       {
-        file: pkg.main,
+        dir: "dist/cjs",
         format: "cjs",
         sourcemap: true,
         name: "react-lib",
       },
       {
-        file: pkg.module,
+        dir: "dist/esm",
         format: "esm",
         sourcemap: true,
       },
@@ -45,7 +45,7 @@ export default [
     external: Object.keys(pkg.peerDependencies || {}),
   },
   {
-    input: "dist/esm/index.d.ts",
+    input: "src/index.ts",
     output: [{ file: "dist/index.d.ts", format: "esm" }],
     external: [/\.css$/],
     plugins: [dts()],
