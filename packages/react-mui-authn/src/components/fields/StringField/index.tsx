@@ -1,7 +1,6 @@
 import { FC, ReactNode, useEffect, useState } from "react";
 import { FormControl, OutlinedInput, Tooltip } from "@mui/material";
 import { Check, ErrorRounded } from "@mui/icons-material";
-import { FormikValues } from "formik";
 
 export interface Props {
   name: string;
