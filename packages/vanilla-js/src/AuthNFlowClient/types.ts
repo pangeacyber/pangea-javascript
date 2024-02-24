@@ -38,7 +38,7 @@ export namespace AuthFlow {
     AGREEMENTS = "agreements",
     PROFILE = "profile",
     PROVISIONAL = "provisional_enrollment",
-    COMPLETE = "complate",
+    COMPLETE = "complete",
     NONE = "",
   }
 

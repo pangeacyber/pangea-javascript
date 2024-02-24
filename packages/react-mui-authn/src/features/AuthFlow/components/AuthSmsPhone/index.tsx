@@ -1,7 +1,7 @@
 import { FC, useEffect } from "react";
 import { useFormik } from "formik";
 import * as yup from "yup";
-import { Stack, Typography } from "@mui/material";
+import { Stack } from "@mui/material";
 
 import { AuthFlow } from "@pangeacyber/vanilla-js";
 
@@ -24,10 +24,15 @@ const AuthSmsPhone: FC<AuthFlowComponentProps> = (props) => {
     }
   }, []);
 
+  const startsWithOne = (val: string) => /^(1|\+1).*/.test(val);
+
   const validationSchema = yup.object({
     phone: yup
       .string()
       .required("Phone number is required")
+      .test("Starts with 1", "Must start with 1 or +1", (value) =>
+        startsWithOne(value)
+      )
       .matches(
         /^[+]?[1-9][-.\s]?\(?([0-9]{3})\)?[-.\s]?([0-9]{3})[-.\s]?([0-9]{4})$/,
         "Must be a valid phone number"
@@ -42,7 +47,7 @@ const AuthSmsPhone: FC<AuthFlowComponentProps> = (props) => {
     validateOnBlur: true,
     onSubmit: (values) => {
       const payload: AuthFlow.SmsOtpRestart = {
-        ...values,
+        phone: values.phone.replace(/[()]/g, ""), // remove parentheses
       };
       restart(AuthFlow.Choice.SMS_OTP, payload);
     },
