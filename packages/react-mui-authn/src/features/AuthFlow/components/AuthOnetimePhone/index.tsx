@@ -14,10 +14,15 @@ import ErrorMessage from "../ErrorMessage";
 const AuthOnetimePhone: FC<AuthFlowComponentProps> = (props) => {
   const { options, error, loading, update } = props;
 
+  const startsWithOne = (val: string) => /^(1|\+1).*/.test(val);
+
   const validationSchema = yup.object({
     phone: yup
       .string()
       .required("Phone number is required")
+      .test("Starts with 1", "Must start with 1 or +1", (value) =>
+        startsWithOne(value)
+      )
       .matches(
         /^[+]?[1-9][-.\s]?\(?([0-9]{3})\)?[-.\s]?([0-9]{3})[-.\s]?([0-9]{4})$/,
         "Must be a valid phone number"
@@ -32,7 +37,7 @@ const AuthOnetimePhone: FC<AuthFlowComponentProps> = (props) => {
     validateOnBlur: true,
     onSubmit: (values) => {
       const payload: AuthFlow.PhoneParams = {
-        ...values,
+        phone: values.phone.replace(/[()]/g, ""), // remove parentheses
       };
       update(AuthFlow.Choice.SET_PHONE, payload);
     },
