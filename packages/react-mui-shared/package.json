@@ -17,7 +17,7 @@
     "@emotion/react": "^11.11.3",
     "@emotion/styled": "^11.11.0",
     "@mui/icons-material": "^5.15.10",
-    "@mui/material": "^5.15.10",
+    "@mui/material": "^5.15.11",
     "@mui/types": "^7.2.13",
     "@rollup/plugin-commonjs": "^25.0.7",
     "@rollup/plugin-node-resolve": "^15.2.3",
