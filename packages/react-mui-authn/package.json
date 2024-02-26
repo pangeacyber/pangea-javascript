@@ -24,7 +24,7 @@
     "@emotion/styled": "^11.11.0",
     "@fontsource/kanit": "^5.0.18",
     "@fontsource/roboto": "^5.0.8",
-    "@mui/icons-material": "^5.15.10",
+    "@mui/icons-material": "^5.15.11",
     "@mui/material": "^5.15.10",
     "@mui/types": "^7.2.13",
     "@rollup/plugin-babel": "6.0.4",
