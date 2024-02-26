@@ -657,10 +657,10 @@
     prop-types "^15.8.1"
     react-is "^18.2.0"
 
-"@mui/x-data-grid@^6.10.0":
-  version "6.19.4"
-  resolved "https://registry.yarnpkg.com/@mui/x-data-grid/-/x-data-grid-6.19.4.tgz#c75e7d0316d2db12098b517cc5429c0bc3ad141a"
-  integrity sha512-qXBe2mSetdsl3ZPqB/1LpKNkEiaYUiFXIaMHTIjuzLyusXgt+w7UsHYO7R+aJYUU7c3FeHla0R1nwRMY3kZ5ng==
+"@mui/x-data-grid@^6.19.4":
+  version "6.19.5"
+  resolved "https://registry.yarnpkg.com/@mui/x-data-grid/-/x-data-grid-6.19.5.tgz#5d202e9304197d431d92d5d041f5c8d6893ee5ba"
+  integrity sha512-jV1ZqwyFslKqFScSn4t+xc/tNxLHOeJjz3HoeK+Wdf5t3bPM69pg/jLeg8TmOkAUY62JmQKCLVmcGWiR3AqUKQ==
   dependencies:
     "@babel/runtime" "^7.23.2"
     "@mui/utils" "^5.14.16"
@@ -668,10 +668,10 @@
     prop-types "^15.8.1"
     reselect "^4.1.8"
 
-"@mui/x-date-pickers@^6.10.1":
-  version "6.19.4"
-  resolved "https://registry.yarnpkg.com/@mui/x-date-pickers/-/x-date-pickers-6.19.4.tgz#7df5ea081bdf9e2ce75c346bd95af340b1b56e9f"
-  integrity sha512-LekaacLGnoQNN5hD6iXeHFL4LbZPnr1BM57hnUKy5UgKDHqzHzZSdPGc2p7Ktv/Z2NDbpPaLEAgrLwISKIYcow==
+"@mui/x-date-pickers@^6.19.4":
+  version "6.19.5"
+  resolved "https://registry.yarnpkg.com/@mui/x-date-pickers/-/x-date-pickers-6.19.5.tgz#df4eaf79e9f169c190a884e80478a0dd7fcd46b4"
+  integrity sha512-WPi59ImgvGTEuAlJiCLnqNkEkbqPjgwUTrg8iqACFIb4qzg5tz4y8vNgmOKMnTXCwWDHjd+SoDdxiMlZJWT1hg==
   dependencies:
     "@babel/runtime" "^7.23.2"
     "@mui/base" "^5.0.0-beta.22"
@@ -681,31 +681,32 @@
     prop-types "^15.8.1"
     react-transition-group "^4.4.5"
 
-"@pangeacyber/react-mui-audit-log-viewer@0.0.62":
-  version "0.0.62"
-  resolved "https://registry.yarnpkg.com/@pangeacyber/react-mui-audit-log-viewer/-/react-mui-audit-log-viewer-0.0.62.tgz#02552cf52c0e9465315b28b84998344cbf0a6ebd"
-  integrity sha512-y9OI8lm84W6yOQn7VFew8TkSaZ3bT0fZb9XU/uwjGIsebndCcgnHNTiM0D8SqiS69DxrVufCoYptotZ+PurzEQ==
+"@pangeacyber/react-mui-audit-log-viewer@0.0.69":
+  version "0.0.69"
+  resolved "https://registry.yarnpkg.com/@pangeacyber/react-mui-audit-log-viewer/-/react-mui-audit-log-viewer-0.0.69.tgz#352428154559b0085b311c358a1b4a9116d3881e"
+  integrity sha512-F0318uPNzDdc5Kf2EhQjiDiTGxGe9jvzMGVXi/U77FQVZf9w1S3QJd5SOuAND5nGVH+kHtUI4N2C5862PcXMKg==
   dependencies:
-    "@pangeacyber/react-mui-shared" "0.0.48"
+    "@pangeacyber/react-mui-shared" "0.0.54"
     crypto-js "^4.2.0"
     diff "^5.2.0"
+    file-saver "^2.0.5"
     lodash "^4.17.21"
     merkle-tools "^1.4.1"
-    react-beautiful-dnd "^13.1.0"
+    react-beautiful-dnd "^13.1.1"
 
 "@pangeacyber/react-mui-branding@0.0.13":
   version "0.0.13"
   resolved "https://registry.yarnpkg.com/@pangeacyber/react-mui-branding/-/react-mui-branding-0.0.13.tgz#5b696d686e1d4e56f8b190b8ccc182e92c71bc6c"
   integrity sha512-D6J+00zHH3f0GOcY+HiX3zrfGKJq5KE1tfSnEtdA2zW+0ORbtynxY85Wtp+AzXOwANKbCK3r6FkgV3XqJgzNhA==
 
-"@pangeacyber/react-mui-shared@0.0.48":
-  version "0.0.48"
-  resolved "https://registry.yarnpkg.com/@pangeacyber/react-mui-shared/-/react-mui-shared-0.0.48.tgz#63004ab202b734a62c573f7f8c481b8005389325"
-  integrity sha512-MxkwxtRVBVJXUMaKnxPoScWtgFQ+mMGV+NlxM3DQ/KKrI49yAFanSteJtrohbnAXbmDrWCQz7s/mkUSsDbuIIQ==
+"@pangeacyber/react-mui-shared@0.0.54":
+  version "0.0.54"
+  resolved "https://registry.yarnpkg.com/@pangeacyber/react-mui-shared/-/react-mui-shared-0.0.54.tgz#6f0e8cd0ac1a7c7e63f9c5aab42514ae16e831ab"
+  integrity sha512-wpwUUff+7SzSQg6l9L6o5vq4fkvraky/CXD+3fID+QHAE2u1c3S0/3HiljSkqOx1tcKMqQyZT0F5vuIgVSPN+A==
   dependencies:
     "@loadable/component" "^5.16.3"
-    "@mui/x-data-grid" "^6.10.0"
-    "@mui/x-date-pickers" "^6.10.1"
+    "@mui/x-data-grid" "^6.19.4"
+    "@mui/x-date-pickers" "^6.19.4"
     dayjs "^1.11.10"
     formik "^2.4.5"
     moment "^2.30.1"
@@ -1916,6 +1917,11 @@ figures@^3.2.0:
   dependencies:
     escape-string-regexp "^1.0.5"
 
+file-saver@^2.0.5:
+  version "2.0.5"
+  resolved "https://registry.yarnpkg.com/file-saver/-/file-saver-2.0.5.tgz#d61cfe2ce059f414d899e9dd6d4107ee25670c38"
+  integrity sha512-P9bmyZ3h/PRG+Nzga+rbdI4OEpNDzAVyy74uVO9ATgzLK6VtAsYybF/+TOCvrc0MO793d6+42lLyZTw7/ArVzA==
+
 find-root@^1.1.0:
   version "1.1.0"
   resolved "https://registry.yarnpkg.com/find-root/-/find-root-1.1.0.tgz#abcfc8ba76f708c42a97b3d685b7e9450bfb9ce4"
@@ -3004,7 +3010,7 @@ react-base16-styling@^0.6.0:
     lodash.flow "^3.3.0"
     pure-color "^1.2.0"
 
-react-beautiful-dnd@^13.1.0, react-beautiful-dnd@^13.1.1:
+react-beautiful-dnd@^13.1.1:
   version "13.1.1"
   resolved "https://registry.yarnpkg.com/react-beautiful-dnd/-/react-beautiful-dnd-13.1.1.tgz#b0f3087a5840920abf8bb2325f1ffa46d8c4d0a2"
   integrity sha512-0Lvs4tq2VcrEjEgDXHjT98r+63drkKEgqyxdA7qD3mvKwga6a5SscbdLPO2IExotU1jW8L0Ksdl0Cj2AF67nPQ==
