@@ -29,7 +29,7 @@ import {
 } from "@mui/x-data-grid";
 import { useTheme, lighten, darken, SxProps } from "@mui/material/styles";
 
-import { Box, Stack, StackProps } from "@mui/material";
+import { Box, ButtonProps, Stack, StackProps } from "@mui/material";
 
 import { constructActionColumn } from "./action";
 import { constructExpandColumn, ExpandableRow } from "./expansion";
@@ -91,6 +91,8 @@ export interface PangeaDataGridProps<
     EndFilterButton?: FC<FilterFormProps<FiltersObj>>;
     StartBarComponent?: ReactNode;
     EndBarComponent?: ReactNode;
+    SearchButtonSx?: SxProps;
+    SearchButtonProps?: Partial<ButtonProps>;
   };
   // Optional easy to add action column. Always inserted after all columns
   //    Action column could also always

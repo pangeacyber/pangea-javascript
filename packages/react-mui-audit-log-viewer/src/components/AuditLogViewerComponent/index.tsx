@@ -160,6 +160,9 @@ const AuditLogViewerComponent: FC<ViewerProps> = ({
           // @ts-ignore
           EndFilterButton: AuditTimeFilterButton,
           EndBarComponent: <DownloadButton />,
+          SearchButtonProps: {
+            color: "primary",
+          },
         }}
         ServerPagination={pagination}
         DataGridProps={{
