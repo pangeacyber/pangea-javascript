@@ -292,6 +292,9 @@ const StoreDataGrid: FC<StoreDataGridProps> = ({
             showFilterChips: true,
           },
           EndBarComponent: <CreateNewButton />,
+          SearchButtonProps: {
+            color: "primary",
+          },
         }}
         ServerPagination={{
           page: page,

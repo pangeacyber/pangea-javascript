@@ -28,7 +28,7 @@ const DownloadButton: FC = () => {
   return (
     <Button
       variant="contained"
-      color="primary"
+      color="secondary"
       disabled={!resultsId || loading || !total || !!searching}
       onClick={handleDownloadResults}
       startIcon={
