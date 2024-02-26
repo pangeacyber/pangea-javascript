@@ -4,15 +4,42 @@ import { Signer } from "./utils/signer.js";
  * PangeaConfig options
  */
 export interface ConfigOptions {
+  /** Pangea API domain. */
   domain?: string;
+
+  /**
+   * Pangea environment.
+   *
+   * This is intended to facilitate SDK development and should not be touched in
+   * everyday usage.
+   */
   environment?: ConfigEnv;
+
+  /** Config ID for multi-config projects. */
   configID?: string;
+
+  /**
+   * Whether or not to perform requests via plain HTTP, as opposed to secure
+   * HTTPS.
+   */
   insecure?: boolean;
+
+  /** How many times a request should be retried on failure. */
   requestRetries?: number;
+
+  /** Maximum allowed time (in milliseconds) for a request to complete. */
   requestTimeout?: number;
+
+  /** Whether or not queued request retries are enabled. */
   queuedRetryEnabled?: boolean;
+
+  /** Timeout for polling results after a HTTP/202 (in milliseconds). */
   pollResultTimeoutMs?: number;
+
+  /** How many queued request retries there should be on failure. */
   queuedRetries?: number;
+
+  /** User-Agent string to append to the default one. */
   customUserAgent?: string;
 }
 
