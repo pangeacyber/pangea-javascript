@@ -19,7 +19,7 @@
   "devDependencies": {
     "@emotion/react": "^11.11.3",
     "@emotion/styled": "^11.11.0",
-    "@mui/icons-material": "^5.15.10",
+    "@mui/icons-material": "^5.15.11",
     "@mui/material": "^5.15.10",
     "@mui/types": "^7.2.13",
     "@rollup/plugin-commonjs": "^25.0.7",
