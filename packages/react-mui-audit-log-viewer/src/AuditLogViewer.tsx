@@ -20,7 +20,9 @@ export interface AuditLogViewerProps<Event = Audit.DefaultEvent> {
 
   onSearch: (body: Audit.SearchRequest) => Promise<Audit.SearchResponse>;
   onPageChange: (body: Audit.ResultRequest) => Promise<Audit.ResultResponse>;
-  onDownload?: (body: Audit.DownloadResultRequest) => Promise<any>;
+  onDownload?: (
+    body: Audit.DownloadResultRequest
+  ) => Promise<Audit.DownloadResultResponse>;
 
   verificationOptions?: {
     onFetchRoot: (body: Audit.RootRequest) => Promise<Audit.RootResponse>;
@@ -115,20 +117,13 @@ const AuditLogViewerWithProvider = <Event,>({
 
     setLoading(true);
     return onDownload(body)
-      .then(async (response: Response) => {
-        let blob = await response.blob();
-        let name = `results_${body.result_id}.json.gz`;
-
-        const parts: string[] =
-          response.headers.get("Content-Disposition")?.split(";") ?? [];
-        parts.forEach((part) => {
-          if (part.startsWith("filename=")) {
-            name = part.split("filename=")[1];
-          }
-        });
-
-        saveAs(blob, name);
+      .then((response) => {
         setLoading(false);
+        if (response.dest_url) {
+          window.open(response.dest_url, "_blank");
+        } else {
+          setError(new Error("Error from download handler, expected dest url"));
+        }
       })
       .catch((err) => {
         setLoading(false);

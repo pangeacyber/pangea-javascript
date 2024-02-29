@@ -139,6 +139,10 @@ export namespace Audit {
     unpublished_root?: Root;
   }
 
+  export interface DownloadResultResponse {
+    dest_url: string;
+  }
+
   export interface RootResponse extends Root {}
 
   export enum SchemaFieldType {
