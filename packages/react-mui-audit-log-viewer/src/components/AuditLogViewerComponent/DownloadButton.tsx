@@ -20,7 +20,7 @@ const DownloadButton: FC = () => {
     setLoading(true);
     downloadResults({
       result_id: resultsId,
-      format: "json",
+      format: "csv",
     }).finally(() => setLoading(false));
   };
 

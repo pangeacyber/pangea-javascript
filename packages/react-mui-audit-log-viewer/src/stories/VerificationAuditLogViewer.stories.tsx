@@ -175,7 +175,8 @@ VerificationAuditLogViewer.args = {
         },
       }
     )
-      .then((res) => res)
+      .then((res) => res.json())
+      .then((response) => response?.result)
       .catch((err) => console.log(err));
   },
   verificationOptions: {
