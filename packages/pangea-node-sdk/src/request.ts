@@ -1,4 +1,4 @@
-import got, { Options, HTTPError } from "got";
+import got, { Options, HTTPError, ResponseType } from "got";
 import type { Headers, Response } from "got";
 import FormData from "form-data";
 import fs from "fs";
@@ -7,7 +7,8 @@ import { FileData, FileItems, PostOptions, TransferMethod } from "./types.js";
 import PangeaConfig, { version } from "./config.js";
 import { ConfigEnv } from "./types.js";
 import { PangeaErrors } from "./errors.js";
-import { PangeaResponse, ResponseObject } from "./response.js";
+import { AttachedFile, PangeaResponse, ResponseObject } from "./response.js";
+import { getHeaderField } from "./utils/multipart.js";
 
 const delay = async (ms: number) =>
   new Promise((resolve) => {
@@ -71,16 +72,41 @@ class PangeaRequest {
         response = await this.postMultipart(endpoint, data, options.files);
       }
     } else {
+      let responseType: ResponseType =
+        data.transfer_method == TransferMethod.MULTIPART ? "buffer" : "json";
       const request = new Options({
         headers: this.getHeaders(),
         json: data,
         retry: { limit: this.config.requestRetries },
-        responseType: "json",
+        responseType: responseType,
       });
       response = await this.httpPost(url, request);
     }
 
     return this.handleHttpResponse(response, options);
+  }
+
+  public async downloadFile(url: string): Promise<AttachedFile> {
+    const options = new Options({
+      retry: { limit: this.config.requestRetries },
+      responseType: "buffer",
+    });
+    const response = (await got.get(url, options)) as Response;
+
+    let contentDispositionHeader = response.headers["Content-Disposition"];
+    let contentDisposition = "";
+    if (Array.isArray(contentDispositionHeader)) {
+      contentDisposition = contentDispositionHeader[0] ?? contentDisposition;
+    }
+
+    const contentTypeHeader = response.headers["Content-Type"] ?? "";
+    let contentType = "application/octet-stream";
+    if (Array.isArray(contentTypeHeader)) {
+      contentType = contentTypeHeader[0] ?? contentType;
+    }
+
+    const filename = getHeaderField(contentDisposition, "filename", "defaultFilename");
+    return new AttachedFile(filename, response.rawBody, contentType);
   }
 
   private async postMultipart(

@@ -58,6 +58,7 @@ export enum TransferMethod {
   POST_URL = "post-url",
   PUT_URL = "put-url",
   SOURCE_URL = "source-url",
+  DEST_URL = "dest-url",
 }
 
 export interface Dictionary {
@@ -68,6 +69,12 @@ export interface FileData {
   file: Buffer | string;
   name: string;
   file_details?: Dictionary;
+}
+
+export interface FileUploadParams {
+  size: number;
+  crc32c: string;
+  sha256: string;
 }
 
 export interface FileItems {
