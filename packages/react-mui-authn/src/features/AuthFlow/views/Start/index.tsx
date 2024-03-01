@@ -2,6 +2,7 @@ import { FC } from "react";
 import { useFormik } from "formik";
 import * as yup from "yup";
 import { Stack } from "@mui/material";
+import { browserSupportsWebAuthn } from "@simplewebauthn/browser";
 
 import { AuthFlow } from "@pangeacyber/vanilla-js";
 
@@ -13,9 +14,12 @@ import ErrorMessage from "../../components/ErrorMessage";
 import Disclaimer from "../../components/Disclaimer";
 import { SocialOptions } from "../../components";
 import { BodyText } from "@src/components/core/Text";
+import PasskeyAuth from "../../components/PasskeyAuth";
 
 const StartView: FC<AuthFlowComponentProps> = (props) => {
   const { options, data, loading, error, update } = props;
+  const passkeyEnabled = !!data?.passkey && browserSupportsWebAuthn();
+
   const validationSchema = yup.object({
     email: yup.string().required("Required").email("Enter a valid email"),
   });
@@ -49,7 +53,7 @@ const StartView: FC<AuthFlowComponentProps> = (props) => {
               name="email"
               label="Email"
               formik={formik}
-              autoComplete="email"
+              autoComplete={passkeyEnabled ? "email webauthn" : "email"}
               autoFocus={true}
             />
             {error && <ErrorMessage response={error} />}
@@ -61,12 +65,14 @@ const StartView: FC<AuthFlowComponentProps> = (props) => {
       )}
       {data.authChoices.length === 0 &&
         data.socialChoices.length === 0 &&
-        data.samlChoices.length === 0 && (
+        data.samlChoices.length === 0 &&
+        !data.passkey && (
           <BodyText color="error" sxProps={{ padding: "0 16px" }}>
             There are no valid authentication methods available
           </BodyText>
         )}
       <SocialOptions {...props} />
+      {passkeyEnabled && <PasskeyAuth {...props} />}
       {data.disclaimer && <Disclaimer content={data.disclaimer} />}
     </AuthFlowLayout>
   );

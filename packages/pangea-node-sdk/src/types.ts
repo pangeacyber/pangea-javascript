@@ -4,15 +4,42 @@ import { Signer } from "./utils/signer.js";
  * PangeaConfig options
  */
 export interface ConfigOptions {
+  /** Pangea API domain. */
   domain?: string;
+
+  /**
+   * Pangea environment.
+   *
+   * This is intended to facilitate SDK development and should not be touched in
+   * everyday usage.
+   */
   environment?: ConfigEnv;
+
+  /** Config ID for multi-config projects. */
   configID?: string;
+
+  /**
+   * Whether or not to perform requests via plain HTTP, as opposed to secure
+   * HTTPS.
+   */
   insecure?: boolean;
+
+  /** How many times a request should be retried on failure. */
   requestRetries?: number;
+
+  /** Maximum allowed time (in milliseconds) for a request to complete. */
   requestTimeout?: number;
+
+  /** Whether or not queued request retries are enabled. */
   queuedRetryEnabled?: boolean;
+
+  /** Timeout for polling results after a HTTP/202 (in milliseconds). */
   pollResultTimeoutMs?: number;
+
+  /** How many queued request retries there should be on failure. */
   queuedRetries?: number;
+
+  /** User-Agent string to append to the default one. */
   customUserAgent?: string;
 }
 
@@ -635,6 +662,21 @@ export namespace Vault {
     RSA4096_PSS_SHA256 = "RSA-PSS-4096-SHA256",
     RSA4096_PSS_SHA512 = "RSA-PSS-4096-SHA512",
     RSA = "RSA-PKCS1V15-2048-SHA256", // deprecated, use RSA2048_PKCS1V15_SHA256 instead
+    Ed25519_DILITHIUM2_BETA = "ED25519-DILITHIUM2-BETA",
+    Ed448_DILITHIUM3_BETA = "ED448-DILITHIUM3-BETA",
+    SPHINCSPLUS_128F_SHAKE256_SIMPLE_BETA = "SPHINCSPLUS-128F-SHAKE256-SIMPLE-BETA",
+    SPHINCSPLUS_128F_SHAKE256_ROBUST_BETA = "SPHINCSPLUS-128F-SHAKE256-ROBUST-BETA",
+    SPHINCSPLUS_192F_SHAKE256_SIMPLE_BETA = "SPHINCSPLUS-192F-SHAKE256-SIMPLE-BETA",
+    SPHINCSPLUS_192F_SHAKE256_ROBUST_BETA = "SPHINCSPLUS-192F-SHAKE256-ROBUST-BETA",
+    SPHINCSPLUS_256F_SHAKE256_SIMPLE_BETA = "SPHINCSPLUS-256F-SHAKE256-SIMPLE-BETA",
+    SPHINCSPLUS_256F_SHAKE256_ROBUST_BETA = "SPHINCSPLUS-256F-SHAKE256-ROBUST-BETA",
+    SPHINCSPLUS_128F_SHA256_SIMPLE_BETA = "SPHINCSPLUS-128F-SHA256-SIMPLE-BETA",
+    SPHINCSPLUS_128F_SHA256_ROBUST_BETA = "SPHINCSPLUS-128F-SHA256-ROBUST-BETA",
+    SPHINCSPLUS_192F_SHA256_SIMPLE_BETA = "SPHINCSPLUS-192F-SHA256-SIMPLE-BETA",
+    SPHINCSPLUS_192F_SHA256_ROBUST_BETA = "SPHINCSPLUS-192F-SHA256-ROBUST-BETA",
+    SPHINCSPLUS_256F_SHA256_SIMPLE_BETA = "SPHINCSPLUS-256F-SHA256-SIMPLE-BETA",
+    SPHINCSPLUS_256F_SHA256_ROBUST_BETA = "SPHINCSPLUS-256F-SHA256-ROBUST-BETA",
+    FALCON_1024_BETA = "FALCON-1024-BETA",
   }
 
   export enum SymmetricAlgorithm {

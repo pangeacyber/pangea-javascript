@@ -840,13 +840,8 @@ export class UserIntelService extends BaseService {
    * @summary Look up breached users
    * @description Determine if an email address, username, phone number, or IP address was exposed in a security breach.
    * @operationId user_intel_post_v1_user_breached
-   * @param {Intel.User.User.BreachedRequest} request - Request to send to user/breached endpoint
-   * @param {Object} options - An object of optional parameters. Parameters supported:
-   *   - provider {String} - Use breached data from this provider: "spycloud".
-   *   Default provider defined by the configuration.
-   *   - verbose {Boolean} - Echo the API parameters in the response. Default: verbose=false.
-   *   - raw {Boolean} - Include raw data from this provider. Default: raw=false.
-   * @returns {Promise} - A promise representing an async call to the user/breached endpoint.
+   * @param request Request to send to user/breached endpoint
+   * @returns A promise representing an async call to the user/breached endpoint.
    * @example
    * ```js
    * const response = await userIntel.userBreached({
@@ -866,13 +861,8 @@ export class UserIntelService extends BaseService {
    * @summary Look up breached users V2
    * @description Determine if an email address, username, phone number, or IP address was exposed in a security breach.
    * @operationId user_intel_post_v2_user_breached
-   * @param {Intel.User.User.BreachedBulkRequest} request - Request to send to user/breached endpoint
-   * @param {Object} options - An object of optional parameters. Parameters supported:
-   *   - provider {String} - Use breached data from this provider: "spycloud".
-   *   Default provider defined by the configuration.
-   *   - verbose {Boolean} - Echo the API parameters in the response. Default: verbose=false.
-   *   - raw {Boolean} - Include raw data from this provider. Default: raw=false.
-   * @returns {Promise} - A promise representing an async call to the user/breached endpoint.
+   * @param request Request to send to user/breached endpoint
+   * @returns A promise representing an async call to the user/breached endpoint.
    * @example
    * ```js
    * const response = await userIntel.userBreachedBulk({

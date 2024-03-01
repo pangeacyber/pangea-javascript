@@ -3,6 +3,7 @@ module.exports = {
     "**/*.{js,jsx,ts,tsx}",
     "!**/*.d.ts",
     "!**/node_modules/**",
+    "!**/*.stories.tsx",
   ],
   moduleNameMapper: {
     /* Handle CSS imports (with CSS modules)
@@ -19,9 +20,6 @@ module.exports = {
   },
   testPathIgnorePatterns: ["<rootDir>/node_modules/"],
   transform: {
-    /* Use babel-jest to transpile tests with the next/babel preset
-        https://jestjs.io/docs/configuration#transform-objectstring-pathtotransformer--pathtotransformer-object */
-    "^.+\\.(js|jsx)$": ["babel-jest"],
     "^.+\\.(ts|tsx)$": ["ts-jest"],
   },
   transformIgnorePatterns: [

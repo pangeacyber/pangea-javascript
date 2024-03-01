@@ -28,6 +28,7 @@ export namespace AuthFlow {
     RESET_PASSWORD = "reset_password",
     SOCIAL = "social",
     SAML = "saml",
+    PASSKEY = "passkey",
     CAPTCHA = "captcha",
     VERIFY_EMAIL = "verify_email",
     EMAIL_OTP = "email_otp",
@@ -37,6 +38,7 @@ export namespace AuthFlow {
     AGREEMENTS = "agreements",
     PROFILE = "profile",
     PROVISIONAL = "provisional_enrollment",
+    COMPLETE = "complete",
     NONE = "",
   }
 
@@ -58,6 +60,7 @@ export namespace AuthFlow {
     | PasswordResponse
     | SocialResponse
     | SamlResponse
+    | PasskeyResponse
     | CaptchaResponse
     | VerifyEmailResponse
     | EmailOtpResponse
@@ -177,6 +180,31 @@ export namespace AuthFlow {
     flow_id: string;
     choice: Choice.SAML;
     data: SamlParams;
+  }
+
+  // Passkey
+
+  export interface PasskeyData {
+    publicKey: any;
+  }
+
+  export interface PasskeyResponse {
+    enrollment: boolean;
+    started: boolean;
+    discovery: boolean;
+    authentication?: PasskeyData;
+    registration?: PasskeyData;
+  }
+
+  export interface PasskeyResult {
+    choice: Choice.PASSKEY;
+    data: PasskeyResponse;
+  }
+
+  export interface PasskeyRequest {
+    flow_id: string;
+    choice: Choice.PASSKEY;
+    data: EmptyObject;
   }
 
   // Set Email
@@ -446,6 +474,7 @@ export namespace AuthFlow {
     | ResetPasswordResult
     | SocialResult
     | SamlResult
+    | PasskeyResult
     | CaptchaResult
     | VerifyEmailResult
     | EmailOtpResult
@@ -472,6 +501,7 @@ export namespace AuthFlow {
     samlChoices: SamlResponse[];
     samlProviderMap: { [key: string]: SamlResponse };
     callbackStateMap: { [key: string]: string };
+    passkey?: PasskeyResponse;
     agreements: AgreementData[];
     setEmail?: SetEmailResponse;
     setPhone?: EmptyObject;
@@ -528,6 +558,7 @@ export namespace AuthFlow {
     | Choice.EMAIL_OTP
     | Choice.SMS_OTP
     | Choice.TOTP
+    | Choice.PASSKEY
     | Choice.VERIFY_EMAIL
     | Choice.RESET_PASSWORD
     | Choice.MAGICLINK

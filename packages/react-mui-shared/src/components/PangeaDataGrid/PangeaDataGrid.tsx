@@ -27,9 +27,9 @@ import {
   GridColumnHeaderParams,
   GridSortModel,
 } from "@mui/x-data-grid";
-import { useTheme, lighten, SxProps } from "@mui/material/styles";
+import { useTheme, lighten, darken, SxProps } from "@mui/material/styles";
 
-import { Box, Stack, StackProps } from "@mui/material";
+import { Box, ButtonProps, Stack, StackProps } from "@mui/material";
 
 import { constructActionColumn } from "./action";
 import { constructExpandColumn, ExpandableRow } from "./expansion";
@@ -91,6 +91,8 @@ export interface PangeaDataGridProps<
     EndFilterButton?: FC<FilterFormProps<FiltersObj>>;
     StartBarComponent?: ReactNode;
     EndBarComponent?: ReactNode;
+    SearchButtonSx?: SxProps;
+    SearchButtonProps?: Partial<ButtonProps>;
   };
   // Optional easy to add action column. Always inserted after all columns
   //    Action column could also always
@@ -304,6 +306,7 @@ const PangeaDataGrid = <
     }
   }, [data, previewId]);
 
+  const modify = theme.palette.mode === "dark" ? darken : lighten;
   return (
     <Box sx={sx}>
       <Stack direction="row" width="100%" sx={{ overflow: "hidden" }}>
@@ -424,7 +427,7 @@ const PangeaDataGrid = <
                 },
                 ".MuiDataGrid-columnHeaders": {
                   color: theme.palette.text.secondary,
-                  backgroundColor: lighten(theme.palette.secondary.main, 0.9),
+                  backgroundColor: modify(theme.palette.secondary.main, 0.9),
                   textTransform: "uppercase",
                   fontFamily: "Kanit",
                   fontSize: "12px",
@@ -452,14 +455,14 @@ const PangeaDataGrid = <
                     borderBottomLeftRadius: 0,
                     borderBottomRightRadius: 0,
                   }),
-                  backgroundColor: lighten(theme.palette.secondary.main, 0.9),
+                  backgroundColor: modify(theme.palette.secondary.main, 0.9),
                   ".PangeaDataGrid-Pinned-Right": {
-                    backgroundColor: lighten(theme.palette.secondary.main, 0.9),
+                    backgroundColor: modify(theme.palette.secondary.main, 0.9),
                   },
                   ":hover": {
-                    backgroundColor: lighten(theme.palette.secondary.main, 0.9),
+                    backgroundColor: modify(theme.palette.secondary.main, 0.9),
                     ".PangeaDataGrid-Pinned-Right": {
-                      backgroundColor: lighten(
+                      backgroundColor: modify(
                         theme.palette.secondary.main,
                         0.9
                       ),
@@ -492,7 +495,7 @@ const PangeaDataGrid = <
                       ".MuiDataGrid-row,.MuiDataGrid-row.Mui-selected": {
                         ":hover": {
                           cursor: "pointer",
-                          backgroundColor: lighten(
+                          backgroundColor: modify(
                             theme.palette.secondary.main,
                             0.85
                           ),

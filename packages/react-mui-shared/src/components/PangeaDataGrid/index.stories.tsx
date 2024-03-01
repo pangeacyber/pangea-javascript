@@ -1,5 +1,5 @@
 import React from "react";
-import { ComponentStory, ComponentMeta } from "@storybook/react";
+import { StoryFn, Meta } from "@storybook/react";
 
 import PangeaDataGrid, { PangeaDataGridProps } from "./index";
 import { Show, SHOWS } from "../../stories/data/television";
@@ -12,9 +12,9 @@ export default {
       type: "string",
     },
   },
-} as ComponentMeta<typeof PangeaDataGrid>;
+} as Meta<typeof PangeaDataGrid>;
 
-const Template: ComponentStory<typeof PangeaDataGrid> = (args) => (
+const Template: StoryFn<typeof PangeaDataGrid> = (args) => (
   <PangeaDataGrid
     {...args}
     ExpansionRow={{

@@ -13,9 +13,14 @@ import AuthOnetimePhone from "../AuthOnetimePhone";
 import AuthOnetimeEmail from "../AuthOnetimeEmail";
 import { BodyText } from "@src/components/core/Text";
 
+export interface AuthOptionsProps extends AuthFlowComponentProps {
+  updateView: (view: string) => void;
+}
+
 const AuthOptions: FC<AuthFlowComponentProps> = (props) => {
   const { data, error } = props;
   const [activeProvider, setActiveProvider] = useState<string>("");
+  const [view, setView] = useState<string>("");
   const [content, setContent] = useState<JSX.Element>(<></>);
 
   const choices = useMemo(() => {
@@ -47,6 +52,10 @@ const AuthOptions: FC<AuthFlowComponentProps> = (props) => {
   }, [data]);
 
   useEffect(() => {
+    setView("");
+  }, [data]);
+
+  useEffect(() => {
     if (choices.length === 1) {
       setActiveProvider(data.authChoices[0]);
     } else if (!choices.includes(activeProvider)) {
@@ -66,10 +75,13 @@ const AuthOptions: FC<AuthFlowComponentProps> = (props) => {
   useEffect(() => {
     if (activeProvider === "password") {
       setContent(<AuthPassword {...props} />);
-    } else if (activeProvider === "sms_otp" && data.smsOtp?.need_phone) {
+    } else if (
+      activeProvider === "sms_otp" &&
+      (data.smsOtp?.need_phone || view === "phone_number")
+    ) {
       setContent(<AuthSmsPhone {...props} />);
     } else if (activeProvider === "sms_otp") {
-      setContent(<AuthSmsOtp {...props} />);
+      setContent(<AuthSmsOtp {...props} updateView={updateView} />);
     } else if (activeProvider === "email_otp") {
       setContent(<AuthEmailOtp {...props} />);
     } else if (activeProvider === "magiclink") {
@@ -83,7 +95,7 @@ const AuthOptions: FC<AuthFlowComponentProps> = (props) => {
     } else {
       setContent(<></>);
     }
-  }, [activeProvider, data, error]);
+  }, [activeProvider, data, error, view]);
 
   const getDescriptionText = (phase?: string): string => {
     if (phase === "phase_primary") {
@@ -98,6 +110,10 @@ const AuthOptions: FC<AuthFlowComponentProps> = (props) => {
 
   const selectHandler = (provider: string) => {
     setActiveProvider(provider);
+  };
+
+  const updateView = (view: string) => {
+    setView(view);
   };
 
   if (choices.length === 0) {

@@ -8,6 +8,8 @@ import {
   LinearProgress,
   Box,
   IconButton,
+  SxProps,
+  ButtonProps,
 } from "@mui/material";
 import ConditionalAutocomplete, {
   ConditionalOption,
@@ -20,7 +22,7 @@ import FiltersBar from "./FiltersBar";
 import ColumnsPopout, { ColumnsPopoutProps } from "./ColumnsPopout";
 import { PDG } from "../../types";
 
-interface SearchProps<FiltersObj> {
+export interface SearchProps<FiltersObj> {
   query?: string;
   error?: PDG.SearchError;
   onChange: (query: string) => void;
@@ -32,6 +34,8 @@ interface SearchProps<FiltersObj> {
   EndFilterButton?: FC<FilterFormProps<FiltersObj>>;
   EndBarComponent?: ReactNode;
   StartBarComponent?: ReactNode;
+  SearchButtonSx?: SxProps;
+  SearchButtonProps?: Partial<ButtonProps>;
 }
 
 const Search = <
@@ -48,6 +52,8 @@ const Search = <
   EndFilterButton,
   EndBarComponent,
   StartBarComponent,
+  SearchButtonSx,
+  SearchButtonProps,
 }: SearchProps<FiltersObj>): JSX.Element => {
   const [query_, setQuery_] = useInternalState(query, onChange);
   const searchRef = useRef<HTMLDivElement | null>(null);
@@ -119,12 +125,13 @@ const Search = <
           color="secondary"
           onClick={() => onChange(query_)}
           disabled={loading}
-          sx={{ maxHeight: "42px" }}
+          sx={{ maxHeight: "42px", ...SearchButtonSx }}
+          {...SearchButtonProps}
         >
           Search
         </Button>
-        {!!ColumnsPopoutProps && <ColumnsPopout {...ColumnsPopoutProps} />}
         {!!EndBarComponent && EndBarComponent}
+        {!!ColumnsPopoutProps && <ColumnsPopout {...ColumnsPopoutProps} />}
       </Stack>
       {!!Filters && Filters.showFilterChips && (
         <FiltersBar<FiltersObj> {...Filters} />

@@ -1,5 +1,6 @@
 import { FC, ReactNode } from "react";
 import get from "lodash/get";
+import omit from "lodash/omit";
 import upperCase from "lodash/upperCase";
 
 import FolderIcon from "@mui/icons-material/Folder";
@@ -44,7 +45,7 @@ const _PasswordBadge: FC<any> = (props) => {
   const theme = useTheme();
   return (
     <span
-      {...props}
+      {...omit(props, ["ownerState"])}
       style={{
         display: "flex",
         flexDirection: "row",

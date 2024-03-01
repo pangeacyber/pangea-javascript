@@ -162,6 +162,23 @@ VerificationAuditLogViewer.args = {
       .then((response) => response?.result)
       .catch((err) => console.log(err));
   },
+  onDownload: async (body) => {
+    return fetch(
+      `https://audit.${process.env.STORYBOOK_SERVICE_DOMAIN}/v1/download_results`,
+      {
+        method: "POST",
+        body: JSON.stringify({
+          ...body,
+        }),
+        headers: {
+          Authorization: `Bearer ${process.env.STORYBOOK_PANGEA_TOKEN}`,
+        },
+      }
+    )
+      .then((res) => res.json())
+      .then((response) => response?.result)
+      .catch((err) => console.log(err));
+  },
   verificationOptions: {
     onFetchRoot: async (body) => {
       return fetch(

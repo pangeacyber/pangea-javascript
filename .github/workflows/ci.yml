@@ -23,6 +23,9 @@ concurrency:
   group: ${{ github.workflow }}-${{ github.event.number || github.ref }}
   cancel-in-progress: true
 
+env:
+  STORYBOOK_DISABLE_TELEMETRY: 1
+
 jobs:
   setup:
     runs-on: ubuntu-latest
@@ -74,6 +77,36 @@ jobs:
         with:
           name: pangea-node-sdk-package
           path: ./packages/pangea-node-sdk/pangea-node-sdk-v*.tgz
+
+  build-react-mui-shared:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./packages/react-mui-shared
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4.1.1
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4.0.2
+        with:
+          node-version: 20
+          cache: yarn
+          cache-dependency-path: ./packages/react-mui-shared/yarn.lock
+
+      - name: Install dependencies
+        run: yarn install --frozen-lockfile
+
+      - run: yarn list
+
+      - name: Build
+        run: yarn build
+
+      - name: Test
+        run: yarn test --ci
+
+      - name: Storybook
+        run: yarn build-storybook
 
   build-react-mui-store-file-viewer:
     runs-on: ubuntu-latest
@@ -130,6 +163,35 @@ jobs:
       - name: Unit test
         run: yarn test:unit --ci --coverage
 
+  docs:
+    needs: [build]
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./packages/pangea-node-sdk
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4.1.1
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4.0.2
+        with:
+          node-version: 20
+          cache: yarn
+          cache-dependency-path: ./packages/pangea-node-sdk/yarn.lock
+
+      - name: Install dependencies
+        run: yarn install --frozen-lockfile
+
+      - name: Generate docs
+        run: yarn generate:docs
+
+      - name: Upload
+        uses: actions/upload-artifact@v4.3.1
+        with:
+          name: node_sdk.json
+          path: ./packages/pangea-node-sdk/docs.json
+
   examples:
     needs: [setup, build]
     runs-on: ubuntu-latest
@@ -154,7 +216,7 @@ jobs:
         run: yarn install --frozen-lockfile
 
       - name: Download locally built pangea-node-sdk
-        uses: actions/download-artifact@v4.1.2
+        uses: actions/download-artifact@v4.1.3
         with:
           name: pangea-node-sdk-package
           path: ./packages/pangea-node-sdk

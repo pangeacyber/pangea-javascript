@@ -20,7 +20,7 @@ const CreateNewButton: FC = ({}) => {
       <Button
         startIcon={<AddIcon fontSize="small" />}
         variant="contained"
-        color="primary"
+        color="secondary"
         onClick={(event) => setOptionsEl(event.currentTarget)}
         data-testid="New-Item-Btn"
       >

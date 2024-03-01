@@ -50,7 +50,7 @@ Please note that react and react-dom are peer dependencies too:
 },
 ```
 
-To learn more about Material-UI (MUI) check out their official documention(https://mui.com/material-ui/getting-started/installation/).
+To learn more about Material-UI (MUI) check out their official documentation(https://mui.com/material-ui/getting-started/installation/).
 
 ## StoreFileViewerProps Interface
 
@@ -202,7 +202,7 @@ yarn storybook
 
 The `StoreFileViewer.stories.tsx` storybook example does not use mock files to render the `StoreFileViewer` instead it will read a `.env` file to hit your Store Service Config.
 
-Retrieve your Secure Object Store service token, client token and domain from the Pangea Console Store service dashboard and add the following to a `.env` file. The enviroment file is git ignored.
+Retrieve your Secure Object Store service token, client token and domain from the Pangea Console Store service dashboard and add the following to a `.env` file. The environment file is git ignored.
 
 ```env
 STORYBOOK_PANGEA_TOKEN = "{SERVICE_TOKEN}"

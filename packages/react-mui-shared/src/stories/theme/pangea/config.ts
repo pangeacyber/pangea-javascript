@@ -1,4 +1,4 @@
-export const PANGEA: any = {
+export const PANGEA = {
   authn_show_name: "yes",
   bg_color: "#F6F9FC",
   bg_image: "",

@@ -1,5 +1,5 @@
 .react_mui_audit_log_viewer_base:
-  image: node:18.19.0
+  image: node:18.19.1@sha256:aa329c613f0067755c0787d2a3a9802c7d95eecdb927d62b910ec1d28689882f
   before_script:
     - cd packages/react-mui-audit-log-viewer
     - yarn install

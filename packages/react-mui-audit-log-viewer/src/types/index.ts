@@ -114,6 +114,11 @@ export namespace Audit {
     max_results?: number;
   }
 
+  export interface DownloadResultRequest {
+    result_id: string; // FIXME: This field name is probably changing
+    format: "csv" | "json";
+  }
+
   export interface RootRequest {
     tree_size?: number;
   }
@@ -132,6 +137,10 @@ export namespace Audit {
     count: number;
     root?: Root;
     unpublished_root?: Root;
+  }
+
+  export interface DownloadResultResponse {
+    dest_url: string;
   }
 
   export interface RootResponse extends Root {}

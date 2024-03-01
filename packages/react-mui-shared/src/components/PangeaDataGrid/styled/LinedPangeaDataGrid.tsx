@@ -1,4 +1,4 @@
-import { useTheme, lighten } from "@mui/material/styles";
+import { useTheme, lighten, darken } from "@mui/material/styles";
 import PangeaDataGrid, { PangeaDataGridProps } from "../PangeaDataGrid";
 import { GridValidRowModel } from "@mui/x-data-grid";
 
@@ -10,6 +10,7 @@ const LinedPangeaDataGrid = <
 ): JSX.Element => {
   const theme = useTheme();
 
+  const modify = theme.palette.mode === "dark" ? darken : lighten;
   return (
     <PangeaDataGrid
       {...props}
@@ -49,22 +50,22 @@ const LinedPangeaDataGrid = <
           borderRadius: "0px",
         },
         ".MuiDataGrid-root .MuiDataGrid-row.Mui-selected": {
-          backgroundColor: lighten(theme.palette.info.main, 0.9),
+          backgroundColor: modify(theme.palette.info.main, 0.9),
           ".PangeaDataGrid-Pinned-Right": {
-            backgroundColor: lighten(theme.palette.info.main, 0.9),
+            backgroundColor: modify(theme.palette.info.main, 0.9),
           },
           ":hover": {
-            backgroundColor: lighten(theme.palette.info.main, 0.85),
+            backgroundColor: modify(theme.palette.info.main, 0.85),
             ".PangeaDataGrid-Pinned-Right": {
-              backgroundColor: lighten(theme.palette.info.main, 0.85),
+              backgroundColor: modify(theme.palette.info.main, 0.85),
             },
           },
         },
         ".MuiDataGrid-root .MuiDataGrid-row": {
           ":hover": {
-            backgroundColor: lighten(theme.palette.info.main, 0.85),
+            backgroundColor: modify(theme.palette.info.main, 0.85),
             ".PangeaDataGrid-Pinned-Right": {
-              backgroundColor: lighten(theme.palette.info.main, 0.85),
+              backgroundColor: modify(theme.palette.info.main, 0.85),
             },
           },
         },

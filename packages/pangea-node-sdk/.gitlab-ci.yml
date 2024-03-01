@@ -160,17 +160,6 @@ pangea-node-sdk-lint:
   script:
     - yarn lint
 
-generate_docs:
-  extends: .pangea-node-sdk-base
-  stage: lint
-  script:
-    - yarn generate:docs
-  artifacts:
-    expire_in: 1 month
-    expose_as: js_sdk
-    paths: ["packages/pangea-node-sdk/docs.json"]
-    when: on_success
-
 pangea-node-sdk-unit-tests:
   extends: .pangea-node-sdk-base
   stage: unit_tests

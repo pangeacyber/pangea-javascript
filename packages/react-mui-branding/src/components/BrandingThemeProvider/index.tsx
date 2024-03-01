@@ -14,6 +14,7 @@ export interface BrandingThemeProviderProps {
   brandingId?: string;
   config?: Branding.Config;
   themeOptions?: Partial<ThemeOptions>;
+  overrideThemeOptions?: (options: ThemeOptions) => ThemeOptions;
   ThemeProviderProps?: Partial<ThemeProviderProps>;
   children?: JSX.Element;
 }
@@ -23,12 +24,16 @@ const BrandingThemeProvider: FC<BrandingThemeProviderProps> = ({
   brandingId,
   config: configProp,
   themeOptions = {},
+  overrideThemeOptions = null,
   ThemeProviderProps = {},
   children,
 }) => {
   const { config } = useBranding(auth, brandingId);
   const customTheme = useMemo(() => {
     if (!configProp && !config) {
+      if (overrideThemeOptions) {
+        return createTheme(overrideThemeOptions(themeOptions));
+      }
       return createTheme(themeOptions);
     }
 
@@ -36,11 +41,18 @@ const BrandingThemeProvider: FC<BrandingThemeProviderProps> = ({
       const themeOptions_ = getBrandingThemeOptions(
         configProp ?? (config || {})
       );
-      return createTheme(merge({ ...themeOptions_ }, { ...themeOptions }));
+      let finalTheme = merge({ ...themeOptions_ }, { ...themeOptions });
+      if (overrideThemeOptions) {
+        finalTheme = overrideThemeOptions(finalTheme);
+      }
+      return createTheme(finalTheme);
     } catch (e) {
       console.error(e);
       // FIXME: Argument of type '{ components: AllComponents; }' is not assignable to parameter of type 'ThemeOptions'.
       // @ts-ignore
+      if (overrideThemeOptions) {
+        return createTheme(overrideThemeOptions(themeOptions));
+      }
       return createTheme(themeOptions);
     }
   }, [config]);

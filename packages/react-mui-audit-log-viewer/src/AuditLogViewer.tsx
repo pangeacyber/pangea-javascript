@@ -1,6 +1,8 @@
 import { FC, ReactNode, useMemo, useState } from "react";
 import keyBy from "lodash/keyBy";
 
+import { saveAs } from "file-saver";
+
 import { SxProps } from "@mui/system";
 import { DataGridProps, GridColDef } from "@mui/x-data-grid";
 
@@ -15,8 +17,13 @@ import { useAuditSearchError } from "./hooks/query";
 
 export interface AuditLogViewerProps<Event = Audit.DefaultEvent> {
   initialQuery?: string;
+
   onSearch: (body: Audit.SearchRequest) => Promise<Audit.SearchResponse>;
   onPageChange: (body: Audit.ResultRequest) => Promise<Audit.ResultResponse>;
+  onDownload?: (
+    body: Audit.DownloadResultRequest
+  ) => Promise<Audit.DownloadResultResponse>;
+
   verificationOptions?: {
     onFetchRoot: (body: Audit.RootRequest) => Promise<Audit.RootResponse>;
     ModalChildComponent?: FC;
@@ -37,6 +44,7 @@ export interface AuditLogViewerProps<Event = Audit.DefaultEvent> {
 
 const AuditLogViewerWithProvider = <Event,>({
   onSearch,
+  onDownload,
   onPageChange,
   verificationOptions,
   config,
@@ -102,6 +110,28 @@ const AuditLogViewerWithProvider = <Event,>({
       });
   };
 
+  const handleDownloadResults = async (
+    body: Audit.DownloadResultRequest
+  ): Promise<void> => {
+    if (!onDownload) return;
+
+    setLoading(true);
+    return onDownload(body)
+      .then((response) => {
+        setLoading(false);
+        if (response.dest_url) {
+          window.open(response.dest_url, "_blank");
+        } else {
+          setError(new Error("Error from download handler, expected dest url"));
+        }
+      })
+      .catch((err) => {
+        setLoading(false);
+        setError(err);
+        console.error(`Error from search handler - ${err}`);
+      });
+  };
+
   const logs: Audit.FlattenedAuditRecord[] = useMemo(
     () =>
       (resultsResponse?.events || searchResponse?.events || []).map(
@@ -148,8 +178,10 @@ const AuditLogViewerWithProvider = <Event,>({
   return (
     <AuditContextProvider
       total={count}
+      loading={loading}
       resultsId={searchResponse?.id}
       fetchResults={handleResults}
+      downloadResults={!!onDownload ? handleDownloadResults : undefined}
       visibilityModel={props.visibilityModel}
       limit={limit}
       // Props required for calculating verification

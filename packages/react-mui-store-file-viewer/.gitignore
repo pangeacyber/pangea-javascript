@@ -1,5 +1,6 @@
-node_modules/
+.yarn
 dist/
+node_modules/
+storybook-static/
 /yarn-error.log
 *.tgz
-storybook-static/

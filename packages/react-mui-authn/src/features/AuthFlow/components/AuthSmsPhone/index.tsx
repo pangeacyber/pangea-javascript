@@ -1,7 +1,7 @@
 import { FC, useEffect } from "react";
 import { useFormik } from "formik";
 import * as yup from "yup";
-import { Stack, Typography } from "@mui/material";
+import { Stack } from "@mui/material";
 
 import { AuthFlow } from "@pangeacyber/vanilla-js";
 
@@ -9,6 +9,7 @@ import Button from "@src/components/core/Button";
 import { AuthFlowComponentProps } from "@src/features/AuthFlow/types";
 import StringField from "@src/components/fields/StringField";
 import ErrorMessage from "../ErrorMessage";
+import { BodyText } from "@src/components/core/Text";
 
 const AuthSmsPhone: FC<AuthFlowComponentProps> = (props) => {
   const { options, data, error, loading, reset, restart } = props;
@@ -23,10 +24,15 @@ const AuthSmsPhone: FC<AuthFlowComponentProps> = (props) => {
     }
   }, []);
 
+  const startsWithOne = (val: string) => /^(1|\+1).*/.test(val);
+
   const validationSchema = yup.object({
     phone: yup
       .string()
       .required("Phone number is required")
+      .test("Starts with 1", "Must start with 1 or +1", (value) =>
+        startsWithOne(value)
+      )
       .matches(
         /^[+]?[1-9][-.\s]?\(?([0-9]{3})\)?[-.\s]?([0-9]{3})[-.\s]?([0-9]{4})$/,
         "Must be a valid phone number"
@@ -41,7 +47,7 @@ const AuthSmsPhone: FC<AuthFlowComponentProps> = (props) => {
     validateOnBlur: true,
     onSubmit: (values) => {
       const payload: AuthFlow.SmsOtpRestart = {
-        ...values,
+        phone: values.phone.replace(/[()]/g, ""), // remove parentheses
       };
       restart(AuthFlow.Choice.SMS_OTP, payload);
     },
@@ -51,9 +57,7 @@ const AuthSmsPhone: FC<AuthFlowComponentProps> = (props) => {
     <Stack gap={2} width="100%">
       <form onSubmit={formik.handleSubmit} style={{ width: "100%" }}>
         <Stack gap={1}>
-          <Typography variant="body2" color="secondary">
-            Enroll a phone number.
-          </Typography>
+          <BodyText>Enroll a phone number.</BodyText>
           <StringField
             name="phone"
             label="Phone Number"
