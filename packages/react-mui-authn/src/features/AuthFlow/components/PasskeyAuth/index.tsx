@@ -30,7 +30,6 @@ const PasskeyAuth: FC<AuthFlowComponentProps> = ({
 
   useEffect(() => {
     if (data.passkey?.enrollment === false && !data.passkey?.started) {
-      console.log("Call passkey restart");
       restart(AuthFlow.Choice.PASSKEY);
     }
   }, []);
@@ -49,7 +48,6 @@ const PasskeyAuth: FC<AuthFlowComponentProps> = ({
       const authResp = await startAuthentication(publicKey);
       update(AuthFlow.Choice.PASSKEY, { authentication: authResp });
     } catch (e) {
-      console.warn(e);
       setStage("error");
     }
   };

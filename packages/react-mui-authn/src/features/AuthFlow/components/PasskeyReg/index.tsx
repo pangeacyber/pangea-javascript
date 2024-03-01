@@ -41,7 +41,6 @@ const PasskeyAuth: FC<AuthFlowComponentProps> = ({
       const authResp = await startRegistration(publicKey);
       update(AuthFlow.Choice.PASSKEY, { registration: authResp });
     } catch (e) {
-      console.warn(e);
       setStage("error");
     }
   };
