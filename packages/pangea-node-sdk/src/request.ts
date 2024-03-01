@@ -86,6 +86,21 @@ class PangeaRequest {
     return this.handleHttpResponse(response, options);
   }
 
+  private getFilenameFromContentDisposition(
+    contentDispositionHeader: string | string[] | undefined
+  ): string | undefined {
+    let contentDisposition = "";
+    if (Array.isArray(contentDispositionHeader)) {
+      contentDisposition = contentDispositionHeader[0] ?? contentDisposition;
+    }
+
+    return getHeaderField(contentDisposition, "filename", undefined);
+  }
+
+  private getFilenameFromURL(url: string): string | undefined {
+    return url.split("/").pop()?.split("?")[0];
+  }
+
   public async downloadFile(url: string): Promise<AttachedFile> {
     const options = new Options({
       retry: { limit: this.config.requestRetries },
@@ -93,10 +108,12 @@ class PangeaRequest {
     });
     const response = (await got.get(url, options)) as Response;
 
-    let contentDispositionHeader = response.headers["Content-Disposition"];
-    let contentDisposition = "";
-    if (Array.isArray(contentDispositionHeader)) {
-      contentDisposition = contentDispositionHeader[0] ?? contentDisposition;
+    let filename = this.getFilenameFromContentDisposition(response.headers["Content-Disposition"]);
+    if (filename === undefined) {
+      filename = this.getFilenameFromURL(url);
+      if (filename === undefined) {
+        filename = "default_filename";
+      }
     }
 
     const contentTypeHeader = response.headers["Content-Type"] ?? "";
@@ -105,7 +122,6 @@ class PangeaRequest {
       contentType = contentTypeHeader[0] ?? contentType;
     }
 
-    const filename = getHeaderField(contentDisposition, "filename", "defaultFilename");
     return new AttachedFile(filename, response.rawBody, contentType);
   }
 

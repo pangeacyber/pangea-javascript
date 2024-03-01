@@ -150,7 +150,11 @@ function process(part: Part): Input {
   return input as Input;
 }
 
-export function getHeaderField(header: string, field: string, defaultValue: string): string {
+export function getHeaderField(
+  header: string,
+  field: string,
+  defaultValue: string | undefined
+): string | undefined {
   const parts = header.split(field + "=");
   if (parts.length > 1 && parts[1]) {
     const valueParts = parts[1].split(";");

@@ -221,6 +221,20 @@ export namespace Audit {
   export interface RootResult extends Root {
     data: Root;
   }
+
+  export enum DownloadFormat {
+    JSON = "json",
+    CSV = "csv",
+  }
+
+  export interface DownloadRequest {
+    result_id: string;
+    format?: DownloadFormat;
+  }
+
+  export interface DownloadResult {
+    dest_url: string;
+  }
 }
 
 export namespace Redact {
