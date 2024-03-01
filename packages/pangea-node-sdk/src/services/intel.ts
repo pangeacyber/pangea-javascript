@@ -33,6 +33,21 @@ const hashType = "sha256";
  *    const response = await fileIntel.lookup("142b638c6a60b60c7f9928da4fb85a5a8e1422a9ffdc9ee49e17e56ccca9cf6e", "sha256", options);
  */
 export class FileIntelService extends BaseService {
+  /**
+   * Creates a new `FileIntelService` with the given Pangea API token and
+   * configuration.
+   *
+   * @param token Pangea API token.
+   * @param config Configuration.
+   *
+   * @example
+   * ```js
+   * const config = new PangeaConfig({ domain: "pangea_domain" });
+   * const fileIntel = new FileIntelService("pangea_token", config);
+   * ```
+   *
+   * @summary File Intel
+   */
   constructor(token: string, config: PangeaConfig) {
     super("file-intel", token, config);
   }
@@ -212,6 +227,21 @@ export class FileIntelService extends BaseService {
  *  const response = await domainIntel.lookup("teoghehofuuxo", options);
  */
 export class DomainIntelService extends BaseService {
+  /**
+   * Creates a new `DomainIntelService` with the given Pangea API token and
+   * configuration.
+   *
+   * @param token Pangea API token.
+   * @param config Configuration.
+   *
+   * @example
+   * ```js
+   * const config = new PangeaConfig({ domain: "pangea_domain" });
+   * const domainIntel = new DomainIntelService("pangea_token", config);
+   * ```
+   *
+   * @summary Domain Intel
+   */
   constructor(token: string, config: PangeaConfig) {
     super("domain-intel", token, config);
   }
@@ -344,6 +374,21 @@ export class DomainIntelService extends BaseService {
  *    const response = await ipIntel.lookup("93.231.182.110", options);
  */
 export class IPIntelService extends BaseService {
+  /**
+   * Creates a new `IPIntelService` with the given Pangea API token and
+   * configuration.
+   *
+   * @param token Pangea API token.
+   * @param config Configuration.
+   *
+   * @example
+   * ```js
+   * const config = new PangeaConfig({ domain: "pangea_domain" });
+   * const ipIntel = new IPIntelService("pangea_token", config);
+   * ```
+   *
+   * @summary IP Intel
+   */
   constructor(token: string, config: PangeaConfig) {
     super("ip-intel", token, config);
   }
@@ -730,6 +775,21 @@ export class IPIntelService extends BaseService {
  *    const response = await urlIntel.lookup("http://113.235.101.11:54384", options);
  */
 export class URLIntelService extends BaseService {
+  /**
+   * Creates a new `URLIntelService` with the given Pangea API token and
+   * configuration.
+   *
+   * @param token Pangea API token.
+   * @param config Configuration.
+   *
+   * @example
+   * ```js
+   * const config = new PangeaConfig({ domain: "pangea_domain" });
+   * const urlIntel = new URLIntelService("pangea_token", config);
+   * ```
+   *
+   * @summary URL Intel
+   */
   constructor(token: string, config: PangeaConfig) {
     super("url-intel", token, config);
   }
@@ -832,6 +892,21 @@ export class URLIntelService extends BaseService {
  *    const response = await userIntel.passwordBreached(Intel.HashType.SHA256, "5baa6", options);
  */
 export class UserIntelService extends BaseService {
+  /**
+   * Creates a new `UserIntelService` with the given Pangea API token and
+   * configuration.
+   *
+   * @param token Pangea API token.
+   * @param config Configuration.
+   *
+   * @example
+   * ```js
+   * const config = new PangeaConfig({ domain: "pangea_domain" });
+   * const userIntel = new UserIntelService("pangea_token", config);
+   * ```
+   *
+   * @summary User Intel
+   */
   constructor(token: string, config: PangeaConfig) {
     super("user-intel", token, config);
   }

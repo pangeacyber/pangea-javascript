@@ -10,6 +10,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 
 - Documentation to service client configuration.
+- Documentation to service client constructors.
 
 ### Removed
 

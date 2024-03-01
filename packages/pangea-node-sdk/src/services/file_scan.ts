@@ -7,6 +7,21 @@ import { PangeaErrors } from "@src/errors.js";
 import PangeaRequest from "@src/request.js";
 
 export class FileScanService extends BaseService {
+  /**
+   * Creates a new `FileScanService` with the given Pangea API token and
+   * configuration.
+   *
+   * @param token Pangea API token.
+   * @param config Configuration.
+   *
+   * @example
+   * ```js
+   * const config = new PangeaConfig({ domain: "pangea_domain" });
+   * const client = new FileScanService("pangea_token", config);
+   * ```
+   *
+   * @summary File Scan
+   */
   constructor(token: string, config: PangeaConfig) {
     super("file-scan", token, config);
   }

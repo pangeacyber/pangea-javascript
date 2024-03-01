@@ -8,6 +8,21 @@ import { Vault } from "@src/types.js";
  * @extends BaseService
  */
 class VaultService extends BaseService {
+  /**
+   * Creates a new `VaultService` with the given Pangea API token and
+   * configuration.
+   *
+   * @param token Pangea API token.
+   * @param config Configuration.
+   *
+   * @example
+   * ```js
+   * const config = new PangeaConfig({ domain: "pangea_domain" });
+   * const vault = new VaultService("pangea_token", config);
+   * ```
+   *
+   * @summary Vault
+   */
   constructor(token: string, config: PangeaConfig) {
     super("vault", token, config);
   }
