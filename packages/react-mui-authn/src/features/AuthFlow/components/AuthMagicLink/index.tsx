@@ -9,7 +9,7 @@ import ErrorMessage from "../ErrorMessage";
 import { BodyText, ErrorText } from "@src/components/core/Text";
 
 const AuthMagicLink: FC<AuthFlowComponentProps> = (props) => {
-  const { options, data, error, loading, update, reset, restart } = props;
+  const { data, error, loading, update, restart } = props;
 
   const [checked, setChecked] = useState<boolean>(false);
   const [status, setStatus] = useState<string>("");
@@ -39,16 +39,13 @@ const AuthMagicLink: FC<AuthFlowComponentProps> = (props) => {
   }, []);
 
   return (
-    <Stack>
-      <Stack gap={1}>
-        <BodyText sxProps={{ padding: "0 16px" }}>
-          A Magic Link has been sent to your email, click the link in the
-          message to continue.
-        </BodyText>
-        {error && <ErrorMessage response={error} />}
-        {status && <ErrorText>{status}</ErrorText>}
-        {error && <ErrorMessage response={error} />}
-      </Stack>
+    <Stack gap={1}>
+      <BodyText sxProps={{ padding: "0 16px" }}>
+        A Magic Link has been sent to your email, click the link in the message
+        to continue.
+      </BodyText>
+      {error && <ErrorMessage response={error} />}
+      {status && <ErrorText>{status}</ErrorText>}
       <Stack
         direction={{ xs: "column", sm: "row" }}
         justifyContent="center"

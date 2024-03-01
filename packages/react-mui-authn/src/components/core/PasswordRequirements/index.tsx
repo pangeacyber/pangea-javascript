@@ -1,7 +1,7 @@
 import { FC } from "react";
 import get from "lodash/get";
 
-import { Stack } from "@mui/material";
+import { Stack, Typography } from "@mui/material";
 import { CheckRounded, ErrorRounded } from "@mui/icons-material";
 
 import { validatePassword } from "@src/utils";
@@ -51,6 +51,14 @@ const PasswordRequirements: FC<Props> = ({ value, policy }) => {
             </Stack>
           );
         })}
+      {"punct_min" in policy && (
+        <Stack alignItems="flex-start" mt={1}>
+          <BodyText>Special characters</BodyText>
+          <Typography variant="body2" sx={{ letterSpacing: "0.2rem" }}>
+            !@#$%^&*().-=+
+          </Typography>
+        </Stack>
+      )}
     </Stack>
   );
 };
