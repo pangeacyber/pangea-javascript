@@ -12,7 +12,7 @@
   "author": "Pangea (https://pangea.cloud)",
   "license": "MIT",
   "devDependencies": {
-    "@babel/core": "^7.23.9",
+    "@babel/core": "^7.24.0",
     "@babel/preset-react": "^7.23.3",
     "@emotion/react": "^11.11.4",
     "@emotion/styled": "^11.11.0",
