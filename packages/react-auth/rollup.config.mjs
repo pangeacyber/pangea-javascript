@@ -39,7 +39,7 @@ export default [
     //external: Object.keys(pkg.peerDependencies || {}),
   },
   {
-    input: "dist/esm/index.d.ts",
+    input: "dist/esm/types/index.d.ts",
     output: [{ file: "dist/index.d.ts", format: "esm" }],
     external: [/\.css$/],
     plugins: [dts()],
