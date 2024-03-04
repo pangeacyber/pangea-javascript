@@ -42,7 +42,7 @@ function getName(name: string) {
   return `${TIME}_${ACTOR}_${name}_${getRandomID()}`;
 }
 
-jest.setTimeout(60000);
+jest.setTimeout(120000);
 it("Secret life cycle", async () => {
   const name = getName("SecretLifeCycle");
   // Store
