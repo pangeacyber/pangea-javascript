@@ -8,6 +8,21 @@ import { Embargo } from "@src/types.js";
  * @extends BaseService
  */
 class EmbargoService extends BaseService {
+  /**
+   * Creates a new `EmbargoService` with the given Pangea API token and
+   * configuration.
+   *
+   * @param token Pangea API token.
+   * @param config Configuration.
+   *
+   * @example
+   * ```js
+   * const config = new PangeaConfig({ domain: "pangea_domain" });
+   * const embargo = new EmbargoService("pangea_token", config);
+   * ```
+   *
+   * @summary Embargo
+   */
   constructor(token: string, config: PangeaConfig) {
     super("embargo", token, config);
   }
