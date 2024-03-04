@@ -17,6 +17,21 @@ class AuthNService extends BaseService {
   session: Session;
   agreements: Agreements;
 
+  /**
+   * Creates a new `AuthNService` with the given Pangea API token and
+   * configuration.
+   *
+   * @param token Pangea API token.
+   * @param config Configuration.
+   *
+   * @example
+   * ```js
+   * const config = new PangeaConfig({ domain: "pangea_domain" });
+   * const authn = new AuthNService("pangea_token", config);
+   * ```
+   *
+   * @summary AuthN
+   */
   constructor(token: string, config: PangeaConfig) {
     super("authn", token, config);
 
