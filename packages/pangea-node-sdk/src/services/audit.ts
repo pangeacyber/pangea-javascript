@@ -23,6 +23,21 @@ class AuditService extends BaseService {
   private prevUnpublishedRootHash: string | undefined;
   tenantID: string | undefined;
 
+  /**
+   * Creates a new `AuditService` with the given Pangea API token and
+   * configuration.
+   *
+   * @param token Pangea API token.
+   * @param config Configuration.
+   *
+   * @example
+   * ```js
+   * const config = new PangeaConfig({ domain: "pangea_domain" });
+   * const audit = new AuditService("pangea_token", config);
+   * ```
+   *
+   * @summary Audit
+   */
   constructor(token: string, config: PangeaConfig, tenantID?: string, configID?: string) {
     // FIXME: Temporary check to still support configID from PangeaConfig
     if (!configID && config.configID) {

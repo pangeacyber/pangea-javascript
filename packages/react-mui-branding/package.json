@@ -16,7 +16,7 @@
     "prettier:fix": "npx prettier . -w"
   },
   "devDependencies": {
-    "@babel/core": "^7.23.9",
+    "@babel/core": "^7.24.0",
     "@mui/icons-material": "^5.15.10",
     "@mui/material": "^5.15.10",
     "@mui/types": "^7.2.13",

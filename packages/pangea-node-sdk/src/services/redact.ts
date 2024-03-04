@@ -12,6 +12,21 @@ export interface RedactOptions {
  * @extends BaseService
  */
 class RedactService extends BaseService {
+  /**
+   * Creates a new `RedactService` with the given Pangea API token and
+   * configuration.
+   *
+   * @param token Pangea API token.
+   * @param config Configuration.
+   *
+   * @example
+   * ```js
+   * const config = new PangeaConfig({ domain: "pangea_domain" });
+   * const redact = new RedactService("pangea_token", config);
+   * ```
+   *
+   * @summary Redact
+   */
   constructor(token: string, config: PangeaConfig, options: RedactOptions = {}) {
     super("redact", token, config, options.config_id);
   }
