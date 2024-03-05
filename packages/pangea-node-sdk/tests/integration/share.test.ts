@@ -6,15 +6,15 @@ import {
   getTestDomain,
   getTestToken,
 } from "../../src/utils/utils.js";
-import { StoreService } from "../../src/index.js";
-import { Store, TransferMethod } from "../../src/types.js";
-import { StoreUploader } from "@src/services/store.js";
+import { ShareService } from "../../src/index.js";
+import { Share, TransferMethod } from "../../src/types.js";
+import { ShareUploader } from "@src/services/share.js";
 
 const testEnvironment = TestEnvironment.DEVELOP;
 const token = getTestToken(testEnvironment);
 const testHost = getTestDomain(testEnvironment);
 const config = new PangeaConfig({ domain: testHost, customUserAgent: "sdk-test" });
-const client = new StoreService(token, config);
+const client = new ShareService(token, config);
 
 const TIME = Math.round(Date.now() / 1000);
 const FOLDER_DELETE = "/sdk_tests/node/delete/" + TIME;
@@ -25,7 +25,7 @@ const TAGS = ["tag1", "tag2"];
 const ADD_TAGS = ["tag3"];
 
 const testfilePath = "./tests/testdata/testfile.pdf";
-jest.setTimeout(120000);
+jest.setTimeout(60000);
 
 const delay = async (ms: number) =>
   new Promise((resolve) => {
@@ -58,7 +58,7 @@ it("Folder create/delete", async () => {
 
 it("Put file. Multipart transfer_method", async () => {
   try {
-    const name = TIME + "_file_post_url";
+    const name = TIME + "_file_multipart";
     const respPut = await client.put(
       {
         name: name,
@@ -100,25 +100,24 @@ it("get url and put upload", async () => {
   let response;
   const name = TIME + "_file_split_put_url";
   try {
-    const request: Store.PutRequest = {
+    const request: Share.PutRequest = {
       transfer_method: TransferMethod.PUT_URL,
       name: name,
     };
     response = await client.requestUploadURL(request);
   } catch (e) {
     console.log(e);
-    expect(false).toBeTruthy();
     throw e;
   }
 
   const url = response.accepted_result?.put_url || "";
 
-  const uploader = new StoreUploader();
+  const uploader = new ShareUploader();
   await uploader.uploadFile(
     url,
     {
       file: testfilePath,
-      name: "file",
+      name: name,
     },
     {
       transfer_method: TransferMethod.PUT_URL,
@@ -146,7 +145,7 @@ it("get url and post upload", async () => {
   try {
     const params = getFileUploadParams(testfilePath);
 
-    const request: Store.PutRequest = {
+    const request: Share.PutRequest = {
       transfer_method: TransferMethod.POST_URL,
       name: name,
       crc32c: params.crc32c,
@@ -157,14 +156,13 @@ it("get url and post upload", async () => {
     response = await client.requestUploadURL(request);
   } catch (e) {
     console.log(e);
-    expect(false).toBeTruthy();
     throw e;
   }
 
   const url = response.accepted_result?.post_url || "";
   const file_details = response.accepted_result?.post_form_data;
 
-  const uploader = new StoreUploader();
+  const uploader = new ShareUploader();
   await uploader.uploadFile(
     url,
     {
@@ -274,7 +272,7 @@ it("Item life cycle", async () => {
   // Get archive
   const respGetArchive1 = await client.getArchive({
     ids: [folderID],
-    format: Store.ArchiveFormat.ZIP,
+    format: Share.ArchiveFormat.ZIP,
     transfer_method: TransferMethod.MULTIPART,
   });
   expect(respGetArchive1.success).toBeTruthy();
@@ -286,7 +284,7 @@ it("Item life cycle", async () => {
 
   const respGetArchive2 = await client.getArchive({
     ids: [folderID],
-    format: Store.ArchiveFormat.TAR,
+    format: Share.ArchiveFormat.TAR,
     transfer_method: TransferMethod.DEST_URL,
   });
   expect(respGetArchive2.success).toBeTruthy();
@@ -299,13 +297,13 @@ it("Item life cycle", async () => {
   expect(downloadedFile.file.length).toBeGreaterThan(0);
 
   // Create share link
-  const authenticators: Store.Authenticator[] = [
-    { auth_type: Store.AuthenticatorType.PASSWORD, auth_context: "somepassword" },
+  const authenticators: Share.Authenticator[] = [
+    { auth_type: Share.AuthenticatorType.PASSWORD, auth_context: "somepassword" },
   ];
-  const linkList: Store.ShareLinkCreateItem[] = [
+  const linkList: Share.ShareLinkCreateItem[] = [
     {
       targets: [folderID],
-      link_type: Store.LinkType.EDITOR,
+      link_type: Share.LinkType.EDITOR,
       max_access_count: 3,
       authenticators: authenticators,
     },
@@ -323,7 +321,7 @@ it("Item life cycle", async () => {
   expect(link?.access_count).toBe(0);
   expect(link?.max_access_count).toBe(3);
   expect(link?.authenticators.length).toBe(1);
-  expect(link?.authenticators[0]?.auth_type).toBe(Store.AuthenticatorType.PASSWORD);
+  expect(link?.authenticators[0]?.auth_type).toBe(Share.AuthenticatorType.PASSWORD);
   expect(link?.link).toBeDefined();
   expect(link?.id).toBeDefined();
   expect(link?.targets.length).toBe(1);

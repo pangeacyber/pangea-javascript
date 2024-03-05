@@ -1,25 +1,25 @@
 import PangeaResponse from "@src/response.js";
 import BaseService from "./base.js";
 import PangeaConfig from "@src/config.js";
-import { Store, FileData, TransferMethod, FileUploadParams } from "@src/types.js";
+import { Share, FileData, TransferMethod, FileUploadParams } from "@src/types.js";
 import PangeaRequest from "@src/request.js";
 import { PangeaErrors } from "@src/errors.js";
 import { getFileUploadParams } from "@src/index.js";
 
 /**
- * StoreService class provides methods for interacting with the Store Service
+ * ShareService class provides methods for interacting with the Share Service
  * @extends BaseService
  */
-class StoreService extends BaseService {
+class ShareService extends BaseService {
   constructor(token: string, config: PangeaConfig) {
-    super("store", token, config);
+    super("share", token, config);
   }
 
   /**
    * @summary Delete
    * @description Delete object by ID or path.  If both are supplied, the path must match that of the object represented by the ID.
-   * @operationId store_post_v1beta_delete
-   * @param {Store.DeleteRequest} request
+   * @operationId share_post_v1beta_delete
+   * @param {Share.DeleteRequest} request
    * @returns {Promise} - A promise representing an async call to the delete endpoint.
    * @example
    * ```js
@@ -27,15 +27,15 @@ class StoreService extends BaseService {
    * const response = await client.delete(request);
    * ```
    */
-  delete(request: Store.DeleteRequest): Promise<PangeaResponse<Store.DeleteResult>> {
+  delete(request: Share.DeleteRequest): Promise<PangeaResponse<Share.DeleteResult>> {
     return this.post("v1beta/delete", request);
   }
 
   /**
    * @summary Create a folder
    * @description Create a folder, either by name or path and parent_id.
-   * @operationId store_post_v1beta_folder_create
-   * @param {Store.FolderCreateRequest} request
+   * @operationId share_post_v1beta_folder_create
+   * @param {Share.FolderCreateRequest} request
    * @returns {Promise} - A promise representing an async call to the folder create endpoint.
    * @example
    * ```js
@@ -53,16 +53,16 @@ class StoreService extends BaseService {
    * ```
    */
   folderCreate(
-    request: Store.FolderCreateRequest
-  ): Promise<PangeaResponse<Store.FolderCreateResult>> {
+    request: Share.FolderCreateRequest
+  ): Promise<PangeaResponse<Share.FolderCreateResult>> {
     return this.post("v1beta/folder/create", request);
   }
 
   /**
    * @summary Get an object
    * @description Get object. If both ID and Path are supplied, the call will fail if the target object doesn't match both properties.
-   * @operationId store_post_v1beta_get
-   * @param {Store.GetRequest} request
+   * @operationId share_post_v1beta_get
+   * @param {Share.GetRequest} request
    * @returns {Promise} - A promise representing an async call to the get item endpoint.
    * @example
    * ```js
@@ -74,15 +74,15 @@ class StoreService extends BaseService {
    * const response = await client.getItem(request);
    * ```
    */
-  getItem(request: Store.GetRequest): Promise<PangeaResponse<Store.GetResult>> {
+  getItem(request: Share.GetRequest): Promise<PangeaResponse<Share.GetResult>> {
     return this.post("v1beta/get", request);
   }
 
   /**
    * @summary Get archive
    * @description Get an archive file of multiple objects.
-   * @operationId store_post_v1beta_get_archive
-   * @param {Store.GetArchiveRequest} request
+   * @operationId share_post_v1beta_get_archive
+   * @param {Share.GetArchiveRequest} request
    * @returns {Promise} - A promise representing an async call to the get archive endpoint.
    * @example
    * ```js
@@ -90,15 +90,15 @@ class StoreService extends BaseService {
    * const response = await client.getArchive(request);
    * ```
    */
-  getArchive(request: Store.GetArchiveRequest): Promise<PangeaResponse<Store.GetArchiveResult>> {
+  getArchive(request: Share.GetArchiveRequest): Promise<PangeaResponse<Share.GetArchiveResult>> {
     return this.post("v1beta/get_archive", request);
   }
 
   /**
    * @summary List
    * @description List or filter/search records.
-   * @operationId store_post_v1beta_list
-   * @param {Store.ListRequest} request
+   * @operationId share_post_v1beta_list
+   * @param {Share.ListRequest} request
    * @returns {Promise} - A promise representing an async call to the list endpoint.
    * @example
    * ```js
@@ -106,15 +106,15 @@ class StoreService extends BaseService {
    * const response = await client.list(request);
    * ```
    */
-  list(request: Store.ListRequest = {}): Promise<PangeaResponse<Store.ListResult>> {
+  list(request: Share.ListRequest = {}): Promise<PangeaResponse<Share.ListResult>> {
     return this.post("v1beta/list", request);
   }
 
   /**
    * @summary Upload a file [beta]
    * @description Upload a file.
-   * @operationId store_post_v1beta_put
-   * @param {Store.PutRequest} request
+   * @operationId share_post_v1beta_put
+   * @param {Share.PutRequest} request
    * @param {FileData} fileData
    * @returns {Promise} - A promise representing an async call to the put endpoint.
    * @example
@@ -138,7 +138,7 @@ class StoreService extends BaseService {
    * const response = await client.put(request, fileData);
    * ```
    */
-  put(request: Store.PutRequest, fileData: FileData): Promise<PangeaResponse<Store.PutResult>> {
+  put(request: Share.PutRequest, fileData: FileData): Promise<PangeaResponse<Share.PutResult>> {
     let fsData = {} as FileUploadParams;
 
     if (!request.transfer_method || request.transfer_method === TransferMethod.POST_URL) {
@@ -158,8 +158,8 @@ class StoreService extends BaseService {
   /**
    * @summary Request upload URL
    * @description Request an upload URL.
-   * @operationId store_post_v1beta_put 2
-   * @param {Store.PutRequest} request
+   * @operationId share_post_v1beta_put 2
+   * @param {Share.PutRequest} request
    * @param {FileData} fileData
    * @returns {Promise} - A promise representing an async call to the put endpoint.
    * @example
@@ -183,7 +183,7 @@ class StoreService extends BaseService {
    * const response = await client.requestUploadURL(request);
    * ```
    */
-  requestUploadURL(request: Store.PutRequest): Promise<PangeaResponse<Store.PutResult>> {
+  requestUploadURL(request: Share.PutRequest): Promise<PangeaResponse<Share.PutResult>> {
     if (
       request.transfer_method === TransferMethod.POST_URL &&
       (!request.size || !request.crc32c || !request.sha256)
@@ -199,8 +199,8 @@ class StoreService extends BaseService {
   /**
    * @summary Update a file
    * @description Update a file.
-   * @operationId store_post_v1beta_update
-   * @param {Store.UpdateRequest} request
+   * @operationId share_post_v1beta_update
+   * @param {Share.UpdateRequest} request
    * @returns {Promise} - A promise representing an async call to the update endpoint.
    * @example
    * ```js
@@ -217,25 +217,25 @@ class StoreService extends BaseService {
    * const response = await client.update(request);
    * ```
    */
-  update(request: Store.UpdateRequest): Promise<PangeaResponse<Store.UpdateResult>> {
+  update(request: Share.UpdateRequest): Promise<PangeaResponse<Share.UpdateResult>> {
     return this.post("v1beta/update", request);
   }
 
   /**
    * @summary Create share links
    * @description Create a share link.
-   * @operationId store_post_v1beta_share_link_create
-   * @param {Store.ShareLinkCreateRequest} request
+   * @operationId share_post_v1beta_share_link_create
+   * @param {Share.ShareLinkCreateRequest} request
    * @returns {Promise} - A promise representing an async call to the share link create endpoint.
    * @example
    * ```js
    * const authenticator = {
-   *   auth_type: Store.AuthenticatorType.PASSWORD,
+   *   auth_type: Share.AuthenticatorType.PASSWORD,
    *   auth_context: "my_fav_Pa55word",
    * };
    * const link = {
    *   targets: ["pos_3djfmzg2db4c6donarecbyv5begtj2bm"],
-   *   link_type: Store.LinkType.DOWNLOAD,
+   *   link_type: Share.LinkType.DOWNLOAD,
    *   authenticators: [authenticator],
    * };
    * const request = { links: [link] };
@@ -243,16 +243,16 @@ class StoreService extends BaseService {
    * ```
    */
   shareLinkCreate(
-    request: Store.ShareLinkCreateRequest
-  ): Promise<PangeaResponse<Store.ShareLinkCreateResult>> {
+    request: Share.ShareLinkCreateRequest
+  ): Promise<PangeaResponse<Share.ShareLinkCreateResult>> {
     return this.post("v1beta/share/link/create", request);
   }
 
   /**
    * @summary Get share link
    * @description Get a share link.
-   * @operationId store_post_v1beta_share_link_get
-   * @param {Store.ShareLinkGetRequest} request
+   * @operationId share_post_v1beta_share_link_get
+   * @param {Share.ShareLinkGetRequest} request
    * @returns {Promise} - A promise representing an async call to the share link get endpoint.
    * @example
    * ```js
@@ -261,16 +261,16 @@ class StoreService extends BaseService {
    * ```
    */
   shareLinkGet(
-    request: Store.ShareLinkGetRequest
-  ): Promise<PangeaResponse<Store.ShareLinkGetResult>> {
+    request: Share.ShareLinkGetRequest
+  ): Promise<PangeaResponse<Share.ShareLinkGetResult>> {
     return this.post("v1beta/share/link/get", request);
   }
 
   /**
    * @summary List share links
    * @description Look up share links by filter options.
-   * @operationId store_post_v1beta_share_link_list
-   * @param {Store.ShareLinkListRequest} request
+   * @operationId share_post_v1beta_share_link_list
+   * @param {Share.ShareLinkListRequest} request
    * @returns {Promise} - A promise representing an async call to the share link list endpoint.
    * @example
    * ```js
@@ -279,16 +279,16 @@ class StoreService extends BaseService {
    * ```
    */
   shareLinkList(
-    request: Store.ShareLinkListRequest = {}
-  ): Promise<PangeaResponse<Store.ShareLinkListResult>> {
+    request: Share.ShareLinkListRequest = {}
+  ): Promise<PangeaResponse<Share.ShareLinkListResult>> {
     return this.post("v1beta/share/link/list", request);
   }
 
   /**
    * @summary Delete share links
    * @description Delete share links.
-   * @operationId store_post_v1beta_share_link_delete
-   * @param {Store.ShareLinkDeleteRequest} request
+   * @operationId share_post_v1beta_share_link_delete
+   * @param {Share.ShareLinkDeleteRequest} request
    * @returns {Promise} - A promise representing an async call to the delete share links endpoint.
    * @example
    * ```js
@@ -297,16 +297,16 @@ class StoreService extends BaseService {
    * ```
    */
   shareLinkDelete(
-    request: Store.ShareLinkDeleteRequest
-  ): Promise<PangeaResponse<Store.ShareLinkDeleteResult>> {
+    request: Share.ShareLinkDeleteRequest
+  ): Promise<PangeaResponse<Share.ShareLinkDeleteResult>> {
     return this.post("v1beta/share/link/delete", request);
   }
 
   /**
    * @summary Send share links
    * @description Send share links.
-   * @operationId store_post_v1beta_share_link_send
-   * @param {Store.ShareLinkDeleteRequest} request
+   * @operationId share_post_v1beta_share_link_send
+   * @param {Share.ShareLinkDeleteRequest} request
    * @returns {Promise} - A promise representing an async call to the send share links endpoint.
    * @example
    * ```js
@@ -320,14 +320,14 @@ class StoreService extends BaseService {
    *  })
    */
   shareLinkSend(
-    request: Store.ShareLinkSendRequest
-  ): Promise<PangeaResponse<Store.ShareLinkSendResult>> {
+    request: Share.ShareLinkSendRequest
+  ): Promise<PangeaResponse<Share.ShareLinkSendResult>> {
     return this.post("v1beta/share/link/send", request);
   }
 }
 
-export class StoreUploader {
-  protected serviceName: string = "FileScanFileUploader";
+export class ShareUploader {
+  protected serviceName: string = "ShareFileUploader";
   protected request_: PangeaRequest | undefined = undefined;
 
   constructor() {}
@@ -357,4 +357,4 @@ export class StoreUploader {
   }
 }
 
-export default StoreService;
+export default ShareService;

@@ -172,7 +172,8 @@ class PangeaRequest {
       }
     }
 
-    form.append(fileData.name, this.getFileToForm(fileData.file), {
+    // Right now, only accept the file with name "file"
+    form.append("file", this.getFileToForm(fileData.file), {
       contentType: "application/octet-stream",
     });
 

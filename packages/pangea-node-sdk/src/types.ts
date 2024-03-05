@@ -1948,7 +1948,7 @@ export namespace AuthN {
   }
 }
 
-export namespace Store {
+export namespace Share {
   export enum FileFormat {
     F3G2 = "3G2",
     F3GP = "3GP",
