@@ -294,6 +294,7 @@ it("Item life cycle", async () => {
   // Download file
   const url = respGetArchive2.result.dest_url ?? "";
   let downloadedFile = await client.downloadFile(url);
+  downloadedFile.save("./");
   expect(downloadedFile.file.length).toBeGreaterThan(0);
 
   // Create share link
