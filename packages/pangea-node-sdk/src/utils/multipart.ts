@@ -44,7 +44,7 @@ enum ParsingState {
 }
 
 export function parse(multipartBodyBuffer: Buffer, boundary: string): Input[] {
-  let lastline = "";
+  let lastLine = "";
   let contentDispositionHeader = "";
   let contentTypeHeader = "";
   let state: ParsingState = ParsingState.INIT;
@@ -61,17 +61,17 @@ export function parse(multipartBodyBuffer: Buffer, boundary: string): Input[] {
     const newLineDetected: boolean = oneByte === 0x0a && prevByte === 0x0d;
     const newLineChar: boolean = oneByte === 0x0a || oneByte === 0x0d;
 
-    if (!newLineChar) lastline += String.fromCharCode(oneByte);
+    if (!newLineChar) lastLine += String.fromCharCode(oneByte);
     if (ParsingState.INIT === state && newLineDetected) {
       // searching for boundary
-      if ("--" + boundary === lastline) {
+      if ("--" + boundary === lastLine) {
         state = ParsingState.READING_HEADERS; // found boundary. start reading headers
       }
-      lastline = "";
+      lastLine = "";
     } else if (ParsingState.READING_HEADERS === state && newLineDetected) {
       // parsing headers. Headers are separated by an empty line from the content. Stop reading headers when the line is empty
-      if (lastline.length) {
-        currentPartHeaders.push(lastline);
+      if (lastLine.length) {
+        currentPartHeaders.push(lastLine);
       } else {
         // found empty line. search for the headers we want and set the values
         for (const h of currentPartHeaders) {
@@ -84,20 +84,20 @@ export function parse(multipartBodyBuffer: Buffer, boundary: string): Input[] {
         state = ParsingState.READING_DATA;
         buffer = [];
       }
-      lastline = "";
+      lastLine = "";
     } else if (ParsingState.READING_DATA === state) {
       // parsing data
-      if (lastline.length > boundary.length + 4) {
-        lastline = ""; // mem save
+      if (lastLine.length > boundary.length + 4) {
+        lastLine = ""; // mem save
       }
-      if ("--" + boundary === lastline) {
-        const j = buffer.length - lastline.length;
+      if ("--" + boundary === lastLine) {
+        const j = buffer.length - lastLine.length;
         const part = buffer.slice(0, j - 1);
 
         allParts.push(process({ contentDispositionHeader, contentTypeHeader, part }));
         buffer = [];
         currentPartHeaders = [];
-        lastline = "";
+        lastLine = "";
         state = ParsingState.READING_PART_SEPARATOR;
         contentDispositionHeader = "";
         contentTypeHeader = "";
@@ -105,7 +105,7 @@ export function parse(multipartBodyBuffer: Buffer, boundary: string): Input[] {
         buffer.push(oneByte);
       }
       if (newLineDetected) {
-        lastline = "";
+        lastLine = "";
       }
     } else if (ParsingState.READING_PART_SEPARATOR === state) {
       if (newLineDetected) {

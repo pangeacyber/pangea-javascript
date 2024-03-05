@@ -98,7 +98,7 @@ class PangeaRequest {
   }
 
   private getFilenameFromURL(url: string): string | undefined {
-    return url.split("/").pop()?.split("?")[0];
+    return new URL(url).pathname.split("/").pop();
   }
 
   public async downloadFile(url: string): Promise<AttachedFile> {
