@@ -3,7 +3,7 @@
 import { PangeaConfig, StoreService } from "pangea-node-sdk";
 
 // Load Pangea token and domain from environment variables
-const token = process.env.PANGEA_STORE_TOKEN;
+const token = process.env.PANGEA_SHARE_TOKEN;
 const config = new PangeaConfig({ domain: process.env.PANGEA_DOMAIN });
 
 // Create Store client

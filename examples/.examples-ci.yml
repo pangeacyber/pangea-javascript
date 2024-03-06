@@ -14,6 +14,7 @@ examples-tests:
           - "intel"
           - "redact"
           - "vault"
+          - "share"
   rules:
     - changes:
         - examples/**/*
@@ -39,6 +40,7 @@ examples-tests:
     - export PANGEA_URL_INTEL_TOKEN="${PANGEA_INTEGRATION_TOKEN_LVE_AWS}"
     - export PANGEA_USER_INTEL_TOKEN="${PANGEA_INTEGRATION_TOKEN_LVE_AWS}"
     - export PANGEA_VAULT_TOKEN="${PANGEA_INTEGRATION_TOKEN_LVE_AWS}"
+    - export PANGEA_SHARE_TOKEN="${PANGEA_INTEGRATION_TOKEN_LVE_AWS}"
     - pushd packages/pangea-node-sdk
     - tar -xf pangea-node-sdk-v*.tgz --strip-components 1 -C .
     - popd
