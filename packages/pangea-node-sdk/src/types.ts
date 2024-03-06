@@ -2286,6 +2286,8 @@ export namespace Share {
     authenticators: Authenticator[];
     message?: string;
     title?: string;
+    notify_email?: string;
+    tags?: Tags;
   }
 
   export interface ShareLinkCreateRequest {
@@ -2304,6 +2306,10 @@ export namespace Share {
     last_accessed_at?: string;
     authenticators: Authenticator[];
     link: string;
+    message?: string;
+    title?: string;
+    notify_email?: string;
+    tags?: Tags;
   }
 
   export interface ShareLinkCreateResult {
