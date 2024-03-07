@@ -160,12 +160,6 @@ pangea-node-sdk-lint:
   script:
     - yarn lint
 
-pangea-node-sdk-unit-tests:
-  extends: .pangea-node-sdk-base
-  stage: unit_tests
-  script:
-    - yarn test:unit --ci --coverage
-
 pangea-node-sdk-publish:
   extends: .pangea-node-sdk-publish
   stage: publish

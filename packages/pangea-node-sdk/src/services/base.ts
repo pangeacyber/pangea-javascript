@@ -1,6 +1,6 @@
 import PangeaConfig from "@src/config.js";
 import PangeaRequest from "@src/request.js";
-import PangeaResponse from "@src/response.js";
+import PangeaResponse, { AttachedFile } from "@src/response.js";
 import { PostOptions } from "@src/types.js";
 
 class BaseService {
@@ -48,6 +48,10 @@ class BaseService {
     options: PostOptions = {}
   ): Promise<PangeaResponse<R>> {
     return await this.request.post(endpoint, data, options);
+  }
+
+  async downloadFile(url: string): Promise<AttachedFile> {
+    return await this.request.downloadFile(url);
   }
 
   async pollResult(request_id: string): Promise<PangeaResponse<any>> {

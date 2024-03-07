@@ -374,6 +374,11 @@ class AuditService extends BaseService {
     return this.post("v1/root", data);
   }
 
+  // TODO: Add docs
+  downloadResults(request: Audit.DownloadRequest): Promise<PangeaResponse<Audit.DownloadResult>> {
+    return this.post("v1/download_results", request);
+  }
+
   async processSearchResponse(
     response: PangeaResponse<Audit.SearchResponse>,
     options: Audit.SearchOptions
