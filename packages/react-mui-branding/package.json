@@ -1,6 +1,6 @@
 {
   "name": "@pangeacyber/react-mui-branding",
-  "version": "0.0.14",
+  "version": "0.0.15",
   "description": "Pangea wrapper around Material-UI branding theme provider",
   "main": "dist/cjs/index.js",
   "module": "dist/esm/index.js",

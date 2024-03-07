@@ -93,7 +93,9 @@ export const getBrandingThemeOptions = (
       MuiOutlinedInput: {
         styleOverrides: {
           root: {
-            height: config?.density === "comfortable" ? "50px" : "40px",
+            ":has(> input)": {
+              height: config?.density === "comfortable" ? "50px" : "40px",
+            },
             borderRadius: config?.input_border_radius ?? "8px",
             backgroundColor: config?.input_bg_color,
             input: {
