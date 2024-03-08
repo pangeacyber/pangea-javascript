@@ -22,7 +22,7 @@ export {
 } from "./utils/utils.js";
 
 export { FileScanUploader } from "./services/file_scan.js";
-export { ShareUploader } from "./services/share.js";
+export { FileUploader } from "./file_uploader.js";
 
 export const PangeaConfig = _PangeaConfig;
 export const PangeaRequest = _PangeaRequest;

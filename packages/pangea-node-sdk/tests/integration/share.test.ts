@@ -8,7 +8,7 @@ import {
 } from "../../src/utils/utils.js";
 import { ShareService } from "../../src/index.js";
 import { Share, TransferMethod } from "../../src/types.js";
-import { ShareUploader } from "@src/services/share.js";
+import { FileUploader } from "../../src/file_uploader.js";
 
 const testEnvironment = TestEnvironment.DEVELOP;
 const token = getTestToken(testEnvironment);
@@ -112,7 +112,7 @@ it("get url and put upload", async () => {
 
   const url = response.accepted_result?.put_url || "";
 
-  const uploader = new ShareUploader();
+  const uploader = new FileUploader();
   await uploader.uploadFile(
     url,
     {
@@ -162,7 +162,7 @@ it("get url and post upload", async () => {
   const url = response.accepted_result?.post_url || "";
   const file_details = response.accepted_result?.post_form_data;
 
-  const uploader = new ShareUploader();
+  const uploader = new FileUploader();
   await uploader.uploadFile(
     url,
     {
