@@ -8,9 +8,9 @@
   cache:
     - key:
         files:
-          - yarn.lock
+          - packages/react-auth/yarn.lock
       paths:
-        - node_modules
+        - packages/react-auth/node_modules
 
 publish_react_auth:
   extends: .react_auth_base

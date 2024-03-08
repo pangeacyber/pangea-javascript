@@ -1,23 +1,21 @@
 {
+  "$schema": "https://json.schemastore.org/tsconfig",
+  "extends": "@tsconfig/strictest/tsconfig.json",
   "compilerOptions": {
-    "target": "ES2020",
-    "module": "esnext",
     "jsx": "react-jsx",
-    "sourceMap": true,
-    "outDir": "dist",
-    "strict": true,
-    "moduleResolution": "NodeNext",
-    "allowSyntheticDefaultImports": true,
-    "esModuleInterop": true,
-    "skipLibCheck": true,
-    "forceConsistentCasingInFileNames": true,
-    "declaration": true,
-    "declarationDir": "types",
-    "emitDeclarationOnly": true,
+    "lib": ["ES2020", "DOM", "DOM.Iterable"],
+    "moduleResolution": "bundler",
+    "target": "ES2020",
+
+    "exactOptionalPropertyTypes": false,
+    "noImplicitReturns": false,
+    "noPropertyAccessFromIndexSignature": false,
+    "noUncheckedIndexedAccess": false,
+
     "baseUrl": ".",
     "paths": {
-      "@src/*": ["./src/*"]
+      "~*": ["./*"]
     }
   },
-  "exclude": ["src/stories", "**/*.stories.tsx"]
+  "include": ["src"]
 }

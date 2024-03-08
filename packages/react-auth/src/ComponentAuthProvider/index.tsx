@@ -8,7 +8,7 @@ import {
   useState,
 } from "react";
 
-import AuthNClient from "@src/AuthNClient";
+import AuthNClient from "~/src/AuthNClient";
 import {
   hasAuthParams,
   getSessionData,
@@ -21,9 +21,9 @@ import {
   setTokenCookies,
   DEFAULT_COOKIE_OPTIONS,
   SESSION_DATA_KEY,
-} from "@src/shared/session";
+} from "~/src/shared/session";
 
-import { APIResponse, AuthConfig, AuthUser, CallbackParams } from "@src/types";
+import { APIResponse, AuthConfig, AuthUser, CallbackParams } from "~/src/types";
 
 import { AuthOptions, CookieOptions, VerifyResponse } from "../shared/types";
 

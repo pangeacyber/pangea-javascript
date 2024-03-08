@@ -9,24 +9,24 @@ export { AuthNClient } from "./AuthNClient";
 export {
   AuthFlowProvider,
   AuthNFlowClient,
-  AuthNFlowOptions,
-  FlowStorage,
-  FlowStep,
-  FlowState,
-  FlowStart,
-  FlowSignupPassword,
-  FlowVerifyPassword,
-  FlowVerifyCallback,
-  FlowVerifyCaptcha,
-  FlowMfaStart,
-  FlowMfaComplete,
+  type AuthNFlowOptions,
+  type FlowStorage,
+  type FlowStep,
+  type FlowState,
+  type FlowStart,
+  type FlowSignupPassword,
+  type FlowVerifyPassword,
+  type FlowVerifyCallback,
+  type FlowVerifyCaptcha,
+  type FlowMfaStart,
+  type FlowMfaComplete,
   useAuthFlow,
 } from "./AuthNFlow";
 
 export { hasAuthParams } from "./shared/session";
 export { encode58, toUrlEncoded } from "./shared/utils";
 
-export {
+export type {
   APIResponse,
   AppState,
   AuthConfig,
@@ -35,6 +35,6 @@ export {
   ClientResponse,
   Profile,
   Token,
-} from "@src/types";
+} from "~/src/types";
 
-export { CookieOptions } from "@src/shared/types";
+export type { CookieOptions } from "~/src/shared/types";
