@@ -43,7 +43,7 @@ const AuthSmsPhone: FC<AuthFlowComponentProps> = (props) => {
     validationSchema: validationSchema,
     validateOnBlur: true,
     onSubmit: (values) => {
-      let number = values.phone.replace(/[()]/g, ""); // remove parenthesis
+      let number = values.phone.replace(/[()]/g, ""); // remove  parentheses
       if (!startsWithOne(number)) {
         number = `+1${number}`;
       }
