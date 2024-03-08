@@ -9,6 +9,8 @@ export interface Props {
   type?: "text" | "email" | "number";
   autoFocus?: boolean;
   autoComplete?: string;
+  changeHandler?: (e: React.ChangeEvent<any>) => void;
+  startAdornment?: ReactNode;
 }
 
 const StringField: FC<Props> = ({
@@ -18,6 +20,8 @@ const StringField: FC<Props> = ({
   type = "text",
   autoFocus = false,
   autoComplete,
+  changeHandler,
+  startAdornment,
 }) => {
   const [endIcon, setEndIcon] = useState<ReactNode>();
   const [showStatus, setShowStatus] = useState<boolean>(false);
@@ -49,16 +53,17 @@ const StringField: FC<Props> = ({
   return (
     <FormControl variant="outlined" fullWidth error={!!formik.errors[name]}>
       <OutlinedInput
-        id={`outlined-adornment-${name}`}
+        id={`outlined-${name}`}
         name={name}
         type={type}
         error={!!formik.errors[name]}
-        onChange={formik.handleChange}
+        onChange={changeHandler ? changeHandler : formik.handleChange}
         onBlur={handleBlur}
         autoFocus={autoFocus}
         autoComplete={autoComplete}
         value={formik.values[name]}
         placeholder={label}
+        startAdornment={startAdornment}
         endAdornment={endIcon}
         {...emailProps}
       />

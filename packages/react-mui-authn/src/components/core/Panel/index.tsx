@@ -45,6 +45,7 @@ const AuthNPanel: FC<PanelProps> = ({
         display: "flex",
         width: "100%",
         height: "100%",
+        padding: density === "comfortable" ? "24px" : "16px",
         alignItems: "center",
         justifyContent: "center",
         backgroundColor: bgColor,
@@ -57,6 +58,9 @@ const AuthNPanel: FC<PanelProps> = ({
           alignItems: "center",
           justifyContent: "center",
           textAlign: "center",
+          "& input": {
+            height: density === "comfortable" ? "17px" : "7px",
+          },
           ...panelStyles,
         }}
       >

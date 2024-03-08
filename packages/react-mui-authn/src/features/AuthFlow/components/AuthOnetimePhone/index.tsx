@@ -11,6 +11,9 @@ import StringField from "@src/components/fields/StringField";
 import { BodyText } from "@src/components/core/Text";
 import ErrorMessage from "../ErrorMessage";
 
+const PHONE_REGEXP =
+  /^((\\+[1-9]{1,4}[ \\-]*)|(\\([0-9]{2,3}\\)[ \\-]*)|(1|[0-9]{2,4})[ \\-]*)*?[0-9]{3,4}?[ \\-]*[0-9]{3,4}?$/;
+
 const AuthOnetimePhone: FC<AuthFlowComponentProps> = (props) => {
   const { options, error, loading, update } = props;
 
@@ -23,10 +26,7 @@ const AuthOnetimePhone: FC<AuthFlowComponentProps> = (props) => {
       .test("Starts with 1", "Must start with 1 or +1", (value) =>
         startsWithOne(value)
       )
-      .matches(
-        /^[+]?[1-9][-.\s]?\(?([0-9]{3})\)?[-.\s]?([0-9]{3})[-.\s]?([0-9]{4})$/,
-        "Must be a valid phone number"
-      ),
+      .matches(PHONE_REGEXP, "Must be a valid phone number"),
   });
 
   const formik = useFormik({
@@ -36,8 +36,12 @@ const AuthOnetimePhone: FC<AuthFlowComponentProps> = (props) => {
     validationSchema: validationSchema,
     validateOnBlur: true,
     onSubmit: (values) => {
+      let number = values.phone.replace(/[()]/g, ""); // remove  parentheses
+      if (!startsWithOne(number)) {
+        number = `+1${number}`;
+      }
       const payload: AuthFlow.PhoneParams = {
-        phone: values.phone.replace(/[()]/g, ""), // remove parentheses
+        phone: number,
       };
       update(AuthFlow.Choice.SET_PHONE, payload);
     },
@@ -53,6 +57,11 @@ const AuthOnetimePhone: FC<AuthFlowComponentProps> = (props) => {
             label="Phone Number"
             formik={formik}
             autoComplete="phone"
+            startAdornment={
+              <Typography color="textSecondary" sx={{ paddingRight: 0.5 }}>
+                +1
+              </Typography>
+            }
           />
           {error && <ErrorMessage response={error} />}
           <Button fullWidth color="primary" disabled={loading} type="submit">
