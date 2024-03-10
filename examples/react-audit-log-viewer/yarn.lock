@@ -707,10 +707,10 @@
     merkle-tools "^1.4.1"
     react-beautiful-dnd "^13.1.1"
 
-"@pangeacyber/react-mui-branding@0.0.13":
-  version "0.0.13"
-  resolved "https://registry.yarnpkg.com/@pangeacyber/react-mui-branding/-/react-mui-branding-0.0.13.tgz#5b696d686e1d4e56f8b190b8ccc182e92c71bc6c"
-  integrity sha512-D6J+00zHH3f0GOcY+HiX3zrfGKJq5KE1tfSnEtdA2zW+0ORbtynxY85Wtp+AzXOwANKbCK3r6FkgV3XqJgzNhA==
+"@pangeacyber/react-mui-branding@0.0.15":
+  version "0.0.15"
+  resolved "https://registry.yarnpkg.com/@pangeacyber/react-mui-branding/-/react-mui-branding-0.0.15.tgz#9a00c0a45aa7cb8d3e6faa47e2eb33eb1189b65f"
+  integrity sha512-LTOQeqpbETrmKYmj740KW9vHPxmiJV+Eq9kBqSlnQP4p8oeLnJMIHscb+2e5yDTNFS5+Z9xn0kO5EUiAFL2B3Q==
 
 "@pangeacyber/react-mui-shared@0.0.54":
   version "0.0.54"

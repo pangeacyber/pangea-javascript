@@ -68,7 +68,7 @@
   },
   "dependencies": {
     "@lexical/react": "0.13.1",
-    "@pangeacyber/react-mui-branding": "0.0.13",
+    "@pangeacyber/react-mui-branding": "0.0.15",
     "@pangeacyber/vanilla-js": "0.1.6",
     "@rollup/plugin-terser": "0.4.4",
     "@simplewebauthn/browser": "^9.0.1",
