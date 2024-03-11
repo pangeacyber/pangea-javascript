@@ -234,7 +234,7 @@ class PangeaRequest {
     });
 
     try {
-      (await got.put(url, request)) as Response;
+      await got.put(url, request);
     } catch (error) {
       if (error instanceof HTTPError) {
         throw new PangeaErrors.PresignedUploadError(
