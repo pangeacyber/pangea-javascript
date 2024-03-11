@@ -1333,12 +1333,12 @@
   resolved "https://registry.yarnpkg.com/@floating-ui/utils/-/utils-0.2.1.tgz#16308cea045f0fc777b6ff20a9f25474dd8293d2"
   integrity sha512-9TANp6GPoMtYzQdt54kfAyMmz1+osLlXdg2ENroU7zzrtflTLrrC/lgrIfaSe+Wu0b89GKccT7vxXA0MoAIO+Q==
 
-"@fontsource/kanit@^5.0.18":
+"@fontsource/kanit@^5.0.19":
   version "5.0.19"
   resolved "https://registry.yarnpkg.com/@fontsource/kanit/-/kanit-5.0.19.tgz#8caf5355629d64957c6bdddf82af94e153c5c77e"
   integrity sha512-elIB4q1sbQObkGnLC22RjxP9/Iw5c1dtqOVy2g8dzuQUlhb/Uc+ukFT5Kj9zpnjf1VQdSwyhqri0cNSg7HD6zw==
 
-"@fontsource/roboto@^5.0.8":
+"@fontsource/roboto@^5.0.12":
   version "5.0.12"
   resolved "https://registry.yarnpkg.com/@fontsource/roboto/-/roboto-5.0.12.tgz#418f7305a3be7fc567dd154db20090f7ece7fc6c"
   integrity sha512-x0o17jvgoSSbS9OZnUX2+xJmVRvVCfeaYJjkS7w62iN7CuJWtMf5vJj8LqgC7ibqIkitOHVW+XssRjgrcHn62g==
