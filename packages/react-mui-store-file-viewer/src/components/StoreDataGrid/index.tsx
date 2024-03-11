@@ -172,7 +172,7 @@ const StoreDataGrid: FC<StoreDataGridProps> = ({
   }, [defaultVisibilityModel, columns, isFiltered]);
 
   const displayPreviewId = useMemo(() => {
-    if (multiSelected.length > 1) {
+    if (multiSelected.length > 1 || multiSelected.length === 0) {
       return null;
     }
 
