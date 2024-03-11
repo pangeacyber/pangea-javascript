@@ -49,7 +49,7 @@
     "storybook": "^7.6.17",
     "ts-jest": "^29.1.2",
     "typescript": "^5.3.3",
-    "vite": "^5.1.4"
+    "vite": "^5.1.5"
   },
   "dependencies": {
     "@loadable/component": "^5.16.3",
