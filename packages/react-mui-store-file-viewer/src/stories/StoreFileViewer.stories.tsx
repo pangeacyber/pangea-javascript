@@ -39,11 +39,15 @@ StoreFileViewerDemo.args = {
       list: async (body) => {
         return axios
           .post(
-            `https://store.${process.env.STORYBOOK_SERVICE_DOMAIN}/v1beta/share/link/list`,
+            `https://share.${
+              import.meta.env.STORYBOOK_SERVICE_DOMAIN
+            }/v1beta/share/link/list`,
             { ...body },
             {
               headers: {
-                Authorization: `Bearer ${process.env.STORYBOOK_PANGEA_TOKEN}`,
+                Authorization: `Bearer ${
+                  import.meta.env.STORYBOOK_PANGEA_TOKEN
+                }`,
               },
             }
           )
@@ -58,11 +62,15 @@ StoreFileViewerDemo.args = {
       send: async (body) => {
         return axios
           .post(
-            `https://store.${process.env.STORYBOOK_SERVICE_DOMAIN}/v1beta/share/link/send`,
+            `https://share.${
+              import.meta.env.STORYBOOK_SERVICE_DOMAIN
+            }/v1beta/share/link/send`,
             { ...body },
             {
               headers: {
-                Authorization: `Bearer ${process.env.STORYBOOK_PANGEA_TOKEN}`,
+                Authorization: `Bearer ${
+                  import.meta.env.STORYBOOK_PANGEA_TOKEN
+                }`,
               },
             }
           )
@@ -77,11 +85,15 @@ StoreFileViewerDemo.args = {
       get: async (body) => {
         return axios
           .post(
-            `https://store.${process.env.STORYBOOK_SERVICE_DOMAIN}/v1beta/share/link/read`,
+            `https://share.${
+              import.meta.env.STORYBOOK_SERVICE_DOMAIN
+            }/v1beta/share/link/read`,
             { ...body },
             {
               headers: {
-                Authorization: `Bearer ${process.env.STORYBOOK_PANGEA_TOKEN}`,
+                Authorization: `Bearer ${
+                  import.meta.env.STORYBOOK_PANGEA_TOKEN
+                }`,
               },
             }
           )
@@ -96,11 +108,15 @@ StoreFileViewerDemo.args = {
       create: async (body) => {
         return axios
           .post(
-            `https://store.${process.env.STORYBOOK_SERVICE_DOMAIN}/v1beta/share/link/create`,
+            `https://share.${
+              import.meta.env.STORYBOOK_SERVICE_DOMAIN
+            }/v1beta/share/link/create`,
             { ...body },
             {
               headers: {
-                Authorization: `Bearer ${process.env.STORYBOOK_PANGEA_TOKEN}`,
+                Authorization: `Bearer ${
+                  import.meta.env.STORYBOOK_PANGEA_TOKEN
+                }`,
               },
             }
           )
@@ -115,11 +131,15 @@ StoreFileViewerDemo.args = {
       delete: async (body) => {
         return axios
           .post(
-            `https://store.${process.env.STORYBOOK_SERVICE_DOMAIN}/v1beta/share/link/delete`,
+            `https://share.${
+              import.meta.env.STORYBOOK_SERVICE_DOMAIN
+            }/v1beta/share/link/delete`,
             { ...body },
             {
               headers: {
-                Authorization: `Bearer ${process.env.STORYBOOK_PANGEA_TOKEN}`,
+                Authorization: `Bearer ${
+                  import.meta.env.STORYBOOK_PANGEA_TOKEN
+                }`,
               },
             }
           )
@@ -135,11 +155,13 @@ StoreFileViewerDemo.args = {
     list: async (body) => {
       return axios
         .post(
-          `https://store.${process.env.STORYBOOK_SERVICE_DOMAIN}/v1beta/list`,
+          `https://share.${
+            import.meta.env.STORYBOOK_SERVICE_DOMAIN
+          }/v1beta/list`,
           { ...body },
           {
             headers: {
-              Authorization: `Bearer ${process.env.STORYBOOK_PANGEA_TOKEN}`,
+              Authorization: `Bearer ${import.meta.env.STORYBOOK_PANGEA_TOKEN}`,
             },
           }
         )
@@ -154,11 +176,13 @@ StoreFileViewerDemo.args = {
     get: async (body) => {
       return axios
         .post(
-          `https://store.${process.env.STORYBOOK_SERVICE_DOMAIN}/v1beta/get`,
+          `https://share.${
+            import.meta.env.STORYBOOK_SERVICE_DOMAIN
+          }/v1beta/get`,
           { ...body },
           {
             headers: {
-              Authorization: `Bearer ${process.env.STORYBOOK_PANGEA_TOKEN}`,
+              Authorization: `Bearer ${import.meta.env.STORYBOOK_PANGEA_TOKEN}`,
             },
           }
         )
@@ -173,11 +197,13 @@ StoreFileViewerDemo.args = {
     getArchive: async (body) => {
       return axios
         .post(
-          `https://store.${process.env.STORYBOOK_SERVICE_DOMAIN}/v1beta/get_archive`,
+          `https://share.${
+            import.meta.env.STORYBOOK_SERVICE_DOMAIN
+          }/v1beta/get_archive`,
           { ...body },
           {
             headers: {
-              Authorization: `Bearer ${process.env.STORYBOOK_PANGEA_TOKEN}`,
+              Authorization: `Bearer ${import.meta.env.STORYBOOK_PANGEA_TOKEN}`,
             },
           }
         )
@@ -192,11 +218,13 @@ StoreFileViewerDemo.args = {
     folderCreate: async (body) => {
       return axios
         .post(
-          `https://store.${process.env.STORYBOOK_SERVICE_DOMAIN}/v1beta/folder/create`,
+          `https://share.${
+            import.meta.env.STORYBOOK_SERVICE_DOMAIN
+          }/v1beta/folder/create`,
           { ...body },
           {
             headers: {
-              Authorization: `Bearer ${process.env.STORYBOOK_PANGEA_TOKEN}`,
+              Authorization: `Bearer ${import.meta.env.STORYBOOK_PANGEA_TOKEN}`,
             },
           }
         )
@@ -211,11 +239,13 @@ StoreFileViewerDemo.args = {
     upload: async (body, contentType) => {
       return axios
         .post(
-          `https://store.${process.env.STORYBOOK_SERVICE_DOMAIN}/v1beta/put`,
+          `https://share.${
+            import.meta.env.STORYBOOK_SERVICE_DOMAIN
+          }/v1beta/put`,
           body,
           {
             headers: {
-              Authorization: `Bearer ${process.env.STORYBOOK_PANGEA_TOKEN}`,
+              Authorization: `Bearer ${import.meta.env.STORYBOOK_PANGEA_TOKEN}`,
               "Content-Type": contentType,
             },
           }
@@ -231,11 +261,13 @@ StoreFileViewerDemo.args = {
     update: async (body) => {
       return axios
         .post(
-          `https://store.${process.env.STORYBOOK_SERVICE_DOMAIN}/v1beta/update`,
+          `https://share.${
+            import.meta.env.STORYBOOK_SERVICE_DOMAIN
+          }/v1beta/update`,
           body,
           {
             headers: {
-              Authorization: `Bearer ${process.env.STORYBOOK_PANGEA_TOKEN}`,
+              Authorization: `Bearer ${import.meta.env.STORYBOOK_PANGEA_TOKEN}`,
             },
           }
         )
@@ -250,11 +282,13 @@ StoreFileViewerDemo.args = {
     delete: async (body) => {
       return axios
         .post(
-          `https://store.${process.env.STORYBOOK_SERVICE_DOMAIN}/v1beta/delete`,
+          `https://share.${
+            import.meta.env.STORYBOOK_SERVICE_DOMAIN
+          }/v1beta/delete`,
           body,
           {
             headers: {
-              Authorization: `Bearer ${process.env.STORYBOOK_PANGEA_TOKEN}`,
+              Authorization: `Bearer ${import.meta.env.STORYBOOK_PANGEA_TOKEN}`,
             },
           }
         )

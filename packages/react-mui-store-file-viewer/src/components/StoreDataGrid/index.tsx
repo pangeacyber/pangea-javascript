@@ -106,6 +106,9 @@ const StoreDataGrid: FC<StoreDataGridProps> = ({
     return "";
   };
 
+  console.log(selected);
+  console.log(previewId);
+
   const handleContextMenu = (event: React.MouseEvent) => {
     if (!multiSelected) return;
 
@@ -172,7 +175,7 @@ const StoreDataGrid: FC<StoreDataGridProps> = ({
   }, [defaultVisibilityModel, columns, isFiltered]);
 
   const displayPreviewId = useMemo(() => {
-    if (multiSelected.length > 1) {
+    if (multiSelected.length > 1 || multiSelected.length === 0) {
       return null;
     }
 
