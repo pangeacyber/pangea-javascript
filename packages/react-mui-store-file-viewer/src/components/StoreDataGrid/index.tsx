@@ -106,9 +106,6 @@ const StoreDataGrid: FC<StoreDataGridProps> = ({
     return "";
   };
 
-  console.log(selected);
-  console.log(previewId);
-
   const handleContextMenu = (event: React.MouseEvent) => {
     if (!multiSelected) return;
 
