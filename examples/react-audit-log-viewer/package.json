@@ -27,7 +27,7 @@
     "@testing-library/jest-dom": "6.4.2",
     "@testing-library/react": "14.2.1",
     "@tsconfig/cypress": "1.0.1",
-    "@tsconfig/vite-react": "3.0.0",
+    "@tsconfig/vite-react": "3.0.1",
     "@types/react-dom": "18.2.19",
     "@vitejs/plugin-react": "4.2.1",
     "cypress": "13.6.6",

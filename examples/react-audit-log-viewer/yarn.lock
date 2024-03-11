@@ -861,10 +861,10 @@
   resolved "https://registry.yarnpkg.com/@tsconfig/cypress/-/cypress-1.0.1.tgz#132c23cf885dcf7d79a7b9844ca38a69bb8d7732"
   integrity sha512-iMHduexJCL6aKafaCkkSClbKQI7A75QE6z8DuKPEXKXH8o/1JJeCTdkZP60d7ZFVrXBlKH4opNK8zycJADJ8iQ==
 
-"@tsconfig/vite-react@3.0.0":
-  version "3.0.0"
-  resolved "https://registry.yarnpkg.com/@tsconfig/vite-react/-/vite-react-3.0.0.tgz#b8740fa780ddd1086179f50a26035abf1d41e3b6"
-  integrity sha512-haOFbphpavQ1+eyQjeqvlz7sRkQue/bS0GvFmraHml31Ufhv+7juUSc8PVe0In7sly+n+5zTLmzc287KciiGXg==
+"@tsconfig/vite-react@3.0.1":
+  version "3.0.1"
+  resolved "https://registry.yarnpkg.com/@tsconfig/vite-react/-/vite-react-3.0.1.tgz#e0bc3bdd175541127019ad9d5aa99714d5bea9c8"
+  integrity sha512-yrAEQWgWZdbfNt/11TrvUPkh0AJrJy+DP9qc4c5zPt8POGwYfEp8dB2LnBC9DBm/zpycsasRJh8Z9uVB17yxCw==
 
 "@types/aria-query@^5.0.1":
   version "5.0.4"
