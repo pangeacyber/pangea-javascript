@@ -872,6 +872,50 @@ class VaultService extends BaseService {
   ): Promise<PangeaResponse<Vault.Key.EncryptStructuredResult<O>>> {
     return this.post("v1/key/decrypt/structured", request);
   }
+
+  /**
+   * @summary Encrypt transform
+   * @description Encrypt using a format-preserving algorithm (FPE).
+   * @operationId vault_post_v1_key_encrypt_transform
+   * @param request Request parameters.
+   * @returns A `Promise` of the encrypted result.
+   * @example
+   * ```js
+   * const response = await vault.encryptTransform({
+   *   id: "pvi_[...]",
+   *   plain_text: "123-4567-8901",
+   *   tweak: "MTIzMTIzMT==",
+   *   alphabet: Vault.TransformAlphabet.ALPHANUMERIC,
+   * });
+   * ```
+   */
+  async encryptTransform(
+    request: Vault.Key.EncryptTransformRequest
+  ): Promise<PangeaResponse<Vault.Key.EncryptTransformResult>> {
+    return this.post("v1/key/encrypt/transform", request);
+  }
+
+  /**
+   * @summary Decrypt transform
+   * @description Decrypt using a format-preserving algorithm (FPE).
+   * @operationId vault_post_v1_key_decrypt_transform
+   * @param request Request parameters.
+   * @returns A `Promise` of the decrypted result.
+   * @example
+   * ```js
+   * const response = await vault.decryptTransform({
+   *   id: "pvi_[...]",
+   *   cipher_text: "tZB-UKVP-MzTM",
+   *   tweak: "MTIzMTIzMT==",
+   *   alphabet: Vault.TransformAlphabet.ALPHANUMERIC,
+   * });
+   * ```
+   */
+  async decryptTransform(
+    request: Vault.Key.DecryptTransformRequest
+  ): Promise<PangeaResponse<Vault.Key.DecryptTransformResult>> {
+    return this.post("v1/key/decrypt/transform", request);
+  }
 }
 
 export default VaultService;
