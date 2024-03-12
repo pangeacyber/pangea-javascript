@@ -1,16 +1,8 @@
 import { FC, useEffect, useState } from "react";
 import { Stack } from "@mui/material";
 import { useTheme } from "@mui/material/styles";
-import {
-  HourglassBottomRounded,
-  VpnKeyRounded,
-  WarningRounded,
-} from "@mui/icons-material";
-import {
-  browserSupportsWebAuthn,
-  startAuthentication,
-  // startRegistration,
-} from "@simplewebauthn/browser";
+import { HourglassBottomRounded, VpnKeyRounded } from "@mui/icons-material";
+import { startAuthentication } from "@simplewebauthn/browser";
 
 import { AuthFlow } from "@pangeacyber/vanilla-js";
 
@@ -31,8 +23,14 @@ const PasskeyAuth: FC<AuthFlowComponentProps> = ({
   useEffect(() => {
     if (data.passkey?.enrollment === false && !data.passkey?.started) {
       restart(AuthFlow.Choice.PASSKEY);
+    } else if (
+      data.passkey?.enrollment === false &&
+      data.passkey?.started &&
+      data.passkey?.discovery
+    ) {
+      passkeyDiscovery();
     }
-  }, []);
+  }, [data]);
 
   useEffect(() => {
     if (stage === "wait" && error) {
@@ -40,14 +38,23 @@ const PasskeyAuth: FC<AuthFlowComponentProps> = ({
     }
   }, [error]);
 
+  const passkeyDiscovery = async () => {
+    try {
+      const publicKey = data.passkey?.authentication?.publicKey;
+      const authResp = await startAuthentication(publicKey, true);
+      update(AuthFlow.Choice.PASSKEY, { authentication: authResp });
+    } catch (e) {
+      console.warn("Passkey discovery error", e);
+    }
+  };
+
   const passkeyAuth = async () => {
     setStage("wait");
     try {
       const publicKey = data.passkey?.authentication?.publicKey;
-      const autofill = data.passkey?.discovery;
       const authResp = await startAuthentication(publicKey);
       update(AuthFlow.Choice.PASSKEY, { authentication: authResp });
-    } catch (e) {
+    } catch (_e) {
       setStage("error");
     }
   };
