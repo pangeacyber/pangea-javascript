@@ -79,7 +79,7 @@
     "react-google-recaptcha-enterprise": "^1.0.3",
     "yup": "1.4.0"
   },
-  "packageManager": "yarn@1.22.21",
+  "packageManager": "yarn@1.22.22",
   "resolutions": {
     "jackspeak": "2.1.1"
   }
