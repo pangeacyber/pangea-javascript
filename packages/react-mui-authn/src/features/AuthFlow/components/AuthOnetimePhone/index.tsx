@@ -58,7 +58,7 @@ const AuthOnetimePhone: FC<AuthFlowComponentProps> = (props) => {
             formik={formik}
             autoComplete="phone"
             startAdornment={
-              <Typography color="textSecondary" sx={{ paddingRight: 0.5 }}>
+              <Typography color="textSecondary" sx={{ paddingRight: 1 }}>
                 +1
               </Typography>
             }
