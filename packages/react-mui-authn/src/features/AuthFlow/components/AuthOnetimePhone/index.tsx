@@ -23,9 +23,6 @@ const AuthOnetimePhone: FC<AuthFlowComponentProps> = (props) => {
     phone: yup
       .string()
       .required("Phone number is required")
-      .test("Starts with 1", "Must start with 1 or +1", (value) =>
-        startsWithOne(value)
-      )
       .matches(PHONE_REGEXP, "Must be a valid phone number"),
   });
 
