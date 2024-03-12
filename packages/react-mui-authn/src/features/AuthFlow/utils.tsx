@@ -1,7 +1,11 @@
-import GoogleIcon from "@src/components/Icons/google";
-import GitHubIcon from "@src/components/Icons/github";
-import MicrosoftIcon from "@src/components/Icons/microsoft";
-import FacebookIcon from "@src/components/Icons/facebook";
+import {
+  GoogleIcon,
+  GitHubIcon,
+  MicrosoftIcon,
+  FacebookIcon,
+  GitLabIcon,
+  LinkedInIcon,
+} from "@src/components/Icons";
 
 export const getSocialProviderIcon = (provider: string) => {
   switch (provider) {
@@ -13,6 +17,10 @@ export const getSocialProviderIcon = (provider: string) => {
       return <MicrosoftIcon />;
     case "facebook":
       return <FacebookIcon />;
+    case "gitlab":
+      return <GitLabIcon />;
+    case "linkedin":
+      return <LinkedInIcon />;
     default:
       return <></>;
   }
@@ -28,8 +36,10 @@ export const getSocialProviderLabel = (provider: string): string => {
       return "Microsoft";
     case "facebook":
       return "Facebook";
-    case "webauthn":
-      return "WebAuthn";
+    case "gitlab":
+      return "GitLab";
+    case "linkedin":
+      return "LinkedIn";
     default:
       return provider;
   }

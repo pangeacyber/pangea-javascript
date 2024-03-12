@@ -43,8 +43,8 @@ const PasskeyAuth: FC<AuthFlowComponentProps> = ({
       const publicKey = data.passkey?.authentication?.publicKey;
       const authResp = await startAuthentication(publicKey, true);
       update(AuthFlow.Choice.PASSKEY, { authentication: authResp });
-    } catch (e) {
-      console.warn("Passkey discovery error", e);
+    } catch (_e) {
+      // catch auto-discovery error
     }
   };
 
