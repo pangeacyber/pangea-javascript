@@ -50,11 +50,14 @@ const AgreementView: FC<AuthFlowComponentProps> = ({
     if (el) {
       el.scrollTop = 0;
     }
-    if (el && el.scrollHeight - el.scrollTop === el.clientHeight) {
-      setDisable(false);
-    } else {
-      setDisable(true);
-    }
+
+    // Removing scroll-to-bottom requirement, but leaving this code here
+    // if (el && el.scrollHeight - el.scrollTop === el.clientHeight) {
+    //   setDisable(false);
+    // } else {
+    //   setDisable(true);
+    // }
+    setDisable(false);
   }, [data]);
 
   const handleScroll = (e: UIEvent<HTMLDivElement>) => {
