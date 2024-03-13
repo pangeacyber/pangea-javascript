@@ -22,6 +22,7 @@ export {
 } from "./utils/utils.js";
 
 export { FileScanUploader } from "./services/file_scan.js";
+export { FileUploader } from "./file_uploader.js";
 
 export const PangeaConfig = _PangeaConfig;
 export const PangeaRequest = _PangeaRequest;
@@ -39,3 +40,4 @@ export const URLIntelService = services.URLIntelService;
 export const UserIntelService = services.UserIntelService;
 export const VaultService = services.VaultService;
 export const FileScanService = services.FileScanService;
+export const SanitizeService = services.SanitizeService;
