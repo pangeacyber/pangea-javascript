@@ -200,7 +200,7 @@ class PangeaRequest {
     this.postPresignedURL(presigned_url, {
       file: fileData.file,
       file_details: file_details,
-      name: fileData.name,
+      name: "file",
     });
     return response.gotResponse;
   }

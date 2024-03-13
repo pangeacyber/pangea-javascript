@@ -15,6 +15,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Audit /download_results endpoint support
 - Documentation to service client constructors.
 - Secure Share support.
+- Sanitize service support.
 
 ### Fixed
 

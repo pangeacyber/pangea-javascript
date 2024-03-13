@@ -61,6 +61,12 @@ export enum TransferMethod {
   DEST_URL = "dest-url",
 }
 
+export interface FileUploadParams {
+  size: number;
+  crc32c: string;
+  sha256: string;
+}
+
 export interface Dictionary {
   [key: string]: string | boolean | number | Dictionary;
 }
@@ -2796,5 +2802,78 @@ export namespace Share {
 
   export interface ShareLinkSendResult {
     share_link_objects: ShareLinkItem[];
+  }
+}
+
+export namespace Sanitize {
+  export interface SanitizeFile {
+    scan_provider?: string;
+    cdr_provider?: string;
+  }
+
+  export interface SanitizeContent {
+    url_intel?: boolean;
+    url_intel_provider?: string;
+    domain_intel?: boolean;
+    domain_intel_provider?: string;
+    defang?: boolean;
+    defang_threshold?: number;
+    redact?: boolean;
+    remove_attachments?: boolean;
+    remove_interactive?: boolean;
+  }
+
+  export interface SanitizeShareOutput {
+    enabled?: boolean;
+    output_folder?: string;
+  }
+
+  export interface SanitizeRequest {
+    transfer_method: TransferMethod;
+    source_url?: string;
+    share_id?: string;
+    file?: SanitizeFile;
+    content?: SanitizeContent;
+    share_output?: SanitizeShareOutput;
+    size?: number;
+    crc32c?: string;
+    sha256?: string;
+    uploaded_file_name?: string;
+  }
+
+  export interface DefangData {
+    external_urls_count?: number;
+    external_domains_count?: number;
+    defanged_count?: number;
+    url_intel_summary?: string;
+    domain_intel_summary?: string;
+  }
+
+  export interface RedactData {
+    redaction_count?: number;
+    summary_counts?: Dictionary;
+  }
+
+  export interface CDR {
+    file_attachments_removed?: number;
+    interactive_contents_removed?: number;
+  }
+
+  export interface SanitizeData {
+    defang?: DefangData;
+    redact?: RedactData;
+    malicious_file?: boolean;
+    cdr?: CDR;
+  }
+
+  export interface SanitizeResult {
+    dest_url?: string;
+    dest_share_id?: string;
+    data: SanitizeData;
+    parameters: Dictionary;
+  }
+
+  export interface Options {
+    pollResultSync?: boolean;
   }
 }
