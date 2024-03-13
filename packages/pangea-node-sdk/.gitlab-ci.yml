@@ -93,7 +93,7 @@ pangea-node-sdk-integration-tests:
       - CLOUD: [AWS, GCP]
         ENV: ${SERVICE_VAULT_ENV}
         TEST: vault
-      - CLOUD: [AWS]  # FIXME: Add GCP when supported
+      - CLOUD: [AWS] # FIXME: Add GCP when supported
         ENV: ${SERVICE_SANITIZE_ENV}
         TEST: sanitize
   rules:
