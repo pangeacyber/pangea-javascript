@@ -12,31 +12,37 @@ import {
   FieldsFormSchema,
   PopoutCard,
 } from "@pangeacyber/react-mui-shared";
-import { ShareSettingsFields } from "./fields";
+import { getShareSettingsFields } from "./fields";
 
 import CloseIcon from "@mui/icons-material/Close";
 import SettingsIcon from "@mui/icons-material/Settings";
 
 import { pickBy } from "lodash";
+import { useStoreFileViewerContext } from "../../../hooks/context";
 
 interface Props {
   object: any;
   onSubmit: (values: any) => Promise<void>;
 
+  onError?: (errors: any) => void;
+
   open: boolean;
   setOpen: (open: boolean) => void;
 }
 
-const ShareSettingsFieldsKeys = new Set(Object.keys(ShareSettingsFields));
+const ShareSettingsFieldsKeys = new Set(Object.keys(getShareSettingsFields()));
 
 const ShareSettings: FC<Props> = ({
   object,
   onSubmit,
 
+  onError,
+
   open,
   setOpen,
 }) => {
   const theme = useTheme();
+  const { configurations } = useStoreFileViewerContext();
   const isMedium = useMediaQuery(theme.breakpoints.down("md"));
 
   const buttonRef = useRef(null);
@@ -44,7 +50,10 @@ const ShareSettings: FC<Props> = ({
   const [obj, setObj] = useState(object);
 
   const fields = useMemo<FieldsFormSchema<any>>(() => {
-    return ShareSettingsFields;
+    return getShareSettingsFields({
+      maxAccessCount: configurations?.settings?.maxAccessCount,
+      maxDate: configurations?.settings?.maxDate,
+    });
   }, []);
 
   const handleClose = () => {
@@ -95,6 +104,7 @@ const ShareSettings: FC<Props> = ({
               object={obj}
               fields={fields}
               autoSave
+              onError={onError}
               onSubmit={(values) => {
                 return onSubmit(
                   // @ts-ignore
@@ -155,6 +165,7 @@ const ShareSettings: FC<Props> = ({
                   pickBy(values, (v, k) => ShareSettingsFieldsKeys.has(k))
                 );
               }}
+              onError={onError}
               StackSx={{
                 ".MuiFormControl-root": {
                   margin: 0,

@@ -5,6 +5,14 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.0.37] - 2024-03-12
+
+### Fixed
+
+- Fixed bug with opening options menu closing file preview
+- Fixed min access count
+- Added support for max date and max access count
+
 ## [0.0.36] - 2024-03-11
 
 ### Fixed

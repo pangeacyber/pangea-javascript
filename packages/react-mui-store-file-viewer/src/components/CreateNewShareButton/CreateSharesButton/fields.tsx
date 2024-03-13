@@ -4,11 +4,27 @@ import {
 } from "@pangeacyber/react-mui-shared";
 import { ObjectStore } from "../../../types";
 import * as yup from "yup";
+import dayjs from "dayjs";
 import ShareAuthenticatorField from "./ShareAuthenticatorField";
 import ShareLinkTypeField from "./ShareLinkTypeField";
 
-export const ShareSettingsFields: FieldsFormSchema<ObjectStore.SingleShareCreateRequest> =
-  {
+export const getShareSettingsFields = (
+  opts: {
+    maxAccessCount?: number;
+    maxDate?: dayjs.Dayjs;
+  } = {}
+): FieldsFormSchema<ObjectStore.SingleShareCreateRequest> => {
+  let validate = yup
+    .number()
+    .min(1, "Access count must be greater than or equal to 1");
+
+  if (opts.maxAccessCount) {
+    validate = validate.max(
+      opts.maxAccessCount,
+      "Access count must be less than or equal to 1"
+    );
+  }
+  return {
     expires_at: {
       label: "Expiration",
       LabelProps: {
@@ -17,19 +33,30 @@ export const ShareSettingsFields: FieldsFormSchema<ObjectStore.SingleShareCreate
       },
       FieldProps: {
         type: "dateTime",
+        maxDate: opts?.maxDate,
       },
     },
     max_access_count: {
-      label: "View count",
+      label: "Access count",
       LabelProps: {
         placement: "top",
         minWidth: "180px",
       },
+      schema: validate,
       FieldProps: {
         type: "number",
+        InputProps: {
+          inputProps: {
+            min: 1,
+            ...(!!opts?.maxAccessCount && {
+              max: opts.maxAccessCount,
+            }),
+          },
+        },
       },
     },
   };
+};
 
 export interface ShareCreateForm extends ObjectStore.SingleShareCreateRequest {
   authenticatorType: string;

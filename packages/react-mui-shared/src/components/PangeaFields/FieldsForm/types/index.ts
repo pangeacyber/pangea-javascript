@@ -140,6 +140,7 @@ export interface MultilineFieldSchemaProps {
 
 export interface DateTimeFieldSchemaProps {
   type: "dateTime";
+  maxDate?: any;
 }
 
 export interface SwitchFieldSchemaProps {

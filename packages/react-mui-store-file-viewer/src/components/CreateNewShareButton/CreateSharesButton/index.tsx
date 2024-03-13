@@ -8,6 +8,7 @@ import {
 } from "@mui/material";
 import { FC, useEffect, useMemo, useState } from "react";
 import pickBy from "lodash/pickBy";
+import isEmpty from "lodash/isEmpty";
 
 import AddIcon from "@mui/icons-material/Add";
 import SettingsIcon from "@mui/icons-material/Settings";
@@ -94,7 +95,9 @@ const CreateSharesButton: FC<Props> = ({
     authenticatorType: ObjectStore.ShareAuthenticatorType.Sms,
     title: defaultShareLinkTitle,
   });
+
   const [settingsObj, setSettingsObj] = useState(obj);
+  const [settingsError, setSettingsError] = useState(false);
 
   useEffect(() => {
     var date = configurations?.settings?.defaultExpiresAt;
@@ -116,6 +119,7 @@ const CreateSharesButton: FC<Props> = ({
 
     setObj(newObj);
     setSettingsObj(newObj);
+    setSettingsError(false);
   }, [object, defaultShareLinkTitle]);
 
   useEffect(() => {
@@ -218,6 +222,9 @@ const CreateSharesButton: FC<Props> = ({
               onSubmit={async (values) =>
                 setSettingsObj((state) => ({ ...state, ...values }))
               }
+              onError={(errors) => {
+                setSettingsError(!isEmpty(errors));
+              }}
               open={settings}
               setOpen={setSettings}
             />
@@ -244,7 +251,7 @@ const CreateSharesButton: FC<Props> = ({
                 .then(() => {})
                 .finally(handleClose);
             }}
-            disabled={loading}
+            disabled={loading || settingsError}
             SaveButton={CreateButton}
             StackSx={{
               ".MuiFormControl-root": {

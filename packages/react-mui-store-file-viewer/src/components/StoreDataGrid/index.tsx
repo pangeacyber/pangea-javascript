@@ -20,7 +20,6 @@ import FolderPath from "./FolderPath";
 import PreviewStoreFile from "../PreviewStoreFile";
 import CreateNewButton from "../CreateNewButton";
 import { Stack, Chip } from "@mui/material";
-import FileDropBox from "../FileDropBox";
 import FileOptions from "../FileOptions";
 import { PREVIEW_FILE_WIDTH } from "../PreviewStoreFile/constants";
 import MultiSelectMenu from "./MultiSelectMenu";
@@ -240,10 +239,6 @@ const StoreDataGrid: FC<StoreDataGridProps> = ({
           render: (object) => (
             <FileOptions
               object={object}
-              onOpen={() => {
-                setPreviewId(object.id);
-                setMultiSelected([object.id]);
-              }}
               onClose={() => {}}
               displayDownloadInline
             />
