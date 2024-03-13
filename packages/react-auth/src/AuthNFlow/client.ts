@@ -1,8 +1,8 @@
 import axios, { AxiosResponse } from "axios";
 
-import AuthNClient from "@src/AuthNClient";
+import AuthNClient from "~/src/AuthNClient";
 
-import { APIResponse, AuthConfig, ClientResponse } from "@src/types";
+import { APIResponse, AuthConfig, ClientResponse } from "~/src/types";
 
 import {
   AuthNFlowOptions,
@@ -293,7 +293,7 @@ export class AuthNFlowClient extends AuthNClient {
   /*
     API Request functions
   */
-  async post(
+  override async post(
     endpoint: string,
     payload: any,
     updateState = true

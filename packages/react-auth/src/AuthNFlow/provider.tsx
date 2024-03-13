@@ -9,7 +9,7 @@ import {
   useState,
 } from "react";
 
-import { APIResponse, AuthConfig, CallbackParams } from "@src/types";
+import { APIResponse, AuthConfig, CallbackParams } from "~/src/types";
 
 import {
   FlowState,
@@ -25,7 +25,7 @@ import {
   FlowResetPassword,
 } from "./types";
 
-import { useComponentAuth } from "@src/ComponentAuthProvider";
+import { useComponentAuth } from "~/src/ComponentAuthProvider";
 import AuthNFlowClient from "./client";
 
 export interface AuthFlowContextType {

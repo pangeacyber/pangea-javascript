@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useRef } from "react";
 import * as jose from "jose";
 
-import { AuthNClient } from "@src/AuthNClient";
+import { AuthNClient } from "~/src/AuthNClient";
 import {
   getAllTokens,
   getSessionData,
@@ -11,9 +11,9 @@ import {
   removeTokenCookies,
   saveSessionData,
   setTokenCookies,
-} from "@src/shared/session";
-import { diffInSeconds } from "@src/shared/utils";
-import { AuthUser, Profile } from "@src/types";
+} from "~/src/shared/session";
+import { diffInSeconds } from "~/src/shared/utils";
+import { AuthUser, Profile } from "~/src/types";
 import { AuthOptions, VerifyResponse } from "./types";
 
 export const REFRESH_CHECK_INTERVAL = 15; // Frequency of refresh check in seconds
