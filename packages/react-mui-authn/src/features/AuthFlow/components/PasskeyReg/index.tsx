@@ -1,7 +1,7 @@
 import { FC, useEffect, useState } from "react";
 import { Stack } from "@mui/material";
 import { useTheme } from "@mui/material/styles";
-import { HourglassBottomRounded, WarningRounded } from "@mui/icons-material";
+import { HourglassBottomRounded } from "@mui/icons-material";
 import { startRegistration } from "@simplewebauthn/browser";
 
 import { AuthFlow } from "@pangeacyber/vanilla-js";

@@ -1,5 +1,5 @@
-import { APIResponse, AuthUser, SessionData } from "@src/types";
-import { AuthOptions, CookieOptions } from "@src/shared/types";
+import { APIResponse, AuthUser, SessionData } from "~/src/types";
+import { AuthOptions, CookieOptions } from "~/src/shared/types";
 import { isLocalhost, diffInSeconds } from "./utils";
 
 type CookieObj = {

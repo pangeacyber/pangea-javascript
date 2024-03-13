@@ -18,3 +18,10 @@ yarn-error.log
 
 # Generated Docs JSON
 docs.json
+
+# downloaded fileds
+payload
+*.tar
+*.zip
+*.gz
+search_results_*.json

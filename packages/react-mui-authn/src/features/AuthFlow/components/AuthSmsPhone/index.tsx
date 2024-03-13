@@ -1,7 +1,7 @@
 import { FC, useEffect } from "react";
 import { useFormik } from "formik";
 import * as yup from "yup";
-import { Stack } from "@mui/material";
+import { Stack, Typography } from "@mui/material";
 
 import { AuthFlow } from "@pangeacyber/vanilla-js";
 
@@ -11,8 +11,11 @@ import StringField from "@src/components/fields/StringField";
 import ErrorMessage from "../ErrorMessage";
 import { BodyText } from "@src/components/core/Text";
 
+const PHONE_REGEXP =
+  /^((\\+[1-9]{1,4}[ \\-]*)|(\\([0-9]{2,3}\\)[ \\-]*)|(1|[0-9]{2,4})[ \\-]*)*?[0-9]{3,4}?[ \\-]*[0-9]{3,4}?$/;
+
 const AuthSmsPhone: FC<AuthFlowComponentProps> = (props) => {
-  const { options, data, error, loading, reset, restart } = props;
+  const { options, data, error, loading, restart } = props;
 
   const sendCode = () => {
     restart(AuthFlow.Choice.SMS_OTP);
@@ -30,13 +33,7 @@ const AuthSmsPhone: FC<AuthFlowComponentProps> = (props) => {
     phone: yup
       .string()
       .required("Phone number is required")
-      .test("Starts with 1", "Must start with 1 or +1", (value) =>
-        startsWithOne(value)
-      )
-      .matches(
-        /^[+]?[1-9][-.\s]?\(?([0-9]{3})\)?[-.\s]?([0-9]{3})[-.\s]?([0-9]{4})$/,
-        "Must be a valid phone number"
-      ),
+      .matches(PHONE_REGEXP, "Must be a valid phone number"),
   });
 
   const formik = useFormik({
@@ -46,8 +43,12 @@ const AuthSmsPhone: FC<AuthFlowComponentProps> = (props) => {
     validationSchema: validationSchema,
     validateOnBlur: true,
     onSubmit: (values) => {
+      let number = values.phone.replace(/[()]/g, ""); // remove  parentheses
+      if (!startsWithOne(number)) {
+        number = `+1${number}`;
+      }
       const payload: AuthFlow.SmsOtpRestart = {
-        phone: values.phone.replace(/[()]/g, ""), // remove parentheses
+        phone: number,
       };
       restart(AuthFlow.Choice.SMS_OTP, payload);
     },
@@ -63,6 +64,11 @@ const AuthSmsPhone: FC<AuthFlowComponentProps> = (props) => {
             label="Phone Number"
             formik={formik}
             autoComplete="phone"
+            startAdornment={
+              <Typography color="textSecondary" sx={{ paddingRight: 1 }}>
+                +1
+              </Typography>
+            }
           />
           {error && <ErrorMessage response={error} />}
           <Button fullWidth color="primary" disabled={loading} type="submit">

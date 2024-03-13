@@ -959,3 +959,34 @@ it("log an audit event bulk async", async () => {
   expect(response.accepted_result).toBeDefined();
   expect(response.request_id).toBeDefined();
 });
+
+it("search and download", async () => {
+  const query = 'message:""';
+  const searchLimit = 2;
+  const searchMaxResults = 20;
+
+  const queryOptions: Audit.SearchParamsOptions = {
+    limit: searchLimit,
+    max_results: searchMaxResults,
+    order: "asc",
+    verbose: false,
+    start: "7d",
+  };
+
+  const searchResponse = await auditGeneral.search(query, queryOptions, {});
+  expect(searchResponse.status).toBe("Success");
+  expect(searchResponse.result.id).toBeDefined();
+  expect(searchResponse.result.events.length).toBe(searchLimit);
+
+  const downloadResp = await auditGeneral.downloadResults({
+    result_id: searchResponse.result.id,
+    format: Audit.DownloadFormat.JSON,
+  });
+
+  expect(downloadResp.status).toBe("Success");
+  expect(downloadResp.result.dest_url).toBeDefined();
+
+  const file = await auditGeneral.downloadFile(downloadResp.result.dest_url);
+
+  file.save("./");
+});

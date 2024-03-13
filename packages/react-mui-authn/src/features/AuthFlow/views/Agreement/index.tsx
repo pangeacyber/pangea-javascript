@@ -1,5 +1,5 @@
-import { FC, UIEvent, useEffect, useState } from "react";
-import { Stack, Tooltip, Typography, useTheme } from "@mui/material";
+import { FC, UIEvent, useEffect, useMemo, useState } from "react";
+import { Stack, SxProps, Tooltip, Typography, useTheme } from "@mui/material";
 
 import { AuthFlow } from "@pangeacyber/vanilla-js";
 
@@ -7,6 +7,7 @@ import { AuthFlowComponentProps } from "@src/features/AuthFlow/types";
 import LexicalViewer from "./component";
 import { formatDateString } from "@src/utils";
 import Button from "@src/components/core/Button";
+import { isDark } from "../../utils";
 
 const AgreementView: FC<AuthFlowComponentProps> = ({
   options,
@@ -16,8 +17,18 @@ const AgreementView: FC<AuthFlowComponentProps> = ({
 }) => {
   const [disable, setDisable] = useState<boolean>(true);
   const theme = useTheme();
-
+  const darkMode = useMemo(() => !isDark(theme.palette.text.primary), [theme]);
   const content = data?.agreements[0].text || "";
+
+  // FIXME: workaround for missing palette.action.disabledBackground and palette.action.disabled
+  const buttonStyle: SxProps =
+    darkMode && disable
+      ? {
+          color: `${theme.palette.text.primary}!important`,
+          backgroundColor: `${theme.palette.primary.main}!important`,
+          opacity: "0.5",
+        }
+      : {};
 
   const acceptAgreement = (accept: boolean) => {
     const payload: AuthFlow.AgreementsParams = {
@@ -39,11 +50,14 @@ const AgreementView: FC<AuthFlowComponentProps> = ({
     if (el) {
       el.scrollTop = 0;
     }
-    if (el && el.scrollHeight - el.scrollTop === el.clientHeight) {
-      setDisable(false);
-    } else {
-      setDisable(true);
-    }
+
+    // Removing scroll-to-bottom requirement, but leaving this code here
+    // if (el && el.scrollHeight - el.scrollTop === el.clientHeight) {
+    //   setDisable(false);
+    // } else {
+    //   setDisable(true);
+    // }
+    setDisable(false);
   }, [data]);
 
   const handleScroll = (e: UIEvent<HTMLDivElement>) => {
@@ -110,6 +124,7 @@ const AgreementView: FC<AuthFlowComponentProps> = ({
               onClick={() => {
                 acceptAgreement(true);
               }}
+              sx={{ ...buttonStyle }}
             >
               Accept
             </Button>

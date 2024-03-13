@@ -1,6 +1,6 @@
 {
   "name": "@pangeacyber/react-mui-store-file-viewer",
-  "version": "0.0.33",
+  "version": "0.0.38",
   "description": "An extension of material ui data-grid for Pangea store file objects",
   "main": "dist/cjs/index.js",
   "module": "dist/esm/index.js",
@@ -34,8 +34,8 @@
     "@storybook/addon-links": "^7.6.17",
     "@storybook/react": "^7.6.17",
     "@storybook/react-vite": "^7.6.17",
-    "@types/react": "^18.2.61",
-    "@types/react-dom": "^18.2.19",
+    "@types/react": "^18.2.64",
+    "@types/react-dom": "^18.2.21",
     "cross-env": "^7.0.3",
     "postcss": "^8.4.35",
     "react": "17",
@@ -47,13 +47,13 @@
     "rollup-plugin-postcss": "^4.0.2",
     "storybook": "^7.6.17",
     "typescript": "^5.3.3",
-    "vite": "^5.1.4"
+    "vite": "^5.1.5"
   },
   "dependencies": {
-    "@pangeacyber/react-mui-shared": "0.0.54",
+    "@pangeacyber/react-mui-shared": "0.0.55",
     "axios": "^1.6.7",
     "lodash": "^4.17.21",
-    "zustand": "^4.5.1"
+    "zustand": "^4.5.2"
   },
   "peerDependencies": {
     "@emotion/react": "^11.11.3",

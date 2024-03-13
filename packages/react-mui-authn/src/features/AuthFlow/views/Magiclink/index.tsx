@@ -56,7 +56,13 @@ const MagiclinkView: FC<AuthFlowComponentProps> = ({
       >
         Resend Email
       </Button>
-      <Button fullWidth color="primary" onClick={checkState} disabled={loading}>
+      <Button
+        fullWidth
+        color="primary"
+        onClick={checkState}
+        disabled={loading}
+        sx={{ whiteSpace: "nowrap" }}
+      >
         Verification Complete
       </Button>
     </>

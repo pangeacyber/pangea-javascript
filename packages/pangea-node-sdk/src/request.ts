@@ -102,7 +102,7 @@ class PangeaRequest {
   }
 
   private getFilenameFromURL(url: string): string | undefined {
-    return url.split("/").pop()?.split("?")[0];
+    return new URL(url).pathname.split("/").pop();
   }
 
   public async downloadFile(url: string): Promise<AttachedFile> {
@@ -112,7 +112,7 @@ class PangeaRequest {
     });
     const response = (await got.get(url, options)) as Response;
 
-    let filename = this.getFilenameFromContentDisposition(response.headers["content-disposition"]);
+    let filename = this.getFilenameFromContentDisposition(response.headers["Content-Disposition"]);
     if (filename === undefined) {
       filename = this.getFilenameFromURL(url);
       if (filename === undefined) {
@@ -162,6 +162,13 @@ class PangeaRequest {
     return file;
   }
 
+  private getFileToBuffer(file: Buffer | string) {
+    if (typeof file === "string") {
+      return fs.readFileSync(file);
+    }
+    return file;
+  }
+
   private async fullPostPresignedURL(
     endpoint: string,
     data: Request,
@@ -175,7 +182,7 @@ class PangeaRequest {
     const presigned_url = response.accepted_result.post_url;
     const file_details = response.accepted_result?.post_form_data;
 
-    this.toPresignedURL(presigned_url, {
+    this.postPresignedURL(presigned_url, {
       file: fileData.file,
       file_details: file_details,
       name: fileData.name,
@@ -183,7 +190,11 @@ class PangeaRequest {
     return response.gotResponse;
   }
 
-  private async toPresignedURL(url: string, fileData: FileData) {
+  public async postPresignedURL(url: string, fileData: FileData) {
+    if (!fileData.file_details) {
+      throw new PangeaErrors.PangeaError("file_details should be defined to do a post");
+    }
+
     const form = new FormData();
 
     if (fileData.file_details) {
@@ -204,11 +215,7 @@ class PangeaRequest {
     });
 
     try {
-      if (fileData.file_details) {
-        await this.httpPost(url, request);
-      } else {
-        await this.httpPut(url, request);
-      }
+      await this.httpPost(url, request);
     } catch (error) {
       if (error instanceof HTTPError) {
         throw new PangeaErrors.PresignedUploadError(
@@ -220,20 +227,29 @@ class PangeaRequest {
     return;
   }
 
-  public async postPresignedURL(url: string, fileData: FileData) {
-    if (!fileData.file_details) {
-      throw new PangeaErrors.PangeaError("file_details should be defined to do a post");
-    }
-
-    await this.toPresignedURL(url, fileData);
-  }
-
   public async putPresignedURL(url: string, fileData: FileData) {
     if (fileData.file_details) {
       throw new PangeaErrors.PangeaError("file_details should be undefined to do a put");
     }
 
-    await this.toPresignedURL(url, fileData);
+    const request = new Options({
+      body: this.getFileToBuffer(fileData.file),
+      retry: { limit: this.config.requestRetries },
+      responseType: "json",
+    });
+
+    try {
+      await got.put(url, request);
+    } catch (error) {
+      if (error instanceof HTTPError) {
+        throw new PangeaErrors.PresignedUploadError(
+          `presigned PUT failure: ${error.code}`,
+          JSON.stringify(error.response.body)
+        );
+      }
+    }
+
+    return;
   }
 
   public async requestPresignedURL(endpoint: string, data: Request): Promise<PangeaResponse<any>> {
@@ -307,18 +323,6 @@ class PangeaRequest {
   private async httpPost(url: string, request: object): Promise<Response> {
     try {
       return (await got.post(url, request)) as Response;
-    } catch (error) {
-      if (error instanceof HTTPError) {
-        // This MUST throw an error
-        this.checkResponse(new PangeaResponse(error.response));
-      }
-      throw error;
-    }
-  }
-
-  private async httpPut(url: string, request: object): Promise<Response> {
-    try {
-      return (await got.put(url, request)) as Response;
     } catch (error) {
       if (error instanceof HTTPError) {
         // This MUST throw an error

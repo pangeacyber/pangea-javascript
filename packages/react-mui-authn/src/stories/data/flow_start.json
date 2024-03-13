@@ -21,7 +21,6 @@
       "redirect_uri": "http://localhost:4001/flow/oauth/github?redirect_uri=http%3A%2F%2Flocalhost%3A3000\u0026state=pcb_abcd1234abcd1234abcd1234"
     },
     {
-      "choice": "social",
       "enrollment": true,
       "social_provider": "facebook",
       "state": "pcb_abcd1234abcd1234abcd1234",
@@ -32,6 +31,18 @@
       "social_provider": "microsoftonline",
       "state": "pcb_abcd1234abcd1234abcd1234",
       "redirect_uri": "http://localhost:4001/flow/oauth/microsoftonline?redirect_uri=http%3A%2F%2Flocalhost%3A3000\u0026state=pcb_abcd1234abcd1234abcd1234"
+    },
+    {
+      "enrollment": true,
+      "social_provider": "gitlab",
+      "state": "pcb_xxxxxxxxxx",
+      "redirect_uri": "http://localhost:4001/flow/oauth/gitlab?redirect_uri=..."
+    },
+    {
+      "enrollment": true,
+      "social_provider": "linkedin",
+      "state": "pcb_xxxxxxxxxx",
+      "redirect_uri": "http://localhost:4001/flow/oauth/linkedin?redirect_uri=..."
     }
   ],
   "socialProviderMap": {},

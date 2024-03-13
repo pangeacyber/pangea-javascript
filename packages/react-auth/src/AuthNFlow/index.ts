@@ -1,9 +1,6 @@
-import AuthNFlowClient from "./client";
-import { AuthFlowProvider, useAuthFlow } from "./provider";
-
-export { AuthNFlowClient, AuthFlowProvider, useAuthFlow };
-
-export {
+export { AuthNFlowClient } from "./client";
+export { AuthFlowProvider, useAuthFlow } from "./provider";
+export type {
   AuthNFlowOptions,
   FlowStorage,
   FlowStep,

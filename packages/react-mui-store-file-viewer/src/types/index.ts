@@ -1,6 +1,6 @@
 import { PasswordPolicy } from "@pangeacyber/react-mui-shared";
 import { AlertsSnackbarProps } from "../components/AlertSnackbar";
-
+import dayjs from "dayjs";
 export interface PangeaResponse<T = any> {
   request_id: string;
   status: string;
@@ -72,6 +72,8 @@ export interface StoreConfigurations {
   };
   settings?: {
     defaultAccessCount?: number;
+    maxAccessCount?: number;
+    maxDate?: dayjs.Dayjs;
     defaultExpiresAt?: Date;
   };
 }

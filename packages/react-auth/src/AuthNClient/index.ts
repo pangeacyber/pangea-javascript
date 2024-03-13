@@ -1,12 +1,13 @@
 import axios, { AxiosResponse } from "axios";
 
-import { AuthConfig, APIResponse, ClientResponse } from "@src/types";
+import { AuthConfig, APIResponse, ClientResponse } from "~/src/types";
 
 const API_VERSION = "v2";
 
 export class AuthNClient {
   config: AuthConfig;
 
+  // @ts-expect-error TODO: is `useJwt` supposed to be used here?
   constructor(config: AuthConfig, useJwt: boolean = false) {
     if (!config.clientToken) throw new Error("A token is required");
     if (!config.domain) throw new Error("A domain is required");
@@ -23,7 +24,6 @@ export class AuthNClient {
   /*
     General AuthN functions
   */
-
   async logout(userToken: string): Promise<ClientResponse> {
     const path = "client/session/logout";
     const data = { token: userToken };

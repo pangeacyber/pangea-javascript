@@ -9,11 +9,11 @@ import {
   useState,
 } from "react";
 
-import { APIResponse } from "@src/types";
+import { APIResponse } from "~/src/types";
 
 import { FlowState, FlowStep } from "./types";
 
-import { delay } from "@src/shared/utils";
+import { delay } from "~/src/shared/utils";
 
 export interface MockFlowContextType {
   step?: FlowStep;
@@ -36,7 +36,7 @@ export const MockFlowProvider: FC<MockFlowProviderProps> = ({ children }) => {
   const [step, setStep] = useState<FlowStep>();
   const [error, setError] = useState<APIResponse>();
   const [loading, setLoading] = useState<boolean>(false);
-  const [flowData, setFlowState] = useState<FlowState>({});
+  const [flowData, _setFlowState] = useState<FlowState>({});
 
   useEffect(() => {
     setStep(FlowStep.START);
