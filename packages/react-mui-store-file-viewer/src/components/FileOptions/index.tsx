@@ -1,15 +1,19 @@
 import { FC, useState } from "react";
-import { Box, IconButton, Menu, Paper, Stack } from "@mui/material";
+import { Box, IconButton, Menu, Paper, Stack, Tooltip } from "@mui/material";
 import { useTheme } from "@mui/material/styles";
 
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import DownloadIcon from "@mui/icons-material/Download";
+import DownloadingIcon from "@mui/icons-material/Downloading";
 
 import DeleteFileButton from "../DeleteFileButton";
 import { ObjectStore } from "../../types";
 import UpdateFileButton from "../UpdateFileButton";
 import RemoveFilePasswordButton from "../RemoveFilePasswordButton";
 import AddFilePasswordButton from "../AddFilePasswordButton";
+import { useStoreFileViewerContext } from "../../hooks/context";
+import { downloadFile } from "../../utils/file";
+import { parseErrorFromPangea } from "../../utils";
 
 interface VaultItemOptionsProps {
   object: ObjectStore.ObjectResponse;
@@ -25,22 +29,46 @@ const FileOptions: FC<VaultItemOptionsProps> = ({
   displayDownloadInline,
 }) => {
   const theme = useTheme();
+  const { apiRef } = useStoreFileViewerContext();
+
   const [optionsEl, setOptionsEl] = useState<HTMLElement | null>(null);
+
+  const [downloading, setDownloading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
   const handleClose = () => {
     setOptionsEl(null);
     onClose();
   };
 
+  const handleDownloadFile = () => {
+    if (downloading) return;
+    setDownloading(true);
+
+    return downloadFile(object, apiRef)
+      .then(() => {
+        setDownloading(false);
+        setError(null);
+      })
+      .catch((err) => {
+        setError(parseErrorFromPangea(err));
+        setDownloading(false);
+      });
+  };
+
   if (!object.id) return null;
   return (
     <Stack direction="row" spacing={0.5} alignItems="center">
-      {!!displayDownloadInline && !!object?.dest_url && (
-        <a href={object.dest_url} download={object.name ?? object.id}>
-          <IconButton>
-            <DownloadIcon />
+      {!!displayDownloadInline && (
+        <Tooltip title={error}>
+          <IconButton onClick={handleDownloadFile}>
+            {downloading ? (
+              <DownloadingIcon />
+            ) : (
+              <DownloadIcon color={!!error ? "error" : undefined} />
+            )}
           </IconButton>
-        </a>
+        </Tooltip>
       )}
       <Box sx={{ marginLeft: "auto" }}>
         <IconButton

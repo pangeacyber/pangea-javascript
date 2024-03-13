@@ -22,7 +22,7 @@ const DateTextField: FC<TextFieldProps> = (props) => {
 
 const UnControlledDateTimeField: FC<
   FieldComponentProps<DateTimeFieldSchemaProps>
-> = ({ value, onValueChange = () => {} }) => {
+> = ({ value, onValueChange = () => {}, FieldProps }) => {
   return (
     <LocalizationProvider dateAdapter={AdapterDayjs}>
       <DateTimePicker
@@ -34,6 +34,7 @@ const UnControlledDateTimeField: FC<
           textField: DateTextField,
         }}
         disablePast
+        maxDate={FieldProps?.maxDate}
       />
     </LocalizationProvider>
   );

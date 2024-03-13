@@ -8,6 +8,7 @@ import {
 } from "@mui/material";
 import { FC, useEffect, useMemo, useState } from "react";
 import pickBy from "lodash/pickBy";
+import isEmpty from "lodash/isEmpty";
 
 import AddIcon from "@mui/icons-material/Add";
 import SettingsIcon from "@mui/icons-material/Settings";
@@ -94,7 +95,9 @@ const CreateSharesButton: FC<Props> = ({
     authenticatorType: ObjectStore.ShareAuthenticatorType.Sms,
     title: defaultShareLinkTitle,
   });
+
   const [settingsObj, setSettingsObj] = useState(obj);
+  const [settingsError, setSettingsError] = useState(false);
 
   useEffect(() => {
     var date = configurations?.settings?.defaultExpiresAt;
@@ -116,6 +119,7 @@ const CreateSharesButton: FC<Props> = ({
 
     setObj(newObj);
     setSettingsObj(newObj);
+    setSettingsError(false);
   }, [object, defaultShareLinkTitle]);
 
   useEffect(() => {
@@ -134,10 +138,10 @@ const CreateSharesButton: FC<Props> = ({
   const handleCreateShare = async (
     body: ObjectStore.SingleShareCreateRequest
   ) => {
-    if (!apiRef.share?.create) return;
+    if (!apiRef.share?.create) return false;
 
     setLoading(true);
-    if (!apiRef.share?.create) return;
+    if (!apiRef.share?.create) return false;
     return apiRef.share
       .create({
         links: (body?.authenticators ?? [])?.map((auth) => {
@@ -166,11 +170,13 @@ const CreateSharesButton: FC<Props> = ({
           }
         }
 
-        return response;
+        return true;
       })
       .catch((err) => {
         alertOnError(err);
         setLoading(false);
+
+        return false;
       })
       .finally(() => {
         setLoading(false);
@@ -218,6 +224,9 @@ const CreateSharesButton: FC<Props> = ({
               onSubmit={async (values) =>
                 setSettingsObj((state) => ({ ...state, ...values }))
               }
+              onError={(errors) => {
+                setSettingsError(!isEmpty(errors));
+              }}
               open={settings}
               setOpen={setSettings}
             />
@@ -240,11 +249,11 @@ const CreateSharesButton: FC<Props> = ({
                   },
                   (v, k) => !!v && ShareCreateRequestFields.has(k)
                 )
-              )
-                .then(() => {})
-                .finally(handleClose);
+              ).then((isSuccess) => {
+                if (isSuccess) handleClose();
+              });
             }}
-            disabled={loading}
+            disabled={loading || settingsError}
             SaveButton={CreateButton}
             StackSx={{
               ".MuiFormControl-root": {
