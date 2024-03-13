@@ -138,10 +138,10 @@ const CreateSharesButton: FC<Props> = ({
   const handleCreateShare = async (
     body: ObjectStore.SingleShareCreateRequest
   ) => {
-    if (!apiRef.share?.create) return;
+    if (!apiRef.share?.create) return false;
 
     setLoading(true);
-    if (!apiRef.share?.create) return;
+    if (!apiRef.share?.create) return false;
     return apiRef.share
       .create({
         links: (body?.authenticators ?? [])?.map((auth) => {
@@ -170,11 +170,13 @@ const CreateSharesButton: FC<Props> = ({
           }
         }
 
-        return response;
+        return true;
       })
       .catch((err) => {
         alertOnError(err);
         setLoading(false);
+
+        return false;
       })
       .finally(() => {
         setLoading(false);
@@ -247,9 +249,9 @@ const CreateSharesButton: FC<Props> = ({
                   },
                   (v, k) => !!v && ShareCreateRequestFields.has(k)
                 )
-              )
-                .then(() => {})
-                .finally(handleClose);
+              ).then((isSuccess) => {
+                if (isSuccess) handleClose();
+              });
             }}
             disabled={loading || settingsError}
             SaveButton={CreateButton}

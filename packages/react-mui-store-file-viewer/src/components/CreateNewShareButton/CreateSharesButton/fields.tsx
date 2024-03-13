@@ -16,12 +16,13 @@ export const getShareSettingsFields = (
 ): FieldsFormSchema<ObjectStore.SingleShareCreateRequest> => {
   let validate = yup
     .number()
-    .min(1, "Access count must be greater than or equal to 1");
+    .min(1, "Access count must be greater than or equal to 1")
+    .required("Access count is required");
 
   if (opts.maxAccessCount) {
     validate = validate.max(
       opts.maxAccessCount,
-      "Access count must be less than or equal to 1"
+      `Access count must be less than or equal to ${opts.maxAccessCount}`
     );
   }
   return {
