@@ -12,7 +12,10 @@ import { canonicalizeEvent, canonicalizeEnvelope } from "./utils.js";
 // @ts-ignore
 const merkleTools = new MerkleTools();
 
-export function verifyLogHash(envelope: Audit.EventEnvelope, hash: string): boolean {
+export function verifyLogHash(
+  envelope: Audit.EventEnvelope,
+  hash: string
+): boolean {
   var sha256 = CryptoJS.algo.SHA256.create();
   sha256.update(canonicalizeEnvelope(envelope));
   const calcHash = sha256.finalize().toString();
@@ -107,7 +110,9 @@ const verifyLogProof = (
     const proofHash = proofs[idx]?.nodeHash || "";
 
     nodeHash = decodeHash(
-      proofs[idx]?.side === "left" ? hashPair(proofHash, nodeHash) : hashPair(nodeHash, proofHash)
+      proofs[idx]?.side === "left"
+        ? hashPair(proofHash, nodeHash)
+        : hashPair(nodeHash, proofHash)
     );
   }
 
@@ -121,7 +126,11 @@ export const verifyLogMembershipProof = ({
   log: Audit.LogResponse;
   newUnpublishedRootHash: string | undefined;
 }): string => {
-  if (!log.hash || log.membership_proof === undefined || newUnpublishedRootHash === undefined) {
+  if (
+    !log.hash ||
+    log.membership_proof === undefined ||
+    newUnpublishedRootHash === undefined
+  ) {
     return "none";
   }
 
@@ -143,7 +152,11 @@ export const verifyRecordMembershipProof = ({
   record: Audit.AuditRecord;
   root: Audit.Root | undefined;
 }): string => {
-  if (!record.hash || record.membership_proof === undefined || root === undefined) {
+  if (
+    !record.hash ||
+    record.membership_proof === undefined ||
+    root === undefined
+  ) {
     return "none";
   }
 
@@ -214,7 +227,10 @@ const verifyConsistencyProof = ({
   for (var idx = 0; idx < proofs.length; idx++) {
     const rootProof = proofs[idx];
 
-    if (!rootProof || !verifyLogProof(rootProof.nodeHash, newRootHash, rootProof.proof)) {
+    if (
+      !rootProof ||
+      !verifyLogProof(rootProof.nodeHash, newRootHash, rootProof.proof)
+    ) {
       return false;
     }
   }
@@ -255,7 +271,9 @@ export const verifyRecordConsistencyProof = ({
     : "fail";
 };
 
-export const verifySignature = (envelope: Audit.EventEnvelope | undefined): string => {
+export const verifySignature = (
+  envelope: Audit.EventEnvelope | undefined
+): string => {
   // both undefined so "none" verification
   if (envelope?.signature === undefined && envelope?.public_key === undefined) {
     return "none";

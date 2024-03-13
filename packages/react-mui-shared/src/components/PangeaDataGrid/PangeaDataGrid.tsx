@@ -49,7 +49,7 @@ import { PDG } from "./types";
 
 export interface PangeaDataGridProps<
   DataType extends GridValidRowModel,
-  FiltersObj = Record<string, string>
+  FiltersObj = Record<string, string>,
 > {
   header?: ReactNode;
   columns: GridColDef[];
@@ -126,7 +126,7 @@ export interface PangeaDataGridProps<
 
 const PangeaDataGrid = <
   DataType extends GridValidRowModel = { id: string },
-  FiltersObj extends { [key: string]: string } = Record<string, string>
+  FiltersObj extends { [key: string]: string } = Record<string, string>,
 >({
   header = null,
   columns: columnsProp,
@@ -314,9 +314,7 @@ const PangeaDataGrid = <
           item
           sx={{
             maxWidth: "100%",
-            width: `calc(100% - ${
-              !!preview ? PreviewPanel?.width : "0px"
-            } - 2px)`,
+            width: `calc(100% - ${!!preview ? PreviewPanel?.width : "0px"} - 2px)`,
             transition: !!preview ? "width 0.5s" : undefined,
           }}
           data-testid={`model-data-grid`}

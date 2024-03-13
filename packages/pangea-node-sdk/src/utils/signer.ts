@@ -1,4 +1,10 @@
-import { KeyObject, createPrivateKey, createPublicKey, sign, verify } from "node:crypto";
+import {
+  KeyObject,
+  createPrivateKey,
+  createPublicKey,
+  sign,
+  verify,
+} from "node:crypto";
 import fs from "fs";
 import { Vault } from "@src/types.js";
 import { PangeaErrors } from "@src/errors.js";
@@ -82,7 +88,10 @@ export class Verifier {
     if (publicKeyInput.startsWith("-----")) {
       pubKey = createPublicKey(publicKeyInput);
     } else {
-      const publicKeyB64urlSafe = Buffer.from(publicKeyInput, "base64").toString("base64url");
+      const publicKeyB64urlSafe = Buffer.from(
+        publicKeyInput,
+        "base64"
+      ).toString("base64url");
       const rawKey = {
         crv: "Ed25519",
         x: publicKeyB64urlSafe,

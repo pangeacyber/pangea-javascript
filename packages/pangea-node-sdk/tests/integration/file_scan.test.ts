@@ -14,7 +14,10 @@ import { loadTestEnvironment } from "./utils.js";
 const environment = loadTestEnvironment("file-scan", TestEnvironment.LIVE);
 const token = getTestToken(environment);
 const testHost = getTestDomain(environment);
-const config = new PangeaConfig({ domain: testHost, customUserAgent: "sdk-test" });
+const config = new PangeaConfig({
+  domain: testHost,
+  customUserAgent: "sdk-test",
+});
 const fileScan = new FileScanService(token, config);
 
 const testfilePath = "./tests/testdata/testfile.pdf";

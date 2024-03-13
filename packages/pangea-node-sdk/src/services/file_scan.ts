@@ -1,7 +1,13 @@
 import PangeaResponse from "@src/response.js";
 import BaseService from "./base.js";
 import PangeaConfig from "@src/config.js";
-import { FileData, FileScan, PostOptions, TransferMethod, FileItems } from "@src/types.js";
+import {
+  FileData,
+  FileScan,
+  PostOptions,
+  TransferMethod,
+  FileItems,
+} from "@src/types.js";
 import { getFileUploadParams } from "@src/utils/utils.js";
 import { PangeaErrors } from "@src/errors.js";
 import PangeaRequest from "@src/request.js";
@@ -79,7 +85,8 @@ export class FileScanService extends BaseService {
     };
 
     if (
-      (!request.transfer_method || request.transfer_method === TransferMethod.POST_URL) &&
+      (!request.transfer_method ||
+        request.transfer_method === TransferMethod.POST_URL) &&
       postFile
     ) {
       fsData = getFileUploadParams(postFile.file);
@@ -99,7 +106,10 @@ export class FileScanService extends BaseService {
       params?: FileScan.ScanFileParams;
     } = {}
   ): Promise<PangeaResponse<FileScan.ScanResult>> {
-    if (request.transfer_method === TransferMethod.POST_URL && !options.params) {
+    if (
+      request.transfer_method === TransferMethod.POST_URL &&
+      !options.params
+    ) {
       throw new PangeaErrors.PangeaError(
         `If transfer_method is ${TransferMethod.POST_URL} need to set options.params`
       );
@@ -130,7 +140,11 @@ export class FileScanUploader {
       return this.request_;
     }
 
-    this.request_ = new PangeaRequest(this.serviceName, "unusedtoken", new PangeaConfig());
+    this.request_ = new PangeaRequest(
+      this.serviceName,
+      "unusedtoken",
+      new PangeaConfig()
+    );
     return this.request_;
   }
 
@@ -142,7 +156,10 @@ export class FileScanUploader {
       transfer_method?: TransferMethod;
     }
   ) {
-    if (!options.transfer_method || options.transfer_method === TransferMethod.PUT_URL) {
+    if (
+      !options.transfer_method ||
+      options.transfer_method === TransferMethod.PUT_URL
+    ) {
       await this.request.putPresignedURL(url, fileData);
     } else if (options.transfer_method === TransferMethod.POST_URL) {
       await this.request.postPresignedURL(url, fileData);

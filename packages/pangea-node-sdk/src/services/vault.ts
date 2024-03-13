@@ -148,7 +148,9 @@ class VaultService extends BaseService {
    * );
    * ```
    */
-  async list(options: Vault.ListOptions = {}): Promise<PangeaResponse<Vault.ListResult>> {
+  async list(
+    options: Vault.ListOptions = {}
+  ): Promise<PangeaResponse<Vault.ListResult>> {
     return this.post("v1/list", options);
   }
 
@@ -689,7 +691,10 @@ class VaultService extends BaseService {
    * );
    * ```
    */
-  async sign(id: string, message: string): Promise<PangeaResponse<Vault.Asymmetric.SignResult>> {
+  async sign(
+    id: string,
+    message: string
+  ): Promise<PangeaResponse<Vault.Asymmetric.SignResult>> {
     let data: Vault.Asymmetric.SignRequest = {
       id: id,
       message: message,
@@ -773,7 +778,10 @@ class VaultService extends BaseService {
    * );
    * ```
    */
-  async jwtSign(id: string, payload: string): Promise<PangeaResponse<Vault.JWT.SignResult>> {
+  async jwtSign(
+    id: string,
+    payload: string
+  ): Promise<PangeaResponse<Vault.JWT.SignResult>> {
     let data: Vault.JWT.SignRequest = {
       id: id,
       payload: payload,
@@ -794,7 +802,9 @@ class VaultService extends BaseService {
    * );
    * ```
    */
-  async jwtVerify(jws: string): Promise<PangeaResponse<Vault.JWT.VerifyResult>> {
+  async jwtVerify(
+    jws: string
+  ): Promise<PangeaResponse<Vault.JWT.VerifyResult>> {
     let data: Vault.JWT.VerifyRequest = {
       jws: jws,
     };

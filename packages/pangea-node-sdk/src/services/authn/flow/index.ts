@@ -51,7 +51,9 @@ export default class Flow extends BaseService {
    * });
    * ```
    */
-  start(request: AuthN.Flow.StartRequest): Promise<PangeaResponse<AuthN.Flow.StartResult>> {
+  start(
+    request: AuthN.Flow.StartRequest
+  ): Promise<PangeaResponse<AuthN.Flow.StartResult>> {
     return this.post("v2/flow/start", request);
   }
 
@@ -72,7 +74,9 @@ export default class Flow extends BaseService {
    * });
    * ```
    */
-  restart(request: AuthN.Flow.RestartRequest): Promise<PangeaResponse<AuthN.Flow.RestartResult>> {
+  restart(
+    request: AuthN.Flow.RestartRequest
+  ): Promise<PangeaResponse<AuthN.Flow.RestartResult>> {
     return this.post("v2/flow/restart", request);
   }
 
@@ -95,7 +99,9 @@ export default class Flow extends BaseService {
    * });
    * ```
    */
-  update(request: AuthN.Flow.UpdateRequest): Promise<PangeaResponse<AuthN.Flow.UpdateResult>> {
+  update(
+    request: AuthN.Flow.UpdateRequest
+  ): Promise<PangeaResponse<AuthN.Flow.UpdateResult>> {
     return this.post("v2/flow/update", request);
   }
 }

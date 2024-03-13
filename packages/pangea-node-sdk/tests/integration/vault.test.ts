@@ -4,13 +4,20 @@ import { Vault } from "../../src/types.js";
 import { jest, it, expect } from "@jest/globals";
 import { PangeaErrors } from "../../src/errors.js";
 import { strToB64 } from "../../src/utils/utils.js";
-import { TestEnvironment, getTestDomain, getTestToken } from "../../src/utils/utils.js";
+import {
+  TestEnvironment,
+  getTestDomain,
+  getTestToken,
+} from "../../src/utils/utils.js";
 import { loadTestEnvironment } from "./utils.js";
 
 const environment = loadTestEnvironment("vault", TestEnvironment.LIVE);
 const token = getTestToken(environment);
 const testHost = getTestDomain(environment);
-const config = new PangeaConfig({ domain: testHost, customUserAgent: "sdk-test" });
+const config = new PangeaConfig({
+  domain: testHost,
+  customUserAgent: "sdk-test",
+});
 const vault = new VaultService(token, config);
 const TIME = Math.round(Date.now() / 1000);
 const FOLDER_VALUE = "/test_key_folder_" + TIME + "/";
@@ -18,7 +25,9 @@ const METADATA_VALUE = { test: "true", field1: "value1", field2: "value2" };
 const TAGS_VALUE = ["test", "symmetric"];
 const ROTATION_FREQUENCY_VALUE = "1d";
 const ROTATION_STATE_VALUE = Vault.ItemVersionState.DEACTIVATED;
-const EXPIRATION_VALUE = new Date(new Date().setDate(new Date().getDate() + 2)).toISOString();
+const EXPIRATION_VALUE = new Date(
+  new Date().setDate(new Date().getDate() + 2)
+).toISOString();
 const ACTOR = "PangeaNodeSDKTest";
 
 const KEY_ED25519 = {
@@ -69,9 +78,13 @@ it("Secret life cycle", async () => {
   expect(getResp.result.current_version?.public_key).toBeUndefined();
 
   // Deactivate
-  const stateChangeResp = await vault.stateChange(id, Vault.ItemVersionState.DEACTIVATED, {
-    version: 1,
-  });
+  const stateChangeResp = await vault.stateChange(
+    id,
+    Vault.ItemVersionState.DEACTIVATED,
+    {
+      version: 1,
+    }
+  );
   expect(stateChangeResp.result.id).toBe(id);
 
   // Get after deactivate
@@ -111,7 +124,11 @@ async function asymSigningCycle(id: string) {
   expect(verify2Resp.result.valid_signature).toBe(true);
 
   // Verify default version
-  const verifyDefaultResp = await vault.verify(id, data, sign2Resp.result.signature);
+  const verifyDefaultResp = await vault.verify(
+    id,
+    data,
+    sign2Resp.result.signature
+  );
   expect(verifyDefaultResp.result.valid_signature).toBe(true);
 
   // Verify wrong id
@@ -127,7 +144,11 @@ async function asymSigningCycle(id: string) {
   await expect(f()).rejects.toThrow(PangeaErrors.APIError);
 
   // verify wrong signature
-  const verifyBad1Resp = await vault.verify(id, data, sign1Resp.result.signature);
+  const verifyBad1Resp = await vault.verify(
+    id,
+    data,
+    sign1Resp.result.signature
+  );
   expect(verifyBad1Resp.result.valid_signature).toBe(false);
 
   // verify wrong data
@@ -139,9 +160,13 @@ async function asymSigningCycle(id: string) {
   expect(verifyBad2Resp.result.valid_signature).toBe(false);
 
   // Deactivate key
-  const stateChangeResp = await vault.stateChange(id, Vault.ItemVersionState.DEACTIVATED, {
-    version: 1,
-  });
+  const stateChangeResp = await vault.stateChange(
+    id,
+    Vault.ItemVersionState.DEACTIVATED,
+    {
+      version: 1,
+    }
+  );
   expect(stateChangeResp.result.id).toBe(id);
 
   // Verify after deactivated
@@ -196,16 +221,22 @@ async function jwtAsymSigningCycle(id: string) {
     expect(getResp.result.keys.length).toBe(2);
 
     // Deactivate key
-    const stateChangeResp = await vault.stateChange(id, Vault.ItemVersionState.DEACTIVATED, {
-      version: 1,
-    });
+    const stateChangeResp = await vault.stateChange(
+      id,
+      Vault.ItemVersionState.DEACTIVATED,
+      {
+        version: 1,
+      }
+    );
     expect(stateChangeResp.result.id).toBe(id);
 
     // Verify after deactivated
     const verify1Resp = await vault.jwtVerify(sign1Resp.result.jws);
     expect(verify1Resp.result.valid_signature).toBe(true);
   } catch (e) {
-    e instanceof PangeaErrors.APIError ? console.log(e.toString()) : console.log(e);
+    e instanceof PangeaErrors.APIError
+      ? console.log(e.toString())
+      : console.log(e);
     throw e;
   }
 }
@@ -239,16 +270,22 @@ async function jwtSymSigningCycle(id: string) {
     expect(verify2Resp.result.valid_signature).toBe(true);
 
     // Deactivate key
-    const stateChangeResp = await vault.stateChange(id, Vault.ItemVersionState.DEACTIVATED, {
-      version: 1,
-    });
+    const stateChangeResp = await vault.stateChange(
+      id,
+      Vault.ItemVersionState.DEACTIVATED,
+      {
+        version: 1,
+      }
+    );
     expect(stateChangeResp.result.id).toBe(id);
 
     // Verify after deactivated
     const verify1Resp = await vault.jwtVerify(sign1Resp.result.jws);
     expect(verify1Resp.result.valid_signature).toBe(true);
   } catch (e) {
-    e instanceof PangeaErrors.APIError ? console.log(e.toString()) : console.log(e);
+    e instanceof PangeaErrors.APIError
+      ? console.log(e.toString())
+      : console.log(e);
     throw e;
   }
 }
@@ -299,9 +336,13 @@ async function encryptingCycle(id: string) {
   await expect(f()).rejects.toThrow(PangeaErrors.APIError);
 
   // Deactivate key
-  const stateChangeResp = await vault.stateChange(id, Vault.ItemVersionState.DEACTIVATED, {
-    version: 1,
-  });
+  const stateChangeResp = await vault.stateChange(
+    id,
+    Vault.ItemVersionState.DEACTIVATED,
+    {
+      version: 1,
+    }
+  );
   expect(stateChangeResp.result.id).toBe(id);
 
   // Decrypt after deactivated
@@ -429,7 +470,9 @@ it("Asymmetric signing generate all params", async () => {
       const id = await asymGenerateParams(algorithm, purpose);
       await vault.delete(id);
     } catch (e) {
-      e instanceof PangeaErrors.APIError ? console.log(e.toString()) : console.log(e);
+      e instanceof PangeaErrors.APIError
+        ? console.log(e.toString())
+        : console.log(e);
       console.log(`Failed asymGenerateParams with ${algorithm} and ${purpose}`);
       failed = true;
     }
@@ -479,7 +522,9 @@ it("AES encrypting generate all params", async () => {
       const id = await symGenerateParams(algorithm, purpose);
       await vault.delete(id);
     } catch (e) {
-      e instanceof PangeaErrors.APIError ? console.log(e.toString()) : console.log(e);
+      e instanceof PangeaErrors.APIError
+        ? console.log(e.toString())
+        : console.log(e);
       console.log(`Failed symGenerateParams with ${algorithm} and ${purpose}`);
       failed = true;
     }
@@ -502,10 +547,15 @@ it("Asymmetric encrypting generate all params", async () => {
   ];
   for (const algorithm of algorithms) {
     try {
-      const id = await asymGenerateParams(algorithm as Vault.AsymmetricAlgorithm, purpose);
+      const id = await asymGenerateParams(
+        algorithm as Vault.AsymmetricAlgorithm,
+        purpose
+      );
       await vault.delete(id);
     } catch (e) {
-      e instanceof PangeaErrors.APIError ? console.log(e.toString()) : console.log(e);
+      e instanceof PangeaErrors.APIError
+        ? console.log(e.toString())
+        : console.log(e);
       console.log(`Failed asymGenerateParams with ${algorithm} and ${purpose}`);
       failed = true;
     }
@@ -525,7 +575,9 @@ it("Asymmetric signing life cycle", async () => {
       await asymSigningCycle(id);
       await vault.delete(id);
     } catch (e) {
-      console.log(`Failed asymmetric signing life cycle with ${algorithm} and ${purpose}`);
+      console.log(
+        `Failed asymmetric signing life cycle with ${algorithm} and ${purpose}`
+      );
       expect(true).toBeTruthy();
     }
   }
@@ -535,12 +587,19 @@ it("RSA encrypting life cycle", async () => {
   const algorithm = Vault.AsymmetricAlgorithm.RSA2048_OAEP_SHA256;
   const purpose = Vault.KeyPurpose.ENCRYPTION;
   try {
-    const id = await asymGenerateDefault(algorithm as Vault.AsymmetricAlgorithm, purpose);
+    const id = await asymGenerateDefault(
+      algorithm as Vault.AsymmetricAlgorithm,
+      purpose
+    );
     await encryptingCycle(id);
     await vault.delete(id);
   } catch (e) {
-    e instanceof PangeaErrors.APIError ? console.log(e.toString()) : console.log(e);
-    console.log(`Failed asymmetric encrypting life cycle with ${algorithm} and ${purpose}`);
+    e instanceof PangeaErrors.APIError
+      ? console.log(e.toString())
+      : console.log(e);
+    console.log(
+      `Failed asymmetric encrypting life cycle with ${algorithm} and ${purpose}`
+    );
     throw e;
   }
 });
@@ -560,7 +619,9 @@ it("AES encrypting life cycle", async () => {
       await encryptingCycle(id);
       await vault.delete(id);
     } catch (e) {
-      console.log(`Failed symmetric encrypting life cycle with ${algorithm} and ${purpose}`);
+      console.log(
+        `Failed symmetric encrypting life cycle with ${algorithm} and ${purpose}`
+      );
       throw e;
     }
   }
@@ -579,7 +640,9 @@ it("JWT asymmetric signing life cycle", async () => {
       await jwtAsymSigningCycle(id);
       await vault.delete(id);
     } catch (e) {
-      console.log(`Failed JWT asymmetric signing life cycle with ${algorithm} and ${purpose}`);
+      console.log(
+        `Failed JWT asymmetric signing life cycle with ${algorithm} and ${purpose}`
+      );
       throw e;
     }
   }
@@ -598,8 +661,12 @@ it("JWT symmetric signing life cycle", async () => {
       await jwtSymSigningCycle(id);
       await vault.delete(id);
     } catch (e) {
-      e instanceof PangeaErrors.APIError ? console.log(e.toString()) : console.log(e);
-      console.log(`Failed JWT symmetric signing life cycle with ${algorithm} and ${purpose}`);
+      e instanceof PangeaErrors.APIError
+        ? console.log(e.toString())
+        : console.log(e);
+      console.log(
+        `Failed JWT symmetric signing life cycle with ${algorithm} and ${purpose}`
+      );
       throw e;
     }
   }

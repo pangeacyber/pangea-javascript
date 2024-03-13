@@ -28,7 +28,12 @@ class PangeaRequest {
   private configID?: string;
   private userAgent: string = "";
 
-  constructor(serviceName: string, token: string, config: PangeaConfig, configID?: string) {
+  constructor(
+    serviceName: string,
+    token: string,
+    config: PangeaConfig,
+    configID?: string
+  ) {
     if (!serviceName) throw new Error("A serviceName is required");
     if (!token) throw new Error("A token is required");
 
@@ -108,7 +113,9 @@ class PangeaRequest {
     });
     const response = (await got.get(url, options)) as Response;
 
-    let filename = this.getFilenameFromContentDisposition(response.headers["Content-Disposition"]);
+    let filename = this.getFilenameFromContentDisposition(
+      response.headers["Content-Disposition"]
+    );
     if (filename === undefined) {
       filename = this.getFilenameFromURL(url);
       if (filename === undefined) {
@@ -134,7 +141,9 @@ class PangeaRequest {
     const form = new FormData();
     this.checkConfigID(data);
 
-    form.append("request", JSON.stringify(data), { contentType: "application/json" });
+    form.append("request", JSON.stringify(data), {
+      contentType: "application/json",
+    });
     for (let [name, fileData] of Object.entries(files)) {
       form.append(name, this.getFileToForm(fileData.file), {
         contentType: "application/octet-stream",
@@ -172,7 +181,9 @@ class PangeaRequest {
   ): Promise<Response> {
     const response = await this.requestPresignedURL(endpoint, data);
     if (!response.gotResponse || !response.accepted_result?.post_url) {
-      throw new PangeaErrors.PangeaError("Failed to request post presigned URL");
+      throw new PangeaErrors.PangeaError(
+        "Failed to request post presigned URL"
+      );
     }
 
     const presigned_url = response.accepted_result.post_url;
@@ -188,7 +199,9 @@ class PangeaRequest {
 
   public async postPresignedURL(url: string, fileData: FileData) {
     if (!fileData.file_details) {
-      throw new PangeaErrors.PangeaError("file_details should be defined to do a post");
+      throw new PangeaErrors.PangeaError(
+        "file_details should be defined to do a post"
+      );
     }
 
     const form = new FormData();
@@ -224,7 +237,9 @@ class PangeaRequest {
 
   public async putPresignedURL(url: string, fileData: FileData) {
     if (fileData.file_details) {
-      throw new PangeaErrors.PangeaError("file_details should be undefined to do a put");
+      throw new PangeaErrors.PangeaError(
+        "file_details should be undefined to do a put"
+      );
     }
 
     const request = new Options({
@@ -247,7 +262,10 @@ class PangeaRequest {
     return;
   }
 
-  public async requestPresignedURL(endpoint: string, data: Request): Promise<PangeaResponse<any>> {
+  public async requestPresignedURL(
+    endpoint: string,
+    data: Request
+  ): Promise<PangeaResponse<any>> {
     let acceptedError;
     if (!data.transfer_method) {
       data.transfer_method = TransferMethod.PUT_URL;
@@ -308,7 +326,10 @@ class PangeaRequest {
       }
     }
 
-    if (loopResponse.accepted_result?.post_url || loopResponse.accepted_result?.put_url) {
+    if (
+      loopResponse.accepted_result?.post_url ||
+      loopResponse.accepted_result?.put_url
+    ) {
       return loopResponse;
     } else {
       throw loopError;
@@ -350,7 +371,10 @@ class PangeaRequest {
     }
   }
 
-  public async get(endpoint: string, checkResponse: boolean = true): Promise<PangeaResponse<any>> {
+  public async get(
+    endpoint: string,
+    checkResponse: boolean = true
+  ): Promise<PangeaResponse<any>> {
     const url = this.getUrl(endpoint);
     const options = new Options({
       headers: this.getHeaders(),
@@ -361,12 +385,16 @@ class PangeaRequest {
     try {
       const response = (await got.get(url, options)) as Response;
       const pangeaResponse = new PangeaResponse(response);
-      return checkResponse ? this.checkResponse(pangeaResponse) : pangeaResponse;
+      return checkResponse
+        ? this.checkResponse(pangeaResponse)
+        : pangeaResponse;
     } catch (error) {
       if (error instanceof HTTPError) {
         // This MUST throw and error
         const pangeaResponse = new PangeaResponse(error.response);
-        return checkResponse ? this.checkResponse(pangeaResponse) : pangeaResponse;
+        return checkResponse
+          ? this.checkResponse(pangeaResponse)
+          : pangeaResponse;
       }
       // TODO: add handling of lower level errors?
       throw error;
@@ -397,7 +425,9 @@ class PangeaRequest {
     return await this.get(path, checkResponse);
   }
 
-  private async handleAsync(pangeaResponse: PangeaResponse<any>): Promise<PangeaResponse<any>> {
+  private async handleAsync(
+    pangeaResponse: PangeaResponse<any>
+  ): Promise<PangeaResponse<any>> {
     if (!this.config.queuedRetryEnabled) {
       return pangeaResponse;
     }
@@ -407,7 +437,10 @@ class PangeaRequest {
     const body = pangeaResponse.gotResponse?.body as ResponseObject<any>;
     const requestId = body?.request_id;
 
-    while (pangeaResponse.gotResponse?.statusCode === 202 && !this.reachTimeout(start)) {
+    while (
+      pangeaResponse.gotResponse?.statusCode === 202 &&
+      !this.reachTimeout(start)
+    ) {
       retryCount += 1;
       const waitTime = this.getDelay(retryCount, start);
 
@@ -432,7 +465,10 @@ class PangeaRequest {
 
   public getUrl(path: string): string {
     let url;
-    if (this.config.domain.startsWith("http://") || this.config.domain.startsWith("https://")) {
+    if (
+      this.config.domain.startsWith("http://") ||
+      this.config.domain.startsWith("https://")
+    ) {
       url = `${this.config.domain}/${path}`;
     } else {
       const schema = this.config?.insecure === true ? "http://" : "https://";
@@ -468,7 +504,9 @@ class PangeaRequest {
     }
 
     if (response.gotResponse?.statusCode === 503) {
-      throw new PangeaErrors.ServiceTemporarilyUnavailable(JSON.stringify(response.body));
+      throw new PangeaErrors.ServiceTemporarilyUnavailable(
+        JSON.stringify(response.body)
+      );
     }
 
     switch (response.status) {
@@ -481,18 +519,30 @@ class PangeaRequest {
       case "Unauthorized":
         throw new PangeaErrors.UnauthorizedError(this.serviceName, response);
       case "ServiceNotEnabled":
-        throw new PangeaErrors.ServiceNotAvailableError(this.serviceName, response);
+        throw new PangeaErrors.ServiceNotAvailableError(
+          this.serviceName,
+          response
+        );
       case "ProviderError":
         throw new PangeaErrors.ProviderError(response.summary, response);
       case "MissingConfigIDScope":
       case "MissingConfigID":
         throw new PangeaErrors.MissingConfigID(this.serviceName, response);
       case "ServiceNotAvailable":
-        throw new PangeaErrors.ServiceNotAvailableError(this.serviceName, response);
+        throw new PangeaErrors.ServiceNotAvailableError(
+          this.serviceName,
+          response
+        );
       case "InvalidPayloadReceived":
-        throw new PangeaErrors.InvalidPayloadReceived(response.summary, response);
+        throw new PangeaErrors.InvalidPayloadReceived(
+          response.summary,
+          response
+        );
       case "ForbiddenVaultOperation":
-        throw new PangeaErrors.ForbiddenVaultOperation(response.summary, response);
+        throw new PangeaErrors.ForbiddenVaultOperation(
+          response.summary,
+          response
+        );
       case "NotFound":
         throw new PangeaErrors.NotFound(
           response.gotResponse?.requestUrl !== undefined

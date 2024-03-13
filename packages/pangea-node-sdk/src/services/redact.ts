@@ -27,7 +27,11 @@ class RedactService extends BaseService {
    *
    * @summary Redact
    */
-  constructor(token: string, config: PangeaConfig, options: RedactOptions = {}) {
+  constructor(
+    token: string,
+    config: PangeaConfig,
+    options: RedactOptions = {}
+  ) {
     super("redact", token, config, options.config_id);
   }
 

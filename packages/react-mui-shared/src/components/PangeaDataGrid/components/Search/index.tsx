@@ -39,7 +39,7 @@ export interface SearchProps<FiltersObj> {
 }
 
 const Search = <
-  FiltersObj extends { [key: string]: string } = Record<string, string>
+  FiltersObj extends { [key: string]: string } = Record<string, string>,
 >({
   query,
   error,
