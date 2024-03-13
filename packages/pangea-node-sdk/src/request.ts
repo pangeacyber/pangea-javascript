@@ -73,7 +73,7 @@ class PangeaRequest {
     const url = this.getUrl(endpoint);
     this.checkConfigID(data);
 
-    let response: Response;
+    let response: Response | PangeaResponse<R>;
     const entry = options.files ? Object.entries(options.files)[0] : null;
     if (options.files && entry) {
       if (data.transfer_method === TransferMethod.POST_URL) {
@@ -191,7 +191,7 @@ class PangeaRequest {
     endpoint: string,
     data: Request,
     fileData: FileData
-  ): Promise<Response> {
+  ): Promise<PangeaResponse<any>> {
     const response = await this.requestPresignedURL(endpoint, data);
     if (!response.gotResponse || !response.accepted_result?.post_url) {
       throw new PangeaErrors.PangeaError(
@@ -205,9 +205,9 @@ class PangeaRequest {
     this.postPresignedURL(presigned_url, {
       file: fileData.file,
       file_details: file_details,
-      name: fileData.name,
+      name: "file",
     });
-    return response.gotResponse;
+    return response;
   }
 
   public async postPresignedURL(
@@ -399,12 +399,17 @@ class PangeaRequest {
   }
 
   private async handleHttpResponse<R>(
-    response: Response,
+    response: Response | PangeaResponse<R>,
     options: PostOptions = {}
   ): Promise<PangeaResponse<R>> {
-    const body = await response.arrayBuffer();
-    let pangeaResponse = new PangeaResponse<R>(response, body);
-    if (response.status === 202 && options.pollResultSync !== false) {
+    let pangeaResponse =
+      response instanceof PangeaResponse
+        ? response
+        : new PangeaResponse<R>(response, await response.arrayBuffer());
+    if (
+      pangeaResponse.status === "Accepted" &&
+      options.pollResultSync !== false
+    ) {
       pangeaResponse = await this.handleAsync(pangeaResponse);
     }
     return this.checkResponse(pangeaResponse);
