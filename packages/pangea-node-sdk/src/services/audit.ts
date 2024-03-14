@@ -400,7 +400,20 @@ class AuditService extends BaseService {
     return this.post("v1/root", data);
   }
 
-  // TODO: Add docs
+  /**
+   * @summary Download search results
+   * @description Get all search results as a compressed (gzip) CSV file.
+   * @operationId audit_post_v1_download_results
+   * @param request Request parameters.
+   * @returns URL where search results can be downloaded.
+   * @example
+   * ```js
+   * const response = await audit.downloadResults({
+   *   result_id: "pas_[...]",
+   *   format: Audit.DownloadFormat.CSV,
+   * });
+   * ```
+   */
   downloadResults(
     request: Audit.DownloadRequest
   ): Promise<PangeaResponse<Audit.DownloadResult>> {
