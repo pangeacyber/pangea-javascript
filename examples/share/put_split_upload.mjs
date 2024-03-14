@@ -2,7 +2,7 @@
 
 import {
   PangeaConfig,
-  StoreService,
+  ShareService,
   TransferMethod,
   StoreUploader,
 } from "pangea-node-sdk";
@@ -13,7 +13,7 @@ const token = process.env.PANGEA_SHARE_TOKEN;
 const config = new PangeaConfig({ domain: process.env.PANGEA_DOMAIN });
 
 // Create Store client
-const client = new StoreService(token, config);
+const client = new ShareService(token, config);
 
 // Create unique folder path
 const time = Math.round(Date.now() / 1000);

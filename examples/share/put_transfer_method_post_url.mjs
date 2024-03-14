@@ -1,6 +1,6 @@
 /* eslint-disable no-console */
 
-import { PangeaConfig, StoreService, TransferMethod } from "pangea-node-sdk";
+import { PangeaConfig, ShareService, TransferMethod } from "pangea-node-sdk";
 import * as fs from "fs";
 
 // Load Pangea token and domain from environment variables
@@ -8,7 +8,7 @@ const token = process.env.PANGEA_SHARE_TOKEN;
 const config = new PangeaConfig({ domain: process.env.PANGEA_DOMAIN });
 
 // Create Store client
-const client = new StoreService(token, config);
+const client = new ShareService(token, config);
 
 // Create unique folder path
 const time = Math.round(Date.now() / 1000);
