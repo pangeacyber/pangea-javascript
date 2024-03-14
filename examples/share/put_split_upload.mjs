@@ -4,7 +4,7 @@ import {
   PangeaConfig,
   ShareService,
   TransferMethod,
-  StoreUploader,
+  FileUploader,
 } from "pangea-node-sdk";
 import * as fs from "fs";
 
@@ -45,8 +45,8 @@ const delay = async (ms) =>
     const url = response.accepted_result?.put_url || "";
     console.log(`Got URL: ${url}`);
 
-    // Create StoreUploader client
-    const uploader = new StoreUploader();
+    // Create FileUploader client
+    const uploader = new FileUploader();
 
     // Read file content as buffer
     const data = fs.readFileSync(filepath);
