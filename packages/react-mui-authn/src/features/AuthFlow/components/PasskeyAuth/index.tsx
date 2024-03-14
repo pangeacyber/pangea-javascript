@@ -44,7 +44,10 @@ const PasskeyAuth: FC<AuthFlowComponentProps> = ({
       const authResp = await startAuthentication(publicKey, true);
       update(AuthFlow.Choice.PASSKEY, { authentication: authResp });
     } catch (_e) {
-      // catch auto-discovery error
+      // @ts-ignore
+      if (window.PASSKEY_DEBUG) {
+        console.debug("PASSKEY ERROR", _e);
+      }
     }
   };
 
@@ -56,6 +59,11 @@ const PasskeyAuth: FC<AuthFlowComponentProps> = ({
       update(AuthFlow.Choice.PASSKEY, { authentication: authResp });
     } catch (_e) {
       setStage("error");
+
+      // @ts-ignore
+      if (window.PASSKEY_DEBUG) {
+        console.debug("PASSKEY ERROR", _e);
+      }
     }
   };
 
