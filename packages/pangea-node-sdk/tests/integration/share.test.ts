@@ -13,7 +13,10 @@ import { FileUploader } from "../../src/file_uploader.js";
 const testEnvironment = TestEnvironment.DEVELOP;
 const token = getTestToken(testEnvironment);
 const testHost = getTestDomain(testEnvironment);
-const config = new PangeaConfig({ domain: testHost, customUserAgent: "sdk-test" });
+const config = new PangeaConfig({
+  domain: testHost,
+  customUserAgent: "sdk-test",
+});
 const client = new ShareService(token, config);
 
 const TIME = Math.round(Date.now() / 1000);
@@ -52,7 +55,9 @@ it("Folder create/delete", async () => {
     expect(respDelete.success).toBeTruthy();
     expect(respDelete.result.count).toBe(1);
   } catch (e) {
-    e instanceof PangeaErrors.APIError ? console.log(e.toString()) : console.log(e);
+    e instanceof PangeaErrors.APIError
+      ? console.log(e.toString())
+      : console.log(e);
     expect(false).toBeTruthy();
   }
 });
@@ -92,7 +97,9 @@ it("Put file. Multipart transfer_method", async () => {
     expect(respGet.attachedFiles.length).toBe(0);
     expect(respGet.result.dest_url).toBeDefined();
   } catch (e) {
-    e instanceof PangeaErrors.APIError ? console.log(e.toString()) : console.log(e);
+    e instanceof PangeaErrors.APIError
+      ? console.log(e.toString())
+      : console.log(e);
     expect(false).toBeTruthy();
   }
 });
@@ -132,7 +139,9 @@ it("Put zero bytes file. Multipart transfer_method", async () => {
     expect(respGet.attachedFiles.length).toBe(0);
     expect(respGet.result.dest_url).toBeUndefined();
   } catch (e) {
-    e instanceof PangeaErrors.APIError ? console.log(e.toString()) : console.log(e);
+    e instanceof PangeaErrors.APIError
+      ? console.log(e.toString())
+      : console.log(e);
     throw e;
   }
 });
@@ -172,7 +181,9 @@ it("Put file. post-url transfer_method", async () => {
     expect(respGet.attachedFiles.length).toBe(0);
     expect(respGet.result.dest_url).toBeDefined();
   } catch (e) {
-    e instanceof PangeaErrors.APIError ? console.log(e.toString()) : console.log(e);
+    e instanceof PangeaErrors.APIError
+      ? console.log(e.toString())
+      : console.log(e);
     throw e;
   }
 });
@@ -192,7 +203,9 @@ it("Put zero bytes file. post-url transfer_method", async () => {
     );
     expect(respPut.success).toBeTruthy();
   } catch (e) {
-    e instanceof PangeaErrors.APIError ? console.log(e.toString()) : console.log(e);
+    e instanceof PangeaErrors.APIError
+      ? console.log(e.toString())
+      : console.log(e);
     throw e;
   }
 });
@@ -207,7 +220,9 @@ it("get url and put upload", async () => {
     };
     response = await client.requestUploadURL(request);
   } catch (e) {
-    e instanceof PangeaErrors.APIError ? console.log(e.toString()) : console.log(e);
+    e instanceof PangeaErrors.APIError
+      ? console.log(e.toString())
+      : console.log(e);
     throw e;
   }
 
@@ -256,7 +271,9 @@ it("get url and post upload", async () => {
 
     response = await client.requestUploadURL(request);
   } catch (e) {
-    e instanceof PangeaErrors.APIError ? console.log(e.toString()) : console.log(e);
+    e instanceof PangeaErrors.APIError
+      ? console.log(e.toString())
+      : console.log(e);
     throw e;
   }
 
@@ -400,7 +417,10 @@ it("Item life cycle", async () => {
 
   // Create share link
   const authenticators: Share.Authenticator[] = [
-    { auth_type: Share.AuthenticatorType.PASSWORD, auth_context: "somepassword" },
+    {
+      auth_type: Share.AuthenticatorType.PASSWORD,
+      auth_context: "somepassword",
+    },
   ];
   const linkList: Share.ShareLinkCreateItem[] = [
     {
@@ -423,7 +443,9 @@ it("Item life cycle", async () => {
   expect(link?.access_count).toBe(0);
   expect(link?.max_access_count).toBe(3);
   expect(link?.authenticators.length).toBe(1);
-  expect(link?.authenticators[0]?.auth_type).toBe(Share.AuthenticatorType.PASSWORD);
+  expect(link?.authenticators[0]?.auth_type).toBe(
+    Share.AuthenticatorType.PASSWORD
+  );
   expect(link?.link).toBeDefined();
   expect(link?.id).toBeDefined();
   expect(link?.targets.length).toBe(1);
@@ -451,8 +473,12 @@ it("Item life cycle", async () => {
   expect(respGetLink.result.share_link_object.link).toBe(link?.link);
   expect(respGetLink.result.share_link_object.access_count).toBe(0);
   expect(respGetLink.result.share_link_object.max_access_count).toBe(3);
-  expect(respGetLink.result.share_link_object.created_at).toBe(link?.created_at);
-  expect(respGetLink.result.share_link_object.expires_at).toBe(link?.expires_at);
+  expect(respGetLink.result.share_link_object.created_at).toBe(
+    link?.created_at
+  );
+  expect(respGetLink.result.share_link_object.expires_at).toBe(
+    link?.expires_at
+  );
 
   // List share link
   const respListLink = await client.shareLinkList();

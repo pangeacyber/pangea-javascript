@@ -13,7 +13,11 @@ export class FileUploader {
       return this.request_;
     }
 
-    this.request_ = new PangeaRequest(this.serviceName, "notatoken", new PangeaConfig());
+    this.request_ = new PangeaRequest(
+      this.serviceName,
+      "notatoken",
+      new PangeaConfig()
+    );
     return this.request_;
   }
 
@@ -25,7 +29,10 @@ export class FileUploader {
       transfer_method?: TransferMethod;
     }
   ) {
-    if (!options.transfer_method || options.transfer_method === TransferMethod.PUT_URL) {
+    if (
+      !options.transfer_method ||
+      options.transfer_method === TransferMethod.PUT_URL
+    ) {
       await this.request.putPresignedURL(url, fileData);
     } else if (options.transfer_method === TransferMethod.POST_URL) {
       await this.request.postPresignedURL(url, fileData);

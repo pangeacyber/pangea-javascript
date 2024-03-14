@@ -1,7 +1,12 @@
 import PangeaResponse from "@src/response.js";
 import BaseService from "./base.js";
 import PangeaConfig from "@src/config.js";
-import { Share, FileData, TransferMethod, FileUploadParams } from "@src/types.js";
+import {
+  Share,
+  FileData,
+  TransferMethod,
+  FileUploadParams,
+} from "@src/types.js";
 import { PangeaErrors } from "@src/errors.js";
 import { getFileUploadParams } from "@src/index.js";
 import { getFileSize } from "@src/utils/utils.js";
@@ -27,7 +32,9 @@ class ShareService extends BaseService {
    * const response = await client.delete(request);
    * ```
    */
-  delete(request: Share.DeleteRequest): Promise<PangeaResponse<Share.DeleteResult>> {
+  delete(
+    request: Share.DeleteRequest
+  ): Promise<PangeaResponse<Share.DeleteResult>> {
     return this.post("v1beta/delete", request);
   }
 
@@ -90,7 +97,9 @@ class ShareService extends BaseService {
    * const response = await client.getArchive(request);
    * ```
    */
-  getArchive(request: Share.GetArchiveRequest): Promise<PangeaResponse<Share.GetArchiveResult>> {
+  getArchive(
+    request: Share.GetArchiveRequest
+  ): Promise<PangeaResponse<Share.GetArchiveResult>> {
     return this.post("v1beta/get_archive", request);
   }
 
@@ -106,7 +115,9 @@ class ShareService extends BaseService {
    * const response = await client.list(request);
    * ```
    */
-  list(request: Share.ListRequest = {}): Promise<PangeaResponse<Share.ListResult>> {
+  list(
+    request: Share.ListRequest = {}
+  ): Promise<PangeaResponse<Share.ListResult>> {
     return this.post("v1beta/list", request);
   }
 
@@ -138,10 +149,16 @@ class ShareService extends BaseService {
    * const response = await client.put(request, fileData);
    * ```
    */
-  put(request: Share.PutRequest, fileData: FileData): Promise<PangeaResponse<Share.PutResult>> {
+  put(
+    request: Share.PutRequest,
+    fileData: FileData
+  ): Promise<PangeaResponse<Share.PutResult>> {
     let fsData = {} as FileUploadParams;
 
-    if (!request.transfer_method || request.transfer_method === TransferMethod.POST_URL) {
+    if (
+      !request.transfer_method ||
+      request.transfer_method === TransferMethod.POST_URL
+    ) {
       fsData = getFileUploadParams(fileData.file);
       request.crc32c = fsData.crc32c;
       request.sha256 = fsData.sha256;
@@ -185,7 +202,9 @@ class ShareService extends BaseService {
    * const response = await client.requestUploadURL(request);
    * ```
    */
-  requestUploadURL(request: Share.PutRequest): Promise<PangeaResponse<Share.PutResult>> {
+  requestUploadURL(
+    request: Share.PutRequest
+  ): Promise<PangeaResponse<Share.PutResult>> {
     if (
       request.transfer_method === TransferMethod.POST_URL &&
       (!request.size || !request.crc32c || !request.sha256)
@@ -219,7 +238,9 @@ class ShareService extends BaseService {
    * const response = await client.update(request);
    * ```
    */
-  update(request: Share.UpdateRequest): Promise<PangeaResponse<Share.UpdateResult>> {
+  update(
+    request: Share.UpdateRequest
+  ): Promise<PangeaResponse<Share.UpdateResult>> {
     return this.post("v1beta/update", request);
   }
 
