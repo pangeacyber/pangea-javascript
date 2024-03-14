@@ -9,7 +9,11 @@ const path = "path";
 const serviceName = "serviceName";
 
 it("insecure true, environment local", async () => {
-  const config = new PangeaConfig({ domain: domain, insecure: true, environment: ConfigEnv.LOCAL });
+  const config = new PangeaConfig({
+    domain: domain,
+    insecure: true,
+    environment: ConfigEnv.LOCAL,
+  });
   const request = new PangeaRequest(serviceName, token, config, undefined);
   const url = request.getUrl(path);
   expect(url).toBe("http://" + domain + "/" + path);

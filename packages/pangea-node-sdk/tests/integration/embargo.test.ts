@@ -2,14 +2,21 @@ import PangeaConfig from "../../src/config.js";
 import EmbargoService from "../../src/services/embargo.js";
 import { PangeaErrors } from "../../src/errors.js";
 import { it, expect } from "@jest/globals";
-import { TestEnvironment, getTestDomain, getTestToken } from "../../src/utils/utils.js";
+import {
+  TestEnvironment,
+  getTestDomain,
+  getTestToken,
+} from "../../src/utils/utils.js";
 import { loadTestEnvironment } from "./utils.js";
 
 const environment = loadTestEnvironment("embargo", TestEnvironment.LIVE);
 
 const token = getTestToken(environment);
 const testHost = getTestDomain(environment);
-const config = new PangeaConfig({ domain: testHost, customUserAgent: "sdk-test" });
+const config = new PangeaConfig({
+  domain: testHost,
+  customUserAgent: "sdk-test",
+});
 const embargo = new EmbargoService(token, config);
 
 it("check IP in Russia", async () => {

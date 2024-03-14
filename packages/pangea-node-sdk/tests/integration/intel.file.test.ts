@@ -1,13 +1,20 @@
 import PangeaConfig from "../../src/config.js";
 import { it, expect, jest } from "@jest/globals";
-import { TestEnvironment, getTestDomain, getTestToken } from "../../src/utils/utils.js";
+import {
+  TestEnvironment,
+  getTestDomain,
+  getTestToken,
+} from "../../src/utils/utils.js";
 import { FileIntelService } from "../../src/index.js";
 import { loadTestEnvironment } from "./utils.js";
 
 const environment = loadTestEnvironment("file-intel", TestEnvironment.LIVE);
 const token = getTestToken(environment);
 const testHost = getTestDomain(environment);
-const config = new PangeaConfig({ domain: testHost, customUserAgent: "sdk-test" });
+const config = new PangeaConfig({
+  domain: testHost,
+  customUserAgent: "sdk-test",
+});
 const fileIntel = new FileIntelService(token, config);
 jest.setTimeout(60000);
 
@@ -31,7 +38,11 @@ it("file hash reputation bulk should succeed", async () => {
     "179e2b8a4162372cd9344b81793cbf74a9513a002eda3324e6331243f3137a63",
   ];
 
-  const response = await fileIntel.hashReputationBulk(hashes, "sha256", options);
+  const response = await fileIntel.hashReputationBulk(
+    hashes,
+    "sha256",
+    options
+  );
 
   expect(response.status).toBe("Success");
   expect(response.result.data).toBeDefined();
@@ -60,7 +71,10 @@ it("file reputation with filepath should fail", async () => {
   const options = { provider: "reversinglabs", verbose: true, raw: true };
 
   try {
-    const response = await fileIntel.filepathReputation("./not/a/real/path/file.txt", options);
+    const response = await fileIntel.filepathReputation(
+      "./not/a/real/path/file.txt",
+      options
+    );
     expect(response).toBeFalsy();
   } catch (e: unknown) {
     // @ts-ignore

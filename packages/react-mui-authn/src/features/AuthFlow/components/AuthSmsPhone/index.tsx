@@ -5,14 +5,12 @@ import { Stack, Typography } from "@mui/material";
 
 import { AuthFlow } from "@pangeacyber/vanilla-js";
 
+import { cleanPhoneNumber, validatePhoneNumber } from "@src/utils";
 import Button from "@src/components/core/Button";
 import { AuthFlowComponentProps } from "@src/features/AuthFlow/types";
 import StringField from "@src/components/fields/StringField";
 import ErrorMessage from "../ErrorMessage";
 import { BodyText } from "@src/components/core/Text";
-
-const PHONE_REGEXP =
-  /^((\\+[1-9]{1,4}[ \\-]*)|(\\([0-9]{2,3}\\)[ \\-]*)|(1|[0-9]{2,4})[ \\-]*)*?[0-9]{3,4}?[ \\-]*[0-9]{3,4}?$/;
 
 const AuthSmsPhone: FC<AuthFlowComponentProps> = (props) => {
   const { options, data, error, loading, restart } = props;
@@ -27,13 +25,13 @@ const AuthSmsPhone: FC<AuthFlowComponentProps> = (props) => {
     }
   }, []);
 
-  const startsWithOne = (val: string) => /^(1|\+1).*/.test(val);
-
   const validationSchema = yup.object({
     phone: yup
       .string()
       .required("Phone number is required")
-      .matches(PHONE_REGEXP, "Must be a valid phone number"),
+      .test("ValidPhoneNumber", "Must be a valid phone number", (value) =>
+        validatePhoneNumber(value)
+      ),
   });
 
   const formik = useFormik({
@@ -43,12 +41,8 @@ const AuthSmsPhone: FC<AuthFlowComponentProps> = (props) => {
     validationSchema: validationSchema,
     validateOnBlur: true,
     onSubmit: (values) => {
-      let number = values.phone.replace(/[()]/g, ""); // remove  parentheses
-      if (!startsWithOne(number)) {
-        number = `+1${number}`;
-      }
       const payload: AuthFlow.SmsOtpRestart = {
-        phone: number,
+        phone: cleanPhoneNumber(values.phone),
       };
       restart(AuthFlow.Choice.SMS_OTP, payload);
     },

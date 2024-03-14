@@ -71,7 +71,9 @@ export class PangeaResponse<M> extends ResponseObject<M> {
         if (index == 0) {
           jsonResp = JSON.parse(part.data.toString("utf-8"));
         } else {
-          attachedFilesTemp.push(new AttachedFile(part.filename, part.data, part.type));
+          attachedFilesTemp.push(
+            new AttachedFile(part.filename, part.data, part.type)
+          );
         }
       });
     } else {

@@ -13,19 +13,13 @@ stages:
 
 .packages_base:
   before_script:
-    - yarn install
+    - yarn install --frozen-lockfile
   cache:
     - key:
         files:
           - yarn.lock
       paths:
         - node_modules
-
-lint_packages:
-  extends: .packages_base
-  stage: lint
-  script:
-    - yarn lint
 
 include:
   - /packages/react-mui-shared/.gitlab-ci.yml

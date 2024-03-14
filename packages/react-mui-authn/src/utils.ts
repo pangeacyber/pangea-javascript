@@ -85,3 +85,17 @@ export const formatDateString = (
     return "";
   }
 };
+
+export const PHONE_REGEXP =
+  /^((\+[1-9]{1,4}[ \-]*)|(\([0-9]{2,3}\)[ \-]*)|(1|[0-9]{2,4})[ \-]*)*?[0-9]{3,4}?[ \-]*[0-9]{3,4}?$/;
+
+// remove non-digits and prepend +1 if missing
+export const cleanPhoneNumber = (value: string): string => {
+  const numbers = value.replace(/\D/g, "");
+  return numbers.startsWith("+1") ? numbers : `+1${numbers}`;
+};
+
+export const validatePhoneNumber = (value: string): boolean => {
+  const cleaned = cleanPhoneNumber(value);
+  return PHONE_REGEXP.test(cleaned);
+};

@@ -9,7 +9,9 @@ import { PangeaErrors } from "@src/errors.js";
 import { FileScan } from "@src/types.js";
 
 function orderKeysRecursive(obj: Object) {
-  const orderedEntries = Object.entries(obj).sort((a, b) => a[0].localeCompare(b[0]));
+  const orderedEntries = Object.entries(obj).sort((a, b) =>
+    a[0].localeCompare(b[0])
+  );
   orderedEntries.forEach((value) => {
     if (value[1] instanceof Object) {
       value[1] = orderKeysRecursive(value[1]);
@@ -27,7 +29,9 @@ var replacer = function (this: any, key: string, value: any) {
 };
 
 export function eventOrderAndStringifySubfields(obj: Object) {
-  const orderedEntries = Object.entries(obj).sort((a, b) => a[0].localeCompare(b[0]));
+  const orderedEntries = Object.entries(obj).sort((a, b) =>
+    a[0].localeCompare(b[0])
+  );
   orderedEntries.forEach((value) => {
     if (value[1] instanceof Date) {
       value[1] = value[1].toISOString();
@@ -129,8 +133,13 @@ export function getMultiConfigTestToken(environment: string) {
   return loadEnvVar(name);
 }
 
-export function getConfigID(environment: string, service: string, configNumber: number) {
-  const name = `PANGEA_${service.toUpperCase()}_CONFIG_ID_${configNumber}_` + environment;
+export function getConfigID(
+  environment: string,
+  service: string,
+  configNumber: number
+) {
+  const name =
+    `PANGEA_${service.toUpperCase()}_CONFIG_ID_${configNumber}_` + environment;
   return loadEnvVar(name);
 }
 
@@ -139,7 +148,9 @@ export function getCustomSchemaTestToken(environment: string) {
   return process.env[name] || "";
 }
 
-export function getFileUploadParams(file: string | Buffer): FileScan.ScanFileParams {
+export function getFileUploadParams(
+  file: string | Buffer
+): FileScan.ScanFileParams {
   const hash = crypto.createHash("sha256");
   let data: Buffer;
   if (typeof file === "string") {

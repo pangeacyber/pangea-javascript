@@ -55,7 +55,8 @@ export function parse(multipartBodyBuffer: Buffer, boundary: string): Input[] {
 
   for (let i = 0; i < multipartBodyBuffer.length; i++) {
     const oneByte: number = multipartBodyBuffer[i] ?? 0;
-    const prevByte: number | null = i > 0 ? multipartBodyBuffer[i - 1] ?? 0 : null;
+    const prevByte: number | null =
+      i > 0 ? multipartBodyBuffer[i - 1] ?? 0 : null;
     // 0x0a => \n
     // 0x0d => \r
     const newLineDetected: boolean = oneByte === 0x0a && prevByte === 0x0d;
@@ -94,7 +95,9 @@ export function parse(multipartBodyBuffer: Buffer, boundary: string): Input[] {
         const j = buffer.length - lastLine.length;
         const part = buffer.slice(0, j - 1);
 
-        allParts.push(process({ contentDispositionHeader, contentTypeHeader, part }));
+        allParts.push(
+          process({ contentDispositionHeader, contentTypeHeader, part })
+        );
         buffer = [];
         currentPartHeaders = [];
         lastLine = "";
@@ -136,7 +139,11 @@ export function getBoundary(header: string): string {
 function process(part: Part): Input {
   let input = {};
 
-  const filename = getHeaderField(part.contentDispositionHeader, "filename", "defaultFilename");
+  const filename = getHeaderField(
+    part.contentDispositionHeader,
+    "filename",
+    "defaultFilename"
+  );
   if (filename) {
     Object.defineProperty(input, "filename", {
       value: filename,
@@ -157,7 +164,11 @@ function process(part: Part): Input {
     });
   }
 
-  const name = getHeaderField(part.contentDispositionHeader, "name", "defaultName");
+  const name = getHeaderField(
+    part.contentDispositionHeader,
+    "name",
+    "defaultName"
+  );
   // always process the name field
   Object.defineProperty(input, "name", {
     value: name,
