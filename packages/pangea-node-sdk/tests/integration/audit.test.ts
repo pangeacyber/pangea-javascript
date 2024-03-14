@@ -23,7 +23,8 @@ const MSG_SIGNED_VAULT = "sign-test-vault";
 const MSG_CUSTOM_SCHEMA_NO_SIGNED = "node-sdk-custom-schema-no-signed";
 const JSON_CUSTOM_SCHEMA_NO_SIGNED = "node-sdk-json-custom-schema-no-signed";
 const MSG_CUSTOM_SCHEMA_SIGNED_LOCAL = "node-sdk-custom-schema-sign-local";
-const JSON_CUSTOM_SCHEMA_SIGNED_LOCAL = "node-sdk-json-custom-schema-sign-local";
+const JSON_CUSTOM_SCHEMA_SIGNED_LOCAL =
+  "node-sdk-json-custom-schema-sign-local";
 const STATUS_NO_SIGNED = "no-signed";
 const STATUS_SIGNED = "signed";
 const LONG_FIELD =
@@ -55,7 +56,10 @@ const tokenCustomSchema = getCustomSchemaTestToken(environment);
 const tokenGeneral = getTestToken(environment);
 const tokenMultiConfig = getMultiConfigTestToken(environment);
 const domain = getTestDomain(environment);
-const config = new PangeaConfig({ domain: domain, customUserAgent: "sdk-test" });
+const config = new PangeaConfig({
+  domain: domain,
+  customUserAgent: "sdk-test",
+});
 const auditGeneral = new AuditService(tokenGeneral, config);
 const auditVault = new AuditService(tokenVault, config);
 const auditWithTenantId = new AuditService(tokenGeneral, config, "mytenantid");
@@ -191,7 +195,11 @@ it("log an audit event in JSON format", async () => {
     max_results: maxResults,
   };
 
-  const respSearch = await auditGeneral.search(query, queryOptions, searchOptions);
+  const respSearch = await auditGeneral.search(
+    query,
+    queryOptions,
+    searchOptions
+  );
   expect(respSearch.result.count).toBe(maxResults);
 
   respSearch.result.events.forEach((record) => {
@@ -303,7 +311,8 @@ it("log JSON event, sign and verify", async () => {
   expect(typeof respLog.result.hash).toBe("string");
   expect(respLog.result.signature_verification).toBe("pass");
 
-  const query = "message:" + MSG_JSON + " actor:" + ACTOR + " status:" + STATUS_SIGNED;
+  const query =
+    "message:" + MSG_JSON + " actor:" + ACTOR + " status:" + STATUS_SIGNED;
   const queryOptions: Audit.SearchParamsOptions = {
     limit: 1,
   };
@@ -339,7 +348,8 @@ it("log JSON event, vault sign and verify", async () => {
     }
   }
 
-  const query = "message:" + MSG_JSON + " actor:" + ACTOR + " status:" + STATUS_SIGNED;
+  const query =
+    "message:" + MSG_JSON + " actor:" + ACTOR + " status:" + STATUS_SIGNED;
   const queryOptions: Audit.SearchParamsOptions = {
     limit: 1,
   };
@@ -469,7 +479,11 @@ it("custom schema log an audit event in JSON format", async () => {
     max_results: maxResults,
   };
 
-  const respSearch = await auditCustomSchema.search(query, queryOptions, searchOptions);
+  const respSearch = await auditCustomSchema.search(
+    query,
+    queryOptions,
+    searchOptions
+  );
   expect(respSearch.result.count).toBe(maxResults);
 
   respSearch.result.events.forEach((record) => {
@@ -556,7 +570,11 @@ it("custom schema log an audit event in JSON format, local sign and verify", asy
     max_results: maxResults,
   };
 
-  const respSearch = await auditCustomSchema.search(query, queryOptions, searchOptions);
+  const respSearch = await auditCustomSchema.search(
+    query,
+    queryOptions,
+    searchOptions
+  );
   expect(respSearch.result.count).toBe(maxResults);
 
   respSearch.result.events.forEach((record) => {
@@ -803,7 +821,10 @@ it("fail if empty message", async () => {
 });
 
 it("fail bad auth token", async () => {
-  const badaudit = new AuditService("pts_o45qb7xukiwob7sogf_notvalidtoken", config);
+  const badaudit = new AuditService(
+    "pts_o45qb7xukiwob7sogf_notvalidtoken",
+    config
+  );
 
   const event: Audit.Event = {
     message: "mymessage",
@@ -872,7 +893,10 @@ it("log multi config 2. no verbose", async () => {
 });
 
 it("log multi config token, without config id", async () => {
-  const config = new PangeaConfig({ domain: domain, customUserAgent: "sdk-test" });
+  const config = new PangeaConfig({
+    domain: domain,
+    customUserAgent: "sdk-test",
+  });
   const audit = new AuditService(tokenMultiConfig, config);
 
   const event: Audit.Event = {

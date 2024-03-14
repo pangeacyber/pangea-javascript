@@ -47,7 +47,9 @@ export default class Session extends BaseService {
    * });
    * ```
    */
-  list(request: AuthN.Session.ListRequest = {}): Promise<PangeaResponse<AuthN.Session.ListResult>> {
+  list(
+    request: AuthN.Session.ListRequest = {}
+  ): Promise<PangeaResponse<AuthN.Session.ListResult>> {
     return this.post("v2/session/list", request);
   }
 

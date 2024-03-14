@@ -26,7 +26,11 @@ export default class ClientPassword extends BaseService {
    * );
    * ```
    */
-  change(token: string, oldPassword: string, newPassword: string): Promise<PangeaResponse<{}>> {
+  change(
+    token: string,
+    oldPassword: string,
+    newPassword: string
+  ): Promise<PangeaResponse<{}>> {
     const data: AuthN.Client.Password.UpdateRequest = {
       token: token,
       old_password: oldPassword,

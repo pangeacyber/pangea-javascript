@@ -126,9 +126,7 @@ const VerificationModal: FC<VerificationModalProps> = ({
   };
 
   const verificationCmd = () => {
-    return `echo $'${verificationArtifacts(
-      true
-    )}' | python -m pangea.verify_audit`;
+    return `echo $'${verificationArtifacts(true)}' | python -m pangea.verify_audit`;
   };
 
   return (
@@ -148,12 +146,10 @@ const VerificationModal: FC<VerificationModalProps> = ({
             (record?.valid_signature === undefined || !!record?.valid_signature)
               ? "success"
               : isPendingVerification
-              ? "secondary.main"
-              : "error"
+                ? "secondary.main"
+                : "error"
           }
-          data-testid={`Pangea-VerificationLock-${
-            isMembershipValid ? "Verified" : "Unverified"
-          }`}
+          data-testid={`Pangea-VerificationLock-${isMembershipValid ? "Verified" : "Unverified"}`}
         />
       </IconButton>
       <PopoutCard

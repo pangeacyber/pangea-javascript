@@ -12,9 +12,7 @@
   "author": "Pangea (https://pangea.cloud)",
   "license": "MIT",
   "scripts": {
-    "build": "rm -rf dist && rollup -c",
-    "lint": "npx prettier --check .",
-    "prettier:fix": "npx prettier . -w"
+    "build": "rm -rf dist && rollup -c"
   },
   "dependencies": {
     "lodash": "^4.17.21"

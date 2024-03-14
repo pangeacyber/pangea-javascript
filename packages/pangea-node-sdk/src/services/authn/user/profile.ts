@@ -57,7 +57,9 @@ export default class UserProfile extends BaseService {
    * ```
    */
   update(
-    data: AuthN.User.Profile.Update.EmailRequest | AuthN.User.Profile.Update.IDRequest
+    data:
+      | AuthN.User.Profile.Update.EmailRequest
+      | AuthN.User.Profile.Update.IDRequest
   ): Promise<PangeaResponse<AuthN.User.Profile.UpdateResult>> {
     return this.post("v2/user/profile/update", data);
   }

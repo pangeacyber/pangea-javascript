@@ -18,7 +18,12 @@ class BaseService {
   Optional:
     - config: a PangeaConfig object, uses defaults if non passed
   */
-  constructor(serviceName: string, token: string, config: PangeaConfig, configID?: string) {
+  constructor(
+    serviceName: string,
+    token: string,
+    config: PangeaConfig,
+    configID?: string
+  ) {
     if (!serviceName) throw new Error("A serviceName is required");
     if (!token) throw new Error("A token is required");
 
@@ -63,7 +68,12 @@ class BaseService {
       return this.request_;
     }
 
-    this.request_ = new PangeaRequest(this.serviceName, this.token, this.config, this.configID);
+    this.request_ = new PangeaRequest(
+      this.serviceName,
+      this.token,
+      this.config,
+      this.configID
+    );
     return this.request_;
   }
 }

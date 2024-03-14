@@ -1,13 +1,20 @@
 import PangeaConfig from "../../src/config.js";
 import { it, expect, jest } from "@jest/globals";
-import { TestEnvironment, getTestDomain, getTestToken } from "../../src/utils/utils.js";
+import {
+  TestEnvironment,
+  getTestDomain,
+  getTestToken,
+} from "../../src/utils/utils.js";
 import { IPIntelService } from "../../src/index.js";
 import { loadTestEnvironment } from "./utils.js";
 
 const environment = loadTestEnvironment("ip-intel", TestEnvironment.LIVE);
 const token = getTestToken(environment);
 const testHost = getTestDomain(environment);
-const config = new PangeaConfig({ domain: testHost, customUserAgent: "sdk-test" });
+const config = new PangeaConfig({
+  domain: testHost,
+  customUserAgent: "sdk-test",
+});
 const ipIntel = new IPIntelService(token, config);
 jest.setTimeout(60000);
 
@@ -29,7 +36,10 @@ it("IP geolocate with default provider should succeed", async () => {
 });
 
 it("IP geolocate bulk provider should succeed", async () => {
-  const response = await ipIntel.geolocateBulk(["93.231.182.110", "24.235.114.61"]);
+  const response = await ipIntel.geolocateBulk([
+    "93.231.182.110",
+    "24.235.114.61",
+  ]);
   expect(response.status).toBe("Success");
   expect(response.result.data).toBeDefined();
   expect(Object.keys(response.result.data).length).toBe(2);
@@ -54,7 +64,10 @@ it("IP get domain with default provider should succeed", async () => {
 });
 
 it("IP get domain bulk provider should succeed", async () => {
-  const response = await ipIntel.getDomainBulk(["93.231.182.110", "24.235.114.61"]);
+  const response = await ipIntel.getDomainBulk([
+    "93.231.182.110",
+    "24.235.114.61",
+  ]);
   expect(response.status).toBe("Success");
   expect(response.result.data).toBeDefined();
   expect(Object.keys(response.result.data).length).toBe(2);
@@ -115,7 +128,10 @@ it("IP is proxy with default provider should succeed", async () => {
 });
 
 it("IP is proxy bulk should succeed", async () => {
-  const response = await ipIntel.isProxyBulk(["132.76.150.141", "24.235.114.61"]);
+  const response = await ipIntel.isProxyBulk([
+    "132.76.150.141",
+    "24.235.114.61",
+  ]);
   expect(response.status).toBe("Success");
   expect(response.result.data).toBeDefined();
   expect(Object.keys(response.result.data).length).toBe(2);

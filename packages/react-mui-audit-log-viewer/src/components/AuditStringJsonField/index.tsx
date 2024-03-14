@@ -51,8 +51,8 @@ export const StringField: FC<StringFieldProps> = ({
                       change.added
                         ? "Pangea-Highlight Pangea-HighlightNew"
                         : change.removed
-                        ? "Pangea-Highlight Pangea-HighlightRemoved"
-                        : ""
+                          ? "Pangea-Highlight Pangea-HighlightRemoved"
+                          : ""
                     }
                   >
                     {change.value}

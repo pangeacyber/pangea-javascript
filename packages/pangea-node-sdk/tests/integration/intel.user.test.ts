@@ -14,12 +14,20 @@ import { loadTestEnvironment } from "./utils.js";
 const environment = loadTestEnvironment("user-intel", TestEnvironment.LIVE);
 const token = getTestToken(environment);
 const testHost = getTestDomain(environment);
-const config = new PangeaConfig({ domain: testHost, customUserAgent: "sdk-test" });
+const config = new PangeaConfig({
+  domain: testHost,
+  customUserAgent: "sdk-test",
+});
 const userIntel = new UserIntelService(token, config);
 
 jest.setTimeout(60000);
 it("User breached by phone should succeed", async () => {
-  const request = { phone_number: "8005550123", provider: "spycloud", verbose: true, raw: true };
+  const request = {
+    phone_number: "8005550123",
+    provider: "spycloud",
+    verbose: true,
+    raw: true,
+  };
   const response = await userIntel.userBreached(request);
 
   expect(response.status).toBe("Success");
@@ -101,7 +109,12 @@ it("User breached bulk by username should succeed", async () => {
 });
 
 it("User breached by ip should succeed", async () => {
-  const request = { ip: "192.168.140.37", provider: "spycloud", verbose: true, raw: true };
+  const request = {
+    ip: "192.168.140.37",
+    provider: "spycloud",
+    verbose: true,
+    raw: true,
+  };
   const response = await userIntel.userBreached(request);
 
   expect(response.status).toBe("Success");
@@ -136,7 +149,11 @@ it("User breached with default provider should succeed", async () => {
 
 it("User password breached should succeed", async () => {
   const options = { provider: "spycloud", verbose: true, raw: true };
-  const response = await userIntel.passwordBreached(Intel.HashType.SHA256, "5baa6", options);
+  const response = await userIntel.passwordBreached(
+    Intel.HashType.SHA256,
+    "5baa6",
+    options
+  );
 
   expect(response.status).toBe("Success");
   expect(response.result.data).toBeDefined();
@@ -159,7 +176,11 @@ it("User password breached bulk should succeed", async () => {
 
 it("User password breached with default provider should succeed", async () => {
   const options = { verbose: true, raw: true };
-  const response = await userIntel.passwordBreached(Intel.HashType.SHA256, "5baa6", options);
+  const response = await userIntel.passwordBreached(
+    Intel.HashType.SHA256,
+    "5baa6",
+    options
+  );
 
   expect(response.status).toBe("Success");
   expect(response.result.data).toBeDefined();
@@ -173,7 +194,11 @@ it("User password breached complete workflow", async () => {
   const hashPrefix = getHashPrefix(hash);
 
   const options = { verbose: true, raw: true };
-  const response = await userIntel.passwordBreached(Intel.HashType.SHA256, hashPrefix, options);
+  const response = await userIntel.passwordBreached(
+    Intel.HashType.SHA256,
+    hashPrefix,
+    options
+  );
 
   expect(response.status).toBe("Success");
   expect(response.result.data).toBeDefined();

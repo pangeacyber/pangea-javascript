@@ -194,7 +194,7 @@ export interface BaseFormFieldSchema<T = FormObject> {
 
 export interface GenericFormFieldSchema<
   T = FormObject,
-  FieldSchema = BaseFormFieldSchema
+  FieldSchema = BaseFormFieldSchema,
 > extends BaseFormFieldSchema<T> {
   type?: "field";
 
