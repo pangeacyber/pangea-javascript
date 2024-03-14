@@ -9,10 +9,11 @@ import {
 import { ShareService, PangeaErrors } from "../../src/index.js";
 import { Share, TransferMethod } from "../../src/types.js";
 import { FileUploader } from "../../src/file_uploader.js";
+import { loadTestEnvironment } from "./utils.js";
 
-const testEnvironment = TestEnvironment.DEVELOP;
-const token = getTestToken(testEnvironment);
-const testHost = getTestDomain(testEnvironment);
+const environment = loadTestEnvironment("redact", TestEnvironment.LIVE);
+const token = getTestToken(environment);
+const testHost = getTestDomain(environment);
 const config = new PangeaConfig({
   domain: testHost,
   customUserAgent: "sdk-test",
