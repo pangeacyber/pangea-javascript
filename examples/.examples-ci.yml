@@ -14,7 +14,7 @@ examples-tests:
           - "intel"
           - "redact"
           - "vault"
-          # - "share"   # FIXME: Uncomment once SDK is released
+          - "share"
   rules:
     - changes:
         - examples/**/*
