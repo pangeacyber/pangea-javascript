@@ -12,7 +12,7 @@ import * as fs from "fs";
 const token = process.env.PANGEA_SHARE_TOKEN;
 const config = new PangeaConfig({ domain: process.env.PANGEA_DOMAIN });
 
-// Create Store client
+// Create Share client
 const client = new ShareService(token, config);
 
 // Create unique folder path

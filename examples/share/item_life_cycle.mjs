@@ -4,7 +4,7 @@ import {
   PangeaConfig,
   ShareService,
   TransferMethod,
-  Store,
+  Share,
 } from "pangea-node-sdk";
 import * as fs from "fs";
 
@@ -12,7 +12,7 @@ import * as fs from "fs";
 const token = process.env.PANGEA_SHARE_TOKEN;
 const config = new PangeaConfig({ domain: process.env.PANGEA_DOMAIN });
 
-// Create Store client
+// Create Share client
 const client = new ShareService(token, config);
 
 // Create unique folder path
@@ -109,7 +109,7 @@ const filepath = "./testfile.pdf";
     // Get archive
     const respGetArchive1 = await client.getArchive({
       ids: [folderID],
-      format: Store.ArchiveFormat.ZIP,
+      format: Share.ArchiveFormat.ZIP,
       transfer_method: TransferMethod.MULTIPART,
     });
 
@@ -127,7 +127,7 @@ const filepath = "./testfile.pdf";
     console.log("\nGetting archive with dest-url transfer method...");
     const respGetArchive2 = await client.getArchive({
       ids: [folderID],
-      format: Store.ArchiveFormat.TAR,
+      format: Share.ArchiveFormat.TAR,
       transfer_method: TransferMethod.DEST_URL,
     });
 
@@ -147,7 +147,7 @@ const filepath = "./testfile.pdf";
     // Create authenticators list to access share link
     const authenticators = [
       {
-        auth_type: Store.AuthenticatorType.PASSWORD,
+        auth_type: Share.AuthenticatorType.PASSWORD,
         auth_context: "somepassword",
       },
     ];
@@ -156,7 +156,7 @@ const filepath = "./testfile.pdf";
     const linkList = [
       {
         targets: [folderID],
-        link_type: Store.LinkType.EDITOR,
+        link_type: Share.LinkType.EDITOR,
         max_access_count: 3,
         authenticators: authenticators,
       },
