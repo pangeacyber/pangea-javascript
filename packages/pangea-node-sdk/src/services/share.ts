@@ -4,6 +4,7 @@ import PangeaConfig from "@src/config.js";
 import { Share, FileData, TransferMethod, FileUploadParams } from "@src/types.js";
 import { PangeaErrors } from "@src/errors.js";
 import { getFileUploadParams } from "@src/index.js";
+import { getFileSize } from "@src/utils/utils.js";
 
 /**
  * ShareService class provides methods for interacting with the Share Service
@@ -145,6 +146,8 @@ class ShareService extends BaseService {
       request.crc32c = fsData.crc32c;
       request.sha256 = fsData.sha256;
       request.size = fsData.size;
+    } else if (getFileSize(fileData.file) == 0) {
+      request.size = 0;
     }
 
     return this.post("v1beta/put", request, {

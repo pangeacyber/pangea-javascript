@@ -175,6 +175,10 @@ class PangeaRequest {
     fileData: FileData
   ): Promise<Response> {
     const response = await this.requestPresignedURL(endpoint, data);
+    if (response.success && response.gotResponse) {
+      return response.gotResponse;
+    }
+
     if (!response.gotResponse || !response.accepted_result?.post_url) {
       throw new PangeaErrors.PangeaError("Failed to request post presigned URL");
     }
@@ -259,10 +263,9 @@ class PangeaRequest {
     }
 
     try {
-      await this.post(endpoint, data, {
+      return await this.post(endpoint, data, {
         pollResultSync: false,
       });
-      throw new PangeaErrors.PangeaError("This call should return 202");
     } catch (error) {
       if (!(error instanceof PangeaErrors.AcceptedRequestException)) {
         throw error;

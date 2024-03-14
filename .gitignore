@@ -6,3 +6,4 @@ node_modules
 *.exe
 pangea-node-sdk-*.tgz
 *.gz
+packages/pangea-node-sdk/download/

@@ -6,7 +6,7 @@ import {
   getTestDomain,
   getTestToken,
 } from "../../src/utils/utils.js";
-import { ShareService } from "../../src/index.js";
+import { ShareService, PangeaErrors } from "../../src/index.js";
 import { Share, TransferMethod } from "../../src/types.js";
 import { FileUploader } from "../../src/file_uploader.js";
 
@@ -24,7 +24,8 @@ const ADD_METADATA = { field3: "value3" };
 const TAGS = ["tag1", "tag2"];
 const ADD_TAGS = ["tag3"];
 
-const testfilePath = "./tests/testdata/testfile.pdf";
+const testFilePath = "./tests/testdata/testfile.pdf";
+const zeroBytesFilePath = "./tests/testdata/zerobytes.txt";
 jest.setTimeout(60000);
 
 const delay = async (ms: number) =>
@@ -51,7 +52,7 @@ it("Folder create/delete", async () => {
     expect(respDelete.success).toBeTruthy();
     expect(respDelete.result.count).toBe(1);
   } catch (e) {
-    console.log(e);
+    e instanceof PangeaErrors.APIError ? console.log(e.toString()) : console.log(e);
     expect(false).toBeTruthy();
   }
 });
@@ -65,14 +66,74 @@ it("Put file. Multipart transfer_method", async () => {
         transfer_method: TransferMethod.MULTIPART,
       },
       {
-        file: testfilePath,
+        file: testFilePath,
         name: name,
       }
     );
     expect(respPut.success).toBeTruthy();
+
+    let respGet = await client.getItem({
+      id: respPut.result.object.id,
+      transfer_method: TransferMethod.MULTIPART,
+    });
+
+    expect(respGet.success).toBeTruthy();
+    expect(respGet.result.dest_url).toBeUndefined();
+    expect(respGet.attachedFiles.length).toBe(1);
+    expect(respGet.attachedFiles[0]).toBeDefined();
+    respGet.attachedFiles[0]?.save("./download/");
+
+    respGet = await client.getItem({
+      id: respPut.result.object.id,
+      transfer_method: TransferMethod.DEST_URL,
+    });
+
+    expect(respGet.success).toBeTruthy();
+    expect(respGet.attachedFiles.length).toBe(0);
+    expect(respGet.result.dest_url).toBeDefined();
   } catch (e) {
-    console.log(e);
+    e instanceof PangeaErrors.APIError ? console.log(e.toString()) : console.log(e);
     expect(false).toBeTruthy();
+  }
+});
+
+it("Put zero bytes file. Multipart transfer_method", async () => {
+  try {
+    const name = TIME + "_file_zero_bytes_multipart";
+    const respPut = await client.put(
+      {
+        name: name,
+        transfer_method: TransferMethod.MULTIPART,
+      },
+      {
+        file: zeroBytesFilePath,
+        name: name,
+      }
+    );
+    expect(respPut.success).toBeTruthy();
+
+    let respGet = await client.getItem({
+      id: respPut.result.object.id,
+      transfer_method: TransferMethod.MULTIPART,
+    });
+
+    expect(respGet.success).toBeTruthy();
+    expect(respGet.result.dest_url).toBeUndefined();
+    expect(respGet.attachedFiles.length).toBe(1);
+    expect(respGet.attachedFiles[0]).toBeDefined();
+    respGet.attachedFiles[0]?.save("./download/");
+
+    respGet = await client.getItem({
+      id: respPut.result.object.id,
+      transfer_method: TransferMethod.DEST_URL,
+    });
+
+    expect(respGet.success).toBeTruthy();
+    expect(respGet.attachedFiles.length).toBe(0);
+    expect(respGet.result.dest_url).toBeUndefined();
+  } catch (e) {
+    e instanceof PangeaErrors.APIError ? console.log(e.toString()) : console.log(e);
+    throw e;
   }
 });
 
@@ -85,14 +146,54 @@ it("Put file. post-url transfer_method", async () => {
         transfer_method: TransferMethod.POST_URL,
       },
       {
-        file: testfilePath,
+        file: testFilePath,
+        name: name,
+      }
+    );
+    expect(respPut.success).toBeTruthy();
+
+    let respGet = await client.getItem({
+      id: respPut.result.object.id,
+      transfer_method: TransferMethod.MULTIPART,
+    });
+
+    expect(respGet.success).toBeTruthy();
+    expect(respGet.result.dest_url).toBeUndefined();
+    expect(respGet.attachedFiles.length).toBe(1);
+    expect(respGet.attachedFiles[0]).toBeDefined();
+    respGet.attachedFiles[0]?.save("./download/");
+
+    respGet = await client.getItem({
+      id: respPut.result.object.id,
+      transfer_method: TransferMethod.DEST_URL,
+    });
+
+    expect(respGet.success).toBeTruthy();
+    expect(respGet.attachedFiles.length).toBe(0);
+    expect(respGet.result.dest_url).toBeDefined();
+  } catch (e) {
+    e instanceof PangeaErrors.APIError ? console.log(e.toString()) : console.log(e);
+    throw e;
+  }
+});
+
+it("Put zero bytes file. post-url transfer_method", async () => {
+  try {
+    const name = TIME + "_file_zero_bytes_post_url";
+    const respPut = await client.put(
+      {
+        name: name,
+        transfer_method: TransferMethod.POST_URL,
+      },
+      {
+        file: zeroBytesFilePath,
         name: name,
       }
     );
     expect(respPut.success).toBeTruthy();
   } catch (e) {
-    console.log(e);
-    expect(false).toBeTruthy();
+    e instanceof PangeaErrors.APIError ? console.log(e.toString()) : console.log(e);
+    throw e;
   }
 });
 
@@ -106,7 +207,7 @@ it("get url and put upload", async () => {
     };
     response = await client.requestUploadURL(request);
   } catch (e) {
-    console.log(e);
+    e instanceof PangeaErrors.APIError ? console.log(e.toString()) : console.log(e);
     throw e;
   }
 
@@ -116,7 +217,7 @@ it("get url and put upload", async () => {
   await uploader.uploadFile(
     url,
     {
-      file: testfilePath,
+      file: testFilePath,
       name: name,
     },
     {
@@ -143,7 +244,7 @@ it("get url and post upload", async () => {
   let response;
   const name = TIME + "_file_split_post_url";
   try {
-    const params = getFileUploadParams(testfilePath);
+    const params = getFileUploadParams(testFilePath);
 
     const request: Share.PutRequest = {
       transfer_method: TransferMethod.POST_URL,
@@ -155,7 +256,7 @@ it("get url and post upload", async () => {
 
     response = await client.requestUploadURL(request);
   } catch (e) {
-    console.log(e);
+    e instanceof PangeaErrors.APIError ? console.log(e.toString()) : console.log(e);
     throw e;
   }
 
@@ -166,7 +267,7 @@ it("get url and post upload", async () => {
   await uploader.uploadFile(
     url,
     {
-      file: testfilePath,
+      file: testFilePath,
       name: name,
       file_details: file_details,
     },
@@ -206,7 +307,7 @@ it("Item life cycle", async () => {
       transfer_method: TransferMethod.MULTIPART,
     },
     {
-      file: testfilePath,
+      file: testFilePath,
       name: path1,
     }
   );
@@ -230,7 +331,7 @@ it("Item life cycle", async () => {
       tags: TAGS,
     },
     {
-      file: testfilePath,
+      file: testFilePath,
       name: path1,
     }
   );
@@ -279,7 +380,7 @@ it("Item life cycle", async () => {
   expect(respGetArchive1.result.dest_url).toBeUndefined();
   expect(respGetArchive1.attachedFiles.length).toBe(1);
   respGetArchive1.attachedFiles.forEach((file) => {
-    file.save("./");
+    file.save("./download/");
   });
 
   const respGetArchive2 = await client.getArchive({
@@ -294,7 +395,7 @@ it("Item life cycle", async () => {
   // Download file
   const url = respGetArchive2.result.dest_url ?? "";
   let downloadedFile = await client.downloadFile(url);
-  downloadedFile.save("./");
+  downloadedFile.save("./download/");
   expect(downloadedFile.file.length).toBeGreaterThan(0);
 
   // Create share link
