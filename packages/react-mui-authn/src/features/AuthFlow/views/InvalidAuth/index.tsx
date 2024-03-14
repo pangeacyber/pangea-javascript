@@ -18,6 +18,10 @@ const getProviderName = (provider: string) => {
       return "Microsoft";
     case "facebook":
       return "Facebook";
+    case "gitlab":
+      return "GitLab";
+    case "linkedin":
+      return "LinkedIn";
     case "password":
       return "a password";
     default:
