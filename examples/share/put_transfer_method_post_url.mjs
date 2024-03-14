@@ -7,7 +7,7 @@ import * as fs from "fs";
 const token = process.env.PANGEA_SHARE_TOKEN;
 const config = new PangeaConfig({ domain: process.env.PANGEA_DOMAIN });
 
-// Create Store client
+// Create Share client
 const client = new ShareService(token, config);
 
 // Create unique folder path
@@ -24,7 +24,7 @@ const filepath = "./testfile.pdf";
     const data = fs.readFileSync(filepath);
 
     // Send Put request setting transfer_method to post-url
-    // SDK will request an upload url, post the file to that url and then poll the upload result to Store service
+    // SDK will request an upload url, post the file to that url and then poll the upload result to Share service
     const respPut = await client.put(
       {
         name: name,
