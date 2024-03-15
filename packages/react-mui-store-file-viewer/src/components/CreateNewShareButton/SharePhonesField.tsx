@@ -1,13 +1,4 @@
-import {
-  IconButton,
-  Stack,
-  TextField,
-  ToggleButton,
-  ToggleButtonGroup,
-  Typography,
-  Tooltip,
-  Chip,
-} from "@mui/material";
+import { IconButton, Stack, TextField, Typography, Chip } from "@mui/material";
 import uniqBy from "lodash/uniqBy";
 import {
   FieldComponentProps,
@@ -20,7 +11,7 @@ import * as yup from "yup";
 import AddIcon from "@mui/icons-material/Add";
 
 const PHONE_REGEXP =
-  /^((\\+[1-9]{1,4}[ \\-]*)|(\\([0-9]{2,3}\\)[ \\-]*)|(1|[0-9]{2,4})[ \\-]*)*?[0-9]{3,4}?[ \\-]*[0-9]{3,4}?$/;
+  /^((\+[1-9]{1,4}[ \-]*)|(\([0-9]{2,3}\)[ \-]*)|(1|[0-9]{2,4})[ \-]*)*?[0-9]{3,4}?[ \-]*[0-9]{3,4}?$/;
 
 export interface PhoneValue {
   phone_number: string;
@@ -65,7 +56,8 @@ const UnControlledSharePhonesField: FC<FieldComponentProps> = ({
   const handleAddNewValue = () => {
     if (!newValue || !!newValueError) return;
 
-    const newValue_ = !newValue.startsWith("+1") ? `+1${newValue}` : newValue;
+    // strip leading +1, remove non-digits, add +1
+    const newValue_ = `+1${newValue.replace(/^\+1/, "").replace(/\D/g, "")}`;
 
     let value_ = [...value];
     value_.push({
