@@ -2175,42 +2175,112 @@ export namespace Share {
   export type Tags = string[];
 
   export interface ItemData {
-    id: string;
-    type: string;
-    name: string;
-    created_at: string;
-    updated_at: string;
-    parent_id: string;
-    size?: number;
+    /**
+     * The number of billable bytes (includes Metadata, Tags, etc.) for the
+     * object.
+     */
     billable_size?: number;
-    location?: string;
-    tags?: Tags;
-    metadata?: Metadata;
+
+    /** The date and time the object was created. */
+    created_at: string;
+
+    /** The ID of a stored object. */
+    id: string;
+
+    /** The MD5 hash of the file contents. */
     md5?: string;
+
+    /**
+     * A set of string-based key/value pairs used to provide additional data
+     * about an object.
+     */
+    metadata?: Metadata;
+    name: string;
+    parent_id: string;
+
+    /** The SHA256 hash of the file contents. */
     sha256?: string;
+
+    /** The SHA512 hash of the file contents. */
     sha512?: string;
+
+    /** The size of the object in bytes. */
+    size?: number;
+
+    /** A list of user-defined tags. */
+    tags?: Tags;
+
+    /** The type of the item (file or dir). */
+    type: string;
+
+    /** The date and time the object was last updated. */
+    updated_at: string;
   }
 
   export interface DeleteRequest {
+    /**
+     * The ID of the object to delete.
+     */
     id?: string;
+
+    /**
+     * If true, delete a folder even if it's not empty. Deletes the contents of
+     * folder as well.
+     */
     force?: boolean;
+
+    /**
+     * The path of the object to delete.
+     */
     path?: string;
   }
 
   export interface Authenticator {
+    /**
+     * An authentication mechanism.
+     */
     auth_type: AuthenticatorType;
+
+    /**
+     * An email address.
+     */
     auth_context: string;
   }
 
   export interface DeleteResult {
+    /**
+     * Number of objects deleted.
+     */
     count: number;
   }
 
   export interface FolderCreateRequest {
+    /**
+     * The name of an object.
+     */
     name?: string;
+
+    /**
+     * A set of string-based key/value pairs used to provide additional data
+     * about an object.
+     */
     metadata?: Metadata;
+
+    /**
+     * The ID of a stored object.
+     */
     parent_id?: string;
+
+    /**
+     * A case-sensitive path to an object. Contains a sequence of path segments
+     * delimited by the the `/` character. Any path ending in a `/` character
+     * refers to a folder.
+     */
     path?: string;
+
+    /**
+     * A list of user-defined tags.
+     */
     tags?: Tags;
   }
 
@@ -2219,30 +2289,97 @@ export namespace Share {
   }
 
   export interface GetRequest {
+    /** The ID of the object to retrieve. */
     id?: string;
+
+    /** The path of the object to retrieve. */
     path?: string;
+
+    /** The requested transfer method for the file data. */
     transfer_method?: TransferMethod;
   }
 
   export interface GetResult {
     object: ItemData;
+
+    /** A URL where the file can be downloaded from. */
     dest_url?: string;
   }
 
   export interface PutRequest {
-    name?: string;
-    format?: FileFormat;
-    metadata?: Metadata;
-    mimetype?: string;
-    parent_id?: string;
-    path?: string;
+    /**
+     * The hexadecimal-encoded CRC32C hash of the file data, which will be
+     * verified by the server if provided.
+     */
     crc32c?: string;
+
+    /**
+     * The format of the file, which will be verified by the server if provided.
+     * Uploads not matching the supplied format will be rejected.
+     */
+    format?: FileFormat;
+
+    /**
+     * The hexadecimal-encoded MD5 hash of the file data, which will be verified
+     * by the server if provided.
+     */
     md5?: string;
+
+    /**
+     * A set of string-based key/value pairs used to provide additional data
+     * about an object.
+     */
+    metadata?: Metadata;
+
+    /**
+     * The MIME type of the file, which will be verified by the server if
+     * provided. Uploads not matching the supplied MIME type will be rejected.
+     */
+    mimetype?: string;
+
+    /** The name of the object to store. */
+    name?: string;
+
+    /**
+     * The parent ID of the object (a folder). Leave blank to keep in the root
+     * folder.
+     */
+    parent_id?: string;
+
+    /**
+     * An optional path where the file should be placed. It will auto-create
+     * directories if necessary.
+     */
+    path?: string;
+
+    /**
+     * The hexadecimal-encoded SHA1 hash of the file data, which will be
+     * verified by the server if provided.
+     */
     sha1?: string;
+
+    /**
+     * The SHA256 hash of the file data, which will be verified by the server
+     * if provided.
+     */
     sha256?: string;
+
+    /**
+     * The hexadecimal-encoded SHA512 hash of the file data, which will be
+     * verified by the server if provided.
+     */
     sha512?: string;
+
+    /**
+     * The size (in bytes) of the file. If the upload doesn't match, the call
+     * will fail.
+     */
     size?: number;
+
+    /** A list of user-defined tags */
     tags?: Tags;
+
+    /** The transfer method used to upload the file data. */
     transfer_method?: TransferMethod;
   }
 
@@ -2251,15 +2388,51 @@ export namespace Share {
   }
 
   export interface UpdateRequest {
-    id: string;
-    path?: string;
+    /**
+     * A list of metadata key/values to set in the object. If a provided key
+     * exists, the value will be replaced.
+     */
     add_metadata?: Metadata;
-    remove_metadata?: Metadata;
-    metadata?: Metadata;
+
+    /**
+     * A list of tags to add. It is not an error to provide a tag which already
+     * exists.
+     */
     add_tags?: Tags;
-    remove_tags?: Tags;
-    tags?: Tags;
+
+    /** An identifier for the file to update. */
+    id: string;
+
+    /** Set the object's metadata. */
+    metadata?: Metadata;
+
+    /** Set the parent (folder) of the object. */
     parent_id?: string;
+
+    /** An alternative to ID for identifying the target file. */
+    path?: string;
+
+    /**
+     * A list of metadata key/values to remove in the object. It is not an
+     * error for a provided key to not exist. If a provided key exists but
+     * doesn't match the provided value, it will not be removed.
+     */
+    remove_metadata?: Metadata;
+
+    /**
+     * A list of tags to remove. It is not an error to provide a tag which is
+     * not present.
+     */
+    remove_tags?: Tags;
+
+    /** Set the object's tags. */
+    tags?: Tags;
+
+    /**
+     * The date and time the object was last updated. If included, the update
+     * will fail if this doesn't match the date and time of the last update for
+     * the object.
+     */
     updated_at?: string;
   }
 
@@ -2268,6 +2441,10 @@ export namespace Share {
   }
 
   export interface ListFilter {
+    /**
+     * Only records where the object exists in the supplied parent folder path
+     * name.
+     */
     folder?: string;
     folder__contains?: string[];
     folder__in?: string[];
@@ -2275,43 +2452,94 @@ export namespace Share {
 
   export interface ListRequest {
     filter?: ListFilter;
+
+    /**
+     * Reflected value from a previous response to obtain the next page of
+     * results.
+     */
     last?: string;
+
+    /** Order results asc(ending) or desc(ending). */
     order?: ItemOrder;
+
+    /** Which field to order results by. */
     order_by?: ItemOrderBy;
+
+    /** Maximum results to include in the response. */
     size?: number;
   }
 
   export interface ListResult {
+    /** The total number of objects matched by the list request. */
     count: number;
+
+    /**
+     * Used to fetch the next page of the current listing when provided in a
+     * repeated request's last parameter.
+     */
     last?: string;
     objects: ItemData[];
   }
 
   export interface GetArchiveRequest {
+    /**
+     * The IDs of the objects to include in the archive. Folders include all
+     * children.
+     */
     ids: string[];
+
+    /** The format to use to build the archive. */
     format?: ArchiveFormat;
+
+    /** The requested transfer method for the file data. */
     transfer_method?: TransferMethod;
   }
 
   export interface GetArchiveResult {
+    /** A location where the archive can be downloaded from. */
     dest_url?: string;
+
+    /** Number of objects included in the archive. */
     count: number;
   }
 
   export interface Authenticator {
+    /** An authentication mechanism. */
     auth_type: AuthenticatorType;
+
+    /** An email address. */
     auth_context: string;
   }
 
   export interface ShareLinkCreateItem {
+    /** List of storage IDs. */
     targets: string[];
+
+    /** Type of link. */
     link_type?: LinkType;
+
+    /** The date and time the share link expires. */
     expires_at?: string;
+
+    /**
+     * The maximum number of times a user can be authenticated to access the
+     * share link.
+     */
     max_access_count?: number;
+
+    /** A list of authenticators. */
     authenticators: Authenticator[];
+
+    /** An optional message to use in accessing shares. */
     message?: string;
+
+    /** An optional title to use in accessing shares. */
     title?: string;
+
+    /** An email address. */
     notify_email?: string;
+
+    /** A list of user-defined tags. */
     tags?: Tags;
   }
 
@@ -2320,20 +2548,53 @@ export namespace Share {
   }
 
   export interface ShareLinkItem {
+    /** The ID of a share link. */
     id: string;
+
+    /** The ID of a bucket resource. */
     storage_pool_id: string;
+
+    /** List of storage IDs. */
     targets: string[];
+
+    /** Type of link. */
     link_type: string;
+
+    /**
+     * The number of times a user has authenticated to access the share link.
+     */
     access_count: number;
+
+    /**
+     * The maximum number of times a user can be authenticated to access the
+     * share link.
+     */
     max_access_count: number;
+
+    /** The date and time the share link was created. */
     created_at: string;
+    /** The date and time the share link expires. */
     expires_at: string;
+
+    /** The date and time the share link was last accessed. */
     last_accessed_at?: string;
+
+    /** A list of authenticators */
     authenticators: Authenticator[];
+
+    /** A URL to access the file/folders shared with a link. */
     link: string;
+
+    /** An optional message to use in accessing shares. */
     message?: string;
+
+    /** An optional title to use in accessing shares. */
     title?: string;
+
+    /** An email address. */
     notify_email?: string;
+
+    /** A list of user-defined tags. */
     tags?: Tags;
   }
 
@@ -2342,6 +2603,7 @@ export namespace Share {
   }
 
   export interface ShareLinkGetRequest {
+    /** The ID of a share link. */
     id: string;
   }
 
@@ -2350,57 +2612,145 @@ export namespace Share {
   }
 
   export interface ShareLinkListFilter {
+    /** Only records where id equals this value. */
     id?: string;
+
+    /** Only records where id includes each substring. */
     id__contains?: string[];
+
+    /** Only records where id equals one of the provided substrings. */
     id__in?: string[];
+
+    /** Only records where storage_pool_id equals this value. */
     storage_pool_id?: string;
+
+    /** Only records where storage_pool_id includes each substring. */
     storage_pool_id__contains?: string[];
+
+    /** Only records where storage_pool_id equals one of the provided substrings. */
     storage_pool_id__in?: string[];
-    target?: string;
-    target__contains?: string[];
-    target__in?: string[];
+
+    /** Only records where target_id equals this value. */
+    target_id?: string;
+
+    /** Only records where target_id includes each substring. */
+    target_id__contains?: string[];
+
+    /** Only records where target_id equals one of the provided substrings. */
+    target_id__in?: string[];
+
+    /** Only records where link_type equals this value. */
     link_type?: string;
+
+    /** Only records where link_type includes each substring. */
     link_type__contains?: string[];
+
+    /** Only records where link_type equals one of the provided substrings. */
     link_type__in?: string[];
+
+    /** Only records where access_count equals this value. */
     access_count?: number;
+
+    /** Only records where access_count is greater than this value. */
     access_count__gt?: number;
+
+    /** Only records where access_count is greater than or equal to this value. */
     access_count__gte?: number;
+
+    /** Only records where access_count is less than this value. */
     access_count__lt?: number;
+
+    /** Only records where access_count is less than or equal to this value. */
     access_count__lte?: number;
+
+    /** Only records where max_access_count equals this value. */
     max_access_count?: number;
+
+    /** Only records where max_access_count is greater than this value. */
     max_access_count__gt?: number;
+
+    /** Only records where max_access_count is greater than or equal to this value. */
     max_access_count__gte?: number;
+
+    /** Only records where max_access_count is less than this value. */
     max_access_count__lt?: number;
+
+    /** Only records where max_access_count is less than or equal to this value. */
     max_access_count__lte?: number;
+
+    /** Only records where created_at equals this value. */
     created_at?: string;
+
+    /** Only records where created_at is greater than this value. */
     created_at__gt?: string;
+
+    /** Only records where created_at is greater than or equal to this value. */
     created_at__gte?: string;
+
+    /** Only records where created_at is less than this value. */
     created_at__lt?: string;
+
+    /** Only records where created_at is less than or equal to this value. */
     created_at__lte?: string;
+
+    /** Only records where expires_at equals this value. */
     expires_at?: string;
+
+    /** Only records where expires_at is greater than this value. */
     expires_at__gt?: string;
+
+    /** Only records where expires_at is greater than or equal to this value. */
     expires_at__gte?: string;
+
+    /** Only records where expires_at is less than this value. */
     expires_at__lt?: string;
+
+    /** Only records where expires_at is less than or equal to this value. */
     expires_at__lte?: string;
+
+    /** Only records where last_accessed_at equals this value. */
     last_accessed_at?: string;
+
+    /** Only records where last_accessed_at is greater than this value. */
     last_accessed_at__gt?: string;
+
+    /** Only records where last_accessed_at is greater than or equal to this value. */
     last_accessed_at__gte?: string;
+
+    /** Only records where last_accessed_at is less than this value. */
     last_accessed_at__lt?: string;
+
+    /** Only records where last_accessed_at is less than or equal to this value. */
     last_accessed_at__lte?: string;
+
+    /** Only records where link equals this value. */
     link?: string;
+
+    /** Only records where link includes each substring. */
     link__contains?: string[];
+
+    /** Only records where link equals one of the provided substrings. */
     link__in?: string[];
   }
 
   export interface ShareLinkListRequest {
     filter?: ShareLinkListFilter;
+
+    /** Reflected value from a previous response to obtain the next page of results. */
     last?: string;
+
+    /** Order results asc(ending) or desc(ending). */
     order?: ItemOrder;
+
+    /** Which field to order results by. */
     order_by?: ItemOrderBy;
+
+    /** Maximum results to include in the response. */
     size?: number;
   }
 
   export interface ShareLinkListResult {
+    /** The total number of share links matched by the list request. */
     count: number;
     share_link_objects: ShareLinkItem[];
   }
@@ -2414,12 +2764,17 @@ export namespace Share {
   }
 
   export interface ShareLinkSendItem {
+    /** The ID of a share link. */
     id: string;
+
+    /** An email address. */
     email: string;
   }
 
   export interface ShareLinkSendRequest {
     links: ShareLinkSendItem[];
+
+    /** An email address. */
     sender_email: string;
     sender_name?: string;
   }
