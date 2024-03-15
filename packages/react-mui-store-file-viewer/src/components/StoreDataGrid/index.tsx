@@ -180,7 +180,14 @@ const StoreDataGrid: FC<StoreDataGridProps> = ({
 
   const rowCount = data?.count ?? data?.objects?.length ?? 0;
   return (
-    <Stack spacing={1}>
+    <Stack
+      spacing={1}
+      sx={{
+        ".PangeaDataGrid-HeaderStack-root": {
+          padding: "16px 16px 0 16px",
+        },
+      }}
+    >
       <LinedPangeaDataGrid
         columns={columns}
         data={data.objects}
