@@ -278,6 +278,7 @@ export const useStoreFileViewerFolder = () => {
 
   const setFolder = useCallback(
     (folder: string) => {
+      request.setPage(1);
       request.setFilters({ folder });
     },
     [request.setFilters]
@@ -285,6 +286,7 @@ export const useStoreFileViewerFolder = () => {
 
   const setParentId = useCallback(
     (parentId: string) => {
+      request.setPage(1);
       if (!parentId)
         return request.setFilters({
           parent_id: "",
