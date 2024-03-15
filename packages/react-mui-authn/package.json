@@ -51,7 +51,7 @@
     "postcss": "^8.4.35",
     "react": "17",
     "react-dom": "17",
-    "rollup": "^4.12.1",
+    "rollup": "^4.13.0",
     "rollup-plugin-dts": "6.1.0",
     "rollup-plugin-peer-deps-external": "^2.2.4",
     "rollup-plugin-polyfill-node": "^0.13.0",
