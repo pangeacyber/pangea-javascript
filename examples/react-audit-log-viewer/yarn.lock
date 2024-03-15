@@ -2094,10 +2094,10 @@ graceful-fs@^4.1.6, graceful-fs@^4.2.0:
   resolved "https://registry.yarnpkg.com/graceful-fs/-/graceful-fs-4.2.11.tgz#4183e4e8bf08bb6e05bbb2f7d2e0c8f712ca40e3"
   integrity sha512-RbJ5/jmFcNNCcDV5o9eTnBLJ/HszWV0P73bc+Ff4nS/rJj+YaS6IGyiOL0VoBYX+l1Wrl3k63h/KrH+nhJ0XvQ==
 
-happy-dom@13.7.8:
-  version "13.7.8"
-  resolved "https://registry.yarnpkg.com/happy-dom/-/happy-dom-13.7.8.tgz#3e4439b8c0986d9a2609a147b2192455fd6a7404"
-  integrity sha512-dnvgCiPPfXXts+AW1DVAoDa9nPmI48YPHUv34L6pmjv2lwNZte8OwsK9SajEXENfibS8uo1zG7xJwlW/NXlDxQ==
+happy-dom@13.8.2:
+  version "13.8.2"
+  resolved "https://registry.yarnpkg.com/happy-dom/-/happy-dom-13.8.2.tgz#ab6d74cd0f712403d07d3b88dac6baa32659c346"
+  integrity sha512-u9KxyeQNIzkJDR2iCitKeS5Uy0YUv5eOntpO8e7ZzbDVv4kP5Y77Zo2LnZitwMrss/1pY2Uc2e5qOVGkiKE5Gg==
   dependencies:
     entities "^4.5.0"
     webidl-conversions "^7.0.0"
