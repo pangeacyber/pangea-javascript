@@ -6,14 +6,21 @@ import {
   getTestDomain,
   getTestToken,
 } from "../../src/utils/utils.js";
-import { SanitizeService, PangeaErrors, FileUploader } from "../../src/index.js";
+import {
+  SanitizeService,
+  PangeaErrors,
+  FileUploader,
+} from "../../src/index.js";
 import { Sanitize, TransferMethod } from "../../src/types.js";
 import { loadTestEnvironment } from "./utils.js";
 
 const environment = loadTestEnvironment("sanitize", TestEnvironment.LIVE);
 const token = getTestToken(environment);
 const testHost = getTestDomain(environment);
-const config = new PangeaConfig({ domain: testHost, customUserAgent: "sdk-test" });
+const config = new PangeaConfig({
+  domain: testHost,
+  customUserAgent: "sdk-test",
+});
 const client = new SanitizeService(token, config);
 
 const testfilePath = "./tests/testdata/ds11.pdf";
@@ -67,8 +74,12 @@ it("Sanitize and share", async () => {
     }
     expect(response.result.data.defang).toBeDefined();
     if (response.result.data.defang) {
-      expect(response.result.data.defang.external_urls_count).toBeGreaterThan(0);
-      expect(response.result.data.defang.external_domains_count).toBeGreaterThan(0);
+      expect(response.result.data.defang.external_urls_count).toBeGreaterThan(
+        0
+      );
+      expect(
+        response.result.data.defang.external_domains_count
+      ).toBeGreaterThan(0);
       expect(response.result.data.defang.defanged_count).toBe(0);
       expect(response.result.data.defang.domain_intel_summary).toBeDefined();
     }
@@ -79,7 +90,9 @@ it("Sanitize and share", async () => {
     }
     expect(response.result.data.malicious_file).toBeFalsy();
   } catch (e) {
-    e instanceof PangeaErrors.APIError ? console.log(e.toString()) : console.log(e);
+    e instanceof PangeaErrors.APIError
+      ? console.log(e.toString())
+      : console.log(e);
     throw e;
   }
 });
@@ -126,8 +139,12 @@ it("Sanitize no share", async () => {
     }
     expect(response.result.data.defang).toBeDefined();
     if (response.result.data.defang) {
-      expect(response.result.data.defang.external_urls_count).toBeGreaterThan(0);
-      expect(response.result.data.defang.external_domains_count).toBeGreaterThan(0);
+      expect(response.result.data.defang.external_urls_count).toBeGreaterThan(
+        0
+      );
+      expect(
+        response.result.data.defang.external_domains_count
+      ).toBeGreaterThan(0);
       expect(response.result.data.defang.defanged_count).toBe(0);
       expect(response.result.data.defang.domain_intel_summary).toBeDefined();
     }
@@ -143,7 +160,9 @@ it("Sanitize no share", async () => {
       attachedFile.save("./");
     }
   } catch (e) {
-    e instanceof PangeaErrors.APIError ? console.log(e.toString()) : console.log(e);
+    e instanceof PangeaErrors.APIError
+      ? console.log(e.toString())
+      : console.log(e);
     throw e;
   }
 });
@@ -165,8 +184,12 @@ it("Sanitize all defaults", async () => {
     expect(response.result.data.redact).toBeUndefined();
     expect(response.result.data.defang).toBeDefined();
     if (response.result.data.defang) {
-      expect(response.result.data.defang.external_urls_count).toBeGreaterThan(0);
-      expect(response.result.data.defang.external_domains_count).toBeGreaterThan(0);
+      expect(response.result.data.defang.external_urls_count).toBeGreaterThan(
+        0
+      );
+      expect(
+        response.result.data.defang.external_domains_count
+      ).toBeGreaterThan(0);
       expect(response.result.data.defang.defanged_count).toBe(0);
       expect(response.result.data.defang.domain_intel_summary).toBeDefined();
     }
@@ -181,7 +204,9 @@ it("Sanitize all defaults", async () => {
       attachedFile.save("./");
     }
   } catch (e) {
-    e instanceof PangeaErrors.APIError ? console.log(e.toString()) : console.log(e);
+    e instanceof PangeaErrors.APIError
+      ? console.log(e.toString())
+      : console.log(e);
     throw e;
   }
 });
@@ -228,8 +253,12 @@ it("Sanitize multipart upload", async () => {
     }
     expect(response.result.data.defang).toBeDefined();
     if (response.result.data.defang) {
-      expect(response.result.data.defang.external_urls_count).toBeGreaterThan(0);
-      expect(response.result.data.defang.external_domains_count).toBeGreaterThan(0);
+      expect(response.result.data.defang.external_urls_count).toBeGreaterThan(
+        0
+      );
+      expect(
+        response.result.data.defang.external_domains_count
+      ).toBeGreaterThan(0);
       expect(response.result.data.defang.defanged_count).toBe(0);
       expect(response.result.data.defang.domain_intel_summary).toBeDefined();
     }
@@ -245,7 +274,9 @@ it("Sanitize multipart upload", async () => {
       attachedFile.save("./");
     }
   } catch (e) {
-    e instanceof PangeaErrors.APIError ? console.log(e.toString()) : console.log(e);
+    e instanceof PangeaErrors.APIError
+      ? console.log(e.toString())
+      : console.log(e);
     throw e;
   }
 });
@@ -293,8 +324,12 @@ it("Sanitize async and poll result", async () => {
       expect(response.result.data.redact).toBeUndefined();
       expect(response.result.data.defang).toBeDefined();
       if (response.result.data.defang) {
-        expect(response.result.data.defang.external_urls_count).toBeGreaterThan(0);
-        expect(response.result.data.defang.external_domains_count).toBeGreaterThan(0);
+        expect(response.result.data.defang.external_urls_count).toBeGreaterThan(
+          0
+        );
+        expect(
+          response.result.data.defang.external_domains_count
+        ).toBeGreaterThan(0);
         expect(response.result.data.defang.defanged_count).toBe(0);
         expect(response.result.data.defang.domain_intel_summary).toBeDefined();
       }
@@ -305,7 +340,9 @@ it("Sanitize async and poll result", async () => {
       }
       expect(response.result.data.malicious_file).toBeFalsy();
       if (response.result.dest_url) {
-        const attachedFile = await client.downloadFile(response.result.dest_url);
+        const attachedFile = await client.downloadFile(
+          response.result.dest_url
+        );
         attachedFile.save("./");
       }
       break;
@@ -360,8 +397,12 @@ it("Sanitize get url and put upload", async () => {
       expect(response.result.data.redact).toBeUndefined();
       expect(response.result.data.defang).toBeDefined();
       if (response.result.data.defang) {
-        expect(response.result.data.defang.external_urls_count).toBeGreaterThan(0);
-        expect(response.result.data.defang.external_domains_count).toBeGreaterThan(0);
+        expect(response.result.data.defang.external_urls_count).toBeGreaterThan(
+          0
+        );
+        expect(
+          response.result.data.defang.external_domains_count
+        ).toBeGreaterThan(0);
         expect(response.result.data.defang.defanged_count).toBe(0);
         expect(response.result.data.defang.domain_intel_summary).toBeDefined();
       }
@@ -372,7 +413,9 @@ it("Sanitize get url and put upload", async () => {
       }
       expect(response.result.data.malicious_file).toBeFalsy();
       if (response.result.dest_url) {
-        const attachedFile = await client.downloadFile(response.result.dest_url);
+        const attachedFile = await client.downloadFile(
+          response.result.dest_url
+        );
         attachedFile.save("./");
       }
       break;
@@ -432,8 +475,12 @@ it("Sanitize get url and post upload", async () => {
       expect(response.result.data.redact).toBeUndefined();
       expect(response.result.data.defang).toBeDefined();
       if (response.result.data.defang) {
-        expect(response.result.data.defang.external_urls_count).toBeGreaterThan(0);
-        expect(response.result.data.defang.external_domains_count).toBeGreaterThan(0);
+        expect(response.result.data.defang.external_urls_count).toBeGreaterThan(
+          0
+        );
+        expect(
+          response.result.data.defang.external_domains_count
+        ).toBeGreaterThan(0);
         expect(response.result.data.defang.defanged_count).toBe(0);
         expect(response.result.data.defang.domain_intel_summary).toBeDefined();
       }
@@ -444,7 +491,9 @@ it("Sanitize get url and post upload", async () => {
       }
       expect(response.result.data.malicious_file).toBeFalsy();
       if (response.result.dest_url) {
-        const attachedFile = await client.downloadFile(response.result.dest_url);
+        const attachedFile = await client.downloadFile(
+          response.result.dest_url
+        );
         attachedFile.save("./");
       }
       break;
