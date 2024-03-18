@@ -11,7 +11,7 @@ import { Share, TransferMethod } from "../../src/types.js";
 import { FileUploader } from "../../src/file_uploader.js";
 import { loadTestEnvironment } from "./utils.js";
 
-const environment = loadTestEnvironment("redact", TestEnvironment.LIVE);
+const environment = loadTestEnvironment("share", TestEnvironment.LIVE);
 const token = getTestToken(environment);
 const testHost = getTestDomain(environment);
 const config = new PangeaConfig({
