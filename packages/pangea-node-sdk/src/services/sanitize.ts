@@ -3,7 +3,6 @@ import BaseService from "./base.js";
 import PangeaConfig from "@src/config.js";
 import {
   FileData,
-  FileScan,
   PostOptions,
   TransferMethod,
   FileItems,
