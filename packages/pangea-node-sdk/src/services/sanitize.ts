@@ -47,7 +47,8 @@ export class SanitizeService extends BaseService {
     };
 
     if (
-      (!request.transfer_method || request.transfer_method === TransferMethod.POST_URL) &&
+      (!request.transfer_method ||
+        request.transfer_method === TransferMethod.POST_URL) &&
       fileData
     ) {
       fsData = getFileUploadParams(fileData.file);
@@ -59,28 +60,18 @@ export class SanitizeService extends BaseService {
 
   // TODO: Docs
   async requestUploadURL(
-    request: Sanitize.SanitizeRequest,
-    options: {
-      params?: FileUploadParams;
-    } = {}
-  ): Promise<PangeaResponse<FileScan.ScanResult>> {
-    if (request.transfer_method === TransferMethod.POST_URL && !options.params) {
+    request: Sanitize.SanitizeRequest
+  ): Promise<PangeaResponse<Sanitize.SanitizeResult>> {
+    if (
+      request.transfer_method === TransferMethod.POST_URL &&
+      (!request.size || !request.crc32c || !request.sha256)
+    ) {
       throw new PangeaErrors.PangeaError(
-        `If transfer_method is ${TransferMethod.POST_URL} need to set options.params`
+        `When transfer_method is ${request.transfer_method}, crc32c, sha256 and size must be set. Set them or use transfer_method ${TransferMethod.PUT_URL}`
       );
     }
 
-    let fsParams = {} as FileUploadParams;
-    if (request.transfer_method === TransferMethod.POST_URL && options.params) {
-      fsParams = options.params;
-    }
-
-    const fullRequest: FileScan.ScanFullRequest = {
-      ...fsParams,
-      ...request,
-    };
-
-    return await this.request.requestPresignedURL("v1beta/sanitize", fullRequest);
+    return await this.request.requestPresignedURL("v1beta/sanitize", request);
   }
 }
 
