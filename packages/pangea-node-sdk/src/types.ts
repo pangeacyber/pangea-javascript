@@ -229,16 +229,33 @@ export namespace Audit {
   }
 
   export enum DownloadFormat {
+    /**
+     * JSON.
+     */
     JSON = "json",
+
+    /**
+     * CSV.
+     */
     CSV = "csv",
   }
 
   export interface DownloadRequest {
+    /**
+     * ID returned by the search API.
+     */
     result_id: string;
+
+    /**
+     * Format for the records.
+     */
     format?: DownloadFormat;
   }
 
   export interface DownloadResult {
+    /**
+     * URL where search results can be downloaded.
+     */
     dest_url: string;
   }
 }
@@ -626,7 +643,8 @@ export namespace Intel {
         | BreachedPhoneBulkRequest
         | BreachedUsernameBulkRequest;
 
-      export interface BreachedBulkResult extends Intel.User.BreachedBulkResult {}
+      export interface BreachedBulkResult
+        extends Intel.User.BreachedBulkResult {}
     }
 
     export namespace Password {
@@ -1003,7 +1021,9 @@ export namespace Vault {
       secret: string;
     }
 
-    export interface GenerateRequest extends Common.GenerateRequest, Common.GenerateOptions {}
+    export interface GenerateRequest
+      extends Common.GenerateRequest,
+        Common.GenerateOptions {}
 
     export interface GenerateResult extends Common.GenerateRequest {
       secret: string;
@@ -1011,7 +1031,9 @@ export namespace Vault {
 
     export namespace Secret {
       export interface RotateOptions extends Common.RotateOptions {}
-      export interface RotateRequest extends Common.RotateRequest, RotateOptions {
+      export interface RotateRequest
+        extends Common.RotateRequest,
+          RotateOptions {
         secret?: string;
       }
     }
@@ -1034,7 +1056,9 @@ export namespace Vault {
       private_key?: EncodedPrivateKey;
     }
 
-    export interface RotateRequest extends Common.RotateRequest, RotateOptions {}
+    export interface RotateRequest
+      extends Common.RotateRequest,
+        RotateOptions {}
 
     export interface RotateResult extends Common.RotateResult {
       algorithm: string;
@@ -1103,7 +1127,9 @@ export namespace Vault {
   export namespace Asymmetric {
     export interface GenerateOptions extends Common.GenerateOptions {}
 
-    export interface GenerateRequest extends Common.GenerateRequest, GenerateOptions {
+    export interface GenerateRequest
+      extends Common.GenerateRequest,
+        GenerateOptions {
       algorithm: Vault.AsymmetricAlgorithm;
       purpose: Vault.KeyPurpose;
     }
@@ -1180,7 +1206,9 @@ export namespace Vault {
 
     export interface GenerateOptions extends Common.GenerateOptions {}
 
-    export interface GenerateRequest extends Common.GenerateRequest, GenerateOptions {
+    export interface GenerateRequest
+      extends Common.GenerateRequest,
+        GenerateOptions {
       algorithm: Vault.SymmetricAlgorithm;
       purpose: Vault.KeyPurpose;
     }

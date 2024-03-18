@@ -1,0 +1,17 @@
+{
+  "flowId": "pfl_flowflowflowflowflowflowflow",
+  "flowType": ["one_time"],
+  "phase": "phase_one_time",
+  "flowChoices": [],
+  "email": "storybook@pangea.cloud",
+  "authChoices": ["set_phone"],
+  "socialChoices": [],
+  "socialProviderMap": {},
+  "samlChoices": [],
+  "samlProviderMap": {},
+  "callbackStateMap": {},
+  "agreements": [],
+  "setPhone": {
+    "required_for": ["sms_otp"]
+  }
+}

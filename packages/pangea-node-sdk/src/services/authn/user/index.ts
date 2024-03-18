@@ -58,7 +58,9 @@ export default class User extends BaseService {
    * });
    * ```
    */
-  create(request: AuthN.User.CreateRequest): Promise<PangeaResponse<AuthN.User.CreateResult>> {
+  create(
+    request: AuthN.User.CreateRequest
+  ): Promise<PangeaResponse<AuthN.User.CreateResult>> {
     return this.post("v2/user/create", request);
   }
 
@@ -87,7 +89,9 @@ export default class User extends BaseService {
    * );
    * ```
    */
-  list(request: AuthN.User.ListRequest): Promise<PangeaResponse<AuthN.User.ListResult>> {
+  list(
+    request: AuthN.User.ListRequest
+  ): Promise<PangeaResponse<AuthN.User.ListResult>> {
     return this.post("v2/user/list", request);
   }
 
@@ -137,7 +141,9 @@ export default class User extends BaseService {
    * });
    * ```
    */
-  invite(request: AuthN.User.InviteRequest): Promise<PangeaResponse<AuthN.User.InviteResult>> {
+  invite(
+    request: AuthN.User.InviteRequest
+  ): Promise<PangeaResponse<AuthN.User.InviteResult>> {
     return this.post("v2/user/invite", request);
   }
 }

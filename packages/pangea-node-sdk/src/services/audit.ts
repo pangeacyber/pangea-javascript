@@ -2,7 +2,10 @@ import PangeaResponse from "@src/response.js";
 import BaseService from "./base.js";
 import PangeaConfig from "@src/config.js";
 import { Audit, PostOptions } from "@src/types.js";
-import { PublishedRoots, getArweavePublishedRoots } from "@src/utils/arweave.js";
+import {
+  PublishedRoots,
+  getArweavePublishedRoots,
+} from "@src/utils/arweave.js";
 import {
   verifyRecordConsistencyProof,
   verifyLogHash,
@@ -11,7 +14,10 @@ import {
   verifySignature,
   verifyLogConsistencyProof,
 } from "@src/utils/verification.js";
-import { canonicalizeEvent, eventOrderAndStringifySubfields } from "@src/utils/utils.js";
+import {
+  canonicalizeEvent,
+  eventOrderAndStringifySubfields,
+} from "@src/utils/utils.js";
 import { PangeaErrors } from "@src/errors.js";
 
 /**
@@ -38,7 +44,12 @@ class AuditService extends BaseService {
    *
    * @summary Audit
    */
-  constructor(token: string, config: PangeaConfig, tenantID?: string, configID?: string) {
+  constructor(
+    token: string,
+    config: PangeaConfig,
+    tenantID?: string,
+    configID?: string
+  ) {
     // FIXME: Temporary check to still support configID from PangeaConfig
     if (!configID && config.configID) {
       configID = config.configID;
@@ -89,7 +100,10 @@ class AuditService extends BaseService {
   ): Promise<PangeaResponse<Audit.LogResponse>> {
     let data = this.getLogEvent(event, options) as Audit.LogData;
     this.setRequestFields(data, options);
-    const response: PangeaResponse<Audit.LogResponse> = await this.post("v1/log", data);
+    const response: PangeaResponse<Audit.LogResponse> = await this.post(
+      "v1/log",
+      data
+    );
     this.processLogResponse(response.result, options);
     return response;
   }
@@ -126,7 +140,10 @@ class AuditService extends BaseService {
     };
 
     options.verify = false; // Bulk API does not verify
-    const response: PangeaResponse<Audit.LogBulkResponse> = await this.post("v2/log", data);
+    const response: PangeaResponse<Audit.LogBulkResponse> = await this.post(
+      "v2/log",
+      data
+    );
     response.result.results.forEach((result) => {
       this.processLogResponse(result, options);
     });
@@ -253,7 +270,10 @@ class AuditService extends BaseService {
     }
   }
 
-  verifyHash(envelope: Audit.EventEnvelope | undefined, hash: string | undefined): void {
+  verifyHash(
+    envelope: Audit.EventEnvelope | undefined,
+    hash: string | undefined
+  ): void {
     if (envelope === undefined || hash === undefined) {
       return;
     }
@@ -311,7 +331,10 @@ class AuditService extends BaseService {
       payload.verbose = true;
     }
 
-    const response: PangeaResponse<Audit.SearchResponse> = await this.post("v1/search", payload);
+    const response: PangeaResponse<Audit.SearchResponse> = await this.post(
+      "v1/search",
+      payload
+    );
     return this.processSearchResponse(response, options);
   }
 
@@ -349,7 +372,10 @@ class AuditService extends BaseService {
       offset,
     };
 
-    const response: PangeaResponse<Audit.SearchResponse> = await this.post("v1/results", payload);
+    const response: PangeaResponse<Audit.SearchResponse> = await this.post(
+      "v1/results",
+      payload
+    );
     return this.processSearchResponse(response, options);
   }
 
@@ -374,8 +400,23 @@ class AuditService extends BaseService {
     return this.post("v1/root", data);
   }
 
-  // TODO: Add docs
-  downloadResults(request: Audit.DownloadRequest): Promise<PangeaResponse<Audit.DownloadResult>> {
+  /**
+   * @summary Download search results
+   * @description Get all search results as a compressed (gzip) CSV file.
+   * @operationId audit_post_v1_download_results
+   * @param request Request parameters.
+   * @returns URL where search results can be downloaded.
+   * @example
+   * ```js
+   * const response = await audit.downloadResults({
+   *   result_id: "pas_[...]",
+   *   format: Audit.DownloadFormat.CSV,
+   * });
+   * ```
+   */
+  downloadResults(
+    request: Audit.DownloadRequest
+  ): Promise<PangeaResponse<Audit.DownloadResult>> {
     return this.post("v1/download_results", request);
   }
 

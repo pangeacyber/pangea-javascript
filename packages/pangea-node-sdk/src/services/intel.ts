@@ -630,7 +630,10 @@ export class IPIntelService extends BaseService {
    * );
    * ```
    */
-  isVPN(ip: string, options?: Intel.IP.VPNOptions): Promise<PangeaResponse<Intel.IP.VPNResult>> {
+  isVPN(
+    ip: string,
+    options?: Intel.IP.VPNOptions
+  ): Promise<PangeaResponse<Intel.IP.VPNResult>> {
     const data: Intel.IP.VPNRequest = {
       ip,
     };

@@ -9,7 +9,7 @@ import {
   useState,
 } from "react";
 
-import AuthNClient from "@src/AuthNClient";
+import AuthNClient from "~/src/AuthNClient";
 import { toUrlEncoded, generateBase58 } from "../shared/utils";
 import {
   getStorageAPI,
@@ -25,7 +25,7 @@ import {
   getTokenFromCookie,
   SESSION_DATA_KEY,
   DEFAULT_COOKIE_OPTIONS,
-} from "@src/shared/session";
+} from "~/src/shared/session";
 
 import {
   APIResponse,
@@ -33,7 +33,7 @@ import {
   AuthUser,
   AppState,
   SessionData,
-} from "@src/types";
+} from "~/src/types";
 
 import { AuthOptions, CookieOptions, VerifyResponse } from "../shared/types";
 
@@ -227,10 +227,10 @@ export const AuthProvider: FC<AuthProviderProps> = ({
   const forceRefresh = (authenticated: boolean = false) => {
     // Allow application to force a token refresh
     // Give application ability to mark authentication state (default to false)
-    // Used if application recieves 401 errors beforce auto-refresh occurs, and needs
+    // Used if application receives 401 errors before auto-refresh occurs, and needs
     // to mark authenticated as false to prevent all calls failing with 401
     setAuthenticated(authenticated);
-    refresh().catch((e) => {
+    refresh().catch((_e) => {
       logout();
     });
   };

@@ -1,6 +1,10 @@
 import PangeaConfig from "../../src/config.js";
 import { jest, it, expect } from "@jest/globals";
-import { TestEnvironment, getTestDomain, getTestToken } from "../../src/utils/utils.js";
+import {
+  TestEnvironment,
+  getTestDomain,
+  getTestToken,
+} from "../../src/utils/utils.js";
 import { DomainIntelService } from "../../src/index.js";
 import { loadTestEnvironment } from "./utils.js";
 
@@ -8,13 +12,19 @@ const environment = loadTestEnvironment("domain-intel", TestEnvironment.LIVE);
 
 const token = getTestToken(environment);
 const testHost = getTestDomain(environment);
-const config = new PangeaConfig({ domain: testHost, customUserAgent: "sdk-test" });
+const config = new PangeaConfig({
+  domain: testHost,
+  customUserAgent: "sdk-test",
+});
 const domainIntel = new DomainIntelService(token, config);
 jest.setTimeout(60000);
 
 it("Domain reputation should succeed", async () => {
   const options = { provider: "crowdstrike", verbose: true, raw: true };
-  const response = await domainIntel.reputation("737updatesboeing.com", options);
+  const response = await domainIntel.reputation(
+    "737updatesboeing.com",
+    options
+  );
 
   expect(response.status).toBe("Success");
   expect(response.result.data).toBeDefined();
@@ -23,7 +33,11 @@ it("Domain reputation should succeed", async () => {
 
 it("Domain bulk reputation should succeed", async () => {
   const options = { provider: "crowdstrike", verbose: true, raw: true };
-  const domains = ["pemewizubidob.cafij.co.za", "redbomb.com.tr", "kmbk8.hicp.net"];
+  const domains = [
+    "pemewizubidob.cafij.co.za",
+    "redbomb.com.tr",
+    "kmbk8.hicp.net",
+  ];
   const response = await domainIntel.reputationBulk(domains, options);
 
   expect(response.status).toBe("Success");
@@ -33,7 +47,10 @@ it("Domain bulk reputation should succeed", async () => {
 
 it("Domain reputation should succeed. Default provider.", async () => {
   const options = { verbose: true, raw: true };
-  const response = await domainIntel.reputation("737updatesboeing.com", options);
+  const response = await domainIntel.reputation(
+    "737updatesboeing.com",
+    options
+  );
 
   expect(response.status).toBe("Success");
   expect(response.result.data).toBeDefined();
@@ -41,7 +58,10 @@ it("Domain reputation should succeed. Default provider.", async () => {
 
 it("Domain reputation not found", async () => {
   const options = { provider: "crowdstrike", verbose: true, raw: true };
-  const response = await domainIntel.reputation("thisshouldbeafakedomain123123sad.com", options);
+  const response = await domainIntel.reputation(
+    "thisshouldbeafakedomain123123sad.com",
+    options
+  );
 
   expect(response.status).toBe("Success");
   expect(response.result.data).toBeDefined();

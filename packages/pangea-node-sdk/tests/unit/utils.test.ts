@@ -2,7 +2,14 @@ import fs from "node:fs/promises";
 
 import { it, expect } from "@jest/globals";
 
-import { hashSHA1, hashSHA256, getHashPrefix, strToB64, b64toStr, hashNTLM } from "@src/index.js";
+import {
+  hashSHA1,
+  hashSHA256,
+  getHashPrefix,
+  strToB64,
+  b64toStr,
+  hashNTLM,
+} from "@src/index.js";
 import { getFileUploadParams } from "@src/utils/utils.js";
 
 const testfilePath = "./tests/testdata/testfile.pdf";
@@ -10,7 +17,9 @@ const testfilePath = "./tests/testdata/testfile.pdf";
 it("Hash functions", () => {
   const msg = "texttohash";
 
-  expect(hashSHA256(msg)).toBe("d80cb0aae262f2b06bacc163f483fae428b8b282471b9c8e337e40992dd65c2c");
+  expect(hashSHA256(msg)).toBe(
+    "d80cb0aae262f2b06bacc163f483fae428b8b282471b9c8e337e40992dd65c2c"
+  );
   expect(hashSHA1(msg)).toBe("53d7223d32f18504cd22de99647a6b5eab0c530c");
 });
 

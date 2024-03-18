@@ -4,7 +4,7 @@ import { GridValidRowModel } from "@mui/x-data-grid";
 
 const LinedPangeaDataGrid = <
   DataType extends GridValidRowModel = { id: string },
-  FiltersObj extends { [key: string]: string } = Record<string, string>
+  FiltersObj extends { [key: string]: string } = Record<string, string>,
 >(
   props: PangeaDataGridProps<DataType, FiltersObj>
 ): JSX.Element => {

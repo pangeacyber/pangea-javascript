@@ -2,7 +2,11 @@ import PangeaConfig from "../../src/config.js";
 import AuthNService from "../../src/services/authn/index.js";
 import { it, expect, jest } from "@jest/globals";
 import { PangeaErrors } from "../../src/errors.js";
-import { TestEnvironment, getTestDomain, getTestToken } from "../../src/utils/utils.js";
+import {
+  TestEnvironment,
+  getTestDomain,
+  getTestToken,
+} from "../../src/utils/utils.js";
 import { AuthN } from "../../src/types.js";
 import { loadTestEnvironment } from "./utils.js";
 
@@ -62,7 +66,8 @@ async function flowHandleAgreementsPhase(
   let agreed: string[] = [];
   result.flow_choices.forEach((fc) => {
     if (fc.choice == AuthN.Flow.Choice.AGREEMENTS) {
-      const agreements = typeof fc.data["agreements"] === "object" ? fc.data["agreements"] : {};
+      const agreements =
+        typeof fc.data["agreements"] === "object" ? fc.data["agreements"] : {};
       for (let [_, value] of Object.entries(agreements)) {
         if (typeof value === "object" && typeof value["id"] === "string") {
           agreed.push(value["id"]);
@@ -82,7 +87,10 @@ async function flowHandleAgreementsPhase(
   return response.result;
 }
 
-function choiceIsAvailable(result: AuthN.Flow.UpdateResult, choice: string): boolean {
+function choiceIsAvailable(
+  result: AuthN.Flow.UpdateResult,
+  choice: string
+): boolean {
   let filter = result.flow_choices.filter(function (fc) {
     return fc.choice === choice;
   });
@@ -90,7 +98,10 @@ function choiceIsAvailable(result: AuthN.Flow.UpdateResult, choice: string): boo
   return filter.length > 0;
 }
 
-async function login(email: string, password: string): Promise<AuthN.Flow.CompleteResult> {
+async function login(
+  email: string,
+  password: string
+): Promise<AuthN.Flow.CompleteResult> {
   const startResp = await authn.flow.start({
     email: email,
     cb_uri: CB_URI,
@@ -109,7 +120,10 @@ async function login(email: string, password: string): Promise<AuthN.Flow.Comple
   return completeResp.result;
 }
 
-async function createAndLogin(email: string, password: string): Promise<AuthN.Flow.CompleteResult> {
+async function createAndLogin(
+  email: string,
+  password: string
+): Promise<AuthN.Flow.CompleteResult> {
   const startResp = await authn.flow.start({
     email: email,
     flow_types: [AuthN.FlowType.SIGNUP, AuthN.FlowType.SIGNIN],
@@ -159,7 +173,10 @@ it("User actions test", async () => {
   expect(getResp.result.email).toBe(EMAIL_TEST);
 
   // Update profile
-  const updateResp = await authn.user.profile.update({ email: EMAIL_TEST, profile: PROFILE_NEW });
+  const updateResp = await authn.user.profile.update({
+    email: EMAIL_TEST,
+    profile: PROFILE_NEW,
+  });
   expect(updateResp.status).toBe("Success");
   expect(updateResp.result.id).toBe(USER_ID);
   expect(updateResp.result.email).toBe(EMAIL_TEST);
@@ -176,9 +193,12 @@ it("User actions test", async () => {
   expect(checkResp.status).toBe("Success");
 
   // Refresh
-  const loginResp = await authn.client.session.refresh(loginResult.refresh_token.token, {
-    user_token: userToken,
-  });
+  const loginResp = await authn.client.session.refresh(
+    loginResult.refresh_token.token,
+    {
+      user_token: userToken,
+    }
+  );
   expect(loginResp.status).toBe("Success");
   expect(loginResp.result.active_token).toBeDefined();
   expect(loginResp.result.refresh_token).toBeDefined();
@@ -215,7 +235,9 @@ it("User actions test", async () => {
       authn.session.invalidate(session.id);
     } catch (e) {
       console.log(`Failed to invalidate session_id[${session.id}]`);
-      e instanceof PangeaErrors.APIError ? console.log(e.toString()) : console.log(e);
+      e instanceof PangeaErrors.APIError
+        ? console.log(e.toString())
+        : console.log(e);
     }
   });
 
@@ -235,8 +257,12 @@ it("User actions test", async () => {
     try {
       authn.client.session.invalidate(userToken, session.id);
     } catch (e) {
-      console.log(`Failed to invalidate session_id[${session.id}] token[${userToken}]`);
-      e instanceof PangeaErrors.APIError ? console.log(e.toString()) : console.log(e);
+      console.log(
+        `Failed to invalidate session_id[${session.id}] token[${userToken}]`
+      );
+      e instanceof PangeaErrors.APIError
+        ? console.log(e.toString())
+        : console.log(e);
     }
   });
 
@@ -251,7 +277,9 @@ it("User actions test", async () => {
       authn.user.delete({ id: user.id });
     } catch (e) {
       console.log("Failed to delete user id: ", user.id);
-      e instanceof PangeaErrors.APIError ? console.log(e.toString()) : console.log(e);
+      e instanceof PangeaErrors.APIError
+        ? console.log(e.toString())
+        : console.log(e);
     }
   });
 });
@@ -289,7 +317,9 @@ it("Invite actions test", async () => {
     expect(listResp.status).toBe("Success");
     expect(listResp.result.invites.length).toBeGreaterThan(0);
   } catch (e) {
-    e instanceof PangeaErrors.APIError ? console.log(e.toString()) : console.log(e);
+    e instanceof PangeaErrors.APIError
+      ? console.log(e.toString())
+      : console.log(e);
     expect(false).toBeTruthy();
   }
 });
@@ -350,7 +380,9 @@ it("Test agreements cycle. EULA", async () => {
   try {
     await agreement_cycle(AuthN.Agreements.AgreementType.EULA);
   } catch (e) {
-    e instanceof PangeaErrors.APIError ? console.log(e.toString()) : console.log(e);
+    e instanceof PangeaErrors.APIError
+      ? console.log(e.toString())
+      : console.log(e);
     expect(false).toBeTruthy();
   }
 });
@@ -359,7 +391,9 @@ it("Test agreements cycle. Policy privacy", async () => {
   try {
     await agreement_cycle(AuthN.Agreements.AgreementType.PRIVACY_POLICY);
   } catch (e) {
-    e instanceof PangeaErrors.APIError ? console.log(e.toString()) : console.log(e);
+    e instanceof PangeaErrors.APIError
+      ? console.log(e.toString())
+      : console.log(e);
     expect(false).toBeTruthy();
   }
 });

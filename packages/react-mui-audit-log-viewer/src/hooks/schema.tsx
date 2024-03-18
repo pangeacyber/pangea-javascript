@@ -182,9 +182,7 @@ export const useAuditColumns = <Event,>(
           (field.size ?? 0) > 128;
         const column: Partial<PDG.GridField> = {
           label: field.name ?? field.id,
-          description: `Field: ${field.id}${
-            !!field.description ? ". " + field.description : ""
-          }`,
+          description: `Field: ${field.id}${!!field.description ? ". " + field.description : ""}`,
           type: get(COLUMN_TYPE_MAP, field.type, "string"),
           sortable: field.type !== "string-unindexed", // FIXME: What fields exactly should be sortable
           width: 150,

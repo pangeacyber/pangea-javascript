@@ -78,6 +78,42 @@ jobs:
           name: pangea-node-sdk-package
           path: ./packages/pangea-node-sdk/pangea-node-sdk-v*.tgz
 
+  build-react-auth:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./packages/react-auth
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4.1.1
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4.0.2
+        with:
+          node-version: 20
+          cache: yarn
+          cache-dependency-path: ./packages/react-auth/yarn.lock
+
+      - name: Install dependencies
+        run: yarn install --frozen-lockfile
+
+      - run: yarn list
+
+      - name: Type check
+        run: yarn typecheck
+
+      - name: Build
+        run: yarn build
+
+      - name: Pack
+        run: yarn pack
+
+      - name: Upload
+        uses: actions/upload-artifact@v4.3.1
+        with:
+          name: react-auth-package
+          path: ./packages/react-auth/pangeacyber-react-auth-v*.tgz
+
   build-react-mui-shared:
     runs-on: ubuntu-latest
     defaults:
@@ -134,6 +170,27 @@ jobs:
 
       - name: Storybook
         run: yarn build-storybook
+
+  lint-prettier:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4.1.1
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4.0.2
+        with:
+          node-version: 20
+          cache: yarn
+          cache-dependency-path: ./yarn.lock
+
+      - name: Install dependencies
+        run: yarn install --frozen-lockfile
+
+      - run: yarn list
+
+      - name: Prettier
+        run: yarn lint
 
   test-unit:
     needs: [build]

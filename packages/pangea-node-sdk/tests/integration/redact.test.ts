@@ -15,7 +15,10 @@ const environment = loadTestEnvironment("redact", TestEnvironment.LIVE);
 const token = getTestToken(environment);
 const tokenMultiConfig = getMultiConfigTestToken(environment);
 const domain = getTestDomain(environment);
-const config = new PangeaConfig({ domain: domain, customUserAgent: "sdk-test" });
+const config = new PangeaConfig({
+  domain: domain,
+  customUserAgent: "sdk-test",
+});
 const redact = new RedactService(token, config);
 
 it("redact a data string", async () => {
@@ -49,7 +52,9 @@ it("redact a data object without result", async () => {
   const data = { phone: "415-867-5309" };
   const expected = { count: 1 };
 
-  const response = await redact.redactStructured(data, { return_result: false });
+  const response = await redact.redactStructured(data, {
+    return_result: false,
+  });
   expect(response.status).toBe("Success");
   expect(response.result).toEqual(expected);
 });
