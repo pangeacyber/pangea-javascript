@@ -6,21 +6,16 @@ Future support is incoming.
 To install our linters, simply run `./dev/setup_repo.sh`
 These linters will run on every `git commit` operation.
 
-## Generating Node SDK Docs
+## Generating Node.js SDK Docs
 
-We use TypeDoc to pull doc strings from all the files in our SDK.
+We use TypeDoc to pull doc strings from all the files in our SDK. To generate
+the `docs.json`:
 
-To generate the docs.json, from the root of the pangea-node-sdk repo run:
-
+```bash
+$ cd packages/pangea-node-sdk
+$ yarn install
+$ yarn generate:docs
 ```
-# install node modules if you haven't already
-yarn
-
-# generate the docs JSON file
-yarn generate:docs
-```
-
-This generates a JSON file (docs.json) which contains all our doc strings.
 
 ## Contributors:
 
