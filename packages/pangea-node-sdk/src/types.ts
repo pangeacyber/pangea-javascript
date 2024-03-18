@@ -2446,8 +2446,6 @@ export namespace Share {
      * name.
      */
     folder?: string;
-    folder__contains?: string[];
-    folder__in?: string[];
   }
 
   export interface ListRequest {
