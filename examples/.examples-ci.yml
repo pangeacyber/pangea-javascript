@@ -15,11 +15,6 @@ examples-tests:
           - "redact"
           - "vault"
           - "share"
-  rules:
-    - changes:
-        - examples/**/*
-        - packages/pangea-node-sdk/**/*
-
   image: node:${NODE_VERSION}
   before_script:
     - export PANGEA_AUDIT_CONFIG_ID="${PANGEA_AUDIT_CONFIG_ID_1_LVE_AWS}"
@@ -48,3 +43,8 @@ examples-tests:
     - cd examples/${TEST_FOLDER}
     - yarn install --frozen-lockfile
     - bash ../../dev/run_all_examples.sh
+  rules:
+    - if: $CI_COMMIT_BRANCH
+    - changes:
+        - examples/**/*
+        - packages/pangea-node-sdk/**/*

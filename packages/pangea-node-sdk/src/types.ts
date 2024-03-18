@@ -223,16 +223,33 @@ export namespace Audit {
   }
 
   export enum DownloadFormat {
+    /**
+     * JSON.
+     */
     JSON = "json",
+
+    /**
+     * CSV.
+     */
     CSV = "csv",
   }
 
   export interface DownloadRequest {
+    /**
+     * ID returned by the search API.
+     */
     result_id: string;
+
+    /**
+     * Format for the records.
+     */
     format?: DownloadFormat;
   }
 
   export interface DownloadResult {
+    /**
+     * URL where search results can be downloaded.
+     */
     dest_url: string;
   }
 }
