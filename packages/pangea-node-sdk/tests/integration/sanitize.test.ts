@@ -317,7 +317,8 @@ it("Sanitize async and poll result", async () => {
       // Wait until result could be ready
       await delay(10 * 1000);
       const request_id = exception?.request_id || "";
-      const response = await client.pollResult(request_id);
+      const response =
+        await client.pollResult<Sanitize.SanitizeResult>(request_id);
       expect(response.status).toBe("Success");
       expect(response.result.dest_url).toBeDefined();
       expect(response.result.dest_share_id).toBeUndefined();
@@ -389,8 +390,8 @@ it("Sanitize get url and put upload", async () => {
     try {
       // Wait until result could be ready
       await delay(10 * 1000);
-      const request_id = response.request_id || "";
-      response = await client.pollResult(request_id);
+      const request_id: string = response.request_id || "";
+      response = await client.pollResult<Sanitize.SanitizeResult>(request_id);
       expect(response.status).toBe("Success");
       expect(response.result.dest_url).toBeDefined();
       expect(response.result.dest_share_id).toBeUndefined();
@@ -468,8 +469,8 @@ it("Sanitize get url and post upload", async () => {
     try {
       // Wait until result could be ready
       await delay(10 * 1000);
-      const request_id = response.request_id || "";
-      response = await client.pollResult(request_id);
+      const request_id: string = response.request_id || "";
+      response = await client.pollResult<Sanitize.SanitizeResult>(request_id);
       expect(response.status).toBe("Success");
       expect(response.result.dest_url).toBeDefined();
       expect(response.result.dest_share_id).toBeUndefined();
