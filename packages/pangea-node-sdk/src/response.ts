@@ -40,7 +40,7 @@ export class AttachedFile {
       destFolder = ".";
     }
     if (!filename) {
-      filename = this.filename ? this.filename : "defaultName.txt";
+      filename = this.filename ? this.filename : "defaultSaveFilename";
     }
     if (!fs.existsSync(destFolder)) {
       // If it doesn't exist, create it

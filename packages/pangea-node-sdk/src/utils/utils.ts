@@ -167,7 +167,20 @@ export function getFileUploadParams(
   const crcValue = crc32c(data);
   return {
     sha256: sha256hex,
-    crc32c: crcValue.toString(16),
+    crc32c: crcValue.toString(16).padStart(8, "0"),
     size: size,
   };
+}
+
+export function getFileSize(file: string | Buffer): number {
+  let data: Buffer;
+  if (typeof file === "string") {
+    data = fs.readFileSync(file);
+  } else if (Buffer.isBuffer(file)) {
+    data = file;
+  } else {
+    throw new PangeaErrors.PangeaError("Invalid file type");
+  }
+
+  return data.length;
 }
