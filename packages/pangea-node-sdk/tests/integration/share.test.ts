@@ -30,7 +30,7 @@ const ADD_TAGS = ["tag3"];
 
 const testFilePath = "./tests/testdata/testfile.pdf";
 const zeroBytesFilePath = "./tests/testdata/zerobytes.txt";
-jest.setTimeout(60000);
+jest.setTimeout(120000);
 
 const delay = async (ms: number) =>
   new Promise((resolve) => {
@@ -278,6 +278,7 @@ it("get url and post upload", async () => {
     throw e;
   }
 
+  console.log(response.request_id);
   const url = response.accepted_result?.post_url || "";
   const file_details = response.accepted_result?.post_form_data;
 
