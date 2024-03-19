@@ -43,3 +43,4 @@ export const UserIntelService = services.UserIntelService;
 export const VaultService = services.VaultService;
 export const FileScanService = services.FileScanService;
 export const SanitizeService = services.SanitizeService;
+export const ShareService = services.ShareService;
