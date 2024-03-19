@@ -14,6 +14,7 @@ import {
 import VaultService from "./vault.js";
 import { FileScanService } from "./file_scan.js";
 import SanitizeService from "./sanitize.js";
+import ShareService from "./share.js";
 
 export default {
   AuditService,
@@ -30,4 +31,5 @@ export default {
   VaultService,
   FileScanService,
   SanitizeService,
+  ShareService,
 };
