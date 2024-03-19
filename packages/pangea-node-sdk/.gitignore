@@ -12,6 +12,7 @@
 *.pem
 yarn-error.log
 .tshy
+*.tar
 
 # Editors
 .idea
