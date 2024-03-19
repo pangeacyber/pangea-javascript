@@ -20,6 +20,7 @@ const testHost = getTestDomain(environment);
 const config = new PangeaConfig({
   domain: testHost,
   customUserAgent: "sdk-test",
+  pollResultTimeoutMs: 180000,
 });
 const client = new SanitizeService(token, config);
 
