@@ -7,11 +7,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## 3.8.0-beta.1 - 2024-03-19
+
 ### Added
 
 - Documentation to service client configuration.
 - Audit /download_results endpoint support
 - Documentation to service client constructors.
+- Secure Share support.
 
 ### Fixed
 
