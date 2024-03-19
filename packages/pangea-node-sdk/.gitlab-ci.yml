@@ -83,7 +83,7 @@ pangea-node-sdk-integration-tests:
       - CLOUD: [AWS, GCP]
         ENV: ${SERVICE_FILE_INTEL_ENV}
         TEST: intel.file
-      - CLOUD: [AWS]
+      - CLOUD: [AWS, GCP]
         ENV: ${SERVICE_FILE_SCAN_ENV}
         TEST: file_scan
       - CLOUD: [AWS, GCP]
@@ -99,15 +99,6 @@ pangea-node-sdk-integration-tests:
         - packages/pangea-node-sdk/**/*
   script:
     - npx jest --testPathPattern=tests/integration/${TEST}.test.ts
-
-pangea-node-sdk-integration-tests-may-fail:
-  extends: pangea-node-sdk-integration-tests
-  parallel:
-    matrix:
-      - CLOUD: [GCP]
-        ENV: ${SERVICE_FILE_SCAN_ENV}
-        TEST: file_scan
-  allow_failure: true
 
 pangea-node-sdk-build:
   extends: .pangea-node-sdk-base
