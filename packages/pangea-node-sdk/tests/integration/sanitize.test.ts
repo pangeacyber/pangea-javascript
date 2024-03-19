@@ -432,14 +432,15 @@ it("Sanitize get url and put upload", async () => {
 it("Sanitize get url and post upload", async () => {
   let response;
   try {
+    const params = getFileUploadParams(testfilePath);
     const request: Sanitize.SanitizeRequest = {
       transfer_method: TransferMethod.POST_URL,
       uploaded_file_name: "uploaded_file",
+      crc32c: params.crc32c,
+      sha256: params.sha256,
+      size: params.size,
     };
-    const params = getFileUploadParams(testfilePath);
-    response = await client.requestUploadURL(request, {
-      params: params,
-    });
+    response = await client.requestUploadURL(request);
   } catch (e) {
     console.log(e);
     expect(false).toBeTruthy();
