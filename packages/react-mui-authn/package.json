@@ -14,7 +14,9 @@
   "scripts": {
     "storybook": "storybook dev -p 6006",
     "build-storybook": "storybook build",
-    "build": "rollup -c"
+    "build": "rollup -c",
+    "lint": "npx prettier --check .",
+    "prettier:fix": "npx prettier . -w"
   },
   "devDependencies": {
     "@babel/core": "7.24.0",
