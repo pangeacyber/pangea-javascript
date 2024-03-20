@@ -1,4 +1,5 @@
 import { FC } from "react";
+import { Stack } from "@mui/material";
 
 import { AuthFlow } from "@pangeacyber/vanilla-js";
 
@@ -7,27 +8,7 @@ import AuthFlowLayout from "../Layout";
 import IdField from "@src/components/fields/IdField";
 import Button from "@src/components/core/Button";
 import { BodyText } from "@src/components/core/Text";
-
-const getProviderName = (provider: string) => {
-  switch (provider) {
-    case "google":
-      return "Google";
-    case "github":
-      return "GitHub";
-    case "microsoftonline":
-      return "Microsoft";
-    case "facebook":
-      return "Facebook";
-    case "gitlab":
-      return "GitLab";
-    case "linkedin":
-      return "LinkedIn";
-    case "password":
-      return "a password";
-    default:
-      return provider;
-  }
-};
+import { getProviderLabel } from "@src/features/AuthFlow/utils";
 
 const InvalidAuthView: FC<AuthFlowComponentProps> = ({
   options,
@@ -35,9 +16,7 @@ const InvalidAuthView: FC<AuthFlowComponentProps> = ({
   update,
   reset,
 }) => {
-  const providerLabel =
-    error.result?.display_name ||
-    getProviderName(error.result?.correct_provider);
+  const providerLabel = getProviderLabel(error.result?.correct_provider);
   const emailAddress = error.result?.email || "";
 
   const doUpdate = () => {
@@ -46,22 +25,27 @@ const InvalidAuthView: FC<AuthFlowComponentProps> = ({
 
   return (
     <AuthFlowLayout>
-      <IdField
-        value={emailAddress}
-        resetCallback={reset}
-        resetLabel={options.cancelLabel}
-      />
-      <BodyText>To log in you must authenticate with {providerLabel}.</BodyText>
-      {error.result?.correct_provider && (
-        <Button
-          color="primary"
-          variant="contained"
-          onClick={doUpdate}
-          fullWidth
-        >
-          Continue with {providerLabel}
-        </Button>
-      )}
+      <Stack alignItems="center" gap={2}>
+        <IdField
+          value={emailAddress}
+          resetCallback={reset}
+          resetLabel={options.cancelLabel}
+        />
+        <BodyText>
+          Incorrect authentication method. To log in you must use{" "}
+          {providerLabel}.
+        </BodyText>
+        {error.result?.correct_provider && (
+          <Button
+            color="primary"
+            variant="contained"
+            onClick={doUpdate}
+            fullWidth
+          >
+            Continue with {providerLabel}
+          </Button>
+        )}
+      </Stack>
     </AuthFlowLayout>
   );
 };
