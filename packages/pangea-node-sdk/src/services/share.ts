@@ -22,7 +22,8 @@ class ShareService extends BaseService {
 
   /**
    * @summary Delete
-   * @description Delete object by ID or path. If both are supplied, the path must match that of the object represented by the ID. Beta API.
+   * @description Delete object by ID or path. If both are supplied, the path must match that of the object represented by the ID.
+   * [**Beta API**](https://pangea.cloud/docs/sdk/js/#beta-releases).
    * @operationId share_post_v1beta_delete
    * @param {Share.DeleteRequest} request
    * @returns {Promise} - A promise representing an async call to the delete endpoint.
@@ -40,7 +41,8 @@ class ShareService extends BaseService {
 
   /**
    * @summary Create a folder
-   * @description Create a folder, either by name or path and parent_id. Beta API.
+   * @description Create a folder, either by name or path and parent_id.
+   * [**Beta API**](https://pangea.cloud/docs/sdk/js/#beta-releases).
    * @operationId share_post_v1beta_folder_create
    * @param {Share.FolderCreateRequest} request
    * @returns {Promise} - A promise representing an async call to the folder create endpoint.
@@ -67,7 +69,8 @@ class ShareService extends BaseService {
 
   /**
    * @summary Get an object
-   * @description Get object. If both ID and path are supplied, the call will fail if the target object doesn't match both properties. Beta API.
+   * @description Get object. If both ID and path are supplied, the call will fail if the target object doesn't match both properties.
+   * [**Beta API**](https://pangea.cloud/docs/sdk/js/#beta-releases).
    * @operationId share_post_v1beta_get
    * @param {Share.GetRequest} request
    * @returns {Promise} - A promise representing an async call to the get item endpoint.
@@ -83,7 +86,8 @@ class ShareService extends BaseService {
 
   /**
    * @summary Get archive
-   * @description Get an archive file of multiple objects. Beta API.
+   * @description Get an archive file of multiple objects.
+   * [**Beta API**](https://pangea.cloud/docs/sdk/js/#beta-releases).
    * @operationId share_post_v1beta_get_archive
    * @param {Share.GetArchiveRequest} request
    * @returns {Promise} - A promise representing an async call to the get archive endpoint.
@@ -101,7 +105,8 @@ class ShareService extends BaseService {
 
   /**
    * @summary List
-   * @description List or filter/search records. Beta API.
+   * @description List or filter/search records.
+   * [**Beta API**](https://pangea.cloud/docs/sdk/js/#beta-releases).
    * @operationId share_post_v1beta_list
    * @param {Share.ListRequest} request
    * @returns {Promise} - A promise representing an async call to the list endpoint.
@@ -119,7 +124,8 @@ class ShareService extends BaseService {
 
   /**
    * @summary Upload a file
-   * @description Upload a file. Beta API.
+   * @description Upload a file.
+   * [**Beta API**](https://pangea.cloud/docs/sdk/js/#beta-releases).
    * @operationId share_post_v1beta_put
    * @param {Share.PutRequest} request
    * @param {FileData} fileData
@@ -172,7 +178,8 @@ class ShareService extends BaseService {
 
   /**
    * @summary Request upload URL
-   * @description Request an upload URL. Beta API.
+   * @description Request an upload URL.
+   * [**Beta API**](https://pangea.cloud/docs/sdk/js/#beta-releases).
    * @operationId share_post_v1beta_put 2
    * @param {Share.PutRequest} request
    * @returns {Promise} - A promise representing an async call to the put endpoint.
@@ -214,7 +221,8 @@ class ShareService extends BaseService {
 
   /**
    * @summary Update a file
-   * @description Update a file. Beta API.
+   * @description Update a file.
+   * [**Beta API**](https://pangea.cloud/docs/sdk/js/#beta-releases).
    * @operationId share_post_v1beta_update
    * @param {Share.UpdateRequest} request
    * @returns {Promise} - A promise representing an async call to the update endpoint.
@@ -241,7 +249,8 @@ class ShareService extends BaseService {
 
   /**
    * @summary Create share links
-   * @description Create a share link. Beta API.
+   * @description Create a share link.
+   * [**Beta API**](https://pangea.cloud/docs/sdk/js/#beta-releases).
    * @operationId share_post_v1beta_share_link_create
    * @param {Share.ShareLinkCreateRequest} request
    * @returns {Promise} - A promise representing an async call to the share link create endpoint.
@@ -268,7 +277,8 @@ class ShareService extends BaseService {
 
   /**
    * @summary Get share link
-   * @description Get a share link. Beta API.
+   * @description Get a share link.
+   * [**Beta API**](https://pangea.cloud/docs/sdk/js/#beta-releases).
    * @operationId share_post_v1beta_share_link_get
    * @param {Share.ShareLinkGetRequest} request
    * @returns {Promise} - A promise representing an async call to the share link get endpoint.
@@ -286,7 +296,8 @@ class ShareService extends BaseService {
 
   /**
    * @summary List share links
-   * @description Look up share links by filter options. Beta API.
+   * @description Look up share links by filter options.
+   * [**Beta API**](https://pangea.cloud/docs/sdk/js/#beta-releases).
    * @operationId share_post_v1beta_share_link_list
    * @param {Share.ShareLinkListRequest} request
    * @returns {Promise} - A promise representing an async call to the share link list endpoint.
@@ -304,7 +315,8 @@ class ShareService extends BaseService {
 
   /**
    * @summary Delete share links
-   * @description Delete share links. Beta API.
+   * @description Delete share links.
+   * [**Beta API**](https://pangea.cloud/docs/sdk/js/#beta-releases).
    * @operationId share_post_v1beta_share_link_delete
    * @param {Share.ShareLinkDeleteRequest} request
    * @returns {Promise} - A promise representing an async call to the delete share links endpoint.
@@ -322,7 +334,8 @@ class ShareService extends BaseService {
 
   /**
    * @summary Send share links
-   * @description Send share links. Beta API.
+   * @description Send share links.
+   * [**Beta API**](https://pangea.cloud/docs/sdk/js/#beta-releases).
    * @operationId share_post_v1beta_share_link_send
    * @param {Share.ShareLinkDeleteRequest} request
    * @returns {Promise} - A promise representing an async call to the send share links endpoint.
