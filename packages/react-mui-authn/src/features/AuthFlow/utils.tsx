@@ -7,7 +7,7 @@ import {
   LinkedInIcon,
 } from "@src/components/Icons";
 
-export const getSocialProviderIcon = (provider: string) => {
+export const getProviderIcon = (provider: string) => {
   switch (provider) {
     case "google":
       return <GoogleIcon />;
@@ -26,7 +26,7 @@ export const getSocialProviderIcon = (provider: string) => {
   }
 };
 
-export const getSocialProviderLabel = (provider: string): string => {
+export const getProviderLabel = (provider: string): string => {
   switch (provider) {
     case "google":
       return "Google";
@@ -40,6 +40,8 @@ export const getSocialProviderLabel = (provider: string): string => {
       return "GitLab";
     case "linkedin":
       return "LinkedIn";
+    case "password":
+      return "a password";
     default:
       return provider;
   }

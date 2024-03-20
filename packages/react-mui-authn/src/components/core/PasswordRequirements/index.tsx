@@ -22,7 +22,9 @@ const PasswordRequirements: FC<Props> = ({ value, policy }) => {
     { key: "punct", label: "Special character" },
     {
       key: "chars",
-      label: `At least ${policy?.chars_min ?? policy?.password_chars_min ?? 8} characters`,
+      label: `At least ${
+        policy?.chars_min ?? policy?.password_chars_min ?? 8
+      } characters`,
     },
   ];
 
