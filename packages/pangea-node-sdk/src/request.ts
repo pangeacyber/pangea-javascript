@@ -268,7 +268,7 @@ class PangeaRequest {
     endpoint: string,
     data: Request
   ): Promise<PangeaResponse<any>> {
-    let acceptedError;
+    let acceptedError: PangeaErrors.AcceptedRequestException;
     if (!data.transfer_method) {
       data.transfer_method = TransferMethod.PUT_URL;
     }
@@ -447,10 +447,10 @@ class PangeaRequest {
     return start + this.config.pollResultTimeoutMs <= now;
   }
 
-  public async pollResult(
+  public async pollResult<R>(
     requestId: string,
     checkResponse: boolean = true
-  ): Promise<PangeaResponse<any>> {
+  ): Promise<PangeaResponse<R>> {
     const path = `request/${requestId}`;
     // eslint-disable-next-line no-await-in-loop
     return await this.get(path, checkResponse);
