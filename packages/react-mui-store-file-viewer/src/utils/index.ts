@@ -23,7 +23,7 @@ export function formatBytes(
 
   const k = 1024;
   const dm = decimals < 0 ? 0 : decimals;
-  const sizes = ["Bytes", "KB", "MB", "GB", "TB", "PB", "EB", "ZB", "YB"];
+  const sizes = ["Bytes", "KiB", "MiB", "GiB", "TiB", "PiB"];
 
   let i = Math.floor(Math.log(bytes) / Math.log(k));
   if (size !== undefined) {
@@ -33,10 +33,14 @@ export function formatBytes(
     }
   }
 
-  return `${abbreviateNumber(
-    parseFloat((bytes / Math.pow(k, i)).toFixed(dm)),
-    shortform
-  )} ${sizes[i]}`;
+  if (i >= sizes.length) {
+    return `bytes`;
+  } else {
+    return `${abbreviateNumber(
+      parseFloat((bytes / Math.pow(k, i)).toFixed(dm)),
+      shortform
+    )} ${sizes[i]}`;
+  }
 }
 
 export const parseErrorFromPangea = (error: any): string => {
