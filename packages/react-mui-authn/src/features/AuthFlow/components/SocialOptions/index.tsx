@@ -6,8 +6,8 @@ import { AuthFlow } from "@pangeacyber/vanilla-js";
 
 import { AuthFlowComponentProps } from "@src/features/AuthFlow/types";
 import {
-  getSocialProviderIcon,
-  getSocialProviderLabel,
+  getProviderIcon,
+  getProviderLabel,
 } from "@src/features/AuthFlow/utils";
 import Button from "@src/components/core/Button";
 
@@ -63,11 +63,11 @@ const SocialOptions: FC<AuthFlowComponentProps> = ({
           >
             {options.showSocialIcons && (
               <>
-                {getSocialProviderIcon(provider.social_provider)}
+                {getProviderIcon(provider.social_provider)}
                 <Box component="span" sx={{ marginRight: 1 }} />
               </>
             )}
-            Continue with {getSocialProviderLabel(provider.social_provider)}
+            Continue with {getProviderLabel(provider.social_provider)}
           </Button>
         );
       })}
