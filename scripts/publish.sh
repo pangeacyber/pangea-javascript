@@ -15,12 +15,12 @@ LATEST_PACKAGE_VERSION=$(npm show "$PACKAGE_NAME" version)
 echo "Published packaged version $LATEST_PACKAGE_VERSION"
 
 if [ "$PACKAGE_VERSION" != "$LATEST_PACKAGE_VERSION" ] ; then
-    echo yarn build
+    yarn build
 
     if [[ "$PACKAGE_VERSION" == *"beta"* ]] ; then
-	      echo yarn publish --new-version "$PACKAGE_VERSION" --tag beta
+	      yarn publish --new-version "$PACKAGE_VERSION" --tag beta
     else
-        echo yarn publish --new-version "$PACKAGE_VERSION"
+        yarn publish --new-version "$PACKAGE_VERSION"
     fi
 else
     echo "Package not updated. Skipping publish"
