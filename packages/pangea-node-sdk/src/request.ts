@@ -275,7 +275,7 @@ class PangeaRequest {
     endpoint: string,
     data: Request
   ): Promise<PangeaResponse<any>> {
-    let acceptedError;
+    let acceptedError: PangeaErrors.AcceptedRequestException;
     if (!data.transfer_method) {
       data.transfer_method = TransferMethod.PUT_URL;
     }
@@ -379,10 +379,10 @@ class PangeaRequest {
     }
   }
 
-  public async get(
+  public async get<R>(
     endpoint: string,
     checkResponse: boolean = true
-  ): Promise<PangeaResponse<any>> {
+  ): Promise<PangeaResponse<R>> {
     const url = this.getUrl(endpoint);
     const options = new Options({
       headers: this.getHeaders(),
@@ -392,14 +392,14 @@ class PangeaRequest {
 
     try {
       const response = (await got.get(url, options)) as Response;
-      const pangeaResponse = new PangeaResponse(response);
+      const pangeaResponse = new PangeaResponse<R>(response);
       return checkResponse
         ? this.checkResponse(pangeaResponse)
         : pangeaResponse;
     } catch (error) {
       if (error instanceof HTTPError) {
         // This MUST throw and error
-        const pangeaResponse = new PangeaResponse(error.response);
+        const pangeaResponse = new PangeaResponse<R>(error.response);
         return checkResponse
           ? this.checkResponse(pangeaResponse)
           : pangeaResponse;
@@ -424,10 +424,10 @@ class PangeaRequest {
     return start + this.config.pollResultTimeoutMs <= now;
   }
 
-  public async pollResult(
+  public async pollResult<R>(
     requestId: string,
     checkResponse: boolean = true
-  ): Promise<PangeaResponse<any>> {
+  ): Promise<PangeaResponse<R>> {
     const path = `request/${requestId}`;
     // eslint-disable-next-line no-await-in-loop
     return await this.get(path, checkResponse);

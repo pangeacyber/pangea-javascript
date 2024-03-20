@@ -246,7 +246,7 @@ it("get url and put upload", async () => {
     try {
       // Wait until result could be ready
       await delay(10 * 1000);
-      const request_id = response.request_id || "";
+      const request_id: string = response.request_id || "";
       response = await client.pollResult(request_id);
       expect(response.status).toBe("Success");
       break;
@@ -300,7 +300,7 @@ it("get url and post upload", async () => {
     try {
       // Wait until result could be ready
       await delay(10 * 1000);
-      const request_id = response.request_id || "";
+      const request_id: string = response.request_id || "";
       response = await client.pollResult(request_id);
       expect(response.status).toBe("Success");
       break;

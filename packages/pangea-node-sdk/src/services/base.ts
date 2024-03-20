@@ -59,7 +59,7 @@ class BaseService {
     return await this.request.downloadFile(url);
   }
 
-  async pollResult(request_id: string): Promise<PangeaResponse<any>> {
+  async pollResult<R = any>(request_id: string): Promise<PangeaResponse<R>> {
     return await this.request.pollResult(request_id, true);
   }
 
