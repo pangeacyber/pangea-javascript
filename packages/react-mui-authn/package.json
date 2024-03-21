@@ -69,13 +69,13 @@
     "react-dom": "^17.0.2 || ^18.2.0"
   },
   "dependencies": {
-    "@lexical/react": "0.13.1",
+    "@lexical/react": "0.14.2",
     "@pangeacyber/react-mui-branding": "0.0.13",
     "@pangeacyber/vanilla-js": "0.1.6",
     "@simplewebauthn/browser": "^9.0.1",
     "add": "^2.0.6",
     "formik": "^2.4.5",
-    "lexical": "0.13.1",
+    "lexical": "0.14.2",
     "react-google-recaptcha-enterprise": "^1.0.3",
     "yup": "1.4.0"
   },
