@@ -237,9 +237,8 @@ p-cancelable@^3.0.0:
   resolved "https://registry.yarnpkg.com/p-cancelable/-/p-cancelable-3.0.0.tgz#63826694b54d61ca1c20ebcb6d3ecf5e14cd8050"
   integrity sha512-mlVgR3PGuzlo0MmTdk4cXqXWlwQDLnONTAg6sm62XkMJEiRxN3GL3SffkYvqwonbkJBcrI7Uvv5Zh9yjvn2iUw==
 
-"pangea-node-sdk@file:../../packages/pangea-node-sdk/pangea-node-sdk-3.8.0-beta.2.tgz":
+"pangea-node-sdk@file:../../packages/pangea-node-sdk":
   version "3.8.0-beta.2"
-  resolved "file:../../packages/pangea-node-sdk/pangea-node-sdk-3.8.0-beta.2.tgz#bd767a8b44439a48865970531c824419bf961eb1"
   dependencies:
     "@aws-crypto/crc32c" "^5.2.0"
     crypto-js "^4.2.0"
