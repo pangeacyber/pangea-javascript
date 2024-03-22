@@ -14,6 +14,8 @@ v20.
 
 ## Installation
 
+#### GA releases
+
 Via npm:
 
 ```bash
@@ -26,10 +28,32 @@ Via yarn:
 $ yarn add pangea-node-sdk
 ```
 
+<a name="beta-releases"></a>
+
+#### Beta releases
+
+Pre-release versions may be available with the `beta` denotation in the version
+number. These releases serve to preview beta services and APIs. Per Semantic
+Versioning, they are considered unstable and do not carry the same compatibility
+guarantees as stable releases. [Beta changelog](https://github.com/pangeacyber/pangea-javascript/blob/beta/packages/pangea-node-sdk/CHANGELOG.md).
+
+Via npm:
+
+```bash
+$ npm install pangea-node-sdk@3.8.0-beta.2
+```
+
+Via yarn:
+
+```bash
+$ yarn add pangea-node-sdk@3.8.0-beta.2
+```
+
 ## Usage
 
 - [Documentation][]
-- [Examples][]
+- [GA Examples][]
+- [Beta Examples][]
 
 General usage would be to create a token for a service through the
 [Pangea Console][] and then construct an API client for that respective service.
@@ -62,7 +86,8 @@ Versioning, they are considered unstable and do not carry the same compatibility
 guarantees as stable releases.
 
 [Documentation]: https://pangea.cloud/docs/sdk/js/
-[Examples]: https://github.com/pangeacyber/pangea-javascript/tree/main/examples
+[GA Examples]: https://github.com/pangeacyber/pangea-javascript/tree/main/examples
+[Beta Examples]: https://github.com/pangeacyber/pangea-javascript/tree/beta/examples
 [Pangea Console]: https://console.pangea.cloud/
 [Slack]: https://pangea.cloud/join-slack/
 [Secure Audit Log]: https://pangea.cloud/docs/audit
