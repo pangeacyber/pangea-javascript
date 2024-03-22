@@ -33,8 +33,34 @@ interface Props {
 
 const ConfirmSendButton: FC<ButtonProps> = (props) => {
   // @ts-ignore
+  const data = props?.values;
+
+  const links: ObjectStore.ShareLinkToSend[] = [];
+  Object.values(data).forEach((d: any) => {
+    if (!d?.id) return;
+    if (d.type === "password") {
+      d.emails.forEach((email: any) => {
+        if (!email) return;
+        links.push({
+          id: d.id,
+          email,
+        });
+      });
+    } else if (!!d.email) {
+      links.push({
+        id: d.id,
+        email: d.email,
+      });
+    }
+  });
+
+  // @ts-ignore
   const isSaving = props?.children?.endsWith("...");
-  return <Button {...props}>{isSaving ? "Sending..." : "Send email"}</Button>;
+  return (
+    <Button {...props} disabled={props?.disabled || !links.length}>
+      {isSaving ? "Sending..." : "Send email"}
+    </Button>
+  );
 };
 
 type ShareSendObj =
@@ -135,7 +161,7 @@ const SendShareViaEmailModal: FC<Props> = ({
 
     return apiRef.share
       .send({
-        sender_email: "",
+        sender_email: "no-reply@pangea.cloud",
         links,
       })
       .finally(() => {
@@ -192,10 +218,10 @@ const SendShareViaEmailModal: FC<Props> = ({
             {objAuthType === "email"
               ? "Links secured by email will ask for the email and a code to gain access."
               : objAuthType === "password"
-                ? "Links secured by password will ask for the password to gain access."
-                : objAuthType === "sms"
-                  ? "Links secured by SMS will ask for the phone number and a code to gain access."
-                  : null}
+              ? "Links secured by password will ask for the password to gain access."
+              : objAuthType === "sms"
+              ? "Links secured by SMS will ask for the phone number and a code to gain access."
+              : null}
           </Typography>
         }
         size="medium"
@@ -222,11 +248,9 @@ const SendShareViaEmailModal: FC<Props> = ({
             onCancel={handleClose}
             onSubmit={(values) => {
               // @ts-ignore
-              return handleSendShare(values)
-                .then(() => {})
-                .finally(handleClose);
+              return handleSendShare(values).then(handleClose);
             }}
-            disabled={loading}
+            disabled={loading || undefined}
             SaveButton={ConfirmSendButton}
           />
         </Stack>

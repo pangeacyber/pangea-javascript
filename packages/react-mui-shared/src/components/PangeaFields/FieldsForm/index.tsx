@@ -395,7 +395,13 @@ const FieldsForm: FC<FieldsFormProps> = ({
                 <Tooltip
                   title={
                     saveTooltipTitle ??
-                    Object.values(formik?.errors ?? {}).join("\n\n")
+                    Object.values(formik?.errors ?? {})
+                      .map((v) => {
+                        if (typeof v === "object")
+                          return Object.values(v).join("\n\n");
+                        return v;
+                      })
+                      .join("\n\n")
                   }
                   hidden={isEmpty(formik?.errors ?? {})}
                 >
