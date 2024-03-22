@@ -218,10 +218,10 @@ const SendShareViaEmailModal: FC<Props> = ({
             {objAuthType === "email"
               ? "Links secured by email will ask for the email and a code to gain access."
               : objAuthType === "password"
-              ? "Links secured by password will ask for the password to gain access."
-              : objAuthType === "sms"
-              ? "Links secured by SMS will ask for the phone number and a code to gain access."
-              : null}
+                ? "Links secured by password will ask for the password to gain access."
+                : objAuthType === "sms"
+                  ? "Links secured by SMS will ask for the phone number and a code to gain access."
+                  : null}
           </Typography>
         }
         size="medium"
