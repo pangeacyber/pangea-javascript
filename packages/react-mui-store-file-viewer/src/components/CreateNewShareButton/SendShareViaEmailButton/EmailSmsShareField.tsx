@@ -31,6 +31,7 @@ const EmailSmsShareField: FC<FieldComponentProps> = ({
   };
 
   if (!value.id) return null;
+  const errors = props?.errors?.email;
   return (
     <Stack direction="row" spacing={1} alignItems="center">
       <Typography color="textSecondary" variant="body2">
@@ -38,6 +39,7 @@ const EmailSmsShareField: FC<FieldComponentProps> = ({
       </Typography>
       <StringField
         {...props}
+        errors={errors}
         FieldProps={{
           type: "text",
           placeholder: "Email to send the link to",
