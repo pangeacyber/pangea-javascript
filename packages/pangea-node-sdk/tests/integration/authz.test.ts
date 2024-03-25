@@ -1,7 +1,11 @@
 import PangeaConfig from "../../src/config.js";
 import AuthZService from "../../src/services/authz.js";
 import { it, expect, jest } from "@jest/globals";
-import { TestEnvironment, getTestDomain, getTestToken } from "../../src/utils/utils.js";
+import {
+  TestEnvironment,
+  getTestDomain,
+  getTestToken,
+} from "../../src/utils/utils.js";
 import { loadTestEnvironment } from "./utils.js";
 
 jest.setTimeout(30000);
@@ -9,7 +13,10 @@ jest.setTimeout(30000);
 const environment = loadTestEnvironment("authz", TestEnvironment.LIVE);
 const token = getTestToken(environment);
 const domain = getTestDomain(environment);
-const config = new PangeaConfig({ domain: domain, customUserAgent: "sdk-test" });
+const config = new PangeaConfig({
+  domain: domain,
+  customUserAgent: "sdk-test",
+});
 const authz = new AuthZService(token, config);
 
 const CURRENT_TIME_IN_SECONDS = Math.round(Date.now() / 1000);
