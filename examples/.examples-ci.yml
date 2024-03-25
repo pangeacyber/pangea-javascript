@@ -14,8 +14,9 @@ examples-tests:
           - "file_scan"
           - "intel"
           - "redact"
-          - "vault"
+          - "sanitize"
           - "share"
+          - "vault"
   image: node:${NODE_VERSION}
   before_script:
     - export PANGEA_AUDIT_CONFIG_ID="${PANGEA_AUDIT_CONFIG_ID_1_LVE_AWS}"
@@ -33,10 +34,11 @@ examples-tests:
     - export PANGEA_REDACT_CONFIG_ID="${PANGEA_REDACT_CONFIG_ID_1_LVE_AWS}"
     - export PANGEA_REDACT_MULTICONFIG_TOKEN="${PANGEA_INTEGRATION_MULTI_CONFIG_TOKEN_LVE_AWS}"
     - export PANGEA_REDACT_TOKEN="${PANGEA_INTEGRATION_TOKEN_LVE_AWS}"
+    - export PANGEA_SANITIZE_TOKEN="${PANGEA_INTEGRATION_TOKEN_LVE_AWS}"
+    - export PANGEA_SHARE_TOKEN="${PANGEA_INTEGRATION_TOKEN_LVE_AWS}"
     - export PANGEA_URL_INTEL_TOKEN="${PANGEA_INTEGRATION_TOKEN_LVE_AWS}"
     - export PANGEA_USER_INTEL_TOKEN="${PANGEA_INTEGRATION_TOKEN_LVE_AWS}"
     - export PANGEA_VAULT_TOKEN="${PANGEA_INTEGRATION_TOKEN_LVE_AWS}"
-    - export PANGEA_SHARE_TOKEN="${PANGEA_INTEGRATION_TOKEN_LVE_AWS}"
     - pushd packages/pangea-node-sdk
     - tar -xf package.tgz --strip-components 1 -C .
     - popd
