@@ -28,7 +28,7 @@ const delay = async (ms) =>
   try {
     console.log("Request upload url with put transfer method...");
     try {
-      console.log("Sending request to sanitize service...");
+      console.log("Sending request to Sanitize service...");
       const request = {
         transfer_method: TransferMethod.POST_URL,
         uploaded_file_name: "uploaded_file",
@@ -45,7 +45,7 @@ const delay = async (ms) =>
       );
     } catch (e) {
       if (e instanceof PangeaErrors.AcceptedRequestException) {
-        console.log("Receive AcceptedRequestException as expected");
+        console.log("Received AcceptedRequestException as expected");
         exception = e;
       } else {
         console.log(e);
@@ -76,7 +76,7 @@ const delay = async (ms) =>
         );
         console.log("\tCDR data:", JSON.stringify(response.result.data.cdr));
 
-        if (response.result.data.malicious_file === true) {
+        if (response.result.data.malicious_file) {
           console.log("File IS malicious");
         } else {
           console.log("File is NOT malicious");

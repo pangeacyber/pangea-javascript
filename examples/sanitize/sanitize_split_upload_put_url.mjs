@@ -85,7 +85,7 @@ const delay = async (ms) =>
         );
         console.log("\tCDR data:", JSON.stringify(response.result.data.cdr));
 
-        if (response.result.data.malicious_file === true) {
+        if (response.result.data.malicious_file) {
           console.log("File IS malicious");
         } else {
           console.log("File is NOT malicious");

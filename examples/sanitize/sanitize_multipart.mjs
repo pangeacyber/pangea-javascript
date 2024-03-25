@@ -33,12 +33,12 @@ const filepath = "./ds11.pdf";
       redact: true,
     };
 
-    // Disable share output and its folder
+    // Disable Secure Share output and its folder
     let share_output = {
       enabled: false,
     };
-    // Make the request to sanitize service
-    console.log("Sending request to sanitize service...");
+    // Make the request to Sanitize service
+    console.log("Sending request to Sanitize service...");
     const request = {
       transfer_method: TransferMethod.MULTIPART, // Set transfer method to multipart
       file: file_scan,
@@ -59,7 +59,7 @@ const filepath = "./ds11.pdf";
     console.log("\tDefang data:", JSON.stringify(response.result.data.defang));
     console.log("\tCDR data:", JSON.stringify(response.result.data.cdr));
 
-    if (response.result.data.malicious_file === true) {
+    if (response.result.data.malicious_file) {
       console.log("File IS malicious");
     } else {
       console.log("File is NOT malicious");
