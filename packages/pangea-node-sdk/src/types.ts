@@ -2882,7 +2882,7 @@ export namespace AuthZ {
     ASC = "asc",
     DESC = "desc",
   }
-    export enum TupleOrderBy {
+  export enum TupleOrderBy {
     RESOURCE_NAMESPACE = "resource_namespace",
     RESOURCE_ID = "resource_id",
     RELATION = "relation",
@@ -2898,7 +2898,7 @@ export namespace AuthZ {
 
   export interface Subject {
     namespace: string;
-    id?: string;
+    id: string;
     action?: string;
   }
 
