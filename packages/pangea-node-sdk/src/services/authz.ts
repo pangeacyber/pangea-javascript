@@ -22,7 +22,7 @@ class AuthZService extends BaseService {
    * @returns {Promise} - A promise representing an async call to the tuple create endpoint.
    * @example
    * ```typescript
-   * const response = await authz.tuple_create({
+   * const response = await authz.tupleCreate({
    *   tuples: [
    *     {
    *       resource: { namespace: 'folder', id: 'resource1' },
@@ -52,7 +52,7 @@ class AuthZService extends BaseService {
    * @returns {Promise} - A promise representing an async call to the tuple list endpoint.
    * @example
    * ```typescript
-   * const response = await authz.tuple_list({
+   * const response = await authz.tupleList({
    *   filter: {
    *     resource: { namespace: 'folder', id: 'resource1' },
    *   },
@@ -74,7 +74,7 @@ class AuthZService extends BaseService {
    * @returns {Promise} - A promise representing an async call to the tuple delete endpoint.
    * @example
    * ```typescript
-   * const response = await authz.tuple_delete({
+   * const response = await authz.tupleDelete({
    *   tuples: [
    *     {
    *       resource: { namespace: 'folder', id: 'resource1' },
@@ -128,7 +128,7 @@ class AuthZService extends BaseService {
    * @returns {Promise} - A promise representing an async call to the list resources endpoint.
    * @example
    * ```typescript
-   * const response = await authz.list_resources({
+   * const response = await authz.listResources({
    *   namespace: 'folder',
    *   action: 'read',
    *   subject: { namespace: 'user', id: 'user1' },
@@ -152,7 +152,7 @@ class AuthZService extends BaseService {
    * @returns {Promise} - A promise representing an async call to the list subjects endpoint.
    * @example
    * ```typescript
-   * const response = await authz.list_subjects({
+   * const response = await authz.listSubjects({
    *   resource: { namespace: 'folder', id: 'resource1' },
    *   action: 'read',
    * });
