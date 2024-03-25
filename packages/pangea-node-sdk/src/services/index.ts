@@ -1,5 +1,6 @@
 import AuditService from "./audit.js";
 import AuthNService from "./authn/index.js";
+import AuthZService from "./authz.js";
 import EmbargoService from "./embargo.js";
 import BaseService from "./base.js";
 import RedactService from "./redact.js";
@@ -16,6 +17,7 @@ import { FileScanService } from "./file_scan.js";
 export default {
   AuditService,
   AuthNService,
+  AuthZService,
   EmbargoService,
   BaseService,
   RedactService,
