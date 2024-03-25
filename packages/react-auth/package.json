@@ -35,6 +35,6 @@
     "@types/react": "^18.2.67",
     "parcel": "^2.12.0",
     "react": "^18.2.0",
-    "typescript": "^5.4.2"
+    "typescript": "^5.4.3"
   }
 }
