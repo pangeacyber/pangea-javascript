@@ -2877,3 +2877,126 @@ export namespace Sanitize {
     pollResultSync?: boolean;
   }
 }
+export namespace AuthZ {
+  export enum ItemOrder {
+    ASC = "asc",
+    DESC = "desc",
+  }
+    export enum TupleOrderBy {
+    RESOURCE_NAMESPACE = "resource_namespace",
+    RESOURCE_ID = "resource_id",
+    RELATION = "relation",
+    SUBJECT_NAMESPACE = "subject_namespace",
+    SUBJECT_ID = "subject_id",
+    SUBJECT_ACTION = "subject_action",
+  }
+
+  export interface Resource {
+    namespace: string;
+    id?: string;
+  }
+
+  export interface Subject {
+    namespace: string;
+    id?: string;
+    action?: string;
+  }
+
+  export interface Tuple {
+    resource: Resource;
+    relation: string;
+    subject: Subject;
+  }
+
+  export interface TupleCreateRequest {
+    tuples: Tuple[];
+  }
+
+  export interface TupleCreateResult {}
+
+  export interface TupleListFilter {
+    resource_namespace?: string;
+    resource_namespace__contains?: string[];
+    resource_namespace__in?: string[];
+    resource_id?: string;
+    resource_id__contains?: string[];
+    resource_id__in?: string[];
+    relation?: string;
+    relation__contains?: string[];
+    relation__in?: string[];
+    subject_namespace?: string;
+    subject_namespace__contains?: string[];
+    subject_namespace__in?: string[];
+    subject_id?: string;
+    subject_id__contains?: string[];
+    subject_id__in?: string[];
+    subject_action?: string;
+    subject_action__contains?: string[];
+    subject_action__in?: string[];
+  }
+
+  export interface TupleListRequest {
+    filter: TupleListFilter;
+    size?: number;
+    last?: string;
+    order?: ItemOrder;
+    order_by?: TupleOrderBy;
+  }
+
+  export interface TupleListResult {
+    tuples: Tuple[];
+    last: string;
+    count: number;
+  }
+
+  export interface TupleDeleteRequest {
+    tuples: Tuple[];
+  }
+
+  export interface TupleDeleteResult {}
+
+  export interface CheckRequest {
+    resource: Resource;
+    action: string;
+    subject: Subject;
+    debug?: boolean;
+    attributes?: Dictionary;
+  }
+
+  export interface DebugPath {
+    namespace: string;
+    id: string;
+    action: string;
+  }
+
+  export interface Debug {
+    path: DebugPath[];
+  }
+
+  export interface CheckResult {
+    schema_id: string;
+    schema_version: number;
+    depth: number;
+    allowed: boolean;
+    debug?: Debug;
+  }
+
+  export interface ListResourcesRequest {
+    namespace: string;
+    action: string;
+    subject: Subject;
+  }
+
+  export interface ListResourcesResult {
+    ids: string;
+  }
+
+  export interface ListSubjectsRequest {
+    resource: Resource;
+    action: string;
+  }
+
+  export interface ListSubjectsResult {
+    subjects: Subject[];
+  }
+}
