@@ -14,7 +14,7 @@
     "build": "rollup -c"
   },
   "devDependencies": {
-    "@babel/core": "^7.24.0",
+    "@babel/core": "^7.24.3",
     "@mui/icons-material": "^5.15.14",
     "@mui/material": "^5.15.14",
     "@mui/types": "^7.2.14",
