@@ -331,7 +331,8 @@ export const useConsitency = (
   } = useAuditContext();
   const consistencyKey = `${record?.leaf_index}`;
   const transactionId =
-    get(publishedRoots, record?.leaf_index ?? "", {}).transactionId ?? "";
+    (get(publishedRoots, record?.leaf_index ?? "") as Audit.Root)
+      ?.transactionId ?? "";
 
   const isConsistent = get(consistency ?? {}, consistencyKey, false);
 

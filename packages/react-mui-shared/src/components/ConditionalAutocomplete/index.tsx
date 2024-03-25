@@ -1,4 +1,4 @@
-import { useState, forwardRef, useMemo, useRef, useEffect } from "react";
+import { useState, forwardRef, useMemo, useRef, useEffect, FC } from "react";
 import find from "lodash/find";
 import isEmpty from "lodash/isEmpty";
 import startCase from "lodash/startCase";
@@ -32,6 +32,42 @@ interface ConditionalAutocompleteProps {
   onOpen?: (open: boolean) => void;
   error?: string;
 }
+
+const HelperText: FC<{ error: any }> = ({ error }) => {
+  if (!error) {
+    return null;
+  }
+
+  if (!!error && typeof error === "string") {
+    return (
+      <Stack
+        sx={{
+          userSelect: "auto",
+          paddingY: 0.5,
+          paddingX: 1,
+        }}
+      >
+        <Typography color="error" variant="caption" sx={{ userSelect: "auto" }}>
+          {error.split(" ").map((e, i) => {
+            if (e.startsWith("https://")) {
+              return (
+                <>
+                  <a href={e} target="blank_" style={{ color: "inherit" }}>
+                    {e}
+                  </a>
+                  <span> </span>
+                </>
+              );
+            }
+            return <span key={`auto-error-${i}`}>{e} </span>;
+          })}
+        </Typography>
+      </Stack>
+    );
+  }
+
+  return error;
+};
 
 /**
  * ConditionalAutocomplete is a wrapper around MUI Autocomplete to allow or conditional options.
@@ -94,78 +130,81 @@ const ConditionalAutocomplete = forwardRef<any, ConditionalAutocompleteProps>(
     }, [autocompleteOptions.length]);
 
     return (
-      <Autocomplete
-        ref={ref}
-        id="smart-auto-complete"
-        freeSolo
-        options={autocompleteOptions.map((option) => option.value)}
-        open={open}
-        onClose={(e) => {
-          setOpen(false);
-        }}
-        size={size}
-        value={value}
-        onSelect={(e) => {
-          if ("selectionStart" in e.target) {
-            // @ts-ignore selectionStart is type guarded
-            setCursor(e.target.selectionStart);
-            setOpen(!isEmpty(autocompleteOptions));
-          }
-        }}
-        onChange={(_, autoCompleteValue) => {
-          const start = value.substring(0, currentPosition[0] ?? 0);
-          const end = value.substring(currentPosition[1] ?? 0);
-          onChange(`${start}${autoCompleteValue}${end}`);
-          setOpen(false);
-        }}
-        sx={{
-          flexGrow: 1,
-        }}
-        filterOptions={(options, state) => {
-          const displayOptions = options.filter((option) =>
-            option.toLowerCase().trim().includes(current.toLowerCase().trim())
-          );
+      <Stack sx={{ flexGrow: 1 }}>
+        <Autocomplete
+          ref={ref}
+          id="smart-auto-complete"
+          freeSolo
+          options={autocompleteOptions.map((option) => option.value)}
+          open={open}
+          onClose={(e) => {
+            setOpen(false);
+          }}
+          size={size}
+          value={value}
+          onSelect={(e) => {
+            if ("selectionStart" in e.target) {
+              // @ts-ignore selectionStart is type guarded
+              setCursor(e.target.selectionStart);
+              setOpen(!isEmpty(autocompleteOptions));
+            }
+          }}
+          onChange={(_, autoCompleteValue) => {
+            const start = value.substring(0, currentPosition[0] ?? 0);
+            const end = value.substring(currentPosition[1] ?? 0);
+            onChange(`${start}${autoCompleteValue}${end}`);
+            setOpen(false);
+          }}
+          sx={{
+            flexGrow: 1,
+          }}
+          filterOptions={(options, state) => {
+            const displayOptions = options.filter((option) =>
+              option.toLowerCase().trim().includes(current.toLowerCase().trim())
+            );
 
-          return displayOptions;
-        }}
-        renderOption={(props, option) => {
-          // @ts-ignore
-          const optionValue: string = option;
-          return (
-            <ListItem {...props}>
-              <Stack direction="row" alignItems="center" spacing={1}>
-                <Typography variant="body2">
-                  {startCase(optionValue.replace(":", ""))}
-                </Typography>
-                {!!get(optionsMap, optionValue, { value: undefined }).value && (
-                  <Typography variant="body2" color="textSecondary">
-                    {optionsMap[optionValue].value.replace(":", "")}
+            return displayOptions;
+          }}
+          renderOption={(props, option) => {
+            // @ts-ignore
+            const optionValue: string = option;
+            return (
+              <ListItem {...props}>
+                <Stack direction="row" alignItems="center" spacing={1}>
+                  <Typography variant="body2">
+                    {startCase(optionValue.replace(":", ""))}
                   </Typography>
-                )}
-              </Stack>
-            </ListItem>
-          );
-        }}
-        renderInput={(params) => {
-          return (
-            <TextField
-              ref={inputRef}
-              {...params}
-              error={!!error}
-              helperText={error}
-              placeholder={placeholder}
-              InputProps={{
-                ...params?.InputProps,
-                ...InputProps,
-                onChange: (e) => {
-                  onChange(e.target.value);
-                  setOpen(!isEmpty(autocompleteOptions));
-                },
-              }}
-            />
-          );
-        }}
-      />
+                  {!!get(optionsMap, optionValue, { value: undefined })
+                    .value && (
+                    <Typography variant="body2" color="textSecondary">
+                      {optionsMap[optionValue].value.replace(":", "")}
+                    </Typography>
+                  )}
+                </Stack>
+              </ListItem>
+            );
+          }}
+          renderInput={(params) => {
+            return (
+              <TextField
+                ref={inputRef}
+                {...params}
+                error={!!error}
+                placeholder={placeholder}
+                InputProps={{
+                  ...params?.InputProps,
+                  ...InputProps,
+                  onChange: (e) => {
+                    onChange(e.target.value);
+                    setOpen(!isEmpty(autocompleteOptions));
+                  },
+                }}
+              />
+            );
+          }}
+        />
+        <HelperText error={error} />
+      </Stack>
     );
   }
 );

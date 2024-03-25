@@ -1990,10 +1990,10 @@
     prop-types "^15.8.1"
     react-is "^18.2.0"
 
-"@mui/x-data-grid@^6.19.5":
-  version "6.19.6"
-  resolved "https://registry.yarnpkg.com/@mui/x-data-grid/-/x-data-grid-6.19.6.tgz#6334bb70a7a2685fc1cf3ed902172661c3206f3f"
-  integrity sha512-jpZkX1Gnlo87gKcD10mKMY8YoAzUD8Cv3/IvedH3FINDKO3hnraMeOciKDeUk0tYSj8RUDB02kpTHCM8ojLVBA==
+"@mui/x-data-grid@^6.19.8":
+  version "6.19.8"
+  resolved "https://registry.yarnpkg.com/@mui/x-data-grid/-/x-data-grid-6.19.8.tgz#ef2ae60af6058b6c347132c026a51428a9ea9e65"
+  integrity sha512-QsOW9GhJdhvagJfUb5jpZE1MMaCLugxx0l89amxJAthMia95BlGS7jndiDEh8IQNthgzfxjAzrSv8GZpcgSEaA==
   dependencies:
     "@babel/runtime" "^7.23.2"
     "@mui/utils" "^5.14.16"
@@ -2001,10 +2001,10 @@
     prop-types "^15.8.1"
     reselect "^4.1.8"
 
-"@mui/x-date-pickers@^6.19.5":
-  version "6.19.7"
-  resolved "https://registry.yarnpkg.com/@mui/x-date-pickers/-/x-date-pickers-6.19.7.tgz#05bf07a7ae77af56b7bf3f2b1cb9d95b3325b72c"
-  integrity sha512-BCTOQjAuyU29Ymd2FJrHHdRh0U6Qve7MsthdrD2jjaMaR8ou455JuxsNTQUGSpiMkGHWOMVq+B8N1EBcSYH63g==
+"@mui/x-date-pickers@^6.19.8":
+  version "6.19.8"
+  resolved "https://registry.yarnpkg.com/@mui/x-date-pickers/-/x-date-pickers-6.19.8.tgz#3962f08194c7b2cba1b01688179a8835a8a27eae"
+  integrity sha512-6wgc2DoRTR9/mKesku4CVCKr9yYkY3FI2Oy/wshLTs2rFkw2Z10uxXFHBR9ugEtNPNCQv0qqwldElenYI97wsA==
   dependencies:
     "@babel/runtime" "^7.23.2"
     "@mui/base" "^5.0.0-beta.22"
@@ -2056,14 +2056,14 @@
     mkdirp "^1.0.4"
     rimraf "^3.0.2"
 
-"@pangeacyber/react-mui-shared@0.0.55":
-  version "0.0.55"
-  resolved "https://registry.yarnpkg.com/@pangeacyber/react-mui-shared/-/react-mui-shared-0.0.55.tgz#0f4f54f975c91b8309e728534eca8de9ec311cdd"
-  integrity sha512-3L9qUy6kxhjdDvtuN1PQwAXD/mIF6c2JOZkJx+aTXM1GbRzpIKaZwv2jzcKsTtEthCNfrnm1QL1DOfd7mAOmvw==
+"@pangeacyber/react-mui-shared@0.0.57":
+  version "0.0.57"
+  resolved "https://registry.yarnpkg.com/@pangeacyber/react-mui-shared/-/react-mui-shared-0.0.57.tgz#b69701fdd3375f5417d0b82d181aca3b6933e526"
+  integrity sha512-BnUByc3nXqUIziVIq0Hm4lNQ6ftHh9inLhBvHH4VIZ7t6oWSJerkX90gKrYMtulMaiebbxG7/eRb0rri8vOdyw==
   dependencies:
     "@loadable/component" "^5.16.3"
-    "@mui/x-data-grid" "^6.19.5"
-    "@mui/x-date-pickers" "^6.19.5"
+    "@mui/x-data-grid" "^6.19.8"
+    "@mui/x-date-pickers" "^6.19.8"
     dayjs "^1.11.10"
     formik "^2.4.5"
     moment "^2.30.1"
