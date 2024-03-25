@@ -12,63 +12,63 @@ const domain = getTestDomain(environment);
 const config = new PangeaConfig({ domain: domain, customUserAgent: "sdk-test" });
 const authz = new AuthZService(token, config);
 
-const TIME = Math.round(Date.now() / 1000);
-const namespace_folder = "folder";
-const namespace_user = "user";
-const folder1 = "folder_1_" + TIME;
-const folder2 = "folder_2_" + TIME;
-const user1 = "user_1_" + TIME;
-const user2 = "user_2_" + TIME;
-const relation_owner = "owner";
-const relation_editor = "editor";
-const relation_reader = "reader";
+const CURRENT_TIME_IN_SECONDS = Math.round(Date.now() / 1000);
+const NAMESPACE_FOLDER = "folder";
+const NAMESPACE_USER = "user";
+const FOLDER_1 = "folder_1_" + CURRENT_TIME_IN_SECONDS;
+const FOLDER_2 = "folder_2_" + CURRENT_TIME_IN_SECONDS;
+const USER_1 = "user_1_" + CURRENT_TIME_IN_SECONDS;
+const USER_2 = "user_2_" + CURRENT_TIME_IN_SECONDS;
+const RELATION_OWNER = "owner";
+const RELATION_EDITOR = "editor";
+const RELATION_READER = "reader";
 
 it("AuthZ cycle", async () => {
   // Create tuples
-  const rCreate = await authz.tuple_create({
+  const rCreate = await authz.tupleCreate({
     tuples: [
       {
         resource: {
-          namespace: namespace_folder,
-          id: folder1,
+          namespace: NAMESPACE_FOLDER,
+          id: FOLDER_1,
         },
-        relation: relation_reader,
+        relation: RELATION_READER,
         subject: {
-          namespace: namespace_user,
-          id: user1,
+          namespace: NAMESPACE_USER,
+          id: USER_1,
         },
       },
       {
         resource: {
-          namespace: namespace_folder,
-          id: folder1,
+          namespace: NAMESPACE_FOLDER,
+          id: FOLDER_1,
         },
-        relation: relation_editor,
+        relation: RELATION_EDITOR,
         subject: {
-          namespace: namespace_user,
-          id: user2,
+          namespace: NAMESPACE_USER,
+          id: USER_2,
         },
       },
       {
         resource: {
-          namespace: namespace_folder,
-          id: folder2,
+          namespace: NAMESPACE_FOLDER,
+          id: FOLDER_2,
         },
-        relation: relation_editor,
+        relation: RELATION_EDITOR,
         subject: {
-          namespace: namespace_user,
-          id: user1,
+          namespace: NAMESPACE_USER,
+          id: USER_1,
         },
       },
       {
         resource: {
-          namespace: namespace_folder,
-          id: folder2,
+          namespace: NAMESPACE_FOLDER,
+          id: FOLDER_2,
         },
-        relation: relation_owner,
+        relation: RELATION_OWNER,
         subject: {
-          namespace: namespace_user,
-          id: user2,
+          namespace: NAMESPACE_USER,
+          id: USER_2,
         },
       },
     ],
@@ -77,10 +77,10 @@ it("AuthZ cycle", async () => {
   expect(rCreate.result).toStrictEqual({});
 
   // Tuple list with resource
-  const rListWithResource = await authz.tuple_list({
+  const rListWithResource = await authz.tupleList({
     filter: {
-      resource_namespace: namespace_folder,
-      resource_id: folder1,
+      resource_namespace: NAMESPACE_FOLDER,
+      resource_id: FOLDER_1,
     },
   });
 
@@ -89,10 +89,10 @@ it("AuthZ cycle", async () => {
   expect(rListWithResource.result.count).toBe(2);
 
   // Tuple list with subject
-  const tListWithSubject = await authz.tuple_list({
+  const tListWithSubject = await authz.tupleList({
     filter: {
-      subject_namespace: namespace_user,
-      subject_id: user1,
+      subject_namespace: NAMESPACE_USER,
+      subject_id: USER_1,
     },
   });
 
@@ -101,17 +101,17 @@ it("AuthZ cycle", async () => {
   expect(tListWithSubject.result.count).toBe(2);
 
   // Tuple delete
-  const rDelete = await authz.tuple_delete({
+  const rDelete = await authz.tupleDelete({
     tuples: [
       {
         resource: {
-          namespace: namespace_folder,
-          id: folder1,
+          namespace: NAMESPACE_FOLDER,
+          id: FOLDER_1,
         },
-        relation: relation_reader,
+        relation: RELATION_READER,
         subject: {
-          namespace: namespace_user,
-          id: user1,
+          namespace: NAMESPACE_USER,
+          id: USER_1,
         },
       },
     ],
@@ -121,13 +121,13 @@ it("AuthZ cycle", async () => {
   // Check no debug
   let rCheck = await authz.check({
     resource: {
-      namespace: namespace_folder,
-      id: folder1,
+      namespace: NAMESPACE_FOLDER,
+      id: FOLDER_1,
     },
     action: "reader",
     subject: {
-      namespace: namespace_user,
-      id: user2,
+      namespace: NAMESPACE_USER,
+      id: USER_2,
     },
   });
   expect(rCheck.result).toBeDefined();
@@ -139,13 +139,13 @@ it("AuthZ cycle", async () => {
   // Check debug
   rCheck = await authz.check({
     resource: {
-      namespace: namespace_folder,
-      id: folder1,
+      namespace: NAMESPACE_FOLDER,
+      id: FOLDER_1,
     },
     action: "editor",
     subject: {
-      namespace: namespace_user,
-      id: user2,
+      namespace: NAMESPACE_USER,
+      id: USER_2,
     },
     debug: true,
   });
@@ -156,12 +156,12 @@ it("AuthZ cycle", async () => {
   expect(rCheck.result.schema_version).toBeDefined();
 
   // List resources
-  const rListResources = await authz.list_resources({
-    namespace: namespace_folder,
-    action: relation_editor,
+  const rListResources = await authz.listResources({
+    namespace: NAMESPACE_FOLDER,
+    action: RELATION_EDITOR,
     subject: {
-      namespace: namespace_user,
-      id: user2,
+      namespace: NAMESPACE_USER,
+      id: USER_2,
     },
   });
 
@@ -169,12 +169,12 @@ it("AuthZ cycle", async () => {
   expect(rListResources.result.ids.length).toBe(1);
 
   // List subjects
-  const rListSubjects = await authz.list_subjects({
+  const rListSubjects = await authz.listSubjects({
     resource: {
-      namespace: namespace_folder,
-      id: folder2,
+      namespace: NAMESPACE_FOLDER,
+      id: FOLDER_2,
     },
-    action: relation_editor,
+    action: RELATION_EDITOR,
   });
 
   expect(rListSubjects.result).toBeDefined();

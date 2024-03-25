@@ -34,9 +34,7 @@ class AuthZService extends BaseService {
    * });
    * ```
    */
-  tuple_create(
-    request: AuthZ.TupleCreateRequest
-  ): Promise<PangeaResponse<AuthZ.TupleCreateResult>> {
+  tupleCreate(request: AuthZ.TupleCreateRequest): Promise<PangeaResponse<AuthZ.TupleCreateResult>> {
     return this.post("v1beta/tuple/create", request);
   }
 
@@ -62,7 +60,7 @@ class AuthZService extends BaseService {
    * });
    * ```
    */
-  tuple_list(request: AuthZ.TupleListRequest): Promise<PangeaResponse<AuthZ.TupleListResult>> {
+  tupleList(request: AuthZ.TupleListRequest): Promise<PangeaResponse<AuthZ.TupleListResult>> {
     return this.post("v1beta/tuple/list", request);
   }
 
@@ -88,9 +86,7 @@ class AuthZService extends BaseService {
    * });
    * ```
    */
-  tuple_delete(
-    request: AuthZ.TupleDeleteRequest
-  ): Promise<PangeaResponse<AuthZ.TupleDeleteResult>> {
+  tupleDelete(request: AuthZ.TupleDeleteRequest): Promise<PangeaResponse<AuthZ.TupleDeleteResult>> {
     return this.post("v1beta/tuple/delete", request);
   }
 
@@ -139,7 +135,7 @@ class AuthZService extends BaseService {
    * });
    * ```
    */
-  list_resources(
+  listResources(
     request: AuthZ.ListResourcesRequest
   ): Promise<PangeaResponse<AuthZ.ListResourcesResult>> {
     return this.post("v1beta/list-resources", request);
@@ -162,7 +158,7 @@ class AuthZService extends BaseService {
    * });
    * ```
    */
-  list_subjects(
+  listSubjects(
     request: AuthZ.ListSubjectsRequest
   ): Promise<PangeaResponse<AuthZ.ListSubjectsResult>> {
     return this.post("v1beta/list-subjects", request);
