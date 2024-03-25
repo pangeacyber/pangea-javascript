@@ -1,0 +1,12 @@
+{
+  "name": "sanitize_examples",
+  "version": "0.0.0",
+  "description": "Pangea Sanitize examples",
+  "private": true,
+  "author": "Pangea",
+  "license": "MIT",
+  "packageManager": "yarn@1.22.22",
+  "dependencies": {
+    "pangea-node-sdk": "4.1.0"
+  }
+}
