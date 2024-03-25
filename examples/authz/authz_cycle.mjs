@@ -1,9 +1,6 @@
 /* eslint-disable no-console */
 
-import {
-  PangeaConfig,
-  AuthZService,
-} from "pangea-node-sdk";
+import { PangeaConfig, AuthZService } from "pangea-node-sdk";
 
 // Load Pangea token and domain from environment variables
 const token = process.env.PANGEA_AUTHZ_TOKEN;
