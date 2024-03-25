@@ -3,10 +3,7 @@
 import {
   PangeaConfig,
   AuthZService,
-  TransferMethod,
-  AuthZ,
 } from "pangea-node-sdk";
-import * as fs from "fs";
 
 // Load Pangea token and domain from environment variables
 const token = process.env.PANGEA_AUTHZ_TOKEN;
@@ -93,8 +90,8 @@ const RELATION_READER = "reader";
     console.log(`Total tuples listed: ${rListWithResource.result.count}`);
     rListWithResource.result.tuples.forEach((tuple, i) => {
       console.log(`Tuple #${i}`);
-      console.log(`\tNamespace: ${tuple.subject_namespace}`);
-      console.log(`\tSubject ID: ${tuple.subject_id}`);
+      console.log(`\tNamespace: ${tuple.subject.namespace}`);
+      console.log(`\tSubject ID: ${tuple.subject.id}`);
     });
 
     // Tuple list with subject
@@ -109,8 +106,8 @@ const RELATION_READER = "reader";
     console.log(`Total tuples listed: ${tListWithSubject.result.count}`);
     tListWithSubject.result.tuples.forEach((tuple, i) => {
       console.log(`Tuple #${i}`);
-      console.log(`\tNamespace: ${tuple.resource_namespace}`);
-      console.log(`\tResource ID: ${tuple.resource_id}`);
+      console.log(`\tNamespace: ${tuple.resource.namespace}`);
+      console.log(`\tResource ID: ${tuple.resource.id}`);
     });
 
     // Tuple delete
