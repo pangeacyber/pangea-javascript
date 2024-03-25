@@ -27,11 +27,10 @@ const RELATION_OWNER = "owner";
 const RELATION_EDITOR = "editor";
 const RELATION_READER = "reader";
 
-
 (async () => {
   try {
     // Create tuples
-    console.log("Creating tuples...")
+    console.log("Creating tuples...");
     await authz.tupleCreate({
       tuples: [
         {
@@ -80,10 +79,10 @@ const RELATION_READER = "reader";
         },
       ],
     });
-    console.log("Create success.")
+    console.log("Create success.");
 
     // Tuple list with resource
-    console.log("Listing tuples with resource...")
+    console.log("Listing tuples with resource...");
     const rListWithResource = await authz.tupleList({
       filter: {
         resource_namespace: NAMESPACE_FOLDER,
@@ -93,13 +92,13 @@ const RELATION_READER = "reader";
 
     console.log(`Total tuples listed: ${rListWithResource.result.count}`);
     rListWithResource.result.tuples.forEach((tuple, i) => {
-      console.log(`Tuple #${i}`)
-      console.log(`\tNamespace: ${tuple.subject_namespace}`)
-      console.log(`\tSubject ID: ${tuple.subject_id}`)
+      console.log(`Tuple #${i}`);
+      console.log(`\tNamespace: ${tuple.subject_namespace}`);
+      console.log(`\tSubject ID: ${tuple.subject_id}`);
     });
 
     // Tuple list with subject
-    console.log("Listing tuples with subject...")
+    console.log("Listing tuples with subject...");
     const tListWithSubject = await authz.tupleList({
       filter: {
         subject_namespace: NAMESPACE_USER,
@@ -109,13 +108,13 @@ const RELATION_READER = "reader";
 
     console.log(`Total tuples listed: ${tListWithSubject.result.count}`);
     tListWithSubject.result.tuples.forEach((tuple, i) => {
-      console.log(`Tuple #${i}`)
-      console.log(`\tNamespace: ${tuple.resource_namespace}`)
-      console.log(`\tResource ID: ${tuple.resource_id}`)
+      console.log(`Tuple #${i}`);
+      console.log(`\tNamespace: ${tuple.resource_namespace}`);
+      console.log(`\tResource ID: ${tuple.resource_id}`);
     });
 
     // Tuple delete
-    console.log("Deleting tuple...")
+    console.log("Deleting tuple...");
     await authz.tupleDelete({
       tuples: [
         {
@@ -132,7 +131,7 @@ const RELATION_READER = "reader";
       ],
     });
     console.log("Delete success");
-    
+
     // Check no debug
     console.log("Checking tuple...");
     let rCheck = await authz.check({
@@ -147,10 +146,10 @@ const RELATION_READER = "reader";
       },
     });
 
-    if( rCheck.result.allowed ){
-      console.log("Subject IS allowed")
+    if (rCheck.result.allowed) {
+      console.log("Subject IS allowed");
     } else {
-      console.log("Subject is NOT allowed")
+      console.log("Subject is NOT allowed");
     }
 
     // Check debug
@@ -168,15 +167,15 @@ const RELATION_READER = "reader";
       debug: true,
     });
 
-    if( rCheck.result.allowed ){
-      console.log("Subject IS allowed")
+    if (rCheck.result.allowed) {
+      console.log("Subject IS allowed");
     } else {
-      console.log("Subject is NOT allowed")
+      console.log("Subject is NOT allowed");
     }
     console.log(`Debug data: ${rCheck.result.debug}`);
 
     // List resources
-    console.log("Listing resources...")
+    console.log("Listing resources...");
     const rListResources = await authz.listResources({
       namespace: NAMESPACE_FOLDER,
       action: RELATION_EDITOR,
@@ -185,14 +184,14 @@ const RELATION_READER = "reader";
         id: USER_2,
       },
     });
-    
+
     console.log(`Total resources listed: ${rListResources.result.length}`);
     rListResources.result.ids.forEach((id, i) => {
       console.log(`Resource #${i}. ID: ${id}`);
     });
-    
+
     // List subjects
-    console.log("Listing subjects...")
+    console.log("Listing subjects...");
     const rListSubjects = await authz.listSubjects({
       resource: {
         namespace: NAMESPACE_FOLDER,
@@ -201,11 +200,14 @@ const RELATION_READER = "reader";
       action: RELATION_EDITOR,
     });
 
-    console.log(`Total subjects listed: ${rListSubjects.result.subjects.length}`);
+    console.log(
+      `Total subjects listed: ${rListSubjects.result.subjects.length}`
+    );
     rListSubjects.result.subjects.forEach((subject, i) => {
-      console.log(`Subject #${i}. Namespace: ${subject.namespace}. ID: ${subject.id}`);
+      console.log(
+        `Subject #${i}. Namespace: ${subject.namespace}. ID: ${subject.id}`
+      );
     });
-
   } catch (e) {
     console.log(e.toString());
   }
