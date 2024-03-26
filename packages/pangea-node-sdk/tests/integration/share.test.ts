@@ -29,6 +29,7 @@ const TAGS = ["tag1", "tag2"];
 const ADD_TAGS = ["tag3"];
 
 const testFilePath = "./tests/testdata/testfile.pdf";
+const testFilePath18MB = "./tests/testdata/interactive3.pdf";
 const zeroBytesFilePath = "./tests/testdata/zerobytes.txt";
 jest.setTimeout(120000);
 
@@ -158,6 +159,48 @@ it("Put file. post-url transfer_method", async () => {
       {
         file: testFilePath,
         name: name,
+      }
+    );
+    expect(respPut.success).toBeTruthy();
+
+    let respGet = await client.getItem({
+      id: respPut.result.object.id,
+      transfer_method: TransferMethod.MULTIPART,
+    });
+
+    expect(respGet.success).toBeTruthy();
+    expect(respGet.result.dest_url).toBeUndefined();
+    expect(respGet.attachedFiles.length).toBe(1);
+    expect(respGet.attachedFiles[0]).toBeDefined();
+    respGet.attachedFiles[0]?.save("./download/");
+
+    respGet = await client.getItem({
+      id: respPut.result.object.id,
+      transfer_method: TransferMethod.DEST_URL,
+    });
+
+    expect(respGet.success).toBeTruthy();
+    expect(respGet.attachedFiles.length).toBe(0);
+    expect(respGet.result.dest_url).toBeDefined();
+  } catch (e) {
+    e instanceof PangeaErrors.APIError
+      ? console.log(e.toString())
+      : console.log(e);
+    throw e;
+  }
+});
+
+it("Put file. post-url transfer_method and path", async () => {
+  try {
+    const path = "sdk/test/js/" + TIME + "_file_post_url";
+    const respPut = await client.put(
+      {
+        path: path,
+        transfer_method: TransferMethod.POST_URL,
+      },
+      {
+        file: testFilePath18MB,
+        name: "file",
       }
     );
     expect(respPut.success).toBeTruthy();
