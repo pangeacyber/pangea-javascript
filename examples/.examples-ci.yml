@@ -1,5 +1,6 @@
 examples-tests:
   stage: examples
+  retry: 2
   needs:
     - pangea-node-sdk-pack
     - pangea-node-sdk-integration-tests
