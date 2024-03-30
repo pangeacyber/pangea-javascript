@@ -986,10 +986,10 @@
     "@testing-library/dom" "^9.0.0"
     "@types/react-dom" "^18.0.0"
 
-"@tsconfig/cypress@1.0.1":
-  version "1.0.1"
-  resolved "https://registry.yarnpkg.com/@tsconfig/cypress/-/cypress-1.0.1.tgz#132c23cf885dcf7d79a7b9844ca38a69bb8d7732"
-  integrity sha512-iMHduexJCL6aKafaCkkSClbKQI7A75QE6z8DuKPEXKXH8o/1JJeCTdkZP60d7ZFVrXBlKH4opNK8zycJADJ8iQ==
+"@tsconfig/cypress@1.0.2":
+  version "1.0.2"
+  resolved "https://registry.yarnpkg.com/@tsconfig/cypress/-/cypress-1.0.2.tgz#4139e69c090b457e27e11627ecadbbcd49a8b09e"
+  integrity sha512-VMob5QMd/jWhZAzmT1Jbr5csbfWZWd0ASrmQVxoQ/JIUVhdtlUI0/E/QAgIMjhv9OPoSRmbxQsr9rkOAtRydaQ==
 
 "@tsconfig/vite-react@3.0.1":
   version "3.0.1"
