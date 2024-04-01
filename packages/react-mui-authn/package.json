@@ -21,7 +21,7 @@
   "devDependencies": {
     "@babel/core": "7.24.3",
     "@emotion/react": "^11.11.4",
-    "@emotion/styled": "^11.11.0",
+    "@emotion/styled": "^11.11.5",
     "@fontsource/kanit": "^5.0.19",
     "@fontsource/roboto": "^5.0.12",
     "@mui/icons-material": "^5.15.14",
