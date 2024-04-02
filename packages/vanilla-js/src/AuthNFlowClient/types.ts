@@ -466,6 +466,12 @@ export namespace AuthFlow {
     data: EmptyObject;
   }
 
+  // Conditional MFA
+  export interface ConditionalMfaConfig {
+    strict_mode: boolean;
+    lifetime: number;
+  }
+
   // Result, Request and State types
 
   export type Result =
@@ -517,6 +523,7 @@ export namespace AuthFlow {
     magiclink?: MagiclinkResponse;
     profile?: ProfileResponse;
     provisional?: ProvisionalResponse;
+    conditionalMfa?: ConditionalMfaConfig;
   }
 
   export interface StartRequest {
