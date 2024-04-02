@@ -53,6 +53,7 @@ export namespace AuthFlow {
 
   export interface StartParams {
     email?: string;
+    device_id?: string;
   }
 
   export type ChoiceResponse =
@@ -523,6 +524,7 @@ export namespace AuthFlow {
     flow_types: string[];
     email?: string;
     invitation?: string;
+    device_id?: string;
   }
 
   export type UpdateRequest =
@@ -552,6 +554,7 @@ export namespace AuthFlow {
 
   export interface CompleteRequest {
     flow_id: string;
+    device_id?: string;
   }
 
   export type RestartChoice =

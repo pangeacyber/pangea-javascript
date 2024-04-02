@@ -80,6 +80,10 @@ export class AuthNFlowClient extends AuthNClient {
       payload.email = data.email;
     }
 
+    if (data?.device_id) {
+      payload.device_id = data.device_id;
+    }
+
     return await this._post(path, payload);
   }
 
