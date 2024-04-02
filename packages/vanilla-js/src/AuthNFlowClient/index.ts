@@ -101,11 +101,15 @@ export class AuthNFlowClient extends AuthNClient {
     return await this._post(path, payload);
   }
 
-  async complete(): Promise<ClientResponse> {
+  async complete(device_id: string = ""): Promise<ClientResponse> {
     const path = `${API_FLOW_BASE}/${AuthFlow.Endpoint.COMPLETE}`;
     const payload: AuthFlow.CompleteRequest = {
       flow_id: this.state.flowId,
     };
+
+    if (device_id) {
+      payload.device_id = device_id;
+    }
 
     return await this._post(path, payload);
   }
@@ -319,6 +323,15 @@ export class AuthNFlowClient extends AuthNClient {
       this.state.flowChoices = cloneDeep(response.result.flow_choices);
       this.state.phase = result.flow_phase;
 
+      // initial parsed data variables
+      this.state.authChoices = [];
+      this.state.socialChoices = [];
+      this.state.samlChoices = [];
+      this.state.socialProviderMap = {};
+      this.state.samlProviderMap = {};
+      this.state.callbackStateMap = {};
+      this.state.agreements = [];
+
       if (result.email) {
         this.state.email = result.email;
       }
@@ -331,17 +344,12 @@ export class AuthNFlowClient extends AuthNClient {
         this.state.complete = true;
       }
 
-      // initial parsed data variables
-      this.state.authChoices = [];
-      this.state.socialChoices = [];
-      this.state.samlChoices = [];
-      this.state.socialProviderMap = {};
-      this.state.samlProviderMap = {};
-      this.state.callbackStateMap = {};
-      this.state.agreements = [];
-
       if (result.disclaimer) {
         this.state.disclaimer = result.disclaimer;
+      }
+
+      if (result.conditional_mfa) {
+        this.state.conditionalMfa = result.conditional_mfa;
       }
 
       // parse flow_choices into groups and choice_map
