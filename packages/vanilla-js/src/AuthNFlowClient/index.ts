@@ -421,18 +421,16 @@ export class AuthNFlowClient extends AuthNClient {
         // map social state to provider name
         if (this.state.socialChoices?.length > 0) {
           this.state.socialChoices.forEach((p: AuthFlow.SocialResponse) => {
-            this.state.callbackStateMap[
-              p.state
-            ] = `social:${p.social_provider}`;
+            this.state.callbackStateMap[p.state] =
+              `social:${p.social_provider}`;
           });
         }
 
         // map saml state to provider name
         if (this.state.samlChoices?.length > 0) {
           this.state.samlChoices.forEach((p: AuthFlow.SamlResponse) => {
-            this.state.callbackStateMap[
-              p.state
-            ] = `saml:${p.provider_id}:${p.provider_name}`;
+            this.state.callbackStateMap[p.state] =
+              `saml:${p.provider_id}:${p.provider_name}`;
           });
         }
       });
