@@ -12,6 +12,8 @@ export {
   FlowPhase,
 } from "@src/features/AuthFlow/types";
 
+export { STORAGE_DEVICE_ID_KEY } from "@src/features/AuthFlow/utils";
+
 // Flow2 exports
 export {
   AuthFlowLayout,
