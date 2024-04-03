@@ -1,5 +1,5 @@
 import { Stack, TextField } from "@mui/material";
-import React, { FC, useRef, useState, useEffect } from "react";
+import React, { FC, useRef, useState, useEffect, useMemo } from "react";
 import { useTheme } from "@mui/material/styles";
 
 interface CodeInputProps {
@@ -17,7 +17,6 @@ const CodeInput: FC<CodeInputProps> = ({
   onFinish,
   disabled = false,
 }) => {
-  const theme = useTheme();
   const [values, setValues] = useState<Record<number, string>>({});
   const inputRefs = useRef<Record<number, HTMLDivElement | null>>({});
   const inputs = Array(0, 1, 2, 3, 4, 5);
@@ -49,6 +48,12 @@ const CodeInput: FC<CodeInputProps> = ({
 
     if (newValue !== value) onChange(newValue);
   }, [values]);
+
+  const inputName = useMemo(() => {
+    return Math.random()
+      .toString(36)
+      .replace(/[^a-z0-9]/g, "");
+  }, []);
 
   const getInputs = (
     inputId: number
@@ -151,6 +156,7 @@ const CodeInput: FC<CodeInputProps> = ({
             inputRef={(ref) => {
               inputRefs.current[inputId] = ref;
             }}
+            name={`otp-input-${inputName}`}
             inputProps={{
               autoComplete: "new-password",
               form: {

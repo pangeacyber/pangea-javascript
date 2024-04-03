@@ -5,6 +5,7 @@ import AuthFlowLayout from "../Layout";
 import { AuthOptions, SocialOptions } from "../../components";
 import IdField from "@src/components/fields/IdField";
 import { BodyText } from "@src/components/core/Text";
+import RememberDevice from "../../components/RememberDevice";
 
 const LoginView: FC<AuthFlowComponentProps> = (props) => {
   const { options, data, reset } = props;
@@ -35,6 +36,9 @@ const LoginView: FC<AuthFlowComponentProps> = (props) => {
           </BodyText>
         )}
       <SocialOptions {...props} />
+      {!!data.conditionalMfa && data.phase === "phase_secondary" && (
+        <RememberDevice {...props} />
+      )}
     </AuthFlowLayout>
   );
 };

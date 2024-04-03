@@ -1744,10 +1744,10 @@
   resolved "https://registry.yarnpkg.com/@pangeacyber/react-mui-branding/-/react-mui-branding-0.0.13.tgz#5b696d686e1d4e56f8b190b8ccc182e92c71bc6c"
   integrity sha512-D6J+00zHH3f0GOcY+HiX3zrfGKJq5KE1tfSnEtdA2zW+0ORbtynxY85Wtp+AzXOwANKbCK3r6FkgV3XqJgzNhA==
 
-"@pangeacyber/vanilla-js@0.1.6":
-  version "0.1.6"
-  resolved "https://registry.yarnpkg.com/@pangeacyber/vanilla-js/-/vanilla-js-0.1.6.tgz#dc2abd9109b341e0db92d0d3305e202f2581e3c1"
-  integrity sha512-rC0zMR0LF3ITlB+h0ypQDCeABY6jYzudCP31PuO60gzOsS59lb7ozr0Hlrz9RIsDM1VouOCEBrfu2v9z0u1Smw==
+"@pangeacyber/vanilla-js@0.1.8":
+  version "0.1.8"
+  resolved "https://registry.yarnpkg.com/@pangeacyber/vanilla-js/-/vanilla-js-0.1.8.tgz#178e9cfef624e46c31489335adb48c04ab5e1b8e"
+  integrity sha512-PE+XjkMJAN/ya+mV/PZos/5Na0UfG9vFwqXpM1+voxgM/wXfKq86K2pGJlqtehPwMCO/S2p/Jp6jAIqVlgeB0A==
   dependencies:
     lodash "^4.17.21"
 
@@ -3329,17 +3329,10 @@
   resolved "https://registry.yarnpkg.com/@types/mime-types/-/mime-types-2.1.4.tgz#93a1933e24fed4fb9e4adc5963a63efcbb3317a2"
   integrity sha512-lfU4b34HOri+kAY5UheuFMWPDOI+OPceBSHZKp69gEyTL/mmJ4cnU6Y/rlme3UL3GyOn6Y42hyIEw0/q8sWx5w==
 
-"@types/mime@*":
-  version "4.0.0"
-  resolved "https://registry.yarnpkg.com/@types/mime/-/mime-4.0.0.tgz#b5f8a75697ac775ecf1daaea9bfb91cde065b397"
-  integrity sha512-5eEkJZ/BLvTE3vXGKkWlyTSUVZuzj23Wj8PoyOq2lt5I3CYbiLBOPb3XmCW6QcuOibIUE6emHXHt9E/F/rCa6w==
-  dependencies:
-    mime "*"
-
-"@types/mime@^1":
-  version "1.3.5"
-  resolved "https://registry.yarnpkg.com/@types/mime/-/mime-1.3.5.tgz#1ef302e01cf7d2b5a0fa526790c9123bf1d06690"
-  integrity sha512-/pyBZWSLD2n0dcHE3hq8s8ZvcETHtEuF+3E7XVt0Ig2nvsVQXdghHVcEkIWjy9A0wKfTn97a/PSDYohKIlnP/w==
+"@types/mime@*", "@types/mime@3.0.4", "@types/mime@^1":
+  version "3.0.4"
+  resolved "https://registry.yarnpkg.com/@types/mime/-/mime-3.0.4.tgz#2198ac274de6017b44d941e00261d5bc6a0e0a45"
+  integrity sha512-iJt33IQnVRkqeqC7PzBHPTC6fDlRNRW8vjrgqtScAhrmMwe8c4Eo7+fUGTa+XdWrpEgpyKWMYmi2dIwMAYRzPw==
 
 "@types/node-fetch@^2.6.4":
   version "2.6.11"
@@ -6709,11 +6702,6 @@ mime-types@^2.1.12, mime-types@^2.1.25, mime-types@^2.1.27, mime-types@^2.1.31, 
   integrity sha512-ZDY+bPm5zTTF+YpCrAU9nK0UgICYPT0QtT1NZWFv4s++TNkcgVaT0g6+4R2uI4MjQjzysHB1zxuWL50hzaeXiw==
   dependencies:
     mime-db "1.52.0"
-
-mime@*:
-  version "4.0.1"
-  resolved "https://registry.yarnpkg.com/mime/-/mime-4.0.1.tgz#ad7563d1bfe30253ad97dedfae2b1009d01b9470"
-  integrity sha512-5lZ5tyrIfliMXzFtkYyekWbtRXObT9OWa8IwQ5uxTBDHucNNwniRqo0yInflj+iYi5CBa6qxadGzGarDfuEOxA==
 
 mime@1.6.0:
   version "1.6.0"
