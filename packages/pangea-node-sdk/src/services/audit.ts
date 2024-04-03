@@ -190,7 +190,8 @@ class AuditService extends BaseService {
       response = await this.post("v2/log_async", data, postOptions);
     } catch (e) {
       if (e instanceof PangeaErrors.AcceptedRequestException) {
-        return e.pangeaResponse;
+        // TODO: bad type cast
+        return e.pangeaResponse as unknown as PangeaResponse<Audit.LogBulkResponse>;
       } else {
         throw e;
       }
@@ -413,6 +414,45 @@ class AuditService extends BaseService {
   }
 
   /**
+   * @summary Export from the audit log
+   * @description Bulk export of data from the Secure Audit Log, with optional
+   * filtering.
+   * @operationId audit_post_v1_export
+   * @param request Request parameters.
+   * @returns A Pangea response with a `request_id` that can be used to fetch
+   * the exported results at a later time.
+   * @example
+   * ```js
+   * const exportRes = await auditGeneral.export({ verbose: false });
+   *
+   * // Export may take several dozens of minutes, so polling for the result
+   * // should be done in a loop. That is omitted here for brevity's sake.
+   * try {
+   *   await auditGeneral.pollResult(exportRes.request_id);
+   * } catch (error) {
+   *   if (error instanceof PangeaErrors.AcceptedRequestException) {
+   *     // Retry later.
+   *   }
+   * }
+   *
+   * // Download the result when it's ready.
+   * const downloadRes = await auditGeneral.downloadResults({ request_id: exportRes.request_id });
+   * downloadRes.result.dest_url;
+   * // => https://pangea-runtime.s3.amazonaws.com/audit/xxxxx/search_results_[...]
+   * ```
+   */
+  async export(request: Audit.ExportRequest): Promise<PangeaResponse<{}>> {
+    try {
+      return await this.post("v1/export", request, { pollResultSync: false });
+    } catch (error) {
+      if (error instanceof PangeaErrors.AcceptedRequestException) {
+        return error.pangeaResponse;
+      }
+      throw error;
+    }
+  }
+
+  /**
    * @summary Tamperproof verification
    * @description Returns current root hash and consistency proof.
    * @operationId audit_post_v1_root
@@ -450,6 +490,10 @@ class AuditService extends BaseService {
   downloadResults(
     request: Audit.DownloadRequest
   ): Promise<PangeaResponse<Audit.DownloadResult>> {
+    if (!request.request_id && !request.result_id) {
+      throw new TypeError("must specify one of `request_id` or `result_id`");
+    }
+
     return this.post("v1/download_results", request);
   }
 

@@ -223,26 +223,21 @@ export namespace Audit {
   }
 
   export enum DownloadFormat {
-    /**
-     * JSON.
-     */
+    /** JSON. */
     JSON = "json",
 
-    /**
-     * CSV.
-     */
+    /** CSV. */
     CSV = "csv",
   }
 
   export interface DownloadRequest {
-    /**
-     * ID returned by the search API.
-     */
-    result_id: string;
+    /** ID returned by the search API. */
+    request_id?: string;
 
-    /**
-     * Format for the records.
-     */
+    /** ID returned by the search API. */
+    result_id?: string;
+
+    /** Format for the records. */
     format?: DownloadFormat;
   }
 
@@ -251,6 +246,32 @@ export namespace Audit {
      * URL where search results can be downloaded.
      */
     dest_url: string;
+  }
+
+  export interface ExportRequest {
+    /** Format for the records. */
+    format?: DownloadFormat;
+
+    /** The start of the time range to perform the search on. */
+    start?: string;
+
+    /**
+     * The end of the time range to perform the search on. If omitted, then all
+     * records up to the latest will be searched.
+     */
+    end?: string;
+
+    /** Name of column to sort the results by. */
+    order_by?: string;
+
+    /** Specify the sort order of the response. */
+    order?: "asc" | "desc";
+
+    /**
+     * Whether or not to include the root hash of the tree and the membership
+     * proof for each record.
+     */
+    verbose?: boolean;
   }
 }
 

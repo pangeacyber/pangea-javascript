@@ -1041,3 +1041,35 @@ it("log stream", async () => {
   const response = await audit.logStream(data);
   expect(response.status).toEqual("Success");
 });
+
+it("export download", async () => {
+  const exportRes = await auditGeneral.export({ verbose: false });
+  expect(exportRes.status).toStrictEqual("Accepted");
+
+  // Note that the export can easily take dozens of minutes, if not longer, so
+  // we don't actually wait for the results on CI. Instead we just poll it once
+  // and then attempt the download, even when we know it isn't ready yet, just
+  // to verify that the core of the functions are working.
+  try {
+    await auditGeneral.pollResult(exportRes.request_id);
+  } catch (error) {
+    if (error instanceof PangeaErrors.AcceptedRequestException) {
+      expect(error.pangeaResponse.status).toStrictEqual("Accepted");
+    } else {
+      throw error;
+    }
+  }
+
+  try {
+    await auditGeneral.downloadResults({ request_id: exportRes.request_id });
+  } catch (error) {
+    if (error instanceof PangeaErrors.NotFound) {
+      // This may be thrown if this test runs while an export is already in
+      // progress, since the request ID from the current run does not match the
+      // original request ID that started the export in a previous run.
+      expect(error.pangeaResponse.status).toStrictEqual("NotFound");
+    }
+
+    // Otherwise the test may be considered a success at this point.
+  }
+});
