@@ -1,5 +1,5 @@
 .react_auth_base:
-  image: node:18.20.0@sha256:8438dbe00747d24cdb53c616e02bf804420df9052151713c59484a1ddaf87b24
+  image: node:18.20.1@sha256:0f3788e4c559da450959baa1a35d65ae2f55e3d6adc67b98a73f9b3459051a52
   before_script:
     - cd packages/react-auth
     - yarn install --frozen-lockfile
