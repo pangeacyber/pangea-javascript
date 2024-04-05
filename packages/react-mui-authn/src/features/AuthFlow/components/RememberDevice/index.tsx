@@ -8,31 +8,54 @@ import { BodyText } from "@src/components/core/Text";
 
 const RememberDevice: FC<AuthFlowComponentProps> = ({ data }) => {
   const [checked, setChecked] = useState(false);
-  const label = data?.conditionalMfa?.strict_mode
-    ? "device"
-    : "device and location";
+  const label = !!data?.conditionalMfa?.strict_mode
+    ? "device and location"
+    : "device";
 
   useEffect(() => {
-    sessionStorage.removeItem(STORAGE_DEVICE_ID_KEY);
+    // if a device_id exists in localStorage, auto-check the checkbox
+    if (localStorage.getItem(STORAGE_DEVICE_ID_KEY)) {
+      setChecked(true);
+    }
   }, []);
+
+  useEffect(() => {
+    if (checked) {
+      sessionStorage.setItem(STORAGE_DEVICE_ID_KEY, deviceId);
+    } else {
+      sessionStorage.removeItem(STORAGE_DEVICE_ID_KEY);
+    }
+  }, [checked]);
 
   const deviceId = useMemo(() => {
     return generateGuid();
   }, []);
 
-  const handleClick = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setChecked(e.target.checked);
-
-    if (e.target.checked) {
-      sessionStorage.setItem(STORAGE_DEVICE_ID_KEY, deviceId);
-    } else {
-      sessionStorage.removeItem(STORAGE_DEVICE_ID_KEY);
-    }
   };
 
   return (
-    <Stack direction="row" alignItems="center" justifyContent="center">
-      <Checkbox checked={checked} onChange={handleClick} />
+    <Stack
+      direction="row"
+      alignItems="center"
+      justifyContent="center"
+      sx={{
+        "& p": {
+          whiteSpace: "nowrap",
+        },
+      }}
+    >
+      <Checkbox
+        checked={checked}
+        onChange={handleChange}
+        inputProps={{ "aria-label": "controlled" }}
+        sx={{
+          "& input": {
+            height: "100%",
+          },
+        }}
+      />
       <BodyText>
         Remember this {label} for {data?.conditionalMfa?.lifetime} days
       </BodyText>

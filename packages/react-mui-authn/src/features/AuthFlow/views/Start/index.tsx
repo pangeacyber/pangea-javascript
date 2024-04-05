@@ -66,6 +66,7 @@ const StartView: FC<AuthFlowComponentProps> = (props) => {
       {data.authChoices.length === 0 &&
         data.socialChoices.length === 0 &&
         data.samlChoices.length === 0 &&
+        !data.setEmail?.required_for &&
         !data.passkey && (
           <BodyText color="error" sxProps={{ padding: "0 16px" }}>
             There are no valid authentication methods available
