@@ -1,5 +1,5 @@
 .react_mui_branding_base:
-  image: node:18.20.1@sha256:0f3788e4c559da450959baa1a35d65ae2f55e3d6adc67b98a73f9b3459051a52
+  image: node:18.20.1@sha256:9f8f424027560a652e243fb8e3d03780397d00a3790cc5d4db74bfbfbdb69a05
   before_script:
     - cd packages/react-mui-branding
     - yarn install --frozen-lockfile
