@@ -137,7 +137,7 @@ export function getConfigID(
   environment: string,
   service: string,
   configNumber: number
-) {
+): string {
   const name =
     `PANGEA_${service.toUpperCase()}_CONFIG_ID_${configNumber}_` + environment;
   return loadEnvVar(name);
