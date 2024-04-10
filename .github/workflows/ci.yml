@@ -46,7 +46,7 @@ jobs:
             "examples-matrix=" + (split("\n") | map(select(length > 0)) | tostring)
         run: find . -type f -name 'yarn.lock' -printf '%h\n' | cut -c 3- | sort -u | jq -cRrs '${{ env.JQ_FILTER }}' >> "$GITHUB_OUTPUT"
 
-  build:
+  build-pangea-node-sdk:
     runs-on: ubuntu-latest
     defaults:
       run:
@@ -114,6 +114,42 @@ jobs:
         with:
           name: react-auth-package
           path: ./packages/react-auth/pangeacyber-react-auth-v*.tgz
+
+  build-react-mui-authn:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./packages/react-mui-authn
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4.1.1
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4.0.2
+        with:
+          node-version: 20
+          cache: yarn
+          cache-dependency-path: ./packages/react-mui-authn/yarn.lock
+
+      - name: Install dependencies
+        run: yarn install --frozen-lockfile
+
+      - run: yarn list
+
+      - name: Storybook
+        run: yarn build-storybook
+
+      - name: Build
+        run: yarn build
+
+      - name: Pack
+        run: yarn pack
+
+      - name: Upload
+        uses: actions/upload-artifact@v4.3.1
+        with:
+          name: react-mui-authn-package
+          path: ./packages/react-mui-authn/pangeacyber-react-mui-authn-v*.tgz
 
   build-react-mui-shared:
     runs-on: ubuntu-latest
@@ -194,7 +230,7 @@ jobs:
         run: yarn lint
 
   test-unit:
-    needs: [build]
+    needs: [build-pangea-node-sdk]
     runs-on: ubuntu-latest
     strategy:
       matrix:
@@ -222,7 +258,7 @@ jobs:
         run: yarn test:unit --ci --coverage
 
   docs:
-    needs: [build]
+    needs: [build-pangea-node-sdk]
     runs-on: ubuntu-latest
     defaults:
       run:
@@ -251,7 +287,7 @@ jobs:
           path: ./packages/pangea-node-sdk/docs.json
 
   examples:
-    needs: [setup, build]
+    needs: [setup, build-pangea-node-sdk]
     runs-on: ubuntu-latest
     strategy:
       matrix:
