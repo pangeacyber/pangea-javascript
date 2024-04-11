@@ -1,6 +1,6 @@
 build_react_mui_store_file_viewer:
   stage: build
-  image: node:20.12.2@sha256:0c260bd156154d79a97c0435163aa7ed5e64dcbc203ae8b9d0bbf23e1bf9a38c
+  image: node:20.12.2@sha256:844b41cf784f66d7920fd673f7af54ca7b81e289985edc6cd864e7d05e0d133c
   cache:
     - key:
         files:
@@ -18,7 +18,7 @@ build_react_mui_store_file_viewer:
 publish_react_mui_store_file_viewer:
   needs: [build_react_mui_store_file_viewer]
   stage: publish
-  image: node:20.12.2@sha256:0c260bd156154d79a97c0435163aa7ed5e64dcbc203ae8b9d0bbf23e1bf9a38c
+  image: node:20.12.2@sha256:844b41cf784f66d7920fd673f7af54ca7b81e289985edc6cd864e7d05e0d133c
   script:
     # Install jq for the publish script.
     - apt-get -qq update
