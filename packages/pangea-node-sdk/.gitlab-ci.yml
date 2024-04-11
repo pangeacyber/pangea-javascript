@@ -47,6 +47,7 @@ pangea-node-sdk-integration-tests:
     # Config IDs
     - export PANGEA_AUDIT_CONFIG_ID_1_${ENV}="$(eval echo \$PANGEA_AUDIT_CONFIG_ID_1_${ENV}_${CLOUD})"
     - export PANGEA_AUDIT_CONFIG_ID_2_${ENV}="$(eval echo \$PANGEA_AUDIT_CONFIG_ID_2_${ENV}_${CLOUD})"
+    - export PANGEA_AUDIT_CONFIG_ID_3_${ENV}="$(eval echo \$PANGEA_AUDIT_CONFIG_ID_3_${ENV}_${CLOUD})"
     - export PANGEA_REDACT_CONFIG_ID_1_${ENV}="$(eval echo \$PANGEA_REDACT_CONFIG_ID_1_${ENV}_${CLOUD})"
     - export PANGEA_REDACT_CONFIG_ID_2_${ENV}="$(eval echo \$PANGEA_REDACT_CONFIG_ID_2_${ENV}_${CLOUD})"
 

@@ -380,6 +380,39 @@ class AuditService extends BaseService {
   }
 
   /**
+   * @summary Log streaming endpoint
+   * @description This API allows 3rd party vendors (like Auth0) to stream
+   * events to this endpoint where the structure of the payload varies across
+   * different vendors.
+   * @operationId audit_post_v1_log_stream
+   * @param data Event data. The exact schema of this will vary by vendor.
+   * @returns A Pangea response.
+   * @example
+   * ```js
+   * const data = {
+   *   logs: [
+   *     {
+   *       log_id: "some log id",
+   *       data: {
+   *         date: "2024-03-29T17:26:50.193Z",
+   *         type: "some_type",
+   *         description: "Create a log stream",
+   *         client_id: "test client ID",
+   *         ip: "127.0.0.1",
+   *         user_agent: "AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0",
+   *         user_id: "test user ID",
+   *       },
+   *     },
+   *   ],
+   * };
+   * const response = await audit.logStream(data);
+   * ```
+   */
+  logStream(data: object): Promise<PangeaResponse<{}>> {
+    return this.post("v1/log_stream", data);
+  }
+
+  /**
    * @summary Tamperproof verification
    * @description Returns current root hash and consistency proof.
    * @operationId audit_post_v1_root

@@ -1014,3 +1014,30 @@ it("search and download", async () => {
 
   file.save("./");
 });
+
+it("log stream", async () => {
+  const data = {
+    logs: [
+      {
+        log_id: "some log id",
+        data: {
+          date: "2024-03-29T17:26:50.193Z",
+          type: "some_type",
+          description: "Create a log stream",
+          client_id: "test client ID",
+          ip: "127.0.0.1",
+          user_agent: "AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0",
+          user_id: "test user ID",
+        },
+      },
+    ],
+  };
+  const configId = getConfigID(environment, "audit", 3);
+  const config = new PangeaConfig({
+    domain: domain,
+    customUserAgent: "sdk-test",
+  });
+  const audit = new AuditService(tokenMultiConfig, config, undefined, configId);
+  const response = await audit.logStream(data);
+  expect(response.status).toEqual("Success");
+});
