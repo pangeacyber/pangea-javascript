@@ -25,7 +25,7 @@ publish_react_mui_authn:
         - packages/react-mui-authn/**/*
       when: always
 
-tag_react_auth:
+tag_react_mui_authn:
   extends: .react_mui_authn_base
   stage: tag_release
   script:
