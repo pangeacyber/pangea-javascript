@@ -19,7 +19,7 @@
   },
   "dependencies": {
     "axios": "^1.6.8",
-    "jose": "^5.2.3",
+    "jose": "^5.2.4",
     "lodash": "^4.17.21"
   },
   "peerDependencies": {
