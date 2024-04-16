@@ -1,9 +1,10 @@
-<p>
-  <br />
-  <a href="https://pangea.cloud?utm_source=github&utm_medium=node-sdk" target="_blank" rel="noopener noreferrer">
-    <img src="https://pangea-marketing.s3.us-west-2.amazonaws.com/pangea-color.svg" alt="Pangea Logo" height="40" />
-  </a>
-  <br />
+\*\*\*\*<p>
+<br />
+<a href="https://pangea.cloud?utm_source=github&utm_medium=node-sdk" target="_blank" rel="noopener noreferrer">
+<img src="https://pangea-marketing.s3.us-west-2.amazonaws.com/pangea-color.svg" alt="Pangea Logo" height="40" />
+</a>
+<br />
+
 </p>
 
 <p>
@@ -74,6 +75,8 @@ The AuditLogViewer component accepts the following props:
   - domain: string;
   - configId (conditionally-optional): A configId is conditionally optional depending on if your project in Pangea has multiple Audit configurations. With multiple Audit configurations the configId is required to identify which Audit schema should be fetched.
 - schema (optional): An object representing the audit schema. With Audit Service custom schema support, you can change the expected Audit schema. This will control what fields are rendered.
+- schemaOptions (optional): An object representing options for mutating the audit schema the component uses.
+  - hiddenFields (optional): A list of field ids to hide/remove from the schema before it is rendered. Will completely hide the field from the table, visibility options, and filtering
 
 For a deeper dive into the Prop interface check the source code [here](https://github.com/pangeacyber/pangea-javascript/blob/main/packages/react-mui-audit-log-viewer/src/AuditLogViewer.tsx)
 

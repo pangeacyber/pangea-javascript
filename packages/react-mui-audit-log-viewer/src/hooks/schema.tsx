@@ -8,7 +8,7 @@ import cloneDeep from "lodash/cloneDeep";
 import keyBy from "lodash/keyBy";
 import mapValues from "lodash/mapValues";
 
-import { Audit, AuthConfig } from "../types";
+import { Audit, AuthConfig, SchemaOptions } from "../types";
 import { GridColDef } from "@mui/x-data-grid";
 import {
   FilterOptions,
@@ -94,7 +94,8 @@ export const DEFAULT_AUDIT_SCHEMA: Audit.Schema = {
 
 export const useSchema = (
   auth: AuthConfig | undefined,
-  schemaProp: Audit.Schema | undefined
+  schemaProp: Audit.Schema | undefined,
+  options: SchemaOptions | undefined = undefined
 ): {
   schema: Audit.Schema;
   loading: boolean;
@@ -154,7 +155,17 @@ export const useSchema = (
     if (error) console.error(error);
   }, [error]);
 
-  return { schema: schemaProp ?? schema_, loading, error };
+  const schema = useMemo(() => {
+    const schema = cloneDeep(schemaProp ?? schema_);
+    schema.fields = schema.fields?.filter(
+      (f) =>
+        !options?.hiddenFields?.length || !options?.hiddenFields?.includes(f.id)
+    );
+
+    return schema;
+  }, [schemaProp, schema_, options]);
+
+  return { schema, loading, error };
 };
 
 const COLUMN_TYPE_MAP = {

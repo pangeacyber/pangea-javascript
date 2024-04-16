@@ -182,3 +182,7 @@ export interface AuthConfig {
   domain: string;
   configId?: string;
 }
+
+export interface SchemaOptions {
+  hiddenFields?: string[];
+}
