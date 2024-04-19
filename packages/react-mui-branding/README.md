@@ -100,4 +100,4 @@ const MyComponent: React.FC = () => {
 
 The BrandingThemeProvider component is primarily a light wrapper around the Material-UI component library, ThemeProvider component. so styling of the component can be controlled through a MUI Theme. See Theming documentation [here](https://mui.com/material-ui/customization/theming/)
 
-We additional export utility functions such as `fetchBrandingThemeOptions(auth, brandingId, themeOptions = {}, themeOptionsHook = noop) -> Theme`, which accepts the same interfaces as the BrandingThemeProvider, to allow you to fetch the Pangea branding MUI Theme outside of react, can be fetched server-side, such that the Theme can be directly passed in ThemeProvider for Material-UI.
+We additionally export utility functions such as `fetchBrandingThemeOptions(auth, brandingId, themeOptions = {}, themeOptionsHook = noop) -> Theme`, which accepts the same interfaces as the BrandingThemeProvider, to allow you to fetch the Pangea branding MUI Theme outside of react, can be fetched server-side, such that the Theme can be directly passed in ThemeProvider for Material-UI.
