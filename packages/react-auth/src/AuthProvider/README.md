@@ -57,7 +57,7 @@ Use the `useAuth` hook in your components to access authentication state.
 
 ```jsx
 // src/App.js
-import React from 'react';
+import React from "react";
 
 import { useAuth } from "@pangeacyber/react-auth";
 
@@ -66,9 +66,9 @@ const App = () => {
   const navigate = useNavigate();
 
   if (loading) {
-    return (<div>Loading<div/>);
+    return <div>Loading</div>;
   } else if (error) {
-    return (<div>Error: {error}</div>);
+    return <div>Error: {error}</div>;
   }
 
   if (authenticated) {
@@ -76,16 +76,16 @@ const App = () => {
       <div>
         Logged in as {user.profile.first_name}
         <button onClick={logout}>Logout</button>
-      <div>
-    )
+      </div>
+    );
   } else {
     return (
       <div>
         <button onClick={login}>Login</button>
       </div>
-    )
+    );
   }
-}
+};
 
 export default App;
 ```
@@ -101,10 +101,10 @@ Required Configuration
 
 Optional Configuration
 
-Additionl `config` object parameters
+Additional `config` object parameters
 **config**
 
-- **callbackUri** The URI that the hosted page will redirect to after a login or logout. Defaults to `window.location.orgin`.
+- **callbackUri** The URI that the hosted page will redirect to after a login or logout. Defaults to `window.location.origin`.
 - **useJwt** Use JSON Web Tokens for authentication. The AuthN Service must all be configured to use JWTs.
 - **sessionKey** The key name used for session information. Defaults to `pangea-session`.
 
