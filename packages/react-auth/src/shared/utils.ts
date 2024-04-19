@@ -1,7 +1,7 @@
 // Copyright 2023 Pangea Cyber Corporation
 // Author: Pangea Cyber Corporation
 
-import snakeCase from "lodash/snakeCase";
+import snakeCase from "lodash/snakeCase.js";
 
 const BASE58_ALPHABET =
   "123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz";
