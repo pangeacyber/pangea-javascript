@@ -8,6 +8,7 @@ import {
 } from "@src/components/Icons";
 
 export const STORAGE_DEVICE_ID_KEY = "remember-device-id";
+export const STORAGE_REMEMBER_USERNAME_KEY = "remember-username";
 
 export const getProviderIcon = (provider: string) => {
   switch (provider) {
