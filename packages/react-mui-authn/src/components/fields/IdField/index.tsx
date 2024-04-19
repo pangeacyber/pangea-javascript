@@ -7,6 +7,8 @@ import {
   Typography,
 } from "@mui/material";
 
+import { STORAGE_REMEMBER_USERNAME_KEY } from "@src/features/AuthFlow/utils";
+
 export interface Props {
   value?: string;
   resetLabel?: string;
@@ -18,6 +20,12 @@ const IdField: FC<Props> = ({
   resetLabel = "Start over",
   resetCallback,
 }) => {
+  const clickHandler = () => {
+    // remove the stored username on reset
+    localStorage.removeItem(STORAGE_REMEMBER_USERNAME_KEY);
+    resetCallback();
+  };
+
   if (!value) {
     return null;
   }
@@ -31,7 +39,7 @@ const IdField: FC<Props> = ({
         endAdornment={
           <InputAdornment position="end">
             <Button
-              onClick={resetCallback}
+              onClick={clickHandler}
               color="secondary"
               size="small"
               disableElevation={true}

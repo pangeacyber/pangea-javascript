@@ -1,11 +1,10 @@
-import { FC, useEffect, useMemo, useState } from "react";
+import { FC, useEffect, useState } from "react";
 import { Checkbox, Stack, Typography } from "@mui/material";
 
-import { STORAGE_DEVICE_ID_KEY } from "@src/features/AuthFlow/utils";
-import { generateGuid } from "@src/features/AuthFlow/utils";
+import { STORAGE_REMEMBER_USERNAME_KEY } from "@src/features/AuthFlow/utils";
 import { AuthFlowComponentProps } from "@src/features/AuthFlow/types";
 
-const RememberDevice: FC<AuthFlowComponentProps> = ({ data }) => {
+const RememberUser: FC<AuthFlowComponentProps> = ({ data }) => {
   const [checked, setChecked] = useState(false);
   const label = !!data?.conditionalMfa?.strict_mode
     ? "device and location"
@@ -13,22 +12,18 @@ const RememberDevice: FC<AuthFlowComponentProps> = ({ data }) => {
 
   useEffect(() => {
     // if a device_id exists in localStorage, auto-check the checkbox
-    if (localStorage.getItem(STORAGE_DEVICE_ID_KEY)) {
+    if (localStorage.getItem(STORAGE_REMEMBER_USERNAME_KEY)) {
       setChecked(true);
     }
   }, []);
 
   useEffect(() => {
     if (checked) {
-      sessionStorage.setItem(STORAGE_DEVICE_ID_KEY, deviceId);
+      localStorage.setItem(STORAGE_REMEMBER_USERNAME_KEY, data?.email || "");
     } else {
-      sessionStorage.removeItem(STORAGE_DEVICE_ID_KEY);
+      localStorage.removeItem(STORAGE_REMEMBER_USERNAME_KEY);
     }
   }, [checked]);
-
-  const deviceId = useMemo(() => {
-    return generateGuid();
-  }, []);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setChecked(e.target.checked);
@@ -57,11 +52,9 @@ const RememberDevice: FC<AuthFlowComponentProps> = ({ data }) => {
           },
         }}
       />
-      <Typography variant="body2">
-        Remember this {label} for {data?.conditionalMfa?.lifetime} days
-      </Typography>
+      <Typography variant="body2">Remember username</Typography>
     </Stack>
   );
 };
 
-export default RememberDevice;
+export default RememberUser;

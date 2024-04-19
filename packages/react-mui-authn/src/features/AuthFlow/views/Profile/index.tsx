@@ -1,7 +1,7 @@
 import { FC } from "react";
 import { useFormik } from "formik";
 import * as yup from "yup";
-import { Stack } from "@mui/material";
+import { Checkbox, FormControlLabel, Stack } from "@mui/material";
 
 import { AuthFlow } from "@pangeacyber/vanilla-js";
 
@@ -70,9 +70,26 @@ const ProfileView: FC<AuthFlowComponentProps> = (props) => {
           {data?.profile?.fields.map((field: AuthFlow.ProfileField) => {
             if (field.show_on_signup) {
               if (field.type === "boolean") {
-                // FIXME: support for checkbox
+                // TODO: Move to component, add formik
+                return (
+                  <FormControlLabel
+                    control={<Checkbox />}
+                    label={field.label}
+                    name={field.id}
+                  />
+                );
               } else if (field.type === "date") {
-                // FIXME: support for date selector
+                // TODO: Add DatePicker component
+                // <DemoContainer components={['DatePicker']}>
+                //   <DatePicker label="Basic date picker" />
+                // </DemoContainer>
+                return (
+                  <StringField
+                    name={field.id}
+                    label={field.label}
+                    formik={formik}
+                  />
+                );
               } else if (field.type === "integer") {
                 return (
                   <StringField

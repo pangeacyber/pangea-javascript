@@ -11,18 +11,15 @@ import Button from "@src/components/core/Button";
 import PasswordField, {
   checkPassword,
 } from "@src/components/fields/PasswordField";
+import VerifyCaptcha from "../VerifyCaptcha";
+import RememberUser from "../RememberUser";
 
-const AuthPassword: FC<AuthFlowComponentProps> = ({
-  options,
-  data,
-  loading,
-  error,
-  update,
-  reset,
-  restart,
-}) => {
+const AuthPassword: FC<AuthFlowComponentProps> = (props) => {
+  const { options, data, loading, error, update, restart } = props;
   const [status, setStatus] = useState<any>();
+  const [captcha, setCaptcha] = useState("");
   const enrollment = !!data?.password?.enrollment || data?.setPassword;
+  const showReset = !!data.resetPassword && !data.setPassword;
   const passwordPolicy = enrollment
     ? { ...data?.password?.password_policy }
     : null;
@@ -55,7 +52,8 @@ const AuthPassword: FC<AuthFlowComponentProps> = ({
       if (data.setPassword) {
         update(AuthFlow.Choice.SET_PASSWORD, payload);
       } else {
-        update(AuthFlow.Choice.PASSWORD, payload);
+        // pass captcha code as extra param for combined password/captcha view
+        update(AuthFlow.Choice.PASSWORD, payload, captcha);
       }
     },
   });
@@ -66,6 +64,10 @@ const AuthPassword: FC<AuthFlowComponentProps> = ({
 
   const forgot = () => {
     restart(AuthFlow.Choice.RESET_PASSWORD);
+  };
+
+  const submitCaptcha = (code: string) => {
+    setCaptcha(code);
   };
 
   const getSubmitLabel = (): string => {
@@ -100,28 +102,39 @@ const AuthPassword: FC<AuthFlowComponentProps> = ({
             formik={formik}
             policy={passwordPolicy}
           />
+          {!!data.captcha && options.compactSignup && (
+            <VerifyCaptcha {...props} submitHandler={submitCaptcha} />
+          )}
           {status && <ErrorMessage response={status} />}
-          <Button
-            color="primary"
-            type="submit"
-            disabled={loading}
-            fullWidth={true}
-          >
-            {getSubmitLabel()}
-          </Button>
+          <Stack gap={showReset ? 0 : 1}>
+            <Button
+              color="primary"
+              type="submit"
+              disabled={loading || (!!data.captcha && !captcha)}
+              fullWidth={true}
+            >
+              {getSubmitLabel()}
+            </Button>
+            {(options.rememberUser || showReset) && (
+              <Stack
+                direction="row"
+                justifyContent={showReset ? "space-between" : "center"}
+              >
+                {options.rememberUser && <RememberUser {...props} />}
+                {showReset && (
+                  <Button
+                    variant="text"
+                    onClick={forgot}
+                    sx={{ paddingLeft: 0, paddingRight: 0 }}
+                  >
+                    Forgot password?
+                  </Button>
+                )}
+              </Stack>
+            )}
+          </Stack>
         </Stack>
       </form>
-      <Stack
-        direction={{ xs: "column", sm: "row" }}
-        justifyContent="center"
-        gap={{ xs: 0, sm: 1 }}
-      >
-        {!!data.resetPassword && !data.setPassword && (
-          <Button variant="text" onClick={forgot}>
-            Forgot your password?
-          </Button>
-        )}
-      </Stack>
     </Stack>
   );
 };

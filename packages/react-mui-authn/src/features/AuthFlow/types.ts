@@ -17,6 +17,8 @@ export interface AuthFlowViewOptions {
   privacyHeading?: string;
   submitLabel?: string;
   cancelLabel?: string;
+  compactSignup?: boolean; // show password and captcha on signup
+  rememberUser?: boolean; // show remember username on signin
 }
 
 export enum FlowPhase {
@@ -49,7 +51,7 @@ export interface AuthFlowComponentProps {
     state: string;
     code: string;
   };
-  update: (choice: AuthFlow.Choice, data: any) => void;
+  update: (choice: AuthFlow.Choice, data: any, extra?: any) => void;
   restart: (choice: AuthFlow.RestartChoice, data?: any) => void;
   reset: () => void;
 }
