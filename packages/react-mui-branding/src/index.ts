@@ -3,4 +3,8 @@ export {
   BrandingThemeProviderProps,
 } from "./components/BrandingThemeProvider";
 export * from "./types";
-export { getBrandingThemeOptions } from "./utils";
+export {
+  getBrandingThemeOptions,
+  fetchBrandingConfig,
+  fetchBrandingThemeOptions,
+} from "./utils";
