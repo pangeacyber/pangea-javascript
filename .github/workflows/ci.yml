@@ -74,7 +74,7 @@ jobs:
         run: yarn pack
 
       - name: Upload
-        uses: actions/upload-artifact@v4.3.1
+        uses: actions/upload-artifact@v4.3.2
         with:
           name: pangea-node-sdk-package
           path: ./packages/pangea-node-sdk/pangea-node-sdk-v*.tgz
@@ -110,7 +110,7 @@ jobs:
         run: yarn pack
 
       - name: Upload
-        uses: actions/upload-artifact@v4.3.1
+        uses: actions/upload-artifact@v4.3.2
         with:
           name: react-auth-package
           path: ./packages/react-auth/pangeacyber-react-auth-v*.tgz
@@ -146,7 +146,7 @@ jobs:
         run: yarn pack
 
       - name: Upload
-        uses: actions/upload-artifact@v4.3.1
+        uses: actions/upload-artifact@v4.3.2
         with:
           name: react-mui-authn-package
           path: ./packages/react-mui-authn/pangeacyber-react-mui-authn-v*.tgz
@@ -281,7 +281,7 @@ jobs:
         run: yarn generate:docs
 
       - name: Upload
-        uses: actions/upload-artifact@v4.3.1
+        uses: actions/upload-artifact@v4.3.2
         with:
           name: node_sdk.json
           path: ./packages/pangea-node-sdk/docs.json
