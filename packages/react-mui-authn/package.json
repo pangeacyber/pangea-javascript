@@ -70,7 +70,7 @@
   },
   "dependencies": {
     "@lexical/react": "0.14.2",
-    "@pangeacyber/react-mui-branding": "0.0.13",
+    "@pangeacyber/react-mui-branding": "0.0.16",
     "@pangeacyber/vanilla-js": "0.1.8",
     "@simplewebauthn/browser": "^9.0.1",
     "add": "^2.0.6",
