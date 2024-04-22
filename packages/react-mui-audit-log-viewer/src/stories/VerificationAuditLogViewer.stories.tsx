@@ -117,6 +117,7 @@ export const VerificationAuditLogViewer: {
 } = ThemeTemplate.bind({});
 
 VerificationAuditLogViewer.args = {
+  searchOnChange: false,
   onSearch: async (body) => {
     return fetch(
       `https://audit.${process.env.STORYBOOK_SERVICE_DOMAIN}/v1/search`,

@@ -25,6 +25,7 @@ import { PDG } from "../../types";
 export interface SearchProps<FiltersObj> {
   query?: string;
   error?: PDG.SearchError;
+  onSearch?: () => void;
   onChange: (query: string) => void;
   placeholder?: string;
   conditionalOptions?: ConditionalOption[];
@@ -44,6 +45,7 @@ const Search = <
   query,
   error,
   placeholder,
+  onSearch,
   onChange,
   conditionalOptions = [],
   loading = false,
@@ -59,6 +61,14 @@ const Search = <
   const searchRef = useRef<HTMLDivElement | null>(null);
 
   const [filterMenuOpen, setFilterMenuOpen] = useState(false);
+
+  const handleSearch = () => {
+    if (onSearch) {
+      return onSearch();
+    } else {
+      onChange(query_);
+    }
+  };
 
   return (
     <Stack spacing={1}>
@@ -101,6 +111,9 @@ const Search = <
                         </IconButton>
                       </>
                     ),
+                    onKeyUp: (e) => {
+                      if (e.key === "Enter") handleSearch();
+                    },
                     size: "small",
                     sx: {
                       flexGrow: 1,
@@ -123,7 +136,7 @@ const Search = <
         <Button
           variant="contained"
           color="secondary"
-          onClick={() => onChange(query_)}
+          onClick={handleSearch}
           disabled={loading}
           sx={{ maxHeight: "42px", ...SearchButtonSx }}
           {...SearchButtonProps}
