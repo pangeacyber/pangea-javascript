@@ -1,5 +1,10 @@
 import { useState, useEffect } from "react";
 import { Branding, PangeaAuth } from "./types";
+import {
+  fetchBrandingConfig,
+  getBrandingConfig,
+  setBrandingConfig,
+} from "./utils";
 
 export const useBranding = (
   auth: PangeaAuth | undefined,
@@ -7,11 +12,16 @@ export const useBranding = (
 ): {
   config: Partial<Branding.Config> | null;
   loading: boolean;
+  updating: boolean;
   error: string | null;
 } => {
-  const [config, setConfig] = useState<Partial<Branding.Config> | null>(null);
+  const [config, setConfig] = useState<Partial<Branding.Config> | null>(
+    getBrandingConfig()
+  );
   const [error, setError] = useState<string | null>(null);
+
   const [loading, setLoading] = useState(false);
+  const [updating, setUpdating] = useState(false);
 
   useEffect(() => {
     if (!auth && !brandingId) return;
@@ -28,28 +38,27 @@ export const useBranding = (
       return;
     }
 
-    setLoading(true);
-    fetch(`https://authn.${auth.domain}/v1/resource/branding`, {
-      method: "POST",
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${auth.clientToken}`,
-      },
-      body: JSON.stringify({
-        id: brandingId,
-      }),
-    }).then(async (res) => {
-      const data = await res.json();
-      if (data.result) {
-        setConfig(data.result);
-        setError(null);
-      } else
-        setError(data.summary ?? "Unable to retrieve branding configuration");
+    const storedBrandingConfig = getBrandingConfig();
+    if (storedBrandingConfig && storedBrandingConfig.id === brandingId) {
+      setUpdating(true);
+      setConfig(storedBrandingConfig);
+    } else {
+      setLoading(true);
+    }
 
-      setLoading(false);
-      return;
-    });
+    fetchBrandingConfig(auth, brandingId)
+      .then((config) => {
+        setBrandingConfig(config);
+        setConfig(config);
+        setError(null);
+      })
+      .catch((err) => {
+        setError(err);
+      })
+      .finally(() => {
+        setUpdating(false);
+        setLoading(false);
+      });
   }, [auth?.clientToken, auth?.domain, brandingId]);
 
   useEffect(() => {
@@ -57,5 +66,5 @@ export const useBranding = (
   }, [error]);
 
   // FIXME: Need to setup clientId, and determine exactly how we want fetching to work.
-  return { config, loading, error };
+  return { config, loading, updating, error };
 };
