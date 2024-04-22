@@ -358,11 +358,6 @@ export const AuthProvider: FC<AuthProviderProps> = ({
       }
     }
 
-    // pass `pm` (product marketing) param
-    if (urlParams.has("pm")) {
-      query.append("pm", urlParams.get("pm"));
-    }
-
     const queryParams = query.toString();
     const redirectTo = loginURL;
     const url = queryParams ? `${redirectTo}?${queryParams}` : redirectTo;
