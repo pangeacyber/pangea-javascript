@@ -389,7 +389,7 @@
   dependencies:
     "@parcel/plugin" "2.12.0"
 
-"@parcel/config-default@2.12.0":
+"@parcel/config-default@2.12.0", "@parcel/config-default@^2.12.0":
   version "2.12.0"
   resolved "https://registry.yarnpkg.com/@parcel/config-default/-/config-default-2.12.0.tgz#7b213348db349c6042a80dfd4a7eab707a1dfbfa"
   integrity sha512-dPNe2n9eEsKRc1soWIY0yToMUPirPIa2QhxcCB3Z5RjpDGIXm0pds+BaiqY6uGLEEzsjhRO0ujd4v2Rmm0vuFg==
@@ -665,7 +665,7 @@
   dependencies:
     "@parcel/plugin" "2.12.0"
 
-"@parcel/plugin@2.12.0":
+"@parcel/plugin@2.12.0", "@parcel/plugin@^2.12.0":
   version "2.12.0"
   resolved "https://registry.yarnpkg.com/@parcel/plugin/-/plugin-2.12.0.tgz#3db4237e8977ef5b5378b65eaffb809d2026431a"
   integrity sha512-nc/uRA8DiMoe4neBbzV6kDndh/58a4wQuGKw5oEoIwBCHUvE2W8ZFSu7ollSXUGRzfacTt4NdY8TwS73ScWZ+g==
@@ -933,7 +933,7 @@
     "@parcel/workers" "2.12.0"
     utility-types "^3.10.0"
 
-"@parcel/utils@2.12.0":
+"@parcel/utils@2.12.0", "@parcel/utils@^2.12.0":
   version "2.12.0"
   resolved "https://registry.yarnpkg.com/@parcel/utils/-/utils-2.12.0.tgz#ac900726e7cb12a9e6392081fa05b756183f65fd"
   integrity sha512-z1JhLuZ8QmDaYoEIuUCVZlhcFrS7LMfHrb2OCRui5SQFntRWBH2fNM6H/fXXUkT9SkxcuFP2DUA6/m4+Gkz72g==
