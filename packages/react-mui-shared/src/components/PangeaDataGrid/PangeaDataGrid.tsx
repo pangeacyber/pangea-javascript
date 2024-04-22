@@ -85,7 +85,7 @@ export interface PangeaDataGridProps<
     query?: string;
     error?: PDG.SearchError;
     placeholder?: string;
-    // Optional specific callback trigger when search or refresh is clicked
+    // Optional specific callback triggered when search or refresh is clicked
     // By default onChange is called if onSearch is not provided
     onSearch?: () => void;
     onChange: (query: string) => void;

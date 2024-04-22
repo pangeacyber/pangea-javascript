@@ -9,7 +9,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
-- Support optional onSearch callback for PangeaDataGrid. Trigger upon explicit refresh/search. Clicking the search button or entering "Enter"
+- Support optional onSearch callback for PangeaDataGrid. Triggered upon explicit refresh/search. Clicking the "Search" button or typing "Enter"
 
 ## [0.0.57] - 2024-03-25
 
