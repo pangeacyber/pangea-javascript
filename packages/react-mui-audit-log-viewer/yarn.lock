@@ -3041,7 +3041,7 @@
   resolved "https://registry.yarnpkg.com/@types/crypto-js/-/crypto-js-4.2.2.tgz#771c4a768d94eb5922cc202a3009558204df0cea"
   integrity sha512-sDOLlVbHhXpAUAL0YHDUUwDZf3iN4Bwi4W6a0W0b+QcAezUbRtH4FVb+9J4h+XFPW7l/gQ9F8qC7P+Ec4k8QVQ==
 
-"@types/diff@^5.0.9":
+"@types/diff@^5.2.0":
   version "5.2.0"
   resolved "https://registry.yarnpkg.com/@types/diff/-/diff-5.2.0.tgz#244ba764c195ba15c100e8810486f49b44a647a9"
   integrity sha512-pjJH+02ukgJRW0mViDUA1cdC+wzSgRu0e4cPuogPLAw0i66y62iMP0ZlXoJAmoXrKRZnF3pMDwyKZsgNVlMX4A==
