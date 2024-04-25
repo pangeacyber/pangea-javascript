@@ -106,7 +106,7 @@ const AuthPassword: FC<AuthFlowComponentProps> = (props) => {
             <VerifyCaptcha {...props} submitHandler={submitCaptcha} />
           )}
           {status && <ErrorMessage response={status} />}
-          <Stack gap={showReset ? 0 : 1}>
+          <Stack>
             <Button
               color="primary"
               type="submit"
@@ -118,9 +118,11 @@ const AuthPassword: FC<AuthFlowComponentProps> = (props) => {
             {(options.rememberUser || showReset) && (
               <Stack
                 direction="row"
-                justifyContent={showReset ? "space-between" : "center"}
+                justifyContent={showReset ? "space-between" : "flex-start"}
               >
-                {options.rememberUser && <RememberUser {...props} />}
+                {options.rememberUser && !enrollment && (
+                  <RememberUser {...props} />
+                )}
                 {showReset && (
                   <Button
                     variant="text"
