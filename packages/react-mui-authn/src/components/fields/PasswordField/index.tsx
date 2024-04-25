@@ -1,4 +1,4 @@
-import { FC, FormEvent, MouseEvent, useState } from "react";
+import { FC, MouseEvent, useState } from "react";
 import {
   FormControl,
   IconButton,
@@ -7,8 +7,6 @@ import {
   Tooltip,
 } from "@mui/material";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
-import useMediaQuery from "@mui/material/useMediaQuery";
-import { useTheme } from "@mui/material/styles";
 
 import { validatePassword } from "@src/utils";
 import PasswordRequirements from "@src/components/core/PasswordRequirements";
