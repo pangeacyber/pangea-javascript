@@ -1748,10 +1748,10 @@
     "@nodelib/fs.scandir" "2.1.5"
     fastq "^1.6.0"
 
-"@pangeacyber/react-mui-branding@0.0.16":
-  version "0.0.16"
-  resolved "https://registry.yarnpkg.com/@pangeacyber/react-mui-branding/-/react-mui-branding-0.0.16.tgz#56ed9729613b23f5d61a95df21b8eff7e10962c7"
-  integrity sha512-Ta5n/vuC8Bq/IyZlR5ZNhTbLT6SrsKrOS0voZ+2gaCybUf2VEqydMfEXnLN+i5uOlKG4dMPic6JU9h6zzVOrKQ==
+"@pangeacyber/react-mui-branding@0.0.17":
+  version "0.0.17"
+  resolved "https://registry.yarnpkg.com/@pangeacyber/react-mui-branding/-/react-mui-branding-0.0.17.tgz#87e2df462669621b348c18319a149ecf2d23f3fd"
+  integrity sha512-G4ourGkfadZuuaLHsRMRjSuEUN2LWDv0PQylO5R8YkXdxp/FMjk20qfTcVpXL2sALbGFh3lBOCvQUxumIF8/Eg==
 
 "@pangeacyber/vanilla-js@0.1.8":
   version "0.1.8"
