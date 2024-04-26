@@ -72,7 +72,7 @@
     "@lexical/react": "0.14.2",
     "@pangeacyber/react-mui-branding": "0.0.17",
     "@pangeacyber/vanilla-js": "0.1.8",
-    "@simplewebauthn/browser": "9.0.1",
+    "@simplewebauthn/browser": "10.0.0",
     "add": "^2.0.6",
     "formik": "^2.4.5",
     "lexical": "0.14.2",
