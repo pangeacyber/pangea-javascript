@@ -29,45 +29,45 @@ const RELATION_READER = "reader";
       tuples: [
         {
           resource: {
-            user: TYPE_FOLDER,
+            type: TYPE_FOLDER,
             id: FOLDER_1,
           },
           relation: RELATION_READER,
           subject: {
-            user: TYPE_USER,
+            type: TYPE_USER,
             id: USER_1,
           },
         },
         {
           resource: {
-            user: TYPE_FOLDER,
+            type: TYPE_FOLDER,
             id: FOLDER_1,
           },
           relation: RELATION_EDITOR,
           subject: {
-            user: TYPE_USER,
+            type: TYPE_USER,
             id: USER_2,
           },
         },
         {
           resource: {
-            user: TYPE_FOLDER,
+            type: TYPE_FOLDER,
             id: FOLDER_2,
           },
           relation: RELATION_EDITOR,
           subject: {
-            user: TYPE_USER,
+            type: TYPE_USER,
             id: USER_1,
           },
         },
         {
           resource: {
-            user: TYPE_FOLDER,
+            type: TYPE_FOLDER,
             id: FOLDER_2,
           },
           relation: RELATION_OWNER,
           subject: {
-            user: TYPE_USER,
+            type: TYPE_USER,
             id: USER_2,
           },
         },
@@ -79,7 +79,7 @@ const RELATION_READER = "reader";
     console.log("Listing tuples with resource...");
     const rListWithResource = await authz.tupleList({
       filter: {
-        resource_user: TYPE_FOLDER,
+        resource_type: TYPE_FOLDER,
         resource_id: FOLDER_1,
       },
     });
@@ -95,7 +95,7 @@ const RELATION_READER = "reader";
     console.log("Listing tuples with subject...");
     const tListWithSubject = await authz.tupleList({
       filter: {
-        subject_user: TYPE_USER,
+        subject_type: TYPE_USER,
         subject_id: USER_1,
       },
     });
@@ -113,12 +113,12 @@ const RELATION_READER = "reader";
       tuples: [
         {
           resource: {
-            user: TYPE_FOLDER,
+            type: TYPE_FOLDER,
             id: FOLDER_1,
           },
           relation: RELATION_READER,
           subject: {
-            user: TYPE_USER,
+            type: TYPE_USER,
             id: USER_1,
           },
         },
@@ -130,12 +130,12 @@ const RELATION_READER = "reader";
     console.log("Checking tuple...");
     let rCheck = await authz.check({
       resource: {
-        user: TYPE_FOLDER,
+        type: TYPE_FOLDER,
         id: FOLDER_1,
       },
       action: "reader",
       subject: {
-        user: TYPE_USER,
+        type: TYPE_USER,
         id: USER_2,
       },
     });
@@ -150,12 +150,12 @@ const RELATION_READER = "reader";
     console.log("Checking tuple with debug enabled...");
     rCheck = await authz.check({
       resource: {
-        user: TYPE_FOLDER,
+        type: TYPE_FOLDER,
         id: FOLDER_1,
       },
       action: "editor",
       subject: {
-        user: TYPE_USER,
+        type: TYPE_USER,
         id: USER_2,
       },
       debug: true,
@@ -171,15 +171,15 @@ const RELATION_READER = "reader";
     // List resources
     console.log("Listing resources...");
     const rListResources = await authz.listResources({
-      user: TYPE_FOLDER,
+      type: TYPE_FOLDER,
       action: RELATION_EDITOR,
       subject: {
-        user: TYPE_USER,
+        type: TYPE_USER,
         id: USER_2,
       },
     });
 
-    console.log(`Total resources listed: ${rListResources.result.length}`);
+    console.log(`Total resources listed: ${rListResources.result.ids.length}`);
     rListResources.result.ids.forEach((id, i) => {
       console.log(`Resource #${i}. ID: ${id}`);
     });
@@ -188,7 +188,7 @@ const RELATION_READER = "reader";
     console.log("Listing subjects...");
     const rListSubjects = await authz.listSubjects({
       resource: {
-        user: TYPE_FOLDER,
+        type: TYPE_FOLDER,
         id: FOLDER_2,
       },
       action: RELATION_EDITOR,

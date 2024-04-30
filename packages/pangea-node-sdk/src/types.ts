@@ -2915,18 +2915,18 @@ export namespace AuthZ {
   export interface TupleCreateResult {}
 
   export interface TupleListFilter {
-    resource_namespace?: string;
-    resource_namespace__contains?: string[];
-    resource_namespace__in?: string[];
+    resource_type?: string;
+    resource_type__contains?: string[];
+    resource_type__in?: string[];
     resource_id?: string;
     resource_id__contains?: string[];
     resource_id__in?: string[];
     relation?: string;
     relation__contains?: string[];
     relation__in?: string[];
-    subject_namespace?: string;
-    subject_namespace__contains?: string[];
-    subject_namespace__in?: string[];
+    subject_type?: string;
+    subject_type__contains?: string[];
+    subject_type__in?: string[];
     subject_id?: string;
     subject_id__contains?: string[];
     subject_id__in?: string[];
@@ -2988,7 +2988,7 @@ export namespace AuthZ {
   }
 
   export interface ListResourcesResult {
-    ids: string;
+    ids: string[];
   }
 
   export interface ListSubjectsRequest {

@@ -86,7 +86,7 @@ it("AuthZ cycle", async () => {
   // Tuple list with resource
   const rListWithResource = await authz.tupleList({
     filter: {
-      resource_namespace: TYPE_FOLDER,
+      resource_type: TYPE_FOLDER,
       resource_id: FOLDER_1,
     },
   });
@@ -98,7 +98,7 @@ it("AuthZ cycle", async () => {
   // Tuple list with subject
   const tListWithSubject = await authz.tupleList({
     filter: {
-      subject_namespace: TYPE_USER,
+      subject_type: TYPE_USER,
       subject_id: USER_1,
     },
   });
