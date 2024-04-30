@@ -2892,12 +2892,12 @@ export namespace AuthZ {
   }
 
   export interface Resource {
-    namespace: string;
+    type: string;
     id?: string;
   }
 
   export interface Subject {
-    namespace: string;
+    type: string;
     id: string;
     action?: string;
   }
@@ -2964,7 +2964,7 @@ export namespace AuthZ {
   }
 
   export interface DebugPath {
-    namespace: string;
+    type: string;
     id: string;
     action: string;
   }
@@ -2982,7 +2982,7 @@ export namespace AuthZ {
   }
 
   export interface ListResourcesRequest {
-    namespace: string;
+    type: string;
     action: string;
     subject: Subject;
   }

@@ -11,8 +11,8 @@ const authz = new AuthZService(token, config);
 
 // Create unique folder path
 const CURRENT_TIME_IN_SECONDS = Math.round(Date.now() / 1000);
-const NAMESPACE_FOLDER = "folder";
-const NAMESPACE_USER = "user";
+const TYPE_FOLDER = "folder";
+const TYPE_USER = "user";
 const FOLDER_1 = "folder_1_" + CURRENT_TIME_IN_SECONDS;
 const FOLDER_2 = "folder_2_" + CURRENT_TIME_IN_SECONDS;
 const USER_1 = "user_1_" + CURRENT_TIME_IN_SECONDS;
@@ -29,45 +29,45 @@ const RELATION_READER = "reader";
       tuples: [
         {
           resource: {
-            namespace: NAMESPACE_FOLDER,
+            user: TYPE_FOLDER,
             id: FOLDER_1,
           },
           relation: RELATION_READER,
           subject: {
-            namespace: NAMESPACE_USER,
+            user: TYPE_USER,
             id: USER_1,
           },
         },
         {
           resource: {
-            namespace: NAMESPACE_FOLDER,
+            user: TYPE_FOLDER,
             id: FOLDER_1,
           },
           relation: RELATION_EDITOR,
           subject: {
-            namespace: NAMESPACE_USER,
+            user: TYPE_USER,
             id: USER_2,
           },
         },
         {
           resource: {
-            namespace: NAMESPACE_FOLDER,
+            user: TYPE_FOLDER,
             id: FOLDER_2,
           },
           relation: RELATION_EDITOR,
           subject: {
-            namespace: NAMESPACE_USER,
+            user: TYPE_USER,
             id: USER_1,
           },
         },
         {
           resource: {
-            namespace: NAMESPACE_FOLDER,
+            user: TYPE_FOLDER,
             id: FOLDER_2,
           },
           relation: RELATION_OWNER,
           subject: {
-            namespace: NAMESPACE_USER,
+            user: TYPE_USER,
             id: USER_2,
           },
         },
@@ -79,7 +79,7 @@ const RELATION_READER = "reader";
     console.log("Listing tuples with resource...");
     const rListWithResource = await authz.tupleList({
       filter: {
-        resource_namespace: NAMESPACE_FOLDER,
+        resource_user: TYPE_FOLDER,
         resource_id: FOLDER_1,
       },
     });
@@ -87,7 +87,7 @@ const RELATION_READER = "reader";
     console.log(`Total tuples listed: ${rListWithResource.result.count}`);
     rListWithResource.result.tuples.forEach((tuple, i) => {
       console.log(`Tuple #${i}`);
-      console.log(`\tNamespace: ${tuple.subject.namespace}`);
+      console.log(`\tType: ${tuple.subject.type}`);
       console.log(`\tSubject ID: ${tuple.subject.id}`);
     });
 
@@ -95,7 +95,7 @@ const RELATION_READER = "reader";
     console.log("Listing tuples with subject...");
     const tListWithSubject = await authz.tupleList({
       filter: {
-        subject_namespace: NAMESPACE_USER,
+        subject_user: TYPE_USER,
         subject_id: USER_1,
       },
     });
@@ -103,7 +103,7 @@ const RELATION_READER = "reader";
     console.log(`Total tuples listed: ${tListWithSubject.result.count}`);
     tListWithSubject.result.tuples.forEach((tuple, i) => {
       console.log(`Tuple #${i}`);
-      console.log(`\tNamespace: ${tuple.resource.namespace}`);
+      console.log(`\tType: ${tuple.resource.type}`);
       console.log(`\tResource ID: ${tuple.resource.id}`);
     });
 
@@ -113,12 +113,12 @@ const RELATION_READER = "reader";
       tuples: [
         {
           resource: {
-            namespace: NAMESPACE_FOLDER,
+            user: TYPE_FOLDER,
             id: FOLDER_1,
           },
           relation: RELATION_READER,
           subject: {
-            namespace: NAMESPACE_USER,
+            user: TYPE_USER,
             id: USER_1,
           },
         },
@@ -130,12 +130,12 @@ const RELATION_READER = "reader";
     console.log("Checking tuple...");
     let rCheck = await authz.check({
       resource: {
-        namespace: NAMESPACE_FOLDER,
+        user: TYPE_FOLDER,
         id: FOLDER_1,
       },
       action: "reader",
       subject: {
-        namespace: NAMESPACE_USER,
+        user: TYPE_USER,
         id: USER_2,
       },
     });
@@ -150,12 +150,12 @@ const RELATION_READER = "reader";
     console.log("Checking tuple with debug enabled...");
     rCheck = await authz.check({
       resource: {
-        namespace: NAMESPACE_FOLDER,
+        user: TYPE_FOLDER,
         id: FOLDER_1,
       },
       action: "editor",
       subject: {
-        namespace: NAMESPACE_USER,
+        user: TYPE_USER,
         id: USER_2,
       },
       debug: true,
@@ -171,10 +171,10 @@ const RELATION_READER = "reader";
     // List resources
     console.log("Listing resources...");
     const rListResources = await authz.listResources({
-      namespace: NAMESPACE_FOLDER,
+      user: TYPE_FOLDER,
       action: RELATION_EDITOR,
       subject: {
-        namespace: NAMESPACE_USER,
+        user: TYPE_USER,
         id: USER_2,
       },
     });
@@ -188,7 +188,7 @@ const RELATION_READER = "reader";
     console.log("Listing subjects...");
     const rListSubjects = await authz.listSubjects({
       resource: {
-        namespace: NAMESPACE_FOLDER,
+        user: TYPE_FOLDER,
         id: FOLDER_2,
       },
       action: RELATION_EDITOR,
@@ -198,9 +198,7 @@ const RELATION_READER = "reader";
       `Total subjects listed: ${rListSubjects.result.subjects.length}`
     );
     rListSubjects.result.subjects.forEach((subject, i) => {
-      console.log(
-        `Subject #${i}. Namespace: ${subject.namespace}. ID: ${subject.id}`
-      );
+      console.log(`Subject #${i}. Type: ${subject.type}. ID: ${subject.id}`);
     });
   } catch (e) {
     console.log(e.toString());
