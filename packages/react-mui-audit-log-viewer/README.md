@@ -68,7 +68,7 @@ The AuditLogViewer component accepts the following props:
 - sx (optional): Additional CSS styles applied to the component using the SxProps interface.
 - pageSize (optional): The number of items to display per page.
 - dataGridProps (optional): Additional props to be passed to the underlying MUI DataGrid component.
-- fields (optional): An object containing partial definitions for the grid columns. The keys of the object correspond to properties of the Event type, and the values are partial definitions of the GridColDef type.
+- fields (optional): An object containing partial definitions for the grid columns. The keys of theon object correspond to properties of the Event type, and the values are partial definitions of the GridColDef type.
 - visibilityModel (optional): An object containing partial definitions for the visibility of the grid columns. The keys of the object correspond to properties of the Event type, and the values are boolean values indicating the visibility of the column.
 - filters (optional): An object representing the public audit query used to filter the audit log data.
 - config (optional): An object representing the authentication configuration. Used to fetch your project custom Audit schema, so the AuditLogViewer component can dynamically update as you update your configuration in Pangea Console.
