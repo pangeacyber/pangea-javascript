@@ -16,7 +16,7 @@ class AuthZService extends BaseService {
    * @summary Tuple Create (Beta)
    * @description Create tuples in the AuthZ Service. The request will fail if there is no schema
    * or the tuples do not validate against the schema.
-   * @operationId authz_post_v1beta_tuple_create
+   * @operationId authz_post_v1_tuple_create
    * @param {AuthZ.TupleCreateRequest} request - An object representing the request to create tuples.
    *    - {AuthZ.Tuple[]} request.tuples - List of tuples to be created.
    * @returns {Promise} - A promise representing an async call to the tuple create endpoint.
@@ -25,9 +25,9 @@ class AuthZService extends BaseService {
    * const response = await authz.tupleCreate({
    *   tuples: [
    *     {
-   *       resource: { namespace: 'folder', id: 'resource1' },
+   *       resource: { type: 'folder', id: 'resource1' },
    *       relation: 'editor',
-   *       subject: { namespace: 'user', id: 'user1' },
+   *       subject: { type: 'user', id: 'user1' },
    *     },
    *     // Add more tuples as needed
    *   ],
@@ -37,14 +37,14 @@ class AuthZService extends BaseService {
   tupleCreate(
     request: AuthZ.TupleCreateRequest
   ): Promise<PangeaResponse<AuthZ.TupleCreateResult>> {
-    return this.post("v1beta/tuple/create", request);
+    return this.post("v1/tuple/create", request);
   }
 
   /**
    * @summary Tuple List (Beta)
    * @description List tuples in the AuthZ Service based on provided filters.
    *
-   * @operationId authz_post_v1beta_tuple_list
+   * @operationId authz_post_v1_tuple_list
    * @param {AuthZ.TupleListRequest} request - An object representing the request to list tuples.
    *    - {AuthZ.TupleListFilter} request.filter - Filter object to narrow down the list of tuples.
    *    - {number} [request.size] - Maximum results to include in the response. Minimum is `1`.
@@ -56,7 +56,7 @@ class AuthZService extends BaseService {
    * ```typescript
    * const response = await authz.tupleList({
    *   filter: {
-   *     resource: { namespace: 'folder', id: 'resource1' },
+   *     resource: { type: 'folder', id: 'resource1' },
    *   },
    *   size: 10,
    * });
@@ -65,14 +65,14 @@ class AuthZService extends BaseService {
   tupleList(
     request: AuthZ.TupleListRequest
   ): Promise<PangeaResponse<AuthZ.TupleListResult>> {
-    return this.post("v1beta/tuple/list", request);
+    return this.post("v1/tuple/list", request);
   }
 
   /**
    * @summary Tuple Delete (Beta)
    * @description Delete tuples in the AuthZ Service based on the provided criteria.
    *
-   * @operationId authz_post_v1beta_tuple_delete
+   * @operationId authz_post_v1_tuple_delete
    * @param {AuthZ.TupleDeleteRequest} request - An object representing the request to delete tuples.
    *    - {AuthZ.Tuple[]} request.tuples - List of tuples to be deleted.
    * @returns {Promise} - A promise representing an async call to the tuple delete endpoint.
@@ -81,9 +81,9 @@ class AuthZService extends BaseService {
    * const response = await authz.tupleDelete({
    *   tuples: [
    *     {
-   *       resource: { namespace: 'folder', id: 'resource1' },
+   *       resource: { type: 'folder', id: 'resource1' },
    *       relation: 'owner',
-   *       subject: { namespace: 'user', id: 'user1' },
+   *       subject: { type: 'user', id: 'user1' },
    *     },
    *     // Add more tuples to be deleted as needed
    *   ],
@@ -93,14 +93,14 @@ class AuthZService extends BaseService {
   tupleDelete(
     request: AuthZ.TupleDeleteRequest
   ): Promise<PangeaResponse<AuthZ.TupleDeleteResult>> {
-    return this.post("v1beta/tuple/delete", request);
+    return this.post("v1/tuple/delete", request);
   }
 
   /**
    * @summary Check Authorization (Beta)
    * @description Check if a subject is authorized to perform an action on a resource in the AuthZ Service.
    *
-   * @operationId authz_post_v1beta_check
+   * @operationId authz_post_v1_check
    * @param {AuthZ.CheckRequest} request - An object representing the request to check authorization.
    *    - {AuthZ.Resource} request.resource - The resource to check authorization on.
    *    - {string} request.action - The action to check authorization for.
@@ -111,9 +111,9 @@ class AuthZService extends BaseService {
    * @example
    * ```typescript
    * const response = await authz.check({
-   *   resource: { namespace: 'folder', id: 'resource1' },
+   *   resource: { type: 'folder', id: 'resource1' },
    *   action: 'read',
-   *   subject: { namespace: 'user', id: 'user1' },
+   *   subject: { type: 'user', id: 'user1' },
    *   debug: true,
    * });
    * ```
@@ -121,39 +121,39 @@ class AuthZService extends BaseService {
   check(
     request: AuthZ.CheckRequest
   ): Promise<PangeaResponse<AuthZ.CheckResult>> {
-    return this.post("v1beta/check", request);
+    return this.post("v1/check", request);
   }
 
   /**
    * @summary List Resources (Beta)
    * @description List resources that a subject is authorized to perform a specified action on in the AuthZ Service.
    *
-   * @operationId authz_post_v1beta_list_resources
+   * @operationId authz_post_v1_list_resources
    * @param {AuthZ.ListResourcesRequest} request - An object representing the request to list resources.
-   *    - {string} request.namespace - The namespace of the resources.
+   *    - {string} request.type - The type of the resources.
    *    - {string} request.action - The action to list resources for.
    *    - {AuthZ.Subject} request.subject - The subject attempting the action.
    * @returns {Promise} - A promise representing an async call to the list resources endpoint.
    * @example
    * ```typescript
    * const response = await authz.listResources({
-   *   namespace: 'folder',
+   *   type: 'folder',
    *   action: 'read',
-   *   subject: { namespace: 'user', id: 'user1' },
+   *   subject: { type: 'user', id: 'user1' },
    * });
    * ```
    */
   listResources(
     request: AuthZ.ListResourcesRequest
   ): Promise<PangeaResponse<AuthZ.ListResourcesResult>> {
-    return this.post("v1beta/list-resources", request);
+    return this.post("v1/list-resources", request);
   }
 
   /**
    * @summary List Subjects (Beta)
    * @description List subjects that are authorized to perform a specified action on a resource in the AuthZ Service.
    *
-   * @operationId authz_post_v1beta_list_subjects
+   * @operationId authz_post_v1_list_subjects
    * @param {AuthZ.ListSubjectsRequest} request - An object representing the request to list subjects.
    *    - {AuthZ.Resource} request.resource - The resource to list subjects for.
    *    - {string} request.action - The action to list subjects for.
@@ -161,7 +161,7 @@ class AuthZService extends BaseService {
    * @example
    * ```typescript
    * const response = await authz.listSubjects({
-   *   resource: { namespace: 'folder', id: 'resource1' },
+   *   resource: { type: 'folder', id: 'resource1' },
    *   action: 'read',
    * });
    * ```
@@ -169,7 +169,7 @@ class AuthZService extends BaseService {
   listSubjects(
     request: AuthZ.ListSubjectsRequest
   ): Promise<PangeaResponse<AuthZ.ListSubjectsResult>> {
-    return this.post("v1beta/list-subjects", request);
+    return this.post("v1/list-subjects", request);
   }
 }
 
