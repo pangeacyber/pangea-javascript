@@ -682,7 +682,7 @@
     prop-types "^15.8.1"
     react-transition-group "^4.4.5"
 
-"@pangeacyber/react-mui-audit-log-viewer@0.0.73":
+"@pangeacyber/react-mui-audit-log-viewer@^0.0.73":
   version "0.0.73"
   resolved "https://registry.yarnpkg.com/@pangeacyber/react-mui-audit-log-viewer/-/react-mui-audit-log-viewer-0.0.73.tgz#24e3a5799acbbdb39a32a01ae17364f9acbc32aa"
   integrity sha512-Dt5pQ7gxlFr3gqpe0eXZ97slIAdCvftVlH+ihhhn/aIT7YkkgzfVBBviU/4yHsQf9iYcluvm6zmm70U4rB45/Q==
@@ -695,7 +695,7 @@
     merkle-tools "^1.4.1"
     react-beautiful-dnd "^13.1.1"
 
-"@pangeacyber/react-mui-branding@0.0.17":
+"@pangeacyber/react-mui-branding@^0.0.17":
   version "0.0.17"
   resolved "https://registry.yarnpkg.com/@pangeacyber/react-mui-branding/-/react-mui-branding-0.0.17.tgz#87e2df462669621b348c18319a149ecf2d23f3fd"
   integrity sha512-G4ourGkfadZuuaLHsRMRjSuEUN2LWDv0PQylO5R8YkXdxp/FMjk20qfTcVpXL2sALbGFh3lBOCvQUxumIF8/Eg==

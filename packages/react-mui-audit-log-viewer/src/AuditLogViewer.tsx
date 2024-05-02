@@ -123,10 +123,15 @@ const AuditLogViewerWithProvider = <Event,>({
     return onDownload(body)
       .then((response) => {
         setLoading(false);
-        if (response.dest_url) {
-          window.open(response.dest_url, "_blank");
+        if (response?.dest_url) {
+          window.open(response?.dest_url, "_blank");
+          setError(undefined);
         } else {
-          setError(new Error("Error from download handler, expected dest url"));
+          setError(
+            new Error(
+              "Error from download handler, expected dest_url to be returned in response"
+            )
+          );
         }
       })
       .catch((err) => {
