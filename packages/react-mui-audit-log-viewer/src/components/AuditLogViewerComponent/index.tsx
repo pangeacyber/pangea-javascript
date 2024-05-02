@@ -47,6 +47,7 @@ export interface ViewerProps<Event = Audit.DefaultEvent> {
   fields?: Partial<Record<keyof Event, Partial<GridColDef>>>;
   visibilityModel?: Partial<Record<keyof Event, boolean>>;
   filters?: PublicAuditQuery;
+  searchOnChange?: boolean;
 }
 
 const AuditLogViewerComponent: FC<ViewerProps> = ({
@@ -58,6 +59,7 @@ const AuditLogViewerComponent: FC<ViewerProps> = ({
   sx = {},
   dataGridProps = {},
   fields,
+  searchOnChange = true,
 }) => {
   const {
     visibilityModel,
@@ -88,18 +90,18 @@ const AuditLogViewerComponent: FC<ViewerProps> = ({
   };
 
   useEffect(() => {
-    if (!!body) handleSearch();
-  }, [body]);
+    if (!!body && searchOnChange) handleSearch();
+  }, [body, searchOnChange]);
 
   const handleChange = useCallback(
     (newQuery: string) => {
-      if (newQuery === query) {
+      if (newQuery === query && searchOnChange) {
         handleSearch();
-      } else {
+      } else if (newQuery !== query) {
         setQuery(newQuery);
       }
     },
-    [query, setQuery, body]
+    [query, setQuery, body, searchOnChange]
   );
 
   return (
@@ -148,6 +150,7 @@ const AuditLogViewerComponent: FC<ViewerProps> = ({
         Search={{
           query: query,
           error: searchError,
+          onSearch: handleSearch,
           onChange: handleChange,
           Filters: {
             // @ts-ignore

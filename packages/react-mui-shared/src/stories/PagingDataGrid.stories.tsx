@@ -60,6 +60,9 @@ const Template: StoryFn<typeof PangeaDataGrid> = (args) => {
       Search={{
         query,
         placeholder: "Search here...",
+        onSearch: () => {
+          console.log("Refresh search");
+        },
         onChange: setQuery,
         Filters: {
           filters,

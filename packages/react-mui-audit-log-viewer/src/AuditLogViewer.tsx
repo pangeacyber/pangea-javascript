@@ -19,6 +19,8 @@ export interface AuditLogViewerProps<Event = Audit.DefaultEvent> {
   initialQuery?: string;
 
   onSearch: (body: Audit.SearchRequest) => Promise<Audit.SearchResponse>;
+  searchOnChange?: boolean;
+
   onPageChange: (body: Audit.ResultRequest) => Promise<Audit.ResultResponse>;
   onDownload?: (
     body: Audit.DownloadResultRequest
