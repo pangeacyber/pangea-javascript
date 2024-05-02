@@ -20,8 +20,8 @@ const config = new PangeaConfig({
 const authz = new AuthZService(token, config);
 
 const CURRENT_TIME_IN_SECONDS = Math.round(Date.now() / 1000);
-const NAMESPACE_FOLDER = "folder";
-const NAMESPACE_USER = "user";
+const TYPE_FOLDER = "folder";
+const TYPE_USER = "user";
 const FOLDER_1 = "folder_1_" + CURRENT_TIME_IN_SECONDS;
 const FOLDER_2 = "folder_2_" + CURRENT_TIME_IN_SECONDS;
 const USER_1 = "user_1_" + CURRENT_TIME_IN_SECONDS;
@@ -36,45 +36,45 @@ it("AuthZ cycle", async () => {
     tuples: [
       {
         resource: {
-          namespace: NAMESPACE_FOLDER,
+          type: TYPE_FOLDER,
           id: FOLDER_1,
         },
         relation: RELATION_READER,
         subject: {
-          namespace: NAMESPACE_USER,
+          type: TYPE_USER,
           id: USER_1,
         },
       },
       {
         resource: {
-          namespace: NAMESPACE_FOLDER,
+          type: TYPE_FOLDER,
           id: FOLDER_1,
         },
         relation: RELATION_EDITOR,
         subject: {
-          namespace: NAMESPACE_USER,
+          type: TYPE_USER,
           id: USER_2,
         },
       },
       {
         resource: {
-          namespace: NAMESPACE_FOLDER,
+          type: TYPE_FOLDER,
           id: FOLDER_2,
         },
         relation: RELATION_EDITOR,
         subject: {
-          namespace: NAMESPACE_USER,
+          type: TYPE_USER,
           id: USER_1,
         },
       },
       {
         resource: {
-          namespace: NAMESPACE_FOLDER,
+          type: TYPE_FOLDER,
           id: FOLDER_2,
         },
         relation: RELATION_OWNER,
         subject: {
-          namespace: NAMESPACE_USER,
+          type: TYPE_USER,
           id: USER_2,
         },
       },
@@ -86,7 +86,7 @@ it("AuthZ cycle", async () => {
   // Tuple list with resource
   const rListWithResource = await authz.tupleList({
     filter: {
-      resource_namespace: NAMESPACE_FOLDER,
+      resource_type: TYPE_FOLDER,
       resource_id: FOLDER_1,
     },
   });
@@ -98,7 +98,7 @@ it("AuthZ cycle", async () => {
   // Tuple list with subject
   const tListWithSubject = await authz.tupleList({
     filter: {
-      subject_namespace: NAMESPACE_USER,
+      subject_type: TYPE_USER,
       subject_id: USER_1,
     },
   });
@@ -112,12 +112,12 @@ it("AuthZ cycle", async () => {
     tuples: [
       {
         resource: {
-          namespace: NAMESPACE_FOLDER,
+          type: TYPE_FOLDER,
           id: FOLDER_1,
         },
         relation: RELATION_READER,
         subject: {
-          namespace: NAMESPACE_USER,
+          type: TYPE_USER,
           id: USER_1,
         },
       },
@@ -128,12 +128,12 @@ it("AuthZ cycle", async () => {
   // Check no debug
   let rCheck = await authz.check({
     resource: {
-      namespace: NAMESPACE_FOLDER,
+      type: TYPE_FOLDER,
       id: FOLDER_1,
     },
     action: "reader",
     subject: {
-      namespace: NAMESPACE_USER,
+      type: TYPE_USER,
       id: USER_2,
     },
   });
@@ -146,12 +146,12 @@ it("AuthZ cycle", async () => {
   // Check debug
   rCheck = await authz.check({
     resource: {
-      namespace: NAMESPACE_FOLDER,
+      type: TYPE_FOLDER,
       id: FOLDER_1,
     },
     action: "editor",
     subject: {
-      namespace: NAMESPACE_USER,
+      type: TYPE_USER,
       id: USER_2,
     },
     debug: true,
@@ -164,10 +164,10 @@ it("AuthZ cycle", async () => {
 
   // List resources
   const rListResources = await authz.listResources({
-    namespace: NAMESPACE_FOLDER,
+    type: TYPE_FOLDER,
     action: RELATION_EDITOR,
     subject: {
-      namespace: NAMESPACE_USER,
+      type: TYPE_USER,
       id: USER_2,
     },
   });
@@ -178,7 +178,7 @@ it("AuthZ cycle", async () => {
   // List subjects
   const rListSubjects = await authz.listSubjects({
     resource: {
-      namespace: NAMESPACE_FOLDER,
+      type: TYPE_FOLDER,
       id: FOLDER_2,
     },
     action: RELATION_EDITOR,
