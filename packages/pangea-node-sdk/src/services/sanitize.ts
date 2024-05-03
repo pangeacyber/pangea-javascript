@@ -101,7 +101,7 @@ export class SanitizeService extends BaseService {
   /**
    * @summary Sanitize via presigned URL (Beta)
    * @description Apply file sanitization actions according to specified rules
-   * via a [presigned URL](https://pangea.cloud/docs/api/presigned-urls).
+   * via a [presigned URL](https://pangea.cloud/docs/api/transfer-methods).
    * How to install a [Beta release](https://pangea.cloud/docs/sdk/js/#beta-releases).
    * @operationId sanitize_post_v1beta_sanitize 2
    * @param request Request parameters.
