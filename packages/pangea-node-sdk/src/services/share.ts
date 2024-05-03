@@ -182,7 +182,7 @@ class ShareService extends BaseService {
 
   /**
    * @summary Request upload URL (Beta)
-   * @description Request a [presigned URL](https://pangea.cloud/docs/api/presigned-urls).
+   * @description Request a [presigned URL](https://pangea.cloud/docs/api/transfer-methods).
    * How to install a [Beta release](https://pangea.cloud/docs/sdk/js/#beta-releases).
    * @operationId share_post_v1beta_put 2
    * @param {Share.PutRequest} request
