@@ -231,7 +231,7 @@ export namespace Audit {
   }
 
   export interface DownloadRequest {
-    /** ID returned by the search API. */
+    /** ID returned by the export API. */
     request_id?: string;
 
     /** ID returned by the search API. */

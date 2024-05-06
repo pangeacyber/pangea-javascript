@@ -491,7 +491,13 @@ class AuditService extends BaseService {
     request: Audit.DownloadRequest
   ): Promise<PangeaResponse<Audit.DownloadResult>> {
     if (!request.request_id && !request.result_id) {
-      throw new TypeError("must specify one of `request_id` or `result_id`");
+      throw new TypeError("Must specify one of `request_id` or `result_id`.");
+    }
+
+    if (request.request_id && request.result_id) {
+      throw new TypeError(
+        "Must specify only one of `request_id` or `result_id`."
+      );
     }
 
     return this.post("v1/download_results", request);
