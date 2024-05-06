@@ -65,7 +65,7 @@ export namespace PangeaErrors {
       this.response = response;
     }
 
-    get pangeaResponse(): any {
+    get pangeaResponse(): PangeaResponse<Errors> {
       return this.response;
     }
 

@@ -1,3 +1,5 @@
+import { setTimeout } from "node:timers/promises";
+
 import PangeaConfig from "../../src/config.js";
 import { it, expect, jest } from "@jest/globals";
 import {
@@ -22,11 +24,6 @@ const fileScan = new FileScanService(token, config);
 
 const testfilePath = "./tests/testdata/testfile.pdf";
 jest.setTimeout(120000);
-
-const delay = async (ms: number) =>
-  new Promise((resolve) => {
-    setTimeout(resolve, ms);
-  });
 
 it("File Scan crowdstrike", async () => {
   try {
@@ -99,7 +96,7 @@ it("File Scan crowdstrike async and poll result", async () => {
   for (let retry = 0; retry < maxRetry; retry++) {
     try {
       // Wait until result could be ready
-      await delay(10 * 1000);
+      await setTimeout(10 * 1000);
       const request_id = exception?.request_id || "";
       const response = await fileScan.pollResult(request_id);
       expect(response.status).toBe("Success");
@@ -165,7 +162,7 @@ it("File Scan reversinglabs async and poll result", async () => {
   for (let retry = 0; retry < maxRetry; retry++) {
     try {
       // Wait until result could be ready
-      await delay(10 * 1000);
+      await setTimeout(10 * 1000);
       const request_id = exception?.request_id || "";
       const response = await fileScan.pollResult(request_id);
       expect(response.status).toBe("Success");
@@ -212,7 +209,7 @@ it("File Scan get url and put upload", async () => {
   for (let retry = 0; retry < maxRetry; retry++) {
     try {
       // Wait until result could be ready
-      await delay(10 * 1000);
+      await setTimeout(10 * 1000);
       const request_id = response.request_id || "";
       response = await fileScan.pollResult(request_id);
       expect(response.status).toBe("Success");
@@ -266,7 +263,7 @@ it("File Scan get url and post upload", async () => {
   for (let retry = 0; retry < maxRetry; retry++) {
     try {
       // Wait until result could be ready
-      await delay(10 * 1000);
+      await setTimeout(10 * 1000);
       const request_id = response.request_id || "";
       response = await fileScan.pollResult(request_id);
       expect(response.status).toBe("Success");

@@ -1,3 +1,5 @@
+import { setTimeout } from "node:timers/promises";
+
 import PangeaConfig from "../../src/config.js";
 import AuditService from "../../src/services/audit.js";
 import { Audit } from "../../src/types.js";
@@ -1040,4 +1042,37 @@ it("log stream", async () => {
   const audit = new AuditService(tokenMultiConfig, config, undefined, configId);
   const response = await audit.logStream(data);
   expect(response.status).toEqual("Success");
+});
+
+it("export download", async () => {
+  const exportRes = await auditGeneral.export({ start: "1d", verbose: false });
+  expect(exportRes.status).toStrictEqual("Accepted");
+
+  const maxRetries = 10;
+  for (let retry = 0; retry < maxRetries; retry++) {
+    try {
+      const pollRes = await auditGeneral.pollResult(exportRes.request_id);
+      if (pollRes.status === "Success") {
+        break;
+      }
+    } catch (error) {
+      if (
+        error instanceof PangeaErrors.AcceptedRequestException ||
+        error instanceof PangeaErrors.NotFound
+      ) {
+        // Continue.
+      } else {
+        throw error;
+      }
+    }
+
+    expect(retry).toBeLessThan(maxRetries - 1);
+    await setTimeout(3000);
+  }
+
+  const downloadRes = await auditGeneral.downloadResults({
+    request_id: exportRes.request_id,
+  });
+  expect(downloadRes.status).toStrictEqual("Success");
+  expect(downloadRes.result.dest_url).toBeDefined();
 });
