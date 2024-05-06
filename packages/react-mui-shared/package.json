@@ -56,7 +56,7 @@
     "@mui/x-data-grid": "^6.19.11",
     "@mui/x-date-pickers": "^6.19.9",
     "dayjs": "^1.11.11",
-    "formik": "^2.4.5",
+    "formik": "^2.4.6",
     "moment": "^2.30.1",
     "react-beautiful-dnd": "^13.1.1",
     "react-json-view": "^1.21.3",
