@@ -1,7 +1,10 @@
-import type { JestConfigWithTsJest } from "ts-jest";
+// @ts-check
 
-const jestConfig: JestConfigWithTsJest = {
-  preset: "ts-jest/presets/default-esm", // or other ESM presets
+/** @type {import("jest").Config} */
+const jestConfig = {
+  transform: {
+    "^.+\\.(t|j)sx?$": "@swc/jest",
+  },
   testEnvironment: "node",
   roots: ["<rootDir>"],
   modulePaths: ["."],
