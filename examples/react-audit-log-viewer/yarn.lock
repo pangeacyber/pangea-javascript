@@ -682,10 +682,10 @@
     prop-types "^15.8.1"
     react-transition-group "^4.4.5"
 
-"@pangeacyber/react-mui-audit-log-viewer@^0.0.73":
-  version "0.0.73"
-  resolved "https://registry.yarnpkg.com/@pangeacyber/react-mui-audit-log-viewer/-/react-mui-audit-log-viewer-0.0.73.tgz#24e3a5799acbbdb39a32a01ae17364f9acbc32aa"
-  integrity sha512-Dt5pQ7gxlFr3gqpe0eXZ97slIAdCvftVlH+ihhhn/aIT7YkkgzfVBBviU/4yHsQf9iYcluvm6zmm70U4rB45/Q==
+"@pangeacyber/react-mui-audit-log-viewer@^0.0.74":
+  version "0.0.74"
+  resolved "https://registry.yarnpkg.com/@pangeacyber/react-mui-audit-log-viewer/-/react-mui-audit-log-viewer-0.0.74.tgz#cbc02774c7f0442c8992da632e51de0008eb8871"
+  integrity sha512-VK4dE4qRGaDHtcayRpFSvokQSKtZVEeT8kcsrU7MuRoY+I0LLKFBvshqh/OgMlYIj9aD/0feq2wuTW8JswSrGA==
   dependencies:
     "@pangeacyber/react-mui-shared" "0.0.58"
     crypto-js "^4.2.0"
