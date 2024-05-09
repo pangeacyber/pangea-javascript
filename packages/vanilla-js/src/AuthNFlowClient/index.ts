@@ -89,7 +89,10 @@ export class AuthNFlowClient extends AuthNClient {
 
   async restart(
     choice: AuthFlow.RestartChoice,
-    data?: AuthFlow.SmsOtpRestart
+    data?:
+      | AuthFlow.SmsOtpRestart
+      | AuthFlow.MagiclinkRestart
+      | AuthFlow.EmailOtpRestart
   ): Promise<ClientResponse> {
     const path = `${API_FLOW_BASE}/${AuthFlow.Endpoint.RESTART}`;
     const payload: AuthFlow.RestartRequest = {
@@ -133,6 +136,16 @@ export class AuthNFlowClient extends AuthNClient {
     const payload: AuthFlow.SetEmailRequest = {
       flow_id: this.state.flowId,
       choice: AuthFlow.Choice.SET_EMAIL,
+      data: data,
+    };
+
+    return await this._update(payload);
+  }
+
+  async setUsername(data: AuthFlow.UsernameParams): Promise<ClientResponse> {
+    const payload: AuthFlow.SetUsernameRequest = {
+      flow_id: this.state.flowId,
+      choice: AuthFlow.Choice.SET_USERNAME,
       data: data,
     };
 
@@ -332,6 +345,10 @@ export class AuthNFlowClient extends AuthNClient {
       this.state.callbackStateMap = {};
       this.state.agreements = [];
 
+      if (result.username) {
+        this.state.username = result.username;
+      }
+
       if (result.email) {
         this.state.email = result.email;
       }
@@ -351,6 +368,11 @@ export class AuthNFlowClient extends AuthNClient {
       if (result.conditional_mfa) {
         this.state.conditionalMfa = result.conditional_mfa;
       }
+
+      // default to "email" username_format
+      this.state.usernameFormat = !!result.username_format
+        ? result.username_format
+        : AuthFlow.UsernameFormat.EMAIL;
 
       // parse flow_choices into groups and choice_map
       response.result?.flow_choices?.forEach((choice: AuthFlow.Result) => {
@@ -400,6 +422,9 @@ export class AuthNFlowClient extends AuthNClient {
               this.state.authChoices.push(choice.choice);
             }
             this.state.setEmail = choice.data;
+            break;
+          case AuthFlow.Choice.SET_USERNAME:
+            this.state.setUsername = choice.data;
             break;
           case AuthFlow.Choice.SET_PHONE:
             if (result.flow_phase === "phase_one_time") {
