@@ -16,7 +16,7 @@ const ResetPasswordView: FC<AuthFlowComponentProps> = (props) => {
   return (
     <AuthFlowLayout title={title}>
       <IdField
-        value={data?.email}
+        value={data?.username || data?.email}
         resetCallback={reset}
         resetLabel={options.cancelLabel}
       />

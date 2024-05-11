@@ -6,6 +6,7 @@ import {
   GitLabIcon,
   LinkedInIcon,
 } from "@src/components/Icons";
+import { parsePhoneNumber } from "awesome-phonenumber";
 
 export const STORAGE_DEVICE_ID_KEY = "remember-device-id";
 export const STORAGE_REMEMBER_USERNAME_KEY = "remember-username";
@@ -107,4 +108,13 @@ export const generateGuid = (): string => {
       v = c == "x" ? r : (r & 0x3) | 0x8;
     return v.toString(16);
   });
+};
+
+export const formatUsername = (value: string): string => {
+  if (value.startsWith("+")) {
+    const pn = parsePhoneNumber(value, { regionCode: "US" });
+    if (pn.valid) return pn.number.international;
+  }
+
+  return value;
 };

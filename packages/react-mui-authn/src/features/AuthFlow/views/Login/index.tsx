@@ -22,7 +22,7 @@ const LoginView: FC<AuthFlowComponentProps> = (props) => {
     <AuthFlowLayout title={title} disclaimer={disclaimer}>
       {data.phase !== "phase_one_time" && (
         <IdField
-          value={data?.email}
+          value={data?.username || data?.email}
           resetCallback={reset}
           resetLabel={options.cancelLabel}
         />

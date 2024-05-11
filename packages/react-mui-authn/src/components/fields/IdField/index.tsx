@@ -7,7 +7,10 @@ import {
   Typography,
 } from "@mui/material";
 
-import { STORAGE_REMEMBER_USERNAME_KEY } from "@src/features/AuthFlow/utils";
+import {
+  STORAGE_REMEMBER_USERNAME_KEY,
+  formatUsername,
+} from "@src/features/AuthFlow/utils";
 
 export interface Props {
   value?: string;
@@ -29,6 +32,8 @@ const IdField: FC<Props> = ({
   if (!value) {
     return null;
   }
+
+  const formattedValue = formatUsername(value);
 
   return (
     <FormControl variant="outlined" fullWidth>
@@ -52,7 +57,7 @@ const IdField: FC<Props> = ({
             </Button>
           </InputAdornment>
         }
-        value={value}
+        value={formattedValue}
       />
     </FormControl>
   );

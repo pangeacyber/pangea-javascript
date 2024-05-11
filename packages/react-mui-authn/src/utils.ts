@@ -99,3 +99,9 @@ export const validatePhoneNumber = (value: string): boolean => {
   const cleaned = cleanPhoneNumber(value);
   return PHONE_REGEXP.test(cleaned);
 };
+
+export const USERNAME_REGEXP = /^[0-9a-zA-Z+._+@-]{2,320}$/;
+
+export const validateUsername = (username: string): boolean => {
+  return USERNAME_REGEXP.test(username);
+};

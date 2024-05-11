@@ -1,6 +1,6 @@
 {
   "name": "@pangeacyber/react-mui-authn",
-  "version": "0.4.28",
+  "version": "0.5.0",
   "description": "Components for integration with Pangea AuthN Service",
   "main": "dist/cjs/index.js",
   "module": "dist/esm/index.js",
@@ -71,9 +71,10 @@
   "dependencies": {
     "@lexical/react": "0.14.2",
     "@pangeacyber/react-mui-branding": "0.0.17",
-    "@pangeacyber/vanilla-js": "0.1.8",
+    "@pangeacyber/vanilla-js": "0.1.9",
     "@simplewebauthn/browser": "9.0.1",
     "add": "^2.0.6",
+    "awesome-phonenumber": "^6.8.0",
     "formik": "^2.4.6",
     "lexical": "0.14.2",
     "react-google-recaptcha-enterprise": "^1.0.3",
