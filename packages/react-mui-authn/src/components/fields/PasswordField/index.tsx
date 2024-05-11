@@ -15,6 +15,7 @@ export interface Props {
   name: string;
   label: string;
   formik: any;
+  autofocus?: boolean;
   policy?: any;
 }
 
@@ -24,7 +25,13 @@ export const checkPassword = (value: string | undefined, policy: any) => {
   return Object.keys(matches).length === 0;
 };
 
-const PasswordField: FC<Props> = ({ name, label, formik, policy }) => {
+const PasswordField: FC<Props> = ({
+  name,
+  label,
+  formik,
+  autofocus = true,
+  policy,
+}) => {
   const [showPassword, setShowPassword] = useState<boolean>(false);
   const [showStatus, setShowStatus] = useState<boolean>(false);
 
@@ -64,7 +71,7 @@ const PasswordField: FC<Props> = ({ name, label, formik, policy }) => {
           }
           value={formik.values[name]}
           placeholder={label}
-          autoFocus
+          autoFocus={autofocus}
         />
       </FormControl>
       <PasswordRequirements value={formik.values[name]} policy={policy} />

@@ -9,6 +9,9 @@ import Button from "@src/components/core/Button";
 import ErrorMessage from "../../components/ErrorMessage";
 import { BodyText, ErrorText } from "@src/components/core/Text";
 
+// TODO: Remove this view, it should no longer be used.
+// the same functionality is in `../../components/AuthMagicLink`
+
 const MagiclinkView: FC<AuthFlowComponentProps> = ({
   options,
   data,
@@ -71,7 +74,7 @@ const MagiclinkView: FC<AuthFlowComponentProps> = ({
   return (
     <AuthFlowLayout title="Magic Link Verification" buttons={buttons}>
       <IdField
-        value={data?.email}
+        value={data?.username || data?.email}
         resetCallback={reset}
         resetLabel={options.cancelLabel}
       />

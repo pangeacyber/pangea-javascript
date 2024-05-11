@@ -5,6 +5,7 @@ import Button from "@src/components/core/Button";
 import { AuthOptionsProps } from "../AuthOptions";
 import OtpForm from "../OtpForm";
 import { BodyText } from "@src/components/core/Text";
+import { AuthFlow } from "@pangeacyber/vanilla-js";
 
 const AuthSmsOtp: FC<AuthOptionsProps> = (props) => {
   const { data, updateView } = props;
@@ -20,11 +21,13 @@ const AuthSmsOtp: FC<AuthOptionsProps> = (props) => {
         <Typography variant="body2">{data.phone}</Typography>
       )}
       <OtpForm {...props} otpType="sms_otp" />
-      {!!data.smsOtp?.enrollment && data.phase !== "phase_one_time" && (
-        <Button variant="text" onClick={changeNumber}>
-          Change phone number
-        </Button>
-      )}
+      {!!data.smsOtp?.enrollment &&
+        data.phase !== "phase_one_time" &&
+        data.usernameFormat != AuthFlow.UsernameFormat.PHONE && (
+          <Button variant="text" onClick={changeNumber}>
+            Change phone number
+          </Button>
+        )}
     </Stack>
   );
 };

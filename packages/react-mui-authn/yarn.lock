@@ -1853,10 +1853,10 @@
   resolved "https://registry.yarnpkg.com/@pangeacyber/react-mui-branding/-/react-mui-branding-0.0.17.tgz#87e2df462669621b348c18319a149ecf2d23f3fd"
   integrity sha512-G4ourGkfadZuuaLHsRMRjSuEUN2LWDv0PQylO5R8YkXdxp/FMjk20qfTcVpXL2sALbGFh3lBOCvQUxumIF8/Eg==
 
-"@pangeacyber/vanilla-js@0.1.8":
-  version "0.1.8"
-  resolved "https://registry.yarnpkg.com/@pangeacyber/vanilla-js/-/vanilla-js-0.1.8.tgz#178e9cfef624e46c31489335adb48c04ab5e1b8e"
-  integrity sha512-PE+XjkMJAN/ya+mV/PZos/5Na0UfG9vFwqXpM1+voxgM/wXfKq86K2pGJlqtehPwMCO/S2p/Jp6jAIqVlgeB0A==
+"@pangeacyber/vanilla-js@0.1.9":
+  version "0.1.9"
+  resolved "https://registry.yarnpkg.com/@pangeacyber/vanilla-js/-/vanilla-js-0.1.9.tgz#9a490d99cb06ed9b81f81438b0ebc1ec7a27065b"
+  integrity sha512-f6fHgPk/YdYN2qjlRSIJvC5MLJFlhFSEAkepN4GEdHsBnJYWyARJQKjZOsCUYR3TvU50AK5OLL0qzHev3PpSPw==
   dependencies:
     lodash "^4.17.21"
 
@@ -4190,6 +4190,11 @@ available-typed-arrays@^1.0.7:
   integrity sha512-wvUjBtSGN7+7SjNpq/9M2Tg350UZD3q62IFZLbRAR1bSMlCo1ZaeW+BJ+D090e4hIIZLBcTDWe4Mh4jvUDajzQ==
   dependencies:
     possible-typed-array-names "^1.0.0"
+
+awesome-phonenumber@^6.8.0:
+  version "6.8.0"
+  resolved "https://registry.yarnpkg.com/awesome-phonenumber/-/awesome-phonenumber-6.8.0.tgz#2ddd0a2b6cb55b6e7f04ac36659f81f0ea9c369d"
+  integrity sha512-jezAKO6hd31TguLLguuYS5BnmY6B1X64VKPOIHcni5yZqKK08Magl7u85aVXASidTW0ePQMXp26ImW4C0VLHpA==
 
 babel-core@^7.0.0-bridge.0:
   version "7.0.0-bridge.0"

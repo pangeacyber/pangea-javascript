@@ -27,7 +27,8 @@ const RememberDevice: FC<AuthFlowComponentProps> = ({ data }) => {
   }, [checked]);
 
   const deviceId = useMemo(() => {
-    return generateGuid();
+    const localGuid = localStorage.getItem(STORAGE_DEVICE_ID_KEY);
+    return !!localGuid ? localGuid : generateGuid();
   }, []);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {

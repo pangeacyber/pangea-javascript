@@ -32,7 +32,7 @@ const SignupView: FC<AuthFlowComponentProps> = (props) => {
   return (
     <AuthFlowLayout title={title} disclaimer={disclaimer}>
       <IdField
-        value={data?.email}
+        value={data?.username || data?.email}
         resetCallback={reset}
         resetLabel={options.cancelLabel}
       />

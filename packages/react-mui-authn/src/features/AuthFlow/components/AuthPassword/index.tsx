@@ -11,6 +11,7 @@ import Button from "@src/components/core/Button";
 import PasswordField, {
   checkPassword,
 } from "@src/components/fields/PasswordField";
+import StringField from "@src/components/fields/StringField";
 import VerifyCaptcha from "../VerifyCaptcha";
 import RememberUser from "../RememberUser";
 
@@ -20,6 +21,7 @@ const AuthPassword: FC<AuthFlowComponentProps> = (props) => {
   const [captcha, setCaptcha] = useState("");
   const enrollment = !!data?.password?.enrollment || data?.setPassword;
   const showReset = !!data.resetPassword && !data.setPassword;
+  const showEmail = !!data.password?.need_email;
   const passwordPolicy = enrollment
     ? { ...data?.password?.password_policy }
     : null;
@@ -36,11 +38,15 @@ const AuthPassword: FC<AuthFlowComponentProps> = (props) => {
             }
           )
       : yup.string().required("Required"),
+    email: showEmail
+      ? yup.string().required("Required").email("Enter a valid email")
+      : yup.string().nullable(),
   });
 
   const formik = useFormik({
     initialValues: {
       password: "",
+      email: showEmail ? "" : undefined,
     },
     validationSchema: validationSchema,
     validateOnBlur: true,
@@ -96,11 +102,22 @@ const AuthPassword: FC<AuthFlowComponentProps> = (props) => {
         }}
       >
         <Stack gap={1}>
+          {showEmail && (
+            <StringField
+              name="email"
+              type="email"
+              label="Email"
+              formik={formik}
+              autoComplete="email"
+              autoFocus={true}
+            />
+          )}
           <PasswordField
             name="password"
             label="Password"
             formik={formik}
             policy={passwordPolicy}
+            autofocus={!showEmail}
           />
           {!!data.captcha && options.compactSignup && (
             <VerifyCaptcha {...props} submitHandler={submitCaptcha} />

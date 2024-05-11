@@ -44,10 +44,7 @@ const PasskeyAuth: FC<AuthFlowComponentProps> = ({
       const authResp = await startAuthentication(publicKey, true);
       update(AuthFlow.Choice.PASSKEY, { authentication: authResp });
     } catch (_e) {
-      // @ts-ignore
-      if (window.PASSKEY_DEBUG) {
-        console.debug("PASSKEY ERROR", _e);
-      }
+      console.debug("PASSKEY ERROR", _e);
     }
   };
 

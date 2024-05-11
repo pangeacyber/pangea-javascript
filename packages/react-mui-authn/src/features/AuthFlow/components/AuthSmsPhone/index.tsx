@@ -36,7 +36,7 @@ const AuthSmsPhone: FC<AuthFlowComponentProps> = (props) => {
 
   const formik = useFormik({
     initialValues: {
-      phone: "",
+      phone: data.phone || "",
     },
     validationSchema: validationSchema,
     validateOnBlur: true,
