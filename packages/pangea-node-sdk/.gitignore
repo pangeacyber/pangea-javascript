@@ -11,6 +11,7 @@
 .DS_Store
 *.pem
 yarn-error.log
+.tshy
 
 # Editors
 .idea
