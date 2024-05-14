@@ -13,7 +13,7 @@ class AuthZService extends BaseService {
   }
 
   /**
-   * @summary Tuple Create (Beta)
+   * @summary Tuple Create
    * @description Create tuples in the AuthZ Service. The request will fail if there is no schema
    * or the tuples do not validate against the schema.
    * @operationId authz_post_v1_tuple_create
@@ -41,7 +41,7 @@ class AuthZService extends BaseService {
   }
 
   /**
-   * @summary Tuple List (Beta)
+   * @summary Tuple List
    * @description List tuples in the AuthZ Service based on provided filters.
    *
    * @operationId authz_post_v1_tuple_list
@@ -69,7 +69,7 @@ class AuthZService extends BaseService {
   }
 
   /**
-   * @summary Tuple Delete (Beta)
+   * @summary Tuple Delete
    * @description Delete tuples in the AuthZ Service based on the provided criteria.
    *
    * @operationId authz_post_v1_tuple_delete
@@ -97,7 +97,7 @@ class AuthZService extends BaseService {
   }
 
   /**
-   * @summary Check Authorization (Beta)
+   * @summary Check Authorization
    * @description Check if a subject is authorized to perform an action on a resource in the AuthZ Service.
    *
    * @operationId authz_post_v1_check
@@ -125,7 +125,7 @@ class AuthZService extends BaseService {
   }
 
   /**
-   * @summary List Resources (Beta)
+   * @summary List Resources
    * @description List resources that a subject is authorized to perform a specified action on in the AuthZ Service.
    *
    * @operationId authz_post_v1_list_resources
@@ -150,7 +150,7 @@ class AuthZService extends BaseService {
   }
 
   /**
-   * @summary List Subjects (Beta)
+   * @summary List Subjects
    * @description List subjects that are authorized to perform a specified action on a resource in the AuthZ Service.
    *
    * @operationId authz_post_v1_list_subjects
