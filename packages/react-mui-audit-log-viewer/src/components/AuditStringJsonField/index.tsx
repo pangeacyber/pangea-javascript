@@ -54,9 +54,14 @@ export const ChangesTypography: FC<{
             );
 
             return !!change.info ? (
-              <Tooltip title={change.info}>{span_}</Tooltip>
+              <Tooltip
+                title={change.info}
+                key={`tooltip-change-found-${idx}-${uniqueId}`}
+              >
+                {span_}
+              </Tooltip>
             ) : (
-              <>{span_}</>
+              span_
             );
           })
         : value ?? "-"}

@@ -119,7 +119,7 @@ export const VerificationAuditLogViewer: {
 VerificationAuditLogViewer.args = {
   searchOnChange: false,
   fpeOptions: {
-    highlightFpeRedaction: true,
+    highlightRedaction: true,
   },
   onSearch: async (body) => {
     return fetch(

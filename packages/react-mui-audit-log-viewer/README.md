@@ -78,6 +78,8 @@ The AuditLogViewer component accepts the following props:
 - schema (optional): An object representing the audit schema. With Audit Service custom schema support, you can change the expected Audit schema. This will control what fields are rendered.
 - schemaOptions (optional): An object representing options for mutating the audit schema the component uses.
   - hiddenFields (optional): A list of field ids to hide/remove from the schema before it is rendered. Will completely hide the field from the table, visibility options, and filtering
+- fpeOptions (optional): An object representing options for highlighting and retrieving format preserving encryption (FPE) context for each audit log. An audit event only has FPE context if FPE redaction was used on the log, from a Pangea Redact service integration
+  - highlightRedaction (optional): A boolean for controlling whether we highlight values in the log which were redacted with FPE
 
 For a deeper dive into the Prop interface check the source code [here](https://github.com/pangeacyber/pangea-javascript/blob/main/packages/react-mui-audit-log-viewer/src/AuditLogViewer.tsx)
 

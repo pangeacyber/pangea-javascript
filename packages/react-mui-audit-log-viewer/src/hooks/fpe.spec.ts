@@ -1,13 +1,13 @@
 import { Change } from "./diff";
 import {
-  updateMatches,
+  updateMatchesToHaveRelativeRanges,
   FPEMatch,
   injectFPEMatchesIntoChanges,
   FPE_REDACTION_INFO,
 } from "./fpe";
 
-describe("updateMatches should", () => {
-  it("updateMatches should correctly adjust starting characters relative to the entire string", () => {
+describe("updateMatchesToHaveRelativeRanges should", () => {
+  it("updateMatchesToHaveRelativeRanges should correctly adjust starting characters relative to the entire string", () => {
     const jsonString: string =
       '{"name": "John Doe", "address": {"street": "123 Main St", "city": "Anytown"}}';
     const matches: FPEMatch[] = [
@@ -15,7 +15,10 @@ describe("updateMatches should", () => {
       { a: "alphabet", s: 0, e: 3, k: "address.city" },
     ];
 
-    const updatedMatches = updateMatches(jsonString, matches);
+    const updatedMatches = updateMatchesToHaveRelativeRanges(
+      jsonString,
+      matches
+    );
 
     expect(updatedMatches).toStrictEqual([
       { a: "alphabet", s: 9, e: 13, k: "name" },
@@ -23,7 +26,7 @@ describe("updateMatches should", () => {
     ]);
   });
 
-  it("updateMatches should special path character", () => {
+  it("updateMatchesToHaveRelativeRanges should special path character", () => {
     const jsonString: string =
       '{"~name": "John Doe", "address": {"street": "123 Main St", "city.town": "Anytown"}}';
     const matches: FPEMatch[] = [
@@ -31,7 +34,10 @@ describe("updateMatches should", () => {
       { a: "alphabet", s: 0, e: 3, k: "address.city~0town" },
     ];
 
-    const updatedMatches = updateMatches(jsonString, matches);
+    const updatedMatches = updateMatchesToHaveRelativeRanges(
+      jsonString,
+      matches
+    );
 
     expect(updatedMatches).toStrictEqual([
       { a: "alphabet", s: 10, e: 14, k: "~1name" },

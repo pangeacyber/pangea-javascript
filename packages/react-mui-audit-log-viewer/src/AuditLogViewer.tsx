@@ -33,7 +33,7 @@ export interface AuditLogViewerProps<Event = Audit.DefaultEvent> {
   };
 
   fpeOptions?: {
-    highlightFpeRedaction?: boolean;
+    highlightRedaction?: boolean;
   };
 
   sx?: SxProps;
@@ -78,7 +78,7 @@ const AuditLogViewerWithProvider = <Event,>({
     setLoading(true);
     return onSearch({
       ...body,
-      ...(!!fpeOptions?.highlightFpeRedaction && {
+      ...(!!fpeOptions?.highlightRedaction && {
         return_context: true,
       }),
     })
@@ -112,7 +112,7 @@ const AuditLogViewerWithProvider = <Event,>({
     setLoading(true);
     return onPageChange({
       ...body,
-      ...(!!fpeOptions?.highlightFpeRedaction && {
+      ...(!!fpeOptions?.highlightRedaction && {
         return_context: true,
       }),
     })
@@ -138,7 +138,7 @@ const AuditLogViewerWithProvider = <Event,>({
     setLoading(true);
     return onDownload({
       ...body,
-      ...(!!fpeOptions?.highlightFpeRedaction && {
+      ...(!!fpeOptions?.highlightRedaction && {
         return_context: true,
       }),
     })

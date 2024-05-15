@@ -5,6 +5,12 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.0.59] - 2024-05-15
+
+### Added
+
+- Support optional "success" and "error" highlights to the JSONViewer component. As well a "info" to highlights to render a Tooltip around the highlighted text
+
 ## [0.0.58] - 2024-04-22
 
 ### Added

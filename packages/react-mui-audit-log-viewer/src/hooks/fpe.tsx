@@ -65,7 +65,7 @@ const getObjectKeyFromPath = (key: string): string => {
   return key.replace(/~0/g, ".").replace(/~1/g, "~");
 };
 
-export function updateMatches(
+export function updateMatchesToHaveRelativeRanges(
   jsonString: string,
   matches: FPEMatch[]
 ): FPEMatch[] {

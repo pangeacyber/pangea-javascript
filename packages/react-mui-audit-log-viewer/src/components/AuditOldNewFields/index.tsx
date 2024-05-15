@@ -11,7 +11,7 @@ import {
   FPEContext,
   getFieldMatches,
   injectFPEMatchesIntoChanges,
-  updateMatches,
+  updateMatchesToHaveRelativeRanges,
 } from "../../hooks/fpe";
 
 interface Props {
@@ -32,7 +32,13 @@ const OldNewFields: FC<Props> = ({ event, direction, uniqueId, context }) => {
     const changes_ = changes.filter((c) => !c.added);
 
     try {
-      const adjustedMatches = updateMatches(event.old ?? "", matches);
+      // Adjust field FPE matches to be relative to the entire strinified object
+      // to work with the used JSONViewer, which does not have support for highlighting
+      // values based on their JSON path
+      const adjustedMatches = updateMatchesToHaveRelativeRanges(
+        event.old ?? "",
+        matches
+      );
       return injectFPEMatchesIntoChanges(adjustedMatches, changes_);
     } catch {
       // Unable to adjust field matches to be relative to complete string
@@ -46,7 +52,13 @@ const OldNewFields: FC<Props> = ({ event, direction, uniqueId, context }) => {
     const changes_ = changes.filter((c) => !c.removed);
 
     try {
-      const adjustedMatches = updateMatches(event.new ?? "", matches);
+      // Adjust field FPE matches to be relative to the entire strinified object
+      // to work with the used JSONViewer, which does not have support for highlighting
+      // values based on their JSON path
+      const adjustedMatches = updateMatchesToHaveRelativeRanges(
+        event.new ?? "",
+        matches
+      );
       return injectFPEMatchesIntoChanges(adjustedMatches, changes_);
     } catch {
       // Unable to adjust field matches to be relative to complete string
@@ -63,11 +75,6 @@ const OldNewFields: FC<Props> = ({ event, direction, uniqueId, context }) => {
           field="old"
           value={event.old}
           shouldHighlight={(c) => !!c.removed || !!c.redacted}
-          // How should fpe context get mixed in here?
-          // In string changes array has the words broken apart
-          // If it was just s & e.. then could do it for character basis..
-          // although that would result in a lot of elements (in poor performance)
-          //
           changes={oldChanges}
           uniqueId={uniqueId}
         />
