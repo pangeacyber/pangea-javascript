@@ -31,6 +31,11 @@ export interface AuditLogViewerProps<Event = Audit.DefaultEvent> {
     ModalChildComponent?: FC;
     onCopy?: (message: string, value: string) => void;
   };
+
+  fpeOptions?: {
+    highlightFpeRedaction?: boolean;
+  };
+
   sx?: SxProps;
   pageSize?: number;
   dataGridProps?: Partial<DataGridProps>;
@@ -55,6 +60,7 @@ const AuditLogViewerWithProvider = <Event,>({
   schemaOptions,
   initialQuery,
   filters,
+  fpeOptions,
   ...props
 }: AuditLogViewerProps<Event>): JSX.Element => {
   const { schema } = useSchema(config, schemaProp, schemaOptions);
@@ -70,7 +76,12 @@ const AuditLogViewerWithProvider = <Event,>({
 
   const handleSearch = (body: Audit.SearchRequest): Promise<void> => {
     setLoading(true);
-    return onSearch(body)
+    return onSearch({
+      ...body,
+      ...(!!fpeOptions?.highlightFpeRedaction && {
+        return_context: true,
+      }),
+    })
       .then((response) => {
         setLoading(false);
         if (!response || response?.events === undefined) {
@@ -99,7 +110,12 @@ const AuditLogViewerWithProvider = <Event,>({
 
   const handleResults = (body: Audit.ResultRequest): Promise<void> => {
     setLoading(true);
-    return onPageChange(body)
+    return onPageChange({
+      ...body,
+      ...(!!fpeOptions?.highlightFpeRedaction && {
+        return_context: true,
+      }),
+    })
       .then((response) => {
         setLoading(false);
         if (!response) return;
@@ -120,7 +136,12 @@ const AuditLogViewerWithProvider = <Event,>({
     if (!onDownload) return;
 
     setLoading(true);
-    return onDownload(body)
+    return onDownload({
+      ...body,
+      ...(!!fpeOptions?.highlightFpeRedaction && {
+        return_context: true,
+      }),
+    })
       .then((response) => {
         setLoading(false);
         if (response?.dest_url) {

@@ -12,8 +12,10 @@ export interface Change {
   value: string;
   added?: boolean;
   removed?: boolean;
+  redacted?: boolean;
   prefix?: string;
   suffix?: string;
+  info?: string;
 }
 
 export const useDiffWords = (
@@ -25,7 +27,7 @@ export const useDiffWords = (
     try {
       const oldJson = JSON.parse(oldValue);
       const newJson = JSON.parse(newValue);
-      return diffWords(oldValue, newValue);
+      return diffWords(JSON.stringify(oldJson), JSON.stringify(newJson));
     } catch {
       try {
         return diffWords(oldValue, newValue);
