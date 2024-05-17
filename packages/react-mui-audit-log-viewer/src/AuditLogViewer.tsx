@@ -20,7 +20,7 @@ export interface AuditLogViewerProps<Event = Audit.DefaultEvent> {
 
   onSearch: (body: Audit.SearchRequest) => Promise<Audit.SearchResponse>;
   searchOnChange?: boolean;
-  searchOnMount?: boolean;
+  searchOnFilterChange?: boolean;
 
   onPageChange: (body: Audit.ResultRequest) => Promise<Audit.ResultResponse>;
   onDownload?: (

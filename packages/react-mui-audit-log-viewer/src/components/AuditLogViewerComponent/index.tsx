@@ -48,7 +48,7 @@ export interface ViewerProps<Event = Audit.DefaultEvent> {
   visibilityModel?: Partial<Record<keyof Event, boolean>>;
   filters?: PublicAuditQuery;
   searchOnChange?: boolean;
-  searchOnMount?: boolean;
+  searchOnFilterChange?: boolean;
 }
 
 const AuditLogViewerComponent: FC<ViewerProps> = ({
@@ -61,7 +61,7 @@ const AuditLogViewerComponent: FC<ViewerProps> = ({
   dataGridProps = {},
   fields,
   searchOnChange = true,
-  searchOnMount = false,
+  searchOnFilterChange = true,
 }) => {
   const {
     visibilityModel,
@@ -76,7 +76,7 @@ const AuditLogViewerComponent: FC<ViewerProps> = ({
     setQueryObj,
     setSort,
   } = useAuditContext();
-  const { body } = useAuditBody(limit, maxResults);
+  const { body, bodyWithoutQuery } = useAuditBody(limit, maxResults);
   const pagination = usePagination();
   const defaultVisibility = useDefaultVisibility(schema);
   const defaultOrder = useDefaultOrder(schema);
@@ -92,12 +92,13 @@ const AuditLogViewerComponent: FC<ViewerProps> = ({
   };
 
   useEffect(() => {
-    if (!!body && searchOnChange) handleSearch();
-  }, [body, searchOnChange]);
+    if (!!bodyWithoutQuery && searchOnFilterChange && !searchOnChange)
+      handleSearch();
+  }, [bodyWithoutQuery, searchOnFilterChange, searchOnChange]);
 
   useEffect(() => {
-    if (!!body && searchOnMount) handleSearch();
-  }, [!!body, searchOnMount]);
+    if (!!body && searchOnChange) handleSearch();
+  }, [body, searchOnChange]);
 
   const handleChange = useCallback(
     (newQuery: string) => {
