@@ -50,7 +50,7 @@
     "vite": "^5.2.11"
   },
   "dependencies": {
-    "@pangeacyber/react-mui-shared": "0.0.58",
+    "@pangeacyber/react-mui-shared": "0.0.59",
     "axios": "^1.6.8",
     "lodash": "^4.17.21",
     "zustand": "^4.5.2"

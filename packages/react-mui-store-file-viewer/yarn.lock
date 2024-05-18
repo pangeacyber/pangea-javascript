@@ -1543,7 +1543,7 @@
   resolved "https://registry.yarnpkg.com/@juggle/resize-observer/-/resize-observer-3.4.0.tgz#08d6c5e20cf7e4cc02fd181c4b0c225cd31dbb60"
   integrity sha512-dfLbk+PwWvFzSxwk3n5ySL0hfBog779o8h68wK/7/APo/7cgyWp5jcXockbxdk5kFRkbeXWm4Fbi9FrdN381sA==
 
-"@loadable/component@^5.16.3":
+"@loadable/component@^5.16.4":
   version "5.16.4"
   resolved "https://registry.yarnpkg.com/@loadable/component/-/component-5.16.4.tgz#583cb65945a5061ca3c6b90eb34835c154283ff4"
   integrity sha512-fJWxx9b5WHX90QKmizo9B+es2so8DnBthI1mbflwCoOyvzEwxiZ/SVDCTtXEnHG72/kGBdzr297SSIekYtzSOQ==
@@ -1651,7 +1651,7 @@
     prop-types "^15.8.1"
     react-is "^18.2.0"
 
-"@mui/x-data-grid@^6.19.10":
+"@mui/x-data-grid@^6.19.11":
   version "6.19.11"
   resolved "https://registry.yarnpkg.com/@mui/x-data-grid/-/x-data-grid-6.19.11.tgz#3add2173059e98a909f8c86b696896ecfb56eb48"
   integrity sha512-QsUp2cPkjUm8vyTR5gYWuCFqxspljOzElbCm412wzvMTJSKaB0kz7CEecFhxjlsMjQ8B7kY8oDF3LXjjucFcPQ==
@@ -1705,16 +1705,16 @@
     "@nodelib/fs.scandir" "2.1.5"
     fastq "^1.6.0"
 
-"@pangeacyber/react-mui-shared@0.0.58":
-  version "0.0.58"
-  resolved "https://registry.yarnpkg.com/@pangeacyber/react-mui-shared/-/react-mui-shared-0.0.58.tgz#60c22655639e7e609a1079993934214127c0ff1d"
-  integrity sha512-m241KmnFyuL7u78SV8AKPSRCl5BNasq06B+cGpSDrJQKoxBdlxkemKzZVJnaHKpmypoy86WgsJQoKykEAd1KpA==
+"@pangeacyber/react-mui-shared@0.0.59":
+  version "0.0.59"
+  resolved "https://registry.yarnpkg.com/@pangeacyber/react-mui-shared/-/react-mui-shared-0.0.59.tgz#805f376f3808822df187a1158f8dc221ceea2813"
+  integrity sha512-3fgyO0CBzP5oi8v4gQWlC/MqQ5K8oC1Bd6J49gQgGJmTE+WAar6VhOnAyzmRBL6rK8/DxC0XMxrWXUQoukdjYw==
   dependencies:
-    "@loadable/component" "^5.16.3"
-    "@mui/x-data-grid" "^6.19.10"
+    "@loadable/component" "^5.16.4"
+    "@mui/x-data-grid" "^6.19.11"
     "@mui/x-date-pickers" "^6.19.9"
-    dayjs "^1.11.10"
-    formik "^2.4.5"
+    dayjs "^1.11.11"
+    formik "^2.4.6"
     moment "^2.30.1"
     react-beautiful-dnd "^13.1.1"
     react-json-view "^1.21.3"
@@ -3948,7 +3948,7 @@ csstype@^3.0.2, csstype@^3.1.3:
   resolved "https://registry.yarnpkg.com/csstype/-/csstype-3.1.3.tgz#d80ff294d114fb0e6ac500fbf85b60137d7eff81"
   integrity sha512-M1uQkMl8rQK/szD0LNhtqxIPLpimGm8sOBwU7lLnCpSbTyY3yeU1Vc7l4KT5zT4s/yOxHH5O7tIuuLOCnLADRw==
 
-dayjs@^1.11.10:
+dayjs@^1.11.11:
   version "1.11.11"
   resolved "https://registry.yarnpkg.com/dayjs/-/dayjs-1.11.11.tgz#dfe0e9d54c5f8b68ccf8ca5f72ac603e7e5ed59e"
   integrity sha512-okzr3f11N6WuqYtZSvm+F776mB41wRZMhKP+hc34YdW+KmtYYK9iqvHSwo2k9FEH3fhGXvOPV6yz2IcSrfRUDg==
@@ -4626,7 +4626,7 @@ form-data@^4.0.0:
     combined-stream "^1.0.8"
     mime-types "^2.1.12"
 
-formik@^2.4.5:
+formik@^2.4.6:
   version "2.4.6"
   resolved "https://registry.yarnpkg.com/formik/-/formik-2.4.6.tgz#4da75ca80f1a827ab35b08fd98d5a76e928c9686"
   integrity sha512-A+2EI7U7aG296q2TLGvNapDNTZp1khVt5Vk0Q/fyfSROss0V/V6+txt2aJnwEos44IxTCW/LYAi/zgWzlevj+g==
