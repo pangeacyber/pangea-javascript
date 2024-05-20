@@ -56,7 +56,8 @@ class AuthZService extends BaseService {
    * ```typescript
    * const response = await authz.tupleList({
    *   filter: {
-   *     resource: { type: 'folder', id: 'resource1' },
+   *     resource_type: 'folder',
+   *     resource_id: 'resource1',
    *   },
    *   size: 10,
    * });
