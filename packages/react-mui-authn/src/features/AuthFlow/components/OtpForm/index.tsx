@@ -101,9 +101,17 @@ const OtpForm: FC<Props> = ({
   }, []);
 
   useEffect(() => {
-    formik.resetForm();
-    if (otpType !== "totp") {
-      setDisabled(true);
+    // reset the form, except on comms failure
+    if (
+      error.status !== "ServiceNotAvailable" ||
+      error.summary === "Failed to fetch"
+    ) {
+      formik.resetForm();
+
+      // disable the inputs, except for TOTP. code can't be re-entered
+      if (otpType !== "totp") {
+        setDisabled(true);
+      }
     }
   }, [error]);
 

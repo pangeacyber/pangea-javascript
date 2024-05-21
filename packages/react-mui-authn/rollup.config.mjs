@@ -38,6 +38,13 @@ export default [
       nodePolyfills(),
     ],
     external: Object.keys(pkg.peerDependencies || {}),
+    onwarn: (warning, warn) => {
+      // suppress "use client" warnings
+      if (warning.code === "MODULE_LEVEL_DIRECTIVE") {
+        return;
+      }
+      warn(warning);
+    },
   },
   {
     input: "src/index.ts",

@@ -1,6 +1,6 @@
 {
   "name": "@pangeacyber/react-mui-authn",
-  "version": "0.5.0",
+  "version": "0.5.1",
   "description": "Components for integration with Pangea AuthN Service",
   "main": "dist/cjs/index.js",
   "module": "dist/esm/index.js",
@@ -53,8 +53,8 @@
     "postcss": "^8.4.38",
     "react": "17.0.2",
     "react-dom": "17.0.2",
-    "rollup": "^4.12.1",
-    "rollup-plugin-dts": "6.1.0",
+    "rollup": "4.17.2",
+    "rollup-plugin-dts": "6.1.1",
     "rollup-plugin-peer-deps-external": "^2.2.4",
     "rollup-plugin-polyfill-node": "^0.13.0",
     "rollup-plugin-postcss": "^4.0.2",
@@ -70,19 +70,17 @@
   },
   "dependencies": {
     "@lexical/react": "0.14.2",
+    "@mui/x-date-pickers": "^7.5.0",
     "@pangeacyber/react-mui-branding": "0.0.17",
     "@pangeacyber/vanilla-js": "0.1.9",
     "@simplewebauthn/browser": "9.0.1",
     "add": "^2.0.6",
     "awesome-phonenumber": "^6.8.0",
+    "dayjs": "^1.11.11",
     "formik": "^2.4.6",
     "lexical": "0.14.2",
     "react-google-recaptcha-enterprise": "^1.0.3",
     "yup": "1.4.0"
   },
-  "packageManager": "yarn@1.22.22",
-  "resolutions": {
-    "jackspeak": "2.1.1",
-    "@types/mime": "3.0.4"
-  }
+  "packageManager": "yarn@1.22.22"
 }
