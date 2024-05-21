@@ -158,7 +158,8 @@ const CodeInput: FC<CodeInputProps> = ({
             }}
             name={`otp-input-${inputName}`}
             inputProps={{
-              autoComplete: "new-password",
+              autoComplete: "one-time-code",
+              inputMode: "numeric",
               form: {
                 autoComplete: "off",
               },

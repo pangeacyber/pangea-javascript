@@ -1,7 +1,7 @@
 import { FC } from "react";
 import { useFormik } from "formik";
 import * as yup from "yup";
-import { Checkbox, FormControlLabel, Stack } from "@mui/material";
+import { Stack } from "@mui/material";
 
 import { AuthFlow } from "@pangeacyber/vanilla-js";
 
@@ -9,9 +9,11 @@ import { AuthFlowComponentProps } from "@src/features/AuthFlow/types";
 import AuthFlowLayout from "../Layout";
 import IdField from "@src/components/fields/IdField";
 import StringField from "@src/components/fields/StringField";
+import DateField from "@src/components/fields/DateField";
 import Button from "@src/components/core/Button";
 import { ErrorMessage } from "../../components";
 import { checkForHtml } from "../../utils";
+import CheckboxField from "@src/components/fields/CheckboxField";
 
 const autoCompleteMap: { [key: string]: string } = {
   first_name: "given-name",
@@ -21,25 +23,48 @@ const autoCompleteMap: { [key: string]: string } = {
 const ProfileView: FC<AuthFlowComponentProps> = (props) => {
   const { options, data, error, loading, update, reset } = props;
 
-  // FIXME: generate initial values and validation from profile data
   const validators: { [key: string]: any } = {};
   const defaultValues: { [key: string]: string } = {};
 
   data.profile?.fields.forEach((f: AuthFlow.ProfileField) => {
-    if (f.show_on_signup && f.required) {
+    if (f.show_on_signup) {
+      defaultValues[f.id] = "";
+
       if (f.type === "string") {
         validators[f.id] = yup
           .string()
-          .required("Required")
           .test("no-html-tags", "HTML tags are not allowed", (value) => {
             return checkForHtml(value || "");
           });
       } else if (f.type === "integer") {
-        validators[f.id] = yup.number().required("Required");
+        validators[f.id] = yup.number();
+      } else if (f.type === "date") {
+        validators[f.id] = yup.date();
+      } else {
+        validators[f.id] = yup.string();
       }
 
-      defaultValues[f.id] = "";
+      if (f.required) {
+        validators[f.id] = validators[f.id].required("Required");
+      }
     }
+
+    // if (f.show_on_signup && f.required) {
+    //   if (f.type === "string") {
+    //     validators[f.id] = yup
+    //       .string()
+    //       .required("Required")
+    //       .test("no-html-tags", "HTML tags are not allowed", (value) => {
+    //         return checkForHtml(value || "");
+    //       });
+    //   } else if (f.type === "integer") {
+    //     validators[f.id] = yup.number().required("Required");
+    //   } else if (f.type === "date") {
+    //     validators[f.id] = yup.date().required("Required");
+    //   } else {
+    //     validators[f.id] = yup.string().required("Required");
+    //   }
+    // }
   });
 
   const validationSchema = yup.object(validators);
@@ -70,21 +95,16 @@ const ProfileView: FC<AuthFlowComponentProps> = (props) => {
           {data?.profile?.fields.map((field: AuthFlow.ProfileField) => {
             if (field.show_on_signup) {
               if (field.type === "boolean") {
-                // TODO: Move to component, add formik
                 return (
-                  <FormControlLabel
-                    control={<Checkbox />}
-                    label={field.label}
+                  <CheckboxField
                     name={field.id}
+                    label={field.label}
+                    formik={formik}
                   />
                 );
               } else if (field.type === "date") {
-                // TODO: Add DatePicker component
-                // <DemoContainer components={['DatePicker']}>
-                //   <DatePicker label="Basic date picker" />
-                // </DemoContainer>
                 return (
-                  <StringField
+                  <DateField
                     name={field.id}
                     label={field.label}
                     formik={formik}
