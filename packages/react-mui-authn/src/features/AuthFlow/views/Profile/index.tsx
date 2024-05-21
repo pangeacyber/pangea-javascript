@@ -48,23 +48,6 @@ const ProfileView: FC<AuthFlowComponentProps> = (props) => {
         validators[f.id] = validators[f.id].required("Required");
       }
     }
-
-    // if (f.show_on_signup && f.required) {
-    //   if (f.type === "string") {
-    //     validators[f.id] = yup
-    //       .string()
-    //       .required("Required")
-    //       .test("no-html-tags", "HTML tags are not allowed", (value) => {
-    //         return checkForHtml(value || "");
-    //       });
-    //   } else if (f.type === "integer") {
-    //     validators[f.id] = yup.number().required("Required");
-    //   } else if (f.type === "date") {
-    //     validators[f.id] = yup.date().required("Required");
-    //   } else {
-    //     validators[f.id] = yup.string().required("Required");
-    //   }
-    // }
   });
 
   const validationSchema = yup.object(validators);
