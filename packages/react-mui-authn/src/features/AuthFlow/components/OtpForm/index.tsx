@@ -101,7 +101,7 @@ const OtpForm: FC<Props> = ({
   }, []);
 
   useEffect(() => {
-    // reset the form, except of comms failure
+    // reset the form, except on comms failure
     if (
       error.status !== "ServiceNotAvailable" ||
       error.summary === "Failed to fetch"
