@@ -77,6 +77,6 @@
     "react-dom": "^17"
   },
   "resolutions": {
-    "jackspeak": "2.1.1"
+    "jackspeak": "3.0.0"
   }
 }
