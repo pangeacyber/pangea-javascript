@@ -41,13 +41,14 @@ class BaseService {
   /**
    * `POST` request.
    *
+   * @internal
    * @template R Result type.
    * @param endpoint Endpoint path.
    * @param data Request body.
    * @param options Additional options.
    * @returns A `Promise` of the response.
    */
-  async post<R>(
+  protected async post<R>(
     endpoint: string,
     data: object,
     options: PostOptions = {}
