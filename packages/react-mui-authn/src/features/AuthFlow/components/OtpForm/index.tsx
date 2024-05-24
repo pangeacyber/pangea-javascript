@@ -103,9 +103,11 @@ const OtpForm: FC<Props> = ({
   useEffect(() => {
     // reset the form, except on comms failure
     if (
-      error.status !== "ServiceNotAvailable" ||
-      error.summary === "Failed to fetch"
+      error?.status === "ServiceNotAvailable" ||
+      error?.summary === "Failed to fetch"
     ) {
+      // do nothing, allow resubmitting the same code
+    } else {
       formik.resetForm();
 
       // disable the inputs, except for TOTP. code can't be re-entered
