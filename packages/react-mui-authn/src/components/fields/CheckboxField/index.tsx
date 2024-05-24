@@ -16,9 +16,7 @@ const CheckboxField: FC<Props> = ({ name, label, formik }) => {
   };
 
   useEffect(() => {
-    if (!!formik.values[name]) {
-      setChecked(true);
-    }
+    formik.setFieldValue(name, "false");
   }, []);
 
   return (
