@@ -30,7 +30,7 @@
   resolved "https://registry.yarnpkg.com/@babel/compat-data/-/compat-data-7.24.6.tgz#b3600217688cabb26e25f8e467019e66d71b7ae2"
   integrity sha512-aC2DGhBq5eEdyXWqrDInSqQjO0k8xtPRf5YylULqx8MCd6jBtzqfta/3ETMRpuKIc5hyswfO80ObyA1MvkCcUQ==
 
-"@babel/core@^7.11.6", "@babel/core@^7.12.3", "@babel/core@^7.18.9", "@babel/core@^7.20.12", "@babel/core@^7.23.0", "@babel/core@^7.23.2", "@babel/core@^7.23.9", "@babel/core@^7.24.5":
+"@babel/core@^7.11.6", "@babel/core@^7.12.3", "@babel/core@^7.18.9", "@babel/core@^7.20.12", "@babel/core@^7.23.0", "@babel/core@^7.23.2", "@babel/core@^7.23.9", "@babel/core@^7.24.6":
   version "7.24.6"
   resolved "https://registry.yarnpkg.com/@babel/core/-/core-7.24.6.tgz#8650e0e4b03589ebe886c4e4a60398db0a7ec787"
   integrity sha512-qAHSfAdVyFmIvl0VHELib8xar7ONuSHrE2hLnsaWkYNTI68dmi1x8GYDhJjMI/e7XWal9QBlZkwbOnkcw7Z8gQ==
@@ -908,7 +908,7 @@
     "@babel/helper-create-regexp-features-plugin" "^7.24.6"
     "@babel/helper-plugin-utils" "^7.24.6"
 
-"@babel/preset-env@^7.23.2", "@babel/preset-env@^7.24.5":
+"@babel/preset-env@^7.23.2", "@babel/preset-env@^7.24.6":
   version "7.24.6"
   resolved "https://registry.yarnpkg.com/@babel/preset-env/-/preset-env-7.24.6.tgz#a5a55bc70e5ff1ed7f872067e2a9d65ff917ad6f"
   integrity sha512-CrxEAvN7VxfjOG8JNF2Y/eMqMJbZPZ185amwGUBp8D9USK90xQmv7dLdFSa+VbD7fdIqcy/Mfv7WtzG8+/qxKg==
@@ -1013,7 +1013,7 @@
     "@babel/types" "^7.4.4"
     esutils "^2.0.2"
 
-"@babel/preset-react@^7.24.1":
+"@babel/preset-react@^7.24.6":
   version "7.24.6"
   resolved "https://registry.yarnpkg.com/@babel/preset-react/-/preset-react-7.24.6.tgz#92eace66dce577e5263113eb82235a0d45096cae"
   integrity sha512-8mpzh1bWvmINmwM3xpz6ahu57mNaWavMm+wBNjQ4AFu1nghKBiIRET7l/Wmj4drXany/BBGjJZngICcD98F1iw==
