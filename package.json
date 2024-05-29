@@ -16,5 +16,6 @@
   },
   "lint-staged": {
     "*.{js,jsx,ts,tsx,css,md}": "npx prettier --write"
-  }
+  },
+  "packageManager": "yarn@1.22.22"
 }
