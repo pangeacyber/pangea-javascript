@@ -9,8 +9,7 @@
       paths:
         - packages/pangea-node-sdk/node_modules
   rules:
-    - if: $CI_COMMIT_BRANCH
-      changes:
+    - changes:
         - examples/**/*
         - packages/pangea-node-sdk/**/*
       when: on_success

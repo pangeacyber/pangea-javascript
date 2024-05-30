@@ -8,6 +8,21 @@ import { AuthZ } from "@src/types.js";
  * @extends BaseService
  */
 class AuthZService extends BaseService {
+  /**
+   * Creates a new `AuthZService` with the given Pangea API token and
+   * configuration.
+   *
+   * @param token Pangea API token.
+   * @param config Configuration.
+   *
+   * @example
+   * ```js
+   * const config = new PangeaConfig({ domain: "pangea_domain" });
+   * const audit = new AuthZService("pangea_token", config);
+   * ```
+   *
+   * @summary AuthZ
+   */
   constructor(token: string, config: PangeaConfig) {
     super("authz", token, config);
   }
@@ -56,7 +71,8 @@ class AuthZService extends BaseService {
    * ```typescript
    * const response = await authz.tupleList({
    *   filter: {
-   *     resource: { type: 'folder', id: 'resource1' },
+   *     resource_type: 'folder',
+   *     resource_id: 'resource1',
    *   },
    *   size: 10,
    * });

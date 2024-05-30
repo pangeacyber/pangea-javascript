@@ -14,12 +14,12 @@
     "build": "rollup -c"
   },
   "devDependencies": {
-    "@babel/core": "^7.24.5",
-    "@mui/icons-material": "^5.15.17",
-    "@mui/material": "^5.15.17",
+    "@babel/core": "^7.24.6",
+    "@mui/icons-material": "^5.15.18",
+    "@mui/material": "^5.15.18",
     "@mui/types": "^7.2.14",
     "@rollup/plugin-babel": "^6.0.4",
-    "@rollup/plugin-commonjs": "^25.0.7",
+    "@rollup/plugin-commonjs": "^25.0.8",
     "@rollup/plugin-json": "^6.1.0",
     "@rollup/plugin-node-resolve": "^15.2.3",
     "@rollup/plugin-terser": "^0.4.4",

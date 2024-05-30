@@ -21,9 +21,9 @@
     tslib "^2.6.2"
 
 "@aws-sdk/types@^3.222.0":
-  version "3.575.0"
-  resolved "https://registry.yarnpkg.com/@aws-sdk/types/-/types-3.575.0.tgz#ed8f33e15c7ea22b5244018330475983d0558556"
-  integrity sha512-XrnolQGs0wXxdgNudirR14OgNOarH7WUif38+2Pd4onZH+L7XoILem0EgA1tRpgFpw2pFHlZCNaAHDNSBEal7g==
+  version "3.577.0"
+  resolved "https://registry.yarnpkg.com/@aws-sdk/types/-/types-3.577.0.tgz#7700784d368ce386745f8c340d9d68cea4716f90"
+  integrity sha512-FT2JZES3wBKN/alfmhlo+3ZOq/XJ0C7QOZcDNrpKjB0kqYoKjhVKZ/Hx6ArR0czkKfHzBBEs6y40ebIHx2nSmA==
   dependencies:
     "@smithy/types" "^3.0.0"
     tslib "^2.6.2"
@@ -237,10 +237,10 @@ p-cancelable@^3.0.0:
   resolved "https://registry.yarnpkg.com/p-cancelable/-/p-cancelable-3.0.0.tgz#63826694b54d61ca1c20ebcb6d3ecf5e14cd8050"
   integrity sha512-mlVgR3PGuzlo0MmTdk4cXqXWlwQDLnONTAg6sm62XkMJEiRxN3GL3SffkYvqwonbkJBcrI7Uvv5Zh9yjvn2iUw==
 
-pangea-node-sdk@3.7.0:
-  version "3.7.0"
-  resolved "https://registry.yarnpkg.com/pangea-node-sdk/-/pangea-node-sdk-3.7.0.tgz#0fe6047f5831873f0a7e6e633a07d6a7cd4fb4db"
-  integrity sha512-FRlMvrXj9XCOh/Tr+H5APmQZOZZkmP79SB9re5nEj0g5PzW9EYmySODVyHcvghb4fEOqeVWfLxLVcS+PwQUcxg==
+pangea-node-sdk@3.8.0:
+  version "3.8.0"
+  resolved "https://registry.yarnpkg.com/pangea-node-sdk/-/pangea-node-sdk-3.8.0.tgz#aa0ac8de088906dd69a380bf9dac66aba9989d3c"
+  integrity sha512-SwbNfSu2arbEUZcHzEogbZY5itCHVmjl0E8qMKljIOT09R89GvzG2p5E7h8CB/pVvB14iNSp/OPSnelBql+k/A==
   dependencies:
     "@aws-crypto/crc32c" "^5.2.0"
     crypto-js "^4.2.0"

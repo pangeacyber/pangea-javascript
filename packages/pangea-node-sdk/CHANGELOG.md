@@ -7,6 +7,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Changed
+
+- `BaseService.post()` is now `protected` and `@internal`, as it was never meant
+  for public use.
+
 ### Removed
 
 - Beta tags from AuthZ.
