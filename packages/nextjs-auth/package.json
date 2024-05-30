@@ -1,0 +1,49 @@
+{
+  "name": "@pangeacyber/nextjs-auth",
+  "description": "Pangea auth provider React component",
+  "version": "0.0.0",
+  "type": "module",
+  "exports": {
+    "types": "./dist/index.d.ts",
+    "default": "./dist/index.js"
+  },
+  "types": "./dist/index.d.ts",
+  "files": [
+    "dist"
+  ],
+  "repository": "https://github.com/pangeacyber/pangea-javascript.git",
+  "author": "Pangea (https://pangea.cloud)",
+  "license": "MIT",
+  "packageManager": "yarn@4.2.2",
+  "workspaces": [
+    ".",
+    "e2e/app-router",
+    "e2e/pages-router"
+  ],
+  "scripts": {
+    "clean": "rimraf dist",
+    "prebuild": "yarn clean",
+    "build": "tsc",
+    "lint-attw": "attw --pack",
+    "lint-publint": "publint --strict",
+    "prepack": "yarn build",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@pangeacyber/react-auth": "^0.0.12",
+    "@pangeacyber/vanilla-js": "^0.1.9"
+  },
+  "peerDependencies": {
+    "next": "14",
+    "react": "18"
+  },
+  "devDependencies": {
+    "@arethetypeswrong/cli": "0.15.3",
+    "@tsconfig/strictest": "2.0.5",
+    "@types/react": "18.3.3",
+    "next": "14.2.3",
+    "publint": "0.2.8",
+    "rimraf": "5.0.7",
+    "typescript": "5.4.2"
+  }
+}
