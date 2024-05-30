@@ -5,6 +5,24 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.0.78] - 2024-05-30
+
+### Fixed
+
+- Typing "Enter" to trigger search now reflects current query in search input on search, instead of out of sync query
+
+## [0.0.77] - 2024-05-17
+
+### Added
+
+- Added searchOnFilterChange boolean prop, to allow the user to control if the AuditLogViewer should trigger a search on filters change. Default: true
+
+## [0.0.75] - 2024-05-15
+
+### Added
+
+- Added fpeOptions prop, to control whether format preserving encryption should be highlighted
+
 ## [0.0.74] - 2024-05-02
 
 ### Fixed

@@ -14,6 +14,12 @@ import StringJsonField, {
 } from "../AuditStringJsonField";
 import OldNewFields from "../AuditOldNewFields";
 import VerificationLine from "./VerificationLine";
+import {
+  getFieldMatches,
+  injectFPEMatchesIntoChanges,
+  useFpeContext,
+} from "../../hooks/fpe";
+import { Change } from "../../hooks/diff";
 
 interface Props {
   record: Audit.FlattenedAuditRecord;
@@ -72,6 +78,8 @@ const AuditPreviewRow: FC<Props> = ({
   // @ts-ignore - Is an internal optional field used when some incorrect fields are logged
   const hasErrorValues = !!record.err;
 
+  const context = useFpeContext(record);
+
   const modify = theme.palette.mode === "dark" ? darken : lighten;
   return (
     <Stack
@@ -96,6 +104,18 @@ const AuditPreviewRow: FC<Props> = ({
             {fields.map((field, idx) => {
               const { FieldComp, title } = field;
 
+              let changes: Change[] = [];
+              try {
+                const matches = getFieldMatches(field.id, context);
+                changes = injectFPEMatchesIntoChanges(matches, [
+                  {
+                    value: get(record, field.id),
+                  },
+                ]);
+              } catch {
+                // Unable to generate changes based on fpe matches
+              }
+
               return (
                 <FieldComp
                   key={`preview-field-${idx}-${rowId}`}
@@ -103,6 +123,7 @@ const AuditPreviewRow: FC<Props> = ({
                   field={field.id}
                   value={get(record, field.id)}
                   uniqueId={rowId}
+                  changes={changes}
                 />
               );
             })}
@@ -117,6 +138,7 @@ const AuditPreviewRow: FC<Props> = ({
               }}
               direction="row"
               uniqueId={rowId}
+              context={context}
             />
           )}
           {hasErrorValues && (

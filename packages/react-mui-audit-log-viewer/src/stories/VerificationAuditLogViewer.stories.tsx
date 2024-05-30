@@ -118,6 +118,10 @@ export const VerificationAuditLogViewer: {
 
 VerificationAuditLogViewer.args = {
   searchOnChange: false,
+  searchOnFilterChange: true,
+  fpeOptions: {
+    highlightRedaction: true,
+  },
   onSearch: async (body) => {
     return fetch(
       `https://audit.${process.env.STORYBOOK_SERVICE_DOMAIN}/v1/search`,

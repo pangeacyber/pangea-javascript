@@ -64,7 +64,14 @@ const Search = <
 
   const handleSearch = () => {
     if (onSearch) {
-      return onSearch();
+      if (query_ !== query) {
+        onChange(query_);
+        setTimeout(() => {
+          onSearch();
+        }, 200);
+      } else {
+        return onSearch();
+      }
     } else {
       onChange(query_);
     }

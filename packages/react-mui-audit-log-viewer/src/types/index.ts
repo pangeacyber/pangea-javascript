@@ -49,6 +49,8 @@ export namespace Audit {
 
     // Only present in logs if record is signed by Vault
     valid_signature?: boolean;
+
+    fpe_context?: string; // Present if fpe redection was used against the log
   }
 
   export interface FlattenedAuditRecord<Event = DefaultEvent>
@@ -105,6 +107,8 @@ export namespace Audit {
     verbose?: boolean;
 
     max_results?: number;
+
+    return_context?: boolean; // Used to indicate if fpe_context should be returned back with logs
   }
 
   export interface ResultRequest {
@@ -112,11 +116,15 @@ export namespace Audit {
     offset?: number;
     limit?: number;
     max_results?: number;
+
+    return_context?: boolean; // Used to indicate if fpe_context should be returned back with logs
   }
 
   export interface DownloadResultRequest {
     result_id: string; // FIXME: This field name is probably changing
     format: "csv" | "json";
+
+    return_context?: boolean; // Used to indicate if fpe_context should be returned back with logs
   }
 
   export interface RootRequest {

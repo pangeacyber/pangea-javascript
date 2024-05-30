@@ -60,6 +60,7 @@ The AuditLogViewer component accepts the following props:
 - initialQuery (optional): A string representing the default initial search query.
 - onSearch: A function that takes a body of type Audit.SearchRequest and returns a promise resolving to a Audit.SearchResponse. This function is called when the user performs a search. Should make a call to the Audit Service `/search` endpoint proxied through your application server.
 - searchOnChange (optional): A optional boolean to prevent the search input to auto search on change. If false will only search when the "Search" button is clicked or if "Enter" is typed while focused on the search input. Default: true
+- searchOnFilterChange (optional): A optional boolean to trigger search on component mount. By default searchOnChange triggers a search but if it is disabled then searchOnFilterChange can be enabled
 - onPageChange: A function that takes a body of type Audit.ResultRequest and returns a promise resolving to a Audit.ResultResponse. This function is called when the user navigates to a different page of results. Should make a call to the Audit Service `/results` endpoint proxied through your application server.
 - verificationOptions (optional): An object containing verification options. Letting you control whether or not to include client side verification check on audit logs.
   - onFetchRoot: A function that takes a body of type Audit.RootRequest and returns a promise resolving to a Audit.RootResponse. This function is called when the root data needs to be fetched. Should make a call to the Audit Service `/root` endpoint proxied through your application server.
@@ -78,6 +79,8 @@ The AuditLogViewer component accepts the following props:
 - schema (optional): An object representing the audit schema. With Audit Service custom schema support, you can change the expected Audit schema. This will control what fields are rendered.
 - schemaOptions (optional): An object representing options for mutating the audit schema the component uses.
   - hiddenFields (optional): A list of field ids to hide/remove from the schema before it is rendered. Will completely hide the field from the table, visibility options, and filtering
+- fpeOptions (optional): An object representing options for highlighting and retrieving format preserving encryption (FPE) context for each audit log. An audit event only has FPE context if FPE redaction was used on the log, from a Pangea Redact service integration
+  - highlightRedaction (optional): A boolean for controlling whether we highlight values in the log which were redacted with FPE
 
 For a deeper dive into the Prop interface check the source code [here](https://github.com/pangeacyber/pangea-javascript/blob/main/packages/react-mui-audit-log-viewer/src/AuditLogViewer.tsx)
 

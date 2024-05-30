@@ -1,4 +1,4 @@
-import { FC, useCallback, useEffect, useMemo } from "react";
+import { FC, useCallback, useEffect, useMemo, useRef } from "react";
 import find from "lodash/find";
 
 import { Box } from "@mui/material";
@@ -48,6 +48,7 @@ export interface ViewerProps<Event = Audit.DefaultEvent> {
   visibilityModel?: Partial<Record<keyof Event, boolean>>;
   filters?: PublicAuditQuery;
   searchOnChange?: boolean;
+  searchOnFilterChange?: boolean;
 }
 
 const AuditLogViewerComponent: FC<ViewerProps> = ({
@@ -60,6 +61,7 @@ const AuditLogViewerComponent: FC<ViewerProps> = ({
   dataGridProps = {},
   fields,
   searchOnChange = true,
+  searchOnFilterChange = true,
 }) => {
   const {
     visibilityModel,
@@ -74,7 +76,7 @@ const AuditLogViewerComponent: FC<ViewerProps> = ({
     setQueryObj,
     setSort,
   } = useAuditContext();
-  const { body } = useAuditBody(limit, maxResults);
+  const { body, bodyWithoutQuery } = useAuditBody(limit, maxResults);
   const pagination = usePagination();
   const defaultVisibility = useDefaultVisibility(schema);
   const defaultOrder = useDefaultOrder(schema);
@@ -84,10 +86,18 @@ const AuditLogViewerComponent: FC<ViewerProps> = ({
   const filterFields = useAuditFilterFields(schema);
   const conditionalOptions = useAuditConditionalOptions(schema);
 
+  const bodyRef = useRef(body);
+  bodyRef.current = body;
+
   const handleSearch = () => {
-    if (!body) return;
-    return onSearch(body);
+    if (!bodyRef.current) return;
+    return onSearch(bodyRef.current);
   };
+
+  useEffect(() => {
+    if (!!bodyWithoutQuery && searchOnFilterChange && !searchOnChange)
+      handleSearch();
+  }, [bodyWithoutQuery, searchOnFilterChange, searchOnChange]);
 
   useEffect(() => {
     if (!!body && searchOnChange) handleSearch();
