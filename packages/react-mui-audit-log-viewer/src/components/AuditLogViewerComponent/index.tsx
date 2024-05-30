@@ -1,4 +1,4 @@
-import { FC, useCallback, useEffect, useMemo } from "react";
+import { FC, useCallback, useEffect, useMemo, useRef } from "react";
 import find from "lodash/find";
 
 import { Box } from "@mui/material";
@@ -86,9 +86,12 @@ const AuditLogViewerComponent: FC<ViewerProps> = ({
   const filterFields = useAuditFilterFields(schema);
   const conditionalOptions = useAuditConditionalOptions(schema);
 
+  const bodyRef = useRef(body);
+  bodyRef.current = body;
+
   const handleSearch = () => {
-    if (!body) return;
-    return onSearch(body);
+    if (!bodyRef.current) return;
+    return onSearch(bodyRef.current);
   };
 
   useEffect(() => {
