@@ -141,6 +141,7 @@ export namespace Audit {
     consistency_verification?: string;
     membership_verification?: string;
     signature_verification?: string;
+    fpe_context?: string;
   }
 
   export interface Root {
@@ -198,6 +199,7 @@ export namespace Audit {
     order_by?: string;
     search_restriction?: Audit.SearchRestriction;
     verbose?: boolean;
+    return_context?: boolean;
   }
 
   export interface SearchParams extends SearchParamsOptions {
@@ -206,6 +208,11 @@ export namespace Audit {
 
   export interface RootParams {
     tree_size?: number;
+  }
+
+  export interface ResultOptions {
+    assert_search_restriction?: Audit.SearchRestriction;
+    return_context?: boolean;
   }
 
   export interface ResultResponse {
@@ -239,6 +246,9 @@ export namespace Audit {
 
     /** Format for the records. */
     format?: DownloadFormat;
+
+    /** Return the context data needed to decrypt secure audit events that have been redacted with format preserving encryption. */
+    return_context?: boolean;
   }
 
   export interface DownloadResult {

@@ -300,11 +300,19 @@ class AuditService extends BaseService {
    *   - old:
    *   - status:
    *   - target:
-   * @param {Object} options - Search options. The following search options are supported:
+   * @param {Object} queryOptions - Search options. The following search options are supported:
    *   - limit (number): Maximum number of records to return per page.
    *   - start (string): The start of the time range to perform the search on.
    *   - end (string): The end of the time range to perform the search on. All records up to the latest if left out.
-   *   - sources (array): A list of sources that the search can apply to. If empty or not provided, matches only the default source.
+   *   - max_results (number): Maximum number of results to return.
+   *   - order (string): Specify the sort order of the response.
+   *   - order_by (string): Name of column to sort the results by.
+   *   - search_restriction (Audit.SearchRestriction): A list of keys to restrict the search results to. Useful for partitioning data available to the query string.
+   *   - verbose (boolean): If true, include the root hash of the tree and the membership proof for each record.
+   *   - return_context (boolean): Return the context data needed to decrypt secure audit events that have been redacted with format preserving encryption.
+   * @param {Object} options - Search options. The following search options are supported:
+   *   - verifyConsistency (boolean): If true verify published roots and membership proof of each event
+   *   - skipEventVerification (boolean): If true skip event hash verification
    * @returns {Promise} - A promise representing an async call to the search endpoint
    * @example
    * ```js
@@ -346,7 +354,12 @@ class AuditService extends BaseService {
    * @param {String} id - The id of a successful search
    * @param {number} limit (default 20) - The number of results returned
    * @param {number} offset (default 0) - The starting position of the first returned result
-   * @param {boolean} verifyResponse (default false) - Verify consistency and membership proof of every record
+   * @param {Object} options - Search options. The following search options are supported:
+   *   - verifyConsistency (boolean): If true verify published roots and membership proof of each event
+   *   - skipEventVerification (boolean): If true skip event hash verification
+   * @param {Object} queryOptions - Search options. The following search options are supported:
+   *   - assert_search_restriction (Audit.SearchRestriction): A list of keys to restrict the search results to. Useful for partitioning data available to the query string.
+   *   - return_context (boolean): Return the context data needed to decrypt secure audit events that have been redacted with format preserving encryption.
    * @returns {Promise} - A promise representing an async call to the results endpoint
    * @example
    * ```js
@@ -361,7 +374,8 @@ class AuditService extends BaseService {
     id: string,
     limit = 20,
     offset = 0,
-    options: Audit.SearchOptions
+    options: Audit.SearchOptions,
+    queryOptions: Audit.ResultOptions = {}
   ): Promise<PangeaResponse<Audit.ResultResponse>> {
     if (!id) {
       throw new Error("Missing required `id` parameter");
@@ -372,6 +386,7 @@ class AuditService extends BaseService {
       limit,
       offset,
     };
+    Object.assign(payload, queryOptions);
 
     const response: PangeaResponse<Audit.SearchResponse> = await this.post(
       "v1/results",
