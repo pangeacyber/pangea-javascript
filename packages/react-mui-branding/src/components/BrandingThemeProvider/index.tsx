@@ -13,7 +13,9 @@ export interface BrandingThemeProviderProps {
   auth?: PangeaAuth;
   brandingId?: string;
   config?: Branding.Config;
+
   themeOptions?: Partial<ThemeOptions>;
+  // Callback function for mutating theme options
   overrideThemeOptions?: (options: ThemeOptions) => ThemeOptions;
   ThemeProviderProps?: Partial<ThemeProviderProps>;
   children?: JSX.Element;
