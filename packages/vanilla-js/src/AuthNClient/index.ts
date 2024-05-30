@@ -1,5 +1,3 @@
-import axios, { AxiosResponse } from "axios";
-
 import { ClientConfig, APIResponse, ClientResponse } from "../types";
 import { delay } from "@src/utils";
 
