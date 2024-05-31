@@ -1,0 +1,41 @@
+{
+  "name": "pangea-webcomponents",
+  "version": "1.0.0",
+  "source": "src/index.tsx",
+  "scripts": {
+    "watch": "parcel watch",
+    "build": "parcel build"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.24.6",
+    "@babel/preset-env": "^7.24.6",
+    "@babel/preset-react": "^7.24.6",
+    "@parcel/optimizer-terser": "^2.12.0",
+    "@types/react": "^18.3.3",
+    "@types/react-dom": "^18.3.0",
+    "parcel": "^2.12.0",
+    "process": "^0.11.10",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.4.5"
+  },
+  "browserslist": "> 0.25%, not dead",
+  "dependencies": {
+    "@emotion/cache": "^11.11.0",
+    "@emotion/react": "^11.11.4",
+    "@emotion/styled": "^11.11.0",
+    "@mui/icons-material": "^5.15.11",
+    "@mui/material": "^5.15.11",
+    "@mui/styled-engine-sc": "^6.0.0-alpha.17",
+    "@mui/types": "^7.2.13",
+    "@pangeacyber/react-mui-audit-log-viewer": "^0.0.69",
+    "@pangeacyber/react-mui-branding": "0.0.18",
+    "@pangeacyber/react-mui-store-file-viewer": "^0.0.44",
+    "@preact/compat": "^17.1.2",
+    "preact": "^10.22.0",
+    "styled-components": "^6.1.8"
+  },
+  "alias": {
+    "react": "preact/compat",
+    "react-dom": "preact/compat"
+  }
+}

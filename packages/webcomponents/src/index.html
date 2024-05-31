@@ -1,0 +1,83 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>BetterTransfer</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/icon?family=Material+Icons"
+    />
+    <script type="module">
+      import "./audit-log-viewer.tsx";
+      registerAuditLogViewer({
+        props: {
+          onSearch: async function (req) {
+            return {
+              id: "pas_fkl5dje4fxtvmzbzewkmuoo4v4fsubxh",
+              count: 5,
+              expires_at: "2024-06-02T00:05:33.170767Z",
+              events: [
+                {
+                  envelope: {
+                    received_at: "2024-05-31T00:05:27.103062Z",
+                    event: {
+                      message: "asdfasfdaf",
+                    },
+                  },
+                  hash: "69ec3588e3df6cffd7f33363e265d6c2da365b0ecf5c3994eb3c778387e7ad8c",
+                  published: false,
+                  membership_proof: "",
+                },
+              ],
+            };
+          },
+          onPageChange: async function () {
+            return {
+              events: [],
+              count: 0,
+            };
+          },
+        },
+        brandingProps: {
+          brandingId: "pro_otgwvvhg3wukgcrkquumsx7nujfecuwh",
+          auth: {
+            clientToken: "pcl_suvvh7jla3zg5hws5re7nuop5e3imxhv",
+            domain: "aws.us.pangea.cloud",
+          },
+        },
+      });
+    </script>
+    <script type="module">
+      import "./store-file-viewer.tsx";
+      registerStoreFileViewer({
+        props: {
+          apiRef: function() {
+            return {
+              list: async () => {
+                count: 0;
+                last: "";
+                objects: [];
+              },
+              get: async () => {
+              }
+            }
+          }
+        },
+        brandingProps: {
+          brandingId: "pro_otgwvvhg3wukgcrkquumsx7nujfecuwh",
+          auth: {
+            clientToken: "pcl_suvvh7jla3zg5hws5re7nuop5e3imxhv",
+            domain: "aws.us.pangea.cloud",
+          },
+        },
+      });
+    </script>
+  </head>
+  <body>
+    <audit-log-viewer id="1"></audit-log-viewer>
+    <store-file-viewer id="2"></store-file-viewer>
+  </body>
+</html>
