@@ -301,6 +301,7 @@ export namespace Redact {
     rules?: string[];
     rulesets?: string[];
     return_result?: boolean;
+    redaction_method_overrides?: RedactionMethodOverrides;
   }
 
   export interface TextOptions extends Options {}
@@ -315,6 +316,55 @@ export namespace Redact {
 
   export interface StructuredParams extends StructuredOptions {
     data: Object;
+  }
+
+  export enum RedactType {
+    MASK = "mask",
+    PARTIAL_MASKING = "partial_masking",
+    REPLACEMENT = "replacement",
+    DETECT_ONLY = "detect_only",
+    HASH = "hash",
+    FPE = "fpe",
+  }
+
+  export enum FPEAlphabet {
+    NUMERIC = "numeric",
+    ALPHANUMERICLOWER = "alphanumericlower",
+    ALPHANUMERIC = "alphanumeric",
+  }
+
+  export enum MaskingType {
+    MASK = "mask",
+    UNMASK = "unmask",
+  }
+
+  export interface PartialMasking {
+    masking_type?: MaskingType;
+    unmasked_from_left?: number;
+    unmasked_from_right?: number;
+    masked_from_left?: number;
+    masked_from_right?: number;
+    chars_to_ignore?: string[];
+    masking_char?: string[];
+  }
+
+  export interface RedactionMethodOverrides {
+    redaction_type: RedactType;
+    hash?: object;
+    fpe_alphabet?: FPEAlphabet;
+    partial_masking?: PartialMasking;
+    redaction_value?: string;
+  }
+
+  export interface UnredactRequest {
+    redacted_data: RedactedData;
+    fpe_context?: string;
+  }
+
+  type RedactedData = object | string;
+
+  export interface UnredactResult {
+    data: RedactedData;
   }
 }
 
