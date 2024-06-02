@@ -715,10 +715,10 @@
     react-beautiful-dnd "^13.1.1"
     ts-jest "^29.1.2"
 
-"@pangeacyber/react-mui-branding@^0.0.17":
-  version "0.0.17"
-  resolved "https://registry.yarnpkg.com/@pangeacyber/react-mui-branding/-/react-mui-branding-0.0.17.tgz#87e2df462669621b348c18319a149ecf2d23f3fd"
-  integrity sha512-G4ourGkfadZuuaLHsRMRjSuEUN2LWDv0PQylO5R8YkXdxp/FMjk20qfTcVpXL2sALbGFh3lBOCvQUxumIF8/Eg==
+"@pangeacyber/react-mui-branding@^0.0.18":
+  version "0.0.18"
+  resolved "https://registry.yarnpkg.com/@pangeacyber/react-mui-branding/-/react-mui-branding-0.0.18.tgz#0630d0f528ad991e1e89d8d4f7626f443899fdcc"
+  integrity sha512-oBTWZ/6i9KkLUXEB48Mu6kMu+s7YGY6ZhsyH0PZ1BkoM/o3Dl6SlMVvclhVSPJ0M807n3F/FbvxVAHb5+BUd/w==
 
 "@pangeacyber/react-mui-shared@0.0.59":
   version "0.0.59"
