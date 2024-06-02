@@ -4045,10 +4045,10 @@ available-typed-arrays@^1.0.7:
   dependencies:
     possible-typed-array-names "^1.0.0"
 
-awesome-phonenumber@^6.8.0:
-  version "6.8.0"
-  resolved "https://registry.yarnpkg.com/awesome-phonenumber/-/awesome-phonenumber-6.8.0.tgz#2ddd0a2b6cb55b6e7f04ac36659f81f0ea9c369d"
-  integrity sha512-jezAKO6hd31TguLLguuYS5BnmY6B1X64VKPOIHcni5yZqKK08Magl7u85aVXASidTW0ePQMXp26ImW4C0VLHpA==
+awesome-phonenumber@^6.9.0:
+  version "6.9.0"
+  resolved "https://registry.yarnpkg.com/awesome-phonenumber/-/awesome-phonenumber-6.9.0.tgz#daa2bb5c36e4db756b03904369594f9c99fd8218"
+  integrity sha512-S9z1HKC6YQSxYL6ebn5dckJ4uPWIjmf6Ar64B5bfRQ7whJ323zewKryP4D1sLnxnzoRhRmV2v+2tty4/ONVi/Q==
 
 babel-core@^7.0.0-bridge.0:
   version "7.0.0-bridge.0"
