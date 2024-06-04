@@ -700,10 +700,10 @@
     prop-types "^15.8.1"
     react-transition-group "^4.4.5"
 
-"@pangeacyber/react-mui-audit-log-viewer@^0.0.78":
-  version "0.0.78"
-  resolved "https://registry.yarnpkg.com/@pangeacyber/react-mui-audit-log-viewer/-/react-mui-audit-log-viewer-0.0.78.tgz#590621e46a978599cfdd1c7725b54cc66acd06d7"
-  integrity sha512-mnwM/RRHge2qLMkyXt8h/48LdXnSJKzjHkuAlVO+pYaHA0VsHElFEvGxgB7CiSAibk/GTJtfA5szWhM14u4+0w==
+"@pangeacyber/react-mui-audit-log-viewer@^0.0.79":
+  version "0.0.79"
+  resolved "https://registry.yarnpkg.com/@pangeacyber/react-mui-audit-log-viewer/-/react-mui-audit-log-viewer-0.0.79.tgz#28370dee2a1e1e3faac7b965a717f96014681e4c"
+  integrity sha512-WgLz9YoSkOwdHp1xe/dkj7NXdIXBrTK1YKl2TGPtw3LAj2GP6OA1V+O5ZeASC0WCXvOqliqX27Uk50Soj20TUA==
   dependencies:
     "@pangeacyber/react-mui-shared" "0.0.61"
     "@types/jest" "^29.5.12"
@@ -713,7 +713,7 @@
     lodash "^4.17.21"
     merkle-tools "^1.4.1"
     react-beautiful-dnd "^13.1.1"
-    ts-jest "^29.1.2"
+    ts-jest "^29.1.4"
 
 "@pangeacyber/react-mui-branding@^0.0.18":
   version "0.0.18"
@@ -3439,7 +3439,7 @@ tr46@~0.0.3:
   resolved "https://registry.yarnpkg.com/tr46/-/tr46-0.0.3.tgz#8184fd347dac9cdc185992f3a6622e14b9d9ab6a"
   integrity sha512-N3WMsuqV66lT30CrXNbEjx4GEwlow3v6rr4mCcv6prnfwhS01rkgyFdjPNBYd9br7LpXV1+Emh01fHnq2Gdgrw==
 
-ts-jest@^29.1.2:
+ts-jest@^29.1.4:
   version "29.1.4"
   resolved "https://registry.yarnpkg.com/ts-jest/-/ts-jest-29.1.4.tgz#26f8a55ce31e4d2ef7a1fd47dc7fa127e92793ef"
   integrity sha512-YiHwDhSvCiItoAgsKtoLFCuakDzDsJ1DLDnSouTaTmdOcOwIkSzbLXduaQ6M5DRVhuZC/NYaaZ/mtHbWMv/S6Q==
