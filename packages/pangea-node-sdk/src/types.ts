@@ -361,7 +361,7 @@ export namespace Redact {
     fpe_context?: string;
   }
 
-  type RedactedData = object | string;
+  export type RedactedData = object | string;
 
   export interface UnredactResult {
     data: RedactedData;
