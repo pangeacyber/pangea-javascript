@@ -1,4 +1,4 @@
-import { FC } from "react";
+import { FC, useMemo } from "react";
 import { useFormik, FormikProps, FormikValues } from "formik";
 import * as yup from "yup";
 import { Stack, Typography } from "@mui/material";
@@ -128,6 +128,17 @@ const StartView: FC<AuthFlowComponentProps> = (props) => {
     },
   });
 
+  const startButtonLabel = useMemo(() => {
+    // if format is not email and label contains email, return generic label
+    if (
+      data.usernameFormat !== "email" &&
+      options?.startButtonLabel?.match(/email/i)
+    ) {
+      return "Continue";
+    }
+    return options?.startButtonLabel;
+  }, [options]);
+
   return (
     <AuthFlowLayout
       title={
@@ -142,7 +153,7 @@ const StartView: FC<AuthFlowComponentProps> = (props) => {
             {getUsernameField(formik, usernameFormat, passkeyEnabled)}
             {error && <ErrorMessage response={error} />}
             <Button color="primary" type="submit" disabled={loading} fullWidth>
-              {options?.startButtonLabel}
+              {startButtonLabel}
             </Button>
           </Stack>
         </form>
