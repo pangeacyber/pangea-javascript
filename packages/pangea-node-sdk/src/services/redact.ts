@@ -111,9 +111,9 @@ class RedactService extends BaseService {
    *   - fpe_context {string} - FPE context used to decrypt and unredact data
    * @returns {Promise} - A promise representing an async call to the unredact endpoint
    */
-  unredact(
-    request: Redact.UnredactRequest
-  ): Promise<PangeaResponse<Redact.StructuredResult>> {
+  unredact<O = object>(
+    request: Redact.UnredactRequest<O>
+  ): Promise<PangeaResponse<Redact.UnredactResult<O>>> {
     return this.post("v1/unredact", request);
   }
 }

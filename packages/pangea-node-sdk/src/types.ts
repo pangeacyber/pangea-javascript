@@ -356,15 +356,15 @@ export namespace Redact {
     redaction_value?: string;
   }
 
-  export interface UnredactRequest {
-    redacted_data: RedactedData;
+  export interface UnredactRequest<O = object> {
+    redacted_data: O;
     fpe_context?: string;
   }
 
   export type RedactedData = object | string;
 
-  export interface UnredactResult {
-    data: RedactedData;
+  export interface UnredactResult<O = object> {
+    data: O;
   }
 }
 
