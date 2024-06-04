@@ -106,7 +106,7 @@ class RedactService extends BaseService {
    * @summary Unredact
    * @description Decrypt or unredact fpe redactions.
    * @operationId redact_post_v1_unredact
-   * @param {Object} request - Unredact request data
+   * @param request - Unredact request data
    *   - redacted_data - Data to unredact
    *   - fpe_context {string} - FPE context used to decrypt and unredact data
    * @returns {Promise} - A promise representing an async call to the unredact endpoint
