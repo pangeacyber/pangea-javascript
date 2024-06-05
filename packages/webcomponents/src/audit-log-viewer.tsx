@@ -44,7 +44,6 @@ export default function registerAuditLogViewer({
 
   // Replace existing components if deferred
   if (replaceExisting) {
-    alert("replacing existing!");
     document.addEventListener("DOMContentLoaded", () => {
       const existingComponents = document.querySelectorAll(name);
       existingComponents.forEach((oldComponent) => {
@@ -65,6 +64,7 @@ declare global {
   }
 }
 
+console.log(window);
 if (typeof window !== "undefined") {
   window.registerAuditLogViewer = registerAuditLogViewer;
 }
