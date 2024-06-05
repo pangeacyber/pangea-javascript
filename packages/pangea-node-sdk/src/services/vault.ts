@@ -872,6 +872,23 @@ class VaultService extends BaseService {
   ): Promise<PangeaResponse<Vault.Key.EncryptStructuredResult<O>>> {
     return this.post("v1/key/decrypt/structured", request);
   }
+
+  /**
+   * @summary Export
+   * @description Export a symmetric or asymmetric key.
+   * @operationId vault_post_v1_export
+   * @param request Request parameters.
+   * @returns A `Promise` of the export result.
+   * @example
+   * ```js
+   * TODO:
+   * ```
+   */
+  async export(
+    request: Vault.ExportRequest
+  ): Promise<PangeaResponse<Vault.ExportResult>> {
+    return this.post("v1/export", request);
+  }
 }
 
 export default VaultService;

@@ -920,6 +920,76 @@ export namespace Vault {
     inherited_settings?: InheritedSettigs;
   }
 
+  export interface ExportRequest {
+    /**
+     * The ID of the item.
+     */
+    id: string;
+
+    /**
+     * The item version.
+     */
+    version?: number;
+
+    /**
+     * Public key in pem format used to encrypt exported key(s).
+     */
+    encryption_key?: string;
+
+    /**
+     * The algorithm of the public key.
+     */
+    encryption_algorithm?: string;
+  }
+
+  export interface ExportResult {
+    /**
+     * The ID of the item.
+     */
+    id: string;
+
+    /**
+     * The item version.
+     */
+    version: number;
+
+    /**
+     * The type of the key.
+     */
+    type: string;
+
+    /**
+     * The state of the item.
+     */
+    item_state: string;
+
+    /**
+     * The algorithm of the key.
+     */
+    algorithm: string;
+
+    /**
+     * The public key (in PEM format).
+     */
+    public_key?: string;
+
+    /**
+     * The private key (in PEM format).
+     */
+    private_key?: string;
+
+    /**
+     * The key material.
+     */
+    key?: string;
+
+    /**
+     * Whether exported key(s) are encrypted with encryption_key sent on the request or not.
+     * If encrypted, the result is sent in base64, any other case they are in PEM format plain text.
+     */
+    encrypted: boolean;
+  }
+
   export namespace JWT {
     export interface SignRequest {
       id: string;
