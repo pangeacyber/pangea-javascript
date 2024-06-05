@@ -46,6 +46,7 @@ class RedactService extends BaseService {
    *   - rules {String[]} - An array of redact rule short names
    *   - rulesets {String[]} - An array of redact ruleset short names
    *   - return_result {Boolean} - Setting this value to false will omit the redacted result only returning count
+   *   - redaction_method_overrides {RedactionMethodOverrides} - A set of redaction method overrides for any enabled rule. These methods override the config declared methods
    * @returns {Promise} - A promise representing an async call to the redact endpoint
    * @example
    * ```js
@@ -80,6 +81,7 @@ class RedactService extends BaseService {
    * structured data. Note: If jsonp parameter is used, the data parameter must be in JSON format.
    *   - format {String} - The format of the structured data to redact. Default: "json"
    *   - return_result {Boolean} - Setting this value to false will omit the redacted result only returning count
+   *   - redaction_method_overrides {RedactionMethodOverrides} - A set of redaction method overrides for any enabled rule. These methods override the config declared methods
    * @returns {Promise} - A promise representing an async call to the redactStructured endpoint
    * @example
    * ```js
@@ -98,6 +100,21 @@ class RedactService extends BaseService {
 
     Object.assign(input, options);
     return this.post("v1/redact_structured", input);
+  }
+
+  /**
+   * @summary Unredact
+   * @description Decrypt or unredact fpe redactions.
+   * @operationId redact_post_v1_unredact
+   * @param request - Unredact request data
+   *   - redacted_data - Data to unredact
+   *   - fpe_context {string} - FPE context used to decrypt and unredact data
+   * @returns {Promise} - A promise representing an async call to the unredact endpoint
+   */
+  unredact<O = object>(
+    request: Redact.UnredactRequest<O>
+  ): Promise<PangeaResponse<Redact.UnredactResult<O>>> {
+    return this.post("v1/unredact", request);
   }
 }
 
