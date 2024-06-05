@@ -1,6 +1,6 @@
 <p>
   <br />
-  <a href="https://pangea.cloud?utm_source=github&utm_medium=node-sdk" target="_blank" rel="noopener noreferrer">
+  <a href="https://pangea.cloud?utm_source=github&utm_medium=webcomponents" target="_blank" rel="noopener noreferrer">
     <img src="https://pangea-marketing.s3.us-west-2.amazonaws.com/pangea-color.svg" alt="Pangea Logo" height="40" />
   </a>
   <br />
@@ -11,7 +11,6 @@
 <br />
 
 [![documentation](https://img.shields.io/badge/documentation-pangea-blue?style=for-the-badge&labelColor=551B76)](https://pangea.cloud/docs/sdk/js/)
-[![Slack](https://img.shields.io/badge/Slack-4A154B?style=for-the-badge&logo=slack&logoColor=white)](https://pangea.cloud/join-slack/)
 
 <br />
 </p>
@@ -28,7 +27,15 @@ encapsulates them which allows a user to specify different themes, proxy functio
 
 ### Install
 
-You can install this by adding it to an `.html` file. You can copy paste the following in this directory and test using your browser:
+You can install the package using npm:
+
+```
+npm install @pangeacyber/webcomponents
+```
+
+or 
+
+You can install this by adding it to an `.html` file. You can copy paste the following in this directory and test using your browser. The following example would have you create an `index.html` file in `pangea-javascript/packages/webcomponents`.
 
 #### HTML
 
@@ -51,7 +58,7 @@ You can install this by adding it to an `.html` file. You can copy paste the fol
           onSearch: async function (req) {
             // Show that `this` is bound to web component
             if (this.id !== "1") {
-              throw "only one component should be rendered";
+              throw new Error("only one component should be rendered");
             }
             return {
               id: "",

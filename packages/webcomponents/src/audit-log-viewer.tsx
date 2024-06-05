@@ -64,7 +64,6 @@ declare global {
   }
 }
 
-console.log(window);
 if (typeof window !== "undefined") {
   window.registerAuditLogViewer = registerAuditLogViewer;
 }

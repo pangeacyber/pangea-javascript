@@ -1,5 +1,5 @@
 {
-  "name": "pangea-webcomponents",
+  "name": "@pangeacyber/webcomponents",
   "version": "1.0.0",
   "scripts": {
     "build:browser": "parcel build --target browsers",
