@@ -189,7 +189,9 @@ export const useAuditColumns = <Event,>(
       keyBy(schemaFields, "id"),
       (field) => {
         const isLarge =
-          (field.type === "string" || field.type === "string-unindexed") &&
+          (field.type === "string" ||
+            field.type === "string-unindexed" ||
+            field.type === "text") &&
           (field.size ?? 0) > 128;
         const column: Partial<PDG.GridField> = {
           label: field.name ?? field.id,
@@ -292,7 +294,7 @@ const operators = new Set(["AND", "OR"]);
 export const useAuditConditionalOptions = <Event,>(schema: Audit.Schema) => {
   const options = useMemo(() => {
     const optionalFields = (schema?.fields ?? []).filter(
-      (field) => field.type === "string"
+      (field) => field.type === "string" || field.type === "text"
     );
 
     return [

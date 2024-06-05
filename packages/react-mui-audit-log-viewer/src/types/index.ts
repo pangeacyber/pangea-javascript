@@ -173,7 +173,13 @@ export namespace Audit {
     // Breaking
     required?: boolean;
     size?: number;
-    type: "boolean" | "datetime" | "integer" | "string" | "string-unindexed";
+    type:
+      | "boolean"
+      | "datetime"
+      | "integer"
+      | "string"
+      | "string-unindexed"
+      | "text";
 
     redact?: boolean;
   }
