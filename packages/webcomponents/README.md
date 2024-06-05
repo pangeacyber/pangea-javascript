@@ -33,7 +33,7 @@ You can install the package using npm:
 npm install @pangeacyber/webcomponents
 ```
 
-or 
+or
 
 You can install this by adding it to an `.html` file. You can copy paste the following in this directory and test using your browser. The following example would have you create an `index.html` file in `pangea-javascript/packages/webcomponents`.
 
