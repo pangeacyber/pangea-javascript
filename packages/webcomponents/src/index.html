@@ -54,17 +54,16 @@
       import "./store-file-viewer.tsx";
       registerStoreFileViewer({
         props: {
-          apiRef: function() {
+          apiRef: function () {
             return {
               list: async () => {
                 count: 0;
                 last: "";
                 objects: [];
               },
-              get: async () => {
-              }
-            }
-          }
+              get: async () => {},
+            };
+          },
         },
         brandingProps: {
           brandingId: "pro_otgwvvhg3wukgcrkquumsx7nujfecuwh",

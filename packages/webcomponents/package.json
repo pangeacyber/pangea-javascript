@@ -45,7 +45,10 @@
   },
   "targets": {
     "browsers": {
-      "source": ["src/audit-log-viewer.tsx", "src/store-file-viewer.tsx"],
+      "source": [
+        "src/audit-log-viewer.tsx",
+        "src/store-file-viewer.tsx"
+      ],
       "distDir": "./dist/browser",
       "context": "browser",
       "engines": {
@@ -54,7 +57,10 @@
       "outputFormat": "global"
     },
     "library": {
-      "source": ["src/audit-log-viewer.tsx", "src/store-file-viewer.tsx"],
+      "source": [
+        "src/audit-log-viewer.tsx",
+        "src/store-file-viewer.tsx"
+      ],
       "distDir": "./dist/lib",
       "context": "node",
       "outputFormat": "esmodule"
