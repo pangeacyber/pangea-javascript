@@ -1977,26 +1977,29 @@ export namespace AuthN {
 
     export namespace Authenticators {
       export namespace Delete {
-        interface RequestParams {
+        export interface IDRequest {
           /** An ID for an authenticator. */
           authenticator_id: string;
 
           /** The identity of a user or a service. */
           id: string;
+        }
+
+        export interface EmailRequest {
+          /** An ID for an authenticator. */
+          authenticator_id: string;
 
           /** An email address. */
           email: string;
+        }
+
+        export interface UsernameRequest {
+          /** An ID for an authenticator. */
+          authenticator_id: string;
 
           /** A username. */
           username: string;
         }
-
-        export type Request = Omit<RequestParams, "id" | "email" | "username"> &
-          (
-            | Pick<RequestParams, "id">
-            | Pick<RequestParams, "email">
-            | Pick<RequestParams, "username">
-          );
       }
 
       export interface ListRequest {
