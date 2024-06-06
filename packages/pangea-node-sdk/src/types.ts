@@ -750,6 +750,9 @@ export namespace Vault {
     SIGNING = "signing",
     ENCRYPTION = "encryption",
     JWT = "jwt",
+
+    /** Format-preserving encryption. */
+    FPE = "fpe",
   }
 
   export enum AsymmetricAlgorithm {
@@ -800,6 +803,12 @@ export namespace Vault {
     AES128_CBC = "AES-CBC-128",
     AES256_CBC = "AES-CBC-256",
     AES = "AES-CFB-128", // deprecated, use AES128_CFB instead
+
+    /** 128-bit encryption using the FF3-1 algorithm. Beta feature. */
+    AES128_FF3_1 = "AES-FF3-1-128-BETA",
+
+    /** 256-bit encryption using the FF3-1 algorithm. Beta feature. */
+    AES256_FF3_1 = "AES-FF3-1-256-BETA",
   }
 
   export enum ItemType {
@@ -839,6 +848,27 @@ export namespace Vault {
     NAME = "name",
     FOLDER = "folder",
     VERSION = "version",
+  }
+
+  /** Character sets for format-preserving encryption. */
+  export enum TransformAlphabet {
+    /** Lowercase alphabet (a-z). */
+    ALPHA_LOWER = "alphalower",
+
+    /** Uppercase alphabet (A-Z). */
+    ALPHA_UPPER = "alphaupper",
+
+    /** Alphanumeric (a-z, A-Z, 0-9). */
+    ALPHANUMERIC = "alphanumeric",
+
+    /** Lowercase alphabet with numbers (a-z, 0-9). */
+    ALPHANUMERIC_LOWER = "alphanumericlower",
+
+    /** Uppercase alphabet with numbers (A-Z, 0-9). */
+    ALPHANUMERIC_UPPER = "alphanumericupper",
+
+    /** Numeric (0-9). */
+    NUMERIC = "numeric",
   }
 
   export type Metadata = Object;
@@ -1194,6 +1224,90 @@ export namespace Vault {
        * Structured data with filtered fields encrypted.
        */
       structured_data: O;
+    }
+
+    /** Parameters for an encrypt transform request. */
+    export interface EncryptTransformRequest {
+      /** The ID of the key to use. */
+      id: string;
+
+      /** Message to be encrypted. */
+      plain_text: string;
+
+      /** Set of characters to use for format-preserving encryption (FPE). */
+      alphabet: TransformAlphabet;
+
+      /**
+       * User provided tweak string. If not provided, a random string will be
+       * generated and returned. The user must securely store the tweak source
+       * which will be needed to decrypt the data.
+       */
+      tweak?: string;
+
+      /** The item version. Defaults to the current version. */
+      version?: number;
+    }
+
+    /** Result of an encrypt transform request. */
+    export interface EncryptTransformResult {
+      /** The ID of the item. */
+      id: string;
+
+      /** The item version. */
+      version: number;
+
+      /** The algorithm of the key. */
+      algorithm: string;
+
+      /** The encrypted message. */
+      cipher_text: string;
+
+      /**
+       * User provided tweak string. If not provided, a random string will be
+       * generated and returned. The user must securely store the tweak source
+       * which will be needed to decrypt the data.
+       */
+      tweak: string;
+
+      /** Set of characters to use for format-preserving encryption (FPE). */
+      alphabet: string;
+    }
+
+    /** Parameters for an decrypt transform request. */
+    export interface DecryptTransformRequest {
+      /** The ID of the key to use. */
+      id: string;
+
+      /** A message encrypted by Vault. */
+      cipher_text: string;
+
+      /**
+       * User provided tweak string. If not provided, a random string will be
+       * generated and returned. The user must securely store the tweak source
+       * which will be needed to decrypt the data.
+       */
+      tweak: string;
+
+      /** Set of characters to use for format-preserving encryption (FPE). */
+      alphabet: TransformAlphabet;
+
+      /** The item version. Defaults to the current version. */
+      version?: number;
+    }
+
+    /** Result of an decrypt transform request. */
+    export interface DecryptTransformResult {
+      /** The ID of the item. */
+      id: string;
+
+      /** The item version. */
+      version: number;
+
+      /** The algorithm of the key. */
+      algorithm: string;
+
+      /** Decrypted message. */
+      plain_text: string;
     }
   }
 

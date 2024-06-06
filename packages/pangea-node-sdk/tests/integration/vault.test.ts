@@ -746,3 +746,34 @@ it("encrypt structured", async () => {
   expect(decryptedData.field1).toStrictEqual(data.field1);
   expect(decryptedData.field2).toStrictEqual(data.field2);
 });
+
+it("encrypt transform", async () => {
+  const plainText = "123-4567-8901";
+  const tweak = "MTIzMTIzMT==";
+
+  // Generate an encryption key.
+  const key = await symGenerateDefault(
+    Vault.SymmetricAlgorithm.AES256_FF3_1,
+    Vault.KeyPurpose.FPE
+  );
+
+  // Encrypt.
+  const encrypted = await vault.encryptTransform({
+    id: key,
+    plain_text: plainText,
+    tweak,
+    alphabet: Vault.TransformAlphabet.ALPHANUMERIC,
+  });
+  expect(encrypted.result.id).toStrictEqual(key);
+  expect(encrypted.result.cipher_text).toHaveLength(plainText.length);
+
+  // Decrypt.
+  const decrypted = await vault.decryptTransform({
+    id: key,
+    cipher_text: encrypted.result.cipher_text,
+    tweak,
+    alphabet: Vault.TransformAlphabet.ALPHANUMERIC,
+  });
+  expect(decrypted.result.id).toStrictEqual(key);
+  expect(decrypted.result.plain_text).toStrictEqual(plainText);
+});
