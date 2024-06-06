@@ -252,7 +252,7 @@ it("User actions test", async () => {
   expect(listSessionsResp.status).toBe("Success");
   expect(listSessionsResp.result.sessions.length).toBeGreaterThan(0);
 
-  // Invalite sessions
+  // Invalidate sessions
   listSessionsResp.result.sessions.forEach((session) => {
     try {
       authn.client.session.invalidate(userToken, session.id);

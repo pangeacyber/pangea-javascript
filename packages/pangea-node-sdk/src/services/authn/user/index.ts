@@ -23,18 +23,22 @@ export default class User extends BaseService {
    * @summary Delete User
    * @description Delete a user.
    * @operationId authn_post_v2_user_delete
-   * @param {AuthN.User.Delete.EmailRequest | AuthN.User.Delete.IDRequest} request - Supported options:
-   *   - email (string): An email address
-   *   - id (string): The identity of a user or a service
-   * @returns {Promise<PangeaResponse<{}>>} - A promise
-   * representing an async call to the endpoint. Contains an empty object.
+   * @param request Supported options:
+   *   - email (string): An email address.
+   *   - id (string): The identity of a user or a service.
+   *   - username (string): A username.
+   * @returns A promise representing an async call to the endpoint. Contains an
+   * empty object.
    * @example
    * await authn.user.delete({
    *   id: "pui_xpkhwpnz2cmegsws737xbsqnmnuwtbm5",
    * });
    */
   delete(
-    request: AuthN.User.Delete.EmailRequest | AuthN.User.Delete.IDRequest
+    request:
+      | AuthN.User.Delete.EmailRequest
+      | AuthN.User.Delete.IDRequest
+      | AuthN.User.Delete.UsernameRequest
   ): Promise<PangeaResponse<{}>> {
     return this.post("v2/user/delete", request);
   }
@@ -99,14 +103,14 @@ export default class User extends BaseService {
    * @summary Update user's settings
    * @description Update user's settings.
    * @operationId authn_post_v2_user_update
-   * @param {AuthN.User.Update.EmailRequest | AuthN.User.Update.IDRequest} request - Supported request:
-   *   - email (string): An email address
-   *   - id (string): The identity of a user or a service
+   * @param request Supported request parameters:
+   *   - email (string): An email address.
+   *   - id (string): The identity of a user or a service.
+   *   - username (string): A username.
    *   - disabled (boolean): Disabling a user account will prevent them from logging in.
-   *   - unlock (boolean): Unlock a user account if it has been locked out due to failed Authentication attempts.
-   * @returns {Promise<PangeaResponse<AuthN.User.UpdateResult>>} - A promise
-   * representing an async call to the endpoint. Available response fields can be found in our
-   * [API Documentation](https://pangea.cloud/docs/api/authn/user#/v2/user/update).
+   *   - unlock (boolean): Unlock a user account if it has been locked out due to failed authentication attempts.
+   * @returns A promise representing an async call to the endpoint. Available
+   * response fields can be found in our [API Documentation](https://pangea.cloud/docs/api/authn/user#/v2/user/update).
    * @example
    * ```js
    * const response = await authn.user.update(
@@ -118,7 +122,10 @@ export default class User extends BaseService {
    * ```
    */
   update(
-    request: AuthN.User.Update.EmailRequest | AuthN.User.Update.IDRequest
+    request:
+      | AuthN.User.Update.EmailRequest
+      | AuthN.User.Update.IDRequest
+      | AuthN.User.Update.UsernameRequest
   ): Promise<PangeaResponse<AuthN.User.UpdateResult>> {
     return this.post("v2/user/update", request);
   }

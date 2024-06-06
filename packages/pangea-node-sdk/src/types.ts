@@ -1491,19 +1491,41 @@ export namespace AuthN {
   }
 
   export interface UserItem {
+    /** The identity of a user or a service. */
     id: string;
+
+    /** An email address. */
     email: string;
+
+    /** A username. */
+    username: string;
+
+    /** A user profile as a collection of string properties. */
     profile: Profile;
+
+    /** True if the user's email has been verified. */
     verified: boolean;
+
+    /** True if the service administrator has disabled user account. */
     disabled: boolean;
+
+    /** An ID for an agreement. */
     accepted_eula_id?: string;
+
+    /** An ID for an agreement. */
     accepted_privacy_policy_id?: string;
+
+    /** A time in ISO-8601 format. */
     last_login_at?: string;
+
+    /** A time in ISO-8601 format. */
     created_at: string;
     login_count: number;
     last_login_ip?: string;
     last_login_city?: string;
     last_login_country?: string;
+
+    /** A list of authenticators. */
     authenticators?: AuthN.User.Authenticators.Authenticator[];
   }
 
@@ -1927,8 +1949,14 @@ export namespace AuthN {
     export interface CreateOptions {}
 
     export interface CreateRequest extends CreateOptions {
+      /** An email address. */
       email: string;
+
+      /** A user profile as a collection of string properties. */
       profile: Profile;
+
+      /** A username. */
+      username?: string;
     }
 
     export interface CreateResult {
@@ -1969,11 +1997,18 @@ export namespace AuthN {
 
     export namespace Delete {
       export interface EmailRequest {
+        /** An email address. */
         email: string;
       }
 
       export interface IDRequest {
+        /** The identity of a user or a service. */
         id: string;
+      }
+
+      export interface UsernameRequest {
+        /** A username. */
+        username: string;
       }
     }
 
@@ -2105,19 +2140,39 @@ export namespace AuthN {
     export namespace Authenticators {
       export namespace Delete {
         export interface IDRequest {
-          id: string;
+          /** An ID for an authenticator. */
           authenticator_id: string;
+
+          /** The identity of a user or a service. */
+          id: string;
         }
 
         export interface EmailRequest {
-          email: string;
+          /** An ID for an authenticator. */
           authenticator_id: string;
+
+          /** An email address. */
+          email: string;
+        }
+
+        export interface UsernameRequest {
+          /** An ID for an authenticator. */
+          authenticator_id: string;
+
+          /** A username. */
+          username: string;
         }
       }
 
       export interface ListRequest {
+        /** An email address. */
         email?: string;
+
+        /** The identity of a user or a service. */
         id?: string;
+
+        /** A username. */
+        username?: string;
       }
 
       export interface Authenticator {
@@ -2139,25 +2194,40 @@ export namespace AuthN {
 
       export namespace Get {
         export interface EmailRequest {
+          /** An email address. */
           email: string;
         }
 
         export interface IDRequest {
+          /** The identity of a user or a service. */
           id: string;
+        }
+
+        export interface UsernameRequest {
+          /** A username. */
+          username: string;
         }
       }
 
       export namespace Update {
         export interface Common {
+          /** Updates to a user profile. */
           profile: Profile;
         }
 
         export interface EmailRequest extends Common {
+          /** An email address. */
           email: string;
         }
 
         export interface IDRequest extends Common {
+          /** The identity of a user or a service. */
           id: string;
+        }
+
+        export interface UsernameRequest extends Common {
+          /** A username. */
+          username: string;
         }
       }
 
@@ -2166,16 +2236,32 @@ export namespace AuthN {
 
     export namespace Update {
       export interface Options {
+        /**
+         * New disabled value. Disabling a user account will prevent them from
+         * logging in.
+         */
         disabled?: boolean;
+
+        /**
+         * Unlock a user account if it has been locked out due to failed
+         * authentication attempts.
+         */
         unlock?: boolean;
       }
 
       export interface EmailRequest extends Options {
+        /** An email address. */
         email: string;
       }
 
       export interface IDRequest extends Options {
+        /** The identity of a user or a service. */
         id: string;
+      }
+
+      export interface UsernameRequest extends Options {
+        /** A username. */
+        username: string;
       }
     }
 
