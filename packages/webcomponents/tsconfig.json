@@ -1,9 +1,13 @@
 {
   "compilerOptions": {
-    "target": "es2021",
+    "target": "es5",
     "lib": ["DOM", "es2021"],
+    "sourceMap": false,
+    "strict": false,
     "allowSyntheticDefaultImports": true,
-    "moduleResolution": "Node",
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "moduleResolution": "node",
     "jsx": "react",
     "jsxFactory": "h",
     "jsxFragmentFactory": "Fragment"
