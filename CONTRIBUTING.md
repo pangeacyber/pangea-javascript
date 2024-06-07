@@ -41,5 +41,6 @@ the package to the npm registry.
 - Andrés Tournour (andres.tournour@gmail.com). Code.
 - Glenn Gallien (glenn.gallien@pangea.cloud). Code and docs.
 - David Wayman (david.wayman@pangea.cloud). Code and docs.
+- Michael Combs (michael.combs@pangea.cloud). Code.
 
 [Semantic Versioning]: https://semver.org/
