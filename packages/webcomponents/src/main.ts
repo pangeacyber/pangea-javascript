@@ -6,4 +6,4 @@ export {
   CreateMUIWebComponent,
   registerAuditLogViewer,
   registerStoreFileViewer,
-}
+};
