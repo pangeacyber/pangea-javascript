@@ -1,0 +1,41 @@
+.webcomponents_base:
+  image: node:20.12.2@sha256:3864be2201676a715cf240cfc17aec1d62459f92a7cbe7d32d1675e226e736c9
+  before_script:
+    - cd packages/webcomponents
+    - yarn install --frozen-lockfile
+    - apt-get -qq update
+    - apt-get install -y jq
+  cache:
+    - key:
+        files:
+          - packages/webcomponents/yarn.lock
+      paths:
+        - packages/webcomponents/node_modules
+
+publish_webcomponents:
+  extends: .webcomponents_base
+  stage: publish
+  script:
+    - cp ../../scripts/publish.sh
+    - echo "${NPMRC}" > .npmrc && ./publish.sh && rm .npmrc
+    - rm publish.sh
+  rules:
+    - if: $CI_COMMIT_BRANCH == "main"
+      changes:
+        - packages/webcomponents/**/*
+      when: always
+
+tag_webcomponents:
+  extends: .webcomponents_base
+  stage: tag_release
+  script:
+    - apt install -y python3 python3-github
+    - VERSION=$(node -p "require('./package.json').version")
+    - cp ../../scripts/tag_release.py .
+    - python3 tag_release.py ${GITHUB_TOKEN} ${VERSION} ${CI_COMMIT_SHA} "webcomponents" "Webcomponents"
+    - rm tag_release.py
+  rules:
+    - if: $CI_COMMIT_BRANCH == "main"
+      changes:
+        - packages/webcomponents/**/*
+      when: always
