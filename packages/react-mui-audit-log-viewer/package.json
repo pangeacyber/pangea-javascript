@@ -1,6 +1,6 @@
 {
   "name": "@pangeacyber/react-mui-audit-log-viewer",
-  "version": "0.0.79",
+  "version": "0.0.80",
   "description": "An extension of material ui data-grid for Pangea audit log records",
   "main": "dist/cjs/index.js",
   "module": "dist/esm/index.js",
@@ -53,6 +53,7 @@
     "rollup-plugin-peer-deps-external": "^2.2.4",
     "rollup-plugin-polyfill-node": "^0.13.0",
     "rollup-plugin-postcss": "^4.0.2",
+    "ts-jest": "^29.1.4",
     "typescript": "^4.9.5"
   },
   "dependencies": {
@@ -63,8 +64,7 @@
     "file-saver": "^2.0.5",
     "lodash": "^4.17.21",
     "merkle-tools": "^1.4.1",
-    "react-beautiful-dnd": "^13.1.1",
-    "ts-jest": "^29.1.4"
+    "react-beautiful-dnd": "^13.1.1"
   },
   "peerDependencies": {
     "@emotion/react": "^11.10.4",
