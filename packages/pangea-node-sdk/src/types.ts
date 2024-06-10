@@ -1156,6 +1156,9 @@ export namespace Vault {
       rotation_frequency?: string;
       rotation_state?: ItemVersionState;
       expiration?: string;
+
+      /** Whether the key is exportable or not. */
+      exportable?: boolean;
     }
 
     export interface GenerateResult {
@@ -1191,14 +1194,6 @@ export namespace Vault {
     }
 
     export interface StoreResult extends Common.StoreResult {
-      secret: string;
-    }
-
-    export interface GenerateRequest
-      extends Common.GenerateRequest,
-        Common.GenerateOptions {}
-
-    export interface GenerateResult extends Common.GenerateRequest {
       secret: string;
     }
 
