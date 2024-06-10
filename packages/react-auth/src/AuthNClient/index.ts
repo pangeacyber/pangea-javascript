@@ -1,4 +1,4 @@
-import axios, { AxiosResponse } from "axios";
+import axios, { AxiosRequestConfig, AxiosResponse } from "axios";
 
 import { AuthConfig, APIResponse, ClientResponse } from "~/src/types";
 
@@ -84,15 +84,14 @@ export class AuthNClient {
     return `${protocol}://authn.${this.config.domain}/${API_VERSION}/${endpoint}`;
   }
 
-  getOptions(): any {
-    const options = {
+  getOptions(): AxiosRequestConfig<unknown> {
+    return {
       headers: {
         "Content-Type": "application/json",
+        "User-Agent": "pangea-react-auth/PACKAGE_VERSION",
         Authorization: `Bearer ${this.config.clientToken}`,
       },
     };
-
-    return options;
   }
 
   getError(error: any): APIResponse {
