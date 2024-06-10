@@ -16,7 +16,7 @@ publish_webcomponents:
   extends: .webcomponents_base
   stage: publish
   script:
-    - cp ../../scripts/publish.sh
+    - cp ../../scripts/publish.sh .
     - echo "${NPMRC}" > .npmrc && ./publish.sh && rm .npmrc
     - rm publish.sh
   rules:
