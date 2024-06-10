@@ -228,6 +228,13 @@
   resolved "https://registry.yarnpkg.com/@colors/colors/-/colors-1.5.0.tgz#bb504579c1cae923e6576a4f5da43d25f97bdbd9"
   integrity sha512-ooWCrlZP11i8GImSjTHYHLkvFDP48nS4+204nGb1RiX/WXYHmJA2III9/e2DWVabCESdW7hBAEzHRqUn9OUVvQ==
 
+"@futureportal/parcel-transformer-package-version@^1.0.0":
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/@futureportal/parcel-transformer-package-version/-/parcel-transformer-package-version-1.0.0.tgz#b1a1604c742fc1bd193f24a9f15b41132eb81177"
+  integrity sha512-pB+sG8q/BqKb7DlbpfvAk/Ga7tKwA33eqbmrMJ7QigS79TRQPA1N/opdiHzHGHpWzh05uBgRjvPU/DVQ/tkoDQ==
+  dependencies:
+    "@parcel/plugin" "^2.3.2"
+
 "@jridgewell/gen-mapping@^0.3.5":
   version "0.3.5"
   resolved "https://registry.yarnpkg.com/@jridgewell/gen-mapping/-/gen-mapping-0.3.5.tgz#dcce6aff74bdf6dad1a95802b69b04a2fcb1fb36"
@@ -653,7 +660,7 @@
   dependencies:
     "@parcel/plugin" "2.12.0"
 
-"@parcel/plugin@2.12.0", "@parcel/plugin@^2.12.0":
+"@parcel/plugin@2.12.0", "@parcel/plugin@^2.12.0", "@parcel/plugin@^2.3.2":
   version "2.12.0"
   resolved "https://registry.yarnpkg.com/@parcel/plugin/-/plugin-2.12.0.tgz#3db4237e8977ef5b5378b65eaffb809d2026431a"
   integrity sha512-nc/uRA8DiMoe4neBbzV6kDndh/58a4wQuGKw5oEoIwBCHUvE2W8ZFSu7ollSXUGRzfacTt4NdY8TwS73ScWZ+g==
