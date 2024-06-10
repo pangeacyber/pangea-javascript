@@ -925,7 +925,16 @@ class VaultService extends BaseService {
    * @returns A `Promise` of the export result.
    * @example
    * ```js
-   * TODO:
+   * // Generate an exportable key.
+   * const generated = await vault.asymmetricGenerate(
+   *   Vault.AsymmetricAlgorithm.RSA4096_OAEP_SHA512,
+   *   Vault.KeyPurpose.ENCRYPTION,
+   *   "a-name-for-the-key",
+   *   { exportable: true }
+   * );
+   *
+   * // Then it can be exported whenever needed.
+   * const exported = await vault.export({ id: generated.result.id });
    * ```
    */
   async export(
