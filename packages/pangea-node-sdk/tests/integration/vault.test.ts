@@ -396,10 +396,16 @@ async function symGenerateParams(
 
 async function asymGenerateDefault(
   algorithm: Vault.AsymmetricAlgorithm,
-  purpose: Vault.KeyPurpose
+  purpose: Vault.KeyPurpose,
+  options?: Vault.Asymmetric.GenerateOptions
 ): Promise<string> {
   const name = getName("asymGenerateDefault");
-  const genResp = await vault.asymmetricGenerate(algorithm, purpose, name);
+  const genResp = await vault.asymmetricGenerate(
+    algorithm,
+    purpose,
+    name,
+    options
+  );
   expect(genResp.result.type).toBe(Vault.ItemType.ASYMMETRIC_KEY);
   expect(genResp.result.version).toBe(1);
   expect(genResp.result.id).toBeDefined();
@@ -776,4 +782,17 @@ it("encrypt transform", async () => {
   });
   expect(decrypted.result.id).toStrictEqual(key);
   expect(decrypted.result.plain_text).toStrictEqual(plainText);
+});
+
+it("export", async () => {
+  const key = await asymGenerateDefault(
+    Vault.AsymmetricAlgorithm.RSA4096_OAEP_SHA512,
+    Vault.KeyPurpose.ENCRYPTION,
+    { exportable: true }
+  );
+
+  const actual = await vault.export({ id: key });
+  expect(actual.result.id).toStrictEqual(key);
+  expect(actual.result.public_key).toBeDefined();
+  expect(actual.result.private_key).toBeDefined();
 });
