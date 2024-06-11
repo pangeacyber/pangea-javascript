@@ -811,6 +811,12 @@ export namespace Vault {
     AES256_FF3_1 = "AES-FF3-1-256-BETA",
   }
 
+  /** Algorithm of an exported public key. */
+  export enum ExportEncryptionAlgorithm {
+    /** RSA 4096-bit key, OAEP padding, SHA512 digest. */
+    RSA4096_OAEP_SHA512 = "RSA-OAEP-4096-SHA512",
+  }
+
   export enum ItemType {
     ASYMMETRIC_KEY = "asymmetric_key",
     SYMMETRIC_KEY = "symmetric_key",
@@ -1017,7 +1023,7 @@ export namespace Vault {
     /**
      * The algorithm of the public key.
      */
-    encryption_algorithm?: string;
+    encryption_algorithm?: ExportEncryptionAlgorithm;
   }
 
   export interface ExportResult {
@@ -1392,7 +1398,10 @@ export namespace Vault {
       public_key: EncodedPublicKey;
     }
 
-    export interface StoreOptions extends Common.StoreOptions {}
+    export interface StoreOptions extends Common.StoreOptions {
+      /** Whether the key is exportable or not. */
+      exportable?: boolean;
+    }
 
     export interface StoreRequest extends Common.StoreRequest, StoreOptions {
       private_key: EncodedPrivateKey;
@@ -1443,7 +1452,10 @@ export namespace Vault {
   }
 
   export namespace Symmetric {
-    export interface StoreOptions extends Common.StoreOptions {}
+    export interface StoreOptions extends Common.StoreOptions {
+      /** Whether the key is exportable or not. */
+      exportable?: boolean;
+    }
 
     export interface StoreRequest extends Common.StoreRequest, StoreOptions {
       key: EncodedSymmetricKey;

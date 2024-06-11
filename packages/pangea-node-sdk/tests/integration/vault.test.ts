@@ -785,14 +785,33 @@ it("encrypt transform", async () => {
 });
 
 it("export", async () => {
+  // Generate an exportable key.
   const key = await asymGenerateDefault(
     Vault.AsymmetricAlgorithm.RSA4096_OAEP_SHA512,
     Vault.KeyPurpose.ENCRYPTION,
     { exportable: true }
   );
 
-  const actual = await vault.export({ id: key });
+  // Export it.
+  let actual = await vault.export({ id: key });
   expect(actual.result.id).toStrictEqual(key);
+  expect(actual.result.public_key).toBeDefined();
+  expect(actual.result.private_key).toBeDefined();
+
+  // Store it under a new name, again as exportable.
+  const stored = await vault.asymmetricStore(
+    actual.result.private_key!,
+    actual.result.public_key!,
+    Vault.AsymmetricAlgorithm.RSA4096_OAEP_SHA512,
+    Vault.KeyPurpose.ENCRYPTION,
+    getName("export"),
+    { exportable: true }
+  );
+  expect(stored.result.id).toBeDefined();
+
+  // Should still be able to export it.
+  actual = await vault.export({ id: stored.result.id });
+  expect(actual.result.id).toStrictEqual(stored.result.id);
   expect(actual.result.public_key).toBeDefined();
   expect(actual.result.private_key).toBeDefined();
 });
