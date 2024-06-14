@@ -1,7 +1,7 @@
 import { FilterOptions, PDG, TextCell } from "@pangeacyber/react-mui-shared";
 import { ObjectStore } from "../../types";
 import StoreObjectIcon from "../StoreObjectIcon";
-import { Box, Stack } from "@mui/material";
+import { Stack } from "@mui/material";
 import { formatBytes } from "../../utils";
 
 export const StoreViewerFields: PDG.GridSchemaFields<ObjectStore.ObjectResponse> =
@@ -63,3 +63,13 @@ export const StoreViewerFilters: FilterOptions<ObjectStore.Filter> = {
     type: "csv",
   },
 };
+
+export const StoreViewerFieldsWithID: PDG.GridSchemaFields<ObjectStore.ObjectResponse> =
+  {
+    id: {
+      label: "ID",
+      type: "stringWithCopy",
+      minWidth: 190,
+    },
+    ...StoreViewerFields,
+  };

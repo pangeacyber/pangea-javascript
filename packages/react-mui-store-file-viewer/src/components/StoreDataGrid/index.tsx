@@ -11,7 +11,11 @@ import {
   useGridSchemaColumns,
 } from "@pangeacyber/react-mui-shared";
 import { ObjectStore } from "../../types";
-import { StoreViewerFields, StoreViewerFilters } from "./fields";
+import {
+  StoreViewerFields,
+  StoreViewerFieldsWithID,
+  StoreViewerFilters,
+} from "./fields";
 import {
   useStoreFileViewerContext,
   useStoreFileViewerFolder,
@@ -31,6 +35,7 @@ import DownloadPopover from "../DownloadPasswordPopover";
 export interface StoreDataGridProps {
   defaultVisibilityModel?: Record<string, boolean>;
   defaultColumnOrder?: string[];
+  includeIdColumn?: boolean;
 
   PangeaDataGridProps?: Partial<
     PangeaDataGridProps<ObjectStore.ObjectResponse>
@@ -48,6 +53,7 @@ export const DEFAULT_COLUMN_ORDER = ["name", "size", "updated_at"];
 const StoreDataGrid: FC<StoreDataGridProps> = ({
   defaultVisibilityModel,
   defaultColumnOrder,
+  includeIdColumn,
 }) => {
   const { data, request, reload, loading, previewId, setPreviewId, apiRef } =
     useStoreFileViewerContext();
@@ -63,7 +69,9 @@ const StoreDataGrid: FC<StoreDataGridProps> = ({
     sorting,
     setSorting,
   } = request;
-  const columns = useGridSchemaColumns(StoreViewerFields);
+  const columns = useGridSchemaColumns(
+    includeIdColumn ? StoreViewerFieldsWithID : StoreViewerFields
+  );
 
   const [contextMenu, setContextMenu] = useState<{
     mouseX: number;

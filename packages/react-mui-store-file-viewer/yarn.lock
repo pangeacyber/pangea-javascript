@@ -1712,10 +1712,10 @@
     "@nodelib/fs.scandir" "2.1.5"
     fastq "^1.6.0"
 
-"@pangeacyber/react-mui-shared@0.0.61":
-  version "0.0.61"
-  resolved "https://registry.yarnpkg.com/@pangeacyber/react-mui-shared/-/react-mui-shared-0.0.61.tgz#4e112bce4ff04ebdec8ee6f17d4d3a2dc96d62e7"
-  integrity sha512-Usj6JYZehZ/mEiXEUvBmRrtkyzPt5pJj19lwa/6cNFiuPxR5HE7aRnfsSfnekue2i+567YUfETZz7zxryoakmA==
+"@pangeacyber/react-mui-shared@0.0.63":
+  version "0.0.63"
+  resolved "https://registry.yarnpkg.com/@pangeacyber/react-mui-shared/-/react-mui-shared-0.0.63.tgz#bd8a9f7d582f9e63340574d439d1d4fb8ac11ccc"
+  integrity sha512-2/pfkUHKDLsjlGulI945XZw5Az+VDyj7A/3YiOi3tfYYgvZHQWFOb0/4x76EQfiN5IYeK4U1Ww45fI9X0jY/pA==
   dependencies:
     "@loadable/component" "^5.16.4"
     "@mui/x-data-grid" "^6.20.0"

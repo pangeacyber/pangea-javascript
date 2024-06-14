@@ -4,10 +4,11 @@ import startCase from "lodash/startCase";
 
 import { GridColDef } from "@mui/x-data-grid";
 import { PDG } from "../types";
-import { DateCell, DateTimeCell, TextCell } from "../cells";
+import { DateCell, DateTimeCell, TextCell, TextWithCopyCell } from "../cells";
 
 const CELL_TYPE_MAP: Partial<Record<PDG.FieldType, FC<PDG.CellProps>>> = {
   string: TextCell,
+  stringWithCopy: TextWithCopyCell,
   date: DateCell,
   dateTime: DateTimeCell,
   stringDateTime: DateTimeCell,
