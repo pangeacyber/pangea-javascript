@@ -1,6 +1,6 @@
 {
   "name": "@pangeacyber/react-mui-store-file-viewer",
-  "version": "0.0.44",
+  "version": "0.0.45",
   "description": "An extension of material ui data-grid for Pangea store file objects",
   "main": "dist/cjs/index.js",
   "module": "dist/esm/index.js",
@@ -50,7 +50,7 @@
     "vite": "^5.2.13"
   },
   "dependencies": {
-    "@pangeacyber/react-mui-shared": "0.0.61",
+    "@pangeacyber/react-mui-shared": "0.0.63",
     "axios": "^1.7.2",
     "lodash": "^4.17.21",
     "zustand": "^4.5.2"

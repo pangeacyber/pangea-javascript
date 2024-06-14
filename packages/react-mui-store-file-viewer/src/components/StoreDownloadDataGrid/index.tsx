@@ -11,7 +11,10 @@ import {
   useGridSchemaColumns,
 } from "@pangeacyber/react-mui-shared";
 import { ObjectStore } from "../../types";
-import { StoreViewerFields } from "../StoreDataGrid/fields";
+import {
+  StoreViewerFields,
+  StoreViewerFieldsWithID,
+} from "../StoreDataGrid/fields";
 import {
   useStoreFileViewerContext,
   useStoreFileViewerFolder,
@@ -37,6 +40,7 @@ export const DEFAULT_COLUMN_ORDER = ["name", "size", "updated_at"];
 const StoreDownloadDataGrid: FC<StoreDataGridProps> = ({
   defaultVisibilityModel,
   defaultColumnOrder,
+  includeIdColumn,
 }) => {
   const { data, request, reload, loading, previewId, apiRef } =
     useStoreFileViewerContext();
@@ -52,7 +56,9 @@ const StoreDownloadDataGrid: FC<StoreDataGridProps> = ({
     sorting,
     setSorting,
   } = request;
-  const columns = useGridSchemaColumns(StoreViewerFields);
+  const columns = useGridSchemaColumns(
+    includeIdColumn ? StoreViewerFieldsWithID : StoreViewerFields
+  );
 
   const [contextMenu, setContextMenu] = useState<{
     mouseX: number;

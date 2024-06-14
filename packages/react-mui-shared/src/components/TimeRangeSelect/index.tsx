@@ -152,6 +152,8 @@ const TimeRangeSelect: FC<TimeRangeSelectProps> = ({
                   setInternalValue({ ...value, since: newValue })
                 }
                 options={[
+                  RelativeRange.Year,
+                  RelativeRange.Month,
                   RelativeRange.Week,
                   RelativeRange.Day,
                   RelativeRange.Hour,
