@@ -24,7 +24,7 @@
     "react-dom": "18.3.1"
   },
   "devDependencies": {
-    "@testing-library/jest-dom": "6.4.5",
+    "@testing-library/jest-dom": "6.4.6",
     "@testing-library/react": "15.0.7",
     "@tsconfig/cypress": "1.0.2",
     "@tsconfig/vite-react": "3.0.2",
