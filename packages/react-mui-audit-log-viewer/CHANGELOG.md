@@ -5,6 +5,18 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.0.81] - 2024-06-14
+
+### Fixed
+
+- Filters not being applied to search api call with updated query
+
+## [0.0.80] - 2024-06-09
+
+### Changed
+
+- ts-jest is now a dev dependency instead of a regular dependency.
+
 ## [0.0.79] - 2024-05-31
 
 ### Fixed

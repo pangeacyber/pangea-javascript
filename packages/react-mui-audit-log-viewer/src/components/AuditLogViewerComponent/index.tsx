@@ -95,8 +95,12 @@ const AuditLogViewerComponent: FC<ViewerProps> = ({
   };
 
   useEffect(() => {
-    if (!!bodyWithoutQuery && searchOnFilterChange && !searchOnChange)
-      handleSearch();
+    if (!!bodyWithoutQuery && searchOnFilterChange && !searchOnChange) {
+      setTimeout(() => {
+        handleSearch();
+        // Add slight delay since since filters may update the query string
+      }, 100);
+    }
   }, [bodyWithoutQuery, searchOnFilterChange, searchOnChange]);
 
   useEffect(() => {

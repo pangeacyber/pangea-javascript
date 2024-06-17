@@ -1,9 +1,6 @@
 // Copyright 2021 Pangea Cyber Corporation
 // Author: Pangea Cyber Corporation
 
-import got, { Options } from "got";
-import type { Response } from "got";
-
 import { Audit } from "@src/types.js";
 
 const ARWEAVE_BASE_URL = "https://arweave.net";
@@ -48,15 +45,18 @@ export const getArweavePublishedRoots = async (
 }
     `;
 
-  const options = new Options({
-    json: { query },
-    responseType: "json",
+  const response = await fetch(ARWEAVE_GRAPHQL_URL, {
+    method: "POST",
+    body: JSON.stringify({ query }),
+    headers: {
+      accept: "application/json",
+      "content-type": "application/json",
+    },
   });
-  const response = (await got.post(ARWEAVE_GRAPHQL_URL, options)) as Response;
-  if (response.statusCode !== 200) return {};
+  if (!response.ok) return {};
 
   const publishedRoots: PublishedRoots = {};
-  const body: any = response.body as JSON;
+  const body: any = await response.json();
   const edges = body?.data?.transactions?.edges ?? [];
 
   for (let idx = 0; idx < edges.length; idx++) {
@@ -72,14 +72,15 @@ export const getArweavePublishedRoots = async (
     const treeSize = treeSizeTags[0]?.value;
     const transactionUrl = arweaveTransactionUrl(nodeId);
 
-    const response = await got.get({ url: transactionUrl });
-    if (response.statusCode !== 200 || response.statusMessage === "Pending") {
+    const response = await fetch(transactionUrl, { method: "GET" });
+    if (!response.ok || response.statusText === "Pending") {
       continue;
     }
 
-    // @ts-ignore
     publishedRoots[treeSize] = {
-      ...JSON.parse(response.body),
+      ...((await response.json()) as object),
+
+      // @ts-expect-error
       transactionId: nodeId,
     };
   }

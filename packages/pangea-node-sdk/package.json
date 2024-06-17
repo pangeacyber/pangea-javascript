@@ -1,12 +1,22 @@
 {
   "name": "pangea-node-sdk",
   "version": "3.9.0",
-  "type": "module",
+  "type": "commonjs",
+  "main": "./dist/commonjs/index.js",
+  "types": "./dist/commonjs/index.d.ts",
   "exports": {
-    "types": "./dist/index.d.ts",
-    "default": "./dist/index.js"
+    "./package.json": "./package.json",
+    ".": {
+      "import": {
+        "types": "./dist/esm/index.d.ts",
+        "default": "./dist/esm/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/index.d.ts",
+        "default": "./dist/commonjs/index.js"
+      }
+    }
   },
-  "types": "./dist/index.d.ts",
   "repository": "git@github.com:pangeacyber/pangea-javascript.git",
   "author": "Glenn Gallien <glenn.gallien@pangea.cloud>",
   "license": "MIT",
@@ -16,17 +26,19 @@
   "dependencies": {
     "@aws-crypto/crc32c": "^5.2.0",
     "crypto-js": "^4.2.0",
-    "form-data": "^4.0.0",
-    "got": "^13.0.0",
-    "merkle-tools": "^1.4.1"
+    "form-data-encoder": "^4.0.2",
+    "formdata-node": "^6.0.3",
+    "merkle-tools": "^1.4.1",
+    "promise-retry": "^2.0.1"
   },
   "devDependencies": {
     "@gitlab/eslint-plugin": "^19.5.0",
     "@tsconfig/node18": "18.2.4",
     "@types/crypto-js": "^4.2.2",
     "@types/jest": "29.5.12",
-    "@typescript-eslint/eslint-plugin": "^7.12.0",
-    "@typescript-eslint/parser": "^7.12.0",
+    "@types/promise-retry": "1.1.6",
+    "@typescript-eslint/eslint-plugin": "^7.13.0",
+    "@typescript-eslint/parser": "^7.13.0",
     "coverage": "^0.4.1",
     "cross-env": "^7.0.3",
     "eslint": "^8.57.0",
@@ -37,6 +49,7 @@
     "ts-jest": "^29.1.4",
     "ts-node": "^10.9.2",
     "tsc-alias": "^1.8.10",
+    "tshy": "1.14.0",
     "typedoc": "^0.25.13",
     "typescript": "5.1.6"
   },
@@ -46,10 +59,17 @@
     "test:integration": "cross-env NODE_OPTIONS=\"--experimental-vm-modules --openssl-legacy-provider\" jest --testPathPattern=tests/integration",
     "lint": "eslint --ext .ts .",
     "generate:docs": "typedoc --tsconfig ./tsconfig.prod.json",
-    "build": "rm -fr dist/* && tsc -p tsconfig.prod.json && tsc-alias -p tsconfig.prod.json"
+    "build": "rm -fr dist && tshy && tsc-alias -p tsconfig.prod.json --outDir ./dist/commonjs && tsc-alias -p tsconfig.prod.json --outDir ./dist/esm",
+    "prepare": "yarn build"
   },
   "files": [
     "dist"
   ],
-  "sideEffects": false
+  "sideEffects": false,
+  "tshy": {
+    "exports": {
+      "./package.json": "./package.json",
+      ".": "./src/index.ts"
+    }
+  }
 }

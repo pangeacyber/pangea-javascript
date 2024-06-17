@@ -1,13 +1,18 @@
-import got, { Options, HTTPError, ResponseType } from "got";
-import type { Headers, Response } from "got";
-import FormData from "form-data";
-import fs from "fs";
-import { FileData, FileItems, PostOptions, TransferMethod } from "./types.js";
-
+import fs from "node:fs";
+import { FormDataEncoder } from "form-data-encoder";
+import { FormData } from "formdata-node";
+import { fileFromPath } from "formdata-node/file-from-path";
+import promiseRetry from "promise-retry";
 import PangeaConfig, { version } from "./config.js";
-import { ConfigEnv } from "./types.js";
 import { PangeaErrors } from "./errors.js";
-import { AttachedFile, PangeaResponse, ResponseObject } from "./response.js";
+import { AttachedFile, PangeaResponse } from "./response.js";
+import {
+  ConfigEnv,
+  FileData,
+  FileItems,
+  PostOptions,
+  TransferMethod,
+} from "./types.js";
 import { getHeaderField } from "./utils/multipart.js";
 
 const delay = async (ms: number) =>
@@ -45,7 +50,7 @@ class PangeaRequest {
     this.configID = configID;
   }
 
-  checkConfigID(data: Request) {
+  private checkConfigID(data: Request) {
     if (this.configID && !data.config_id) {
       data.config_id = this.configID;
     }
@@ -60,7 +65,7 @@ class PangeaRequest {
    * @param options Additional options.
    * @returns A `Promise` of the response.
    */
-  async post<R>(
+  public async post<R>(
     endpoint: string,
     data: Request,
     options: PostOptions = {}
@@ -69,7 +74,7 @@ class PangeaRequest {
     this.checkConfigID(data);
 
     let response: Response;
-    let entry = options.files ? Object.entries(options.files)[0] : undefined;
+    const entry = options.files ? Object.entries(options.files)[0] : null;
     if (options.files && entry) {
       if (data.transfer_method === TransferMethod.POST_URL) {
         response = await this.fullPostPresignedURL(endpoint, data, entry[1]);
@@ -77,14 +82,14 @@ class PangeaRequest {
         response = await this.postMultipart(endpoint, data, options.files);
       }
     } else {
-      let responseType: ResponseType =
-        data.transfer_method == TransferMethod.MULTIPART ? "buffer" : "json";
-      const request = new Options({
+      const responseType =
+        data.transfer_method === TransferMethod.MULTIPART ? "buffer" : "json";
+      const request = {
         headers: this.getHeaders(),
-        json: data,
+        body: JSON.stringify(data),
         retry: { limit: this.config.requestRetries },
         responseType: responseType,
-      });
+      };
       response = await this.httpPost(url, request);
     }
 
@@ -107,14 +112,13 @@ class PangeaRequest {
   }
 
   public async downloadFile(url: string): Promise<AttachedFile> {
-    const options = new Options({
+    const response = await this.httpRequest(url, {
+      method: "GET",
       retry: { limit: this.config.requestRetries },
-      responseType: "buffer",
     });
-    const response = (await got.get(url, options)) as Response;
 
     let filename = this.getFilenameFromContentDisposition(
-      response.headers["Content-Disposition"]
+      response.headers.get("Content-Disposition")!
     );
     if (filename === undefined) {
       filename = this.getFilenameFromURL(url);
@@ -123,13 +127,17 @@ class PangeaRequest {
       }
     }
 
-    const contentTypeHeader = response.headers["Content-Type"] ?? "";
+    const contentTypeHeader = response.headers.get("Content-Type") ?? "";
     let contentType = "application/octet-stream";
     if (Array.isArray(contentTypeHeader)) {
       contentType = contentTypeHeader[0] ?? contentType;
     }
 
-    return new AttachedFile(filename, response.rawBody, contentType);
+    return new AttachedFile(
+      filename,
+      await response.arrayBuffer(),
+      contentType
+    );
   }
 
   private async postMultipart(
@@ -141,28 +149,33 @@ class PangeaRequest {
     const form = new FormData();
     this.checkConfigID(data);
 
-    form.append("request", JSON.stringify(data), {
-      contentType: "application/json",
-    });
+    form.append(
+      "request",
+      new Blob([JSON.stringify(data)], {
+        type: "application/json",
+      })
+    );
     for (let [name, fileData] of Object.entries(files)) {
-      form.append(name, this.getFileToForm(fileData.file), {
-        contentType: "application/octet-stream",
-      });
+      form.append(name, await this.getFileToForm(fileData.file));
     }
 
-    const request = new Options({
-      headers: this.getHeaders(),
-      body: form,
+    const encoder = new FormDataEncoder(form);
+
+    const request = {
+      headers: {
+        ...this.getHeaders(),
+        ...encoder.headers,
+      },
+      body: encoder.encode(),
       retry: { limit: this.config.requestRetries },
-      responseType: "json",
-    });
+    };
 
     return await this.httpPost(url, request);
   }
 
-  private getFileToForm(file: Blob | Buffer | string) {
+  private async getFileToForm(file: Blob | Buffer | string) {
     if (typeof file === "string") {
-      return fs.createReadStream(file);
+      return await fileFromPath(file);
     }
     return file;
   }
@@ -197,7 +210,10 @@ class PangeaRequest {
     return response.gotResponse;
   }
 
-  public async postPresignedURL(url: string, fileData: FileData) {
+  public async postPresignedURL(
+    url: string,
+    fileData: FileData
+  ): Promise<void> {
     if (!fileData.file_details) {
       throw new PangeaErrors.PangeaError(
         "file_details should be defined to do a post"
@@ -212,51 +228,37 @@ class PangeaRequest {
       }
     }
 
-    form.append("file", this.getFileToForm(fileData.file), {
-      contentType: "application/octet-stream",
-    });
+    form.append("file", await this.getFileToForm(fileData.file));
 
-    const request = new Options({
+    const response = await this.httpPost(url, {
       body: form,
       retry: { limit: this.config.requestRetries },
-      responseType: "json",
     });
-
-    try {
-      await this.httpPost(url, request);
-    } catch (error) {
-      if (error instanceof HTTPError) {
-        throw new PangeaErrors.PresignedUploadError(
-          `presigned POST failure: ${error.code}`,
-          JSON.stringify(error.response.body)
-        );
-      }
+    if (!response.ok) {
+      throw new PangeaErrors.PresignedUploadError(
+        `presigned POST failure: ${response.status}`,
+        JSON.stringify(await response.json())
+      );
     }
-    return;
   }
 
-  public async putPresignedURL(url: string, fileData: FileData) {
+  public async putPresignedURL(url: string, fileData: FileData): Promise<void> {
     if (fileData.file_details) {
       throw new PangeaErrors.PangeaError(
         "file_details should be undefined to do a put"
       );
     }
 
-    const request = new Options({
+    const response = await this.httpRequest(url, {
+      method: "PUT",
       body: this.getFileToBuffer(fileData.file),
       retry: { limit: this.config.requestRetries },
-      responseType: "json",
     });
-
-    try {
-      await got.put(url, request);
-    } catch (error) {
-      if (error instanceof HTTPError) {
-        throw new PangeaErrors.PresignedUploadError(
-          `presigned PUT failure: ${error.code}`,
-          JSON.stringify(error.response.body)
-        );
-      }
+    if (!response.ok) {
+      throw new PangeaErrors.PresignedUploadError(
+        `presigned PUT failure: ${response.status}`,
+        JSON.stringify(await response.json())
+      );
     }
 
     return;
@@ -300,9 +302,8 @@ class PangeaRequest {
     const start = Date.now();
     let loopResponse = response;
 
-    const body = loopResponse.gotResponse?.body as ResponseObject<any>;
-    const requestId = body?.request_id;
-    let loopError;
+    const requestId = loopResponse.request_id;
+    let loopError: Error = new RangeError();
 
     while (
       !loopResponse.accepted_result?.post_url &&
@@ -336,69 +337,94 @@ class PangeaRequest {
     }
   }
 
-  private async httpPost(url: string, request: object): Promise<Response> {
-    try {
-      return (await got.post(url, request)) as Response;
-    } catch (error) {
-      if (error instanceof HTTPError) {
-        // This MUST throw an error
-        this.checkResponse(new PangeaResponse(error.response));
-      }
-      throw error;
+  /** Wrapper around `fetch()` POST with got-like options. */
+  private async httpPost(
+    url: string,
+    options: {
+      body: AsyncIterable<Uint8Array> | FormData | string;
+      headers?: Record<string, string>;
+      retry?: { limit: number };
     }
+  ): Promise<Response> {
+    const response = await this.httpRequest(url, {
+      method: "POST",
+      body: options.body,
+      headers: options.headers,
+    });
+
+    if (response && response.ok) {
+      return response;
+    }
+
+    // This MUST throw an error
+    this.checkResponse(
+      new PangeaResponse(response, await response.arrayBuffer())
+    );
+
+    // But in case it doesn't...
+    return response;
+  }
+
+  private async httpRequest(
+    url: string,
+    options: {
+      body?: AsyncIterable<Uint8Array> | Buffer | FormData | string;
+      headers?: Record<string, string>;
+      method: "GET" | "POST" | "PUT";
+      retry?: { limit: number };
+    }
+  ): Promise<Response> {
+    const fetchOptions: RequestInit = {
+      duplex: "half",
+      method: options.method,
+      body: options.body,
+      headers: options.headers,
+    };
+
+    return await promiseRetry(
+      async (retry, _attempt) => {
+        const response = await fetch(url, fetchOptions);
+
+        // Retry on GET HTTP/404 because the existing result-polling code
+        // depends on it. Note that the previous HTTP client, got, did not retry
+        // POST requests by default, hence we don't do that here as well.
+        if (fetchOptions.method === "GET" && response.status === 404) {
+          return retry(response);
+        }
+
+        return response;
+      },
+      { retries: options.retry?.limit }
+    );
   }
 
   private async handleHttpResponse<R>(
     response: Response,
     options: PostOptions = {}
   ): Promise<PangeaResponse<R>> {
-    try {
-      let pangeaResponse = new PangeaResponse<R>(response);
-      if (response.statusCode === 202) {
-        if (options.pollResultSync !== false) {
-          pangeaResponse = await this.handleAsync(pangeaResponse);
-        }
-        return this.checkResponse(pangeaResponse);
-      }
-      return this.checkResponse(pangeaResponse);
-    } catch (error) {
-      if (error instanceof HTTPError) {
-        // This MUST throw an error
-        return this.checkResponse(new PangeaResponse(error.response));
-      }
-      // TODO: add handling of lower level errors?
-      throw error;
+    const body = await response.arrayBuffer();
+    let pangeaResponse = new PangeaResponse<R>(response, body);
+    if (response.status === 202 && options.pollResultSync !== false) {
+      pangeaResponse = await this.handleAsync(pangeaResponse);
     }
+    return this.checkResponse(pangeaResponse);
   }
 
-  public async get(
+  public async get<T>(
     endpoint: string,
     checkResponse: boolean = true
-  ): Promise<PangeaResponse<any>> {
+  ): Promise<PangeaResponse<T>> {
     const url = this.getUrl(endpoint);
-    const options = new Options({
+    const response = await this.httpRequest(url, {
       headers: this.getHeaders(),
+      method: "GET",
       retry: { limit: this.config.requestRetries },
-      responseType: "json",
     });
-
-    try {
-      const response = (await got.get(url, options)) as Response;
-      const pangeaResponse = new PangeaResponse(response);
-      return checkResponse
-        ? this.checkResponse(pangeaResponse)
-        : pangeaResponse;
-    } catch (error) {
-      if (error instanceof HTTPError) {
-        // This MUST throw and error
-        const pangeaResponse = new PangeaResponse(error.response);
-        return checkResponse
-          ? this.checkResponse(pangeaResponse)
-          : pangeaResponse;
-      }
-      // TODO: add handling of lower level errors?
-      throw error;
-    }
+    const pangeaResponse = new PangeaResponse<T>(
+      response,
+      await response.arrayBuffer()
+    );
+    return checkResponse ? this.checkResponse(pangeaResponse) : pangeaResponse;
   }
 
   private getDelay(retryCount: number, start: number): number {
@@ -434,11 +460,10 @@ class PangeaRequest {
 
     let retryCount = 0;
     const start = Date.now();
-    const body = pangeaResponse.gotResponse?.body as ResponseObject<any>;
-    const requestId = body?.request_id;
+    const requestId = pangeaResponse.request_id;
 
     while (
-      pangeaResponse.gotResponse?.statusCode === 202 &&
+      pangeaResponse.gotResponse?.status === 202 &&
       !this.reachTimeout(start)
     ) {
       retryCount += 1;
@@ -464,7 +489,7 @@ class PangeaRequest {
   }
 
   public getUrl(path: string): string {
-    let url;
+    let url: string;
     if (
       this.config.domain.startsWith("http://") ||
       this.config.domain.startsWith("https://")
@@ -483,7 +508,7 @@ class PangeaRequest {
     return url;
   }
 
-  private getHeaders(): Headers {
+  private getHeaders(): Record<string, string> {
     const headers = {};
     const pangeaHeaders = {
       "User-Agent": this.userAgent,
@@ -503,7 +528,7 @@ class PangeaRequest {
       return response;
     }
 
-    if (response.gotResponse?.statusCode === 503) {
+    if (response.gotResponse?.status === 503) {
       throw new PangeaErrors.ServiceTemporarilyUnavailable(
         JSON.stringify(response.body)
       );
@@ -545,8 +570,8 @@ class PangeaRequest {
         );
       case "NotFound":
         throw new PangeaErrors.NotFound(
-          response.gotResponse?.requestUrl !== undefined
-            ? response.gotResponse.requestUrl.toString()
+          response.gotResponse?.url !== undefined
+            ? response.gotResponse.url.toString()
             : "",
           response
         );

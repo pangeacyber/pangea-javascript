@@ -35,6 +35,7 @@ export const StoreFileViewerDemo: {
 } = ThemeTemplate.bind({});
 
 StoreFileViewerDemo.args = {
+  includeIdColumn: true,
   apiRef: {
     share: {
       list: async (body) => {
