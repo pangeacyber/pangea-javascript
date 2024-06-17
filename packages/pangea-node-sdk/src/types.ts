@@ -933,6 +933,9 @@ export namespace Vault {
     created_at: string;
     algorithm: string;
     purpose: string;
+
+    /** Whether the key is exportable or not. */
+    exportable?: boolean;
   }
 
   export interface ListItemData extends ItemData {

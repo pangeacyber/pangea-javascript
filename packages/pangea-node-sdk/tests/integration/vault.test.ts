@@ -1,13 +1,17 @@
+import { expect, it, jest } from "@jest/globals";
 import PangeaConfig from "../../src/config.js";
+import { PangeaErrors } from "../../src/errors.js";
 import VaultService from "../../src/services/vault.js";
 import { Vault } from "../../src/types.js";
-import { jest, it, expect } from "@jest/globals";
-import { PangeaErrors } from "../../src/errors.js";
-import { strToB64 } from "../../src/utils/utils.js";
 import {
-  TestEnvironment,
+  asymmetricDecrypt,
+  generateRsaKeyPair,
+} from "../../src/utils/crypto.js";
+import {
   getTestDomain,
   getTestToken,
+  strToB64,
+  TestEnvironment,
 } from "../../src/utils/utils.js";
 import { loadTestEnvironment } from "./utils.js";
 
@@ -786,24 +790,43 @@ it("encrypt transform", async () => {
 
 it("export", async () => {
   // Generate an exportable key.
-  const key = await asymGenerateDefault(
-    Vault.AsymmetricAlgorithm.RSA4096_OAEP_SHA512,
-    Vault.KeyPurpose.ENCRYPTION,
+  const generated = await vault.asymmetricGenerate(
+    Vault.AsymmetricAlgorithm.Ed25519,
+    Vault.KeyPurpose.SIGNING,
+    getName("export"),
     { exportable: true }
   );
 
+  // Generate a RSA key pair.
+  const keyPair = await generateRsaKeyPair(4096);
+
   // Export it.
-  let actual = await vault.export({ id: key });
-  expect(actual.result.id).toStrictEqual(key);
-  expect(actual.result.public_key).toBeDefined();
-  expect(actual.result.private_key).toBeDefined();
+  let actual = await vault.export({
+    id: generated.result.id,
+    encryption_algorithm: Vault.ExportEncryptionAlgorithm.RSA4096_OAEP_SHA512,
+    encryption_key: keyPair.publicKey,
+  });
+  expect(actual.result.id).toStrictEqual(generated.result.id);
+  expect(actual.result.encrypted).toStrictEqual(true);
+  expect(
+    asymmetricDecrypt(
+      keyPair.privateKey,
+      Buffer.from(actual.result.public_key!, "base64url"),
+      "sha512"
+    )
+  ).toStrictEqual(generated.result.public_key);
+  const decryptedPrivateKey = asymmetricDecrypt(
+    keyPair.privateKey,
+    Buffer.from(actual.result.private_key!, "base64url"),
+    "sha512"
+  );
 
   // Store it under a new name, again as exportable.
   const stored = await vault.asymmetricStore(
-    actual.result.private_key!,
-    actual.result.public_key!,
-    Vault.AsymmetricAlgorithm.RSA4096_OAEP_SHA512,
-    Vault.KeyPurpose.ENCRYPTION,
+    decryptedPrivateKey,
+    generated.result.public_key!,
+    Vault.AsymmetricAlgorithm.Ed25519,
+    Vault.KeyPurpose.SIGNING,
     getName("export"),
     { exportable: true }
   );

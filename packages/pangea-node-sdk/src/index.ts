@@ -1,7 +1,6 @@
 import { default as _PangeaConfig } from "./config.js";
 import { default as _PangeaRequest } from "./request.js";
 import { default as _PangeaResponse } from "./response.js";
-
 import services from "./services/index.js";
 
 // Export all types
@@ -9,6 +8,8 @@ export * from "./types.js";
 
 // Export all errors
 export * from "./errors.js";
+
+export { asymmetricDecrypt, generateRsaKeyPair } from "./utils/crypto.js";
 
 export {
   hashSHA256,
