@@ -1,13 +1,17 @@
+import { expect, it, jest } from "@jest/globals";
 import PangeaConfig from "../../src/config.js";
+import { PangeaErrors } from "../../src/errors.js";
 import VaultService from "../../src/services/vault.js";
 import { Vault } from "../../src/types.js";
-import { jest, it, expect } from "@jest/globals";
-import { PangeaErrors } from "../../src/errors.js";
-import { strToB64 } from "../../src/utils/utils.js";
 import {
-  TestEnvironment,
+  asymmetricDecrypt,
+  generateRsaKeyPair,
+} from "../../src/utils/crypto.js";
+import {
   getTestDomain,
   getTestToken,
+  strToB64,
+  TestEnvironment,
 } from "../../src/utils/utils.js";
 import { loadTestEnvironment } from "./utils.js";
 
@@ -396,10 +400,16 @@ async function symGenerateParams(
 
 async function asymGenerateDefault(
   algorithm: Vault.AsymmetricAlgorithm,
-  purpose: Vault.KeyPurpose
+  purpose: Vault.KeyPurpose,
+  options?: Vault.Asymmetric.GenerateOptions
 ): Promise<string> {
   const name = getName("asymGenerateDefault");
-  const genResp = await vault.asymmetricGenerate(algorithm, purpose, name);
+  const genResp = await vault.asymmetricGenerate(
+    algorithm,
+    purpose,
+    name,
+    options
+  );
   expect(genResp.result.type).toBe(Vault.ItemType.ASYMMETRIC_KEY);
   expect(genResp.result.version).toBe(1);
   expect(genResp.result.id).toBeDefined();
@@ -776,4 +786,55 @@ it("encrypt transform", async () => {
   });
   expect(decrypted.result.id).toStrictEqual(key);
   expect(decrypted.result.plain_text).toStrictEqual(plainText);
+});
+
+it("export", async () => {
+  // Generate an exportable key.
+  const generated = await vault.asymmetricGenerate(
+    Vault.AsymmetricAlgorithm.Ed25519,
+    Vault.KeyPurpose.SIGNING,
+    getName("export"),
+    { exportable: true }
+  );
+
+  // Generate a RSA key pair.
+  const keyPair = await generateRsaKeyPair(4096);
+
+  // Export it.
+  let actual = await vault.export({
+    id: generated.result.id,
+    encryption_algorithm: Vault.ExportEncryptionAlgorithm.RSA4096_OAEP_SHA512,
+    encryption_key: keyPair.publicKey,
+  });
+  expect(actual.result.id).toStrictEqual(generated.result.id);
+  expect(actual.result.encrypted).toStrictEqual(true);
+  expect(
+    asymmetricDecrypt(
+      keyPair.privateKey,
+      Buffer.from(actual.result.public_key!, "base64url"),
+      "sha512"
+    )
+  ).toStrictEqual(generated.result.public_key);
+  const decryptedPrivateKey = asymmetricDecrypt(
+    keyPair.privateKey,
+    Buffer.from(actual.result.private_key!, "base64url"),
+    "sha512"
+  );
+
+  // Store it under a new name, again as exportable.
+  const stored = await vault.asymmetricStore(
+    decryptedPrivateKey,
+    generated.result.public_key!,
+    Vault.AsymmetricAlgorithm.Ed25519,
+    Vault.KeyPurpose.SIGNING,
+    getName("export"),
+    { exportable: true }
+  );
+  expect(stored.result.id).toBeDefined();
+
+  // Should still be able to export it.
+  actual = await vault.export({ id: stored.result.id });
+  expect(actual.result.id).toStrictEqual(stored.result.id);
+  expect(actual.result.public_key).toBeDefined();
+  expect(actual.result.private_key).toBeDefined();
 });

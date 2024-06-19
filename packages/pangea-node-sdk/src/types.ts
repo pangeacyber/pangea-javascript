@@ -811,6 +811,12 @@ export namespace Vault {
     AES256_FF3_1 = "AES-FF3-1-256-BETA",
   }
 
+  /** Algorithm of an exported public key. */
+  export enum ExportEncryptionAlgorithm {
+    /** RSA 4096-bit key, OAEP padding, SHA512 digest. */
+    RSA4096_OAEP_SHA512 = "RSA-OAEP-4096-SHA512",
+  }
+
   export enum ItemType {
     ASYMMETRIC_KEY = "asymmetric_key",
     SYMMETRIC_KEY = "symmetric_key",
@@ -927,6 +933,9 @@ export namespace Vault {
     created_at: string;
     algorithm: string;
     purpose: string;
+
+    /** Whether the key is exportable or not. */
+    exportable?: boolean;
   }
 
   export interface ListItemData extends ItemData {
@@ -996,6 +1005,76 @@ export namespace Vault {
     rotation_grace_period?: string;
     versions: ItemVersionData[];
     inherited_settings?: InheritedSettigs;
+  }
+
+  export interface ExportRequest {
+    /**
+     * The ID of the item.
+     */
+    id: string;
+
+    /**
+     * The item version.
+     */
+    version?: number;
+
+    /**
+     * Public key in pem format used to encrypt exported key(s).
+     */
+    encryption_key?: string;
+
+    /**
+     * The algorithm of the public key.
+     */
+    encryption_algorithm?: ExportEncryptionAlgorithm;
+  }
+
+  export interface ExportResult {
+    /**
+     * The ID of the item.
+     */
+    id: string;
+
+    /**
+     * The item version.
+     */
+    version: number;
+
+    /**
+     * The type of the key.
+     */
+    type: string;
+
+    /**
+     * The state of the item.
+     */
+    item_state: string;
+
+    /**
+     * The algorithm of the key.
+     */
+    algorithm: string;
+
+    /**
+     * The public key (in PEM format).
+     */
+    public_key?: string;
+
+    /**
+     * The private key (in PEM format).
+     */
+    private_key?: string;
+
+    /**
+     * The key material.
+     */
+    key?: string;
+
+    /**
+     * Whether exported key(s) are encrypted with encryption_key sent on the request or not.
+     * If encrypted, the result is sent in base64, any other case they are in PEM format plain text.
+     */
+    encrypted: boolean;
   }
 
   export namespace JWT {
@@ -1086,6 +1165,9 @@ export namespace Vault {
       rotation_frequency?: string;
       rotation_state?: ItemVersionState;
       expiration?: string;
+
+      /** Whether the key is exportable or not. */
+      exportable?: boolean;
     }
 
     export interface GenerateResult {
@@ -1121,14 +1203,6 @@ export namespace Vault {
     }
 
     export interface StoreResult extends Common.StoreResult {
-      secret: string;
-    }
-
-    export interface GenerateRequest
-      extends Common.GenerateRequest,
-        Common.GenerateOptions {}
-
-    export interface GenerateResult extends Common.GenerateRequest {
       secret: string;
     }
 
@@ -1327,7 +1401,10 @@ export namespace Vault {
       public_key: EncodedPublicKey;
     }
 
-    export interface StoreOptions extends Common.StoreOptions {}
+    export interface StoreOptions extends Common.StoreOptions {
+      /** Whether the key is exportable or not. */
+      exportable?: boolean;
+    }
 
     export interface StoreRequest extends Common.StoreRequest, StoreOptions {
       private_key: EncodedPrivateKey;
@@ -1378,7 +1455,10 @@ export namespace Vault {
   }
 
   export namespace Symmetric {
-    export interface StoreOptions extends Common.StoreOptions {}
+    export interface StoreOptions extends Common.StoreOptions {
+      /** Whether the key is exportable or not. */
+      exportable?: boolean;
+    }
 
     export interface StoreRequest extends Common.StoreRequest, StoreOptions {
       key: EncodedSymmetricKey;

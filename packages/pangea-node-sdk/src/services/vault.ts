@@ -916,6 +916,32 @@ class VaultService extends BaseService {
   ): Promise<PangeaResponse<Vault.Key.DecryptTransformResult>> {
     return this.post("v1/key/decrypt/transform", request);
   }
+
+  /**
+   * @summary Export
+   * @description Export a symmetric or asymmetric key.
+   * @operationId vault_post_v1_export
+   * @param request Request parameters.
+   * @returns A `Promise` of the export result.
+   * @example
+   * ```js
+   * // Generate an exportable key.
+   * const generated = await vault.asymmetricGenerate(
+   *   Vault.AsymmetricAlgorithm.RSA4096_OAEP_SHA512,
+   *   Vault.KeyPurpose.ENCRYPTION,
+   *   "a-name-for-the-key",
+   *   { exportable: true }
+   * );
+   *
+   * // Then it can be exported whenever needed.
+   * const exported = await vault.export({ id: generated.result.id });
+   * ```
+   */
+  async export(
+    request: Vault.ExportRequest
+  ): Promise<PangeaResponse<Vault.ExportResult>> {
+    return this.post("v1/export", request);
+  }
 }
 
 export default VaultService;
