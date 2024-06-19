@@ -133,6 +133,7 @@ const AuthPassword: FC<AuthFlowComponentProps> = (props) => {
               name="confirm_password"
               label="Confirm password"
               formik={formik}
+              autofocus={false}
             />
           )}
           {!!data.captcha && options.compactSignup && (
