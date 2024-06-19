@@ -532,6 +532,24 @@ class AuditService extends BaseService {
       return root;
     };
 
+    const fixConsistencyProof = async (treeSize: number) => {
+      // we can only fix if the root has been downloaded
+      let pubRoot: Audit.Root | undefined = this.publishedRoots[treeSize];
+      if (pubRoot === undefined) {
+        return;
+      }
+
+      const root: Audit.Root = await localRoot(treeSize);
+
+      // compare the root hash with the published root hash
+      if (root?.root_hash !== pubRoot.root_hash) {
+        return;
+      }
+
+      // override the proof
+      pubRoot.consistency_proof = root.consistency_proof;
+    };
+
     if (!options?.skipEventVerification) {
       response.result.events.forEach((record: Audit.AuditRecord) => {
         this.verifyHash(record.envelope, record.hash);
@@ -563,6 +581,8 @@ class AuditService extends BaseService {
         );
       }
 
+      var pending: Promise<void>[] = [];
+
       response.result.events.forEach((record: Audit.AuditRecord) => {
         record.membership_verification = verifyRecordMembershipProof({
           root: record.published ? root : response.result.unpublished_root,
@@ -573,7 +593,25 @@ class AuditService extends BaseService {
           publishedRoots: this.publishedRoots,
           record: record,
         });
+
+        if (
+          record.consistency_verification === "fail" &&
+          record.leaf_index !== undefined
+        ) {
+          pending.push(
+            fixConsistencyProof(parseInt(record.leaf_index + 1, 10)).then(
+              () => {
+                record.consistency_verification = verifyRecordConsistencyProof({
+                  publishedRoots: this.publishedRoots,
+                  record: record,
+                });
+              }
+            )
+          );
+        }
       });
+
+      await Promise.all(pending);
     }
     return response;
   }
