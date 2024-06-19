@@ -1,4 +1,5 @@
 import { FC, useEffect, useState } from "react";
+import omit from "lodash/omit";
 import { useFormik } from "formik";
 import * as yup from "yup";
 import { Stack } from "@mui/material";
@@ -21,6 +22,7 @@ const AuthPassword: FC<AuthFlowComponentProps> = (props) => {
   const [captcha, setCaptcha] = useState("");
   const enrollment = !!data?.password?.enrollment || data?.setPassword;
   const showReset = !!data.resetPassword && !data.setPassword;
+  const showPasswordConfirmation = !!data.resetPassword && !!data.setPassword;
   const showEmail = !!data.password?.need_email;
   const passwordPolicy = enrollment
     ? { ...data?.password?.password_policy }
@@ -38,6 +40,12 @@ const AuthPassword: FC<AuthFlowComponentProps> = (props) => {
             }
           )
       : yup.string().required("Required"),
+    confirm_password: showPasswordConfirmation
+      ? yup
+          .string()
+          .required("New password must be confirmed.")
+          .oneOf([yup.ref("password")], "Passwords must match.")
+      : yup.string().nullable(),
     email: showEmail
       ? yup.string().required("Required").email("Enter a valid email")
       : yup.string().nullable(),
@@ -46,13 +54,14 @@ const AuthPassword: FC<AuthFlowComponentProps> = (props) => {
   const formik = useFormik({
     initialValues: {
       password: "",
+      confirm_password: "",
       email: showEmail ? "" : undefined,
     },
     validationSchema: validationSchema,
     validateOnBlur: true,
     onSubmit: (values) => {
       const payload: AuthFlow.PasswordParams = {
-        ...values,
+        ...omit(values, ["confirm_password"]),
       };
 
       if (data.setPassword) {
@@ -119,6 +128,13 @@ const AuthPassword: FC<AuthFlowComponentProps> = (props) => {
             policy={passwordPolicy}
             autofocus={!showEmail}
           />
+          {showPasswordConfirmation && (
+            <PasswordField
+              name="confirm_password"
+              label="Confirm password"
+              formik={formik}
+            />
+          )}
           {!!data.captcha && options.compactSignup && (
             <VerifyCaptcha {...props} submitHandler={submitCaptcha} />
           )}
