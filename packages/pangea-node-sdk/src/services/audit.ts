@@ -438,12 +438,12 @@ class AuditService extends BaseService {
    * the exported results at a later time.
    * @example
    * ```js
-   * const exportRes = await auditGeneral.export({ verbose: false });
+   * const exportRes = await audit.export({ verbose: false });
    *
    * // Export may take several dozens of minutes, so polling for the result
    * // should be done in a loop. That is omitted here for brevity's sake.
    * try {
-   *   await auditGeneral.pollResult(exportRes.request_id);
+   *   await audit.pollResult(exportRes.request_id);
    * } catch (error) {
    *   if (error instanceof PangeaErrors.AcceptedRequestException) {
    *     // Retry later.
@@ -451,7 +451,7 @@ class AuditService extends BaseService {
    * }
    *
    * // Download the result when it's ready.
-   * const downloadRes = await auditGeneral.downloadResults({ request_id: exportRes.request_id });
+   * const downloadRes = await audit.downloadResults({ request_id: exportRes.request_id });
    * downloadRes.result.dest_url;
    * // => https://pangea-runtime.s3.amazonaws.com/audit/xxxxx/search_results_[...]
    * ```
