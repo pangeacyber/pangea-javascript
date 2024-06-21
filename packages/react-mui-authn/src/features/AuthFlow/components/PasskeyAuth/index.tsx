@@ -2,7 +2,10 @@ import { FC, useEffect, useState } from "react";
 import { Stack } from "@mui/material";
 import { useTheme } from "@mui/material/styles";
 import { HourglassBottomRounded, VpnKeyRounded } from "@mui/icons-material";
-import { startAuthentication } from "@simplewebauthn/browser";
+import {
+  startAuthentication,
+  browserSupportsWebAuthn,
+} from "@simplewebauthn/browser";
 
 import { AuthFlow } from "@pangeacyber/vanilla-js";
 
@@ -19,6 +22,7 @@ const PasskeyAuth: FC<AuthFlowComponentProps> = ({
 }) => {
   const theme = useTheme();
   const [stage, setStage] = useState<string>("start");
+  const passkeyEnabled = !!data?.passkey && browserSupportsWebAuthn();
 
   useEffect(() => {
     if (data.passkey?.enrollment === false && !data.passkey?.started) {
@@ -63,6 +67,11 @@ const PasskeyAuth: FC<AuthFlowComponentProps> = ({
       }
     }
   };
+
+  // show nothing if passkeys not avaialable
+  if (!passkeyEnabled) {
+    return null;
+  }
 
   if (stage === "wait") {
     return (
