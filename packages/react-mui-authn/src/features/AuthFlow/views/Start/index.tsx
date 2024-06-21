@@ -168,8 +168,8 @@ const StartView: FC<AuthFlowComponentProps> = (props) => {
             There are no valid authentication methods available
           </BodyText>
         )}
+      <PasskeyAuth {...props} />
       <SocialOptions {...props} />
-      {passkeyEnabled && <PasskeyAuth {...props} />}
       {data.disclaimer && <Disclaimer content={data.disclaimer} />}
     </AuthFlowLayout>
   );

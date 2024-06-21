@@ -15,6 +15,7 @@ import PasswordField, {
 import StringField from "@src/components/fields/StringField";
 import VerifyCaptcha from "../VerifyCaptcha";
 import RememberUser from "../RememberUser";
+import PasskeyAuth from "../PasskeyAuth";
 
 const AuthPassword: FC<AuthFlowComponentProps> = (props) => {
   const { options, data, loading, error, update, restart } = props;
@@ -140,7 +141,7 @@ const AuthPassword: FC<AuthFlowComponentProps> = (props) => {
             <VerifyCaptcha {...props} submitHandler={submitCaptcha} />
           )}
           {status && <ErrorMessage response={status} />}
-          <Stack>
+          <Stack gap={1}>
             <Button
               color="primary"
               type="submit"
@@ -149,6 +150,7 @@ const AuthPassword: FC<AuthFlowComponentProps> = (props) => {
             >
               {getSubmitLabel()}
             </Button>
+            <PasskeyAuth {...props} />
             {(options.rememberUser || showReset) && (
               <Stack
                 direction="row"
