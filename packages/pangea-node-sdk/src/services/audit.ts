@@ -581,7 +581,7 @@ class AuditService extends BaseService {
         );
       }
 
-      var pending: Promise<void>[] = [];
+      const pending: Promise<void>[] = [];
 
       response.result.events.forEach((record: Audit.AuditRecord) => {
         record.membership_verification = verifyRecordMembershipProof({
