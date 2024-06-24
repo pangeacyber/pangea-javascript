@@ -229,7 +229,7 @@ it("User actions test", async () => {
   expect(listSessionsResp.status).toBe("Success");
   expect(listSessionsResp.result.sessions.length).toBeGreaterThan(0);
 
-  // Invalite sessions
+  // Invalidate sessions
   listSessionsResp.result.sessions.forEach((session) => {
     try {
       authn.session.invalidate(session.id);
@@ -265,6 +265,10 @@ it("User actions test", async () => {
         : console.log(e);
     }
   });
+
+  // Expire password.
+  const expireResp = await authn.client.password.expire(USER_ID);
+  expect(expireResp.status).toEqual("Success");
 
   // List users
   const listResp = await authn.user.list({});

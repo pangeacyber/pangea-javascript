@@ -11,6 +11,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - CommonJS support.
 - Vault `/export` support.
+- AuthN user password expiration support.
 
 ## [3.9.0] - 2024-06-07
 
