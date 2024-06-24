@@ -599,7 +599,7 @@ class AuditService extends BaseService {
           record.leaf_index !== undefined
         ) {
           pending.push(
-            fixConsistencyProof(parseInt(record.leaf_index + 1, 10)).then(
+            fixConsistencyProof(parseInt(record.leaf_index, 10) + 1).then(
               () => {
                 record.consistency_verification = verifyRecordConsistencyProof({
                   publishedRoots: this.publishedRoots,
