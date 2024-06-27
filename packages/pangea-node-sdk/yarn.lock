@@ -3886,10 +3886,10 @@ pluralize@^8.0.0:
   resolved "https://registry.yarnpkg.com/pluralize/-/pluralize-8.0.0.tgz#1a6fa16a38d12a1901e0320fa017051c539ce3b1"
   integrity sha512-Nc3IT5yHzflTfbjgqWcCPpo7DaKy4FnpB0l/zCAW0Tc7jxAiuqSxHasntB3D7887LSrA93kDJ9IXovxJYxyLCA==
 
-polite-json@^4.0.1:
-  version "4.0.1"
-  resolved "https://registry.yarnpkg.com/polite-json/-/polite-json-4.0.1.tgz#57580c8576b1f8c24350be8dcdef5582bb7d75e7"
-  integrity sha512-8LI5ZeCPBEb4uBbcYKNVwk4jgqNx1yHReWoW4H4uUihWlSqZsUDfSITrRhjliuPgxsNPFhNSudGO2Zu4cbWinQ==
+polite-json@^5.0.0:
+  version "5.0.0"
+  resolved "https://registry.yarnpkg.com/polite-json/-/polite-json-5.0.0.tgz#85c0603a905b604fffd15dbcd5990f752f6b6682"
+  integrity sha512-OLS/0XeUAcE8a2fdwemNja+udKgXNnY6yKVIXqAD2zVRx1KvY6Ato/rZ2vdzbxqYwPW0u6SCNC/bAMPNzpzxbw==
 
 possible-typed-array-names@^1.0.0:
   version "1.0.0"
@@ -4557,21 +4557,21 @@ tsconfig-paths@^3.15.0:
     minimist "^1.2.6"
     strip-bom "^3.0.0"
 
-tshy@1.15.1:
-  version "1.15.1"
-  resolved "https://registry.yarnpkg.com/tshy/-/tshy-1.15.1.tgz#f2c393aca0cf8db6a70bc780c9623a6eb75f506f"
-  integrity sha512-7p30vmXaNX7OL1yLy/MYUtO0SJOm9fQSnzk3DXaM+LmQosooCB4elVeHAGIIZdABhL2E8dx5t/5msR5lh0xnaQ==
+tshy@1.16.1:
+  version "1.16.1"
+  resolved "https://registry.yarnpkg.com/tshy/-/tshy-1.16.1.tgz#5fa3e7fa00478ca284249a2e6f30adf8a3902198"
+  integrity sha512-OdPJKvTG/NS8Rtz18z0RzsgLKyceCNx+G+8B8wRjeoPmVbp8x57o3RgY5oq8ybxcebrILDyGXhFyvrDp5e/z0Q==
   dependencies:
     chalk "^5.3.0"
     chokidar "^3.6.0"
     foreground-child "^3.1.1"
     minimatch "^9.0.4"
     mkdirp "^3.0.1"
-    polite-json "^4.0.1"
+    polite-json "^5.0.0"
     resolve-import "^1.4.5"
     rimraf "^5.0.1"
     sync-content "^1.0.2"
-    typescript "^5.4.5"
+    typescript "5"
     walk-up-path "^3.0.1"
 
 tslib@^1.8.1:
@@ -4678,15 +4678,15 @@ typedoc@^0.26.2:
     shiki "^1.9.0"
     yaml "^2.4.5"
 
+typescript@5:
+  version "5.5.2"
+  resolved "https://registry.yarnpkg.com/typescript/-/typescript-5.5.2.tgz#c26f023cb0054e657ce04f72583ea2d85f8d0507"
+  integrity sha512-NcRtPEOsPFFWjobJEtfihkLCZCXZt/os3zf8nTxjVH3RvTSxjrCamJpbExGvYOF+tFHc3pA65qpdwPbzjohhew==
+
 typescript@5.4.5:
   version "5.4.5"
   resolved "https://registry.yarnpkg.com/typescript/-/typescript-5.4.5.tgz#42ccef2c571fdbd0f6718b1d1f5e6e5ef006f611"
   integrity sha512-vcI4UpRgg81oIRUFwR0WSIHKt11nJ7SAVlYNIu+QpqeyXP+gpQJy/Z4+F0aGxSE4MqwjyXvW/TzgkLAx2AGHwQ==
-
-typescript@^5.4.5:
-  version "5.5.2"
-  resolved "https://registry.yarnpkg.com/typescript/-/typescript-5.5.2.tgz#c26f023cb0054e657ce04f72583ea2d85f8d0507"
-  integrity sha512-NcRtPEOsPFFWjobJEtfihkLCZCXZt/os3zf8nTxjVH3RvTSxjrCamJpbExGvYOF+tFHc3pA65qpdwPbzjohhew==
 
 uc.micro@^2.0.0, uc.micro@^2.1.0:
   version "2.1.0"
