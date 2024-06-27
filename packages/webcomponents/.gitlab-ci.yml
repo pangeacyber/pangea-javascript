@@ -1,5 +1,5 @@
 .webcomponents_base:
-  image: node:20.12.2@sha256:3864be2201676a715cf240cfc17aec1d62459f92a7cbe7d32d1675e226e736c9
+  image: node:20.14.0@sha256:02cd2205818f121c13612721876f28c18bd50148bb8af532ea121c96ffcb59bf
   before_script:
     - cd packages/webcomponents
     - yarn install --frozen-lockfile
