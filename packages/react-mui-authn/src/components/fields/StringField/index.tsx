@@ -72,6 +72,7 @@ const StringField: FC<Props> = ({
         autoFocus={autoFocus}
         autoComplete={autoComplete}
         value={formik.values[name]}
+        placeholder={hideLabel ? label : ""}
         startAdornment={startAdornment}
         endAdornment={endIcon}
         {...emailProps}
