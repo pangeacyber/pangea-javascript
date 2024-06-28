@@ -21,7 +21,14 @@ const CheckboxField: FC<Props> = ({ name, label, formik }) => {
 
   return (
     <FormControlLabel
-      label={<Typography variant="body2">{label}</Typography>}
+      label={
+        <Typography
+          variant="body2"
+          sx={{ fontSize: "0.75em", fontWeight: "500" }}
+        >
+          {label}
+        </Typography>
+      }
       name={name}
       sx={{ textAlign: "left" }}
       control={<Checkbox checked={checked} onChange={handleChange} />}

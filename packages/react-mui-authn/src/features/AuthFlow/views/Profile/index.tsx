@@ -2,9 +2,11 @@ import { FC } from "react";
 import { useFormik } from "formik";
 import * as yup from "yup";
 import { Stack } from "@mui/material";
+import each from "lodash/each";
 
 import { AuthFlow } from "@pangeacyber/vanilla-js";
 
+import { validatePhoneNumber } from "@src/utils";
 import { AuthFlowComponentProps } from "@src/features/AuthFlow/types";
 import AuthFlowLayout from "../Layout";
 import IdField from "@src/components/fields/IdField";
@@ -44,6 +46,18 @@ const ProfileView: FC<AuthFlowComponentProps> = (props) => {
         validators[f.id] = yup.string();
       }
 
+      if (f.type === "email") {
+        validators[f.id] = validators[f.id]
+          .trim()
+          .email("Must be a valid email");
+      } else if (f.type === "phone") {
+        validators[f.id] = validators[f.id].test(
+          "ValidPhoneNumber",
+          "Must be a valid phone number",
+          (value: string) => (!value ? true : validatePhoneNumber(value))
+        );
+      }
+
       if (f.required) {
         validators[f.id] = validators[f.id].required("Required");
       }
@@ -57,6 +71,15 @@ const ProfileView: FC<AuthFlowComponentProps> = (props) => {
     validationSchema: validationSchema,
     validateOnBlur: true,
     onSubmit: (values) => {
+      // convert all values to strings
+      each(values, (v: any, k: string) => {
+        if (typeof v === "number") {
+          values[k] = v.toString();
+        } else if (typeof v === "boolean") {
+          values[k] = !!v ? "true" : "false";
+        }
+      });
+
       const payload: AuthFlow.ProfileParams = {
         profile: {
           ...values,
@@ -74,7 +97,7 @@ const ProfileView: FC<AuthFlowComponentProps> = (props) => {
         resetLabel={options.cancelLabel}
       />
       <form onSubmit={formik.handleSubmit}>
-        <Stack gap={1}>
+        <Stack gap={1} mt={1}>
           {data?.profile?.fields.map((field: AuthFlow.ProfileField) => {
             if (field.show_on_signup) {
               if (field.type === "boolean") {

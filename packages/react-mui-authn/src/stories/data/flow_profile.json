@@ -37,6 +37,41 @@
         "type": "string",
         "show_on_signup": true,
         "required": true
+      },
+      {
+        "id": "email",
+        "label": "Email",
+        "type": "email",
+        "show_on_signup": true,
+        "required": true
+      },
+      {
+        "id": "age",
+        "label": "Age",
+        "type": "integer",
+        "show_on_signup": true,
+        "required": true
+      },
+      {
+        "id": "check",
+        "label": "Checkbox",
+        "type": "boolean",
+        "show_on_signup": true,
+        "required": true
+      },
+      {
+        "id": "start_date",
+        "label": "Start Date",
+        "type": "date",
+        "show_on_signup": true,
+        "required": true
+      },
+      {
+        "id": "phone",
+        "label": "Phone",
+        "type": "phone",
+        "show_on_signup": true,
+        "required": true
       }
     ]
   }

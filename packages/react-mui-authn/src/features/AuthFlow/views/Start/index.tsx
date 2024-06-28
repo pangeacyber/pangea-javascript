@@ -63,6 +63,7 @@ const getUsernameField = (
         formik={formik}
         autoComplete={passkeyEnabled ? "username webauthn" : "username"}
         autoFocus={true}
+        hideLabel={true}
       />
     );
   }
@@ -75,6 +76,7 @@ const getUsernameField = (
         formik={formik}
         autoComplete={passkeyEnabled ? "phone webauthn" : "phone"}
         autoFocus={true}
+        hideLabel={true}
         startAdornment={
           <Typography color="textSecondary" sx={{ paddingRight: 1 }}>
             +1
@@ -92,6 +94,7 @@ const getUsernameField = (
       formik={formik}
       autoComplete={passkeyEnabled ? "email webauthn" : "email"}
       autoFocus={true}
+      hideLabel={true}
     />
   );
 };

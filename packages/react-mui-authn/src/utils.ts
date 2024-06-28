@@ -1,3 +1,4 @@
+import { parsePhoneNumber } from "awesome-phonenumber";
 import { PasswordPolicy } from "./types";
 
 // has number
@@ -95,9 +96,14 @@ export const cleanPhoneNumber = (value: string): string => {
   return numbers.startsWith("+1") ? numbers : `+1${numbers}`;
 };
 
-export const validatePhoneNumber = (value: string): boolean => {
-  const cleaned = cleanPhoneNumber(value);
-  return PHONE_REGEXP.test(cleaned);
+export const validatePhoneNumber = (value: string = ""): boolean => {
+  const pn = parsePhoneNumber(value, { regionCode: "US" });
+  return pn.valid;
+};
+
+export const formatPhoneNumber = (value: string = ""): string => {
+  const pn = parsePhoneNumber(value, { regionCode: "US" });
+  return pn.valid ? pn.number.international : value;
 };
 
 export const USERNAME_REGEXP = /^[0-9a-zA-Z+._+@-]{2,320}$/;

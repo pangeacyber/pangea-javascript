@@ -43,6 +43,7 @@ const AuthOnetimeEmail: FC<AuthFlowComponentProps> = (props) => {
             formik={formik}
             autoComplete="email"
             autoFocus={true}
+            hideLabel={true}
           />
           {error && <ErrorMessage response={error} />}
           <Button color="primary" type="submit" disabled={loading} fullWidth>
