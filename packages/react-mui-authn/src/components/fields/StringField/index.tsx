@@ -1,5 +1,5 @@
 import { FC, ReactNode, useEffect, useState } from "react";
-import { FormControl, OutlinedInput, Tooltip } from "@mui/material";
+import { FormControl, OutlinedInput, Tooltip, Typography } from "@mui/material";
 import { Check, ErrorRounded } from "@mui/icons-material";
 
 export interface Props {
@@ -9,6 +9,7 @@ export interface Props {
   type?: "text" | "email" | "number";
   autoFocus?: boolean;
   autoComplete?: string;
+  hideLabel?: boolean;
   changeHandler?: (e: React.ChangeEvent<any>) => void;
   startAdornment?: ReactNode;
 }
@@ -20,6 +21,7 @@ const StringField: FC<Props> = ({
   type = "text",
   autoFocus = false,
   autoComplete,
+  hideLabel = false,
   changeHandler,
   startAdornment,
 }) => {
@@ -52,6 +54,14 @@ const StringField: FC<Props> = ({
 
   return (
     <FormControl variant="outlined" fullWidth error={!!formik.errors[name]}>
+      {!hideLabel && (
+        <Typography
+          variant="body2"
+          sx={{ textAlign: "left", fontSize: "0.75em", fontWeight: "500" }}
+        >
+          {label}
+        </Typography>
+      )}
       <OutlinedInput
         id={`outlined-${name}`}
         name={name}
@@ -62,7 +72,7 @@ const StringField: FC<Props> = ({
         autoFocus={autoFocus}
         autoComplete={autoComplete}
         value={formik.values[name]}
-        placeholder={label}
+        placeholder={hideLabel ? label : ""}
         startAdornment={startAdornment}
         endAdornment={endIcon}
         {...emailProps}

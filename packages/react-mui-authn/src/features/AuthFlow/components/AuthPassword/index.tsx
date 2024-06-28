@@ -120,6 +120,7 @@ const AuthPassword: FC<AuthFlowComponentProps> = (props) => {
               formik={formik}
               autoComplete="email"
               autoFocus={true}
+              hideLabel={true}
             />
           )}
           <PasswordField

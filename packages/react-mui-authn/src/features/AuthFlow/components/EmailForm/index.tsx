@@ -48,6 +48,7 @@ const EmailForm: FC<Props> = ({
           label="Email"
           formik={formik}
           autoFocus={true}
+          hideLabel={true}
         />
         {error && <ErrorMessage response={error} />}
         <Button color="primary" type="submit" disabled={loading} fullWidth>

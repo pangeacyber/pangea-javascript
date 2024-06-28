@@ -28,7 +28,12 @@ const DateField: FC<Props> = ({ name, label, formik }) => {
     <LocalizationProvider dateAdapter={AdapterDayjs}>
       <DemoContainer components={["DatePicker"]} sx={{ paddingTop: "0" }}>
         <Stack width="100%" gap={0.5} alignItems="flex-start">
-          <Typography variant="body2">{label}</Typography>
+          <Typography
+            variant="body2"
+            sx={{ textAlign: "left", fontSize: "0.75em", fontWeight: "500" }}
+          >
+            {label}
+          </Typography>
           <DatePicker
             value={value}
             onChange={(newValue) => handleChange(newValue)}
