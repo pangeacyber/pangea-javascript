@@ -1555,8 +1555,6 @@ export namespace AuthN {
 
   export interface Profile {
     [key: string]: string | undefined;
-    first_name?: string;
-    last_name?: string;
   }
 
   export enum MFAProvider {
