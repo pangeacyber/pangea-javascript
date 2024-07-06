@@ -4564,10 +4564,10 @@ tsconfig-paths@^3.15.0:
     minimist "^1.2.6"
     strip-bom "^3.0.0"
 
-tshy@1.16.2:
-  version "1.16.2"
-  resolved "https://registry.yarnpkg.com/tshy/-/tshy-1.16.2.tgz#4c8046ffa865c23af83da45ae2b41bde18003387"
-  integrity sha512-WbjEtXENqbOEIdActBHq1bTJAaSAAD+NDxPdviDrFlvT5FCSWacWlWzSEB7FNLs5qqcP5bng/4W2TuNy1bY6NQ==
+tshy@1.17.0:
+  version "1.17.0"
+  resolved "https://registry.yarnpkg.com/tshy/-/tshy-1.17.0.tgz#e08e200e95480e19b2d58b1ddd0f9de4e25c9f76"
+  integrity sha512-95BrHQTZCrJ3LnoGQoDCv7PtyNKyIIY9A9FPgY04IpsmV0URmlI8OWjMkQWRONUAJqJeJCij9p8REXLuv+7MXg==
   dependencies:
     chalk "^5.3.0"
     chokidar "^3.6.0"
