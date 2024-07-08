@@ -316,7 +316,7 @@ jobs:
         run: yarn install --frozen-lockfile
 
       - name: Download locally built pangea-node-sdk
-        uses: actions/download-artifact@v4.1.7
+        uses: actions/download-artifact@v4.1.8
         with:
           name: pangea-node-sdk-package
           path: ./packages/pangea-node-sdk
