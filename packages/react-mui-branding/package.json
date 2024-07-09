@@ -15,8 +15,8 @@
   },
   "devDependencies": {
     "@babel/core": "^7.24.7",
-    "@mui/icons-material": "^5.15.21",
-    "@mui/material": "^5.15.21",
+    "@mui/icons-material": "^5.16.0",
+    "@mui/material": "^5.16.0",
     "@mui/types": "^7.2.14",
     "@rollup/plugin-babel": "^6.0.4",
     "@rollup/plugin-commonjs": "^26.0.1",
