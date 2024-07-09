@@ -26,6 +26,12 @@ export interface StoreProxyApiRef {
       ) => Promise<PangeaResponse<ObjectStore.GetResponse>>)
     | undefined;
 
+  buckets?:
+    | ((
+        data: ObjectStore.BucketsRequest
+      ) => Promise<PangeaResponse<ObjectStore.BucketsResponse>>)
+    | undefined;
+
   getArchive?:
     | ((
         data: ObjectStore.GetArchiveRequest
@@ -132,6 +138,8 @@ export namespace ObjectStore {
     */
 
   export interface ListRequest {
+    bucket_id?: string;
+
     filter?: Filter;
 
     last?: string;
@@ -141,6 +149,8 @@ export namespace ObjectStore {
   }
 
   export interface SingleShareCreateRequest {
+    bucket_id?: string;
+
     targets?: string[];
     link_type: string;
     expires_at?: string;
@@ -158,6 +168,8 @@ export namespace ObjectStore {
   }
 
   export interface ShareSendRequest {
+    bucket_id?: string;
+
     links: ShareLinkToSend[];
     sender_email: string;
     sender_name?: string;
@@ -169,10 +181,14 @@ export namespace ObjectStore {
   }
 
   export interface ShareCreateRequest {
+    bucket_id?: string;
+
     links: SingleShareCreateRequest[];
   }
 
   export interface ShareGetRequest {
+    bucket_id?: string;
+
     id: string;
   }
 
@@ -185,6 +201,8 @@ export namespace ObjectStore {
   }
 
   export interface ShareListRequest {
+    bucket_id?: string;
+
     filter?: Filter;
 
     last?: string;
@@ -342,6 +360,8 @@ export namespace ObjectStore {
      */
 
   export interface PutRequest {
+    bucket_id?: string;
+
     // TODO: Why is an id accepted?
     id?: string;
 
@@ -383,6 +403,8 @@ export namespace ObjectStore {
      */
 
   export interface FolderCreateRequest {
+    bucket_id?: string;
+
     name: string;
     path?: string;
 
@@ -397,6 +419,8 @@ export namespace ObjectStore {
   }
 
   export interface UpdateRequest {
+    bucket_id?: string;
+
     id: string;
 
     name?: string;
@@ -415,6 +439,8 @@ export namespace ObjectStore {
   export interface UpdateResponse {}
 
   export interface DeleteRequest {
+    bucket_id?: string;
+
     id?: string;
     path?: string;
 
@@ -437,6 +463,8 @@ export namespace ObjectStore {
      */
 
   export interface GetRequest {
+    bucket_id?: string;
+
     id: string;
     path?: string; // Optional?
 
@@ -452,6 +480,8 @@ export namespace ObjectStore {
   }
 
   export interface GetArchiveRequest {
+    bucket_id?: string;
+
     ids: string[];
     format?: string; // tar, zip
     transfer_method?: string; // direct, multipart
@@ -460,5 +490,17 @@ export namespace ObjectStore {
   export interface GetArchiveResponse {
     dest_url: string;
     objects: ObjectResponse[];
+  }
+
+  export interface BucketsRequest {}
+
+  export interface BucketInfo {
+    id: string;
+    name: string;
+    transfer_methods?: string[];
+  }
+
+  export interface BucketsResponse {
+    buckets: BucketInfo[];
   }
 }

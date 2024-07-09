@@ -175,6 +175,27 @@ StoreFileViewerDemo.args = {
           throw err;
         });
     },
+    buckets: async (body) => {
+      return axios
+        .post(
+          `https://share.${
+            import.meta.env.STORYBOOK_SERVICE_DOMAIN
+          }/v1beta/buckets`,
+          { ...body },
+          {
+            headers: {
+              Authorization: `Bearer ${import.meta.env.STORYBOOK_PANGEA_TOKEN}`,
+            },
+          }
+        )
+        .then((response) => {
+          return response.data;
+        })
+        .catch((err) => {
+          console.log(err);
+          throw err;
+        });
+    },
     get: async (body) => {
       return axios
         .post(

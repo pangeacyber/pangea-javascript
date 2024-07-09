@@ -42,7 +42,7 @@ const FolderPath: FC<Props> = ({ defaultHidden }) => {
 
   if (!!defaultHidden && !folders.length) return null;
   return (
-    <Box sx={{ paddingBottom: 1, marginLeft: -0.5 }}>
+    <Box>
       <Breadcrumbs
         separator={<NavigateNextIcon fontSize="small" />}
         aria-label="breadcrumb"

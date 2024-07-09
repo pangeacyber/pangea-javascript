@@ -39,7 +39,7 @@ import { alertOnError } from "../AlertSnackbar/hooks";
 export default function UploadPopover() {
   const theme = useTheme();
 
-  const { apiRef, reload, parent } = useStoreFileViewerContext();
+  const { apiRef, reload, parent, bucketId } = useStoreFileViewerContext();
   const uploads = useUploadPopover((state) => state.uploads);
 
   const [conflict, setConflict] = useState<
@@ -83,6 +83,7 @@ export default function UploadPopover() {
             parent_id: upload.parent?.id ?? parent?.id,
           }),
           name: name ?? upload.file.name ?? "unknown",
+          ...(!!bucketId && { bucket_id: bucketId }),
         }),
         "multipart/form-data"
       )
