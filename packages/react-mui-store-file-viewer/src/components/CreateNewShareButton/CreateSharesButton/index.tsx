@@ -1,17 +1,15 @@
 import {
   Button,
   ButtonProps,
-  IconButton,
   Stack,
   Typography,
   useMediaQuery,
 } from "@mui/material";
-import { FC, useEffect, useMemo, useState } from "react";
+import { FC, forwardRef, useEffect, useMemo, useState } from "react";
 import pickBy from "lodash/pickBy";
 import isEmpty from "lodash/isEmpty";
 
 import AddIcon from "@mui/icons-material/Add";
-import SettingsIcon from "@mui/icons-material/Settings";
 import { useTheme } from "@mui/material/styles";
 
 import {
@@ -26,7 +24,7 @@ import SendShareViaEmailModal from "../SendShareViaEmailButton/SendShareViaEmail
 import ShareSettings from "./ShareSettings";
 import { alertOnError } from "../../AlertSnackbar/hooks";
 
-const CreateButton: FC<ButtonProps> = (props) => {
+const CreateButton = forwardRef<any, ButtonProps>((props, ref) => {
   // @ts-ignore
   const isSaving = props?.children?.endsWith("...");
 
@@ -44,8 +42,12 @@ const CreateButton: FC<ButtonProps> = (props) => {
     label = "Create SMS secured links";
   }
 
-  return <Button {...props}>{isSaving ? "Sending..." : label}</Button>;
-};
+  return (
+    <Button ref={ref} {...props}>
+      {isSaving ? "Sending..." : label}
+    </Button>
+  );
+});
 
 interface Props {
   object: ObjectStore.ObjectResponse;
