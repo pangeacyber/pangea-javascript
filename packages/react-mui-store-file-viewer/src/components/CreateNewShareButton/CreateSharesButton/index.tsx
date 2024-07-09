@@ -256,6 +256,7 @@ const CreateSharesButton: FC<Props> = ({
               });
             }}
             disabled={loading || settingsError}
+            // @ts-ignore
             SaveButton={CreateButton}
             StackSx={{
               ".MuiFormControl-root": {
