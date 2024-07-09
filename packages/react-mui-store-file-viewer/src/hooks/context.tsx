@@ -330,7 +330,6 @@ export const useStoreFileViewerBuckets = () => {
   const [buckets, setBuckets] = useState<ObjectStore.BucketInfo[]>([]);
 
   const handleFetchBuckets = async () => {
-    console.log("HERE", apiRef?.buckets);
     if (!apiRef.buckets) {
       setBuckets([]);
       return;
