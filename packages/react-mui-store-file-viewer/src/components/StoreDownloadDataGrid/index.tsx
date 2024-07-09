@@ -28,6 +28,7 @@ import DataGridParentStack from "../StoreDataGrid/DataGridParentStack";
 import UploadPopover from "../UploadPopover";
 import { downloadFile } from "../../utils/file";
 import DownloadPopover from "../DownloadPasswordPopover";
+import BucketSelector from "../StoreDataGrid/BucketSelector";
 
 export const DEFAULT_VISIBILITY_MODEL = {
   name: true,
@@ -223,7 +224,13 @@ const StoreDownloadDataGrid: FC<StoreDataGridProps> = ({
             justifyContent="space-between"
             width="100%"
           >
-            <Stack>
+            <Stack
+              direction="row"
+              alignItems="center"
+              spacing={1}
+              sx={{ paddingBottom: 1, marginLeft: -0.5 }}
+            >
+              <BucketSelector />
               <FolderPath defaultHidden />
             </Stack>
             {multiSelected.length >= 1 && (

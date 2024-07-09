@@ -17,10 +17,11 @@ import {
 } from "../types";
 import {
   PangeaListRequestProps,
-  PasswordPolicy,
   usePangeaListRequest,
 } from "@pangeacyber/react-mui-shared";
 import AlertsSnackbar from "../components/AlertSnackbar";
+import { alertOnError } from "../components/AlertSnackbar/hooks";
+import { useBucketAwareApiRef } from "./utils";
 
 export interface StoreFileViewerContextProps {
   apiRef: StoreProxyApiRef;
@@ -28,6 +29,9 @@ export interface StoreFileViewerContextProps {
 
   data: ObjectStore.ListResponse;
   error: PangeaError | undefined;
+
+  bucketId: string | undefined;
+  setBucketId: Dispatch<SetStateAction<string | undefined>>;
 
   reload: () => void;
   loading: boolean;
@@ -54,6 +58,9 @@ const DEFAULT_LIST_RESPONSE = {
 const DEFAULT_LIST_REQUEST_PROPS = {
   page: 0,
   setPage: () => {},
+
+  bucketId: "",
+  setBucketId: () => {},
 
   pageSize: 0,
   setPageSize: () => {},
@@ -84,6 +91,9 @@ const StoreFileViewerContext = createContext<StoreFileViewerContextProps>({
 
   request: DEFAULT_LIST_REQUEST_PROPS,
 
+  bucketId: undefined,
+  setBucketId: () => {},
+
   previewId: undefined,
   setPreviewId: () => {},
 
@@ -108,14 +118,17 @@ export interface StoreFileViewerProviderProps {
 
 const StoreFileViewerProvider: FC<StoreFileViewerProviderProps> = ({
   children,
-  apiRef,
+  apiRef: apiRefProp,
   configurations,
   defaultFilter,
   defaultSort,
   defaultSortBy,
   defaultShareLinkTitle,
 }) => {
+  const [bucketId, setBucketId] = useState<string>();
   const [loading, setLoading] = useState(false);
+
+  const apiRef = useBucketAwareApiRef(apiRefProp, bucketId);
 
   const defaultFilterWithFolder = useMemo(() => {
     return {
@@ -232,14 +245,14 @@ const StoreFileViewerProvider: FC<StoreFileViewerProviderProps> = ({
     } else {
       setParent(undefined);
     }
-  }, [request.filters.parent_id, request.filters.folder]);
+  }, [apiRef.list, request.filters.parent_id, request.filters.folder]);
 
   useEffect(() => {
     search();
     return () => {
       setLoading(false);
     };
-  }, [request.body]);
+  }, [apiRef.list, request.body]);
 
   return (
     <StoreFileViewerContext.Provider
@@ -248,6 +261,9 @@ const StoreFileViewerProvider: FC<StoreFileViewerProviderProps> = ({
         configurations,
         data,
         error,
+
+        bucketId,
+        setBucketId,
 
         reload: search,
         loading: loading && !data?.objects?.length,
@@ -305,6 +321,45 @@ export const useStoreFileViewerFolder = () => {
         : "/",
     setFolder,
     setParentId,
+  };
+};
+
+export const useStoreFileViewerBuckets = () => {
+  const { apiRef, bucketId, setBucketId } = useStoreFileViewerContext();
+
+  const [buckets, setBuckets] = useState<ObjectStore.BucketInfo[]>([]);
+
+  const handleFetchBuckets = async () => {
+    if (!apiRef.buckets) {
+      setBuckets([]);
+      return;
+    }
+
+    return apiRef
+      .buckets({})
+      .then((response) => {
+        // Instead we need to prompt open the modal
+        const buckets = response?.result?.buckets ?? [];
+        if (buckets.length) {
+          setBuckets(buckets);
+        }
+      })
+      .catch((err) => {
+        alertOnError(err);
+
+        return false;
+      });
+  };
+
+  useEffect(() => {
+    handleFetchBuckets();
+  }, [apiRef?.buckets]);
+
+  return {
+    bucketId,
+    setBucketId,
+
+    buckets,
   };
 };
 
