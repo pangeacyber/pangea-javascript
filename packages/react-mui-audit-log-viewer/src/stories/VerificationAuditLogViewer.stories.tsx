@@ -5,6 +5,7 @@ import AuditLogViewer, { AuditLogViewerProps } from "../AuditLogViewer";
 import { Box } from "@mui/material";
 import PangeaThemeProvider from "./theme/pangea/provider";
 import { Audit } from "../types";
+import { handle202Response } from "./utils";
 
 export default {
   title: "AuditLogViewer",
@@ -118,7 +119,7 @@ export const VerificationAuditLogViewer: {
 
 VerificationAuditLogViewer.args = {
   searchOnChange: false,
-  searchOnFilterChange: true,
+  // searchOnFilterChange: true,
   fpeOptions: {
     highlightRedaction: true,
   },
@@ -139,7 +140,15 @@ VerificationAuditLogViewer.args = {
         },
       }
     )
-      .then((res) => res.json())
+      .then(async (res) =>
+        handle202Response(
+          await res.json(),
+          {
+            Authorization: `Bearer ${process.env.STORYBOOK_PANGEA_TOKEN}`,
+          },
+          5
+        )
+      )
       .then((response) => response?.result)
       .catch((err) => {
         console.log(err);
