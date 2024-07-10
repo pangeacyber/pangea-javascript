@@ -103,7 +103,59 @@ PagingDataGrid.args = {
       width: 200,
     },
     {
-      field: "description",
+      field: "description1",
+      flex: 10,
+    },
+    {
+      field: "description2",
+      flex: 10,
+    },
+    {
+      field: "description3",
+      flex: 10,
+    },
+    {
+      field: "description4",
+      flex: 10,
+    },
+    {
+      field: "description5",
+      flex: 10,
+    },
+    {
+      field: "description6",
+      flex: 10,
+    },
+    {
+      field: "description7",
+      flex: 10,
+    },
+    {
+      field: "description8",
+      flex: 10,
+    },
+    {
+      field: "description9",
+      flex: 10,
+    },
+    {
+      field: "description10",
+      flex: 10,
+    },
+    {
+      field: "description11",
+      flex: 10,
+    },
+    {
+      field: "description12",
+      flex: 10,
+    },
+    {
+      field: "description13",
+      flex: 10,
+    },
+    {
+      field: "description14",
       flex: 10,
     },
   ],
