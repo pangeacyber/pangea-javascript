@@ -30,6 +30,7 @@ import {
 import { useComponentAuth } from "~/src/ComponentAuthProvider";
 import AuthNFlowClient from "./client";
 
+/** interface description */
 export interface AuthFlowContextType {
   step?: FlowStep;
   error: APIResponse | undefined;
@@ -40,16 +41,28 @@ export interface AuthFlowContextType {
   cbParams?: CallbackParams;
 }
 
+/**
+ * interface description
+ */
 export interface AuthFlowProviderProps {
+  /** description of children prop */
   children: ReactNode;
 }
 
 const SESSION_DATA_NAME = "pangea-authn-flow";
 
+/**
+ * AuthFlowContext description
+ */
 export const AuthFlowContext = createContext<AuthFlowContextType>(
   {} as AuthFlowContextType
 );
 
+/**
+ * description of the function
+ * @param param0 
+ * @returns this is what this function returns
+ */
 export const AuthFlowProvider: FC<AuthFlowProviderProps> = ({ children }) => {
   const { client, cbParams, setFlowComplete } = useComponentAuth();
 
@@ -69,6 +82,7 @@ export const AuthFlowProvider: FC<AuthFlowProviderProps> = ({ children }) => {
   const [flowData, setFlowState] = useState<FlowState>({});
 
   // load data from local storage, and params from URL
+
   useEffect(() => {
     const sessionData = getSessionData();
     const initFlowState: FlowState = {
