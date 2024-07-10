@@ -200,7 +200,7 @@ export const useAuditColumns = <Event,>(
           sortable: field.type !== "string-unindexed", // FIXME: What fields exactly should be sortable
           width: 150,
           ...(field.type === "datetime" && {
-            width: 180,
+            width: 194,
           }),
           ...(isLarge
             ? {

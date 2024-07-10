@@ -403,7 +403,6 @@ const FieldsForm: FC<FieldsFormProps> = ({
                       })
                       .join("\n\n")
                   }
-                  hidden={isEmpty(formik?.errors ?? {})}
                 >
                   <SaveButton
                     color="primary"
