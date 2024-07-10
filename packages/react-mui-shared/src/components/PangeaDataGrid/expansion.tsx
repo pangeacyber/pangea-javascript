@@ -1,12 +1,38 @@
 import { FC, useState, useEffect, ReactNode } from "react";
 import { Collapse, Box } from "@mui/material";
-import { GridRow, GridRowProps, GridColDef } from "@mui/x-data-grid";
+import {
+  GridRow,
+  GridRowProps,
+  GridColDef,
+  GridRenderCellParams,
+} from "@mui/x-data-grid";
 
 import { Stack, IconButton } from "@mui/material";
 import KeyboardArrowRightIcon from "@mui/icons-material/KeyboardArrowRight";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 
 export const EXPAND_COLUMN = "__expand__";
+
+const ExpandCell: FC<{ params: GridRenderCellParams<any, any> }> = ({
+  params,
+}) => {
+  const open = params.row?._state?.rowOpen ?? false;
+  const setOpen = (open: boolean) => {
+    params.row?._state?.setRowOpen(open);
+  };
+
+  return (
+    <Stack direction="row" sx={{ marginLeft: "auto" }}>
+      <IconButton onClick={() => !!setOpen && setOpen(!open)}>
+        {open ? (
+          <KeyboardArrowDownIcon fontSize="small" color="action" />
+        ) : (
+          <KeyboardArrowRightIcon fontSize="small" color="action" />
+        )}
+      </IconButton>
+    </Stack>
+  );
+};
 
 export const constructExpandColumn = <T extends any = any>(
   renderExpandedRow: (object: T, open: boolean) => ReactNode,
@@ -21,22 +47,7 @@ export const constructExpandColumn = <T extends any = any>(
     filterable: false,
     headerName: "",
     renderCell: (params) => {
-      const open = params.row?._state?.rowOpen ?? false;
-      const setOpen = (open: boolean) => {
-        params.row?._state?.setRowOpen(open);
-      };
-
-      return (
-        <Stack direction="row" sx={{ marginLeft: "auto" }}>
-          <IconButton onClick={() => !!setOpen && setOpen(!open)}>
-            {open ? (
-              <KeyboardArrowDownIcon fontSize="small" color="action" />
-            ) : (
-              <KeyboardArrowRightIcon fontSize="small" color="action" />
-            )}
-          </IconButton>
-        </Stack>
-      );
+      return <ExpandCell params={params} />;
     },
     ...overrides,
     // @ts-ignore
@@ -67,7 +78,7 @@ export const ExpandableRow: FC<GridRowProps> = (props) => {
   const getExpandedRow = !!expansionColumn && expansionColumn.renderExpandedRow;
   return (
     <>
-      <GridRow {...props} {...gridRowProps} />
+      <GridRow key={`${props.rowId}-${open}`} {...props} {...gridRowProps} />
 
       {!!getExpandedRow && (
         <Collapse in={open} timeout={0}>
