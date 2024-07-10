@@ -209,7 +209,7 @@ const StoreDataGrid: FC<StoreDataGridProps> = ({
         onRowDoubleClick={(params) => {
           if (params.row.type === ObjectStore.ObjectType.Folder) {
             setParentId(params.row.id);
-            /** 
+            /**
             setFolder(
                 ["", folder, params.row.name].join("/").replaceAll("//", "/")
             );

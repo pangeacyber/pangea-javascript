@@ -235,6 +235,17 @@ jobs:
       - name: Prettier
         run: yarn lint
 
+  lint-pre-commit:
+    # Skip pre-commit on `main` because the `no-commit-to-branch` hook won't
+    # allow it.
+    if: ${{ github.ref != 'refs/heads/main' }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4.1.7
+
+      - uses: pre-commit/action@v3.0.1
+
   test-unit:
     needs: [build-pangea-node-sdk]
     runs-on: ubuntu-latest

@@ -4,4 +4,5 @@
 brew install pre-commit
 
 echo "Installing pre-commit hooks"
-pre-commit install
+yarn install --frozen-lockfile
+yarn prepare
