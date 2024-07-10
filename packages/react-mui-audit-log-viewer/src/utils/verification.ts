@@ -115,7 +115,7 @@ export const verifyMembershipProof = async ({
 
   /**
    * Skipped from crypto issues
-   * 
+   *
     const proofs = constructProof(record.membership_proof);
     return merkleTools.validateProof(
       // @ts-ignore
