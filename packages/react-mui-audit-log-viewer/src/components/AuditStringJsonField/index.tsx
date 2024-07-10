@@ -135,7 +135,7 @@ export const DateTimeField: FC<StringFieldProps> = (props) => {
         {props.title}
       </Typography>
       <Container sx={{ padding: "4px!important", width: "fit-content" }}>
-        <DateTimeFilter value={dateTimeString} field={props.field}>
+        <DateTimeFilter value={props.value} field={props.field}>
           <Typography variant="body2" {...StringFieldTypographyProps}>
             {dateTimeString}
           </Typography>

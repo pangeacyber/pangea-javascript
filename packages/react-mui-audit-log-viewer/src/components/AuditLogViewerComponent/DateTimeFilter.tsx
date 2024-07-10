@@ -79,7 +79,7 @@ const DateTimeFilter: FC<Props> = ({ value, field, children }) => {
         >
           <MenuItem
             onClick={() => {
-              setQueryObj((state) => ({ ...state, [field]: value }));
+              setQueryObj((state) => ({ ...state, [field]: `"${value}"` }));
               handleCloseFilter();
             }}
           >
@@ -90,7 +90,7 @@ const DateTimeFilter: FC<Props> = ({ value, field, children }) => {
               setQueryObj((state) => ({
                 ...state,
                 [field]: {
-                  value,
+                  value: `"${value}"`,
                   operation: FieldFilter.LessThan,
                 },
               }));
@@ -104,7 +104,7 @@ const DateTimeFilter: FC<Props> = ({ value, field, children }) => {
               setQueryObj((state) => ({
                 ...state,
                 [field]: {
-                  value,
+                  value: `"${value}"`,
                   operation: FieldFilter.GreaterThan,
                 },
               }));
