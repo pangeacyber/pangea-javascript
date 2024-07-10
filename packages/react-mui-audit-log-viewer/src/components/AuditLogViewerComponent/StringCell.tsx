@@ -22,7 +22,7 @@ export const StringCell: FC<{
   let changes: Change[] = [
     {
       // @ts-ignore
-      value: `${value}`,
+      value: value,
     },
   ];
 
