@@ -13,6 +13,7 @@ import {
 import { JsonViewer } from "@pangeacyber/react-mui-shared";
 // FIXME: Diff needs to be split out to react-mui-shared
 import { Change } from "../../hooks/diff";
+import DateTimeFilter from "../AuditLogViewerComponent/DateTimeFilter";
 
 export const ChangesTypography: FC<{
   value: string;
@@ -109,6 +110,8 @@ export const StringField: FC<StringFieldProps> = ({
 };
 
 export const DateTimeField: FC<StringFieldProps> = (props) => {
+  const direction = props.inRow ? "column" : "row";
+
   const dateTimeString = useMemo(() => {
     let dateTimeString = "-";
     if (props.value) {
@@ -126,7 +129,20 @@ export const DateTimeField: FC<StringFieldProps> = (props) => {
     return dateTimeString;
   }, [props.value]);
 
-  return <StringField {...props} value={dateTimeString} />;
+  return (
+    <Stack spacing={1} direction={direction} alignItems="start">
+      <Typography variant="body2" sx={{ width: "120px", paddingTop: "4px" }}>
+        {props.title}
+      </Typography>
+      <Container sx={{ padding: "4px!important", width: "fit-content" }}>
+        <DateTimeFilter value={dateTimeString} field={props.field}>
+          <Typography variant="body2" {...StringFieldTypographyProps}>
+            {dateTimeString}
+          </Typography>
+        </DateTimeFilter>
+      </Container>
+    </Stack>
+  );
 };
 
 const parseJson = (value: any): object | null => {
