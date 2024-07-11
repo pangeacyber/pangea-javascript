@@ -119,7 +119,8 @@ export const VerificationAuditLogViewer: {
 
 VerificationAuditLogViewer.args = {
   searchOnChange: false,
-  // searchOnFilterChange: true,
+  searchOnMount: false,
+  searchOnFilterChange: false,
   fpeOptions: {
     highlightRedaction: true,
   },
