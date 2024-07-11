@@ -123,8 +123,8 @@ export class AuthNClient {
   }
   
   /**
-   * description
-   * @returns description
+   * description of the function
+   * @returns description of the return value
    */
   getOptions(): AxiosRequestConfig<unknown> {
     return {

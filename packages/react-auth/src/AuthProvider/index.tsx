@@ -61,6 +61,8 @@ export interface AuthProviderProps {
   cookieOptions?: CookieOptions;
 
   /**
+   * redirectUri: optional string
+   *
    * When passed in, <AuthProvider /> will use this value as
    * redirect URI when going through the login/logout flow
    *
@@ -126,9 +128,9 @@ const LAST_PATH_KEY = "last-path";
 const AuthContext = createContext<AuthContextType>({} as AuthContextType);
 
 /**
- * description
+ * here is the description of the authprovider function
  * @param param0 - description
- * @returns description
+ * @returns auth provider return this or that
  */
 export const AuthProvider: FC<AuthProviderProps> = ({
   loginUrl,
