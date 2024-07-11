@@ -49,6 +49,7 @@ export interface ViewerProps<Event = Audit.DefaultEvent> {
   filters?: PublicAuditQuery;
   searchOnChange?: boolean;
   searchOnFilterChange?: boolean;
+  searchOnMount?: boolean;
 }
 
 const AuditLogViewerComponent: FC<ViewerProps> = ({
@@ -60,8 +61,10 @@ const AuditLogViewerComponent: FC<ViewerProps> = ({
   sx = {},
   dataGridProps = {},
   fields,
+
   searchOnChange = true,
   searchOnFilterChange = true,
+  searchOnMount = true,
 }) => {
   const {
     visibilityModel,
@@ -86,6 +89,8 @@ const AuditLogViewerComponent: FC<ViewerProps> = ({
   const filterFields = useAuditFilterFields(schema);
   const conditionalOptions = useAuditConditionalOptions(schema);
 
+  const hasMountedRef = useRef(false);
+
   const bodyRef = useRef(body);
   bodyRef.current = body;
 
@@ -95,13 +100,27 @@ const AuditLogViewerComponent: FC<ViewerProps> = ({
   };
 
   useEffect(() => {
-    if (!!bodyWithoutQuery && searchOnFilterChange && !searchOnChange) {
+    if (
+      !!bodyWithoutQuery &&
+      (searchOnFilterChange || searchOnMount) &&
+      !searchOnChange
+    ) {
+      if (!searchOnFilterChange && hasMountedRef.current === true) {
+        return;
+      }
+
+      if (!searchOnMount && hasMountedRef.current === false) {
+        hasMountedRef.current = true;
+        return;
+      }
+
+      hasMountedRef.current = true;
       setTimeout(() => {
         handleSearch();
         // Add slight delay since since filters may update the query string
       }, 100);
     }
-  }, [bodyWithoutQuery, searchOnFilterChange, searchOnChange]);
+  }, [bodyWithoutQuery, searchOnFilterChange, searchOnMount, searchOnChange]);
 
   useEffect(() => {
     if (!!body && searchOnChange) handleSearch();
