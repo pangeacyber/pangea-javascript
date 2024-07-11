@@ -2253,16 +2253,47 @@ export namespace AuthN {
         username?: string;
       }
 
+      /** Authenticator. */
       export interface Authenticator {
+        /** An ID for an authenticator. */
         id: string;
+
+        /** An authentication mechanism. */
         type: string;
-        enable: boolean;
+
+        /** Enabled. */
+        enabled: boolean;
+
+        /** Provider. */
         provider?: string;
+
+        /** Provider name. */
+        provider_name?: string;
+
+        /** RPID. */
         rpid: string;
+
+        /** Phase. */
         phase: string;
+
+        /** Enrolling browser. */
+        enrolling_browser?: string;
+
+        /** Enrolling IP. */
+        enrolling_ip?: string;
+
+        /** A time in ISO-8601 format. */
+        created_at: string;
+
+        /** A time in ISO-8601 format. */
+        updated_at: string;
+
+        /** State. */
+        state?: string;
       }
 
       export interface ListResult {
+        /** A list of authenticators. */
         authenticators: Authenticator[];
       }
     }

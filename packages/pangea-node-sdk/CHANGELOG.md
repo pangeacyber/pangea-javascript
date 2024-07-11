@@ -13,6 +13,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - CommonJS support.
 - Vault `/export` support.
 - AuthN user password expiration support.
+- `"state"` and other new properties to `AuthN.User.Authenticators.Authenticator`.
+
+### Changed
+
+- `enable` in `AuthN.User.Authenticators.Authenticator` has been renamed to
+  `enabled`. The previous name did not match the name used in the API's response
+  schema so it was unusable anyways.
 
 ## [3.9.0] - 2024-06-07
 
