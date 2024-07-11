@@ -31,25 +31,20 @@ export interface Profile {
   phone: string;
 }
 
+/** interface description */
 export interface AuthConfig {
   /**
-   * clientToken: required string
-   *
    * A Pangea client access token.
    */
   clientToken: string;
 
   /**
-   * domain: required string
-   *
    * The domain where the Pangea project was created.
-   * i.e. aws.us.pangea.cloud
+   * @example aws.us.pangea.cloud
    */
   domain: string;
 
   /**
-   * callbackUri: optional string
-   *
    * The URI that the hosted pages will redirect to after login
    *
    * Defaults to window.location.orgin
@@ -57,16 +52,12 @@ export interface AuthConfig {
   callbackUri?: string;
 
   /**
-   * useJwt: optional boolean
-   *
    * If set to true, expect the token to be in JWT format and
    * use client-side token verification.
    */
   useJwt?: boolean;
 
   /**
-   * sessionKey: optional string
-   *
    * Sets the name of the session data key in local or session
    * storage.
    *

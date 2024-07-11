@@ -26,10 +26,10 @@ export namespace Audit {
     timestamp?: string;
     tenant_id?: string;
 
-    // FIXME: This is part of Envelope
+    /** FIXME: This is part of Envelope */
     received_at?: string;
 
-    // Internal Field
+    /** Internal Field */
     err?: string;
   }
 
@@ -47,10 +47,11 @@ export namespace Audit {
     hash?: string;
     published?: boolean;
 
-    // Only present in logs if record is signed by Vault
+    /** Only present in logs if record is signed by Vault */
     valid_signature?: boolean;
 
-    fpe_context?: string; // Present if fpe redection was used against the log
+    /** Present if fpe redection was used against the log */
+    fpe_context?: string;
   }
 
   export interface FlattenedAuditRecord<Event = DefaultEvent>
@@ -58,7 +59,7 @@ export namespace Audit {
       Envelope {
     id: number;
 
-    // Internal Field
+    /** Internal Field */
     err?: string;
   }
 
@@ -93,38 +94,52 @@ export namespace Audit {
     loggedCount: number;
   }
 
+  /**
+   * comment
+   */
   export interface SearchRequest<Event = DefaultEvent> {
-    // Search fields
+
+    /** Search fields */
     query: string;
     start?: string;
     end?: string;
     search_restriction?: Record<keyof Event, string[]>;
     order_by?: string;
     order?: string;
-    // Result fields
+    
+    /** Result fields */
     limit?: number;
-    // Optional include params
+    
+    /** Optional include params */
     verbose?: boolean;
 
     max_results?: number;
 
-    return_context?: boolean; // Used to indicate if fpe_context should be returned back with logs
+    /** Used to indicate if fpe_context should be returned back with logs */
+    return_context?: boolean; 
   }
 
+  /** comment */
   export interface ResultRequest {
-    id: string; // FIXME: This field name is probably changing
+
+    /** FIXME: This field name is probably changing */
+    id: string;
     offset?: number;
     limit?: number;
     max_results?: number;
 
-    return_context?: boolean; // Used to indicate if fpe_context should be returned back with logs
+    /** Used to indicate if fpe_context should be returned back with logs */
+    return_context?: boolean;
   }
 
+  /** comment */
   export interface DownloadResultRequest {
-    result_id: string; // FIXME: This field name is probably changing
+    /** FIXME: This field name is probably changing */
+    result_id: string;
     format: "csv" | "json";
 
-    return_context?: boolean; // Used to indicate if fpe_context should be returned back with logs
+    /** Used to indicate if fpe_context should be returned back with logs */
+    return_context?: boolean;
   }
 
   export interface RootRequest {
@@ -164,15 +179,17 @@ export namespace Audit {
   }
 
   export interface SchemaField {
-    id: string; // ^[a-z][a-z_]*$
 
-    // Safe
+    /** ^[a-z][a-z_]*$ */
+    id: string;
+
+    /** Safe */
     description?: string;
     name: string;
 
     ui_default_visible?: boolean;
 
-    // Breaking
+    /** Breaking */
     required?: boolean;
     size?: number;
     type:
@@ -193,12 +210,20 @@ export namespace Audit {
   }
 }
 
+/** comment */
 export interface AuthConfig {
+  /** comment */
   clientToken: string;
+
+  /** comment */
   domain: string;
+
+  /** comment */
   configId?: string;
 }
 
+/** comment */
 export interface SchemaOptions {
+  /** comment */
   hiddenFields?: string[];
 }
