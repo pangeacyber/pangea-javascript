@@ -1,4 +1,4 @@
 {
     "entryPoints": ["./src/AuditLogViewer.tsx", "./src/types/*.ts"],
-    "json": "data.json"
+    "json": "/docs/data.json"
 }

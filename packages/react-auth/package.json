@@ -28,7 +28,8 @@
   "license": "MIT",
   "packageManager": "yarn@1.22.22",
   "scripts": {
-    "build": "parcel build && cp dist/index.d.ts dist/index.d.mts",
+    "build": "yarn build-docs && parcel build && cp dist/index.d.ts dist/index.d.mts",
+    "build-docs": "yarn typedoc",
     "lint-attw": "attw --pack",
     "lint-publint": "publint --strict",
     "prepack": "npm run build",

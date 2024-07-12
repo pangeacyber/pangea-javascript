@@ -1,4 +1,4 @@
 {
     "entryPoints": ["./src/*/index.tsx", "./src/AuthNFlow/provider.tsx", "./src/*.ts"],
-    "json": "data.json"
+    "json": "/docs/data.json"
 }

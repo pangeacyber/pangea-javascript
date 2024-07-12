@@ -11,7 +11,8 @@
   "scripts": {
     "storybook": "start-storybook -p 6006",
     "build-storybook": "build-storybook",
-    "build": "NODE_ENV=production rollup -c",
+    "build-docs": "yarn typedoc",
+    "build": "yarn build-docs && NODE_ENV=production rollup -c",
     "test": "jest"
   },
   "devDependencies": {

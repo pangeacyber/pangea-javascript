@@ -6,7 +6,7 @@ image: /img/og/open-graph-redact.jpg
 
 # Development
 
-<Headline>Learn how to develop the Audit Log Viewer</Headline>
+### Learn how to develop the Audit Log Viewer
 
 ## Pre-requisites
 

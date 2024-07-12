@@ -11,10 +11,7 @@ import Headline from "@src/components/Headline";
 
 # Quickstart
 
-<Headline>
-  The Audit Log Viewer is meant to be employed with the Secure Audit Log service
-  to interact with audit log data.
-</Headline>
+### The Audit Log Viewer is meant to be employed with the Secure Audit Log service to interact with audit log data.
 
 ## Overview
 
@@ -80,5 +77,3 @@ To enable FPE highlighting do X Y Z:
 
 - term1
 - term2
-
-<HelpfulVote voteId="audit-log-viewer/index" />
