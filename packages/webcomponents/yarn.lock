@@ -1521,15 +1521,15 @@
     react-json-view "^1.21.3"
     yup "^1.4.0"
 
-"@pangeacyber/react-mui-store-file-viewer@^0.0.45":
-  version "0.0.45"
-  resolved "https://registry.yarnpkg.com/@pangeacyber/react-mui-store-file-viewer/-/react-mui-store-file-viewer-0.0.45.tgz#413927f7ffe75561b0a6c78e9fae01ab36922b18"
-  integrity sha512-8Ye1nG36Bue0gJXIA8bTjHCZzVNWCvt/oyPQ3YV1KkW5aC3cjGPixwXGhjCbRueJG/twA/xg+eVxZmlLUnzmZw==
+"@pangeacyber/react-mui-store-file-viewer@^0.0.49":
+  version "0.0.49"
+  resolved "https://registry.yarnpkg.com/@pangeacyber/react-mui-store-file-viewer/-/react-mui-store-file-viewer-0.0.49.tgz#2a8d1ca179cde184639b5569d6d7bac6d34bb8ec"
+  integrity sha512-BVoL7AECXgWIjE5bmd9r2VE7tWX2/a2egi6vnFvi6V29uFW0mt5Yvw3vY6e5vwZ9lTIGwFbGfLGBCMrC5ncc7g==
   dependencies:
-    "@pangeacyber/react-mui-shared" "0.0.63"
+    "@pangeacyber/react-mui-shared" "0.0.64"
     axios "^1.7.2"
     lodash "^4.17.21"
-    zustand "^4.5.2"
+    zustand "^4.5.4"
 
 "@parcel/bundler-default@2.12.0":
   version "2.12.0"
@@ -4352,7 +4352,7 @@ yup@^1.4.0:
     toposort "^2.0.2"
     type-fest "^2.19.0"
 
-zustand@^4.5.2:
+zustand@^4.5.4:
   version "4.5.4"
   resolved "https://registry.yarnpkg.com/zustand/-/zustand-4.5.4.tgz#63abdd81edfb190bc61e0bbae045cc4d52158a05"
   integrity sha512-/BPMyLKJPtFEvVL0E9E9BTUM63MNyhPGlvxk1XjrfWTUlV+BR8jufjsovHzrtR6YNcBEcL7cMHovL1n9xHawEg==
