@@ -1448,7 +1448,7 @@
     prop-types "^15.8.1"
     react-is "^18.2.0"
 
-"@mui/x-data-grid@^6.20.0":
+"@mui/x-data-grid@^6.20.0", "@mui/x-data-grid@^6.20.3":
   version "6.20.3"
   resolved "https://registry.yarnpkg.com/@mui/x-data-grid/-/x-data-grid-6.20.3.tgz#8fe6f8b04360c75f58d6034dfac11e31538bd719"
   integrity sha512-VVggwKiEgMdkVqpORZEBgSqcpuBoVKMwYZnO+Q8vns2+otpiFE4yr52TZjKkF+ugDPgZ4rcq8mlj4VsK83XiMQ==
@@ -1459,7 +1459,7 @@
     prop-types "^15.8.1"
     reselect "^4.1.8"
 
-"@mui/x-date-pickers@^6.20.0":
+"@mui/x-date-pickers@^6.20.0", "@mui/x-date-pickers@^6.20.2":
   version "6.20.2"
   resolved "https://registry.yarnpkg.com/@mui/x-date-pickers/-/x-date-pickers-6.20.2.tgz#b1b1e4862daafb750496cc77a1645caeac28a739"
   integrity sha512-x1jLg8R+WhvkmUETRfX2wC+xJreMii78EXKLl6r3G+ggcAZlPyt0myID1Amf6hvJb9CtR7CgUo8BwR+1Vx9Ggw==
@@ -1472,12 +1472,12 @@
     prop-types "^15.8.1"
     react-transition-group "^4.4.5"
 
-"@pangeacyber/react-mui-audit-log-viewer@^0.0.81":
-  version "0.0.81"
-  resolved "https://registry.yarnpkg.com/@pangeacyber/react-mui-audit-log-viewer/-/react-mui-audit-log-viewer-0.0.81.tgz#bba3500126645ec684b0fe58b1bc2449016745a4"
-  integrity sha512-kKftz0cYN1qUuW6tUwfkEHoP7SZzYXrqLg8h8vcYcQL+16ujmIzO6u/yxXUFPsugCds54XZGHFWV9ywOjd49qA==
+"@pangeacyber/react-mui-audit-log-viewer@^0.0.84":
+  version "0.0.84"
+  resolved "https://registry.yarnpkg.com/@pangeacyber/react-mui-audit-log-viewer/-/react-mui-audit-log-viewer-0.0.84.tgz#644aea6ad191b801bde4f12c81830eddf6ed67ab"
+  integrity sha512-L8w0QnR/8EQg8j/fW/f6P5+WzT0HRVr+HQxdtW2/v7FgBDlR9uMX+pRkII2kZgEA0mE7sQj4d9e0c2OIHLjNfg==
   dependencies:
-    "@pangeacyber/react-mui-shared" "0.0.62"
+    "@pangeacyber/react-mui-shared" "0.0.64"
     "@types/jest" "^29.5.12"
     crypto-js "^4.2.0"
     diff "^5.2.0"
@@ -1491,10 +1491,10 @@
   resolved "https://registry.yarnpkg.com/@pangeacyber/react-mui-branding/-/react-mui-branding-0.0.18.tgz#0630d0f528ad991e1e89d8d4f7626f443899fdcc"
   integrity sha512-oBTWZ/6i9KkLUXEB48Mu6kMu+s7YGY6ZhsyH0PZ1BkoM/o3Dl6SlMVvclhVSPJ0M807n3F/FbvxVAHb5+BUd/w==
 
-"@pangeacyber/react-mui-shared@0.0.62":
-  version "0.0.62"
-  resolved "https://registry.yarnpkg.com/@pangeacyber/react-mui-shared/-/react-mui-shared-0.0.62.tgz#bf621249f987b69820c67c9cc3b0df7fc66d4bf9"
-  integrity sha512-GjA31nlpYW9tiG6qNxJjWHrxeKL4pO8+FtndE9BE5oYWvIGVQd2dO3+8lVyA92FfQIxJTLmO0BSTPvQM8/G7qA==
+"@pangeacyber/react-mui-shared@0.0.63":
+  version "0.0.63"
+  resolved "https://registry.yarnpkg.com/@pangeacyber/react-mui-shared/-/react-mui-shared-0.0.63.tgz#bd8a9f7d582f9e63340574d439d1d4fb8ac11ccc"
+  integrity sha512-2/pfkUHKDLsjlGulI945XZw5Az+VDyj7A/3YiOi3tfYYgvZHQWFOb0/4x76EQfiN5IYeK4U1Ww45fI9X0jY/pA==
   dependencies:
     "@loadable/component" "^5.16.4"
     "@mui/x-data-grid" "^6.20.0"
@@ -1506,14 +1506,14 @@
     react-json-view "^1.21.3"
     yup "^1.4.0"
 
-"@pangeacyber/react-mui-shared@0.0.63":
-  version "0.0.63"
-  resolved "https://registry.yarnpkg.com/@pangeacyber/react-mui-shared/-/react-mui-shared-0.0.63.tgz#bd8a9f7d582f9e63340574d439d1d4fb8ac11ccc"
-  integrity sha512-2/pfkUHKDLsjlGulI945XZw5Az+VDyj7A/3YiOi3tfYYgvZHQWFOb0/4x76EQfiN5IYeK4U1Ww45fI9X0jY/pA==
+"@pangeacyber/react-mui-shared@0.0.64":
+  version "0.0.64"
+  resolved "https://registry.yarnpkg.com/@pangeacyber/react-mui-shared/-/react-mui-shared-0.0.64.tgz#9538f460ce9e61a0782533ee165f8b7ebe1175a5"
+  integrity sha512-fFTTw/98WQTMqThJeYL2wOEcS4fnbOqIF9mAosTUE4U9RI6EXpqu7nA8tDJ51dCCEedkUlul46cz1dFXnxtyUg==
   dependencies:
     "@loadable/component" "^5.16.4"
-    "@mui/x-data-grid" "^6.20.0"
-    "@mui/x-date-pickers" "^6.20.0"
+    "@mui/x-data-grid" "^6.20.3"
+    "@mui/x-date-pickers" "^6.20.2"
     dayjs "^1.11.11"
     formik "^2.4.6"
     moment "^2.30.1"
