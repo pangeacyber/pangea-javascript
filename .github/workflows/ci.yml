@@ -162,10 +162,10 @@ jobs:
       - name: Build Docs
         run: yarn build-docs
 
-      - name: Upload
+      - name: Upload Docs
         uses: actions/upload-artifact@v4.3.4
         with:
-          name: react-mui-audit-log-viewer
+          name: react-mui-audit-log-viewer-docs
           path: ./packages/react-mui-audit-log-viewer/docs/
 
   build-react-mui-authn:
