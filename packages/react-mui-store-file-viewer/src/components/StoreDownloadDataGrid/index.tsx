@@ -22,7 +22,7 @@ import {
 import FolderPath from "../StoreDataGrid/FolderPath";
 import { Stack, Chip, LinearProgress, Box } from "@mui/material";
 import DownloadFileOptions from "./DownloadFileOptions";
-import { StoreDataGridProps } from "../StoreDataGrid";
+import { StoreDataGridColumns, StoreDataGridProps } from "../StoreDataGrid";
 import MultiSelectMenu from "../StoreDataGrid/MultiSelectMenu";
 import DataGridParentStack from "../StoreDataGrid/DataGridParentStack";
 import UploadPopover from "../UploadPopover";
@@ -41,6 +41,7 @@ export const DEFAULT_COLUMN_ORDER = ["name", "size", "updated_at"];
 const StoreDownloadDataGrid: FC<StoreDataGridProps> = ({
   defaultVisibilityModel,
   defaultColumnOrder,
+  customizations,
   includeIdColumn,
 }) => {
   const { data, request, reload, loading, previewId, apiRef } =
@@ -57,9 +58,24 @@ const StoreDownloadDataGrid: FC<StoreDataGridProps> = ({
     sorting,
     setSorting,
   } = request;
-  const columns = useGridSchemaColumns(
+  const columns_ = useGridSchemaColumns(
     includeIdColumn ? StoreViewerFieldsWithID : StoreViewerFields
   );
+
+  const columns = useMemo(() => {
+    return columns_.map((column_) => {
+      const override =
+        customizations?.columnOverrides?.[
+          column_.field as StoreDataGridColumns
+        ];
+      if (!override) return column_;
+
+      return {
+        ...column_,
+        ...override,
+      };
+    });
+  }, [columns_, customizations]);
 
   const [contextMenu, setContextMenu] = useState<{
     mouseX: number;

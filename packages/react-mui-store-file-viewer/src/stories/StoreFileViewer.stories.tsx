@@ -11,12 +11,21 @@ import PangeaThemeProvider from "./theme/pangea/provider";
 
 import { LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+import { StoreDataGridCustomizations } from "../components/StoreDataGrid";
 
 export default {
   title: "StoreFileViewer",
   component: StoreFileViewer,
   argTypes: {},
 } as ComponentMeta<typeof StoreFileViewer>;
+
+export const Customizations: StoreDataGridCustomizations = {
+  columnOverrides: {
+    id: {
+      width: 350,
+    },
+  },
+};
 
 const ThemeTemplate: ComponentStory<typeof StoreFileViewer> = (args) => {
   return (
@@ -340,4 +349,5 @@ StoreFileViewerDemo.args = {
     },
   },
   defaultShareLinkTitle: "Pepe Silvia has securely shared a file with you!",
+  customizations: Customizations,
 };

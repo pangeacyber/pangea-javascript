@@ -91,8 +91,8 @@ const PreviewStoreFile: FC<PreviewFileProps> = ({ data, onClose }) => {
             }
           />
           <Typography
-            variant="h5"
-            sx={{ overflow: "hidden", wordBreak: "break-all" }}
+            variant="subtitle1"
+            sx={{ overflow: "hidden", wordBreak: "break-all", fontWeight: 400 }}
           >
             {object.name}
           </Typography>

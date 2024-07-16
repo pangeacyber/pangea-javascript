@@ -14,6 +14,7 @@ import AddFilePasswordButton from "../AddFilePasswordButton";
 import { useStoreFileViewerContext } from "../../hooks/context";
 import { downloadFile } from "../../utils/file";
 import { parseErrorFromPangea } from "../../utils";
+import DownloadFileButton from "../PreviewStoreFile/DownloadFileButton";
 
 interface VaultItemOptionsProps {
   object: ObjectStore.ObjectResponse;
@@ -106,6 +107,7 @@ const FileOptions: FC<VaultItemOptionsProps> = ({
               }
             }}
           >
+            {!displayDownloadInline && <DownloadFileButton object={object} />}
             {object?.type !== "folder" && (
               <>
                 {!!object?.["vault-password-algorithm"] ||

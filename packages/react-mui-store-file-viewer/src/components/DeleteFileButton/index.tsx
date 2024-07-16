@@ -28,7 +28,7 @@ const DeleteFileButton: FC<Props> = ({
     <PangeaDeleteModal
       description={`${
         object.name || object.id
-      } and all versions will be permanently removed from the secure file store.`}
+      } and all versions will be permanently removed.`}
       title={`Delete ${object.name || object.id}`}
       onDelete={async () => {
         if (!apiRef.delete) return;
