@@ -41,7 +41,7 @@ import { AuthOptions, CookieOptions, VerifyResponse } from "../shared/types";
 
 import { useValidateToken, useRefresh } from "../shared/hooks";
 
-/** Description of this interface */
+/** AuthProvider component props */
 export interface AuthProviderProps {
   /** The url for the authn hosted UI */
   loginUrl: string;
@@ -50,42 +50,32 @@ export interface AuthProviderProps {
   config: AuthConfig;
 
   /**
-   * Optional callback, called when successfully
-   * logging in
+   * The callback to invoke when a user has successfully logged in
+   * @param {AppState} appState The current authentication state
    */
   onLogin?: (appState: AppState) => void;
 
   /**
-   * options used when setting a cookie for auth
+   * The options used when setting a cookie for auth
    */
   cookieOptions?: CookieOptions;
 
   /**
-   * redirectUri: optional string
-   *
-   * When passed in, <AuthProvider /> will use this value as
-   * redirect URI when going through the login/logout flow
-   *
-   * Default is window.location.origin
-   *
-   * @example
-   * redirectUri="https://my.domain.com"
+   * When passed in, <AuthProvider /> will use this value as redirect URI when going through the login/logout flow
+   * @defaultValue `window.location.origin`
+   * @example "https://my.domain.com"
    */
   redirectUri?: string;
 
   /**
-   * When passed in, <AuthProvider /> will append this pathname to the
-   * redirect URI when going through the login/logout flow
-   *
-   * @example
-   * redirectPathname="/docs/"
+   * When passed in, <AuthProvider /> will append this pathname to the redirect URI when going through the login/logout flow
+   * @example "/docs/""
    */
   redirectPathname?: string;
 
   /**
    * When set to true users will be redirected to the hosted logout page on logout.
-   *
-   * Default is false
+   * @defaultValue false
    */
   redirectOnLogout?: boolean;
 
@@ -94,7 +84,7 @@ export interface AuthProviderProps {
    *
    * Not allowing authentication flows starting from outside your application.
    *
-   * Default is true
+   * @defaultValue true
    */
   useStrictStateCheck?: boolean;
 
@@ -102,7 +92,7 @@ export interface AuthProviderProps {
    * When set to true, an email addresses or social provider name can be passed as a url parameter.
    * The Hosted Login page will then attempt to use the provided value as the primary auth method.
    *
-   * Default is false
+   * @defaultValue false
    */
   passAuthMethod?: boolean;
 
@@ -146,10 +136,10 @@ export const AuthProvider: FC<AuthProviderProps> = ({
 }) => {
   const [authenticated, setAuthenticated] = useState<boolean>(false);
 
-  /**  
+  /**
    * Track initialization state, to handle react 18 strict dev mode, running mount effects twice
    * https://legacy.reactjs.org/docs/strict-mode.html#ensuring-reusable-state
-  */
+   */
   const initState = useRef("unmounted");
 
   const [loading, setLoading] = useState<boolean>(true);

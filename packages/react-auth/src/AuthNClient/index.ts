@@ -4,9 +4,21 @@ import { AuthConfig, APIResponse, ClientResponse } from "~/src/types";
 
 const API_VERSION = "v2";
 
+/**
+ * Base support for making client calls to AuthN endpoints.
+ */
+
 export class AuthNClient {
   config: AuthConfig;
 
+  /**
+   * Base support for making client calls to AuthN endpoints.
+   * @param {AuthConfig} config - An ID for a login or signup flow
+   * @example
+   * ```js
+   * tbd
+   * ```
+   */
   // @ts-expect-error TODO: is `useJwt` supposed to be used here?
   constructor(config: AuthConfig, useJwt: boolean = false) {
     if (!config.clientToken) throw new Error("A token is required");
@@ -26,9 +38,9 @@ export class AuthNClient {
   */
 
   /**
-   * description of logout function
-   * @param userToken - userToken description
-   * @returns output of logout function
+   * Log a user out of their session using their token.
+   * @param {string} userToken The token associated with the user to log out
+   * @returns {Promise<ClientResponse>} Async client response
    */
   async logout(userToken: string): Promise<ClientResponse> {
     const path = "client/session/logout";
@@ -38,9 +50,9 @@ export class AuthNClient {
   }
 
   /**
-   * description of validate function
-   * @param userToken - userToken parameter
-   * @returns output description
+   * Look up a token and return its contents.
+   * @param {string} userToken The token to get contents for
+   * @returns {Promise<ClientResponse>} Async client response
    */
   async validate(userToken: string): Promise<ClientResponse> {
     const path = "client/token/check";
@@ -50,9 +62,9 @@ export class AuthNClient {
   }
 
   /**
-   * userinfo description
-   * @param code - code param
-   * @returns return description
+   * Retrieve the logged in user's token and information.
+   * @param {string} code Login code returned by the login callback
+   * @returns {Promise<ClientResponse>} Async client response
    */
   async userinfo(code: string): Promise<ClientResponse> {
     const path = "client/userinfo";
@@ -62,10 +74,10 @@ export class AuthNClient {
   }
 
   /**
-   * description
-   * @param userToken - description
-   * @param refreshToken - description
-   * @returns description
+   * Refresh a session token.
+   * @param {string} userToken A user token value
+   * @param {string} refreshToken A refresh token value
+   * @returns {Promise<ClientResponse>} Async client response
    */
   async refresh(
     userToken: string,
@@ -77,8 +89,8 @@ export class AuthNClient {
   }
 
   /**
-   * description
-   * @returns description
+   * Get JWT verification keys.
+   * @returns {Promise<ClientResponse>} Async client response
    */
   async jwks(): Promise<ClientResponse> {
     const path = "client/jwks";
@@ -89,12 +101,6 @@ export class AuthNClient {
     API Request functions
   */
 
-  /**
-   * description
-   * @param endpoint description
-   * @param payload description
-   * @returns description
-   */  
   async post(endpoint: string, payload: any): Promise<ClientResponse> {
     try {
       const response: AxiosResponse = await axios.post(
@@ -110,22 +116,13 @@ export class AuthNClient {
     }
   }
 
-  /**
-   * description
-   * @param endpoint description
-   * @returns description
-   */
   getUrl(endpoint: string): string {
     const protocol = this.config.domain.match(/^local\.?host(:\d{2,5})?$/)
       ? "http"
       : "https";
     return `${protocol}://authn.${this.config.domain}/${API_VERSION}/${endpoint}`;
   }
-  
-  /**
-   * description of the function
-   * @returns description of the return value
-   */
+
   getOptions(): AxiosRequestConfig<unknown> {
     return {
       headers: {
@@ -136,11 +133,6 @@ export class AuthNClient {
     };
   }
 
-  /**
-   * description
-   * @param error description
-   * @returns description
-   */
   getError(error: any): APIResponse {
     const message = {
       status: "Error",
