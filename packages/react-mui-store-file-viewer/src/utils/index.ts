@@ -17,13 +17,17 @@ export function formatBytes(
   bytes: number,
   decimals: number = 3,
   shortform: boolean = true,
-  size: string | undefined = undefined
+  size: string | undefined = undefined,
+  useBytes: boolean = true
 ) {
   if (!bytes) return "0 Bytes";
 
-  const k = 1024;
+  const k = useBytes ? 1000 : 1024;
+  const byteSizes = ["Bytes", "KB", "MB", "GB", "TB", "PB"];
+  const bitSizes = ["Bytes", "KiB", "MiB", "GiB", "TiB", "PiB"];
+  const sizes = useBytes ? byteSizes : bitSizes;
+
   const dm = decimals < 0 ? 0 : decimals;
-  const sizes = ["Bytes", "KiB", "MiB", "GiB", "TiB", "PiB"];
 
   let i = Math.floor(Math.log(bytes) / Math.log(k));
   if (size !== undefined) {

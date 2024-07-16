@@ -10,6 +10,8 @@ import {
   PangeaDataGridProps,
   useGridSchemaColumns,
 } from "@pangeacyber/react-mui-shared";
+import { GridColDef } from "@mui/x-data-grid";
+
 import { ObjectStore } from "../../types";
 import {
   StoreViewerFields,
@@ -33,10 +35,18 @@ import { downloadFile } from "../../utils/file";
 import DownloadPopover from "../DownloadPasswordPopover";
 import BucketSelector from "./BucketSelector";
 
+export type StoreDataGridColumns = "id" | "name" | "updated_at" | "size";
+
+export interface StoreDataGridCustomizations {
+  columnOverrides: Partial<Record<StoreDataGridColumns, Partial<GridColDef>>>;
+}
+
 export interface StoreDataGridProps {
   defaultVisibilityModel?: Record<string, boolean>;
   defaultColumnOrder?: string[];
   includeIdColumn?: boolean;
+
+  customizations?: StoreDataGridCustomizations;
 
   PangeaDataGridProps?: Partial<
     PangeaDataGridProps<ObjectStore.ObjectResponse>
@@ -54,6 +64,7 @@ export const DEFAULT_COLUMN_ORDER = ["name", "size", "updated_at"];
 const StoreDataGrid: FC<StoreDataGridProps> = ({
   defaultVisibilityModel,
   defaultColumnOrder,
+  customizations,
   includeIdColumn,
 }) => {
   const { data, request, reload, loading, previewId, setPreviewId, apiRef } =
@@ -70,9 +81,25 @@ const StoreDataGrid: FC<StoreDataGridProps> = ({
     sorting,
     setSorting,
   } = request;
-  const columns = useGridSchemaColumns(
+
+  const columns_ = useGridSchemaColumns(
     includeIdColumn ? StoreViewerFieldsWithID : StoreViewerFields
   );
+
+  const columns = useMemo(() => {
+    return columns_.map((column_) => {
+      const override =
+        customizations?.columnOverrides?.[
+          column_.field as StoreDataGridColumns
+        ];
+      if (!override) return column_;
+
+      return {
+        ...column_,
+        ...override,
+      };
+    });
+  }, [columns_, customizations]);
 
   const [contextMenu, setContextMenu] = useState<{
     mouseX: number;

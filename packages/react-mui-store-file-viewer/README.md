@@ -72,6 +72,8 @@ interface StoreFileViewerProps {
   defaultVisibilityModel?: Record<string, boolean>;
   defaultColumnOrder?: string[];
 
+  customizations?: StoreDataGridCustomizations;
+
   PangeaDataGridProps?: Partial<
     PangeaDataGridProps<ObjectStore.ObjectResponse>
   >;
@@ -87,6 +89,7 @@ interface StoreFileViewerProps {
 - `defaultSort` ("asc" | "desc", optional): Default sorting order for the file viewer.
 - `defaultSortBy` (keyof ObjectStore.ObjectResponse, optional): Default property to sort the file viewer by.
 - `defaultVisibilityModel` (Record<string, boolean>, optional): Default visibility model for elements in the file viewer.
+- `customizations` (StoreDataGridCustomizations, optional): Provide customization to rendered grid columns
 - `defaultColumnOrder` (string[], optional): Default order of columns in the file viewer.
 - `includeIdColumn` (boolean, optional): Toggle whether to include the object id as an new column. Defaulted to false;
 - `PangeaDataGridProps` (Partial<PangeaDataGridProps<ObjectStore.ObjectResponse>>, optional): Customization options for the internal PangeaDataGrid component used by the StoreFileViewer. From @pangeacyber/react-mui-shared.

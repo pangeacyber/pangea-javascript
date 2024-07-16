@@ -5,6 +5,18 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.0.50] - 2024-07-16
+
+### Added
+
+- Column customizations to override grid column fields, such as width
+
+### Fixed
+
+- Switch from displaying bits to bytes
+- Move download button from the details panel
+- Reduced file name typography variant
+
 ## [0.0.49] - 2024-07-10
 
 ### Fixed
