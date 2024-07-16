@@ -1,49 +1,20 @@
-import { FC } from "react";
-import {
-  Box,
-  Breadcrumbs,
-  Button,
-  Typography,
-  IconButton,
-  Select,
-  MenuItem,
-  Tooltip,
-} from "@mui/material";
+import { FC, useMemo } from "react";
+import find from "lodash/find";
+import { Typography, Select, MenuItem, Tooltip } from "@mui/material";
 import { useTheme } from "@mui/material/styles";
 
-import HomeIcon from "@mui/icons-material/Home";
-
-import NavigateNextIcon from "@mui/icons-material/NavigateNext";
-import {
-  useStoreFileViewerBuckets,
-  useStoreFileViewerFolder,
-} from "../../hooks/context";
+import { useStoreFileViewerBuckets } from "../../hooks/context";
 
 interface Props {}
 
-const BucketOption: FC<{ folder: string; onClick: () => void }> = ({
-  folder,
-  onClick,
-}) => {
-  return (
-    <Button
-      variant="text"
-      size="small"
-      sx={{ minWidth: "fit-content", textTransform: "none" }}
-      onClick={onClick}
-    >
-      <Typography variant="subtitle2" color="textPrimary">
-        {folder}
-      </Typography>
-    </Button>
-  );
-};
-
 const BucketSelector: FC<Props> = () => {
-  const theme = useTheme();
   const { bucketId, buckets, setBucketId } = useStoreFileViewerBuckets();
 
-  if (!buckets.length) return null;
+  const defaultBucketId = useMemo(() => {
+    return find(buckets, (bucket) => !!bucket.default)?.id;
+  }, [buckets]);
+
+  if (!buckets.length || buckets.length === 1) return null;
   return (
     <Tooltip title="Select which storage bucket to view" placement="top">
       <Select
@@ -62,7 +33,7 @@ const BucketSelector: FC<Props> = () => {
             border: "none",
           },
         }}
-        value={bucketId || "-"}
+        value={bucketId || defaultBucketId || "-"}
         onChange={(event) => {
           const value = event.target.value;
           if (value === "-") {
@@ -73,9 +44,11 @@ const BucketSelector: FC<Props> = () => {
           setBucketId(value);
         }}
       >
-        <MenuItem value={"-"}>
-          <Typography variant="body2">Default</Typography>
-        </MenuItem>
+        {!defaultBucketId && (
+          <MenuItem value={"-"}>
+            <Typography variant="body2">Default bucket</Typography>
+          </MenuItem>
+        )}
         {buckets.map((bucket, idx) => {
           return (
             <MenuItem
