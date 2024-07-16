@@ -42,9 +42,11 @@ const FileOptions: FC<VaultItemOptionsProps> = ({
     onClose();
   };
 
-  const handleDownloadFile = () => {
+  const handleDownloadFile = (e: React.MouseEvent<any, any>) => {
     if (downloading) return;
     setDownloading(true);
+    e.stopPropagation();
+    e.preventDefault();
 
     return downloadFile(object, apiRef)
       .then(() => {

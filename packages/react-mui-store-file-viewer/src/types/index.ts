@@ -498,6 +498,7 @@ export namespace ObjectStore {
     id: string;
     name: string;
     transfer_methods?: string[];
+    default?: boolean;
   }
 
   export interface BucketsResponse {
