@@ -1,5 +1,8 @@
 import { AuthUser } from "~/src/types";
 
+/**
+ * Describes the possible cookie options to determine the cookie behavior through Authentication
+ */
 export interface CookieOptions {
   /**
    * useCookie: optional boolean

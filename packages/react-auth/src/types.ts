@@ -3,14 +3,38 @@
 
 import { JWTPayload, JWTHeaderParameters } from "jose";
 
+/**
+ * Describes the body of a response object for a remote Pangea request
+ */
 export interface APIResponse {
+  /**
+   * The status of the response from the server
+   */
   status: string;
+
+  /**
+   * A description of the response status
+   */
   summary: string;
+
+  /**
+   * The functional payload returned from the server
+   */
   result: any;
 }
 
+/**
+ * Describes the parent repsonse object for a remote Pangea request
+ */
 export interface ClientResponse {
+  /**
+   * Whether or not the request was succesful
+   */
   success: boolean;
+
+  /**
+   * The response body passed to the client
+   */
   response: APIResponse;
 }
 

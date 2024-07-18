@@ -226,6 +226,9 @@ export const ComponentAuthProvider: FC<ComponentAuthProviderProps> = ({
   );
 };
 
+/**
+ * @returns React.Context<ComponentAuthContextType>
+ */
 export const useComponentAuth = () => {
   return useContext(AuthContext);
 };

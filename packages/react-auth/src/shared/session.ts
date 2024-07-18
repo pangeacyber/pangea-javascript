@@ -25,6 +25,12 @@ const BASE_COOKIE_FLAGS = "; path=/";
 const CODE_RE = /[?&]code=[^&]+/;
 const STATE_RE = /[?&]state=[^&]+/;
 
+/**
+ * Check if the given search parameters have a state or code parameter
+ *
+ * @param searchParams A string representation of query or search params
+ * @returns boolean
+ */
 export const hasAuthParams = (searchParams = window.location.search): boolean =>
   CODE_RE.test(searchParams) && STATE_RE.test(searchParams);
 

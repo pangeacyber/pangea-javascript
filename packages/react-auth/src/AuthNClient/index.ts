@@ -7,7 +7,6 @@ const API_VERSION = "v2";
 /**
  * Base support for making client calls to AuthN endpoints.
  */
-
 export class AuthNClient {
   config: AuthConfig;
 

@@ -93,6 +93,7 @@ export type AuditQueryRange =
 export interface QueryObj {
   type: "object";
 
+  // TODO: This doesn't show in the docs
   /**
    * Filter results by assigning filters to the properties you want to query by
    */
