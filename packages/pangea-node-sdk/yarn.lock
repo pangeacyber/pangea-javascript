@@ -366,7 +366,7 @@
   resolved "https://registry.yarnpkg.com/@eslint/js/-/js-8.57.0.tgz#a5417ae8427873f1dd08b70b3574b453e67b5f7f"
   integrity sha512-Ys+3g2TaW7gADOJzPt83SJtCDhMjndcDMFVQ/Tj9iA1BfJzFKD9mAUXT3OenpuPHbI6P/myECxRJrofUsDx/5g==
 
-"@gitlab/eslint-plugin@^19.5.0":
+"@gitlab/eslint-plugin@^19.6.0":
   version "19.6.0"
   resolved "https://registry.yarnpkg.com/@gitlab/eslint-plugin/-/eslint-plugin-19.6.0.tgz#988413bc8f1ecea5815c08f7e0d2706850279dc1"
   integrity sha512-fD85FlMAOKirfRMKuzJGrQwUGdxuYFsszQ5O8cKsn8wqDevQyjp2jT/tOUAPv0UUQTG93iM/DW2ZntLjbakQ5g==
