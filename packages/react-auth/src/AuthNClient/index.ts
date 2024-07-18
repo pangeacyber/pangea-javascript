@@ -13,11 +13,7 @@ export class AuthNClient {
 
   /**
    * Base support for making client calls to AuthN endpoints.
-   * @param {AuthConfig} config - An ID for a login or signup flow
-   * @example
-   * ```js
-   * tbd
-   * ```
+   * @param {AuthConfig} config Configuration for connecting with AuthN
    */
   // @ts-expect-error TODO: is `useJwt` supposed to be used here?
   constructor(config: AuthConfig, useJwt: boolean = false) {
@@ -39,6 +35,7 @@ export class AuthNClient {
 
   /**
    * Log a user out of their session using their token.
+   *
    * @param {string} userToken The token associated with the user to log out
    * @returns {Promise<ClientResponse>} Async client response
    */
@@ -51,6 +48,7 @@ export class AuthNClient {
 
   /**
    * Look up a token and return its contents.
+   *
    * @param {string} userToken The token to get contents for
    * @returns {Promise<ClientResponse>} Async client response
    */
@@ -63,6 +61,7 @@ export class AuthNClient {
 
   /**
    * Retrieve the logged in user's token and information.
+   *
    * @param {string} code Login code returned by the login callback
    * @returns {Promise<ClientResponse>} Async client response
    */
@@ -75,8 +74,10 @@ export class AuthNClient {
 
   /**
    * Refresh a session token.
+   *
    * @param {string} userToken A user token value
    * @param {string} refreshToken A refresh token value
+   *
    * @returns {Promise<ClientResponse>} Async client response
    */
   async refresh(
@@ -90,6 +91,7 @@ export class AuthNClient {
 
   /**
    * Get JWT verification keys.
+   *
    * @returns {Promise<ClientResponse>} Async client response
    */
   async jwks(): Promise<ClientResponse> {
@@ -97,10 +99,7 @@ export class AuthNClient {
     return await this.post(path, {});
   }
 
-  /*
-    API Request functions
-  */
-
+  // API Request functions
   async post(endpoint: string, payload: any): Promise<ClientResponse> {
     try {
       const response: AxiosResponse = await axios.post(

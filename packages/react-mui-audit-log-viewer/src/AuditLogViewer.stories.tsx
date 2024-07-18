@@ -5,6 +5,9 @@ import AuditLogViewer from "./AuditLogViewer";
 import { Box } from "@mui/material";
 import BrowserflixThemeProvider from "./stories/theme/browserflix/provider";
 
+/**
+ * @hidden
+ */
 export default {
   title: "AuditLogViewer",
   component: AuditLogViewer,

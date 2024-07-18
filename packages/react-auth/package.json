@@ -29,7 +29,7 @@
   "packageManager": "yarn@1.22.22",
   "scripts": {
     "build": "yarn build-docs && parcel build && cp dist/index.d.ts dist/index.d.mts",
-    "build-docs": "yarn typedoc",
+    "build-docs": "yarn typedoc --plugin typedoc-plugin-rename-defaults",
     "lint-attw": "attw --pack",
     "lint-publint": "publint --strict",
     "prepack": "npm run build",
@@ -61,6 +61,7 @@
     "publint": "^0.2.9",
     "react": "^18.3.1",
     "typescript": "^5.5.4",
-    "typedoc": "^0.26.4"
+    "typedoc": "^0.26.4",
+    "typedoc-plugin-rename-defaults": "^0.7.1"
   }
 }
