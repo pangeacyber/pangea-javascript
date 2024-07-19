@@ -1,7 +1,8 @@
 ---
+title: Install & Configure
 displayed_sidebar: react-mui-audit-log-viewer
-description: Redact Configuration | Enabling the service | Creating a token for the service | Enable Redact rules | Add secure Audit Log integration
-image: /img/og/open-graph-redact.jpg
+description: Learn how to configure the Secure Audit Log Viewer components from Pangea in your app
+# image: /img/og/open-graph-redact.jpg # TODO
 ---
 
 # Configuration
@@ -45,6 +46,7 @@ What to apply your Pangea branding to your end application? Check out the `@pang
 
 ## Next Steps
 
+- Learn more about the properties and options available to you with the [Secure Audit Log Viewer API Reference Documentation](./api-reference)
 - Check out our [Admin Guide](https://pangea.cloud/docs/admin-guide/) if you have a specific task you would like to complete
 - If you are feeling confident, you can browse our [APIs](https://pangea.cloud/docs/api/) or explore our [Github repo](https://github.com/pangeacyber), which has libraries for supported languages, SDKs, sample apps, etc
 - For any questions, you can connect with our [Pangea Discourse for Builders](https://l.pangea.cloud/Jd4wlGs)
