@@ -160,9 +160,6 @@ export const AuthProvider: FC<AuthProviderProps> = ({
     ...cookieOptions,
   };
 
-  /**
-   * description
-   */
   const validateCallback = useCallback((result: VerifyResponse) => {
     if (result.user) {
       const sessionData = getSessionData(options);

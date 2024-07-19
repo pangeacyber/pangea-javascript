@@ -348,6 +348,9 @@ export namespace Audit {
 
   /** The payload for a request to get a tree root */
   export interface RootRequest {
+    /**
+     * TODO
+     */
     tree_size?: number;
   }
 
@@ -355,11 +358,34 @@ export namespace Audit {
    * Describes the response structure for a search query
    */
   export interface SearchResponse {
+    /**
+     * The ID of the request
+     */
     id: string;
+
+    /**
+     * The number of records returned
+     */
     count: number;
+
+    /**
+     * The array of records
+     */
     events: AuditRecord[];
+
+    /**
+     * TODO
+     */
     expires_at: string;
+
+    /**
+     * TODO
+     */
     root?: Root;
+
+    /**
+     * TODO
+     */
     unpublished_root?: Root;
   }
 
@@ -367,9 +393,24 @@ export namespace Audit {
    * Describes the response structure for paged results from a search query
    */
   export interface ResultResponse {
+    /**
+     * An array of records returned
+     */
     events: AuditRecord[];
+
+    /**
+     * The number of records returned
+     */
     count: number;
+
+    /**
+     * TODO
+     */
     root?: Root;
+
+    /**
+     * TODO
+     */
     unpublished_root?: Root;
   }
 
@@ -377,6 +418,9 @@ export namespace Audit {
    * Describes the response structure returned from requesting a download of a log result
    */
   export interface DownloadResultResponse {
+    /**
+     * A pre-signed URL which the result can be downloaded
+     */
     dest_url: string;
   }
 
