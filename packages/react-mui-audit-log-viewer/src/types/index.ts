@@ -104,6 +104,7 @@ export namespace Audit {
    * A sealed envelope containing the event that was logged. Includes event metadata such as optional client-side signature details and server-added timestamps.
    */
   export interface Envelope<Event = DefaultEvent> {
+    /** @typeParam {DefaultEvent} The related event data for the log */
     event: Event;
 
     /**

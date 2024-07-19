@@ -1,5 +1,5 @@
 ---
-displayed_sidebar: librariesSidebar
+displayed_sidebar: react-mui-audit-log-viewer
 description: Redact Configuration | Enabling the service | Creating a token for the service | Enable Redact rules | Add secure Audit Log integration
 image: /img/og/open-graph-redact.jpg
 ---

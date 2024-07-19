@@ -42,26 +42,23 @@ export interface AuthFlowContextType {
 }
 
 /**
- * interface description
+ * Describes the props for the AuthFlowProvider component
  */
 export interface AuthFlowProviderProps {
-  /** description of children prop */
   children: ReactNode;
 }
 
 const SESSION_DATA_NAME = "pangea-authn-flow";
 
-/**
- * AuthFlowContext description
- */
 export const AuthFlowContext = createContext<AuthFlowContextType>(
   {} as AuthFlowContextType
 );
 
 /**
- * description of the function
- * @param param0 
- * @returns this is what this function returns
+ * A context provider for maintaining state during login, signup, verification, and MFA when using the AuthN Flow APIs.
+ *
+ * @example
+ * test
  */
 export const AuthFlowProvider: FC<AuthFlowProviderProps> = ({ children }) => {
   const { client, cbParams, setFlowComplete } = useComponentAuth();
@@ -322,7 +319,7 @@ export const AuthFlowProvider: FC<AuthFlowProviderProps> = ({ children }) => {
 
   /**
    * Set flow step without an API call
-   * @param nextStep 
+   * @param nextStep
    */
   const setNextStep = (nextStep: FlowStep) => {
     auth.state.step = nextStep;
@@ -339,8 +336,8 @@ export const AuthFlowProvider: FC<AuthFlowProviderProps> = ({ children }) => {
 
   /**
    * Common response utility
-   * @param success 
-   * @param response 
+   * @param success
+   * @param response
    */
   const updateFlowState = (success: boolean, response: APIResponse) => {
     if (success) {

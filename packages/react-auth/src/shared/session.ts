@@ -104,9 +104,12 @@ export const getTokenCookieFields = (name: string) => {
   return [token || "", expire || ""];
 };
 
-/*
-  Support for fetching a token by name
-*/
+/**
+ * Get the token from a cookie
+ *
+ * @param {string} name Name of the cookie to look in
+ * @returns {string} The token if it is found, an empty string if it is not found
+ */
 export const getTokenFromCookie = (name: string): string => {
   const cookies = getCookies();
   const cookie = cookies[name];

@@ -118,9 +118,7 @@ const LAST_PATH_KEY = "last-path";
 const AuthContext = createContext<AuthContextType>({} as AuthContextType);
 
 /**
- * here is the description of the authprovider function
- * @param param0 - description
- * @returns auth provider return this or that
+ * Wrapping your application in `AuthProvider` configures the SDK and state for the application nested inside
  */
 export const AuthProvider: FC<AuthProviderProps> = ({
   loginUrl,
@@ -470,6 +468,9 @@ export const AuthProvider: FC<AuthProviderProps> = ({
   );
 };
 
+/**
+ * Use the `useAuth` hook in your components to access authentication state.
+ */
 export const useAuth = () => {
   return useContext(AuthContext);
 };

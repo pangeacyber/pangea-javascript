@@ -1,17 +1,15 @@
 ---
 title: Quickstart
-displayed_sidebar: librariesSidebar
+displayed_sidebar: react-mui-audit-log-viewer
 slug: /react-mui-audit-log-viewer/
 description: Redact Configuration | Enabling the service | Creating a token for the service | Enable Redact rules | Add secure Audit Log integration
 image: /img/og/open-graph-redact.jpg
+position: 0
 ---
-
-import HelpfulVote from "@src/components/HelpfulVote";
-import Headline from "@src/components/Headline";
 
 # Quickstart
 
-### The Audit Log Viewer is meant to be employed with the Secure Audit Log service to interact with audit log data.
+#### The Audit Log Viewer is meant to be employed with the Secure Audit Log service to interact with audit log data.
 
 ## Overview
 
