@@ -1,7 +1,7 @@
 ---
 title: Overview
 displayed_sidebar: react-mui-audit-log-viewer
-slug: /react-mui-audit-log-viewer/
+slug: /libraries/react-mui-audit-log-viewer/
 description: Learn how to use the Secure Audit Log Viewer components from Pangea in your app
 # image: /img/og/open-graph-redact.jpg # TODO
 ---
