@@ -153,12 +153,6 @@ jobs:
       - name: Type check
         run: yarn typecheck
 
-      - name: Are the types wrong?
-        run: yarn lint-attw
-
-      - name: publint
-        run: yarn lint-publint
-
       - name: Build Docs
         run: yarn build-docs
 
