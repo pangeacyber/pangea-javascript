@@ -14,8 +14,8 @@
     "cypress:info": "cypress info"
   },
   "dependencies": {
-    "@emotion/react": "11.11.4",
-    "@emotion/styled": "11.11.5",
+    "@emotion/react": "11.12.0",
+    "@emotion/styled": "11.12.0",
     "@mui/icons-material": "5.16.4",
     "@mui/material": "5.16.4",
     "@pangeacyber/react-mui-audit-log-viewer": "^0.0.84",
