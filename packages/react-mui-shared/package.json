@@ -55,7 +55,7 @@
     "@loadable/component": "^5.16.4",
     "@mui/x-data-grid": "^6.20.3",
     "@mui/x-date-pickers": "^6.20.2",
-    "dayjs": "^1.11.11",
+    "dayjs": "^1.11.12",
     "formik": "^2.4.6",
     "moment": "^2.30.1",
     "react-beautiful-dnd": "^13.1.1",

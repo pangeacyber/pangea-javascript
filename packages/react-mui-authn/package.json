@@ -75,7 +75,7 @@
     "@pangeacyber/vanilla-js": "0.1.10",
     "@simplewebauthn/browser": "9.0.1",
     "awesome-phonenumber": "^6.10.0",
-    "dayjs": "^1.11.11",
+    "dayjs": "^1.11.12",
     "formik": "^2.4.6",
     "lexical": "0.14.2",
     "react-google-recaptcha-enterprise": "^1.0.3",
