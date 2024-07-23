@@ -325,7 +325,18 @@ export const useStoreFileViewerFolder = () => {
 };
 
 export const useStoreFileViewerBuckets = () => {
-  const { apiRef, bucketId, setBucketId } = useStoreFileViewerContext();
+  const { apiRef, bucketId, setBucketId, request } =
+    useStoreFileViewerContext();
+
+  const setBucketId_ = useCallback(
+    (updates: any) => {
+      request.setFilters({
+        folder: "/",
+      });
+      return setBucketId(updates);
+    },
+    [setBucketId]
+  );
 
   const [buckets, setBuckets] = useState<ObjectStore.BucketInfo[]>([]);
 
@@ -357,7 +368,7 @@ export const useStoreFileViewerBuckets = () => {
 
   return {
     bucketId,
-    setBucketId,
+    setBucketId: setBucketId_,
 
     buckets,
   };
