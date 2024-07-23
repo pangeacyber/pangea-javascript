@@ -31,9 +31,9 @@
     "typescript": "^5.5.3"
   },
   "dependencies": {
-    "@emotion/cache": "^11.12.0",
-    "@emotion/react": "^11.12.0",
-    "@emotion/styled": "^11.12.0",
+    "@emotion/cache": "^11.13.0",
+    "@emotion/react": "^11.13.0",
+    "@emotion/styled": "^11.13.0",
     "@mui/icons-material": "^5.16.4",
     "@mui/material": "^5.16.4",
     "@mui/styled-engine-sc": "^6.0.0-alpha.18",
