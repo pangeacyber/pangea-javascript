@@ -20,7 +20,7 @@ export default class UserProfile extends BaseService {
    * response fields can be found in our [API Documentation](https://pangea.cloud/docs/api/authn/user#/v2/user/profile/get).
    * @example
    * ```js
-   * const response = await authn.user.getProfile(
+   * const response = await authn.user.profile.getProfile(
    *   {
    *     email: "joe.user@email.com",
    *   }
