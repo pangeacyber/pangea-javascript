@@ -214,7 +214,7 @@ const FieldsForm: FC<FieldsFormProps> = ({
       const name = field.name ?? field.label;
 
       values[name] =
-        !!object && name in object ? object[name] : field?.default ?? "";
+        !!object && name in object ? object[name] : (field?.default ?? "");
     });
 
     return values;
@@ -291,7 +291,7 @@ const FieldsForm: FC<FieldsFormProps> = ({
   const isSaveDisabled =
     (disabled ?? (!canSave && !isEmpty(formik.errors))) || isSubmitting;
   const numGroups = Object.keys(groups).length;
-  const fieldWidth = multiColumn ? "50%" : fieldWidthProp ?? "100%";
+  const fieldWidth = multiColumn ? "50%" : (fieldWidthProp ?? "100%");
 
   useEffect(() => {
     if (!onIsChanged) return;
