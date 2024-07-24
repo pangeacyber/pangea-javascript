@@ -28,7 +28,7 @@ export interface APIResponse {
  */
 export interface ClientResponse {
   /**
-   * Whether or not the request was succesful
+   * Whether or not the request was successful
    */
   success: boolean;
 

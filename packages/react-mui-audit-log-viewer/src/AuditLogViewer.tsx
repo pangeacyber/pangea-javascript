@@ -24,20 +24,28 @@ export interface AuditLogViewerProps<Event = Audit.DefaultEvent> {
   onSearch: (body: Audit.SearchRequest) => Promise<Audit.SearchResponse>;
 
   /** Prevent the search input to auto search on change. If false will only search when the "Search" button is clicked or if the "Enter" key is typed while focused on the search input */
+
+  /**
+   * Flag to control if the onSearch callback should be triggered automatically as the user edits the search query. If false will only search when the "Search" button is clicked or if the "Enter" key is typed while focused on the search input.
+   *
+   * @defaultValue true
+   */
   searchOnChange?: boolean;
 
-  /** Trigger search on component mount. By default searchOnChange triggers a search, but if it is disabled then searchOnFilterChange can be enabled */
+  /** Flag to control if onSearch callback should be trigger on filter or sort changes. Default: true. Set to false if search should only be triggered when the Search button is clicked */
   searchOnFilterChange?: boolean;
 
   /**
-   * @hidden
+   * Flag to control is onSearch callback should be trigger on component mount. Set to false to prevent search on component load.
+   *
+   * @defaultValue true
    */
   searchOnMount?: boolean;
 
   /** Called when the user navigates to a different page of results. It should make a call to the Audit Service /results endpoint proxied through your application server */
   onPageChange: (body: Audit.ResultRequest) => Promise<Audit.ResultResponse>;
 
-  /** Called when the user requests to download results  */
+  /** Called when the user requests to download results. It should make a call to the Audit Service /results endpoint proxied through your application server */
   onDownload?: (
     body: Audit.DownloadResultRequest
   ) => Promise<Audit.DownloadResultResponse>;
@@ -60,7 +68,7 @@ export interface AuditLogViewerProps<Event = Audit.DefaultEvent> {
     highlightRedaction?: boolean;
   };
 
-  /** Additional SX style (mui) properties to be applied to the component */
+  /** Additional SX style (MUI) properties to be applied to the component */
   sx?: SxProps;
 
   /** Number of items to display per page */
@@ -72,7 +80,7 @@ export interface AuditLogViewerProps<Event = Audit.DefaultEvent> {
   /** Partial definitions for the grid columns. The keys of the object correspond to the properties of the Event type, and the values are partial definitions of the GridColDef type */
   fields?: Partial<Record<keyof Event, Partial<GridColDef>>>;
 
-  /** Partial definitions for the visibility of the grid columns. The keys of the object correspond to properties of the Event type, and te values are boolean values indicating the visibility of the column */
+  /** Partial definitions for the visibility of the grid columns. The keys of the object correspond to properties of the Event type, and the values are boolean values indicating the visibility of the column */
   visibilityModel?: Partial<Record<keyof Event, boolean>>;
 
   /** The public audit query to filter the audit log data */
@@ -81,7 +89,7 @@ export interface AuditLogViewerProps<Event = Audit.DefaultEvent> {
   /** Authentication configuration. It is used to fetch your project's custom Audit schema, so the AuditLogViewer component can dynamically update when you update your configuration in the Pangea Console */
   config?: AuthConfig;
 
-  /** The Audit Schema. With Audit Service custom schema support, you can change the expected Audit schema. this will control which fields are rendered */
+  /** The Audit Schema. With Audit Service custom schema support, you can change the expected Audit schema. This will control which fields are rendered */
   schema?: Audit.Schema;
 
   /** Options of mutating the audit schema the component uses */

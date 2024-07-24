@@ -80,7 +80,7 @@ export class AuthNFlowClient extends AuthNClient {
   /**
    * Begins a standard authentication flow for signing up or signing in users.
    *
-   * @param {FlowStart} data The intial flow data to start with
+   * @param {FlowStart} data The initial flow data to start with
    * @returns {Promise<ClientResponse>} Async client response
    */
   async start(data: FlowStart): Promise<ClientResponse> {
@@ -140,7 +140,7 @@ export class AuthNFlowClient extends AuthNClient {
   /**
    * Tell the login flow to move to the next step
    *
-   * @param {FlowStart} data The intial flow data to start with
+   * @param {FlowStart} data The initial flow data to start with
    * @returns {Promise<ClientResponse>} Async client response
    */
   async signupPassword(data: FlowSignupPassword): Promise<ClientResponse> {

@@ -161,7 +161,7 @@ export namespace Audit {
     /** Only present in logs if record is signed by Vault */
     valid_signature?: boolean;
 
-    /** Present if fpe redection was used against the log */
+    /** Present if FPE redection was used against the log */
     fpe_context?: string;
   }
 

@@ -42,11 +42,11 @@ To learn more about Material-UI (MUI) check out their [official documentation](h
 
 Our components use the Material-UI component library, so styling of the component can be controlled through a MUI Theme. See Theming documentation [here](https://mui.com/material-ui/customization/theming/).
 
-What to apply your Pangea branding to your end application? Check out the `@pangeacyber/react-mui-branding` NPM package [here](https://github.com/pangeacyber/pangea-javascript/tree/main/packages/react-mui-branding). The `BrandingThemeProvider` can fetch your Pangea Projects Branding and apply the styling to a Material-UI Theme.
+Want to apply your Pangea branding to your end application? Check out the `@pangeacyber/react-mui-branding` npm package [here](https://github.com/pangeacyber/pangea-javascript/tree/main/packages/react-mui-branding). The `BrandingThemeProvider` can fetch your Pangea project's branding and apply the styling to a Material-UI Theme.
 
 ## Next Steps
 
 - Learn more about the properties and options available to you with the [Secure Audit Log Viewer API Reference Documentation](./api-reference)
 - Check out our [Admin Guide](https://pangea.cloud/docs/admin-guide/) if you have a specific task you would like to complete
-- If you are feeling confident, you can browse our [APIs](https://pangea.cloud/docs/api/) or explore our [Github repo](https://github.com/pangeacyber), which has libraries for supported languages, SDKs, sample apps, etc
+- If you are feeling confident, you can browse our [APIs](https://pangea.cloud/docs/api/) or explore our [GitHub repo](https://github.com/pangeacyber), which has libraries for supported languages, SDKs, sample apps, etc
 - For any questions, you can connect with our [Pangea Discourse for Builders](https://l.pangea.cloud/Jd4wlGs)

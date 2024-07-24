@@ -11,7 +11,7 @@
   "scripts": {
     "storybook": "start-storybook -p 6006",
     "build-storybook": "build-storybook",
-    "build-docs": "yarn typedoc --plugin typedoc-plugin-rename-defaults",
+    "build-docs": "typedoc --plugin typedoc-plugin-rename-defaults",
     "build": "yarn build-docs && NODE_ENV=production rollup -c",
     "test": "jest",
     "typecheck": "tsc --noEmit"

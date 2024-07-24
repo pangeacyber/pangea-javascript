@@ -10,7 +10,7 @@ description: Learn how to use the Secure Audit Log Viewer components from Pangea
 
 The Audit Log Viewer can be used to search, view, and verify tamperproofing of all logs stored by the Secure Audit Log service. It allows users to perform searches, navigate through pages of results, and interact with the audit log data.
 
-An application using the Pangea Audit Service may also require that the audit logs are presented in the end application, because of this we made the log viewer React component that Pangea uses within it's Console available as an NPM package, such that it could be embed directly into an app.
+An application using the Pangea Audit Service may also require that the audit logs are presented in the end application, because of this we made the log viewer React component that Pangea uses within its Console available as an npm package, such that it could be embed directly into an app.
 
 The AuditLogViewer component is a React component built using the Material-UI (MUI) component library. MUI was used because it is the same component used within the Pangea Console.
 
