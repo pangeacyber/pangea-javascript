@@ -316,7 +316,7 @@ export const useStoreFileViewerFolder = () => {
   return {
     parent,
     folder:
-      parent?.path ?? !!parent
+      (parent?.path ?? !!parent)
         ? `${parent?.folder}/${parent?.name}/`.replace("//", "/")
         : "/",
     setFolder,

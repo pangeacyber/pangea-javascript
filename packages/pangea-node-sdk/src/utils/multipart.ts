@@ -56,7 +56,7 @@ export function parse(multipartBodyBuffer: Buffer, boundary: string): Input[] {
   for (let i = 0; i < multipartBodyBuffer.length; i++) {
     const oneByte: number = multipartBodyBuffer[i] ?? 0;
     const prevByte: number | null =
-      i > 0 ? multipartBodyBuffer[i - 1] ?? 0 : null;
+      i > 0 ? (multipartBodyBuffer[i - 1] ?? 0) : null;
     // 0x0a => \n
     // 0x0d => \r
     const newLineDetected: boolean = oneByte === 0x0a && prevByte === 0x0d;

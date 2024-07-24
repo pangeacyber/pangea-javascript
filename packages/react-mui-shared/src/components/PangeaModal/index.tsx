@@ -49,7 +49,7 @@ const PangeaModal: FC<PangeaModalProps> = ({
     large: "800px",
     xl: "90%",
     page: "calc(100% - 32px)",
-  }[isSmall ? "page" : size ?? "default"];
+  }[isSmall ? "page" : (size ?? "default")];
 
   return (
     <MUIModal
