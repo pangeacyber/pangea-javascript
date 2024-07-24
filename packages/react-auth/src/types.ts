@@ -24,7 +24,7 @@ export interface APIResponse {
 }
 
 /**
- * Describes the parent repsonse object for a remote Pangea request
+ * Describes the parent response object for a remote Pangea request
  */
 export interface ClientResponse {
   /**
