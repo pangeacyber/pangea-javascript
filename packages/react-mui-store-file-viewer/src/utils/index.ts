@@ -25,7 +25,7 @@ export function formatBytes(
   const k = 1024;
   const byteSizes = ["Bytes", "KB", "MB", "GB", "TB", "PB"];
   const explicitByteSizes = ["Bytes", "KiB", "MiB", "GiB", "TiB", "PiB"];
-  const sizes = useExplicit ? byteSizes : explicitByteSizes;
+  const sizes = useExplicit ? explicitByteSizes : byteSizes;
 
   const dm = decimals < 0 ? 0 : decimals;
 
