@@ -18,14 +18,14 @@ export function formatBytes(
   decimals: number = 3,
   shortform: boolean = true,
   size: string | undefined = undefined,
-  useBytes: boolean = true
+  useExplicit: boolean = false
 ) {
   if (!bytes) return "0 Bytes";
 
-  const k = useBytes ? 1000 : 1024;
+  const k = 1024;
   const byteSizes = ["Bytes", "KB", "MB", "GB", "TB", "PB"];
-  const bitSizes = ["Bytes", "KiB", "MiB", "GiB", "TiB", "PiB"];
-  const sizes = useBytes ? byteSizes : bitSizes;
+  const explicitByteSizes = ["Bytes", "KiB", "MiB", "GiB", "TiB", "PiB"];
+  const sizes = useExplicit ? explicitByteSizes : byteSizes;
 
   const dm = decimals < 0 ? 0 : decimals;
 
