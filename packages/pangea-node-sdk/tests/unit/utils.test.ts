@@ -10,7 +10,8 @@ import {
   b64toStr,
   hashNTLM,
 } from "@src/index.js";
-import { getFileUploadParams } from "@src/utils/utils.js";
+import { canonicalize, getFileUploadParams } from "@src/utils/utils.js";
+import { verifyLogHash } from "@src/utils/verification.js";
 
 const testfilePath = "./tests/testdata/testfile.pdf";
 
@@ -62,4 +63,35 @@ it("getFileParams test buffer", async () => {
     "81655950d560e804a6315e09e74a7414e7b18ba99f722abe6122857e69a3aebd"
   );
   expect(paramsFilepath.size).toBe(10028);
+});
+
+it("PAN-15851: canonicalization escaping", () => {
+  // It's easier to read the expected outputs if we don't have to escape
+  // quotes to satisfy the quotes lint.
+  /* eslint-disable quotes */
+  expect(canonicalize({ foo: "'" })).toEqual(`{"foo":"'"}`);
+  expect(canonicalize({ foo: "`" })).toEqual('{"foo":"`"}');
+  expect(canonicalize({ foo: `"` })).toEqual('{"foo":"\\""}');
+  expect(canonicalize({ foo: "❤️" })).toEqual('{"foo":"\\\\u2764\\\\ufe0f"}');
+  expect(canonicalize({ foo: "𝌆" })).toEqual('{"foo":"\\\\ud834\\\\udf06"}');
+  expect(canonicalize({ foo: "abc𝔸𝔹ℂ" })).toEqual(
+    '{"foo":"abc\\\\ud835\\\\udd38\\\\ud835\\\\udd39\\\\u2102"}'
+  );
+  /* eslint-enable quotes */
+
+  const envelope = {
+    received_at: "2024-07-25T00:51:46.340938Z",
+    event: {
+      action: "Viewed employee records",
+      actor: "rob",
+      message: "rob viewed Oliver Friedrichs employee details.",
+      new: '{"image":"/people/Oliver_Friedrichs.png","linkedin":"https://www.linkedin.com/in/oliverfriedrichs","name":"Oliver Friedrichs","quote":["I ❤️ SOC2, GDPR, HIPAA, PCI and ISO 27001.","Always give 100%, unless you\'re donating blood.","If you think you are too small to make a difference, try sleeping with a mosquito."],"title":"CEO","twitter":""}',
+    },
+  };
+  expect(
+    verifyLogHash(
+      envelope,
+      "e43f028b3d824db1de9e709c652dc4377af0a6422f1248d5654ea42258a777ef"
+    )
+  ).toStrictEqual(true);
 });

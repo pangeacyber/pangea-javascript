@@ -17,16 +17,31 @@ function orderKeysRecursive(obj: Object) {
       value[1] = orderKeysRecursive(value[1]);
     }
   });
-  const orderedObj = Object.fromEntries(orderedEntries);
-  return orderedObj;
+  return Object.fromEntries(orderedEntries);
 }
 
-var replacer = function (this: any, key: string, value: any) {
-  if (this[key] instanceof Date) {
-    return this[key].toISOString();
+function isAscii(c: string): boolean {
+  return c.codePointAt(0)! <= 127;
+}
+
+function replacer(_key: string, value: any) {
+  if (value instanceof Date) {
+    return value.toISOString();
+  }
+  if (typeof value === "string") {
+    return [...value]
+      .map((c) =>
+        isAscii(c)
+          ? c // Do nothing.
+          : c
+              .split("") // Split into code points.
+              .map((p) => `\\u${p.codePointAt(0)!.toString(16)}`)
+              .join("")
+      )
+      .join("");
   }
   return value;
-};
+}
 
 export function eventOrderAndStringifySubfields(obj: Object) {
   const orderedEntries = Object.entries(obj).sort((a, b) =>
@@ -39,8 +54,7 @@ export function eventOrderAndStringifySubfields(obj: Object) {
       value[1] = JSON.stringify(value[1], replacer); // This is to stringify JSON objects in the same way server do
     }
   });
-  const orderedObj = Object.fromEntries(orderedEntries);
-  return orderedObj;
+  return Object.fromEntries(orderedEntries);
 }
 
 export function canonicalize(obj: Object): string {

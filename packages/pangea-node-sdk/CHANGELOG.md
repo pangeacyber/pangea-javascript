@@ -10,6 +10,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Fixed
 
 - AuthN `getProfile()` TSDoc example.
+- Non-ASCII values not being escaped properly during event canonicalization.
 
 ## [3.10.0] - 2024-07-16
 
