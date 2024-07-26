@@ -356,7 +356,8 @@ export const useConsitency = (
       !record ||
       !consistencyKey ||
       consistencyKey in (consistencyRef?.current ?? {}) ||
-      !publishedRoots
+      !publishedRoots ||
+      (!publishedRoots?.[Number(consistencyKey)] && consistencyKey !== "0")
     )
       return;
 
