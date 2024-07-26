@@ -2207,6 +2207,9 @@ export namespace Share {
     /** The date and time the object was created. */
     created_at: string;
 
+    /** The key in the external bucket that contains this file. */
+    external_bucket_key: string;
+
     /** The ID of a stored object. */
     id: string;
 
@@ -2256,6 +2259,9 @@ export namespace Share {
      * The path of the object to delete.
      */
     path?: string;
+
+    /** The bucket to use, if not the default. */
+    bucket_id?: string;
   }
 
   export interface Authenticator {
@@ -2268,6 +2274,23 @@ export namespace Share {
      * An email address.
      */
     auth_context: string;
+  }
+
+  export interface Bucket {
+    /** The ID of a share bucket resource. */
+    id: string;
+
+    /** If true, is the default bucket. */
+    default: boolean;
+
+    /** The bucket's friendly name. */
+    name: string;
+    transfer_methods: TransferMethod[];
+  }
+
+  export interface BucketsResult {
+    /** A list of available buckets. */
+    buckets: Bucket[];
   }
 
   export interface DeleteResult {
@@ -2305,6 +2328,9 @@ export namespace Share {
      * A list of user-defined tags.
      */
     tags?: Tags;
+
+    /** The bucket to use, if not the default. */
+    bucket_id?: string;
   }
 
   export interface FolderCreateResult {
@@ -2312,6 +2338,9 @@ export namespace Share {
   }
 
   export interface GetRequest {
+    /** The bucket to use, if not the default. */
+    bucket_id?: string;
+
     /** The ID of the object to retrieve. */
     id?: string;
 
@@ -2330,6 +2359,9 @@ export namespace Share {
   }
 
   export interface PutRequest {
+    /** The bucket to use, if not the default. */
+    bucket_id?: string;
+
     /**
      * The hexadecimal-encoded CRC32C hash of the file data, which will be
      * verified by the server if provided.
@@ -2423,6 +2455,9 @@ export namespace Share {
      */
     add_tags?: Tags;
 
+    /** The bucket to use, if not the default. */
+    bucket_id?: string;
+
     /** An identifier for the file to update. */
     id: string;
 
@@ -2472,6 +2507,12 @@ export namespace Share {
   }
 
   export interface ListRequest {
+    /** The bucket to use, if not the default. */
+    bucket_id?: string;
+
+    /** If true, include the `external_bucket_key` in results. */
+    external_bucket_key?: boolean;
+
     filter?: ListFilter;
 
     /**
@@ -2503,6 +2544,9 @@ export namespace Share {
   }
 
   export interface GetArchiveRequest {
+    /** The bucket to use, if not the default. */
+    bucket_id?: string;
+
     /**
      * The IDs of the objects to include in the archive. Folders include all
      * children.
@@ -2572,8 +2616,8 @@ export namespace Share {
     /** The ID of a share link. */
     id: string;
 
-    /** The ID of a bucket resource. */
-    storage_pool_id: string;
+    /** The ID of a share bucket resource. */
+    bucket_id: string;
 
     /** List of storage IDs. */
     targets: string[];
@@ -2641,15 +2685,6 @@ export namespace Share {
 
     /** Only records where id equals one of the provided substrings. */
     id__in?: string[];
-
-    /** Only records where storage_pool_id equals this value. */
-    storage_pool_id?: string;
-
-    /** Only records where storage_pool_id includes each substring. */
-    storage_pool_id__contains?: string[];
-
-    /** Only records where storage_pool_id equals one of the provided substrings. */
-    storage_pool_id__in?: string[];
 
     /** Only records where target_id equals this value. */
     target_id?: string;
@@ -2755,6 +2790,9 @@ export namespace Share {
   }
 
   export interface ShareLinkListRequest {
+    /** The bucket to use, if not the default. */
+    bucket_id?: string;
+
     filter?: ShareLinkListFilter;
 
     /** Reflected value from a previous response to obtain the next page of results. */
@@ -2777,6 +2815,9 @@ export namespace Share {
   }
 
   export interface ShareLinkDeleteRequest {
+    /** The bucket to use, if not the default. */
+    bucket_id?: string;
+
     ids: string[];
   }
 
