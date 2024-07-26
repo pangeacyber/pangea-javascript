@@ -177,8 +177,7 @@ export const verifyConsistencyProof = async ({
   publishedRoots: PublishedRoots;
   record: Audit.AuditRecord;
 }): Promise<boolean> => {
-  const leafIndex = Number(record.leaf_index);
-
+  const leafIndex = Number(record.leaf_index ?? 0);
   // We can't validate the consistency proof for messages of the beginning of the published
   //  hot trees.. but we want a line.
   if (!leafIndex) return true;

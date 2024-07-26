@@ -27,9 +27,10 @@ export const usePublishedRoots = ({
       .filter((log) => log.leaf_index !== undefined)
       .forEach((log) => {
         const idx = Number(log.leaf_index);
-        treeSizes.add(idx);
+
+        treeSizes.add(idx + 1);
         if (idx > 0) {
-          treeSizes.add(idx - 1);
+          treeSizes.add(idx);
         }
       });
 

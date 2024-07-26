@@ -58,12 +58,12 @@ export const getArweavePublishedRoots = async (
     },
     body: JSON.stringify({ query }),
   });
-  const response = await fetchResponse.json();
+  if (!fetchResponse.ok) return {};
 
-  if (response.status !== 200) return {};
+  const body = await fetchResponse.json();
 
   const publishedRoots: PublishedRoots = {};
-  const edges = response.data?.data?.transactions?.edges ?? [];
+  const edges = body?.data?.transactions?.edges ?? [];
   for (let idx = 0; idx < edges.length; idx++) {
     const edge = edges[idx];
 
@@ -76,15 +76,15 @@ export const getArweavePublishedRoots = async (
     const treeSize = treeSizeTags[0]?.value;
 
     const transactionUrl = arweaveTransactionUrl(nodeId);
-    const getResponse = await fetch(transactionUrl);
-    const response = await getResponse.json();
-    if (response.status !== 200 || response.statusText === "Pending") {
+    const getResponse = await fetch(transactionUrl, { method: "GET" });
+    if (!getResponse.ok || getResponse.statusText === "Pending") {
       continue;
     }
 
+    const body = await getResponse.json();
     try {
       const root = {
-        ...response.data,
+        ...body,
         transactionId: nodeId,
       };
 
@@ -98,9 +98,10 @@ export const getArweavePublishedRoots = async (
     const treeSize = treeSizes[idx];
     if (!(treeSize in publishedRoots)) {
       const body = !!treeSize ? { tree_size: treeSize } : {};
-      const root = await fetchRoot(body).catch((err) => {
+      const response = await fetchRoot(body).catch((err) => {
         console.error(err);
       });
+      const root = response?.data;
 
       if (root) {
         let transactionId = "";

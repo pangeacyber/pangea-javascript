@@ -151,7 +151,9 @@ export namespace Audit {
     dest_url: string;
   }
 
-  export interface RootResponse extends Root {}
+  export interface RootResponse {
+    data: Root;
+  }
 
   export enum SchemaFieldType {
     Boolean = "boolean",
