@@ -350,6 +350,7 @@ export const AuditSecureColumn: GridColDef = {
             marginBottom: "-4px",
             transition: "background-color 1s ease;",
           }}
+          className="Pangea-VerificationLine-Box"
         />
         <VerificationModal
           isMembershipValid={isMembershipValid}
@@ -372,6 +373,7 @@ export const AuditSecureColumn: GridColDef = {
             marginTop: "-4px",
             transition: "background-color 1s ease;",
           }}
+          className="Pangea-VerificationLine-Box"
         />
       </Stack>
     );

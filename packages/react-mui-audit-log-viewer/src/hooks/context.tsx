@@ -329,15 +329,15 @@ export const useConsitency = (
     rowToLeafIndex,
     consistencyRef,
   } = useAuditContext();
-  const consistencyKey = `${record?.leaf_index}`;
+  const consistencyKey = `${record?.leaf_index ?? 0}`;
   const transactionId =
-    (get(publishedRoots, record?.leaf_index ?? "") as Audit.Root)
+    (get(publishedRoots, record?.leaf_index ?? "0") as Audit.Root)
       ?.transactionId ?? "";
 
   const isConsistent = get(consistency ?? {}, consistencyKey, false);
 
   const getIndex = (id: any): string =>
-    get(rowToLeafIndex, id, { leaf_index: "" })?.leaf_index ?? "";
+    get(rowToLeafIndex, id, { leaf_index: "" })?.leaf_index ?? "0";
 
   const isConsistentWithNext =
     get(consistency ?? {}, getIndex(record.id + 1), false) && isConsistent;

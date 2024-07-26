@@ -24,6 +24,7 @@ const VerificationLine: FC<{
         marginLeft: 0,
         marginBottom: -1.5,
       }}
+      className="Pangea-VerificationLine-Next"
     />
   );
 };
