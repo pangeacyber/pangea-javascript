@@ -6,7 +6,7 @@
   "author": "Pangea (https://pangea.cloud)",
   "license": "MIT",
   "devDependencies": {
-    "husky": "^9.1.1",
+    "husky": "^9.1.2",
     "lint-staged": "^15.2.7",
     "prettier": "3.3.3"
   },
