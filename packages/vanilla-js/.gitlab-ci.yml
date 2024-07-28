@@ -1,5 +1,5 @@
 .vanilla_js_base:
-  image: node:20.15.1@sha256:6326b52a508f0d99ffdbfaa29a69380321b215153db6f32974835bac71b38fa4
+  image: node:20.16.0@sha256:1ae9ba874435551280e95c8a8e74adf8a48d72b564bf9dfe4718231f2144c88f
   before_script:
     - cd packages/vanilla-js
     - yarn install
