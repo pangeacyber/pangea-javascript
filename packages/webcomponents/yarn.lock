@@ -1547,10 +1547,10 @@
     react-json-view "^1.21.3"
     yup "^1.4.0"
 
-"@pangeacyber/react-mui-store-file-viewer@^0.0.53":
-  version "0.0.53"
-  resolved "https://registry.yarnpkg.com/@pangeacyber/react-mui-store-file-viewer/-/react-mui-store-file-viewer-0.0.53.tgz#feea8199a3c5fa95aa04982adf5a15cf3c4a422d"
-  integrity sha512-jF38HsqYS5Y+OUS7j+q+hCl1P9/mG0UKv/TzZeHwFjAndYtA2sATeWAbJjzi2waOsOUtiEV0aYSi6c5DmnBLZg==
+"@pangeacyber/react-mui-store-file-viewer@^0.0.55":
+  version "0.0.55"
+  resolved "https://registry.yarnpkg.com/@pangeacyber/react-mui-store-file-viewer/-/react-mui-store-file-viewer-0.0.55.tgz#daa676ef6454b7f66a3029d44cc779d6fe84e3d3"
+  integrity sha512-/jzUwxXRHtSAGbLL5U+pbhgP9jzqnbNhVNbvsySUKj5MMvneKG1Bcvn7irIF3FmZolTU5kwEXl0HAwbCoi897Q==
   dependencies:
     "@pangeacyber/react-mui-shared" "0.0.64"
     axios "^1.7.2"
