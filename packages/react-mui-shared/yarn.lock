@@ -897,7 +897,7 @@
     "@babel/helper-create-regexp-features-plugin" "^7.24.7"
     "@babel/helper-plugin-utils" "^7.24.7"
 
-"@babel/preset-env@^7.23.2", "@babel/preset-env@^7.24.8":
+"@babel/preset-env@^7.23.2", "@babel/preset-env@^7.25.0":
   version "7.25.0"
   resolved "https://registry.yarnpkg.com/@babel/preset-env/-/preset-env-7.25.0.tgz#3fe92e470311e91478129efda101816c680f0479"
   integrity sha512-vYAA8PrCOeZfG4D87hmw1KJ1BPubghXP1e2MacRFwECGNKL76dkA38JEwYllbvQCpf/kLxsTtir0b8MtxKoVCw==
