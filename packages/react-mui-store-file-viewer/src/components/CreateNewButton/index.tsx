@@ -7,7 +7,15 @@ import CreateNewFileButton from "../CreateNewFileButton";
 import CreateNewFolderButton from "../CreateNewFolderButton";
 import CreateNewProtectedFileButton from "../CreateNewProtectedFileButton";
 
-const CreateNewButton: FC = ({}) => {
+interface Props {
+  hideCreateProtected?: boolean;
+  hideFolderOptions?: boolean;
+}
+
+const CreateNewButton: FC<Props> = ({
+  hideCreateProtected = false,
+  hideFolderOptions = false,
+}) => {
   const theme = useTheme();
   const [optionsEl, setOptionsEl] = useState<HTMLElement | null>(null);
 
@@ -46,6 +54,7 @@ const CreateNewButton: FC = ({}) => {
               event.stopPropagation();
             }
           }}
+          elevation={0}
         >
           <CreateNewFolderButton
             ButtonProps={{
@@ -59,6 +68,7 @@ const CreateNewButton: FC = ({}) => {
               "data-testid": "New-Folder-Btn",
             }}
             onClose={handleClick}
+            hideFolderOptions={hideFolderOptions}
           />
           <CreateNewFileButton
             ButtonProps={{
@@ -73,19 +83,21 @@ const CreateNewButton: FC = ({}) => {
             }}
             onClose={handleClick}
           />
-          <CreateNewProtectedFileButton
-            ButtonProps={{
-              sx: {
-                color: theme.palette.text.primary,
-                width: "100%",
-                paddingLeft: 2,
-                justifyContent: "start",
-              },
-              // @ts-ignore
-              "data-testid": "New-ProtectedFile-Btn",
-            }}
-            onClose={handleClick}
-          />
+          {!hideCreateProtected && (
+            <CreateNewProtectedFileButton
+              ButtonProps={{
+                sx: {
+                  color: theme.palette.text.primary,
+                  width: "100%",
+                  paddingLeft: 2,
+                  justifyContent: "start",
+                },
+                // @ts-ignore
+                "data-testid": "New-ProtectedFile-Btn",
+              }}
+              onClose={handleClick}
+            />
+          )}
         </Paper>
       </Menu>
     </Box>
