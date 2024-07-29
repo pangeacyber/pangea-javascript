@@ -7,6 +7,7 @@ import {
   PostOptions,
   TransferMethod,
   FileItems,
+  PangeaToken,
 } from "@src/types.js";
 import { getFileUploadParams } from "@src/utils/utils.js";
 import { PangeaErrors } from "@src/errors.js";
@@ -28,7 +29,7 @@ export class FileScanService extends BaseService {
    *
    * @summary File Scan
    */
-  constructor(token: string, config: PangeaConfig) {
+  constructor(token: PangeaToken, config: PangeaConfig) {
     super("file-scan", token, config);
   }
 

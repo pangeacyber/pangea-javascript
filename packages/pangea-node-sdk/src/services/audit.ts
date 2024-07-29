@@ -1,7 +1,7 @@
 import PangeaResponse from "@src/response.js";
 import BaseService from "./base.js";
 import PangeaConfig from "@src/config.js";
-import { Audit, PostOptions } from "@src/types.js";
+import { Audit, PangeaToken, PostOptions } from "@src/types.js";
 import {
   PublishedRoots,
   getArweavePublishedRoots,
@@ -45,7 +45,7 @@ class AuditService extends BaseService {
    * @summary Audit
    */
   constructor(
-    token: string,
+    token: PangeaToken,
     config: PangeaConfig,
     tenantID?: string,
     configID?: string

@@ -5,6 +5,7 @@ import Flow from "./flow/index.js";
 import Client from "./client/index.js";
 import Session from "./session.js";
 import Agreements from "./agreements/index.js";
+import {PangeaToken} from "@src/types.js";
 
 /**
  * AuthnService class provides methods for interacting with the AuthN Service
@@ -32,7 +33,7 @@ class AuthNService extends BaseService {
    *
    * @summary AuthN
    */
-  constructor(token: string, config: PangeaConfig) {
+  constructor(token: PangeaToken, config: PangeaConfig) {
     super("authn", token, config);
 
     this.user = new User(token, config);

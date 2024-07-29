@@ -1,7 +1,7 @@
 import PangeaConfig from "@src/config.js";
 import PangeaRequest from "@src/request.js";
 import PangeaResponse, { AttachedFile } from "@src/response.js";
-import { PostOptions } from "@src/types.js";
+import { PostOptions, Vault, PangeaToken } from "@src/types.js";
 
 class BaseService {
   protected serviceName: string;
@@ -20,7 +20,7 @@ class BaseService {
   */
   constructor(
     serviceName: string,
-    token: string,
+    token: PangeaToken,
     config: PangeaConfig,
     configID?: string
   ) {
@@ -28,7 +28,31 @@ class BaseService {
     if (!token) throw new Error("A token is required");
 
     this.serviceName = serviceName;
-    this.token = token;
+    if (typeof token === "string") {
+      this.token = token;
+    } else {
+      if (token.type !== "pangea_token")
+        throw new Error(
+          `Token passed as vault secret is not of type 'pangea_token', but of type '${token.type}'`
+        );
+      if (token.item_state !== "enabled")
+        throw new Error(
+          "Token passed as vault secret is not currently enabled"
+        );
+
+      const currentVersion = token.current_version;
+      if (!currentVersion)
+        throw new Error(
+          "Token passed as vault secret does not have a current version"
+        );
+      if (currentVersion.state !== "active")
+        throw new Error("Token passed as vault secret is not current active");
+      if (!currentVersion.secret)
+        throw new Error(
+          "Vault secret field is not populated, cannot pass as token"
+        );
+      this.token = currentVersion.secret;
+    }
     this.configID = configID;
 
     this.config = new PangeaConfig({ ...config }) || new PangeaConfig();

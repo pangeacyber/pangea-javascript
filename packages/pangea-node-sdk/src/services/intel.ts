@@ -1,7 +1,7 @@
 import PangeaResponse from "@src/response.js";
 import BaseService from "./base.js";
 import PangeaConfig from "@src/config.js";
-import { Intel } from "@src/types.js";
+import { Intel, PangeaToken } from "@src/types.js";
 import { createHash } from "node:crypto";
 import { readFileSync } from "node:fs";
 import { PangeaErrors } from "@src/errors.js";
@@ -48,7 +48,7 @@ export class FileIntelService extends BaseService {
    *
    * @summary File Intel
    */
-  constructor(token: string, config: PangeaConfig) {
+  constructor(token: PangeaToken, config: PangeaConfig) {
     super("file-intel", token, config);
   }
 
@@ -242,7 +242,7 @@ export class DomainIntelService extends BaseService {
    *
    * @summary Domain Intel
    */
-  constructor(token: string, config: PangeaConfig) {
+  constructor(token: PangeaToken, config: PangeaConfig) {
     super("domain-intel", token, config);
   }
 
@@ -389,7 +389,7 @@ export class IPIntelService extends BaseService {
    *
    * @summary IP Intel
    */
-  constructor(token: string, config: PangeaConfig) {
+  constructor(token: PangeaToken, config: PangeaConfig) {
     super("ip-intel", token, config);
   }
 
@@ -793,7 +793,7 @@ export class URLIntelService extends BaseService {
    *
    * @summary URL Intel
    */
-  constructor(token: string, config: PangeaConfig) {
+  constructor(token: PangeaToken, config: PangeaConfig) {
     super("url-intel", token, config);
   }
 
@@ -910,7 +910,7 @@ export class UserIntelService extends BaseService {
    *
    * @summary User Intel
    */
-  constructor(token: string, config: PangeaConfig) {
+  constructor(token: PangeaToken, config: PangeaConfig) {
     super("user-intel", token, config);
   }
 
