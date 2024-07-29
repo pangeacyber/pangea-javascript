@@ -52,7 +52,7 @@
     "tsc-alias": "^1.8.10",
     "tshy": "1.18.0",
     "typedoc": "^0.26.5",
-    "typescript": "5.5.3"
+    "typescript": "5.5.4"
   },
   "scripts": {
     "test": "cross-env NODE_OPTIONS=--experimental-vm-modules jest",
