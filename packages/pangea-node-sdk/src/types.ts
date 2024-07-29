@@ -43,7 +43,7 @@ export interface ConfigOptions {
   customUserAgent?: string;
 }
 
-export type PangeaToken = string | { type: "pangea_token" } & Vault.GetResult
+export type PangeaToken = string | ({ type: "pangea_token" } & Vault.GetResult);
 
 export interface PostOptions {
   pollResultSync?: boolean;

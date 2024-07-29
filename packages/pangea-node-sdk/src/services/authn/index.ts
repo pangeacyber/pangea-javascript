@@ -5,7 +5,7 @@ import Flow from "./flow/index.js";
 import Client from "./client/index.js";
 import Session from "./session.js";
 import Agreements from "./agreements/index.js";
-import {PangeaToken} from "@src/types.js";
+import { PangeaToken } from "@src/types.js";
 
 /**
  * AuthnService class provides methods for interacting with the AuthN Service
