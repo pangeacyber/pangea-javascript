@@ -2985,6 +2985,7 @@ export namespace AuthZ {
     type: string;
     action: string;
     subject: Subject;
+    attributes?: Dictionary;
   }
 
   export interface ListResourcesResult {
@@ -2994,6 +2995,7 @@ export namespace AuthZ {
   export interface ListSubjectsRequest {
     resource: Resource;
     action: string;
+    attributes?: Dictionary;
   }
 
   export interface ListSubjectsResult {
