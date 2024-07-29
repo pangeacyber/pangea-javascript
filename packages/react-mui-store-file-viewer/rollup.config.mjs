@@ -26,6 +26,7 @@ export default [
         dir: "dist/esm",
         format: "esm",
         sourcemap: true,
+        preserveModules: true,
       },
     ],
     plugins: [

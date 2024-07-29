@@ -54,7 +54,7 @@ export const StoreDownloadFileViewer: FC<StoreFileViewerProps> = ({
       defaultShareLinkTitle={defaultShareLinkTitle}
     >
       <>
-        {configurations?.controls?.editorMode && (
+        {!!apiRef?.folderCreate && (
           <Stack direction="row" justifyItems="flex-end">
             <CreateNewButton
               hideCreateProtected={true}

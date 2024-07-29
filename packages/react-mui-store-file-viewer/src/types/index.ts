@@ -82,9 +82,6 @@ export interface StoreConfigurations {
     maxDate?: dayjs.Dayjs;
     defaultExpiresAt?: Date;
   };
-  controls?: {
-    editorMode?: boolean; // show create button on StoreFileDownloadViewer
-  };
 }
 
 export namespace ObjectStore {
