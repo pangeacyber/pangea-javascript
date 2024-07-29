@@ -2,6 +2,8 @@ import { FC, useMemo } from "react";
 import map from "lodash/map";
 import get from "lodash/get";
 import some from "lodash/some";
+import find from "lodash/find";
+
 import { Stack } from "@mui/material";
 import { useTheme, lighten, darken } from "@mui/material/styles";
 
@@ -136,6 +138,8 @@ const AuditPreviewRow: FC<Props> = ({
                 // @ts-ignore
                 new: record.new,
               }}
+              oldField={find(fields, (f) => f.id === "old")}
+              newField={find(fields, (f) => f.id === "new")}
               direction="row"
               uniqueId={rowId}
               context={context}

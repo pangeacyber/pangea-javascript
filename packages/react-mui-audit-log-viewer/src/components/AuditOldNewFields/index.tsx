@@ -1,9 +1,7 @@
-import { FC, useMemo, useState } from "react";
-import isEmpty from "lodash/isEmpty";
+import { FC, useMemo } from "react";
 
-import { Stack, Typography, Switch } from "@mui/material";
+import { Stack } from "@mui/material";
 
-import { Audit } from "../../types";
 import { useDiffWords } from "../../hooks/diff";
 
 import StringJsonField from "../AuditStringJsonField";
@@ -19,12 +17,22 @@ interface Props {
     old: string;
     new: string;
   };
+  oldField?: { title: string };
+  newField?: { title: string };
+
   direction: "row" | "column";
   uniqueId: string;
   context?: FPEContext;
 }
 
-const OldNewFields: FC<Props> = ({ event, direction, uniqueId, context }) => {
+const OldNewFields: FC<Props> = ({
+  event,
+  direction,
+  uniqueId,
+  context,
+  oldField,
+  newField,
+}) => {
   const changes = useDiffWords(event.old, event.new);
 
   const oldChanges = useMemo(() => {
@@ -71,7 +79,7 @@ const OldNewFields: FC<Props> = ({ event, direction, uniqueId, context }) => {
     <Stack sx={{ position: "relative" }} spacing={-1}>
       {!!event.old && (
         <StringJsonField
-          title="Old Value"
+          title={oldField?.title ?? "Old"}
           field="old"
           value={event.old}
           shouldHighlight={(c) => !!c.removed || !!c.redacted}
@@ -81,7 +89,7 @@ const OldNewFields: FC<Props> = ({ event, direction, uniqueId, context }) => {
       )}
       {!!event.new && (
         <StringJsonField
-          title="New Value"
+          title={newField?.title ?? "New"}
           field="new"
           value={event.new}
           shouldHighlight={(c) => !!c.added || !!c.redacted}
