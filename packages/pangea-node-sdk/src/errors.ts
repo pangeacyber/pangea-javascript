@@ -60,7 +60,7 @@ export namespace PangeaErrors {
     response: PangeaResponse<Errors>;
 
     constructor(message: string, response: PangeaResponse<any>) {
-      super(message);
+      super(`${message}\n${JSON.stringify(errorToString(response), null, 2)}`);
       this.name = "PangeanAPIError";
       this.response = response;
     }
@@ -78,15 +78,7 @@ export namespace PangeaErrors {
     }
 
     toString(): string {
-      let ret = `Summary: ${this.response.summary}\n`;
-      ret += `status: ${this.response.status}\n`;
-      ret += `request_id: ${this.response.request_id}\n`;
-      ret += `request_time: ${this.response.request_time}\n`;
-      ret += `response_time: ${this.response.response_time}\n`;
-      (this.response.result?.errors || []).forEach((ef) => {
-        ret += `\t${ef.source} ${ef.code}: ${ef.detail}\n`;
-      });
-      return ret;
+      return errorToString(this.response);
     }
   }
 
@@ -203,5 +195,17 @@ export namespace PangeaErrors {
       super(message, response);
       this.name = "ForbiddenVaultOperation";
     }
+  }
+
+  function errorToString(response: PangeaResponse<Errors>): string {
+    let ret = `Summary: ${response.summary}\n`;
+    ret += `status: ${response.status}\n`;
+    ret += `request_id: ${response.request_id}\n`;
+    ret += `request_time: ${response.request_time}\n`;
+    ret += `response_time: ${response.response_time}\n`;
+    (response.result?.errors || []).forEach((ef) => {
+      ret += `\t${ef.source} ${ef.code}: ${ef.detail}\n`;
+    });
+    return ret;
   }
 }
