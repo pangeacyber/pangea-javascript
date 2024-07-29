@@ -1,10 +1,12 @@
 import { FC } from "react";
+import { Stack } from "@mui/material";
 
 import StoreDataGrid, { StoreDataGridProps } from "../StoreDataGrid";
 import StoreFileViewerProvider, {
   StoreFileViewerProviderProps,
 } from "../../hooks/context";
 import StoreDownloadDataGrid from "../StoreDownloadDataGrid";
+import CreateNewButton from "../CreateNewButton";
 
 export interface StoreFileViewerProps
   extends StoreDataGridProps,
@@ -51,7 +53,17 @@ export const StoreDownloadFileViewer: FC<StoreFileViewerProps> = ({
       defaultSortBy={defaultSortBy}
       defaultShareLinkTitle={defaultShareLinkTitle}
     >
-      <StoreDownloadDataGrid {...props} />
+      <>
+        {!!apiRef?.folderCreate && (
+          <Stack direction="row" justifyItems="flex-end">
+            <CreateNewButton
+              hideCreateProtected={true}
+              hideFolderOptions={true}
+            />
+          </Stack>
+        )}
+        <StoreDownloadDataGrid {...props} />
+      </>
     </StoreFileViewerProvider>
   );
 };

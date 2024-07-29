@@ -5,8 +5,10 @@ import { alertOnError } from "../AlertSnackbar/hooks";
 
 export const getCreateFolderFields = ({
   apiRef,
+  hideFolderOptions = false,
 }: {
   apiRef: StoreProxyApiRef;
+  hideFolderOptions: boolean;
 }): FieldsFormSchema<ObjectStore.FolderCreateRequest> => ({
   general: {
     type: "grouping",
@@ -35,13 +37,15 @@ export const getCreateFolderFields = ({
           type: "singleSelect",
           options: {
             fetchedValueOptions: async (values) => {
-              const defaultOptions = [
-                {
-                  value: "/",
-                  label: "/",
-                  caption: "Root",
-                },
-              ];
+              const defaultOptions = hideFolderOptions
+                ? []
+                : [
+                    {
+                      value: "/",
+                      label: "/",
+                      caption: "Root",
+                    },
+                  ];
               if (!apiRef.list) return defaultOptions;
 
               const response = await apiRef.list({
@@ -78,6 +82,7 @@ export const getCreateFolderFields = ({
     label: "Advanced Settings",
     collaspable: true,
     defaultOpen: false,
+    isHidden: () => hideFolderOptions,
     fields: {
       tags: {
         label: "Tags",

@@ -12,9 +12,14 @@ import { alertOnError } from "../AlertSnackbar/hooks";
 interface Props {
   ButtonProps?: ButtonProps;
   onClose: () => void;
+  hideFolderOptions?: boolean;
 }
 
-const CreateNewFolderButton: FC<Props> = ({ ButtonProps, onClose }) => {
+const CreateNewFolderButton: FC<Props> = ({
+  ButtonProps,
+  onClose,
+  hideFolderOptions = false,
+}) => {
   const { apiRef, reload, parent } = useStoreFileViewerContext();
   const [open, setOpen] = useState(false);
 
@@ -33,7 +38,7 @@ const CreateNewFolderButton: FC<Props> = ({ ButtonProps, onClose }) => {
   }, [open]);
 
   const fields = useMemo(() => {
-    return getCreateFolderFields({ apiRef });
+    return getCreateFolderFields({ apiRef, hideFolderOptions });
   }, []);
 
   const handleClose = () => {
