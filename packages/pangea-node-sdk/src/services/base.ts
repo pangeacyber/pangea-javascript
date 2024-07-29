@@ -1,7 +1,7 @@
 import PangeaConfig from "@src/config.js";
 import PangeaRequest from "@src/request.js";
 import PangeaResponse, { AttachedFile } from "@src/response.js";
-import { PostOptions, Vault, PangeaToken } from "@src/types.js";
+import { PostOptions, PangeaToken } from "@src/types.js";
 
 class BaseService {
   protected serviceName: string;
