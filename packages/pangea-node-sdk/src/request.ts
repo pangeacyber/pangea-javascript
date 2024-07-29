@@ -377,6 +377,7 @@ class PangeaRequest {
     const fetchOptions: RequestInit = {
       duplex: "half",
       method: options.method,
+      // @ts-ignore
       body: options.body,
       headers: options.headers,
     };
