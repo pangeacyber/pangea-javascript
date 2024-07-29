@@ -48,7 +48,7 @@
     "rollup-plugin-postcss": "^4.0.2",
     "storybook": "^7.6.20",
     "ts-jest": "^29.2.3",
-    "typescript": "^5.5.3",
+    "typescript": "^5.5.4",
     "vite": "^5.3.4"
   },
   "dependencies": {
