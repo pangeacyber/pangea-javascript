@@ -2498,6 +2498,8 @@ export namespace AuthZ {
   export interface ListSubjectsRequest {
     resource: Resource;
     action: string;
+    
+    /** A JSON object of attribute data. */
     attributes?: Dictionary;
   }
 
