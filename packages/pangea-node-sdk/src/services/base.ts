@@ -46,7 +46,7 @@ class BaseService {
           "Token passed as vault secret does not have a current version"
         );
       if (currentVersion.state !== "active")
-        throw new Error("Token passed as vault secret is not current active");
+        throw new Error("Token passed as vault secret is not currently active");
       if (!currentVersion.secret)
         throw new Error(
           "Vault secret field is not populated, cannot pass as token"
