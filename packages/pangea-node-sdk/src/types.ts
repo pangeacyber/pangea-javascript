@@ -2486,6 +2486,8 @@ export namespace AuthZ {
     type: string;
     action: string;
     subject: Subject;
+    
+    /** A JSON object of attribute data. */
     attributes?: Dictionary;
   }
 
