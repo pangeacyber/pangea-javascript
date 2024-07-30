@@ -2511,7 +2511,7 @@ export namespace Share {
     bucket_id?: string;
 
     /** If true, include the `external_bucket_key` in results. */
-    external_bucket_key?: boolean;
+    include_external_bucket_key?: boolean;
 
     filter?: ListFilter;
 
