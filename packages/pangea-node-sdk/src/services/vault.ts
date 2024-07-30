@@ -1,7 +1,7 @@
 import PangeaResponse from "@src/response.js";
 import BaseService from "./base.js";
 import PangeaConfig from "@src/config.js";
-import { Vault } from "@src/types.js";
+import { PangeaToken, Vault } from "@src/types.js";
 
 /**
  * VaultService class provides methods for interacting with the Vault Service
@@ -23,7 +23,7 @@ class VaultService extends BaseService {
    *
    * @summary Vault
    */
-  constructor(token: string, config: PangeaConfig) {
+  constructor(token: PangeaToken, config: PangeaConfig) {
     super("vault", token, config);
   }
 

@@ -1,7 +1,7 @@
 import PangeaResponse from "@src/response.js";
 import BaseService from "./base.js";
 import PangeaConfig from "@src/config.js";
-import { Redact } from "@src/types.js";
+import { PangeaToken, Redact } from "@src/types.js";
 
 export interface RedactOptions {
   config_id?: string;
@@ -28,7 +28,7 @@ class RedactService extends BaseService {
    * @summary Redact
    */
   constructor(
-    token: string,
+    token: PangeaToken,
     config: PangeaConfig,
     options: RedactOptions = {}
   ) {

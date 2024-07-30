@@ -1,7 +1,7 @@
 import BaseService from "@src/services/base.js";
 import PangeaConfig from "@src/config.js";
 import PangeaResponse from "@src/response.js";
-import { AuthN } from "@src/types.js";
+import { AuthN, PangeaToken } from "@src/types.js";
 
 import ClientSession from "./session.js";
 import ClientPassword from "./password.js";
@@ -12,7 +12,7 @@ export default class Client extends BaseService {
   password: ClientPassword;
   clientToken: ClientToken;
 
-  constructor(token: string, config: PangeaConfig) {
+  constructor(token: PangeaToken, config: PangeaConfig) {
     super("authn", token, config);
 
     this.session = new ClientSession(token, config);

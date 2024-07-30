@@ -1,7 +1,7 @@
 import PangeaResponse from "@src/response.js";
 import BaseService from "./base.js";
 import PangeaConfig from "@src/config.js";
-import { AuthZ } from "@src/types.js";
+import { AuthZ, PangeaToken } from "@src/types.js";
 
 /**
  * AuthZService class provides methods for interacting with the AuthZ Service
@@ -23,7 +23,7 @@ class AuthZService extends BaseService {
    *
    * @summary AuthZ
    */
-  constructor(token: string, config: PangeaConfig) {
+  constructor(token: PangeaToken, config: PangeaConfig) {
     super("authz", token, config);
   }
 
