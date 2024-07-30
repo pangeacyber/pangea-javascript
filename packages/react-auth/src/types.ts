@@ -48,7 +48,7 @@ export interface Token {
   id: string;
 
   /**
-   * TODO
+   * User ID of the token owner
    */
   identity: string;
 
@@ -58,27 +58,27 @@ export interface Token {
   token: string;
 
   /**
-   * TODO
+   * Type of token: 'user' for an active token, 'session' for a refresh token
    */
   type: string;
 
   /**
-   * TODO
+   * Time in seconds until the token expires
    */
   life: string;
 
   /**
-   * TODO
+   * Token expiration timestamp in ISO 8601 format
    */
   expire: string;
 
   /**
-   * TODO
+   * When the token was created, in ISO 8601 format
    */
   created_at: string;
 
   /**
-   * TODO
+   * @hidden
    */
   scopes?: string[];
 }

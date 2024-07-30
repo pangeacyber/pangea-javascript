@@ -6,6 +6,9 @@ export {
 
 export { AuthNClient } from "./AuthNClient";
 
+/**
+ * @ignore
+ */
 export {
   AuthFlowProvider,
   AuthNFlowClient,

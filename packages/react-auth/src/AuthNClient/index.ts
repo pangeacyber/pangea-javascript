@@ -6,14 +6,11 @@ const API_VERSION = "v2";
 
 /**
  * Base support for making client calls to AuthN endpoints.
+ * @param {AuthConfig} config Configuration for connecting with AuthN
  */
 export class AuthNClient {
   config: AuthConfig;
 
-  /**
-   * Base support for making client calls to AuthN endpoints.
-   * @param {AuthConfig} config Configuration for connecting with AuthN
-   */
   // @ts-expect-error TODO: is `useJwt` supposed to be used here?
   constructor(config: AuthConfig, useJwt: boolean = false) {
     if (!config.clientToken) throw new Error("A token is required");
@@ -156,4 +153,7 @@ export class AuthNClient {
   }
 }
 
+/**
+ * @hidden
+ */
 export default AuthNClient;

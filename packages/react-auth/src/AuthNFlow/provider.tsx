@@ -31,7 +31,7 @@ import { useComponentAuth } from "~/src/ComponentAuthProvider";
 import AuthNFlowClient from "./client";
 
 /**
- * TODO
+ * @hidden
  */
 export interface AuthFlowContextType {
   step?: FlowStep;
@@ -45,6 +45,8 @@ export interface AuthFlowContextType {
 
 /**
  * Describes the props for the AuthFlowProvider component
+ *
+ * @hidden
  */
 export interface AuthFlowProviderProps {
   children: ReactNode;
@@ -52,11 +54,16 @@ export interface AuthFlowProviderProps {
 
 const SESSION_DATA_NAME = "pangea-authn-flow";
 
+/**
+ * @hidden
+ */
 export const AuthFlowContext = createContext<AuthFlowContextType>(
   {} as AuthFlowContextType
 );
 
 /**
+ * @hidden
+ *
  * A context provider for maintaining state during login, signup, verification, and MFA when using the AuthN Flow APIs.
  */
 export const AuthFlowProvider: FC<AuthFlowProviderProps> = ({ children }) => {
@@ -371,8 +378,7 @@ export const AuthFlowProvider: FC<AuthFlowProviderProps> = ({ children }) => {
 };
 
 /**
- * useAuthFlow description
- * @returns description of the return value of this function
+ * @hidden
  */
 export const useAuthFlow = () => {
   return useContext(AuthFlowContext);

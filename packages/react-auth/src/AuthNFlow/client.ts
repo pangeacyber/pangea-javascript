@@ -42,6 +42,8 @@ const API_FLOW_BASE = "flow";
 
 /**
  * Base support for making flow client calls to AuthN endpoints.
+ *
+ * @hidden
  */
 export class AuthNFlowClient extends AuthNClient {
   state: FlowState;

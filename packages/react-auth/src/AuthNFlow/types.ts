@@ -1,5 +1,7 @@
 /**
  * Describes the possible options to configure AuthN's flow
+ *
+ * @hidden
  */
 export interface AuthNFlowOptions {
   /**
@@ -15,6 +17,8 @@ export interface AuthNFlowOptions {
 
 /**
  * Describes the structure of our flow state to be saved in Localstorage
+ *
+ * @hidden
  */
 export interface FlowStorage {
   /**
@@ -55,6 +59,8 @@ export interface FlowStorage {
 
 /**
  * Describes the possible flow steps
+ *
+ * @hidden
  */
 export enum FlowStep {
   START = "start",
@@ -85,6 +91,8 @@ export enum FlowStep {
 
 /**
  * The current state of the authentication flow
+ *
+ * @hidden
  */
 export interface FlowState {
   /**
@@ -150,6 +158,8 @@ export interface FlowState {
 
 /**
  * Describes the data required to start any flow
+ *
+ * @hidden
  */
 export interface FlowStart {
   /**
@@ -160,6 +170,8 @@ export interface FlowStart {
 
 /**
  * Describes the parent flow data required for any step
+ *
+ * @hidden
  */
 export interface FlowBase {
   /**
@@ -170,6 +182,8 @@ export interface FlowBase {
 
 /**
  * Describes the data required for a password signup flow
+ *
+ * @hidden
  */
 export interface FlowSignupPassword extends FlowBase {
   /**
@@ -190,6 +204,8 @@ export interface FlowSignupPassword extends FlowBase {
 
 /**
  * Describes the data required for a password verification flow
+ *
+ * @hidden
  */
 export interface FlowVerifyPassword extends FlowBase {
   /**
@@ -205,6 +221,8 @@ export interface FlowVerifyPassword extends FlowBase {
 
 /**
  * Describes the data required for a verification callback
+ *
+ * @hidden
  */
 export interface FlowVerifyCallback extends FlowBase {
   /**
@@ -220,6 +238,8 @@ export interface FlowVerifyCallback extends FlowBase {
 
 /**
  * Describes the data required to verify the recaptcha request
+ *
+ * @hidden
  */
 export interface FlowVerifyCaptcha extends FlowBase {
   /**
@@ -245,6 +265,8 @@ export interface FlowMfaStart extends FlowBase {
 
 /**
  * Describes the data required to complete an MFA flow
+ *
+ * @hidden
  */
 export interface FlowMfaComplete extends FlowBase {
   /**
@@ -265,6 +287,8 @@ export interface FlowMfaComplete extends FlowBase {
 
 /**
  * Describes the data required to reset a password
+ *
+ * @hidden
  */
 export interface FlowResetPassword extends FlowBase {
   /**
