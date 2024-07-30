@@ -10,6 +10,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 
 - `attributes` field in `/list-resources` and `/list-subjects` endpoint
+- Added full error response payloads to API error messages to improve debugging experience when running into validation error issues.
 
 ### Fixed
 
