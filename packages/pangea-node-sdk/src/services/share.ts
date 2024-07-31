@@ -21,6 +21,21 @@ class ShareService extends BaseService {
   }
 
   /**
+   * @summary Buckets (Beta)
+   * @description Get information on the accessible buckets.
+   * How to install a [Beta release](https://pangea.cloud/docs/sdk/js/#beta-releases).
+   * @operationId share_post_v1beta_buckets
+   * @returns Information on the accessible buckets
+   * @example
+   * ```js
+   * await client.buckets();
+   * ```
+   */
+  buckets(): Promise<PangeaResponse<Share.BucketsResult>> {
+    return this.post("v1beta/buckets", {});
+  }
+
+  /**
    * @summary Delete (Beta)
    * @description Delete object by ID or path. If both are supplied, the path must match that of the object represented by the ID.
    * How to install a [Beta release](https://pangea.cloud/docs/sdk/js/#beta-releases).

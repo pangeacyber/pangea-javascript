@@ -253,7 +253,6 @@ it("get url and post upload", async () => {
     throw e;
   }
 
-  console.log(response.request_id);
   const url = response.accepted_result?.post_url || "";
   const file_details = response.accepted_result?.post_form_data;
 
