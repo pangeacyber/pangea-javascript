@@ -38,7 +38,7 @@ export const getFieldMatches = (
 ): FPEMatch[] => {
   if (!context) return [];
 
-  const pathKey = `envelope.event.${fieldKey}`;
+  const pathKey = `${fieldKey}`;
   const isJson = (context?.j ?? []).includes(pathKey);
 
   return (context?.m ?? [])
