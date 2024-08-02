@@ -9,7 +9,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Fixed
 
-- Fix boolean field not displaying in expansion row
+- Fix boolean field not displaying in expansion row and update linting
 
 ## [0.0.89] - 2024-08-02
 
