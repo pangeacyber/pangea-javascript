@@ -10,6 +10,7 @@ import { useTheme, lighten, darken } from "@mui/material/styles";
 import { Audit } from "../../types";
 
 import StringJsonField, {
+  BooleanField,
   DateTimeField,
   StringField,
   StringFieldProps,
@@ -43,6 +44,10 @@ const getFieldComponent = (field: Audit.SchemaField): FC<StringFieldProps> => {
 
   if (field.type === "string" || field.type === "string-unindexed") {
     return StringJsonField;
+  }
+
+  if (field.type === "boolean") {
+    return BooleanField;
   }
 
   return StringField;

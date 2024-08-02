@@ -65,7 +65,7 @@ export const ChangesTypography: FC<{
               span_
             );
           })
-        : (value ?? "-")}
+        : value ?? "-"}
     </Typography>
   );
 };
@@ -104,6 +104,23 @@ export const StringField: FC<StringFieldProps> = ({
           uniqueId={uniqueId}
           TypographyProps={StringFieldTypographyProps}
         />
+      </Container>
+    </Stack>
+  );
+};
+
+export const BooleanField: FC<StringFieldProps> = ({ title, inRow, value }) => {
+  const direction = inRow ? "column" : "row";
+
+  return (
+    <Stack spacing={1} direction={direction} alignItems="start">
+      <Typography variant="body2" sx={{ width: "120px", paddingTop: "4px" }}>
+        {title}
+      </Typography>
+      <Container sx={{ padding: "4px!important" }}>
+        <Typography variant="body2" {...StringFieldTypographyProps}>
+          {`${value}`}
+        </Typography>
       </Container>
     </Stack>
   );
