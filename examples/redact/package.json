@@ -9,6 +9,6 @@
   "author": "Pangea",
   "license": "ISC",
   "dependencies": {
-    "pangea-node-sdk": "3.10.0"
+    "pangea-node-sdk": "3.11.0"
   }
 }
