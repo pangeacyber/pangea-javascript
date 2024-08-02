@@ -356,13 +356,16 @@ export const useConsitency = (
       !record ||
       !consistencyKey ||
       consistencyKey in (consistencyRef?.current ?? {}) ||
-      !publishedRoots ||
+      (!publishedRoots && consistencyKey !== "0") ||
       (!publishedRoots?.[Number(consistencyKey)] && consistencyKey !== "0")
     )
       return;
 
     (consistencyRef?.current ?? {})[consistencyKey] = false;
-    verifyConsistencyProof({ record, publishedRoots }).then((isValid) => {
+    verifyConsistencyProof({
+      record,
+      publishedRoots: publishedRoots ?? {},
+    }).then((isValid) => {
       setLeafIsConsistent(isValid);
     });
   }, [record?.leaf_index, publishedRoots]);
