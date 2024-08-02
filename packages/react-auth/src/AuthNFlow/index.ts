@@ -1,5 +1,16 @@
+/**
+ * @ignore
+ */
 export { AuthNFlowClient } from "./client";
+
+/**
+ * @ignore
+ */
 export { AuthFlowProvider, useAuthFlow } from "./provider";
+
+/**
+ * @ignore
+ */
 export type {
   AuthNFlowOptions,
   FlowStorage,

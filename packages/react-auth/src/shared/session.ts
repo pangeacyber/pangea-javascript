@@ -25,6 +25,12 @@ const BASE_COOKIE_FLAGS = "; path=/";
 const CODE_RE = /[?&]code=[^&]+/;
 const STATE_RE = /[?&]state=[^&]+/;
 
+/**
+ * Check if the given search parameters have a state or code parameter
+ *
+ * @param searchParams A string representation of query or search params
+ * @returns boolean
+ */
 export const hasAuthParams = (searchParams = window.location.search): boolean =>
   CODE_RE.test(searchParams) && STATE_RE.test(searchParams);
 
@@ -98,9 +104,12 @@ export const getTokenCookieFields = (name: string) => {
   return [token || "", expire || ""];
 };
 
-/*
-  Support for fetching a token by name
-*/
+/**
+ * Get the token from a cookie
+ *
+ * @param {string} name Name of the cookie to look in
+ * @returns {string} The token if it is found, an empty string if it is not found
+ */
 export const getTokenFromCookie = (name: string): string => {
   const cookies = getCookies();
   const cookie = cookies[name];

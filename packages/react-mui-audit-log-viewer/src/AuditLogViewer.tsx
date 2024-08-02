@@ -15,43 +15,90 @@ import { DEFAULT_AUDIT_SCHEMA, useSchema } from "./hooks/schema";
 import { PublicAuditQuery } from "./types/query";
 import { useAuditSearchError } from "./hooks/query";
 
+/** Properties related to the behavior and use of the AuditLogViewer. */
 export interface AuditLogViewerProps<Event = Audit.DefaultEvent> {
+  /** The default initial search query */
   initialQuery?: string;
 
+  /** Called when the user performs a search. Should make a call to the Audit Service /search endpoint proxied through your application server */
   onSearch: (body: Audit.SearchRequest) => Promise<Audit.SearchResponse>;
+
+  /** Prevent the search input to auto search on change. If false will only search when the "Search" button is clicked or if the "Enter" key is typed while focused on the search input */
+
+  /**
+   * Flag to control if the onSearch callback should be triggered automatically as the user edits the search query. If false will only search when the "Search" button is clicked or if the "Enter" key is typed while focused on the search input.
+   *
+   * @defaultValue true
+   */
   searchOnChange?: boolean;
+
+  /** Flag to control if onSearch callback should be trigger on filter or sort changes. Default: true. Set to false if search should only be triggered when the Search button is clicked */
   searchOnFilterChange?: boolean;
+
+  /**
+   * Flag to control is onSearch callback should be trigger on component mount. Set to false to prevent search on component load.
+   *
+   * @defaultValue true
+   */
   searchOnMount?: boolean;
 
+  /** Called when the user navigates to a different page of results. It should make a call to the Audit Service /results endpoint proxied through your application server */
   onPageChange: (body: Audit.ResultRequest) => Promise<Audit.ResultResponse>;
+
+  /** Called when the user requests to download results. It should make a call to the Audit Service /results endpoint proxied through your application server */
   onDownload?: (
     body: Audit.DownloadResultRequest
   ) => Promise<Audit.DownloadResultResponse>;
 
+  /** Contains options that let you control whether or not to include client side verification on audit logs */
   verificationOptions?: {
+    /** Called when the root data needs to be fetched. It should make a call to the Audit Service /root endpoint proxied through your application server */
     onFetchRoot: (body: Audit.RootRequest) => Promise<Audit.RootResponse>;
+
+    /** Serves as a child component for the VerificationModal dialog. */
     ModalChildComponent?: FC;
+
+    /** Called when the user copies a value from the component from the VerificationModal component */
     onCopy?: (message: string, value: string) => void;
   };
 
+  /** Options for highlighting and retrieving format preserving encryption (FPE) context for each audit log. An audit event only has FPE context if FPE redaction was used on the log from a Pangea Redact Service integration */
   fpeOptions?: {
+    /** Controls the highlight values in the log which we redacted with FPE */
     highlightRedaction?: boolean;
   };
 
+  /** Additional SX style (MUI) properties to be applied to the component */
   sx?: SxProps;
+
+  /** Number of items to display per page */
   pageSize?: number;
+
+  /** Additional props to be passed to the underlying MUI DataGrid component */
   dataGridProps?: Partial<DataGridProps>;
 
+  /** Partial definitions for the grid columns. The keys of the object correspond to the properties of the Event type, and the values are partial definitions of the GridColDef type */
   fields?: Partial<Record<keyof Event, Partial<GridColDef>>>;
+
+  /** Partial definitions for the visibility of the grid columns. The keys of the object correspond to properties of the Event type, and the values are boolean values indicating the visibility of the column */
   visibilityModel?: Partial<Record<keyof Event, boolean>>;
 
+  /** The public audit query to filter the audit log data */
   filters?: PublicAuditQuery;
 
+  /** Authentication configuration. It is used to fetch your project's custom Audit schema, so the AuditLogViewer component can dynamically update when you update your configuration in the Pangea Console */
   config?: AuthConfig;
+
+  /** The Audit Schema. With Audit Service custom schema support, you can change the expected Audit schema. This will control which fields are rendered */
   schema?: Audit.Schema;
+
+  /** Options of mutating the audit schema the component uses */
   schemaOptions?: SchemaOptions;
 }
 
+/**
+ * @hidden
+ */
 const AuditLogViewerWithProvider = <Event,>({
   onSearch,
   onDownload,

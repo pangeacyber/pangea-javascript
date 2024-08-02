@@ -4,6 +4,10 @@ import { AuthConfig, APIResponse, ClientResponse } from "~/src/types";
 
 const API_VERSION = "v2";
 
+/**
+ * Base support for making client calls to AuthN endpoints.
+ * @param {AuthConfig} config Configuration for connecting with AuthN
+ */
 export class AuthNClient {
   config: AuthConfig;
 
@@ -24,6 +28,13 @@ export class AuthNClient {
   /*
     General AuthN functions
   */
+
+  /**
+   * Log a user out of their session using their token.
+   *
+   * @param {string} userToken The token associated with the user to log out
+   * @returns {Promise<ClientResponse>} Async client response
+   */
   async logout(userToken: string): Promise<ClientResponse> {
     const path = "client/session/logout";
     const data = { token: userToken };
@@ -31,6 +42,12 @@ export class AuthNClient {
     return await this.post(path, data);
   }
 
+  /**
+   * Look up a token and return its contents.
+   *
+   * @param {string} userToken The token to get contents for
+   * @returns {Promise<ClientResponse>} Async client response
+   */
   async validate(userToken: string): Promise<ClientResponse> {
     const path = "client/token/check";
     const payload = { token: userToken };
@@ -38,6 +55,12 @@ export class AuthNClient {
     return await this.post(path, payload);
   }
 
+  /**
+   * Retrieve the logged in user's token and information.
+   *
+   * @param {string} code Login code returned by the login callback
+   * @returns {Promise<ClientResponse>} Async client response
+   */
   async userinfo(code: string): Promise<ClientResponse> {
     const path = "client/userinfo";
     const payload = { code: code };
@@ -45,6 +68,14 @@ export class AuthNClient {
     return await this.post(path, payload);
   }
 
+  /**
+   * Refresh a session token.
+   *
+   * @param {string} userToken A user token value
+   * @param {string} refreshToken A refresh token value
+   *
+   * @returns {Promise<ClientResponse>} Async client response
+   */
   async refresh(
     userToken: string,
     refreshToken: string
@@ -54,14 +85,17 @@ export class AuthNClient {
     return await this.post(path, payload);
   }
 
+  /**
+   * Get JWT verification keys.
+   *
+   * @returns {Promise<ClientResponse>} Async client response
+   */
   async jwks(): Promise<ClientResponse> {
     const path = "client/jwks";
     return await this.post(path, {});
   }
 
-  /*
-    API Request functions
-  */
+  // API Request functions
   async post(endpoint: string, payload: any): Promise<ClientResponse> {
     try {
       const response: AxiosResponse = await axios.post(
@@ -119,4 +153,7 @@ export class AuthNClient {
   }
 }
 
+/**
+ * @hidden
+ */
 export default AuthNClient;

@@ -40,10 +40,21 @@ const DEFAULT_FLOW_STATE: FlowState = {
 
 const API_FLOW_BASE = "flow";
 
+/**
+ * Base support for making flow client calls to AuthN endpoints.
+ *
+ * @hidden
+ */
 export class AuthNFlowClient extends AuthNClient {
   state: FlowState;
   options: AuthNFlowOptions;
 
+  /**
+   * Base support for making client calls to AuthN endpoints.
+   *
+   * @param {AuthConfig} config Configuration for connecting with AuthN
+   * @param {AuthNFlowOptions} options AuthN Flow options
+   */
   constructor(config: AuthConfig, options?: AuthNFlowOptions) {
     super(config);
 
@@ -68,6 +79,12 @@ export class AuthNFlowClient extends AuthNClient {
     Auth Flow functions
   */
 
+  /**
+   * Begins a standard authentication flow for signing up or signing in users.
+   *
+   * @param {FlowStart} data The initial flow data to start with
+   * @returns {Promise<ClientResponse>} Async client response
+   */
   async start(data: FlowStart): Promise<ClientResponse> {
     const path = `${API_FLOW_BASE}/${FlowStep.START}`;
     const flowTypes = [];
@@ -122,6 +139,12 @@ export class AuthNFlowClient extends AuthNClient {
     return { success, response };
   }
 
+  /**
+   * Tell the login flow to move to the next step
+   *
+   * @param {FlowStart} data The initial flow data to start with
+   * @returns {Promise<ClientResponse>} Async client response
+   */
   async signupPassword(data: FlowSignupPassword): Promise<ClientResponse> {
     const path = `${API_FLOW_BASE}/${FlowStep.SIGNUP_PASSWORD}`;
     const payload = {
@@ -290,9 +313,7 @@ export class AuthNFlowClient extends AuthNClient {
     };
   }
 
-  /*
-    API Request functions
-  */
+  // API Request functions
   override async post(
     endpoint: string,
     payload: any,

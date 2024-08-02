@@ -7,6 +7,9 @@ import PangeaThemeProvider from "./theme/pangea/provider";
 import { Audit } from "../types";
 import { handle202Response } from "./utils";
 
+/**
+ * @hidden
+ */
 export default {
   title: "AuditLogViewer",
   component: AuditLogViewer,

@@ -30,6 +30,9 @@ import {
 import { useComponentAuth } from "~/src/ComponentAuthProvider";
 import AuthNFlowClient from "./client";
 
+/**
+ * @hidden
+ */
 export interface AuthFlowContextType {
   step?: FlowStep;
   error: APIResponse | undefined;
@@ -40,16 +43,29 @@ export interface AuthFlowContextType {
   cbParams?: CallbackParams;
 }
 
+/**
+ * Describes the props for the AuthFlowProvider component
+ *
+ * @hidden
+ */
 export interface AuthFlowProviderProps {
   children: ReactNode;
 }
 
 const SESSION_DATA_NAME = "pangea-authn-flow";
 
+/**
+ * @hidden
+ */
 export const AuthFlowContext = createContext<AuthFlowContextType>(
   {} as AuthFlowContextType
 );
 
+/**
+ * @hidden
+ *
+ * A context provider for maintaining state during login, signup, verification, and MFA when using the AuthN Flow APIs.
+ */
 export const AuthFlowProvider: FC<AuthFlowProviderProps> = ({ children }) => {
   const { client, cbParams, setFlowComplete } = useComponentAuth();
 
@@ -69,6 +85,7 @@ export const AuthFlowProvider: FC<AuthFlowProviderProps> = ({ children }) => {
   const [flowData, setFlowState] = useState<FlowState>({});
 
   // load data from local storage, and params from URL
+
   useEffect(() => {
     const sessionData = getSessionData();
     const initFlowState: FlowState = {
@@ -306,10 +323,6 @@ export const AuthFlowProvider: FC<AuthFlowProviderProps> = ({ children }) => {
     updateFlowState(success, response);
   };
 
-  /*
-    Set flow step without an API call
-  */
-
   const setNextStep = (nextStep: FlowStep) => {
     auth.state.step = nextStep;
     setStep(auth.state.step);
@@ -323,9 +336,6 @@ export const AuthFlowProvider: FC<AuthFlowProviderProps> = ({ children }) => {
     callNext(FlowStep.START, {});
   }, [auth, callNext]);
 
-  /*
-    Common response utility
-  */
   const updateFlowState = (success: boolean, response: APIResponse) => {
     if (success) {
       setError(undefined);
@@ -367,6 +377,9 @@ export const AuthFlowProvider: FC<AuthFlowProviderProps> = ({ children }) => {
   );
 };
 
+/**
+ * @hidden
+ */
 export const useAuthFlow = () => {
   return useContext(AuthFlowContext);
 };
