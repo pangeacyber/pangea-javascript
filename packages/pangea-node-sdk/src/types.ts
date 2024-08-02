@@ -2480,6 +2480,12 @@ export namespace Share {
     /** The bucket to use, if not the default. */
     bucket_id?: string;
 
+    /** Protect the file with the supplied password. */
+    add_password?: string;
+
+    /** The algorithm to use to password protect the file. */
+    add_password_algorithm?: string;
+
     /** An identifier for the file to update. */
     id: string;
 
@@ -2498,6 +2504,9 @@ export namespace Share {
      * doesn't match the provided value, it will not be removed.
      */
     remove_metadata?: Metadata;
+
+    /** Remove the supplied password from the file. */
+    remove_password?: string;
 
     /**
      * A list of tags to remove. It is not an error to provide a tag which is
