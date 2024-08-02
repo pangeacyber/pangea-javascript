@@ -15,9 +15,9 @@
     "build": "parcel build"
   },
   "devDependencies": {
-    "@babel/core": "^7.24.9",
+    "@babel/core": "^7.25.2",
     "@babel/plugin-transform-runtime": "^7.24.7",
-    "@babel/preset-env": "^7.25.0",
+    "@babel/preset-env": "^7.25.2",
     "@babel/preset-react": "^7.24.7",
     "@babel/preset-typescript": "^7.24.7",
     "@parcel/packager-ts": "2.12.0",
