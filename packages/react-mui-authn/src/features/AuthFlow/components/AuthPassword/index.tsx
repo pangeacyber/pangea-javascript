@@ -157,9 +157,11 @@ const AuthPassword: FC<AuthFlowComponentProps> = (props) => {
                 direction="row"
                 justifyContent={showReset ? "space-between" : "flex-start"}
               >
-                {options.rememberUser && !enrollment && (
-                  <RememberUser {...props} />
-                )}
+                {options.rememberUser &&
+                  !enrollment &&
+                  data.phase !== "phase_one_time" && (
+                    <RememberUser {...props} />
+                  )}
                 {showReset && (
                   <Button
                     variant="text"

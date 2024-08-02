@@ -1,6 +1,5 @@
 import { Stack, TextField } from "@mui/material";
 import React, { FC, useRef, useState, useEffect, useMemo } from "react";
-import { useTheme } from "@mui/material/styles";
 
 interface CodeInputProps {
   length?: number;
@@ -161,7 +160,7 @@ const CodeInput: FC<CodeInputProps> = ({
               autoComplete: "one-time-code",
               inputMode: "numeric",
               form: {
-                autoComplete: "off",
+                autoComplete: "one-time-code",
               },
             }}
             sx={{

@@ -5,7 +5,7 @@
   "flowChoices": [],
   "email": "storybook@pangea.cloud",
   "password": {
-    "enrollment": false,
+    "enrollment": true,
     "password_policy": {
       "chars_min": 8,
       "chars_max": 256,
@@ -16,10 +16,24 @@
     }
   },
   "authChoices": ["password"],
-  "socialChoices": [],
+  "socialChoices": [
+    {
+      "enrollment": true,
+      "social_provider": "google",
+      "state": "pcb_abcd1234abcd1234abcd1234",
+      "redirect_uri": "http://localhost:4001/flow/oauth/google?redirect_uri=http%3A%2F%2Flocalhost%3A3000\u0026state=pcb_abcd1234abcd1234abcd1234"
+    },
+    {
+      "enrollment": true,
+      "social_provider": "github",
+      "state": "pcb_abcd1234abcd1234abcd1234",
+      "redirect_uri": "http://localhost:4001/flow/oauth/github?redirect_uri=http%3A%2F%2Flocalhost%3A3000\u0026state=pcb_abcd1234abcd1234abcd1234"
+    }
+  ],
   "socialProviderMap": {},
   "samlChoices": [],
   "samlProviderMap": {},
   "callbackStateMap": {},
-  "agreements": []
+  "agreements": [],
+  "invite": true
 }

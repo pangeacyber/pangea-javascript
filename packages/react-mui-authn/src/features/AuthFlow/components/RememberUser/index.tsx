@@ -6,9 +6,6 @@ import { AuthFlowComponentProps } from "@src/features/AuthFlow/types";
 
 const RememberUser: FC<AuthFlowComponentProps> = ({ data }) => {
   const [checked, setChecked] = useState(false);
-  const label = !!data?.conditionalMfa?.strict_mode
-    ? "device and location"
-    : "device";
 
   useEffect(() => {
     // if a device_id exists in localStorage, auto-check the checkbox
