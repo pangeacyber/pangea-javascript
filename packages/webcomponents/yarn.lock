@@ -1471,10 +1471,10 @@
     prop-types "^15.8.1"
     react-transition-group "^4.4.5"
 
-"@pangeacyber/react-mui-audit-log-viewer@^0.0.84":
-  version "0.0.84"
-  resolved "https://registry.yarnpkg.com/@pangeacyber/react-mui-audit-log-viewer/-/react-mui-audit-log-viewer-0.0.84.tgz#644aea6ad191b801bde4f12c81830eddf6ed67ab"
-  integrity sha512-L8w0QnR/8EQg8j/fW/f6P5+WzT0HRVr+HQxdtW2/v7FgBDlR9uMX+pRkII2kZgEA0mE7sQj4d9e0c2OIHLjNfg==
+"@pangeacyber/react-mui-audit-log-viewer@^0.0.87":
+  version "0.0.87"
+  resolved "https://registry.yarnpkg.com/@pangeacyber/react-mui-audit-log-viewer/-/react-mui-audit-log-viewer-0.0.87.tgz#bacf7f23dc0d4800dcff2e42207afdde22be94f7"
+  integrity sha512-XvoFPJ9Uc1d/nQSAPDFg1J2bFrWtLf087U7GHIG11CPkjlNJZLkzf5hyKbNt7lOcbQYOzoVU0H+RdYesIKE/LA==
   dependencies:
     "@pangeacyber/react-mui-shared" "0.0.64"
     "@types/jest" "^29.5.12"
@@ -1505,10 +1505,10 @@
     react-json-view "^1.21.3"
     yup "^1.4.0"
 
-"@pangeacyber/react-mui-store-file-viewer@^0.0.55":
-  version "0.0.55"
-  resolved "https://registry.yarnpkg.com/@pangeacyber/react-mui-store-file-viewer/-/react-mui-store-file-viewer-0.0.55.tgz#daa676ef6454b7f66a3029d44cc779d6fe84e3d3"
-  integrity sha512-/jzUwxXRHtSAGbLL5U+pbhgP9jzqnbNhVNbvsySUKj5MMvneKG1Bcvn7irIF3FmZolTU5kwEXl0HAwbCoi897Q==
+"@pangeacyber/react-mui-store-file-viewer@^0.0.56":
+  version "0.0.56"
+  resolved "https://registry.yarnpkg.com/@pangeacyber/react-mui-store-file-viewer/-/react-mui-store-file-viewer-0.0.56.tgz#49f748cc986497be51bb06b4ce29de76fd43596e"
+  integrity sha512-SBoOIll2rijEjuMtGYbyYWM3IHWmQRy6KJl6E5ho4iZNDJq8NgtcVFvHo9BGR61GDWUOAmh4drQdvVbyqZWbdw==
   dependencies:
     "@pangeacyber/react-mui-shared" "0.0.64"
     axios "^1.7.2"

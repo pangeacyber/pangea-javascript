@@ -18,7 +18,7 @@
     "@emotion/styled": "11.13.0",
     "@mui/icons-material": "5.16.5",
     "@mui/material": "5.16.5",
-    "@pangeacyber/react-mui-audit-log-viewer": "^0.0.84",
+    "@pangeacyber/react-mui-audit-log-viewer": "^0.0.87",
     "@pangeacyber/react-mui-branding": "^0.0.18",
     "react": "18.3.1",
     "react-dom": "18.3.1"
@@ -32,7 +32,7 @@
     "@vitejs/plugin-react": "4.3.1",
     "cypress": "13.13.1",
     "happy-dom": "14.12.3",
-    "start-server-and-test": "2.0.4",
+    "start-server-and-test": "2.0.5",
     "typescript": "5.5.4",
     "vite": "5.3.5",
     "vitest": "2.0.4"

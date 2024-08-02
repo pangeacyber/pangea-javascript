@@ -673,10 +673,10 @@
     prop-types "^15.8.1"
     react-transition-group "^4.4.5"
 
-"@pangeacyber/react-mui-audit-log-viewer@^0.0.84":
-  version "0.0.84"
-  resolved "https://registry.yarnpkg.com/@pangeacyber/react-mui-audit-log-viewer/-/react-mui-audit-log-viewer-0.0.84.tgz#644aea6ad191b801bde4f12c81830eddf6ed67ab"
-  integrity sha512-L8w0QnR/8EQg8j/fW/f6P5+WzT0HRVr+HQxdtW2/v7FgBDlR9uMX+pRkII2kZgEA0mE7sQj4d9e0c2OIHLjNfg==
+"@pangeacyber/react-mui-audit-log-viewer@^0.0.87":
+  version "0.0.87"
+  resolved "https://registry.yarnpkg.com/@pangeacyber/react-mui-audit-log-viewer/-/react-mui-audit-log-viewer-0.0.87.tgz#bacf7f23dc0d4800dcff2e42207afdde22be94f7"
+  integrity sha512-XvoFPJ9Uc1d/nQSAPDFg1J2bFrWtLf087U7GHIG11CPkjlNJZLkzf5hyKbNt7lOcbQYOzoVU0H+RdYesIKE/LA==
   dependencies:
     "@pangeacyber/react-mui-shared" "0.0.64"
     "@types/jest" "^29.5.12"
@@ -1563,10 +1563,10 @@ dayjs@^1.10.4, dayjs@^1.11.11:
   resolved "https://registry.yarnpkg.com/dayjs/-/dayjs-1.11.12.tgz#5245226cc7f40a15bf52e0b99fd2a04669ccac1d"
   integrity sha512-Rt2g+nTbLlDWZTwwrIXjy9MeiZmSDI375FvZs72ngxx8PDC6YXOeR3q5LAuPzjZQxhiWdRKac7RKV+YyQYfYIg==
 
-debug@4.3.5:
-  version "4.3.5"
-  resolved "https://registry.yarnpkg.com/debug/-/debug-4.3.5.tgz#e83444eceb9fedd4a1da56d671ae2446a01a6e1e"
-  integrity sha512-pt0bNEmneDIvdL1Xsd9oDQ/wrQRkXDT4AUWlNZNPKvW5x/jyO9VFXkJUP07vQ2upmw5PlaITaPKc31jK13V+jg==
+debug@4.3.6, debug@^4.1.0, debug@^4.1.1, debug@^4.3.1, debug@^4.3.4, debug@^4.3.5:
+  version "4.3.6"
+  resolved "https://registry.yarnpkg.com/debug/-/debug-4.3.6.tgz#2ab2c38fbaffebf8aa95fdfe6d88438c7a13c52b"
+  integrity sha512-O/09Bd4Z1fBrU4VzkhFqVgpPzaGbw6Sm9FEkBT1A/YBXQFGuuSxa1dN2nxgxS34JmKXqYx8CZAwEVoJFImUXIg==
   dependencies:
     ms "2.1.2"
 
@@ -1576,13 +1576,6 @@ debug@^3.1.0:
   integrity sha512-CFjzYYAi4ThfiQvizrFQevTTXHtnCqWfe7x1AhgEscTz6ZbLbfoLRLPugTQyBth6f8ZERVUSyWHFD/7Wu4t1XQ==
   dependencies:
     ms "^2.1.1"
-
-debug@^4.1.0, debug@^4.1.1, debug@^4.3.1, debug@^4.3.4, debug@^4.3.5:
-  version "4.3.6"
-  resolved "https://registry.yarnpkg.com/debug/-/debug-4.3.6.tgz#2ab2c38fbaffebf8aa95fdfe6d88438c7a13c52b"
-  integrity sha512-O/09Bd4Z1fBrU4VzkhFqVgpPzaGbw6Sm9FEkBT1A/YBXQFGuuSxa1dN2nxgxS34JmKXqYx8CZAwEVoJFImUXIg==
-  dependencies:
-    ms "2.1.2"
 
 deep-eql@^5.0.1:
   version "5.0.2"
@@ -3162,15 +3155,15 @@ stackback@0.0.2:
   resolved "https://registry.yarnpkg.com/stackback/-/stackback-0.0.2.tgz#1ac8a0d9483848d1695e418b6d031a3c3ce68e3b"
   integrity sha512-1XMJE5fQo1jGH6Y/7ebnwPOBEkIEnT4QF32d5R1+VXdXveM0IBMJt8zfaxX1P3QhVwrYe+576+jkANtSS2mBbw==
 
-start-server-and-test@2.0.4:
-  version "2.0.4"
-  resolved "https://registry.yarnpkg.com/start-server-and-test/-/start-server-and-test-2.0.4.tgz#75628a9f305718efc13e893ca574853dc9bcfd10"
-  integrity sha512-CKNeBTcP0hVqIlNismHMudb9q3lLdAjcVPO13/7gfI66fcJpeIb/o4NzQd1JK/CD+lfWVqr10ZH9Y14+OwlJuw==
+start-server-and-test@2.0.5:
+  version "2.0.5"
+  resolved "https://registry.yarnpkg.com/start-server-and-test/-/start-server-and-test-2.0.5.tgz#55397e581531ee54000c51c0078226ed7e35afa3"
+  integrity sha512-2CV4pz69NJVJKQmJeSr+O+SPtOreu0yxvhPmSXclzmAKkPREuMabyMh+Txpzemjx0RDzXOcG2XkhiUuxjztSQw==
   dependencies:
     arg "^5.0.2"
     bluebird "3.7.2"
     check-more-types "2.24.0"
-    debug "4.3.5"
+    debug "4.3.6"
     execa "5.1.1"
     lazy-ass "1.6.0"
     ps-tree "1.2.0"
