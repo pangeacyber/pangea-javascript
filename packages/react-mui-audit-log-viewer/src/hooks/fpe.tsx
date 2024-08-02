@@ -99,7 +99,9 @@ export function updateMatchesToHaveRelativeRanges(
     );
 
     let valueForIndex = findValuePath(jsonObject, pathForIndex);
-    let valueForIndexString = `"${lastElement}":${JSON.stringify(valueForIndex)}`;
+    let valueForIndexString = `"${lastElement}":${JSON.stringify(
+      valueForIndex
+    )}`;
 
     for (let i = 0; i < jsonString.length; i++) {
       if (jsonString.substring(i, i + valueString.length) === valueString) {
@@ -125,7 +127,9 @@ export function updateMatchesToHaveRelativeRanges(
         );
 
         valueForIndex = findValuePath(jsonObject, pathForIndex);
-        valueForIndexString = `"${lastElement}":${JSON.stringify(valueForIndex)}`;
+        valueForIndexString = `"${lastElement}":${JSON.stringify(
+          valueForIndex
+        )}`;
       }
     }
 
