@@ -1538,10 +1538,10 @@
     prop-types "^15.8.1"
     react-transition-group "^4.4.5"
 
-"@pangeacyber/react-mui-audit-log-viewer@^0.0.87":
-  version "0.0.87"
-  resolved "https://registry.yarnpkg.com/@pangeacyber/react-mui-audit-log-viewer/-/react-mui-audit-log-viewer-0.0.87.tgz#bacf7f23dc0d4800dcff2e42207afdde22be94f7"
-  integrity sha512-XvoFPJ9Uc1d/nQSAPDFg1J2bFrWtLf087U7GHIG11CPkjlNJZLkzf5hyKbNt7lOcbQYOzoVU0H+RdYesIKE/LA==
+"@pangeacyber/react-mui-audit-log-viewer@^0.0.88":
+  version "0.0.88"
+  resolved "https://registry.yarnpkg.com/@pangeacyber/react-mui-audit-log-viewer/-/react-mui-audit-log-viewer-0.0.88.tgz#ccd8134bf7e3dca09c94a43162670cceac7e7a20"
+  integrity sha512-x6pndFgxP2SFUCQ1/q+HHnL9C/slCk2dRWlYOW36SxOJ3Vb94Fpic52suk0d9yLP47nlZYkjlKdOZ9N+7jpOGw==
   dependencies:
     "@pangeacyber/react-mui-shared" "0.0.64"
     "@types/jest" "^29.5.12"
