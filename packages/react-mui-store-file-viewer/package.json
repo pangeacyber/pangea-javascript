@@ -51,7 +51,7 @@
   },
   "dependencies": {
     "@pangeacyber/react-mui-shared": "0.0.64",
-    "axios": "^1.7.2",
+    "axios": "^1.7.3",
     "lodash": "^4.17.21",
     "zustand": "^4.5.4"
   },
