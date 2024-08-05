@@ -109,6 +109,23 @@ export const StringField: FC<StringFieldProps> = ({
   );
 };
 
+export const BooleanField: FC<StringFieldProps> = ({ title, inRow, value }) => {
+  const direction = inRow ? "column" : "row";
+
+  return (
+    <Stack spacing={1} direction={direction} alignItems="start">
+      <Typography variant="body2" sx={{ width: "120px", paddingTop: "4px" }}>
+        {title}
+      </Typography>
+      <Container sx={{ padding: "4px!important" }}>
+        <Typography variant="body2" {...StringFieldTypographyProps}>
+          {`${value}`}
+        </Typography>
+      </Container>
+    </Stack>
+  );
+};
+
 export const DateTimeField: FC<StringFieldProps> = (props) => {
   const direction = props.inRow ? "column" : "row";
 
