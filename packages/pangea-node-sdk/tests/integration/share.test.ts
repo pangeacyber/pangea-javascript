@@ -127,7 +127,7 @@ it("Put zero bytes file. Multipart transfer_method", async () => {
     });
 
     expect(respGet.success).toBeTruthy();
-    expect(respGet.result.dest_url).toBeUndefined();
+    expect(respGet.result.dest_url).toBeDefined();
     expect(respGet.attachedFiles.length).toBe(1);
     expect(respGet.attachedFiles[0]).toBeDefined();
     respGet.attachedFiles[0]?.save("./download/");
