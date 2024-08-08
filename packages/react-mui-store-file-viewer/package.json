@@ -37,7 +37,7 @@
     "@types/react": "^18.3.3",
     "@types/react-dom": "^18.3.0",
     "cross-env": "^7.0.3",
-    "postcss": "^8.4.40",
+    "postcss": "^8.4.41",
     "react": "17.0.2",
     "react-dom": "17.0.2",
     "rollup": "^4.12.0",
