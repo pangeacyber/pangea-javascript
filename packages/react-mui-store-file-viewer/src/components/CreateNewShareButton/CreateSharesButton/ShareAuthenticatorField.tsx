@@ -58,12 +58,6 @@ const UnControlledShareAuthenticatorField: FC<
     newType: string
   ) => {
     if (!newType) return;
-    if (!!onValueChange) {
-      // onValueChange({
-      //   ...value,
-      //   authenticatorType: newType as ObjectStore.ShareAuthenticatorType,
-      // });
-    }
     setAuthenticatorType(newType as ObjectStore.ShareAuthenticatorType);
   };
 
