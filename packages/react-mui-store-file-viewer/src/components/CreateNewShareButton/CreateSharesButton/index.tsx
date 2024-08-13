@@ -5,9 +5,13 @@ import {
   Typography,
   useMediaQuery,
 } from "@mui/material";
-import { FC, forwardRef, useEffect, useMemo, useState } from "react";
+import { FC, forwardRef, useEffect, useMemo, useRef, useState } from "react";
 import pickBy from "lodash/pickBy";
 import isEmpty from "lodash/isEmpty";
+import omit from "lodash/omit";
+import keyBy from "lodash/keyBy";
+import mapValues from "lodash/mapValues";
+import * as yup from "yup";
 
 import AddIcon from "@mui/icons-material/Add";
 import { useTheme } from "@mui/material/styles";
@@ -18,39 +22,31 @@ import {
   PangeaModal,
 } from "@pangeacyber/react-mui-shared";
 import { ObjectStore } from "../../../types";
-import { useStoreFileViewerContext } from "../../../hooks/context";
+import {
+  useStoreFileViewerContext,
+  ShareCreateProvider,
+} from "../../../hooks/context";
 import { ShareCreateForm, getCreateShareFields } from "./fields";
-import SendShareViaEmailModal from "../SendShareViaEmailButton/SendShareViaEmailModal";
 import ShareSettings from "./ShareSettings";
 import { alertOnError } from "../../AlertSnackbar/hooks";
+import { EmailPasswordShare } from "../SendShareViaEmailButton/EmailPasswordShareField";
+import { EmailSmsShare } from "../SendShareViaEmailButton/EmailSmsShareField";
+
+type ShareSendObj = EmailPasswordShare | EmailSmsShare | undefined;
 
 const CreateButton = forwardRef<any, ButtonProps>((props, ref) => {
   // @ts-ignore
   const isSaving = props?.children?.endsWith("...");
-
-  // @ts-ignore
-  const authenticatorType: string = props?.values?.authenticatorType;
-
-  let label = "Create secure link";
-  if (authenticatorType === ObjectStore.ShareAuthenticatorType.Email) {
-    label = "Create email secured links";
-  } else if (
-    authenticatorType === ObjectStore.ShareAuthenticatorType.Password
-  ) {
-    label = "Create password secured link";
-  } else if (authenticatorType === ObjectStore.ShareAuthenticatorType.Sms) {
-    label = "Create SMS secured links";
-  }
-
   return (
-    <Button ref={ref} {...props}>
-      {isSaving ? "Sending..." : label}
+    <Button ref={ref} {...props} sx={{ minWidth: "100px" }}>
+      {isSaving ? "Sending..." : "Send"}
     </Button>
   );
 });
 
 interface Props {
   object: ObjectStore.ObjectResponse;
+  shareType?: string; // email | link
   ButtonProps?: ButtonProps;
   onClose: () => void;
   onDone: () => void;
@@ -68,6 +64,7 @@ const ShareCreateRequestFields = new Set([
 
 const CreateSharesButton: FC<Props> = ({
   object,
+  shareType = "email",
   ButtonProps,
   onClose,
   onDone,
@@ -78,16 +75,17 @@ const CreateSharesButton: FC<Props> = ({
   const { apiRef, triggerUpdate, configurations, defaultShareLinkTitle } =
     useStoreFileViewerContext();
   const [open, setOpen] = useState(false);
-
   const [settings, setSettings] = useState(false);
-
   const [loading, setLoading] = useState(false);
+  const [errors, setErrors] = useState<{ [key: string]: string }>();
+  const [shareLink, setShareLink] = useState<ObjectStore.ShareObjectResponse>();
 
-  const [sending, setSending] = useState<ObjectStore.ShareObjectResponse[]>([]);
-  const [password, setPassword] = useState<string>("");
-
+  const authType = useRef<ObjectStore.ShareAuthenticatorType | undefined>(
+    undefined
+  );
   const defaultAccessCount = configurations?.settings?.defaultAccessCount ?? 10;
   const [obj, setObj] = useState<ShareCreateForm>({
+    shareType: shareType,
     targets: [],
     authenticators: [],
     link_type: "download",
@@ -109,6 +107,7 @@ const CreateSharesButton: FC<Props> = ({
     }
 
     const newObj = {
+      shareType: shareType,
       targets: [],
       authenticators: [],
       link_type: "download",
@@ -133,6 +132,7 @@ const CreateSharesButton: FC<Props> = ({
   }, [isLarge, open]);
 
   const handleClose = () => {
+    setShareLink(undefined);
     setOpen(false);
     onClose();
   };
@@ -141,38 +141,107 @@ const CreateSharesButton: FC<Props> = ({
     body: ObjectStore.SingleShareCreateRequest
   ) => {
     if (!apiRef.share?.create) return false;
-
     setLoading(true);
-    if (!apiRef.share?.create) return false;
+    setShareLink(undefined);
+
+    const authByPhone = keyBy(body?.authenticators || [], "phone_number");
+    const emails = body?.authenticators?.map((auth) => {
+      return auth.notify_email;
+    });
+
     return apiRef.share
       .create({
         links: (body?.authenticators ?? [])?.map((auth) => {
           return {
             ...body,
             targets: [object.id],
-            authenticators: [auth],
+            authenticators: [omit(auth, ["notify_email", "phone_number"])],
           };
         }),
       })
       .then((response) => {
         triggerUpdate();
 
-        // Instead we need to prompt open the modal
-        const links = response?.result?.share_link_objects ?? [];
-        if (links.length) {
-          setOpen(false);
-          setSending(links);
-          if (
-            body?.authenticators?.length === 1 &&
-            body?.authenticators[0].auth_type === "password"
-          ) {
-            setPassword(body?.authenticators[0]?.auth_context ?? "");
-          } else {
-            setPassword("");
-          }
-        }
+        const shares: ObjectStore.ShareObjectResponse[] =
+          response?.result?.share_link_objects ?? [];
 
-        return true;
+        // send share notifications
+        if (shareType === "email") {
+          const data: Record<string, ShareSendObj> = mapValues(
+            keyBy(
+              shares.filter((s) => !!s.authenticators?.length),
+              "id"
+            ),
+            (share) => {
+              const definingAuthType = (share.authenticators ?? [])[0];
+
+              if (
+                definingAuthType.auth_type ===
+                ObjectStore.ShareAuthenticatorType.Password
+              ) {
+                return {
+                  id: share.id,
+                  link: share.link,
+                  emails: emails,
+                  type: "password",
+                } as EmailPasswordShare;
+              }
+
+              if (
+                definingAuthType.auth_type ===
+                ObjectStore.ShareAuthenticatorType.Sms
+              ) {
+                return {
+                  id: share.id,
+                  link: share.link,
+                  email: "",
+                  phone: definingAuthType.auth_context,
+                  type: "sms",
+                } as EmailSmsShare;
+              }
+
+              return undefined;
+            }
+          );
+
+          const links: ObjectStore.ShareLinkToSend[] = [];
+          Object.values(data).forEach((d) => {
+            if (!d?.id) return;
+            if (d.type === "password") {
+              d.emails.forEach((email) => {
+                if (!email) return;
+                links.push({
+                  id: d.id,
+                  email,
+                });
+              });
+            } else {
+              const email = authByPhone[d.phone]?.notify_email;
+              if (email) {
+                links.push({
+                  id: d.id,
+                  email: email,
+                });
+              }
+            }
+          });
+
+          if (!apiRef.share?.send) return;
+
+          return apiRef.share
+            .send({
+              sender_email: "no-reply@pangea.cloud",
+              links,
+            })
+            .finally(() => {
+              setLoading(false);
+              onDone();
+            });
+        }
+        // show copyable share link
+        else if (shareType === "link") {
+          setShareLink(shares[0]);
+        }
       })
       .catch((err) => {
         alertOnError(err);
@@ -182,7 +251,9 @@ const CreateSharesButton: FC<Props> = ({
       })
       .finally(() => {
         setLoading(false);
-        onDone();
+        if (shareType === "email") {
+          onDone();
+        }
       });
   };
 
@@ -201,7 +272,7 @@ const CreateSharesButton: FC<Props> = ({
         data-testid="New-Share-Btn"
         onClick={() => setOpen(true)}
       >
-        {ButtonProps?.children || "Secure Link"}
+        {ButtonProps?.children || "Share via Email"}
       </Button>
       <PangeaModal
         open={open}
@@ -236,11 +307,18 @@ const CreateSharesButton: FC<Props> = ({
         }
         size="medium"
       >
-        <>
+        <ShareCreateProvider
+          contentType={obj.contentType}
+          shareType={shareType}
+          loading={loading}
+          errors={errors}
+          shareLink={shareLink}
+        >
           <FieldsForm
             object={obj}
             fields={fields}
             onSubmit={(values) => {
+              setLoading(true);
               return handleCreateShare(
                 // @ts-ignore
                 pickBy(
@@ -252,10 +330,68 @@ const CreateSharesButton: FC<Props> = ({
                   (v, k) => !!v && ShareCreateRequestFields.has(k)
                 )
               ).then((isSuccess) => {
-                if (isSuccess) handleClose();
+                if (isSuccess && shareType === "email") {
+                  handleClose();
+                }
               });
             }}
+            validation={{
+              schema: yup.object().shape({
+                authenticators: yup
+                  .array()
+                  .min(1, "At least one recipient is required.")
+                  .test(
+                    "validate-phone",
+                    "Missing recipient phone number.",
+                    function (value: any, context) {
+                      if (context?.parent?.shareType === "link") {
+                        return true;
+                      }
+                      const authType_ =
+                        context?.parent?.authenticatorType || "";
+                      let isValid = true;
+                      value.forEach((r: any) => {
+                        if (
+                          authType_ ===
+                            ObjectStore.ShareAuthenticatorType.Sms &&
+                          !r.phone_number
+                        ) {
+                          isValid = false;
+                        }
+                      });
+                      return isValid;
+                    }
+                  ),
+                password: yup
+                  .string()
+                  .test(
+                    "validate-password",
+                    "A password is required.",
+                    function (value: string | undefined, context) {
+                      if (context?.parent?.shareType === "link") {
+                        return true;
+                      }
+                      const authType_ =
+                        context?.parent?.authenticatorType || "";
+                      const isValid =
+                        authType_ !==
+                          ObjectStore.ShareAuthenticatorType.Password ||
+                        (authType_ ===
+                          ObjectStore.ShareAuthenticatorType.Password &&
+                          !!value);
+                      setErrors(
+                        isValid ? {} : { password: "A password is required." }
+                      );
+                      return isValid;
+                    }
+                  ),
+              }),
+            }}
             disabled={loading || settingsError}
+            clearable={true}
+            clearButtonLabel={shareType === "link" ? "Done" : "Cancel"}
+            onCancel={handleClose}
+            autoSave={shareType === "link" ? true : false}
             // @ts-ignore
             SaveButton={CreateButton}
             StackSx={{
@@ -264,19 +400,8 @@ const CreateSharesButton: FC<Props> = ({
               },
             }}
           />
-        </>
+        </ShareCreateProvider>
       </PangeaModal>
-      <SendShareViaEmailModal
-        open={!!sending.length}
-        onClose={() => {
-          setSending([]);
-          setPassword("");
-        }}
-        shares={sending}
-        password={password}
-        onDone={onDone}
-        clearButtonLabel="Done"
-      />
     </>
   );
 };

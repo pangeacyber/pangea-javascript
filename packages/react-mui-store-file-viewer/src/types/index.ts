@@ -220,6 +220,13 @@ export namespace ObjectStore {
   export interface ShareAuthenticator {
     auth_type: string; // "password" | "email_otp" | "sms_otp"
     auth_context: string;
+    notify_email?: string; // holds email for sms/password notification
+    phone_number?: string; // holds phone number for sms
+  }
+
+  export interface Recipient {
+    phone_number: string;
+    email: string;
   }
 
   export interface ShareObjectResponse {

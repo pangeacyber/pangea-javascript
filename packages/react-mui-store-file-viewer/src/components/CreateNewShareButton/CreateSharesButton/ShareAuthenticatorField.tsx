@@ -1,26 +1,28 @@
+import { FC, useState } from "react";
 import {
   Button,
-  ButtonGroup,
   Stack,
   ToggleButton,
   ToggleButtonGroup,
   Tooltip,
   Typography,
 } from "@mui/material";
-import { useTheme, lighten, darken } from "@mui/material/styles";
+import { useTheme } from "@mui/material/styles";
 import {
-  AuthPasswordField,
   FieldComponentProps,
   FieldControl,
 } from "@pangeacyber/react-mui-shared";
-import { FC, useState } from "react";
 
-import CheckIcon from "@mui/icons-material/Check";
+import { useCreateShareContext } from "../../../hooks/context";
 import { ObjectStore } from "../../../types";
+import SharePasswordField from "../SharePasswordField";
+import SharePhonesField from "../SharePhonesField";
+import GetEmailLinkField from "../GetEmailLinkField";
+import GeneratePasswordField from "../../GeneratePasswordField";
+import GetPhoneLinkField from "../GetPhoneLinkField";
 import ShareEmailsField from "../ShareEmailsField";
-import SharePhonesField, { PhoneValue } from "../SharePhonesField";
-import { useStoreFileViewerContext } from "../../../hooks/context";
-import { passwordGenerator } from "../../../utils";
+import GetPasswordLinkField from "../GetPasswordLinkField";
+import ShareLinkDetails from "./ShareLinkDetails";
 
 interface FieldProps {
   options?: {
@@ -29,6 +31,7 @@ interface FieldProps {
 }
 
 interface AuthenticatorValue {
+  shareType: string;
   authenticators: ObjectStore.ShareAuthenticator[];
   authenticatorType: string | undefined;
 }
@@ -36,63 +39,54 @@ interface AuthenticatorValue {
 const UnControlledShareAuthenticatorField: FC<
   FieldComponentProps<FieldProps>
 > = ({ onValueChange, ...props }) => {
-  const { configurations } = useStoreFileViewerContext();
-
   const value: AuthenticatorValue = props.value;
   const theme = useTheme();
+  const { contentType, password, loading } = useCreateShareContext();
   const [authenticatorType, setAuthenticatorType] =
     useState<ObjectStore.ShareAuthenticatorType>(
       ObjectStore.ShareAuthenticatorType.Sms
     );
+  const minHeight =
+    value.shareType === "link" && contentType === "file"
+      ? "350px"
+      : value.shareType === "link"
+        ? "250px"
+        : "190px";
 
   const handleAuthenticatorTypeChange = (
-    event: React.MouseEvent<HTMLElement>,
+    event: React.MouseEvent<HTMLElement> | undefined,
     newType: string
   ) => {
     if (!newType) return;
     if (!!onValueChange) {
-      onValueChange({
-        ...value,
-        authenticatorType: newType as ObjectStore.ShareAuthenticatorType,
-      });
+      // onValueChange({
+      //   ...value,
+      //   authenticatorType: newType as ObjectStore.ShareAuthenticatorType,
+      // });
     }
     setAuthenticatorType(newType as ObjectStore.ShareAuthenticatorType);
   };
 
-  const emails = value.authenticators
-    .filter((a) => a.auth_type === ObjectStore.ShareAuthenticatorType.Email)
-    .map((a) => a.auth_context);
-  const phones = value.authenticators
-    .filter((a) => a.auth_type === ObjectStore.ShareAuthenticatorType.Sms)
-    .map((a) => ({
-      phone_number: a.auth_context,
-      recipient: "",
-    }));
-  const passwords = value.authenticators
-    .filter((a) => a.auth_type === ObjectStore.ShareAuthenticatorType.Password)
-    .map((a) => a.auth_context);
-  const password = passwords.length ? passwords[0] : "";
+  const recipients = value.authenticators.map((a) => ({
+    phone_number: a.phone_number || "",
+    email: a.notify_email || "",
+  }));
 
-  const handleEmailsChange = (emails: string[]) => {
+  const handleRecipientChange = (recipients: ObjectStore.Recipient[]) => {
     if (!onValueChange) return;
+    const authType = value.authenticatorType;
+
     onValueChange({
       ...value,
-      authenticatorType: ObjectStore.ShareAuthenticatorType.Email,
-      authenticators: emails.map((email) => ({
-        auth_type: ObjectStore.ShareAuthenticatorType.Email,
-        auth_context: email,
-      })),
-    });
-  };
-
-  const handlePhonesChange = (phones: PhoneValue[]) => {
-    if (!onValueChange) return;
-    onValueChange({
-      ...value,
-      authenticatorType: ObjectStore.ShareAuthenticatorType.Sms,
-      authenticators: phones.map((phone) => ({
-        auth_type: ObjectStore.ShareAuthenticatorType.Sms,
-        auth_context: phone.phone_number,
+      authenticatorType: authType,
+      authenticators: recipients.map((r) => ({
+        auth_type: authType,
+        auth_context:
+          authType === ObjectStore.ShareAuthenticatorType.Sms
+            ? r.phone_number
+            : password,
+        notify_email: r.email,
+        phone_number: r.phone_number,
       })),
     });
   };
@@ -102,193 +96,178 @@ const UnControlledShareAuthenticatorField: FC<
     onValueChange({
       ...value,
       authenticatorType: ObjectStore.ShareAuthenticatorType.Password,
+      authenticators: recipients.map((r) => ({
+        auth_type: ObjectStore.ShareAuthenticatorType.Password,
+        auth_context: password,
+        notify_email: r.email,
+        phone_number: r.phone_number,
+      })),
+    });
+  };
+
+  const handleGetLink = (authContext: string) => {
+    if (!onValueChange) return;
+    onValueChange({
+      ...value,
+      authenticatorType: authenticatorType,
       authenticators: [
         {
-          auth_type: ObjectStore.ShareAuthenticatorType.Password,
-          auth_context: password,
+          auth_type: authenticatorType,
+          auth_context: authContext,
         },
       ],
     });
   };
 
-  const modify = theme.palette.mode === "dark" ? darken : lighten;
+  const handleReset = (authType: string) => {
+    handleAuthenticatorTypeChange(undefined, authType);
+  };
+
   return (
-    <Stack spacing={0.5}>
-      <Stack>
-        <ToggleButtonGroup
-          color="info"
-          value={authenticatorType}
-          exclusive
-          onChange={handleAuthenticatorTypeChange}
-          sx={{
-            width: "100%",
-            borderWidth: 0,
-            bgcolor: modify(theme.palette.info.main, 0.9),
-            ".MuiToggleButton-root": {
-              borderWidth: 0,
-              borderRadius: "6px!important",
-              paddingY: 1.5,
-              bgcolor: modify(theme.palette.info.main, 0.9),
-              color: theme.palette.info.main,
-              ":hover": {
-                bgcolor: modify(theme.palette.info.main, 0.8),
-              },
-            },
-            ".MuiToggleButton-root.Mui-selected": {
-              bgcolor: theme.palette.info.main,
-              color: theme.palette.info.contrastText,
-              ":hover": {
-                bgcolor: theme.palette.info.dark,
-              },
-            },
-          }}
-        >
-          <Button sx={{ position: "absolute", visibility: "hidden" }} />
-          <ToggleButton
+    <Stack spacing={0.5} minHeight="290px">
+      <Stack gap={1}>
+        <Button sx={{ position: "absolute", display: "none" }} />
+        <Stack direction="row" gap={1} alignItems="center">
+          <Typography variant="body1">Secure by</Typography>
+          <ToggleButtonGroup
             color="info"
-            sx={{ width: "100%" }}
-            size="small"
-            fullWidth
-            key={`secure-by-sms`}
-            value={ObjectStore.ShareAuthenticatorType.Sms}
+            value={authenticatorType}
+            exclusive
+            onChange={handleAuthenticatorTypeChange}
           >
-            <Tooltip
-              enterDelay={1000}
-              placement="bottom"
-              title="Create secure link(s) per phone number. Each link will require entering a one-time code sent to the number to authorize access."
+            <ToggleButton
+              color="info"
+              sx={{ minWidth: "120px", textTransform: "none" }}
+              size="small"
+              key={`secure-by-sms`}
+              value={ObjectStore.ShareAuthenticatorType.Sms}
+              disabled={loading}
             >
-              <Stack direction="row" spacing={1} alignItems="center">
-                <Typography variant="body2">Secure by SMS code</Typography>
-              </Stack>
-            </Tooltip>
-          </ToggleButton>
-          <ToggleButton
-            fullWidth
-            sx={{ width: "100%" }}
-            size="small"
-            color="info"
-            key={`secure-by-email`}
-            value={ObjectStore.ShareAuthenticatorType.Email}
-          >
-            <Tooltip
-              enterDelay={1000}
-              placement="bottom"
-              title="Create secure link(s) per email. Each link will require entering a one-time code sent to the email to authorize access."
+              <Tooltip
+                enterDelay={1000}
+                placement="bottom"
+                title="Create a secure link per phone number. Each link will require entering a one-time code sent to the number to authorize access."
+              >
+                <Typography variant="body2">SMS Code</Typography>
+              </Tooltip>
+            </ToggleButton>
+            {value.shareType === "link" && (
+              <ToggleButton
+                sx={{ minWidth: "120px", textTransform: "none" }}
+                size="small"
+                color="info"
+                key={`secure-by-email`}
+                value={ObjectStore.ShareAuthenticatorType.Email}
+                disabled={loading}
+              >
+                <Tooltip
+                  enterDelay={1000}
+                  placement="bottom"
+                  title="Create secure link per email. Each link will require entering a one-time code sent to the email to authorize access."
+                >
+                  <Typography variant="body2">Email Code</Typography>
+                </Tooltip>
+              </ToggleButton>
+            )}
+            <ToggleButton
+              size="small"
+              color="info"
+              sx={{ minWidth: "120px" }}
+              key={`secure-by-password`}
+              value={ObjectStore.ShareAuthenticatorType.Password}
+              disabled={loading}
             >
-              <Stack direction="row" spacing={1} alignItems="center">
-                <Typography variant="body2">Secure by email code</Typography>
-              </Stack>
-            </Tooltip>
-          </ToggleButton>
-          <ToggleButton
-            fullWidth
-            sx={{ width: "100%" }}
-            size="small"
-            color="info"
-            key={`secure-by-password`}
-            value={ObjectStore.ShareAuthenticatorType.Password}
-          >
-            <Tooltip
-              enterDelay={1000}
-              placement="bottom"
-              title="Create a secure link protected by password. The link will require entering the password to authorize access."
-            >
-              <Stack direction="row" spacing={1} alignItems="center">
-                <Typography variant="body2">Secure by password</Typography>
-              </Stack>
-            </Tooltip>
-          </ToggleButton>
-        </ToggleButtonGroup>
+              <Tooltip
+                enterDelay={1000}
+                placement="bottom"
+                title="Create a secure link protected by password. The link will require entering the password to authorize access."
+              >
+                <Typography variant="body2" sx={{ textTransform: "none" }}>
+                  Password
+                </Typography>
+              </Tooltip>
+            </ToggleButton>
+          </ToggleButtonGroup>
+        </Stack>
+        {value.shareType === "email" && (
+          <Typography variant="body1">Recipients</Typography>
+        )}
       </Stack>
       {authenticatorType === ObjectStore.ShareAuthenticatorType.Sms && (
-        <Stack width="100%" spacing={2}>
-          <Typography
-            variant="body2"
-            color={modify(theme.palette.text.secondary, 0.5)}
-          >
-            Links secured by SMS will ask for the phone number and a code to
-            gain access.
-          </Typography>
-          <SharePhonesField
-            {...props}
-            value={phones}
-            onValueChange={handlePhonesChange}
-          />
+        <Stack width="100%" spacing={2} sx={{ minHeight: minHeight }}>
+          {value.shareType === "link" && (
+            <>
+              <GetPhoneLinkField {...props} onValueChange={handleGetLink} />
+              <ShareLinkDetails />
+            </>
+          )}
+          {value.shareType === "email" && (
+            <SharePhonesField
+              {...props}
+              value={recipients}
+              onValueChange={handleRecipientChange}
+            />
+          )}
         </Stack>
       )}
       {authenticatorType === ObjectStore.ShareAuthenticatorType.Email && (
-        <Stack width="100%" spacing={2}>
-          <Typography
-            variant="body2"
-            color={modify(theme.palette.text.secondary, 0.5)}
-          >
-            Links secured by email will ask for the email and a code to gain
-            access.
-          </Typography>
-          <ShareEmailsField
-            {...props}
-            value={emails}
-            onValueChange={handleEmailsChange}
-          />
+        <Stack width="100%" spacing={2} sx={{ minHeight: minHeight }}>
+          {value.shareType === "link" && (
+            <>
+              <GetEmailLinkField
+                {...props}
+                value={value}
+                onValueChange={handleGetLink}
+              />
+              <ShareLinkDetails />
+            </>
+          )}
+          {value.shareType === "email" && (
+            <ShareEmailsField
+              {...props}
+              value={recipients}
+              onValueChange={handleRecipientChange}
+            />
+          )}
         </Stack>
       )}
       {authenticatorType === ObjectStore.ShareAuthenticatorType.Password && (
-        <Stack width="100%" spacing={2} sx={{ minHeight: "170px" }}>
-          <Typography
-            variant="body2"
-            color={modify(theme.palette.text.secondary, 0.5)}
-          >
-            Links secured by password will ask for the password to gain access.
-          </Typography>
-          <Stack width="100%">
-            <ButtonGroup
-              sx={{
-                flexGrow: 1,
-                width: "100%",
-                ".MuiFormGroup-root": {
-                  width: "calc(100% - 170px)",
-                },
-                ".MuiPopper-root": {
-                  zIndex: theme.zIndex.modal + 1,
-                },
-              }}
-            >
-              <AuthPasswordField
+        <Stack width="100%" spacing={2} sx={{ minHeight: minHeight }}>
+          {value.shareType === "link" && (
+            <>
+              <GetPasswordLinkField
                 {...props}
-                value={password}
-                onValueChange={handlePasswordChange}
-                FieldProps={{
-                  ...props?.FieldProps,
-                  type: "passwordWithPolicy",
-                  policy: configurations?.passwordPolicy ?? {
-                    chars_min: 8,
-                  },
-                  InputProps: {
-                    fullWidth: true,
-                    sx: {
-                      borderBottomRightRadius: "0!important",
-                      borderTopRightRadius: "0!important",
-                    },
-                  },
-                }}
+                value={value}
+                onValueChange={handleGetLink}
               />
-              <Button
-                variant="contained"
-                color="secondary"
-                onClick={() => handlePasswordChange(passwordGenerator(10))}
-                sx={{
-                  color: theme.palette.primary.main,
-                  borderBottomLeftRadius: "0!important",
-                  borderTopLeftRadius: "0!important",
-                  boxShadow: "none",
-                  zIndex: 0,
-                  flex: 1,
-                }}
-              >
-                Generate password
-              </Button>
-            </ButtonGroup>
-          </Stack>
+
+              <ShareLinkDetails />
+            </>
+          )}
+          {value.shareType === "email" && (
+            <>
+              <SharePasswordField
+                {...props}
+                value={recipients}
+                onValueChange={handleRecipientChange}
+              />
+              <Stack>
+                <Typography
+                  variant="subtitle1"
+                  sx={{ color: theme.palette.info.main }}
+                >
+                  Generate Password
+                </Typography>
+                <Typography variant="caption" color="textSecondary">
+                  Don’t forget to copy this password to your clipboard.
+                </Typography>
+              </Stack>
+              <GeneratePasswordField
+                //value={password}
+                onValueChange={handlePasswordChange}
+              />
+            </>
+          )}
         </Stack>
       )}
     </Stack>

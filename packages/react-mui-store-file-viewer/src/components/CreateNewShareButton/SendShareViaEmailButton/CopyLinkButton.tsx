@@ -2,7 +2,7 @@ import { ButtonProps, Button, SvgIconProps, Typography } from "@mui/material";
 
 import ContentCopyOutlinedIcon from "@mui/icons-material/ContentCopyOutlined";
 import CheckCircleOutlineOutlinedIcon from "@mui/icons-material/CheckCircleOutlineOutlined";
-import LockIcon from "@mui/icons-material/Lock";
+import LinkIcon from "@mui/icons-material/Link";
 
 import { FC, useEffect, useState } from "react";
 
@@ -44,7 +44,7 @@ const CopyLinkButton: FC<CopyProps> = ({
         handleOnCopy(value, label);
         setCopied(true);
       }}
-      startIcon={<LockIcon fontSize="small" />}
+      startIcon={<LinkIcon fontSize="small" />}
       endIcon={
         copied ? (
           <CheckCircleOutlineOutlinedIcon fontSize="small" {...IconProps} />
