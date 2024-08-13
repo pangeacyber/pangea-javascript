@@ -374,6 +374,63 @@ export const useStoreFileViewerBuckets = () => {
   };
 };
 
+export interface ShareCreateContextProps {
+  contentType: string;
+  shareType: string;
+  loading: boolean;
+  errors: { [key: string]: string } | undefined;
+  password: string;
+  shareLink: ObjectStore.ShareObjectResponse | undefined;
+  setPassword: (value: string) => void;
+}
+
+const CreateShareContext = createContext<ShareCreateContextProps>({
+  contentType: "",
+  shareType: "",
+  loading: false,
+  errors: undefined,
+  password: "",
+  shareLink: undefined,
+  setPassword: () => {},
+});
+
+export interface ShareCreateProviderProps {
+  contentType: string;
+  shareType: string;
+  loading: boolean;
+  errors: { [key: string]: string } | undefined;
+  shareLink: ObjectStore.ShareObjectResponse | undefined;
+  children?: React.ReactNode;
+}
+
+export const ShareCreateProvider: FC<ShareCreateProviderProps> = ({
+  contentType,
+  shareType,
+  loading,
+  errors,
+  shareLink,
+  children,
+}) => {
+  const [password, setPassword] = useState("");
+
+  return (
+    <CreateShareContext.Provider
+      value={{
+        contentType,
+        shareType,
+        loading,
+        errors,
+        password,
+        shareLink,
+
+        setPassword,
+      }}
+    >
+      {children}
+    </CreateShareContext.Provider>
+  );
+};
+
 export const useStoreFileViewerPreview = () => {
   const { previewId, setPreviewId } = useStoreFileViewerContext();
   return [previewId, setPreviewId];
@@ -385,6 +442,10 @@ export const useStoreFileViewerContext = () => {
 
 export const useStoreViewerData = () => {
   const { apiRef } = useStoreFileViewerContext();
+};
+
+export const useCreateShareContext = () => {
+  return useContext(CreateShareContext);
 };
 
 export default StoreFileViewerProvider;

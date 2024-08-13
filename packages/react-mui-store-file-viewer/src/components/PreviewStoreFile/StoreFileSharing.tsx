@@ -5,6 +5,7 @@ import ShareObject from "../ShareObject";
 import { Stack } from "@mui/material";
 import CreateNewShareButton from "../CreateNewShareButton";
 import CreateSharesButton from "../CreateNewShareButton/CreateSharesButton";
+// import GetLinkButton from "../CreateNewShareButton/CreateSharesButton/GetLinkButton";
 
 interface Props {
   object: ObjectStore.ObjectResponse;
@@ -47,19 +48,37 @@ const StoreFileSharing: FC<Props> = ({ object }) => {
   return (
     <>
       {!!object?.id && (
-        <CreateSharesButton
-          object={object}
-          ButtonProps={{
-            variant: "contained",
-            color: "primary",
-            sx: { width: "100%" },
-            fullWidth: true,
-          }}
-          onClose={() => {}}
-          onDone={() => {
-            return;
-          }}
-        />
+        <Stack direction="row" gap={1}>
+          <CreateSharesButton
+            shareType="email"
+            object={object}
+            ButtonProps={{
+              variant: "contained",
+              color: "primary",
+              sx: { width: "100%" },
+              fullWidth: true,
+            }}
+            onClose={() => {}}
+            onDone={() => {
+              return;
+            }}
+          />
+          <CreateSharesButton
+            shareType="link"
+            object={object}
+            ButtonProps={{
+              variant: "contained",
+              color: "primary",
+              sx: { width: "100%" },
+              fullWidth: true,
+              children: "Get Link",
+            }}
+            onClose={() => {}}
+            onDone={() => {
+              return;
+            }}
+          />
+        </Stack>
       )}
       <Stack spacing={1} paddingTop={1}>
         {shares.map((share) => {

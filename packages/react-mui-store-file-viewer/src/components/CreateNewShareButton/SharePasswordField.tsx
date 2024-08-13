@@ -1,11 +1,11 @@
 import { FC, useEffect, useMemo, useState } from "react";
 import {
-  Avatar,
   Button,
   IconButton,
   Stack,
   TextField,
   Typography,
+  Avatar,
 } from "@mui/material";
 import { EditOutlined, RemoveCircleOutline } from "@mui/icons-material";
 import * as yup from "yup";
@@ -17,21 +17,18 @@ import {
   FieldControl,
 } from "@pangeacyber/react-mui-shared";
 import { ObjectStore } from "../../types";
-import { PHONE_REGEXP } from "../../utils";
 
-const UnControlledSharePhonesField: FC<FieldComponentProps> = ({
+const UnControlledSharePasswordField: FC<FieldComponentProps> = ({
   onValueChange = () => {},
   ...props
 }) => {
   const value = useMemo<ObjectStore.Recipient[]>(() => {
-    const value_: ObjectStore.Recipient[] = props.value || props.default || [];
-    return uniqBy(value_, "email");
+    const value: ObjectStore.Recipient[] = props.value || props.default || [];
+    return uniqBy(value, "email");
   }, [props.value, props.default]);
 
   const [emailValue, setEmailValue] = useState("");
-  const [phoneValue, setPhoneValue] = useState("");
   const [emailError, setEmailError] = useState<string | undefined>(undefined);
-  const [phoneError, setPhoneError] = useState<string | undefined>(undefined);
   const [editRow, setEditRow] = useState<number | undefined>(undefined);
 
   const minHeight = !value?.length
@@ -40,62 +37,40 @@ const UnControlledSharePhonesField: FC<FieldComponentProps> = ({
       ? "148px"
       : `${value.length * 48}px`;
 
-  const validatePhone = () => {
+  const validate = () => {
     yup
       .string()
-      .matches(PHONE_REGEXP, "Phone number is not valid")
-      .required("Phone number is field")
-      .isValid(phoneValue)
-      .then((isValid) => {
-        if (!isValid) setPhoneError("Must be a valid phone number");
-        else setPhoneError(undefined);
-      });
-  };
-  const validateEmail = () => {
-    yup
-      .string()
-      .email("Must be a valid email")
-      .required("Email is required")
+      .required("Email is a required field")
+      .email("A valid email is required")
       .isValid(emailValue)
       .then((isValid) => {
-        if (!isValid) setEmailError("Must be a valid email");
+        if (!isValid) setEmailError("Must be a valid email address");
         else setEmailError(undefined);
       });
   };
 
   useEffect(() => {
-    if (phoneValue === "" && emailValue === "") {
+    if (emailValue === "") {
       setEmailError(undefined);
-      setPhoneError(undefined);
       setEditRow(undefined);
       return;
     }
 
-    if (!!phoneValue) {
-      validatePhone();
-    }
-
-    if (!!emailValue) {
-      validateEmail();
-    }
-  }, [emailValue, phoneValue]);
+    validate();
+  }, [emailValue]);
 
   const handleAddOption = () => {
-    if (!emailValue || !phoneValue || !!emailError || !!phoneError) return;
-
-    // strip leading +1, remove non-digits, add +1
-    const phoneValue_ = `+1${phoneValue.replace(/^\+1/, "").replace(/\D/g, "")}`;
+    if (!emailValue || !!emailError) return;
 
     let value_ = [...value];
     if (editRow === undefined) {
       value_.push({
-        phone_number: phoneValue_,
+        phone_number: "",
         email: emailValue,
       });
     } else {
       const update = {
         ...value_[editRow],
-        phone_number: phoneValue_,
         email: emailValue,
       };
       value_[editRow] = update;
@@ -103,7 +78,6 @@ const UnControlledSharePhonesField: FC<FieldComponentProps> = ({
 
     value_ = uniqBy(value_, "email");
     onValueChange(value_);
-    setPhoneValue("");
     setEmailValue("");
     setEditRow(undefined);
   };
@@ -116,12 +90,11 @@ const UnControlledSharePhonesField: FC<FieldComponentProps> = ({
     onValueChange(value_);
   };
 
-  const handleEditOption = (phone: ObjectStore.Recipient) => {
-    const idx = findIndex(value, (v) => v.email === phone.email);
+  const handleEditOption = (recipient: ObjectStore.Recipient) => {
+    const idx = findIndex(value, (v) => v.email === recipient.email);
     if (idx === -1) return;
     setEditRow(idx);
-    setPhoneValue(phone.phone_number);
-    setEmailValue(phone.email);
+    setEmailValue(recipient.email);
   };
 
   return (
@@ -130,7 +103,7 @@ const UnControlledSharePhonesField: FC<FieldComponentProps> = ({
         <TextField
           value={emailValue}
           name="recipient_email"
-          label="Email"
+          label="Add email"
           onChange={(e) => {
             let value = e.target.value;
             setEmailValue(value);
@@ -153,36 +126,6 @@ const UnControlledSharePhonesField: FC<FieldComponentProps> = ({
             "& .MuiFormHelperText-sizeSmall": {
               marginLeft: 1,
             },
-          }}
-        />
-        <TextField
-          value={phoneValue}
-          name="recipient_phone"
-          label="Add phone number"
-          onChange={(e) => {
-            let value = e.target.value;
-            setPhoneValue(value);
-            e.stopPropagation();
-          }}
-          error={!!phoneError}
-          helperText={phoneError}
-          onKeyDown={(event) => event.stopPropagation()}
-          autoComplete="off"
-          fullWidth
-          onBlur={handleAddOption}
-          onKeyUp={(event) => {
-            if (event.key === "Enter") {
-              handleAddOption();
-              event.preventDefault();
-            }
-          }}
-          size="small"
-          InputProps={{
-            startAdornment: (
-              <Typography color="textSecondary" sx={{ paddingRight: 1 }}>
-                +1
-              </Typography>
-            ),
           }}
         />
         <Button
@@ -216,19 +159,9 @@ const UnControlledSharePhonesField: FC<FieldComponentProps> = ({
               width="100%"
               key={`email-${idx}-${recipient.email}`}
             >
-              <Stack direction="row" gap={1}>
+              <Stack direction="row" gap={1} alignItems="center">
                 <Avatar>{recipient.email.charAt(0).toLocaleUpperCase()}</Avatar>
-                <Stack>
-                  <Typography variant="body2">{recipient.email}</Typography>
-                  <Typography
-                    variant="body2"
-                    color={!recipient.phone_number ? "error" : "textSecondary"}
-                  >
-                    {!recipient.phone_number
-                      ? "Phone number required"
-                      : recipient.phone_number}
-                  </Typography>
-                </Stack>
+                <Typography variant="body2">{recipient.email}</Typography>
               </Stack>
               <Stack direction="row">
                 <IconButton onClick={() => handleEditOption(recipient)}>
@@ -246,12 +179,12 @@ const UnControlledSharePhonesField: FC<FieldComponentProps> = ({
   );
 };
 
-const SharePhonesField: FC<FieldComponentProps> = (props) => {
+const SharePasswordField: FC<FieldComponentProps> = (props) => {
   return (
     <FieldControl {...props}>
-      <UnControlledSharePhonesField {...props} />
+      <UnControlledSharePasswordField {...props} />
     </FieldControl>
   );
 };
 
-export default SharePhonesField;
+export default SharePasswordField;

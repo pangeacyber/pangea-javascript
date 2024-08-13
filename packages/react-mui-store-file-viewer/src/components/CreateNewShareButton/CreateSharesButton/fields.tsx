@@ -1,7 +1,4 @@
-import {
-  FieldsFormSchema,
-  validatePassword,
-} from "@pangeacyber/react-mui-shared";
+import { FieldsFormSchema } from "@pangeacyber/react-mui-shared";
 import { ObjectStore } from "../../../types";
 import * as yup from "yup";
 import dayjs from "dayjs";
@@ -60,6 +57,7 @@ export const getShareSettingsFields = (
 };
 
 export interface ShareCreateForm extends ObjectStore.SingleShareCreateRequest {
+  shareType: string;
   authenticatorType: string;
   contentType: string | ObjectStore.ObjectType;
 }
@@ -74,16 +72,16 @@ export const getCreateShareFields = (): FieldsFormSchema<ShareCreateForm> => {
       component: ShareAuthenticatorField,
       schema: yup
         .array()
-        .min(1, "At least one authenticator is required")
-        .required("At least one authenticator is required"),
+        .min(1, "At least one recipient is required")
+        .required("At least one recipient is required"),
       getFieldValue: (values) => {
         return {
+          shareType: values?.shareType,
           authenticators: values?.authenticators ?? [],
           authenticatorType: values?.authenticatorType,
         };
       },
       onFieldChanged(value, values) {
-        // @ts-ignore
         const value_: any = value;
         return {
           ...value_,
@@ -92,6 +90,7 @@ export const getCreateShareFields = (): FieldsFormSchema<ShareCreateForm> => {
     },
     title: {
       label: "Title",
+      isHidden: (values) => values.shareType === "link",
       LabelProps: {
         placement: "start",
         info: "The recipient will see this in emails and after gaining access.",
@@ -104,10 +103,12 @@ export const getCreateShareFields = (): FieldsFormSchema<ShareCreateForm> => {
     },
     message: {
       label: "Message",
+      isHidden: (values) => values.shareType === "link",
       LabelProps: {
         placement: "start",
         info: "The recipient will see this in emails and after gaining access.",
         FormControlLabelSx: {
+          marginTop: 1,
           alignItems: "baseline",
           ".MuiStack-root": {
             alignItems: "end",

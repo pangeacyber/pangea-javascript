@@ -1,5 +1,10 @@
+import isEmpty from "lodash/isEmpty";
 import { useMediaQuery } from "@mui/material";
 import { Breakpoint, useTheme } from "@mui/material/styles";
+import {
+  validatePassword,
+  PasswordPolicy,
+} from "@pangeacyber/react-mui-shared";
 
 export const useBreakpoint = (breakpoint: Breakpoint) => {
   const theme = useTheme();
@@ -87,3 +92,13 @@ export function passwordGenerator(len: number) {
     .join("");
   return password.substr(0, len);
 }
+
+export const checkPassword = (
+  value: string,
+  passwordPolicy: PasswordPolicy | undefined
+) => {
+  return isEmpty(validatePassword(value, passwordPolicy));
+};
+
+export const PHONE_REGEXP =
+  /^((\+[1-9]{1,4}[ \-]*)|(\([0-9]{2,3}\)[ \-]*)|(1|[0-9]{2,4})[ \-]*)*?[0-9]{3,4}?[ \-]*[0-9]{3,4}?$/;
