@@ -34,7 +34,7 @@
     "promise-retry": "^2.0.1"
   },
   "devDependencies": {
-    "@gitlab/eslint-plugin": "^19.6.0",
+    "@gitlab/eslint-plugin": "^19.6.1",
     "@swc/core": "1.7.10",
     "@swc/jest": "0.2.36",
     "@tsconfig/node18": "18.2.4",
