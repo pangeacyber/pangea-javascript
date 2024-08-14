@@ -3115,7 +3115,14 @@ export namespace Share {
      * about an object.
      */
     metadata?: Metadata;
+
+    /** Protected (read-only) metadata. */
+    metadata_protected?: Metadata;
+
+    /** The name of the object. */
     name: string;
+
+    /** The parent ID (a folder). Blanks means the root folder. */
     parent_id: string;
 
     /** The SHA256 hash of the file contents. */
@@ -3129,6 +3136,9 @@ export namespace Share {
 
     /** A list of user-defined tags. */
     tags?: Tags;
+
+    /** Protected (read-only) flags. */
+    tags_protected?: Tags;
 
     /** The type of the item (file or dir). */
     type: string;
@@ -3238,6 +3248,9 @@ export namespace Share {
 
     /** The requested transfer method for the file data. */
     transfer_method?: TransferMethod;
+
+    /** If the file was protected with a password, the password to decrypt with. */
+    password?: string;
   }
 
   export interface GetResult {
@@ -3296,6 +3309,12 @@ export namespace Share {
      */
     folder?: string;
 
+    /** An optional password to protect the file with. Downloading the file will require this password. */
+    password?: string;
+
+    /** An optional password algorithm to protect the file with. See symmetric vault password_algorithm. */
+    password_algorithm?: string;
+
     /**
      * The hexadecimal-encoded SHA1 hash of the file data, which will be
      * verified by the server if provided.
@@ -3319,6 +3338,9 @@ export namespace Share {
      * will fail.
      */
     size?: number;
+
+    /** The URL to fetch the file payload from (for transfer_method source-url). */
+    source_url?: string;
 
     /** A list of user-defined tags */
     tags?: Tags;
@@ -3347,6 +3369,12 @@ export namespace Share {
     /** The bucket to use, if not the default. */
     bucket_id?: string;
 
+    /** Protect the file with the supplied password. */
+    add_password?: string;
+
+    /** The algorithm to use to password protect the file. */
+    add_password_algorithm?: string;
+
     /** An identifier for the file to update. */
     id: string;
 
@@ -3368,6 +3396,9 @@ export namespace Share {
      * doesn't match the provided value, it will not be removed.
      */
     remove_metadata?: Metadata;
+
+    /** Remove the supplied password from the file. */
+    remove_password?: string;
 
     /**
      * A list of tags to remove. It is not an error to provide a tag which is
@@ -3391,11 +3422,89 @@ export namespace Share {
   }
 
   export interface ListFilter {
+    /** Only records where created_at equals this value. */
+    created_at?: string;
+
+    /** Only records where created_at is greater than this value. */
+    created_at__gt?: string;
+
+    /** Only records where created_at is greater than or equal to this value. */
+    created_at__gte?: string;
+
+    /** Only records where created_at is less than this value. */
+    created_at__lt?: string;
+
+    /** Only records where created_at is less than or equal to this value. */
+    created_at__lte?: string;
+
     /**
      * Only records where the object exists in the supplied parent folder path
      * name.
      */
     folder?: string;
+
+    /** Only records where id equals this value. */
+    id?: string;
+
+    /** Only records where id equals one of the provided substrings. */
+    id__in?: string[];
+
+    /** Only records where name equals this value. */
+    name?: string;
+
+    /** Only records where name includes each substring. */
+    name__contains?: string[];
+
+    /** Only records where name equals one of the provided substrings. */
+    name__in?: string[];
+
+    /** Only records where parent_id equals this value. */
+    parent_id?: string;
+
+    /** Only records where parent_id equals one of the provided substrings. */
+    parent_id__in?: string[];
+
+    /** Only records where size equals this value. */
+    size?: number;
+
+    /** Only records where size is greater than this value. */
+    size__gt?: number;
+
+    /** Only records where size is greater than or equal to this value. */
+    size__gte?: number;
+
+    /** Only records where size is less than to this value. */
+    size__lt?: number;
+
+    /** Only records where size is less than or equal to this value. */
+    size__lte?: number;
+
+    /** A list of tags that all must be present. */
+    tags?: string[];
+
+    /** Only records where type equals this value. */
+    type?: string;
+
+    /** Only records where type includes each substring. */
+    type__contains?: string[];
+
+    /** Only records where type equals one of the provided substrings. */
+    type__in?: string[];
+
+    /** Only records where updated_at equals this value. */
+    updated_at?: string;
+
+    /** Only records where updated_at is greater than this value. */
+    updated_at__gt?: string;
+
+    /** Only records where updated_at is greater than or equal to this value. */
+    updated_at__gte?: string;
+
+    /** Only records where updated_at is less than this value. */
+    updated_at__lt?: string;
+
+    /** Only records where updated_at is less than or equal to this value. */
+    updated_at__lte?: string;
   }
 
   export interface ListRequest {
@@ -3458,6 +3567,9 @@ export namespace Share {
 
     /** Number of objects included in the archive. */
     count: number;
+
+    /** A list of all objects included in the archive. */
+    objects?: ItemData[];
   }
 
   export interface Authenticator {
@@ -3530,6 +3642,7 @@ export namespace Share {
 
     /** The date and time the share link was created. */
     created_at: string;
+
     /** The date and time the share link expires. */
     expires_at: string;
 
@@ -3703,6 +3816,10 @@ export namespace Share {
   export interface ShareLinkListResult {
     /** The total number of share links matched by the list request. */
     count: number;
+
+    /** Used to fetch the next page of the current listing when provided in a repeated request's last parameter. */
+    last?: string;
+
     share_link_objects: ShareLinkItem[];
   }
 
