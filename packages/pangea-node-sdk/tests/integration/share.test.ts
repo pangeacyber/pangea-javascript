@@ -127,7 +127,7 @@ it("Put zero bytes file. Multipart transfer_method", async () => {
 
     expect(respGet.success).toBeTruthy();
     expect(respGet.attachedFiles.length).toBe(0);
-    expect(respGet.result.dest_url).toBeUndefined();
+    expect(respGet.result.dest_url).toBeDefined();
   } catch (e) {
     e instanceof PangeaErrors.APIError
       ? console.log(e.toString())
