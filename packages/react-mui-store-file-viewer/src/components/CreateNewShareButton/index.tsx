@@ -42,9 +42,11 @@ const CreateNewShareButton: FC<Props> = ({ object, onDone }) => {
         sx={{
           width: `${PREVIEW_FILE_WIDTH}px`,
         }}
-        PaperProps={{
-          sx: {
-            width: `${PREVIEW_FILE_WIDTH}px`,
+        slotProps={{
+          paper: {
+            sx: {
+              width: `${PREVIEW_FILE_WIDTH}px`,
+            },
           },
         }}
       >

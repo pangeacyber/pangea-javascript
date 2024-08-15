@@ -7,13 +7,12 @@ import {
   FieldControl,
 } from "@pangeacyber/react-mui-shared";
 
-import { ObjectStore } from "../../types";
 import { useCreateShareContext } from "../../hooks/context";
 
 const UnControlledGetEmailLinkField: FC<FieldComponentProps> = ({
   onValueChange = () => {},
 }) => {
-  const { loading, shareLink } = useCreateShareContext();
+  const { loading, setSent } = useCreateShareContext();
   const [newValue, setNewValue] = useState("");
   const [newValueError, setNewValueError] = useState<string | undefined>(
     undefined
@@ -44,6 +43,7 @@ const UnControlledGetEmailLinkField: FC<FieldComponentProps> = ({
     }
 
     if (!loading) {
+      setSent(false);
       validate();
     }
   }, [newValue]);
@@ -75,6 +75,7 @@ const UnControlledGetEmailLinkField: FC<FieldComponentProps> = ({
             }
           }}
           onBlur={validate}
+          disabled={loading}
           size="small"
         />
         <Button
@@ -83,7 +84,7 @@ const UnControlledGetEmailLinkField: FC<FieldComponentProps> = ({
           disabled={!newValue || !!newValueError || loading}
           sx={{ minWidth: "100px" }}
         >
-          {loading ? "Sending" : "Get Link"}
+          {loading ? "Saving..." : "Get Link"}
         </Button>
       </Stack>
     </Stack>

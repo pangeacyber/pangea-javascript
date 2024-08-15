@@ -378,10 +378,16 @@ export interface ShareCreateContextProps {
   contentType: string;
   shareType: string;
   loading: boolean;
+  sent: boolean;
   errors: { [key: string]: string } | undefined;
   password: string;
   shareLink: ObjectStore.ShareObjectResponse | undefined;
+  setLoading: (value: boolean) => void;
+  setSent: (value: boolean) => void;
+  setErrors: (errors: { [key: string]: string }) => void;
   setPassword: (value: string) => void;
+  setShareLink: (link: ObjectStore.ShareObjectResponse | undefined) => void;
+  resetContext: () => void;
 }
 
 const CreateShareContext = createContext<ShareCreateContextProps>({
@@ -390,28 +396,42 @@ const CreateShareContext = createContext<ShareCreateContextProps>({
   loading: false,
   errors: undefined,
   password: "",
+  sent: false,
   shareLink: undefined,
+  setLoading: () => {},
+  setSent: () => {},
+  setErrors: () => {},
   setPassword: () => {},
+  setShareLink: () => {},
+  resetContext: () => {},
 });
 
 export interface ShareCreateProviderProps {
   contentType: string;
   shareType: string;
-  loading: boolean;
-  errors: { [key: string]: string } | undefined;
-  shareLink: ObjectStore.ShareObjectResponse | undefined;
   children?: React.ReactNode;
 }
 
 export const ShareCreateProvider: FC<ShareCreateProviderProps> = ({
   contentType,
   shareType,
-  loading,
-  errors,
-  shareLink,
   children,
 }) => {
+  const [loading, setLoading] = useState(false);
+  const [sent, setSent] = useState(false);
+  const [errors, setErrors] = useState({});
   const [password, setPassword] = useState("");
+  const [shareLink, setShareLink] = useState<
+    ObjectStore.ShareObjectResponse | undefined
+  >(undefined);
+
+  const resetContext = () => {
+    setLoading(false);
+    setSent(false);
+    setErrors({});
+    setPassword("");
+    setShareLink(undefined);
+  };
 
   return (
     <CreateShareContext.Provider
@@ -419,11 +439,17 @@ export const ShareCreateProvider: FC<ShareCreateProviderProps> = ({
         contentType,
         shareType,
         loading,
+        sent,
         errors,
         password,
         shareLink,
 
+        setLoading,
+        setSent,
+        setErrors,
         setPassword,
+        setShareLink,
+        resetContext,
       }}
     >
       {children}
