@@ -65,6 +65,10 @@ const UnControlledShareAuthenticatorField: FC<
         authenticators: value.authenticators.map((r) => {
           return {
             ...r,
+            auth_context:
+              newType === ObjectStore.ShareAuthenticatorType.Sms
+                ? r.phone_number
+                : password,
             auth_type: newType,
           };
         }),
@@ -81,15 +85,14 @@ const UnControlledShareAuthenticatorField: FC<
 
   const handleRecipientChange = (recipients: ObjectStore.Recipient[]) => {
     if (!onValueChange) return;
-    const authType = authenticatorType;
 
     onValueChange({
       ...value,
-      authenticatorType: authType,
+      authenticatorType: authenticatorType,
       authenticators: recipients.map((r) => ({
-        auth_type: authType,
+        auth_type: authenticatorType,
         auth_context:
-          authType === ObjectStore.ShareAuthenticatorType.Sms
+          authenticatorType === ObjectStore.ShareAuthenticatorType.Sms
             ? r.phone_number
             : password,
         notify_email: r.email,

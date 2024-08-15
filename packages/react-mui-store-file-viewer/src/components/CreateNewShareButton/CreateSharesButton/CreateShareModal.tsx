@@ -348,12 +348,12 @@ const CreateShareModal: FC<Props> = ({ object, open, onClose, onDone }) => {
                   if (context?.parent?.shareType === "link") {
                     return true;
                   }
-                  const authType_ = context?.parent?.authenticatorType || "";
+
                   const firstAuth = context?.parent?.authenticators[0];
+                  const authType = firstAuth?.auth_type || "";
                   const isValid =
-                    authType_ !== ObjectStore.ShareAuthenticatorType.Password ||
-                    (authType_ ===
-                      ObjectStore.ShareAuthenticatorType.Password &&
+                    authType !== ObjectStore.ShareAuthenticatorType.Password ||
+                    (authType === ObjectStore.ShareAuthenticatorType.Password &&
                       !!firstAuth?.auth_context);
                   setErrors(
                     isValid ? {} : { password: "A password is required." }
