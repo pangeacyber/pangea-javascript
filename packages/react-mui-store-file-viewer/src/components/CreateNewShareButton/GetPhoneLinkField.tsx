@@ -13,7 +13,7 @@ import { useCreateShareContext } from "../../hooks/context";
 const UnControlledGetPhoneLinkField: FC<FieldComponentProps> = ({
   onValueChange = () => {},
 }) => {
-  const { loading, shareLink } = useCreateShareContext();
+  const { loading, setSent } = useCreateShareContext();
   const [newValue, setNewValue] = useState("");
   const [newValueError, setNewValueError] = useState<string | undefined>(
     undefined
@@ -44,6 +44,7 @@ const UnControlledGetPhoneLinkField: FC<FieldComponentProps> = ({
     }
 
     if (!loading) {
+      setSent(false);
       validate();
     }
   }, [newValue]);
@@ -76,6 +77,7 @@ const UnControlledGetPhoneLinkField: FC<FieldComponentProps> = ({
             }
           }}
           size="small"
+          disabled={loading}
           InputProps={{
             startAdornment: (
               <Typography color="textSecondary" sx={{ paddingRight: 1 }}>
@@ -90,7 +92,7 @@ const UnControlledGetPhoneLinkField: FC<FieldComponentProps> = ({
           disabled={!newValue || !!newValueError || loading}
           sx={{ minWidth: "100px" }}
         >
-          {loading ? "Sending" : "Get Link"}
+          {loading ? "Saving..." : "Get Link"}
         </Button>
       </Stack>
     </Stack>

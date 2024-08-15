@@ -41,7 +41,8 @@ const UnControlledShareAuthenticatorField: FC<
 > = ({ onValueChange, ...props }) => {
   const value: AuthenticatorValue = props.value;
   const theme = useTheme();
-  const { contentType, password, loading } = useCreateShareContext();
+  const { shareType, contentType, password, loading, setShareLink } =
+    useCreateShareContext();
   const [authenticatorType, setAuthenticatorType] =
     useState<ObjectStore.ShareAuthenticatorType>(
       ObjectStore.ShareAuthenticatorType.Sms
@@ -58,6 +59,22 @@ const UnControlledShareAuthenticatorField: FC<
     newType: string
   ) => {
     if (!newType) return;
+    if (onValueChange && shareType === "email") {
+      onValueChange({
+        ...value,
+        authenticators: value.authenticators.map((r) => {
+          return {
+            ...r,
+            auth_context:
+              newType === ObjectStore.ShareAuthenticatorType.Sms
+                ? r.phone_number
+                : password,
+            auth_type: newType,
+          };
+        }),
+      });
+    }
+    setShareLink(undefined);
     setAuthenticatorType(newType as ObjectStore.ShareAuthenticatorType);
   };
 
@@ -68,15 +85,14 @@ const UnControlledShareAuthenticatorField: FC<
 
   const handleRecipientChange = (recipients: ObjectStore.Recipient[]) => {
     if (!onValueChange) return;
-    const authType = value.authenticatorType;
 
     onValueChange({
       ...value,
-      authenticatorType: authType,
+      authenticatorType: authenticatorType,
       authenticators: recipients.map((r) => ({
-        auth_type: authType,
+        auth_type: authenticatorType,
         auth_context:
-          authType === ObjectStore.ShareAuthenticatorType.Sms
+          authenticatorType === ObjectStore.ShareAuthenticatorType.Sms
             ? r.phone_number
             : password,
         notify_email: r.email,
@@ -111,10 +127,6 @@ const UnControlledShareAuthenticatorField: FC<
         },
       ],
     });
-  };
-
-  const handleReset = (authType: string) => {
-    handleAuthenticatorTypeChange(undefined, authType);
   };
 
   return (
@@ -256,10 +268,7 @@ const UnControlledShareAuthenticatorField: FC<
                   Don’t forget to copy this password to your clipboard.
                 </Typography>
               </Stack>
-              <GeneratePasswordField
-                //value={password}
-                onValueChange={handlePasswordChange}
-              />
+              <GeneratePasswordField onValueChange={handlePasswordChange} />
             </>
           )}
         </Stack>

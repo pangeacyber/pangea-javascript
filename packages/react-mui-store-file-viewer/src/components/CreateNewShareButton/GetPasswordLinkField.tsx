@@ -13,7 +13,7 @@ import { useCreateShareContext } from "../../hooks/context";
 const UnControlledGetPasswordLinkField: FC<FieldComponentProps> = ({
   onValueChange = () => {},
 }) => {
-  const { password, loading } = useCreateShareContext();
+  const { password, loading, setSent } = useCreateShareContext();
   const [error, setError] = useState<boolean>();
   const [passwordError, setPasswordError] = useState<string | undefined>(
     undefined
@@ -47,6 +47,7 @@ const UnControlledGetPasswordLinkField: FC<FieldComponentProps> = ({
     }
 
     if (!loading) {
+      setSent(false);
       validate();
     }
   }, [password]);
@@ -79,7 +80,7 @@ const UnControlledGetPasswordLinkField: FC<FieldComponentProps> = ({
           disabled={!password || !!passwordError || error || loading}
           sx={{ minWidth: "100px" }}
         >
-          {loading ? "Sending" : "Get Link"}
+          {loading ? "Saving..." : "Get Link"}
         </Button>
       </Stack>
     </Stack>
