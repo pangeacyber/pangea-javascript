@@ -1,5 +1,5 @@
 .react_mui_authn_base:
-  image: node:20.15.1@sha256:6326b52a508f0d99ffdbfaa29a69380321b215153db6f32974835bac71b38fa4
+  image: node:20.16.0@sha256:d3c8ababe9566f9f3495d0d365a5c4b393f607924647dd52e75bf4f8a54effd3
   before_script:
     - cd packages/react-mui-authn
     - yarn install --frozen-lockfile
