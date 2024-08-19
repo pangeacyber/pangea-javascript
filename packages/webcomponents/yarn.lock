@@ -1507,13 +1507,13 @@
     react-json-view "^1.21.3"
     yup "^1.4.0"
 
-"@pangeacyber/react-mui-store-file-viewer@^0.0.57":
-  version "0.0.57"
-  resolved "https://registry.yarnpkg.com/@pangeacyber/react-mui-store-file-viewer/-/react-mui-store-file-viewer-0.0.57.tgz#a5830209bac86713ec3ad8e632d81157cbc6c95e"
-  integrity sha512-FJN22JFrnmSMtBBh+1lTJY8PXKKk4ou/QqVPcuqux2pFzBbBbOPI/DoaniEcVcOuyi75nyWjxgMcZxOmb4FDCQ==
+"@pangeacyber/react-mui-store-file-viewer@^0.0.58":
+  version "0.0.58"
+  resolved "https://registry.yarnpkg.com/@pangeacyber/react-mui-store-file-viewer/-/react-mui-store-file-viewer-0.0.58.tgz#298240a0af77bd0454b7b332a53dab04053b2c89"
+  integrity sha512-/u1c9U1+klByP2ARH8VOeUtTWVNkrg1vpGEuv2vNt8qj3itLOfKF8AjEqtA/UzJEJseIMSA3NeTrqIj37BfAxg==
   dependencies:
     "@pangeacyber/react-mui-shared" "0.0.64"
-    axios "^1.7.2"
+    axios "^1.7.3"
     lodash "^4.17.21"
     zustand "^4.5.4"
 
@@ -2518,10 +2518,10 @@ asynckit@^0.4.0:
   resolved "https://registry.yarnpkg.com/asynckit/-/asynckit-0.4.0.tgz#c79ed97f7f34cb8f2ba1bc9790bcc366474b4b79"
   integrity sha512-Oei9OH4tRh0YqU3GxhX79dM/mwVgvbZJaSNaRk+bshkj0S5cfHcgYakreBjrHwatXKbz+IoIdYLxrKim2MjW0Q==
 
-axios@^1.7.2:
-  version "1.7.3"
-  resolved "https://registry.yarnpkg.com/axios/-/axios-1.7.3.tgz#a1125f2faf702bc8e8f2104ec3a76fab40257d85"
-  integrity sha512-Ar7ND9pU99eJ9GpoGQKhKf58GpUOgnzuaB7ueNQ5BMi0p+LZ5oaEnfF999fAArcTIBwXTCHAmGcHOZJaWPq9Nw==
+axios@^1.7.3:
+  version "1.7.4"
+  resolved "https://registry.yarnpkg.com/axios/-/axios-1.7.4.tgz#4c8ded1b43683c8dd362973c393f3ede24052aa2"
+  integrity sha512-DukmaFRnY6AzAALSH4J2M3k6PkaC+MfaAGdEERRWcC9q3/TWQwLpHR8ZRLKTdQ3aBDL64EdluRDjJqKw+BPZEw==
   dependencies:
     follow-redirects "^1.15.6"
     form-data "^4.0.0"
