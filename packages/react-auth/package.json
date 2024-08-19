@@ -23,7 +23,7 @@
   "files": [
     "dist"
   ],
-  "repository": "https://github.com/pangeacyber/pangea-javascript.git",
+  "repository": "github:pangeacyber/pangea-javascript",
   "author": "Pangea (https://pangea.cloud)",
   "license": "MIT",
   "packageManager": "yarn@1.22.22",
@@ -58,7 +58,7 @@
     "@types/lodash": "^4.17.7",
     "@types/react": "^18.3.3",
     "parcel": "^2.12.0",
-    "publint": "^0.2.9",
+    "publint": "0.2.10",
     "react": "^18.3.1",
     "typescript": "^5.5.4",
     "typedoc": "^0.26.5",
