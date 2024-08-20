@@ -296,7 +296,7 @@ const operators = new Set(["AND", "OR"]);
 export const useAuditConditionalOptions = <Event,>(schema: Audit.Schema) => {
   const options = useMemo(() => {
     const optionalFields = (schema?.fields ?? []).filter(
-      (field) => field.type === "string" || field.type === "text"
+      (field) => field.type !== "string-unindexed"
     );
 
     return [
