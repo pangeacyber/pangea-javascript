@@ -1331,10 +1331,10 @@
   resolved "https://registry.yarnpkg.com/@floating-ui/utils/-/utils-0.2.5.tgz#105c37d9d9620ce69b7f692a20c821bf1ad2cbf9"
   integrity sha512-sTcG+QZ6fdEUObICavU+aB3Mp8HY4n14wYHdxK4fXjPmv3PXZZeY5RaguJmGyeH/CJQhX3fqKUtS4qc1LoHwhQ==
 
-"@fontsource/kanit@^5.0.20":
-  version "5.0.20"
-  resolved "https://registry.yarnpkg.com/@fontsource/kanit/-/kanit-5.0.20.tgz#873f55d909dc978fb7a5078a7cef932fee6c4e42"
-  integrity sha512-UvQ3Lm2+V+arG7GlYDHhgTt+TYLvKhORYZ3B51zZfq769JqqBDm2I5hdpWX7u/hf0tgY19CrKvu3k6AgAGPf7w==
+"@fontsource/kanit@^5.0.21":
+  version "5.0.21"
+  resolved "https://registry.yarnpkg.com/@fontsource/kanit/-/kanit-5.0.21.tgz#f8880aa3b7b899fbd49e588d073f2be728d1a923"
+  integrity sha512-0rIN0e6W6cC7sxurUZBF3EAEs2NzbSKKJPk3b1enYumioL+K1yNtndje2J/lDmPp11Zpd3mZshxMCbq2Mcif+g==
 
 "@fontsource/roboto@^5.0.14":
   version "5.0.14"
