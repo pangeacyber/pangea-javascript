@@ -27,7 +27,7 @@ const ShareOptions: FC<Props> = ({ object, onDelete }) => {
   const [sending, setSending] = useState(false);
   const [sent, setSent] = useState(false);
   const [copied, setCopied] = useState(false);
-  const { apiRef } = useStoreFileViewerContext();
+  const { apiRef, configurations } = useStoreFileViewerContext();
   const [optionsEl, setOptionsEl] = useState<HTMLElement | null>(null);
 
   const handleRemove = () => {
@@ -61,8 +61,11 @@ const ShareOptions: FC<Props> = ({ object, onDelete }) => {
 
     apiRef.share
       .send({
-        sender_email: object.sender_email || "no-reply@pangea.cloud",
-        sender_name: object.sender_name,
+        sender_email:
+          object.sender_email ||
+          configurations?.sender?.email ||
+          "no-reply@pangea.cloud",
+        sender_name: object.sender_name || configurations?.sender?.name,
         links,
       })
       .finally(() => {

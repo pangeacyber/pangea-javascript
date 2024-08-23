@@ -1,12 +1,11 @@
+import { FC, useEffect, useState } from "react";
 import { Button, Stack, Typography } from "@mui/material";
 import {
   FieldComponentProps,
   FieldControl,
 } from "@pangeacyber/react-mui-shared";
-import { FC, useEffect, useState } from "react";
 import * as yup from "yup";
 
-import { ObjectStore } from "../../types";
 import GeneratePasswordField from "../GeneratePasswordField";
 import { useCreateShareContext } from "../../hooks/context";
 
