@@ -80,7 +80,7 @@ const UnControlledShareAuthenticatorField: FC<
 
   const recipients = value.authenticators.map((a) => ({
     phone_number: a.phone_number || "",
-    email: a.notify_email || "",
+    email: a.recipient_email || "",
   }));
 
   const handleRecipientChange = (recipients: ObjectStore.Recipient[]) => {
@@ -95,7 +95,7 @@ const UnControlledShareAuthenticatorField: FC<
           authenticatorType === ObjectStore.ShareAuthenticatorType.Sms
             ? r.phone_number
             : password,
-        notify_email: r.email,
+        recipient_email: r.email,
         phone_number: r.phone_number,
       })),
     });
@@ -109,7 +109,7 @@ const UnControlledShareAuthenticatorField: FC<
       authenticators: recipients.map((r) => ({
         auth_type: ObjectStore.ShareAuthenticatorType.Password,
         auth_context: password,
-        notify_email: r.email,
+        recipient_email: r.email,
         phone_number: r.phone_number,
       })),
     });

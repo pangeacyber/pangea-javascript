@@ -1,24 +1,12 @@
-import {
-  Chip,
-  IconButton,
-  Stack,
-  TextField,
-  ToggleButton,
-  ToggleButtonGroup,
-  Typography,
-} from "@mui/material";
+import { FC, useEffect, useMemo, useState } from "react";
+import { Chip, IconButton, Stack, TextField } from "@mui/material";
+import AddIcon from "@mui/icons-material/Add";
+import * as yup from "yup";
+import findIndex from "lodash/findIndex";
 import {
   FieldComponentProps,
   FieldControl,
 } from "@pangeacyber/react-mui-shared";
-import { FC, useEffect, useMemo, useState } from "react";
-import findIndex from "lodash/findIndex";
-import * as yup from "yup";
-
-import AddIcon from "@mui/icons-material/Add";
-
-import MailOutlineIcon from "@mui/icons-material/MailOutline";
-import RemoveCircleOutlineIcon from "@mui/icons-material/RemoveCircleOutline";
 
 const UnControlledShareEmailsField: FC<FieldComponentProps> = ({
   onValueChange = () => {},
@@ -87,7 +75,6 @@ const UnControlledShareEmailsField: FC<FieldComponentProps> = ({
           onChange={(e) => {
             let value = e.target.value;
             setNewValue(value);
-
             e.stopPropagation();
           }}
           error={!!newValueError}

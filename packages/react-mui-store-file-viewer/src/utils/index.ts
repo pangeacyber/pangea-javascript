@@ -1,6 +1,7 @@
 import isEmpty from "lodash/isEmpty";
 import { useMediaQuery } from "@mui/material";
 import { Breakpoint, useTheme } from "@mui/material/styles";
+import { parsePhoneNumber } from "awesome-phonenumber";
 import {
   validatePassword,
   PasswordPolicy,
@@ -102,3 +103,19 @@ export const checkPassword = (
 
 export const PHONE_REGEXP =
   /^((\+[1-9]{1,4}[ \-]*)|(\([0-9]{2,3}\)[ \-]*)|(1|[0-9]{2,4})[ \-]*)*?[0-9]{3,4}?[ \-]*[0-9]{3,4}?$/;
+
+// remove non-digits and prepend +1 if missing
+export const cleanPhoneNumber = (value: string): string => {
+  const numbers = value.replace(/\D/g, "");
+  return numbers.startsWith("+1") ? numbers : `+1${numbers}`;
+};
+
+export const validatePhoneNumber = (value: string = ""): boolean => {
+  const pn = parsePhoneNumber(value, { regionCode: "US" });
+  return pn.valid;
+};
+
+export const formatPhoneNumber = (value: string = ""): string => {
+  const pn = parsePhoneNumber(value, { regionCode: "US" });
+  return pn.valid ? pn.number.international : value;
+};
