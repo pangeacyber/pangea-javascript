@@ -7,7 +7,7 @@ import {
   FieldControl,
 } from "@pangeacyber/react-mui-shared";
 
-import { PHONE_REGEXP } from "../../utils";
+import { formatPhoneNumber, validatePhoneNumber } from "../../utils";
 import { useCreateShareContext } from "../../hooks/context";
 
 const UnControlledGetPhoneLinkField: FC<FieldComponentProps> = ({
@@ -22,7 +22,11 @@ const UnControlledGetPhoneLinkField: FC<FieldComponentProps> = ({
   const validate = () => {
     yup
       .string()
-      .matches(PHONE_REGEXP, "Must be a valid phone number")
+      .test(
+        "validate-phone",
+        "Must be a valid phone number",
+        validatePhoneNumber
+      )
       .isValid(newValue)
       .then((isValid) => {
         if (!isValid) setNewValueError("Must be a valid phone number");
@@ -32,7 +36,7 @@ const UnControlledGetPhoneLinkField: FC<FieldComponentProps> = ({
 
   const handleSubmitValue = () => {
     if (!newValue || !!newValueError) return;
-    const phoneValue_ = `+1${newValue.replace(/^\+1/, "").replace(/\D/g, "")}`;
+    const phoneValue_ = formatPhoneNumber(newValue);
 
     onValueChange(phoneValue_);
   };

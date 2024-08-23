@@ -139,102 +139,34 @@ const CreateShareModal: FC<Props> = ({ object, open, onClose, onDone }) => {
     setLoading(true);
     setShareLink(undefined);
 
-    const authByPhone = keyBy(body?.authenticators || [], "phone_number");
-    const emails = body?.authenticators?.map((auth) => {
-      return auth.notify_email;
-    });
-
     return apiRef.share
       .create({
         links: (body?.authenticators ?? [])?.map((auth) => {
+          const send_params =
+            shareType === "email"
+              ? {
+                  send_params: {
+                    recipient_email: auth.recipient_email,
+                    sender_email: "no-reply@pangea.cloud",
+                  },
+                }
+              : {};
+
           return {
             ...body,
             targets: [object.id],
-            authenticators: [omit(auth, ["notify_email", "phone_number"])],
+            authenticators: [omit(auth, ["recipient_email", "phone_number"])],
+            ...send_params,
           };
         }),
       })
       .then((response) => {
         triggerUpdate();
 
-        const shares: ObjectStore.ShareObjectResponse[] =
-          response?.result?.share_link_objects ?? [];
+        if (shareType === "link") {
+          const shares: ObjectStore.ShareObjectResponse[] =
+            response?.result?.share_link_objects ?? [];
 
-        // send share notifications
-        if (shareType === "email") {
-          const data: Record<string, ShareSendObj> = mapValues(
-            keyBy(
-              shares.filter((s) => !!s.authenticators?.length),
-              "id"
-            ),
-            (share) => {
-              const definingAuthType = (share.authenticators ?? [])[0];
-
-              if (
-                definingAuthType.auth_type ===
-                ObjectStore.ShareAuthenticatorType.Password
-              ) {
-                return {
-                  id: share.id,
-                  link: share.link,
-                  emails: emails,
-                  type: "password",
-                } as EmailPasswordShare;
-              }
-
-              if (
-                definingAuthType.auth_type ===
-                ObjectStore.ShareAuthenticatorType.Sms
-              ) {
-                return {
-                  id: share.id,
-                  link: share.link,
-                  email: "",
-                  phone: definingAuthType.auth_context,
-                  type: "sms",
-                } as EmailSmsShare;
-              }
-
-              return undefined;
-            }
-          );
-
-          const links: ObjectStore.ShareLinkToSend[] = [];
-          Object.values(data).forEach((d) => {
-            if (!d?.id) return;
-            if (d.type === "password") {
-              d.emails.forEach((email) => {
-                if (!email) return;
-                links.push({
-                  id: d.id,
-                  email,
-                });
-              });
-            } else {
-              const email = authByPhone[d.phone]?.notify_email;
-              if (email) {
-                links.push({
-                  id: d.id,
-                  email: email,
-                });
-              }
-            }
-          });
-
-          if (!apiRef.share?.send) return;
-
-          return apiRef.share
-            .send({
-              sender_email: "no-reply@pangea.cloud",
-              links,
-            })
-            .finally(() => {
-              setLoading(false);
-              onDone();
-            });
-        }
-        // show copyable share link
-        else if (shareType === "link") {
           setSent(true);
           setShareLink(shares[0]);
         }
@@ -248,6 +180,7 @@ const CreateShareModal: FC<Props> = ({ object, open, onClose, onDone }) => {
       .finally(() => {
         setLoading(false);
         if (shareType === "email") {
+          handleClose();
           onDone();
         }
       });

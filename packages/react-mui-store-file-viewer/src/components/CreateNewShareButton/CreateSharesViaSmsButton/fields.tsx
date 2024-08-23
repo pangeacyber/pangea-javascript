@@ -6,9 +6,13 @@ import some from "lodash/some";
 
 import { ObjectStore } from "../../../types";
 import ShareTypeField from "../ShareTypeField";
-import ShareEmailsField from "../ShareEmailsField";
-import SharePhonesField, { PhoneValue } from "../SharePhonesField";
+import SharePhonesField from "../SharePhonesField";
 import * as yup from "yup";
+
+interface PhoneValue {
+  phone_number: string;
+  recipient: string;
+}
 
 export const CreatePhoneShareFields: FieldsFormSchema<ObjectStore.SingleShareCreateRequest> =
   {
@@ -54,7 +58,6 @@ export const CreatePhoneShareFields: FieldsFormSchema<ObjectStore.SingleShareCre
         placement: "top",
       },
       component: SharePhonesField,
-      // type: "unknownField",
       schema: yup
         .array()
         .min(1, "At least one phone number is required")

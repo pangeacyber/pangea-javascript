@@ -220,7 +220,7 @@ export namespace ObjectStore {
   export interface ShareAuthenticator {
     auth_type: string; // "password" | "email_otp" | "sms_otp"
     auth_context: string;
-    notify_email?: string; // holds email for sms/password notification
+    recipient_email?: string; // holds email for sms/password notification
     phone_number?: string; // holds phone number for sms
   }
 
@@ -244,7 +244,9 @@ export namespace ObjectStore {
 
     link: string;
 
-    sent?: boolean; // FIXME: Unknown on this
+    recipient_email?: string;
+    sender_email?: string;
+    sender_name?: string;
 
     storage_pool_id?: string;
   }

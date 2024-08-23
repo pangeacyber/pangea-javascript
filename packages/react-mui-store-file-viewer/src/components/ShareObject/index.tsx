@@ -1,130 +1,83 @@
-import { FC, useState } from "react";
+import { FC } from "react";
 import { ObjectStore } from "../../types";
-import { IconButton, Stack, Tooltip, Typography } from "@mui/material";
+import { Stack, Tooltip, Typography, useTheme } from "@mui/material";
 
-import CheckIcon from "@mui/icons-material/Check";
-import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined";
 import {
   getDateDisplayName,
   getShareDisplayIcon,
   getShareDisplayName,
+  getShareTooltip,
 } from "./utils";
-
-import SendIcon from "@mui/icons-material/Send";
-import RemoveCircleOutlineIcon from "@mui/icons-material/RemoveCircleOutline";
-import { useStoreFileViewerContext } from "../../hooks/context";
-
-import { CopyButton } from "@pangeacyber/react-mui-shared";
-import SendShareViaEmailButton from "../CreateNewShareButton/SendShareViaEmailButton";
+import ShareOptions from "./ShareOptions";
 
 interface Props {
   object: ObjectStore.ShareObjectResponse;
   onDelete?: () => void;
 }
 
-const LinkInfo: FC<{
-  object: ObjectStore.ShareObjectResponse;
-}> = ({ object }) => {
-  return (
-    <Stack spacing={0} width="100%" sx={{ bgcolor: "#fff", padding: 1 }}>
-      {!!object.expires_at && (
-        <Stack direction="row" alignItems="center" spacing={1}>
-          <Typography variant="body2" color="textSecondary">
-            Expires at:
-          </Typography>
-          <Typography variant="body2" color="textSecondary">
-            {getDateDisplayName(object.expires_at)}
-          </Typography>
-        </Stack>
-      )}
-      {object.access_count !== undefined && !!object.max_access_count && (
-        <Stack direction="row" alignItems="center" spacing={1}>
-          <Typography variant="body2" color="textSecondary">
-            Remaining access count:
-          </Typography>
-          <Typography variant="body2" color="textSecondary">
-            {object.max_access_count - (object.access_count ?? 0)}
-          </Typography>
-        </Stack>
-      )}
-      {!!object.last_accessed_at && (
-        <Stack direction="row" alignItems="center" spacing={1}>
-          <Typography variant="body2" color="textSecondary">
-            Last accessed at:
-          </Typography>
-          <Typography variant="body2" color="textSecondary">
-            {getDateDisplayName(object.last_accessed_at)}
-          </Typography>
-        </Stack>
-      )}
-    </Stack>
-  );
-};
-
 const ShareObject: FC<Props> = ({ object, onDelete }) => {
-  const { apiRef } = useStoreFileViewerContext();
-
-  const [updating, setUpdating] = useState(false);
-
-  const handleRemove = () => {
-    if (!object?.id || !apiRef?.share?.delete) return;
-
-    setUpdating(true);
-    apiRef.share
-      .delete({
-        ids: [object.id],
-      })
-      .finally(() => {
-        if (onDelete) onDelete();
-        setUpdating(false);
-      });
-  };
+  const theme = useTheme();
+  const remainingViews =
+    object?.max_access_count || 0 - (object.access_count ?? 0);
 
   const LinkIcon = getShareDisplayIcon(object);
   return (
-    <Stack direction="row" alignItems="center" spacing={1}>
-      <Tooltip
-        title={<LinkInfo object={object} />}
-        componentsProps={{
-          tooltip: {
-            sx: {
-              bgcolor: "transparent",
+    <Stack
+      direction="row"
+      alignItems="center"
+      justifyContent="space-between"
+      gap={1}
+    >
+      <Stack direction="row" alignItems="center" gap={1}>
+        <Tooltip
+          title={getShareTooltip(object)}
+          componentsProps={{
+            tooltip: {
+              sx: {
+                paddingY: 1,
+                paddingX: 1.5,
+              },
             },
-          },
-        }}
-      >
-        <InfoOutlinedIcon color="info" fontSize="small" />
-      </Tooltip>
-      <LinkIcon
-        color="action"
-        fontSize={
-          object?.link_type === ObjectStore.ShareLinkType.Editor
-            ? "small"
-            : undefined
-        }
-      />
-      <Stack spacing={0} width="100%">
-        <Typography variant="body2">{getShareDisplayName(object)}</Typography>
-      </Stack>
-      <Stack justifySelf="end" marginLeft="auto" direction="row" spacing={-0.8}>
-        {!!object.link && (
-          <CopyButton
-            value={object.link}
-            label={getShareDisplayName(object)}
-            size="small"
-          />
-        )}
-        {!!object.id && !!object.link && (
-          <SendShareViaEmailButton object={object} />
-        )}
-        <IconButton
-          size="small"
-          disabled={updating}
-          data-testid={`Remove-Share-${object.id}-Btn`}
-          onClick={handleRemove}
+          }}
         >
-          <RemoveCircleOutlineIcon color="error" fontSize="small" />
-        </IconButton>
+          <Stack
+            alignItems="center"
+            justifyContent="center"
+            width="36px"
+            height="36px"
+            sx={{
+              borderRadius: "50%",
+              backgroundColor: theme.palette.grey[100],
+            }}
+          >
+            <LinkIcon
+              fontSize="small"
+              sx={{
+                color: theme.palette.text.primary,
+              }}
+            />
+          </Stack>
+        </Tooltip>
+        <Stack>
+          <Typography
+            variant="body2"
+            sx={{
+              width: "290px",
+              overflow: "hidden",
+              textOverflow: "ellipsis",
+              whiteSpace: "nowrap",
+            }}
+          >
+            {getShareDisplayName(object)}
+          </Typography>
+          <Typography variant="caption" color="textSecondary">
+            {remainingViews} view{remainingViews === 1 ? "" : "s"} until{" "}
+            {getDateDisplayName(object.expires_at)}
+          </Typography>
+        </Stack>
+      </Stack>
+      <Stack justifySelf="end" marginLeft="auto" direction="row">
+        <ShareOptions object={object} onDelete={onDelete} />
       </Stack>
     </Stack>
   );

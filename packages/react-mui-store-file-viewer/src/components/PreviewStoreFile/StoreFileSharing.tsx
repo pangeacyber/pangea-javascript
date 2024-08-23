@@ -3,9 +3,7 @@ import { ObjectStore } from "../../types";
 import { useStoreFileViewerContext } from "../../hooks/context";
 import ShareObject from "../ShareObject";
 import { Stack } from "@mui/material";
-import CreateNewShareButton from "../CreateNewShareButton";
 import CreateSharesButton from "../CreateNewShareButton/CreateSharesButton";
-// import GetLinkButton from "../CreateNewShareButton/CreateSharesButton/GetLinkButton";
 
 interface Props {
   object: ObjectStore.ObjectResponse;

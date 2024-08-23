@@ -17,7 +17,11 @@ import {
   FieldControl,
 } from "@pangeacyber/react-mui-shared";
 import { ObjectStore } from "../../types";
-import { PHONE_REGEXP } from "../../utils";
+import {
+  cleanPhoneNumber,
+  formatPhoneNumber,
+  validatePhoneNumber,
+} from "../../utils";
 
 const UnControlledSharePhonesField: FC<FieldComponentProps> = ({
   onValueChange = () => {},
@@ -43,7 +47,11 @@ const UnControlledSharePhonesField: FC<FieldComponentProps> = ({
   const validatePhone = () => {
     yup
       .string()
-      .matches(PHONE_REGEXP, "Phone number is not valid")
+      .test(
+        "validate-phone",
+        "Must be a valid phone number",
+        validatePhoneNumber
+      )
       .required("Phone number is field")
       .isValid(phoneValue)
       .then((isValid) => {
@@ -83,8 +91,7 @@ const UnControlledSharePhonesField: FC<FieldComponentProps> = ({
   const handleAddOption = () => {
     if (!emailValue || !phoneValue || !!emailError || !!phoneError) return;
 
-    // strip leading +1, remove non-digits, add +1
-    const phoneValue_ = `+1${phoneValue.replace(/^\+1/, "").replace(/\D/g, "")}`;
+    const phoneValue_ = cleanPhoneNumber(phoneValue);
 
     let value_ = [...value];
     if (editRow === undefined) {
@@ -226,7 +233,7 @@ const UnControlledSharePhonesField: FC<FieldComponentProps> = ({
                   >
                     {!recipient.phone_number
                       ? "Phone number required"
-                      : recipient.phone_number}
+                      : formatPhoneNumber(recipient.phone_number)}
                   </Typography>
                 </Stack>
               </Stack>

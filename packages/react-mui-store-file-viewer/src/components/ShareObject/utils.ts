@@ -1,64 +1,86 @@
 import { FC } from "react";
+import { SvgIconProps } from "@mui/material";
+import {
+  EmailOutlined,
+  Link,
+  LockRounded,
+  PhoneRounded,
+} from "@mui/icons-material";
+
+import { formatPhoneNumber } from "../../utils";
 import { ObjectStore } from "../../types";
 
-import LinkIcon from "@mui/icons-material/Link";
-import EmailIcon from "@mui/icons-material/Email";
-import SmartphoneIcon from "@mui/icons-material/Smartphone";
-import PasswordIcon from "@mui/icons-material/Password";
+const securedByMessage = (
+  auth: ObjectStore.ShareAuthenticator | undefined,
+  authCount: number
+): string => {
+  if (auth?.auth_type === ObjectStore.ShareAuthenticatorType.Email) {
+    return `Secured by ${auth.auth_context}`;
+  }
 
-import UploadIcon from "@mui/icons-material/Upload";
-import DownloadIcon from "@mui/icons-material/Download";
-import BorderColorIcon from "@mui/icons-material/BorderColor";
+  if (auth?.auth_type === ObjectStore.ShareAuthenticatorType.Sms) {
+    return `Secured by ${formatPhoneNumber(auth.auth_context)}`;
+  }
 
-import { IconProps, SvgIconProps } from "@mui/material";
+  if (auth?.auth_type === ObjectStore.ShareAuthenticatorType.Password) {
+    return `Secured by password`;
+  }
+
+  return `Secured by ${authCount} authenticators`;
+};
 
 export const getShareDisplayName = (
   object: ObjectStore.ShareObjectResponse
 ): string => {
   if (!object || !object?.authenticators) return "Share link";
   const authCount = object?.authenticators?.length ?? 0;
-
   const identityAuth = authCount === 1 ? object.authenticators[0] : undefined;
 
-  if (
-    identityAuth?.auth_type === ObjectStore.ShareAuthenticatorType.Email ||
-    identityAuth?.auth_type === ObjectStore.ShareAuthenticatorType.Sms
-  ) {
-    return `${identityAuth.auth_context}`;
+  if (object.recipient_email) {
+    return `Shared with ${object.recipient_email}`;
   }
 
-  if (identityAuth?.auth_type === ObjectStore.ShareAuthenticatorType.Password) {
-    return `Secured with password`;
-  }
+  return securedByMessage(identityAuth, authCount);
+};
 
-  return `Shared using ${authCount} authenticators`;
+export const getShareTooltip = (
+  object: ObjectStore.ShareObjectResponse
+): string => {
+  if (!object || !object?.authenticators) return "Share link";
+  const authCount = object?.authenticators?.length ?? 0;
+  const identityAuth = authCount === 1 ? object.authenticators[0] : undefined;
+
+  return securedByMessage(identityAuth, authCount);
 };
 
 export const getShareDisplayIcon = (
   object: ObjectStore.ShareObjectResponse
 ): FC<SvgIconProps> => {
-  if (!object) return LinkIcon;
+  if (!object || !object?.authenticators) return Link;
 
-  if (object?.link_type === ObjectStore.ShareLinkType.Download) {
-    return DownloadIcon;
+  const authCount = object?.authenticators?.length ?? 0;
+  const identityAuth = authCount === 1 ? object.authenticators[0] : undefined;
+
+  if (identityAuth?.auth_type === ObjectStore.ShareAuthenticatorType.Email) {
+    return EmailOutlined;
   }
 
-  if (object?.link_type === ObjectStore.ShareLinkType.Upload) {
-    return UploadIcon;
+  if (identityAuth?.auth_type === ObjectStore.ShareAuthenticatorType.Password) {
+    return LockRounded;
   }
 
-  if (object?.link_type === ObjectStore.ShareLinkType.Editor) {
-    return BorderColorIcon;
+  if (identityAuth?.auth_type === ObjectStore.ShareAuthenticatorType.Sms) {
+    return PhoneRounded;
   }
 
-  return LinkIcon;
+  return Link;
 };
 
 export const getDateDisplayName = (dateString: string) => {
   return new Date(dateString).toLocaleString(undefined, {
     year: "numeric",
-    month: "2-digit",
-    day: "2-digit",
+    month: "short",
+    day: "numeric",
     hour: "2-digit",
     minute: "2-digit",
     second: undefined,
