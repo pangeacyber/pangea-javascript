@@ -82,6 +82,10 @@ export interface StoreConfigurations {
     maxDate?: dayjs.Dayjs;
     defaultExpiresAt?: Date;
   };
+  sender?: {
+    email: string;
+    name?: string;
+  };
 }
 
 export namespace ObjectStore {
@@ -148,6 +152,11 @@ export namespace ObjectStore {
     order_by?: string;
   }
 
+  export interface ShareSendParams {
+    sender_email: string;
+    sender_name?: string;
+  }
+
   export interface SingleShareCreateRequest {
     bucket_id?: string;
 
@@ -160,6 +169,8 @@ export namespace ObjectStore {
 
     title?: string;
     message?: string;
+
+    send_params?: ShareSendParams;
   }
 
   export interface ShareLinkToSend {

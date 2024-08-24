@@ -147,7 +147,9 @@ const CreateShareModal: FC<Props> = ({ object, open, onClose, onDone }) => {
               ? {
                   send_params: {
                     recipient_email: auth.recipient_email,
-                    sender_email: "no-reply@pangea.cloud",
+                    sender_email:
+                      configurations?.sender?.email || "no-reply@pangea.cloud",
+                    sender_name: configurations?.sender?.name,
                   },
                 }
               : {};

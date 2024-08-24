@@ -77,7 +77,7 @@ const SendShareViaEmailModal: FC<Props> = ({
   onClose = () => {},
   onDone = () => {},
 }) => {
-  const { apiRef } = useStoreFileViewerContext();
+  const { apiRef, configurations } = useStoreFileViewerContext();
 
   const [loading, setLoading] = useState(false);
 
@@ -161,7 +161,8 @@ const SendShareViaEmailModal: FC<Props> = ({
 
     return apiRef.share
       .send({
-        sender_email: "no-reply@pangea.cloud",
+        sender_email: configurations?.sender?.email || "no-reply@pangea.cloud",
+        sender_name: configurations?.sender?.name,
         links,
       })
       .finally(() => {
