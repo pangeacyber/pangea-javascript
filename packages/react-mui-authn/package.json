@@ -20,7 +20,7 @@
   },
   "devDependencies": {
     "@babel/core": "7.25.2",
-    "@emotion/react": "^11.13.0",
+    "@emotion/react": "^11.13.3",
     "@emotion/styled": "^11.13.0",
     "@fontsource/kanit": "^5.0.21",
     "@fontsource/roboto": "^5.0.14",
