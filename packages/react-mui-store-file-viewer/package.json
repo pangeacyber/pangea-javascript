@@ -52,7 +52,7 @@
   "dependencies": {
     "@pangeacyber/react-mui-shared": "0.0.64",
     "awesome-phonenumber": "^6.10.0",
-    "axios": "^1.7.4",
+    "axios": "^1.7.5",
     "lodash": "^4.17.21",
     "zustand": "^4.5.5"
   },
