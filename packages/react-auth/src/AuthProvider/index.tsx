@@ -205,7 +205,7 @@ export const AuthProvider: FC<AuthProviderProps> = ({
 
   const forceRefresh = async (authenticated: boolean | undefined) => {
     // Allow application to force a token refresh
-    // Give application ability to mark authentication state, no effect in undefined
+    // Give application ability to mark authentication state, no effect if undefined
     // Used if application receives 401 errors before auto-refresh occurs, and needs
     // to mark authenticated as false to prevent all calls failing with 401
     if (authenticated !== undefined) {
