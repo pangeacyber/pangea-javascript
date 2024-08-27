@@ -253,6 +253,31 @@ jobs:
       - name: Storybook
         run: yarn build-storybook
 
+  build-vanilla-js:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./packages/vanilla-js
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4.1.7
+
+      - name: Enabled Corepack
+        run: corepack enable
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4.0.3
+        with:
+          node-version: 20
+          cache: yarn
+          cache-dependency-path: ./packages/vanilla-js/yarn.lock
+
+      - name: Install dependencies
+        run: yarn
+
+      - name: Build
+        run: yarn build
+
   lint-prettier:
     runs-on: ubuntu-latest
     steps:

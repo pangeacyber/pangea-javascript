@@ -11,6 +11,7 @@
   "repository": "https://github.com/pangeacyber/pangea-javascript.git",
   "author": "Pangea (https://pangea.cloud)",
   "license": "MIT",
+  "packageManager": "yarn@4.4.0",
   "scripts": {
     "build": "rm -rf dist && rollup -c"
   },
