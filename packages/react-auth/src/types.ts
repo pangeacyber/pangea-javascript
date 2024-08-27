@@ -101,6 +101,11 @@ export interface Profile {
    * The phone number of the user
    */
   phone: string;
+
+  /**
+   * Allow key/value string pairs
+   */
+  [key: string]: string;
 }
 
 /**
@@ -144,6 +149,11 @@ export interface AuthConfig {
  * Describes a user and their session
  */
 export interface AuthUser {
+  /**
+   * The user's username, may be the same as the email
+   */
+  username: string;
+
   /**
    * The email address of the user
    */

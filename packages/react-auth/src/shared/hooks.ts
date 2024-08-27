@@ -84,11 +84,10 @@ export const useValidateToken = (
 
           const profile: Profile = payload.profile as Profile;
           const user: AuthUser = {
+            username: payload.username as string,
             email: payload.email as string,
             profile: {
-              first_name: profile?.first_name,
-              last_name: profile?.first_name,
-              phone: profile?.phone,
+              ...profile,
             },
             header: protectedHeader,
             payload: payload,
