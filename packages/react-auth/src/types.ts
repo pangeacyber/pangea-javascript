@@ -101,11 +101,6 @@ export interface Profile {
    * The phone number of the user
    */
   phone: string;
-
-  /**
-   * Allow key/value string pairs
-   */
-  [key: string]: string;
 }
 
 /**
