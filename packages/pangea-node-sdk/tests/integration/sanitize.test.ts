@@ -2,9 +2,9 @@ import PangeaConfig from "../../src/config.js";
 import { it, expect, jest } from "@jest/globals";
 import {
   TestEnvironment,
+  getCustomSchemaTestToken,
   getFileUploadParams,
   getTestDomain,
-  getTestToken,
 } from "../../src/utils/utils.js";
 import {
   SanitizeService,
@@ -15,7 +15,10 @@ import { Sanitize, TransferMethod } from "../../src/types.js";
 import { loadTestEnvironment, trySlowRequest } from "./utils.js";
 
 const environment = loadTestEnvironment("sanitize", TestEnvironment.LIVE);
-const token = getTestToken(environment);
+
+// The Sanitize config in the regular org was obsoleted by a breaking change,
+// so the custom schema org is used instead.
+const token = getCustomSchemaTestToken(environment);
 const testHost = getTestDomain(environment);
 const config = new PangeaConfig({
   domain: testHost,
