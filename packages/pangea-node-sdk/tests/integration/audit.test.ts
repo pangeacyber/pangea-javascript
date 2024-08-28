@@ -67,7 +67,10 @@ const auditVault = new AuditService(tokenVault, config);
 const auditWithTenantId = new AuditService(tokenGeneral, config, "mytenantid");
 const auditCustomSchema = new AuditService(tokenCustomSchema, config);
 
-jest.setTimeout(60000);
+// Polling should finish before the test times out, so set the test timeout to
+// the polling duration plus some buffer.
+jest.setTimeout(config.pollResultTimeoutMs + 1000);
+
 it("log an audit event. no verbose", async () => {
   const event: Audit.Event = {
     actor: ACTOR,
@@ -586,7 +589,6 @@ it("custom schema log an audit event in JSON format, local sign and verify", asy
   });
 });
 
-jest.setTimeout(20000);
 it("search audit log and verify signature", async () => {
   const query = "message:" + MSG_SIGNED_LOCAL + " status:" + STATUS_SIGNED;
   const limit = 2;
