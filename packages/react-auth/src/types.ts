@@ -145,6 +145,11 @@ export interface AuthConfig {
  */
 export interface AuthUser {
   /**
+   * The user's username, may be the same as the email
+   */
+  username: string;
+
+  /**
    * The email address of the user
    */
   email: string;

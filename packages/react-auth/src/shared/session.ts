@@ -239,6 +239,7 @@ export const getUserFromResponse = (data: APIResponse): AuthUser => {
   const refreshToken = data.result?.refresh_token?.token
     ? { ...data.result.refresh_token }
     : {};
+  const username = activeToken.owner as string;
   const email = activeToken.email as string;
   const profile = { ...activeToken.profile };
 
@@ -249,6 +250,7 @@ export const getUserFromResponse = (data: APIResponse): AuthUser => {
   delete refreshToken.profile;
 
   const user: AuthUser = {
+    username: username,
     email: email,
     profile: profile,
     active_token: activeToken,

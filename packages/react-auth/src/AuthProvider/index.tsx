@@ -108,7 +108,7 @@ export interface AuthContextType {
   login: () => void;
   logout: () => void;
   getToken: () => string | undefined;
-  refresh: (authenticated?: boolean) => void;
+  refresh: (authenticated?: boolean | undefined) => Promise<void>;
 }
 
 /** const SESSION_DATA_KEY = "pangea-authn"; */
@@ -203,13 +203,15 @@ export const AuthProvider: FC<AuthProviderProps> = ({
     loadingCallback
   );
 
-  const forceRefresh = (authenticated: boolean = false) => {
+  const forceRefresh = async (authenticated: boolean | undefined) => {
     // Allow application to force a token refresh
-    // Give application ability to mark authentication state (default to false)
+    // Give application ability to mark authentication state, no effect if undefined
     // Used if application receives 401 errors before auto-refresh occurs, and needs
     // to mark authenticated as false to prevent all calls failing with 401
-    setAuthenticated(authenticated);
-    refresh().catch((_e) => {
+    if (authenticated !== undefined) {
+      setAuthenticated(authenticated);
+    }
+    return refresh().catch((_e) => {
       logout();
     });
   };
