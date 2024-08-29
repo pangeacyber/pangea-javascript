@@ -25,7 +25,6 @@ interface Props {
 
 const FileDropBox: FC<Props> = ({ children, BoxSx }) => {
   const theme = useTheme();
-  const [isMissingData, setIsMissingData] = useState(false);
   const { parent, data, loading } = useStoreFileViewerContext();
   const objects = useRef(data?.objects ?? []);
   objects.current = data?.objects ?? [];
@@ -41,13 +40,11 @@ const FileDropBox: FC<Props> = ({ children, BoxSx }) => {
   const drop = useRef<any>(null);
   const exit = useRef<any>(null);
 
+  const isMissingData = !loading && !parent && !data.objects.length;
+
   const inputRef = useRef<HTMLInputElement | undefined>();
 
   const [dragging, setDragging] = useState(false);
-
-  useEffect(() => {
-    setIsMissingData(!loading && !parent && !data.objects.length);
-  }, [loading, parent, data]);
 
   React.useEffect(() => {
     drop.current?.addEventListener("dragover", handleDragOver);

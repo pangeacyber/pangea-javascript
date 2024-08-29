@@ -11,7 +11,7 @@ import CreateNewButton from "../CreateNewButton";
 export interface StoreFileViewerProps
   extends StoreDataGridProps,
     StoreFileViewerProviderProps {
-  virtualRoot: boolean;
+  virtualRoot?: boolean;
 }
 
 const StoreFileViewer: FC<StoreFileViewerProps> = ({
