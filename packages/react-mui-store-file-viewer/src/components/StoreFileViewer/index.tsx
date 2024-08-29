@@ -21,7 +21,7 @@ const StoreFileViewer: FC<StoreFileViewerProps> = ({
   defaultSort,
   defaultSortBy,
   defaultShareLinkTitle,
-  virtualRoot = true,
+  virtualRoot = false,
   ...props
 }) => {
   return (
