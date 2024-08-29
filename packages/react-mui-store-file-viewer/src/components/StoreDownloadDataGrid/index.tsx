@@ -197,6 +197,8 @@ const StoreDownloadDataGrid: FC<StoreDataGridProps> = ({
       const obj = data.objects[0];
       if (obj.type === "folder" && obj.folder === "/") {
         setFolder("/" + data.objects[0].name);
+      } else {
+        setFirstLoad(false);
       }
     } else if (!virtualRoot || data.last !== "") {
       setFirstLoad(false);

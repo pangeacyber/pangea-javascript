@@ -1,4 +1,5 @@
-import { FC, ReactNode } from "react";
+import { FC } from "react";
+import startCase from "lodash/startCase";
 import { SvgIconProps } from "@mui/material";
 import {
   EmailOutlined,
@@ -52,7 +53,7 @@ export const getShareTooltip = (
   const type = object.link_type || "download";
   const msg = securedByMessage(identityAuth, authCount);
 
-  return `${type.charAt(0).toUpperCase()}${type.slice(1)}: ${msg}`;
+  return `${startCase(type)}: ${msg}`;
 };
 
 export const getShareDisplayIcon = (
