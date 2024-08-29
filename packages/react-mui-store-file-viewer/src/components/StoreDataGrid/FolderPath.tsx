@@ -15,6 +15,7 @@ import { useStoreFileViewerFolder } from "../../hooks/context";
 
 interface Props {
   defaultHidden?: boolean;
+  virtualRoot?: boolean;
 }
 
 const FolderOption: FC<{ folder: string; onClick: () => void }> = ({
@@ -35,9 +36,9 @@ const FolderOption: FC<{ folder: string; onClick: () => void }> = ({
   );
 };
 
-const FolderPath: FC<Props> = ({ defaultHidden }) => {
+const FolderPath: FC<Props> = ({ defaultHidden, virtualRoot }) => {
   const theme = useTheme();
-  const { folder, setFolder, setParentId } = useStoreFileViewerFolder();
+  const { folder, setFolder } = useStoreFileViewerFolder();
   const folders = folder.split("/").filter((f) => !!f);
 
   if (!!defaultHidden && !folders.length) return null;
@@ -47,7 +48,11 @@ const FolderPath: FC<Props> = ({ defaultHidden }) => {
         separator={<NavigateNextIcon fontSize="small" />}
         aria-label="breadcrumb"
       >
-        <IconButton onClick={() => setFolder("/")}>
+        <IconButton
+          onClick={() =>
+            setFolder(virtualRoot ? "/" + (folders[0] || "") : "/")
+          }
+        >
           <HomeIcon
             fontSize="small"
             color="inherit"

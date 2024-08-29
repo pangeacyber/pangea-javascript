@@ -10,7 +10,9 @@ import CreateNewButton from "../CreateNewButton";
 
 export interface StoreFileViewerProps
   extends StoreDataGridProps,
-    StoreFileViewerProviderProps {}
+    StoreFileViewerProviderProps {
+  virtualRoot?: boolean;
+}
 
 const StoreFileViewer: FC<StoreFileViewerProps> = ({
   apiRef,
@@ -19,6 +21,7 @@ const StoreFileViewer: FC<StoreFileViewerProps> = ({
   defaultSort,
   defaultSortBy,
   defaultShareLinkTitle,
+  virtualRoot = false,
   ...props
 }) => {
   return (
@@ -53,7 +56,7 @@ export const StoreDownloadFileViewer: FC<StoreFileViewerProps> = ({
       defaultSortBy={defaultSortBy}
       defaultShareLinkTitle={defaultShareLinkTitle}
     >
-      <>
+      <Stack gap={1}>
         {!!apiRef?.folderCreate && (
           <Stack direction="row" justifyItems="flex-end">
             <CreateNewButton
@@ -62,8 +65,8 @@ export const StoreDownloadFileViewer: FC<StoreFileViewerProps> = ({
             />
           </Stack>
         )}
-        <StoreDownloadDataGrid {...props} />
-      </>
+        <StoreDownloadDataGrid {...props} virtualRoot />
+      </Stack>
     </StoreFileViewerProvider>
   );
 };

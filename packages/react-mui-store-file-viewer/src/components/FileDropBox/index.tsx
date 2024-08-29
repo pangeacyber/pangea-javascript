@@ -6,13 +6,11 @@ import {
   Skeleton,
   Button,
 } from "@mui/material";
-import { SxProps, useTheme, lighten } from "@mui/material/styles";
+import { SxProps, useTheme } from "@mui/material/styles";
 import find from "lodash/find";
 
 import React, { FC, useEffect, useMemo, useRef, useState } from "react";
-import { ObjectStore } from "../../types";
 import { useStoreFileViewerContext } from "../../hooks/context";
-import { createMultipartUploadForm } from "../../utils/file";
 
 import AddIcon from "@mui/icons-material/Add";
 
@@ -39,10 +37,10 @@ const FileDropBox: FC<Props> = ({ children, BoxSx }) => {
     setTargetParent(parent);
   }, [parent]);
 
-  const isMissingData = !loading && !parent && !data.objects.length;
-
   const drop = useRef<any>(null);
   const exit = useRef<any>(null);
+
+  const isMissingData = !loading && !parent && !data.objects.length;
 
   const inputRef = useRef<HTMLInputElement | undefined>();
 

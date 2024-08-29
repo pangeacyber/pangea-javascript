@@ -1,4 +1,11 @@
-import { FC, SetStateAction, useCallback, useMemo, useState } from "react";
+import {
+  FC,
+  SetStateAction,
+  useCallback,
+  useEffect,
+  useMemo,
+  useState,
+} from "react";
 import isEmpty from "lodash/isEmpty";
 import pickBy from "lodash/pickBy";
 import find from "lodash/find";
@@ -48,6 +55,8 @@ export interface StoreDataGridProps {
 
   customizations?: StoreDataGridCustomizations;
 
+  virtualRoot?: boolean;
+
   PangeaDataGridProps?: Partial<
     PangeaDataGridProps<ObjectStore.ObjectResponse>
   >;
@@ -66,10 +75,11 @@ const StoreDataGrid: FC<StoreDataGridProps> = ({
   defaultColumnOrder,
   customizations,
   includeIdColumn,
+  virtualRoot,
 }) => {
   const { data, request, reload, loading, previewId, setPreviewId, apiRef } =
     useStoreFileViewerContext();
-  const { folder, setFolder, setParentId } = useStoreFileViewerFolder();
+  const { setParentId } = useStoreFileViewerFolder();
   const {
     filters,
     setFilters,
@@ -236,11 +246,6 @@ const StoreDataGrid: FC<StoreDataGridProps> = ({
         onRowDoubleClick={(params) => {
           if (params.row.type === ObjectStore.ObjectType.Folder) {
             setParentId(params.row.id);
-            /**
-            setFolder(
-                ["", folder, params.row.name].join("/").replaceAll("//", "/")
-            );
-            */
             return false;
           } else {
             handleDownloadFile(params.row.id);

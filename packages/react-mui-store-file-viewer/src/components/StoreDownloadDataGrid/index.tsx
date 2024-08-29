@@ -1,4 +1,11 @@
-import { FC, SetStateAction, useCallback, useMemo, useState } from "react";
+import {
+  FC,
+  SetStateAction,
+  useCallback,
+  useEffect,
+  useMemo,
+  useState,
+} from "react";
 import isEmpty from "lodash/isEmpty";
 import pickBy from "lodash/pickBy";
 import find from "lodash/find";
@@ -43,7 +50,9 @@ const StoreDownloadDataGrid: FC<StoreDataGridProps> = ({
   defaultColumnOrder,
   customizations,
   includeIdColumn,
+  virtualRoot,
 }) => {
+  const [firstLoad, setFirstLoad] = useState(true);
   const { data, request, reload, loading, previewId, apiRef } =
     useStoreFileViewerContext();
   const { folder, setFolder, setParentId } = useStoreFileViewerFolder();
@@ -181,7 +190,23 @@ const StoreDownloadDataGrid: FC<StoreDataGridProps> = ({
     );
   }, [defaultVisibilityModel, columns, isFiltered]);
 
+  useEffect(() => {
+    // For showing a single shared folder as the root,
+    // auto-select top-level folder if virtualRoot flag is set
+    if (virtualRoot && data.count === 1) {
+      const obj = data.objects[0];
+      if (obj.type === "folder" && obj.folder === "/") {
+        setFolder("/" + data.objects[0].name);
+      } else {
+        setFirstLoad(false);
+      }
+    } else if (!virtualRoot || data.last !== "") {
+      setFirstLoad(false);
+    }
+  }, [data]);
+
   const rowCount = data?.count ?? data?.objects?.length ?? 0;
+
   return (
     <Stack spacing={0}>
       {loading && (
@@ -196,7 +221,7 @@ const StoreDownloadDataGrid: FC<StoreDataGridProps> = ({
       )}
       <LinedPangeaDataGrid
         columns={columns}
-        data={data.objects}
+        data={firstLoad ? [] : data.objects}
         onRowDoubleClick={(params) => {
           if (params.row.type === ObjectStore.ObjectType.Folder) {
             setParentId(params.row.id);
@@ -247,7 +272,7 @@ const StoreDownloadDataGrid: FC<StoreDataGridProps> = ({
               sx={{ paddingBottom: 1, marginLeft: -0.5 }}
             >
               <BucketSelector />
-              <FolderPath defaultHidden />
+              <FolderPath defaultHidden virtualRoot />
             </Stack>
             {multiSelected.length >= 1 && (
               <Chip
