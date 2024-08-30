@@ -189,8 +189,8 @@ function process(part: Part): Input {
 export function getHeaderField(
   header: string,
   field: string,
-  defaultValue: string | undefined
-): string | undefined {
+  defaultValue: string | null
+): string | null {
   const parts = header.split(field + "=");
   if (parts.length > 1 && parts[1]) {
     const valueParts = parts[1].split(";");

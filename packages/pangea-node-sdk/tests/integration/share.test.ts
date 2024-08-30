@@ -306,8 +306,8 @@ it("Item life cycle", async () => {
   expect(respPutPath.success).toBeTruthy();
   expect(respPutPath.result.object.metadata).toBeUndefined();
   expect(respPutPath.result.object.tags).toBeUndefined();
-  expect(respPutPath.result.object.md5).toBeUndefined();
-  expect(respPutPath.result.object.sha512).toBeUndefined();
+  expect(respPutPath.result.object.md5).toBeDefined();
+  expect(respPutPath.result.object.sha512).toBeDefined();
   expect(respPutPath.result.object.sha256).toBeDefined();
 
   // Upload a file with parent id and name
@@ -331,8 +331,8 @@ it("Item life cycle", async () => {
   expect(respPutId.result.object.metadata).toStrictEqual(METADATA);
   expect(respPutId.result.object.tags).toStrictEqual(TAGS);
   expect(respPutId.result.object.sha256).toBeDefined();
-  expect(respPutId.result.object.md5).toBeUndefined();
-  expect(respPutId.result.object.sha512).toBeUndefined();
+  expect(respPutId.result.object.md5).toBeDefined();
+  expect(respPutId.result.object.sha512).toBeDefined();
 
   // Update file. full metadata and tags
   const respUpdate = await client.update({
