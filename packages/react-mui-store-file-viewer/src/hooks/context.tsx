@@ -295,7 +295,9 @@ export const useStoreFileViewerFolder = () => {
   const setFolder = useCallback(
     (folder: string) => {
       request.setPage(1);
-      request.setFilters({ folder });
+      setTimeout(() => {
+        request.setFilters({ folder });
+      }, 50);
     },
     [request.setFilters]
   );
@@ -303,12 +305,14 @@ export const useStoreFileViewerFolder = () => {
   const setParentId = useCallback(
     (parentId: string) => {
       request.setPage(1);
-      if (!parentId)
-        return request.setFilters({
-          parent_id: "",
-        });
+      setTimeout(() => {
+        if (!parentId)
+          return request.setFilters({
+            parent_id: "",
+          });
 
-      request.setFilters({ parent_id: parentId });
+        request.setFilters({ parent_id: parentId });
+      }, 50);
     },
     [request.setFilters, parent?.id]
   );
