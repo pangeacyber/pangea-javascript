@@ -6,7 +6,7 @@ import pickBy from "lodash/pickBy";
 import get from "lodash/get";
 import isEmpty from "lodash/isEmpty";
 
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 
 type TrackedPages = Record<
   string,
@@ -18,7 +18,7 @@ type TrackedPages = Record<
 export const useLastPagination = () => {
   const [last, setLast] = useState<string | undefined>();
   const [current, setCurrentLast] = useState<string | undefined>();
-  const [page, setPage] = useState(1);
+  const [page, setPage_] = useState(1);
   const [trackedPages, setTrackedPages] = useState<TrackedPages>({
     [page]: {
       last: undefined,
@@ -44,9 +44,19 @@ export const useLastPagination = () => {
     if (trackedPages[page]) {
       setLast(trackedPages[page].last);
     } else {
-      setPage(1);
+      setPage_(1);
     }
   }, [page]);
+
+  const setPage = useCallback(
+    (page: number) => {
+      setPage_(page);
+      if (trackedPages[page]) {
+        setLast(trackedPages[page].last);
+      }
+    },
+    [setPage_]
+  );
 
   return {
     last,

@@ -1,4 +1,11 @@
-import { useEffect, useMemo, useState, Dispatch, SetStateAction } from "react";
+import {
+  useEffect,
+  useMemo,
+  useState,
+  Dispatch,
+  SetStateAction,
+  useCallback,
+} from "react";
 import pickBy from "lodash/pickBy";
 import mapValues from "lodash/mapValues";
 import mapKeys from "lodash/mapKeys";
@@ -74,7 +81,7 @@ interface ListRequestDefaults<Filter = any> {
 
 export interface PangeaListRequestProps<Filter = any> {
   page: number;
-  setPage: Dispatch<SetStateAction<number>>;
+  setPage: (page: number) => void;
 
   pageSize: number;
   setPageSize: Dispatch<SetStateAction<number>>;
