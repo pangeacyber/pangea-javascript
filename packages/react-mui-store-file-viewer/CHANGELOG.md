@@ -5,6 +5,12 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.0.63] - 2024-08-30
+
+### Fixed
+
+- Add delay to updating filters when also updating page, to ensure filters are applied after `last` is updated
+
 ## [0.0.61] - 2024-08-28
 
 ### Added
