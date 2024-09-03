@@ -445,6 +445,8 @@ const PangeaDataGrid = <
                   },
                 ".MuiDataGrid-cell": {
                   border: "none",
+                  alignItems: "center",
+                  display: "flex",
                 },
                 ".MuiDataGrid-row": {
                   borderRadius: "4px",

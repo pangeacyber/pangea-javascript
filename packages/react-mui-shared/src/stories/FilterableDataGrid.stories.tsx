@@ -66,6 +66,7 @@ const Template: StoryFn<typeof LinedPangeaDataGrid> = (args) => {
           isPinned: true,
           GridColDef: {
             renderHeader: () => "Testing",
+            minWidth: 125,
           },
         }}
         ColumnCustomization={{

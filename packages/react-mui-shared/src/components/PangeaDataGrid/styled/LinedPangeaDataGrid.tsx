@@ -40,7 +40,7 @@ const LinedPangeaDataGrid = <
               fontWeight: "400",
             },
             ".MuiDataGrid-columnSeparator": {
-              opacity: "0!important",
+              // opacity: "0!important",
             },
           },
         ".MuiDataGrid-root .MuiDataGrid-cell": {
