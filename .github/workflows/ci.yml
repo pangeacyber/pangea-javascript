@@ -405,7 +405,7 @@ jobs:
         run: yarn test
 
       - name: Cypress run
-        uses: cypress-io/github-action@v6.7.2
+        uses: cypress-io/github-action@v6.7.5
         with:
           start: yarn start:ci
           working-directory: ./examples/react-audit-log-viewer
