@@ -4113,10 +4113,10 @@ available-typed-arrays@^1.0.7:
   dependencies:
     possible-typed-array-names "^1.0.0"
 
-awesome-phonenumber@^6.12.0:
-  version "6.12.0"
-  resolved "https://registry.yarnpkg.com/awesome-phonenumber/-/awesome-phonenumber-6.12.0.tgz#333cc3b393490dfa2b2c3b4461b442dad52d5af3"
-  integrity sha512-17Ts/ceWeWXzWZqTIRKA48y3+OyxYsAXYzuxYCn4n0+By+W0dcHk3fHszW6lLxAlCZt3VmVKY6n9AxOCU84qNw==
+awesome-phonenumber@^7.0.1:
+  version "7.0.1"
+  resolved "https://registry.yarnpkg.com/awesome-phonenumber/-/awesome-phonenumber-7.0.1.tgz#308f3a11c91cbd55cbb2e9f19fba783696d827e6"
+  integrity sha512-F97hjL1unidOh+aho9WNZgyvFFYevVg4vU40s6Xb/X7KpZu3cX99vetJ9LUbb3bshGnlLZdVFPjU0TlGypUenA==
 
 babel-core@^7.0.0-bridge.0:
   version "7.0.0-bridge.0"
