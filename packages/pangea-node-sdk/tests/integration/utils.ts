@@ -1,4 +1,5 @@
-import { TestEnvironment } from "@src/utils/utils.js";
+import { TestEnvironment } from "../../src/utils/utils.js";
+import { PangeaErrors } from "../../src/index.js";
 
 export function loadTestEnvironment(serviceName: string, def: string) {
   serviceName = serviceName.replace("-", "_").toUpperCase();
@@ -13,5 +14,22 @@ export function loadTestEnvironment(serviceName: string, def: string) {
     return value;
   } else {
     throw new Error(`${name} not allowed value: ${value}`);
+  }
+}
+
+export async function trySlowRequest<T>(
+  func: () => Promise<T>
+): Promise<T | null> {
+  try {
+    return await func();
+  } catch (error) {
+    if (error instanceof PangeaErrors.AcceptedRequestException) {
+      console.warn(
+        `The result of request '${error.request_id}' took too long to be ready.`
+      );
+      return null;
+    }
+
+    throw error;
   }
 }
