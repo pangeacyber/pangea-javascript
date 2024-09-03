@@ -43,7 +43,7 @@
     "@pangeacyber/react-mui-store-file-viewer": "^0.0.63",
     "@preact/compat": "^17.1.2",
     "preact": "^10.23.2",
-    "styled-components": "^6.1.12"
+    "styled-components": "^6.1.13"
   },
   "alias": {
     "react": "preact/compat",
