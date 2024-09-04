@@ -36,14 +36,14 @@
     "@emotion/styled": "^11.13.0",
     "@mui/icons-material": "^5.16.7",
     "@mui/material": "^5.16.7",
-    "@mui/styled-engine-sc": "^6.0.0-alpha.18",
-    "@mui/types": "^7.2.15",
+    "@mui/styled-engine-sc": "^6.0.1",
+    "@mui/types": "^7.2.16",
     "@pangeacyber/react-mui-audit-log-viewer": "^0.0.91",
     "@pangeacyber/react-mui-branding": "0.0.18",
-    "@pangeacyber/react-mui-store-file-viewer": "^0.0.60",
+    "@pangeacyber/react-mui-store-file-viewer": "^0.0.63",
     "@preact/compat": "^17.1.2",
     "preact": "^10.23.2",
-    "styled-components": "^6.1.12"
+    "styled-components": "^6.1.13"
   },
   "alias": {
     "react": "preact/compat",
