@@ -179,7 +179,10 @@ const CUSTOM_CELLS = {
 
 export const useAuditColumns = <Event,>(
   schema: Audit.Schema,
-  fields: Partial<Record<keyof Event, Partial<GridColDef>>> | undefined
+  fields: Partial<Record<keyof Event, Partial<GridColDef>>> | undefined,
+  fieldTypes:
+    | Partial<Record<keyof typeof Audit.SchemaFieldType, Partial<GridColDef>>>
+    | undefined
 ) => {
   const gridFields: PDG.GridSchemaFields<Event> = useMemo(() => {
     const schemaFields = cloneDeep(schema?.fields ?? []);
@@ -193,11 +196,26 @@ export const useAuditColumns = <Event,>(
             field.type === "string-unindexed" ||
             field.type === "text") &&
           (field.size ?? 0) > 128;
+
+        let fieldTypeColumnOverrides: Partial<GridColDef> = {};
+        if (!!fieldTypes && !!field.type) {
+          const idx = Object.values(Audit.SchemaFieldType).indexOf(
+            field.type as Audit.SchemaFieldType
+          );
+          if (idx >= 0) {
+            const fieldTypeKey = Object.keys(Audit.SchemaFieldType)[idx];
+            fieldTypeColumnOverrides = {
+              ...fieldTypes[fieldTypeKey as keyof typeof Audit.SchemaFieldType],
+            };
+          }
+        }
+
         const column: Partial<PDG.GridField> = {
           label: field.name ?? field.id,
           description: `Field: ${field.id}${
             !!field.description ? ". " + field.description : ""
           }`,
+          // @ts-ignore
           type: get(COLUMN_TYPE_MAP, field.type, "string"),
           sortable: field.type !== "string-unindexed", // FIXME: What fields exactly should be sortable
           width: 150,
@@ -211,6 +229,7 @@ export const useAuditColumns = <Event,>(
               }
             : {}),
           renderCell: get(CUSTOM_CELLS, field.type, undefined),
+          ...fieldTypeColumnOverrides,
         };
 
         return column;
@@ -224,7 +243,7 @@ export const useAuditColumns = <Event,>(
         map(schemaFields, (f) => f.id)
       )
     );
-  }, [fields, schema]);
+  }, [fields, fieldTypes, schema]);
 
   const columns = useGridSchemaColumns(gridFields);
   return columns;

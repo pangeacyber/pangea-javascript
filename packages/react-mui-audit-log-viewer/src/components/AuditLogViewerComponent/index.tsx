@@ -44,7 +44,12 @@ export interface ViewerProps<Event = Audit.DefaultEvent> {
   sx?: SxProps;
   pageSize?: number;
   dataGridProps?: Partial<DataGridProps>;
+
   fields?: Partial<Record<keyof Event, Partial<GridColDef>>>;
+  fieldTypes?: Partial<
+    Record<keyof typeof Audit.SchemaFieldType, Partial<GridColDef>>
+  >;
+
   visibilityModel?: Partial<Record<keyof Event, boolean>>;
   filters?: PublicAuditQuery;
   searchOnChange?: boolean;
@@ -60,7 +65,9 @@ const AuditLogViewerComponent: FC<ViewerProps> = ({
   onSearch,
   sx = {},
   dataGridProps = {},
+
   fields,
+  fieldTypes,
 
   searchOnChange = true,
   searchOnFilterChange = true,
@@ -84,7 +91,7 @@ const AuditLogViewerComponent: FC<ViewerProps> = ({
   const defaultVisibility = useDefaultVisibility(schema);
   const defaultOrder = useDefaultOrder(schema);
 
-  const schemaColumns = useAuditColumns(schema, fields);
+  const schemaColumns = useAuditColumns(schema, fields, fieldTypes);
   const columns = useAuditColumnsWithErrors(schemaColumns, logs);
   const filterFields = useAuditFilterFields(schema);
   const conditionalOptions = useAuditConditionalOptions(schema);

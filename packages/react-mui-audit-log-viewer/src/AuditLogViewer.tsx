@@ -80,6 +80,11 @@ export interface AuditLogViewerProps<Event = Audit.DefaultEvent> {
   /** Partial definitions for the grid columns. The keys of the object correspond to the properties of the Event type, and the values are partial definitions of the GridColDef type */
   fields?: Partial<Record<keyof Event, Partial<GridColDef>>>;
 
+  /** Partial definitions for the grid columns. The keys of the object correspond to the properties of the Event type, and the values are partial definitions of the GridColDef type */
+  fieldTypes?: Partial<
+    Record<keyof typeof Audit.SchemaFieldType, Partial<GridColDef>>
+  >;
+
   /** Partial definitions for the visibility of the grid columns. The keys of the object correspond to properties of the Event type, and the values are boolean values indicating the visibility of the column */
   visibilityModel?: Partial<Record<keyof Event, boolean>>;
 

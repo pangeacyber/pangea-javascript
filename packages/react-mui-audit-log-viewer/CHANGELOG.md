@@ -5,6 +5,13 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.0.91] - 2024-09-04
+
+### Added
+
+- Support for fieldTypes, to apply GridColDef to Audit field types
+- Updated to the latest @pangeacyber/react-mui-share@0.0.66, which updates @mui/x-data-grid@^7.15.0 supporting resizeable columns
+
 ## [0.0.91] - 2024-08-20
 
 ### Fixed
