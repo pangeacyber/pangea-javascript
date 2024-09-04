@@ -1,6 +1,6 @@
 {
   "name": "@pangeacyber/react-mui-shared",
-  "version": "0.0.66",
+  "version": "0.0.67",
   "description": "Pangea shared Material-UI React library",
   "main": "dist/cjs/index.js",
   "module": "dist/esm/index.js",
@@ -73,8 +73,8 @@
     "@emotion/styled": "^11.10.4",
     "@mui/icons-material": "^5.10.3",
     "@mui/material": "^5.10.5",
-    "react": "^17",
-    "react-dom": "^17"
+    "react": "^17.0.0 || ^18.0.0",
+    "react-dom": "^17.0.0 || ^18.0.0"
   },
   "resolutions": {
     "jackspeak": "2.1.1"

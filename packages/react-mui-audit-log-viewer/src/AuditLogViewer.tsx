@@ -1,8 +1,6 @@
 import { FC, ReactNode, useMemo, useState } from "react";
 import keyBy from "lodash/keyBy";
 
-import { saveAs } from "file-saver";
-
 import { SxProps } from "@mui/system";
 import { DataGridProps, GridColDef } from "@mui/x-data-grid";
 
