@@ -43,6 +43,10 @@ const LinedPangeaDataGrid = <
               // opacity: "0!important",
             },
           },
+        ".LinedPangeaDataGrid-root.MuiDataGrid-root .MuiDataGrid-columnHeaders.PangeaDataGrid-Pinned-Right":
+          {
+            backgroundColor: theme.palette.background.paper,
+          },
         ".MuiDataGrid-root .MuiDataGrid-cell": {
           borderBottom: "1px solid rgba(224, 224, 224, 1)",
         },
@@ -69,6 +73,10 @@ const LinedPangeaDataGrid = <
             },
           },
         },
+        ".MuiDataGrid-row--borderBottom .MuiDataGrid-columnHeader.MuiDataGrid-withBorderColor":
+          {
+            borderBottom: "none",
+          },
         ...(props?.sx ?? {}),
       }}
     />

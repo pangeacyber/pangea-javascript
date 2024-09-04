@@ -420,12 +420,13 @@ const PangeaDataGrid = <
                 letterSpacing: "0.1px",
                 border: "none",
                 color: theme.palette.text.secondary,
-                ".PangeaDataGrid-Pinned-Right": {
-                  position: "sticky",
-                  right: "0px",
-                  float: "right",
-                  backgroundColor: theme.palette.background.paper,
-                },
+                ".MuiDataGrid-columnHeaders.PangeaDataGrid-Pinned-Right, .MuiDataGrid-cell.PangeaDataGrid-Pinned-Right":
+                  {
+                    position: "sticky",
+                    right: "0px",
+                    float: "right",
+                    backgroundColor: theme.palette.background.paper,
+                  },
                 ".MuiDataGrid-columnHeaders": {
                   color: theme.palette.text.secondary,
                   backgroundColor: modify(theme.palette.secondary.main, 0.9),

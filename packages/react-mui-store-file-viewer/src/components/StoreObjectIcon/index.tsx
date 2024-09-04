@@ -125,6 +125,7 @@ const StoreObjectIcon: FC<Props> = ({ type, mimeType, password, ...props }) => {
             width: "fit-content",
             position: "relative",
             height: "24px",
+            lineHeight: "22px",
           }}
         >
           <InsertDriveFileIcon style={{ fill: color }} {...props} />

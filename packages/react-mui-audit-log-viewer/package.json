@@ -1,6 +1,6 @@
 {
   "name": "@pangeacyber/react-mui-audit-log-viewer",
-  "version": "0.0.91",
+  "version": "0.0.92-beta.3",
   "description": "An extension of material ui data-grid for Pangea audit log records",
   "main": "dist/cjs/index.js",
   "module": "dist/esm/index.js",
@@ -9,8 +9,8 @@
   "author": "Pangea (https://pangea.cloud)",
   "license": "MIT",
   "scripts": {
-    "storybook": "start-storybook -p 6006",
-    "build-storybook": "build-storybook",
+    "storybook": "storybook dev -p 6006",
+    "build-storybook": "storybook build",
     "build-docs": "typedoc --plugin typedoc-plugin-rename-defaults",
     "build": "yarn build-docs && NODE_ENV=production rollup -c",
     "test": "jest",
@@ -30,14 +30,12 @@
     "@rollup/plugin-replace": "^5.0.7",
     "@rollup/plugin-terser": "^0.4.4",
     "@rollup/plugin-typescript": "^11.1.6",
-    "@storybook/addon-actions": "^6.5.16",
-    "@storybook/addon-essentials": "^6.5.16",
-    "@storybook/addon-interactions": "^6.5.16",
-    "@storybook/addon-links": "^6.5.16",
-    "@storybook/builder-webpack4": "^6.5.16",
-    "@storybook/manager-webpack4": "^6.5.16",
-    "@storybook/react": "^6.5.16",
-    "@storybook/testing-library": "^0.2.2",
+    "@storybook/addon-actions": "^7.6.20",
+    "@storybook/addon-essentials": "^7.6.20",
+    "@storybook/addon-interactions": "^7.6.20",
+    "@storybook/addon-links": "^7.6.20",
+    "@storybook/react": "^7.6.20",
+    "@storybook/react-vite": "^7.6.20",
     "@testing-library/jest-dom": "^6.5.0",
     "@testing-library/react": "^15.0.7",
     "@types/crypto-js": "^4.2.2",
@@ -55,13 +53,15 @@
     "rollup-plugin-peer-deps-external": "^2.2.4",
     "rollup-plugin-polyfill-node": "^0.13.0",
     "rollup-plugin-postcss": "^4.0.2",
+    "storybook": "^7.6.20",
     "ts-jest": "^29.2.5",
     "typedoc": "^0.26.6",
     "typedoc-plugin-rename-defaults": "^0.7.1",
-    "typescript": "^4.9.5"
+    "typescript": "^4.9.5",
+    "vite": "^5.4.2"
   },
   "dependencies": {
-    "@pangeacyber/react-mui-shared": "0.0.64",
+    "@pangeacyber/react-mui-shared": "0.0.66",
     "@types/jest": "^29.5.12",
     "crypto-js": "^4.2.0",
     "diff": "^5.2.0",
@@ -77,5 +77,6 @@
     "@mui/material": "^5.8.3",
     "react": "^17.0.0 || ^18.0.0",
     "react-dom": "^17.0.0 || ^18.0.0"
-  }
+  },
+  "packageManager": "yarn@4.4.1"
 }
