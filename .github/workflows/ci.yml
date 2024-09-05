@@ -146,7 +146,7 @@ jobs:
       - name: Install dependencies
         run: yarn install --frozen-lockfile
 
-      - run: yarn list
+      - run: yarn info --name-only
 
       - name: Type check
         run: yarn typecheck
