@@ -2,7 +2,7 @@ import { Stack } from "@mui/material";
 import find from "lodash/find";
 import { GridColumnHeaders } from "@mui/x-data-grid";
 import { UseGridColumnHeadersProps } from "@mui/x-data-grid/internals";
-import { FC, forwardRef, useEffect, useMemo, useRef } from "react";
+import { forwardRef, useMemo } from "react";
 import { PDG } from "../../types";
 import { ACTION_COLUMN } from "../../action";
 
