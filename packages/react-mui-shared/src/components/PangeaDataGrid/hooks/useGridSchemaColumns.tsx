@@ -22,24 +22,28 @@ const constructGridColumnsFromFields = (
 
   (order || Object.keys(fields)).forEach((fieldName) => {
     const fieldObj = fields[fieldName];
-    const col: GridColDef = {
+    const col: GridColDef<any> = {
       ...fieldObj,
       field: fieldName,
       width:
         !!fieldObj?.width && typeof fieldObj?.width === "number"
           ? fieldObj?.width
           : 125,
-      type: fieldObj?.type ?? "string",
+      type: "string",
       headerName:
         fieldObj?.headerName ?? startCase(fieldObj?.label || fieldName),
-      valueGetter: (params) => {
-        const value = params.row[params.field];
+      valueGetter: (current, row, column) => {
+        const value = row[column.field];
         return typeof value === "string" ? value : JSON.stringify(value);
       },
     };
 
     if (!fieldObj?.renderCell) {
-      const Cell = get(CELL_TYPE_MAP, col.type ?? "", TextCell);
+      const Cell = get(
+        CELL_TYPE_MAP,
+        fieldObj?.type ?? col.type ?? "",
+        TextCell
+      );
       col.renderCell = (params) => <Cell params={params} />;
     }
 

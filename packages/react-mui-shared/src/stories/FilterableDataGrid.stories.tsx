@@ -66,6 +66,7 @@ const Template: StoryFn<typeof LinedPangeaDataGrid> = (args) => {
           isPinned: true,
           GridColDef: {
             renderHeader: () => "Testing",
+            minWidth: 125,
           },
         }}
         ColumnCustomization={{
@@ -134,6 +135,7 @@ FilterableDataGrid.args = {
     {
       field: "description",
       description: "Field: testing. Hi there",
+      minWidth: 2000,
       renderCell: (params) => <TextCell params={params} />,
     },
   ],

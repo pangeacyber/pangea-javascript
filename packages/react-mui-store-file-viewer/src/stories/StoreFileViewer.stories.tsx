@@ -19,7 +19,7 @@ export default {
   argTypes: {},
 } as ComponentMeta<typeof StoreFileViewer>;
 
-export const Customizations: StoreDataGridCustomizations = {
+const Customizations: StoreDataGridCustomizations = {
   columnOverrides: {
     id: {
       width: 350,

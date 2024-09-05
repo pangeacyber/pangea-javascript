@@ -63,7 +63,7 @@ export const ExpandableRow: FC<GridRowProps> = (props) => {
   }, [props.row?.hash]);
 
   const gridRowProps: Partial<GridRowProps> = {};
-  const expansionColumn = props.renderedColumns.find(
+  const expansionColumn = props.visibleColumns.find(
     (c) => c.field === EXPAND_COLUMN
   );
   if (expansionColumn && !!props.row) {
