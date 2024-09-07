@@ -2855,7 +2855,7 @@ __metadata:
     jest: "npm:^29.7.0"
     lodash: "npm:^4.17.21"
     merkle-tools: "npm:^1.4.1"
-    postcss: "npm:^8.4.44"
+    postcss: "npm:^8.4.45"
     react: "npm:17.0.2"
     react-beautiful-dnd: "npm:^13.1.1"
     react-dom: "npm:17.0.2"
@@ -11022,7 +11022,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"postcss@npm:^8.4.44":
+"postcss@npm:^8.4.45":
   version: 8.4.45
   resolution: "postcss@npm:8.4.45"
   dependencies:
