@@ -1045,7 +1045,7 @@
   resolved "https://registry.yarnpkg.com/@babel/regjsgen/-/regjsgen-0.8.0.tgz#f0ba69b075e1f05fb2825b7fad991e7adbb18310"
   integrity sha512-x/rqGMdzj+fWZvCOYForTghzbtqPDZ5gPwaoNGHdgDfF2QA/XZbCBp4Moo5scrkAMPhB7z26XM/AaHuIJdgauA==
 
-"@babel/runtime@^7.12.18", "@babel/runtime@^7.12.5", "@babel/runtime@^7.13.10", "@babel/runtime@^7.15.4", "@babel/runtime@^7.17.8", "@babel/runtime@^7.18.3", "@babel/runtime@^7.20.13", "@babel/runtime@^7.23.2", "@babel/runtime@^7.23.9", "@babel/runtime@^7.25.4", "@babel/runtime@^7.5.5", "@babel/runtime@^7.8.4", "@babel/runtime@^7.8.7", "@babel/runtime@^7.9.2":
+"@babel/runtime@^7.12.18", "@babel/runtime@^7.12.5", "@babel/runtime@^7.13.10", "@babel/runtime@^7.15.4", "@babel/runtime@^7.17.8", "@babel/runtime@^7.18.3", "@babel/runtime@^7.20.13", "@babel/runtime@^7.23.2", "@babel/runtime@^7.23.9", "@babel/runtime@^7.25.6", "@babel/runtime@^7.5.5", "@babel/runtime@^7.8.4", "@babel/runtime@^7.8.7", "@babel/runtime@^7.9.2":
   version "7.25.6"
   resolved "https://registry.yarnpkg.com/@babel/runtime/-/runtime-7.25.6.tgz#9afc3289f7184d8d7f98b099884c26317b9264d2"
   integrity sha512-VBj9MYyDb9tuLq7yzqjgzt6Q+IBQLrGZfdjOekyEirZPHxXWoTSGUTMrpsfi58Up73d13NfYLv8HT9vmznjzhQ==
@@ -1851,17 +1851,17 @@
     prop-types "^15.8.1"
     react-is "^18.3.1"
 
-"@mui/x-data-grid@^7.15.0":
-  version "7.15.0"
-  resolved "https://registry.yarnpkg.com/@mui/x-data-grid/-/x-data-grid-7.15.0.tgz#bb1adcaeff0da01507c3d65455a589b713968330"
-  integrity sha512-S7FLp+SUz/fo+JAQcM4npnL70tGnL4qcYYMkjK4tPkPLrTnBWlm47D5OoGNzpPO1CnOAryFR5h0rdwbeHZmAWg==
+"@mui/x-data-grid@^7.16.0":
+  version "7.16.0"
+  resolved "https://registry.yarnpkg.com/@mui/x-data-grid/-/x-data-grid-7.16.0.tgz#ee44bdf34ce2624d6c6005991a2abc61f2df4f96"
+  integrity sha512-71ZyffTeF8RPa399UkMlUbQ8T70kOrUK3fBXfinnal4mwgISlKwBN8EHNZZhyxSQ4vpWs3wHrHZ6MGQeXNUhJQ==
   dependencies:
-    "@babel/runtime" "^7.25.4"
+    "@babel/runtime" "^7.25.6"
     "@mui/utils" "^5.16.6"
-    "@mui/x-internals" "7.15.0"
+    "@mui/x-internals" "7.16.0"
     clsx "^2.1.1"
     prop-types "^15.8.1"
-    reselect "^4.1.8"
+    reselect "^5.1.1"
 
 "@mui/x-date-pickers@^6.20.2":
   version "6.20.2"
@@ -1876,12 +1876,12 @@
     prop-types "^15.8.1"
     react-transition-group "^4.4.5"
 
-"@mui/x-internals@7.15.0":
-  version "7.15.0"
-  resolved "https://registry.yarnpkg.com/@mui/x-internals/-/x-internals-7.15.0.tgz#310812857d633ca413a64d34dd378462cb718e63"
-  integrity sha512-Q/IZvZhHpe64Ost1mRbdp6ML8KQQBprwwgzqo6pZbrCaWMPB2gk2jcUwdCwnLsc+gutaEPVhZ8N7it8VZcHtbg==
+"@mui/x-internals@7.16.0":
+  version "7.16.0"
+  resolved "https://registry.yarnpkg.com/@mui/x-internals/-/x-internals-7.16.0.tgz#a019df121d2ab08516346dd7db74bb1d797b258c"
+  integrity sha512-ijer5XYmWlJqWaTmF6TGH1odG7EAupv8iDWYmDm2yVR9IQ+L2nQSuhiFClI+wmGx40KS2VKOlzDMPpF0t7/HCg==
   dependencies:
-    "@babel/runtime" "^7.25.4"
+    "@babel/runtime" "^7.25.6"
     "@mui/utils" "^5.16.6"
 
 "@ndelangen/get-tarball@^3.0.7":
@@ -7833,10 +7833,10 @@ require-from-string@^2.0.2:
   resolved "https://registry.yarnpkg.com/require-from-string/-/require-from-string-2.0.2.tgz#89a7fdd938261267318eafe14f9c32e598c36909"
   integrity sha512-Xf0nWe6RseziFMu+Ap9biiUbmplq6S9/p+7w7YXP/JBHhrUDDUhwa+vANyubuqfZWTveU//DYVGsDG7RKL/vEw==
 
-reselect@^4.1.8:
-  version "4.1.8"
-  resolved "https://registry.yarnpkg.com/reselect/-/reselect-4.1.8.tgz#3f5dc671ea168dccdeb3e141236f69f02eaec524"
-  integrity sha512-ab9EmR80F/zQTMNeneUr4cv+jSwPJgIlvEmVwLerwrWVbpLlBuls9XHzIeTFy4cegU2NHBp3va0LKOzU5qFEYQ==
+reselect@^5.1.1:
+  version "5.1.1"
+  resolved "https://registry.yarnpkg.com/reselect/-/reselect-5.1.1.tgz#c766b1eb5d558291e5e550298adb0becc24bb72e"
+  integrity sha512-K/BG6eIky/SBpzfHZv/dd+9JBFiS4SWV7FIujVyJRux6e45+73RaUHXLmIR1f7WOMaQ0U1km6qwklRQxpJJY0w==
 
 resolve-cwd@^3.0.0:
   version "3.0.0"
