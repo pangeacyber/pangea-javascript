@@ -55,6 +55,9 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4.1.7
 
+      - name: Enabled Corepack
+        run: corepack enable
+
       - name: Setup Node.js
         uses: actions/setup-node@v4.0.3
         with:
@@ -63,9 +66,7 @@ jobs:
           cache-dependency-path: ./packages/pangea-node-sdk/yarn.lock
 
       - name: Install dependencies
-        run: yarn install --frozen-lockfile
-
-      - run: yarn list
+        run: yarn install --immutable
 
       - name: Build
         run: yarn build
@@ -77,7 +78,7 @@ jobs:
         uses: actions/upload-artifact@v4.4.0
         with:
           name: pangea-node-sdk-package
-          path: ./packages/pangea-node-sdk/pangea-node-sdk-v*.tgz
+          path: ./packages/pangea-node-sdk/package.tgz
 
   build-react-auth:
     runs-on: ubuntu-latest
@@ -323,6 +324,9 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4.1.7
 
+      - name: Enabled Corepack
+        run: corepack enable
+
       - name: Setup Node.js
         uses: actions/setup-node@v4.0.3
         with:
@@ -331,9 +335,7 @@ jobs:
           cache-dependency-path: ./packages/pangea-node-sdk/yarn.lock
 
       - name: Install dependencies
-        run: yarn install --frozen-lockfile
-
-      - run: yarn list
+        run: yarn install --immutable
 
       - name: Unit test
         run: yarn test:unit --ci --coverage
@@ -348,6 +350,9 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4.1.7
 
+      - name: Enabled Corepack
+        run: corepack enable
+
       - name: Setup Node.js
         uses: actions/setup-node@v4.0.3
         with:
@@ -356,7 +361,7 @@ jobs:
           cache-dependency-path: ./packages/pangea-node-sdk/yarn.lock
 
       - name: Install dependencies
-        run: yarn install --frozen-lockfile
+        run: yarn install --immutable
 
       - name: Generate docs
         run: yarn generate:docs
@@ -397,7 +402,7 @@ jobs:
           path: ./packages/pangea-node-sdk
 
       - name: Extract locally built pangea-node-sdk
-        run: tar -xf pangea-node-sdk-v*.tgz --strip-components 1 -C .
+        run: tar -xf package.tgz --strip-components 1 -C .
         working-directory: ./packages/pangea-node-sdk
 
       - run: yarn list
