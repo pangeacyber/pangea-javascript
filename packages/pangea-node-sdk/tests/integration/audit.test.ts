@@ -303,36 +303,40 @@ it("log an event, vault sign", async () => {
   expect(respLog.result.signature_verification).toBe("pass");
 });
 
-it("log JSON event, sign and verify", async () => {
-  const event: Audit.Event = {
-    actor: ACTOR,
-    message: MSG_JSON,
-    status: STATUS_SIGNED,
-    new: JSON_NEW_DATA,
-    old: JSON_OLD_DATA,
-  };
+it(
+  "log JSON event, sign and verify",
+  async () => {
+    const event: Audit.Event = {
+      actor: ACTOR,
+      message: MSG_JSON,
+      status: STATUS_SIGNED,
+      new: JSON_NEW_DATA,
+      old: JSON_OLD_DATA,
+    };
 
-  const respLog = await auditGeneral.log(event, {
-    verbose: true,
-    signer: signer,
-  });
-  expect(respLog.status).toBe("Success");
-  expect(typeof respLog.result.hash).toBe("string");
-  expect(respLog.result.signature_verification).toBe("pass");
+    const respLog = await auditGeneral.log(event, {
+      verbose: true,
+      signer: signer,
+    });
+    expect(respLog.status).toBe("Success");
+    expect(typeof respLog.result.hash).toBe("string");
+    expect(respLog.result.signature_verification).toBe("pass");
 
-  const query =
-    "message:" + MSG_JSON + " actor:" + ACTOR + " status:" + STATUS_SIGNED;
-  const queryOptions: Audit.SearchParamsOptions = {
-    limit: 1,
-  };
+    const query =
+      "message:" + MSG_JSON + " actor:" + ACTOR + " status:" + STATUS_SIGNED;
+    const queryOptions: Audit.SearchParamsOptions = {
+      limit: 1,
+    };
 
-  const respSearch = await auditGeneral.search(query, queryOptions, {});
-  const searchEvent = respSearch.result.events[0];
-  expect(searchEvent?.signature_verification).toBe("pass");
-  expect(searchEvent?.envelope.public_key).toBe(
-    String.raw`{"algorithm":"ED25519","key":"-----BEGIN PUBLIC KEY-----\nMCowBQYDK2VwAyEAlvOyDMpK2DQ16NI8G41yINl01wMHzINBahtDPoh4+mE=\n-----END PUBLIC KEY-----\n"}`
-  );
-});
+    const respSearch = await auditGeneral.search(query, queryOptions, {});
+    const searchEvent = respSearch.result.events[0];
+    expect(searchEvent?.signature_verification).toBe("pass");
+    expect(searchEvent?.envelope.public_key).toBe(
+      String.raw`{"algorithm":"ED25519","key":"-----BEGIN PUBLIC KEY-----\nMCowBQYDK2VwAyEAlvOyDMpK2DQ16NI8G41yINl01wMHzINBahtDPoh4+mE=\n-----END PUBLIC KEY-----\n"}`
+    );
+  },
+  2 * (config.pollResultTimeoutMs + 1000)
+);
 
 it(
   "log JSON event, vault sign and verify",
@@ -1000,36 +1004,40 @@ it("log an audit event bulk async", async () => {
   expect(response.request_id).toBeDefined();
 });
 
-it("search and download", async () => {
-  const query = 'message:""';
-  const searchLimit = 2;
-  const searchMaxResults = 20;
+it(
+  "search and download",
+  async () => {
+    const query = 'message:""';
+    const searchLimit = 2;
+    const searchMaxResults = 20;
 
-  const queryOptions: Audit.SearchParamsOptions = {
-    limit: searchLimit,
-    max_results: searchMaxResults,
-    order: "asc",
-    verbose: false,
-    start: "7d",
-  };
+    const queryOptions: Audit.SearchParamsOptions = {
+      limit: searchLimit,
+      max_results: searchMaxResults,
+      order: "asc",
+      verbose: false,
+      start: "7d",
+    };
 
-  const searchResponse = await auditGeneral.search(query, queryOptions, {});
-  expect(searchResponse.status).toBe("Success");
-  expect(searchResponse.result.id).toBeDefined();
-  expect(searchResponse.result.events.length).toBe(searchLimit);
+    const searchResponse = await auditGeneral.search(query, queryOptions, {});
+    expect(searchResponse.status).toBe("Success");
+    expect(searchResponse.result.id).toBeDefined();
+    expect(searchResponse.result.events.length).toBe(searchLimit);
 
-  const downloadResp = await auditGeneral.downloadResults({
-    result_id: searchResponse.result.id,
-    format: Audit.DownloadFormat.JSON,
-  });
+    const downloadResp = await auditGeneral.downloadResults({
+      result_id: searchResponse.result.id,
+      format: Audit.DownloadFormat.JSON,
+    });
 
-  expect(downloadResp.status).toBe("Success");
-  expect(downloadResp.result.dest_url).toBeDefined();
+    expect(downloadResp.status).toBe("Success");
+    expect(downloadResp.result.dest_url).toBeDefined();
 
-  const file = await auditGeneral.downloadFile(downloadResp.result.dest_url);
+    const file = await auditGeneral.downloadFile(downloadResp.result.dest_url);
 
-  file.save("./");
-});
+    file.save("./");
+  },
+  3 * (config.pollResultTimeoutMs + 1000)
+);
 
 it("log stream", async () => {
   const data = {

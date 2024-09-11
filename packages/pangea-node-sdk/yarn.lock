@@ -489,9 +489,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@gitlab/eslint-plugin@npm:^19.6.1":
-  version: 19.6.1
-  resolution: "@gitlab/eslint-plugin@npm:19.6.1"
+"@gitlab/eslint-plugin@npm:^20.2.1":
+  version: 20.2.1
+  resolution: "@gitlab/eslint-plugin@npm:20.2.1"
   dependencies:
     "@typescript-eslint/eslint-plugin": "npm:^7.14.1"
     eslint-config-airbnb-base: "npm:^15.0.0"
@@ -505,7 +505,7 @@ __metadata:
     vue-eslint-parser: "npm:^9.4.3"
   peerDependencies:
     eslint: ^8.57.0
-  checksum: 10c0/00c6421bf35807cd91eacfc87c7b2c88ab8121f1cf8c01562d3a9b58f4de95ed0286898ef6f1aaa10d67452504eab9a05400934e9f3075f085b3396decbbf628
+  checksum: 10c0/d78c4716b49392cbf0f607c1af91c072ca9409cc699fe9197b896bc7ead34c21029fff82cf3509c277d4f977dea832430cb62b56cba62cbaa77d8134fb1827d5
   languageName: node
   linkType: hard
 
@@ -5636,7 +5636,7 @@ __metadata:
   resolution: "pangea-node-sdk@workspace:."
   dependencies:
     "@aws-crypto/crc32c": "npm:^5.2.0"
-    "@gitlab/eslint-plugin": "npm:^19.6.1"
+    "@gitlab/eslint-plugin": "npm:^20.2.1"
     "@swc/core": "npm:1.7.23"
     "@swc/jest": "npm:0.2.36"
     "@tsconfig/node18": "npm:18.2.4"
