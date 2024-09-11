@@ -167,52 +167,56 @@ it("log an audit event. verbose and verify", async () => {
   expect(response.result.signature_verification).toBe("none");
 });
 
-it("log an audit event in JSON format", async () => {
-  const options: Audit.LogOptions = {
-    verbose: true,
-  };
+it(
+  "log an audit event in JSON format",
+  async () => {
+    const options: Audit.LogOptions = {
+      verbose: true,
+    };
 
-  const event: Audit.Event = {
-    actor: ACTOR,
-    message: MSG_JSON,
-    status: STATUS_NO_SIGNED,
-    new: JSON_NEW_DATA,
-    old: JSON_OLD_DATA,
-  };
+    const event: Audit.Event = {
+      actor: ACTOR,
+      message: MSG_JSON,
+      status: STATUS_NO_SIGNED,
+      new: JSON_NEW_DATA,
+      old: JSON_OLD_DATA,
+    };
 
-  const response = await auditGeneral.log(event, options);
+    const response = await auditGeneral.log(event, options);
 
-  expect(response.status).toBe("Success");
-  expect(typeof response.result.hash).toBe("string");
-  expect(typeof response.result?.envelope?.event?.message).toBe("string");
-  expect(typeof response.result?.envelope?.event?.new).toBe("object");
-  expect(typeof response.result?.envelope?.event?.old).toBe("object");
+    expect(response.status).toBe("Success");
+    expect(typeof response.result.hash).toBe("string");
+    expect(typeof response.result?.envelope?.event?.message).toBe("string");
+    expect(typeof response.result?.envelope?.event?.new).toBe("object");
+    expect(typeof response.result?.envelope?.event?.old).toBe("object");
 
-  const query = "message:" + MSG_JSON + " status:" + STATUS_NO_SIGNED;
-  const searchOptions: Audit.SearchOptions = {
-    verifyConsistency: true,
-  };
+    const query = "message:" + MSG_JSON + " status:" + STATUS_NO_SIGNED;
+    const searchOptions: Audit.SearchOptions = {
+      verifyConsistency: true,
+    };
 
-  const limit = 1;
-  const maxResults = 1;
-  const queryOptions: Audit.SearchParamsOptions = {
-    limit: limit,
-    max_results: maxResults,
-  };
+    const limit = 1;
+    const maxResults = 1;
+    const queryOptions: Audit.SearchParamsOptions = {
+      limit: limit,
+      max_results: maxResults,
+    };
 
-  const respSearch = await auditGeneral.search(
-    query,
-    queryOptions,
-    searchOptions
-  );
-  expect(respSearch.result.count).toBe(maxResults);
+    const respSearch = await auditGeneral.search(
+      query,
+      queryOptions,
+      searchOptions
+    );
+    expect(respSearch.result.count).toBe(maxResults);
 
-  respSearch.result.events.forEach((record) => {
-    expect(record.membership_verification).toBe("pass");
-    expect(record.signature_verification).toBe("none");
-    expect(record.consistency_verification).toBe("none");
-  });
-});
+    respSearch.result.events.forEach((record) => {
+      expect(record.membership_verification).toBe("pass");
+      expect(record.signature_verification).toBe("none");
+      expect(record.consistency_verification).toBe("none");
+    });
+  },
+  2 * (config.pollResultTimeoutMs + 1000)
+);
 
 it("log an event, local sign and verify", async () => {
   const event: Audit.Event = {
@@ -330,39 +334,43 @@ it("log JSON event, sign and verify", async () => {
   );
 });
 
-it("log JSON event, vault sign and verify", async () => {
-  const event: Audit.Event = {
-    actor: ACTOR,
-    message: MSG_JSON,
-    status: STATUS_SIGNED,
-    new: JSON_NEW_DATA,
-    old: JSON_OLD_DATA,
-  };
-  try {
-    const respLog = await auditVault.log(event, {
-      verbose: true,
-    });
+it(
+  "log JSON event, vault sign and verify",
+  async () => {
+    const event: Audit.Event = {
+      actor: ACTOR,
+      message: MSG_JSON,
+      status: STATUS_SIGNED,
+      new: JSON_NEW_DATA,
+      old: JSON_OLD_DATA,
+    };
+    try {
+      const respLog = await auditVault.log(event, {
+        verbose: true,
+      });
 
-    expect(respLog.status).toBe("Success");
-    expect(typeof respLog.result.hash).toBe("string");
-    expect(respLog.result.signature_verification).toBe("pass");
-    expect(respLog.result.envelope.public_key).toBeDefined();
-  } catch (e) {
-    if (e instanceof PangeaErrors.APIError) {
-      console.log(e.toString());
+      expect(respLog.status).toBe("Success");
+      expect(typeof respLog.result.hash).toBe("string");
+      expect(respLog.result.signature_verification).toBe("pass");
+      expect(respLog.result.envelope.public_key).toBeDefined();
+    } catch (e) {
+      if (e instanceof PangeaErrors.APIError) {
+        console.log(e.toString());
+      }
     }
-  }
 
-  const query =
-    "message:" + MSG_JSON + " actor:" + ACTOR + " status:" + STATUS_SIGNED;
-  const queryOptions: Audit.SearchParamsOptions = {
-    limit: 1,
-  };
+    const query =
+      "message:" + MSG_JSON + " actor:" + ACTOR + " status:" + STATUS_SIGNED;
+    const queryOptions: Audit.SearchParamsOptions = {
+      limit: 1,
+    };
 
-  const respSearch = await auditVault.search(query, queryOptions, {});
-  const searchEvent = respSearch.result.events[0];
-  expect(searchEvent?.signature_verification).toBe("pass");
-});
+    const respSearch = await auditVault.search(query, queryOptions, {});
+    const searchEvent = respSearch.result.events[0];
+    expect(searchEvent?.signature_verification).toBe("pass");
+  },
+  2 * (config.pollResultTimeoutMs + 1000)
+);
 
 // Custom schema tests
 it("custom schema log an audit event. no verbose", async () => {
@@ -608,40 +616,44 @@ it("search audit log and verify signature", async () => {
   });
 });
 
-it("search audit log and verify consistency", async () => {
-  const query = 'message:""';
-  const limit = 2;
-  const maxResults = 4;
-  const options: Audit.SearchOptions = {
-    verifyConsistency: true,
-  };
+it(
+  "search audit log and verify consistency",
+  async () => {
+    const query = 'message:""';
+    const limit = 2;
+    const maxResults = 4;
+    const options: Audit.SearchOptions = {
+      verifyConsistency: true,
+    };
 
-  let queryOptions: Audit.SearchParamsOptions = {
-    limit: limit,
-    order: "asc", // Oldest events should have consistency proofs
-    max_results: maxResults,
-    start: "30d",
-  };
+    let queryOptions: Audit.SearchParamsOptions = {
+      limit: limit,
+      order: "asc", // Oldest events should have consistency proofs
+      max_results: maxResults,
+      start: "30d",
+    };
 
-  let response = await auditGeneral.search(query, queryOptions, options);
-  expect(response.status).toBe("Success");
-  expect(response.result.events.length).toBeLessThanOrEqual(limit);
-  response.result.events.forEach((record) => {
-    expect(record.consistency_verification).toBe("pass"); // Oldest events should pass
-    expect(record.membership_verification).toBe("pass");
-  });
+    let response = await auditGeneral.search(query, queryOptions, options);
+    expect(response.status).toBe("Success");
+    expect(response.result.events.length).toBeLessThanOrEqual(limit);
+    response.result.events.forEach((record) => {
+      expect(record.consistency_verification).toBe("pass"); // Oldest events should pass
+      expect(record.membership_verification).toBe("pass");
+    });
 
-  queryOptions.order = "desc"; // Newest events should not pass consistency proof
+    queryOptions.order = "desc"; // Newest events should not pass consistency proof
 
-  response = await auditGeneral.search(query, queryOptions, options);
+    response = await auditGeneral.search(query, queryOptions, options);
 
-  expect(response.status).toBe("Success");
-  expect(response.result.events.length).toBeLessThanOrEqual(limit);
-  response.result.events.forEach((record) => {
-    expect(record.consistency_verification).toBe("none"); // Newest events should not pass
-    expect(record.membership_verification).toBe("pass");
-  });
-});
+    expect(response.status).toBe("Success");
+    expect(response.result.events.length).toBeLessThanOrEqual(limit);
+    response.result.events.forEach((record) => {
+      expect(record.consistency_verification).toBe("none"); // Newest events should not pass
+      expect(record.membership_verification).toBe("pass");
+    });
+  },
+  2 * (config.pollResultTimeoutMs + 1000)
+);
 
 it("search audit log and skip consistency verification", async () => {
   const query = "message:" + MSG_SIGNED_LOCAL;
