@@ -10,7 +10,3 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 
 - Support for OAuth User Consent handling
-
-### Fixed
-
-- Show password requirements on forced password reset
