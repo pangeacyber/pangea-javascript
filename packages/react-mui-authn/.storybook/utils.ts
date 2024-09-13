@@ -32,6 +32,7 @@ export const getOptions = (data: any): AuthFlowViewOptions => {
     privacyHeading: data.privacy_heading || "Privacy Policy",
     submitLabel: data.authn_submit_label || "Submit",
     cancelLabel: data.authn_cancel_label || "Start over",
+    clientSiteUrl: "https://somesite.com",
   };
 
   return options;

@@ -19,6 +19,7 @@ export interface AuthFlowViewOptions {
   cancelLabel?: string;
   compactSignup?: boolean; // show password and captcha on signup
   rememberUser?: boolean; // show remember username on signin
+  clientSiteUrl: string; //  URL of the client site
 }
 
 export enum FlowPhase {
