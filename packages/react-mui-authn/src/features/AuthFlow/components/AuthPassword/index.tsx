@@ -26,7 +26,7 @@ const AuthPassword: FC<AuthFlowComponentProps> = (props) => {
   const showPasswordConfirmation = !!data.resetPassword && !!data.setPassword;
   const showEmail = !!data.password?.need_email;
   const passwordPolicy = enrollment
-    ? { ...data?.password?.password_policy }
+    ? data?.password?.password_policy || data?.setPassword?.password_policy
     : null;
   const validationSchema = yup.object({
     password: enrollment

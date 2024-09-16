@@ -27,6 +27,7 @@ export {
   ProfileView,
   ProvisionedView,
   AgreementView,
+  ConsentView,
   VerifyEmailView,
   VerifyResetView,
   PasskeyView,
