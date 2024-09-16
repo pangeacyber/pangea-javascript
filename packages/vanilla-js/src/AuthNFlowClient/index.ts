@@ -25,6 +25,7 @@ const DEFAULT_FLOW_DATA: AuthFlow.StateData = {
   samlProviderMap: {},
   callbackStateMap: {},
   agreements: [],
+  scopes: [],
 };
 
 const API_FLOW_BASE = "flow";
@@ -74,15 +75,8 @@ export class AuthNFlowClient extends AuthNClient {
     const payload: AuthFlow.StartRequest = {
       cb_uri: this.config.callbackUri || "",
       flow_types: flowTypes,
+      ...data,
     };
-
-    if (data?.email) {
-      payload.email = data.email;
-    }
-
-    if (data?.device_id) {
-      payload.device_id = data.device_id;
-    }
 
     return await this._post(path, payload);
   }
@@ -294,6 +288,16 @@ export class AuthNFlowClient extends AuthNClient {
     return await this._update(payload);
   }
 
+  async oauthConsent(data: AuthFlow.ConsentParams): Promise<ClientResponse> {
+    const payload: AuthFlow.ConsentRequest = {
+      flow_id: this.state.flowId,
+      choice: AuthFlow.Choice.CONSENT,
+      data: data,
+    };
+
+    return await this._update(payload);
+  }
+
   // reset state to default
   reset() {
     this.state = {
@@ -344,6 +348,7 @@ export class AuthNFlowClient extends AuthNClient {
       this.state.samlProviderMap = {};
       this.state.callbackStateMap = {};
       this.state.agreements = [];
+      this.state.scopes = [];
 
       if (result.username) {
         this.state.username = result.username;
@@ -446,6 +451,9 @@ export class AuthNFlowClient extends AuthNClient {
             break;
           case AuthFlow.Choice.PROVISIONAL:
             this.state.provisional = choice.data;
+            break;
+          case AuthFlow.Choice.CONSENT:
+            this.state.scopes = choice.data?.scopes || [];
             break;
           default:
             console.warn("Unknown choice: ", choice);
