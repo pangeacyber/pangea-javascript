@@ -1,16 +1,17 @@
 import { Box, Button, ButtonProps } from "@mui/material";
-import { FC, useState } from "react";
+import { FC, useEffect, useState } from "react";
 
 import AddIcon from "@mui/icons-material/Add";
 import { ObjectStore } from "../../../types";
 import { ShareCreateProvider } from "../../../hooks/context";
 import CreateShareModal from "./CreateShareModal";
+import CopyPasswordModal from "./CopyPasswordModal";
 
 interface Props {
   object: ObjectStore.ObjectResponse;
   shareType?: string; // email | link
   ButtonProps?: ButtonProps;
-  onClose: () => void;
+  onClose: (password?: string) => void;
   onDone: () => void;
 }
 
@@ -22,9 +23,18 @@ const CreateSharesButton: FC<Props> = ({
   onDone,
 }) => {
   const [open, setOpen] = useState(false);
-  const handleClose = () => {
+  const [password, setPassword] = useState("");
+
+  const handleClose = (password?: string) => {
     setOpen(false);
+    if (!!password) {
+      setPassword(password);
+    }
     onClose();
+  };
+
+  const handlePasswordClose = () => {
+    setPassword("");
   };
 
   return (
@@ -47,6 +57,11 @@ const CreateSharesButton: FC<Props> = ({
           open={open}
           onClose={handleClose}
           onDone={onDone}
+        />
+        <CopyPasswordModal
+          password={password}
+          open={!!password}
+          onClose={handlePasswordClose}
         />
       </ShareCreateProvider>
     </>

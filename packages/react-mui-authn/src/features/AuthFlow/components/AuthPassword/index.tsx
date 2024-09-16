@@ -2,7 +2,7 @@ import { FC, useEffect, useState } from "react";
 import omit from "lodash/omit";
 import { useFormik } from "formik";
 import * as yup from "yup";
-import { Stack } from "@mui/material";
+import { Stack, Typography } from "@mui/material";
 
 import { AuthFlow } from "@pangeacyber/vanilla-js";
 
@@ -16,6 +16,7 @@ import StringField from "@src/components/fields/StringField";
 import VerifyCaptcha from "../VerifyCaptcha";
 import RememberUser from "../RememberUser";
 import PasskeyAuth from "../PasskeyAuth";
+import { BodyText } from "@src/components/core/Text";
 
 const AuthPassword: FC<AuthFlowComponentProps> = (props) => {
   const { options, data, loading, error, update, restart } = props;
@@ -96,7 +97,7 @@ const AuthPassword: FC<AuthFlowComponentProps> = (props) => {
     }
 
     if (data.phase === "phase_one_time") {
-      return "Continue";
+      return options.submitLabel || "Submit";
     }
 
     return options.passwordButtonLabel || "Log in";
@@ -122,6 +123,9 @@ const AuthPassword: FC<AuthFlowComponentProps> = (props) => {
               autoFocus={true}
               hideLabel={true}
             />
+          )}
+          {data.phase === "phase_one_time" && (
+            <BodyText>Enter your password</BodyText>
           )}
           <PasswordField
             name="password"

@@ -9,8 +9,6 @@ import { FC, forwardRef, useEffect, useMemo, useState } from "react";
 import pickBy from "lodash/pickBy";
 import isEmpty from "lodash/isEmpty";
 import omit from "lodash/omit";
-import keyBy from "lodash/keyBy";
-import mapValues from "lodash/mapValues";
 import * as yup from "yup";
 
 import { useTheme } from "@mui/material/styles";
@@ -28,10 +26,6 @@ import {
 import { ShareCreateForm, getCreateShareFields } from "./fields";
 import ShareSettings from "./ShareSettings";
 import { alertOnError } from "../../AlertSnackbar/hooks";
-import { EmailPasswordShare } from "../SendShareViaEmailButton/EmailPasswordShareField";
-import { EmailSmsShare } from "../SendShareViaEmailButton/EmailSmsShareField";
-
-type ShareSendObj = EmailPasswordShare | EmailSmsShare | undefined;
 
 const CreateButton = forwardRef<any, ButtonProps>((props, ref) => {
   // @ts-ignore
@@ -46,7 +40,7 @@ const CreateButton = forwardRef<any, ButtonProps>((props, ref) => {
 interface Props {
   object: ObjectStore.ObjectResponse;
   open: boolean;
-  onClose: () => void;
+  onClose: (password?: string) => void;
   onDone: () => void;
 }
 
@@ -67,6 +61,7 @@ const CreateShareModal: FC<Props> = ({ object, open, onClose, onDone }) => {
     shareType,
     loading,
     sent,
+    password,
     setLoading,
     setSent,
     setErrors,
@@ -127,8 +122,9 @@ const CreateShareModal: FC<Props> = ({ object, open, onClose, onDone }) => {
   }, [isLarge, open]);
 
   const handleClose = () => {
+    const sharePassword = password;
     resetContext();
-    onClose();
+    onClose(sharePassword);
   };
 
   const handleCreateShare = async (
