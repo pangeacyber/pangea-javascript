@@ -54,7 +54,7 @@ const UnControlledGetPasswordLinkField: FC<FieldComponentProps> = ({
   return (
     <Stack gap={1} width="100%">
       <Typography variant="caption" color="textSecondary" mt={1}>
-        Enter an password to recieve the authentication code
+        Enter a password to protect access to the link
       </Typography>
       <Stack
         width="100%"

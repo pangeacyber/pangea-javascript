@@ -51,7 +51,7 @@ const UnControlledGetEmailLinkField: FC<FieldComponentProps> = ({
   return (
     <Stack gap={1} width="100%">
       <Typography variant="caption" color="textSecondary" mt={1}>
-        Enter an email to recieve the authentication code
+        Enter an email to protect the link with a one-time authentication code
       </Typography>
       <Stack width="100%" direction="row" spacing={1}>
         <TextField

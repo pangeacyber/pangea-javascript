@@ -56,7 +56,8 @@ const UnControlledGetPhoneLinkField: FC<FieldComponentProps> = ({
   return (
     <Stack gap={1} width="100%">
       <Typography variant="caption" color="textSecondary" mt={1}>
-        Enter a phone number to recieve the authentication code
+        Enter a phone number to protect the link with a one-time authentication
+        code
       </Typography>
       <Stack width="100%" direction="row" spacing={1}>
         <TextField

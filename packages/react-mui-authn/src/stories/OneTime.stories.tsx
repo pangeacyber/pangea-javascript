@@ -5,6 +5,8 @@ import { AuthFlowViewOptions } from "../features/AuthFlow/types";
 import LoginView from "../features/AuthFlow/views/Login";
 
 import data_sms from "./data/flow_onetime_sms.json";
+import data_email from "./data/flow_onetime_email.json";
+import data_password from "./data/flow_onetime_password.json";
 
 const update = (data: any) => {};
 
@@ -28,6 +30,18 @@ type Story = StoryObj<typeof FlowOneTime>;
 export const OneTimeSMS: Story = {
   render: (_, context) => {
     return <FlowOneTime options={context.args.options} data={data_sms} />;
+  },
+};
+
+export const OneTimeEmail: Story = {
+  render: (_, context) => {
+    return <FlowOneTime options={context.args.options} data={data_email} />;
+  },
+};
+
+export const OneTimePassword: Story = {
+  render: (_, context) => {
+    return <FlowOneTime options={context.args.options} data={data_password} />;
   },
 };
 

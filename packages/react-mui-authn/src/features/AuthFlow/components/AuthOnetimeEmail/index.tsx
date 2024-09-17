@@ -36,7 +36,7 @@ const AuthOnetimeEmail: FC<AuthFlowComponentProps> = (props) => {
     <Stack gap={2} width="100%">
       <form onSubmit={formik.handleSubmit} style={{ width: "100%" }}>
         <Stack gap={1}>
-          <BodyText>Confirm your email.</BodyText>
+          <BodyText>Confirm your email</BodyText>
           <StringField
             name="email"
             label="Email"
