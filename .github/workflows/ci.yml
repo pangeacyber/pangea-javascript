@@ -137,6 +137,9 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4.1.7
 
+      - name: Enabled Corepack
+        run: corepack enable
+
       - name: Setup Node.js
         uses: actions/setup-node@v4.0.3
         with:
@@ -145,9 +148,7 @@ jobs:
           cache-dependency-path: ./packages/react-mui-audit-log-viewer/yarn.lock
 
       - name: Install dependencies
-        run: yarn install --frozen-lockfile
-
-      - run: yarn info --name-only
+        run: yarn install --immutable
 
       - name: Type check
         run: yarn typecheck
