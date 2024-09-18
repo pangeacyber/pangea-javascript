@@ -5,6 +5,6 @@ node_modules
 *.DS_Store
 .env
 *.exe
-pangea-node-sdk-*.tgz
+*.tgz
 *.gz
 .parcel-cache
