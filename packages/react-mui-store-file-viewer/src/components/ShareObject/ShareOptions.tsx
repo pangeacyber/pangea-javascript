@@ -5,6 +5,7 @@ import {
   Menu,
   MenuItem,
   Stack,
+  Tooltip,
   Typography,
 } from "@mui/material";
 import {
@@ -16,6 +17,7 @@ import {
 
 import { useStoreFileViewerContext } from "../../hooks/context";
 import { ObjectStore } from "../../types";
+import { parseErrorFromPangea } from "../../utils";
 
 interface Props {
   object: ObjectStore.ShareObjectResponse;
@@ -26,7 +28,11 @@ const ShareOptions: FC<Props> = ({ object, onDelete }) => {
   const [updating, setUpdating] = useState(false);
   const [sending, setSending] = useState(false);
   const [sent, setSent] = useState(false);
+
   const [copied, setCopied] = useState(false);
+  const [copying, setCopying] = useState(false);
+  const [error, setError] = useState("");
+
   const { apiRef, configurations } = useStoreFileViewerContext();
   const [optionsEl, setOptionsEl] = useState<HTMLElement | null>(null);
 
@@ -75,10 +81,30 @@ const ShareOptions: FC<Props> = ({ object, onDelete }) => {
   };
 
   const copyLink = () => {
-    if (object?.link && typeof object.link === "string") {
-      navigator.clipboard.writeText(object.link);
-      setCopied(true);
+    if (!apiRef.share?.get) {
+      return;
     }
+
+    setCopying(true);
+    return apiRef.share
+      ?.get({
+        id: object.id,
+      })
+      .then((response) => {
+        const link = response?.result?.share_link_object?.link;
+        if (link && typeof link === "string") {
+          navigator.clipboard.writeText(link);
+          setCopied(true);
+        } else {
+          throw Error("Unable to retrieve share link");
+        }
+      })
+      .catch((error) => {
+        setError(parseErrorFromPangea(error));
+      })
+      .finally(() => {
+        setCopying(false);
+      });
   };
 
   const handleClose = () => {
@@ -146,13 +172,27 @@ const ShareOptions: FC<Props> = ({ object, onDelete }) => {
           </MenuItem>
         )}
         {!!object.id && !!object.link && !object.recipient_email && (
-          <MenuItem onClick={copyLink} disabled={copied}>
-            <Stack direction="row" gap={1}>
-              <LinkRounded fontSize="small" />
-              <Typography variant="body2">
-                {copied ? "Link copied" : "Copy link"}
-              </Typography>
-            </Stack>
+          <MenuItem onClick={copyLink} disabled={copied || copying}>
+            <Tooltip title={!!error ? `${error}. Click to retry` : ""}>
+              <Stack direction="row" gap={1}>
+                <LinkRounded
+                  fontSize="small"
+                  color={!!error ? "error" : !!copied ? "success" : undefined}
+                />
+                <Typography
+                  variant="body2"
+                  color={
+                    !!error
+                      ? "error.main"
+                      : !!copied
+                        ? "success.main"
+                        : undefined
+                  }
+                >
+                  {copied ? "Link copied" : error || "Copy link"}
+                </Typography>
+              </Stack>
+            </Tooltip>
           </MenuItem>
         )}
         <MenuItem onClick={handleRemove} disabled={updating}>

@@ -44,7 +44,7 @@ export interface StoreProxyApiRef {
     ) => Promise<PangeaResponse<ObjectStore.ShareListResponse>>;
     get?: (
       data: ObjectStore.ShareGetRequest
-    ) => Promise<PangeaResponse<ObjectStore.ShareObjectResponse>>;
+    ) => Promise<PangeaResponse<ObjectStore.ShareGetResponse>>;
     delete?: (data: ObjectStore.ShareDeleteRequest) => Promise<PangeaResponse>;
     create?: (
       data: ObjectStore.ShareCreateRequest
@@ -253,13 +253,17 @@ export namespace ObjectStore {
 
     authenticators?: ShareAuthenticator[];
 
-    link: string;
+    link?: string;
 
     recipient_email?: string;
     sender_email?: string;
     sender_name?: string;
 
     storage_pool_id?: string;
+  }
+
+  export interface ShareGetResponse {
+    share_link_object: ShareObjectResponse;
   }
 
   export interface SharesObjectResponse {
