@@ -2761,7 +2761,7 @@ __metadata:
     "@types/react": "npm:^18.3.6"
     "@types/react-beautiful-dnd": "npm:^13.1.8"
     "@types/react-dom": "npm:^18.3.0"
-    babel-loader: "npm:^9.2.0"
+    babel-loader: "npm:^9.2.1"
     crypto-js: "npm:^4.2.0"
     diff: "npm:^5.2.0"
     jest: "npm:^29.7.0"
@@ -5604,7 +5604,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"babel-loader@npm:^9.2.0":
+"babel-loader@npm:^9.2.1":
   version: 9.2.1
   resolution: "babel-loader@npm:9.2.1"
   dependencies:
