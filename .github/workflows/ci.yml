@@ -209,6 +209,9 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4.2.1
 
+      - name: Enable Corepack
+        run: corepack enable
+
       - name: Setup Node.js
         uses: actions/setup-node@v4.0.4
         with:
@@ -319,6 +322,9 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4.2.1
 
+      - name: Enable Corepack
+        run: corepack enable
+
       - name: Setup Node.js
         uses: actions/setup-node@v4.0.4
         with:
@@ -327,9 +333,7 @@ jobs:
           cache-dependency-path: ./yarn.lock
 
       - name: Install dependencies
-        run: yarn install --frozen-lockfile
-
-      - run: yarn list
+        run: yarn install --immutable
 
       - name: Prettier
         run: yarn lint
