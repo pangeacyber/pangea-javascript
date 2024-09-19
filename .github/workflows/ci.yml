@@ -55,7 +55,7 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4.2.0
 
-      - name: Enabled Corepack
+      - name: Enable Corepack
         run: corepack enable
 
       - name: Setup Node.js
@@ -137,7 +137,7 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4.2.0
 
-      - name: Enabled Corepack
+      - name: Enable Corepack
         run: corepack enable
 
       - name: Setup Node.js
@@ -207,6 +207,9 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4.2.0
 
+      - name: Enable Corepack
+        run: corepack enable
+
       - name: Setup Node.js
         uses: actions/setup-node@v4.0.4
         with:
@@ -237,6 +240,9 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4.2.0
 
+      - name: Enable Corepack
+        run: corepack enable
+
       - name: Setup Node.js
         uses: actions/setup-node@v4.0.4
         with:
@@ -264,7 +270,7 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4.2.0
 
-      - name: Enabled Corepack
+      - name: Enable Corepack
         run: corepack enable
 
       - name: Setup Node.js
@@ -286,6 +292,9 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4.2.0
 
+      - name: Enable Corepack
+        run: corepack enable
+
       - name: Setup Node.js
         uses: actions/setup-node@v4.0.4
         with:
@@ -294,9 +303,7 @@ jobs:
           cache-dependency-path: ./yarn.lock
 
       - name: Install dependencies
-        run: yarn install --frozen-lockfile
-
-      - run: yarn list
+        run: yarn install --immutable
 
       - name: Prettier
         run: yarn lint
@@ -325,7 +332,7 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4.2.0
 
-      - name: Enabled Corepack
+      - name: Enable Corepack
         run: corepack enable
 
       - name: Setup Node.js
@@ -351,7 +358,7 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4.2.0
 
-      - name: Enabled Corepack
+      - name: Enable Corepack
         run: corepack enable
 
       - name: Setup Node.js
@@ -386,6 +393,9 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4.2.0
 
+      - name: Enable Corepack
+        run: corepack enable
+
       - name: Setup Node.js
         uses: actions/setup-node@v4.0.4
         with:
@@ -416,6 +426,9 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v4.2.0
+
+      - name: Enable Corepack
+        run: corepack enable
 
       - name: Setup Node.js
         uses: actions/setup-node@v4.0.4

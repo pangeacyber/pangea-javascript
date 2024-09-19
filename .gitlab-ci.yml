@@ -11,16 +11,6 @@ stages:
   - tag_release
   - examples
 
-.packages_base:
-  before_script:
-    - yarn install --frozen-lockfile
-  cache:
-    - key:
-        files:
-          - yarn.lock
-      paths:
-        - node_modules
-
 include:
   - /examples/.examples-ci.yml
   - /packages/pangea-node-sdk/.gitlab-ci.yml
