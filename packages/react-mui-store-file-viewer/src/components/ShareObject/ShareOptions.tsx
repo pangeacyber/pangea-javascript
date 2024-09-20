@@ -157,7 +157,7 @@ const ShareOptions: FC<Props> = ({ object, onDelete }) => {
           },
         }}
       >
-        {!!object.id && !!object.link && !!object.recipient_email && (
+        {!!object.id && !!object.recipient_email && (
           <MenuItem onClick={resendEmail} disabled={sending || sent}>
             <Stack direction="row" gap={1}>
               <EmailOutlined fontSize="small" />
@@ -171,7 +171,7 @@ const ShareOptions: FC<Props> = ({ object, onDelete }) => {
             </Stack>
           </MenuItem>
         )}
-        {!!object.id && !!object.link && !object.recipient_email && (
+        {!!object.id && !object.recipient_email && (
           <MenuItem onClick={copyLink} disabled={copied || copying}>
             <Tooltip title={!!error ? `${error}. Click to retry` : ""}>
               <Stack direction="row" gap={1}>
