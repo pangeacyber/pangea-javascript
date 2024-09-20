@@ -1488,14 +1488,14 @@
     react-json-view "^1.21.3"
     yup "^1.4.0"
 
-"@pangeacyber/react-mui-store-file-viewer@^0.0.65":
-  version "0.0.65"
-  resolved "https://registry.yarnpkg.com/@pangeacyber/react-mui-store-file-viewer/-/react-mui-store-file-viewer-0.0.65.tgz#2a41ef0994a3033e39fa6d18a934cfbca865c53d"
-  integrity sha512-ggGG46r8d4XpKmfm7qPG6Z1TYAVAKPegIrXMZHIRE6YSNk0LSNp1V7ARmalEvG+UpHcCLkG6JfZGfTlgNnZmQg==
+"@pangeacyber/react-mui-store-file-viewer@^0.0.66":
+  version "0.0.66"
+  resolved "https://registry.yarnpkg.com/@pangeacyber/react-mui-store-file-viewer/-/react-mui-store-file-viewer-0.0.66.tgz#aa17e28b0a422ae9be518e2c46348b2dc0adc30e"
+  integrity sha512-WE5TCN/7crrkmLTI+IcI5M+WMEMYbcuXOlLmTYJl4brxYjJ37n5KXcMrXX/d77zEvCJCLiL3G/K22oRAuJixVg==
   dependencies:
     "@pangeacyber/react-mui-shared" "0.0.67"
-    awesome-phonenumber "^6.10.0"
-    axios "^1.7.5"
+    awesome-phonenumber "^7.0.1"
+    axios "^1.7.7"
     lodash "^4.17.21"
     zustand "^4.5.5"
 
@@ -2439,12 +2439,12 @@ asynckit@^0.4.0:
   resolved "https://registry.yarnpkg.com/asynckit/-/asynckit-0.4.0.tgz#c79ed97f7f34cb8f2ba1bc9790bcc366474b4b79"
   integrity sha512-Oei9OH4tRh0YqU3GxhX79dM/mwVgvbZJaSNaRk+bshkj0S5cfHcgYakreBjrHwatXKbz+IoIdYLxrKim2MjW0Q==
 
-awesome-phonenumber@^6.10.0:
-  version "6.12.0"
-  resolved "https://registry.yarnpkg.com/awesome-phonenumber/-/awesome-phonenumber-6.12.0.tgz#333cc3b393490dfa2b2c3b4461b442dad52d5af3"
-  integrity sha512-17Ts/ceWeWXzWZqTIRKA48y3+OyxYsAXYzuxYCn4n0+By+W0dcHk3fHszW6lLxAlCZt3VmVKY6n9AxOCU84qNw==
+awesome-phonenumber@^7.0.1:
+  version "7.0.1"
+  resolved "https://registry.yarnpkg.com/awesome-phonenumber/-/awesome-phonenumber-7.0.1.tgz#308f3a11c91cbd55cbb2e9f19fba783696d827e6"
+  integrity sha512-F97hjL1unidOh+aho9WNZgyvFFYevVg4vU40s6Xb/X7KpZu3cX99vetJ9LUbb3bshGnlLZdVFPjU0TlGypUenA==
 
-axios@^1.7.5:
+axios@^1.7.7:
   version "1.7.7"
   resolved "https://registry.yarnpkg.com/axios/-/axios-1.7.7.tgz#2f554296f9892a72ac8d8e4c5b79c14a91d0a47f"
   integrity sha512-S4kL7XrjgBmvdGut0sN3yJxqYzrDOnivkBiN0OFs6hLiUam3UPvswUo0kqGyhqUZGEOytHyumEdXsAkgCOUf3Q==
