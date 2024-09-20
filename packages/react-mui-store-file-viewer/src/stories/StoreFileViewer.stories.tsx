@@ -98,7 +98,7 @@ StoreFileViewerDemo.args = {
           .post(
             `https://share.${
               import.meta.env.STORYBOOK_SERVICE_DOMAIN
-            }/v1beta/share/link/read`,
+            }/v1/share/link/get`,
             { ...body },
             {
               headers: {
