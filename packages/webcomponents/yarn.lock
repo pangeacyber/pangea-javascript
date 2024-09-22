@@ -1488,10 +1488,10 @@
     react-json-view "^1.21.3"
     yup "^1.4.0"
 
-"@pangeacyber/react-mui-store-file-viewer@^0.0.66":
-  version "0.0.66"
-  resolved "https://registry.yarnpkg.com/@pangeacyber/react-mui-store-file-viewer/-/react-mui-store-file-viewer-0.0.66.tgz#aa17e28b0a422ae9be518e2c46348b2dc0adc30e"
-  integrity sha512-WE5TCN/7crrkmLTI+IcI5M+WMEMYbcuXOlLmTYJl4brxYjJ37n5KXcMrXX/d77zEvCJCLiL3G/K22oRAuJixVg==
+"@pangeacyber/react-mui-store-file-viewer@^0.0.67":
+  version "0.0.67"
+  resolved "https://registry.yarnpkg.com/@pangeacyber/react-mui-store-file-viewer/-/react-mui-store-file-viewer-0.0.67.tgz#b38fd7e8e3e469c0f8fbcebd9f2fb0a28855ddb8"
+  integrity sha512-fst1qMoF9VpGOh1dl23/oKBCnNxUyXb/OoTjEMfxyqvNA5j86Eh0PIAvr/c1waxwtCr3ENhanDl/A9BZuH3J7g==
   dependencies:
     "@pangeacyber/react-mui-shared" "0.0.67"
     awesome-phonenumber "^7.0.1"
