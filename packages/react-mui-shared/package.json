@@ -19,7 +19,7 @@
     "@emotion/styled": "^11.13.0",
     "@mui/icons-material": "5.16.7",
     "@mui/material": "5.16.7",
-    "@mui/types": "^7.2.16",
+    "@mui/types": "^7.2.17",
     "@rollup/plugin-commonjs": "^26.0.1",
     "@rollup/plugin-node-resolve": "^15.3.0",
     "@rollup/plugin-replace": "^5.0.7",
@@ -53,7 +53,7 @@
   },
   "dependencies": {
     "@loadable/component": "^5.16.4",
-    "@mui/x-data-grid": "^7.17.0",
+    "@mui/x-data-grid": "^7.18.0",
     "@mui/x-date-pickers": "^6.20.2",
     "dayjs": "^1.11.13",
     "formik": "^2.4.6",
