@@ -59,7 +59,7 @@
     "typedoc": "^0.26.7",
     "typedoc-plugin-rename-defaults": "^0.7.1",
     "typescript": "^5.6.2",
-    "vite": "^5.4.6"
+    "vite": "^5.4.7"
   },
   "dependencies": {
     "@pangeacyber/react-mui-shared": "0.0.67",
