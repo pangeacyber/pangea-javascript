@@ -1372,7 +1372,7 @@
     "@mui/utils" "^5.16.6"
     prop-types "^15.8.1"
 
-"@mui/styled-engine-sc@^6.1.0":
+"@mui/styled-engine-sc@^6.1.1":
   version "6.1.1"
   resolved "https://registry.yarnpkg.com/@mui/styled-engine-sc/-/styled-engine-sc-6.1.1.tgz#b3179af7de64b45e2f761650eec666b3678b433b"
   integrity sha512-3BefwbGbt1Q3Blnr7mzebWf1wugdtXYWSFNhi5DuuK+QyQK7vJ3q8FlCvs5o978x5oMbih46YKZYlsre/ZMzpw==
@@ -1406,7 +1406,7 @@
     csstype "^3.1.3"
     prop-types "^15.8.1"
 
-"@mui/types@^7.2.15", "@mui/types@^7.2.16":
+"@mui/types@^7.2.15", "@mui/types@^7.2.17":
   version "7.2.17"
   resolved "https://registry.yarnpkg.com/@mui/types/-/types-7.2.17.tgz#329826062d4079de5ea2b97007575cebbba1fdbc"
   integrity sha512-oyumoJgB6jDV8JFzRqjBo2daUuHpzDjoO/e3IrRhhHo/FxJlaVhET6mcNrKHUq2E+R+q3ql0qAtvQ4rfWHhAeQ==
