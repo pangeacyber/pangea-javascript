@@ -9,9 +9,10 @@ export const buildAuthorizeUrl = (
     challenge,
     challengeMethod,
     responseType,
+    scope,
   }: AuthUrlOptions
 ): string => {
-  const params = {
+  const params: Record<string, string> = {
     client_id: clientId,
     redirect_uri: redirectUri,
     state,
@@ -19,6 +20,10 @@ export const buildAuthorizeUrl = (
     code_challenge_method: challengeMethod,
     response_type: responseType,
   };
+
+  if (scope) {
+    params.scope = scope;
+  }
   const query = new URLSearchParams(params);
 
   return `https://${domain}/authorize?${query}`;

@@ -51,8 +51,15 @@ export class OAuthClient {
     this.storage = getStorageAPI(!!options?.useCookie);
     this.timer = null;
 
+    const port = ["80", "443"].includes(window.location.port)
+      ? ""
+      : `:${window.location.port}`;
+
     this.config = {
       ...config,
+      callbackUri:
+        config.callbackUri ||
+        `${window.location.protocol}//${window.location.hostname}${port}`,
     };
     this.options = {
       sessionKey: config.sessionKey || SESSION_DATA_KEY,
@@ -104,20 +111,19 @@ export class OAuthClient {
 
     const url = buildAuthorizeUrl(this.config.domain, {
       clientId: this.config.clientId,
-      redirectUri:
-        this.config.callbackUri ||
-        `${window.location.protocol}//${window.location.hostname}${port}`,
+      redirectUri: this.config.callbackUri || "",
       state: stateCode,
       challenge: challenge,
       challengeMethod: "S256",
       responseType: "code_challenge",
+      scope: this.config.scope,
     });
 
     window.location.assign(url);
   }
 
   async logout() {
-    const response = await this.post("token/revoke", {
+    const response = await this.post("logout", {
       token: getRefreshToken(this.options),
       token_type_hint: "refresh_token",
     });
@@ -144,8 +150,8 @@ export class OAuthClient {
           client_id: this.config.clientId,
           refresh_token: refreshToken,
           grant_type: "refresh_token",
-          redirect_uri: this.config.callbackUri || window.location.hostname,
-          scope: "", // TODO: include requested scopes
+          redirect_uri: this.config.callbackUri,
+          scope: this.config.scope || "",
         });
 
         this.processResponse(response);
@@ -171,6 +177,12 @@ export class OAuthClient {
       token_type_hint: "access_token",
       token,
     });
+
+    return await response.json();
+  }
+
+  async userinfo() {
+    const response = await this.get("userinfo");
 
     return await response.json();
   }
@@ -269,6 +281,7 @@ export class OAuthClient {
       try {
         const response = await this.post("token", {
           client_id: this.config.clientId,
+          redirect_uri: this.config.callbackUri,
           grant_type: "authorization_code",
           code_verifier: codeVerifier,
           code,
@@ -321,11 +334,28 @@ export class OAuthClient {
     return headers;
   }
 
+  private async get(endpoint: string, params?: any) {
+    const url = this.getUrl(endpoint);
+    const query = new URLSearchParams(params);
+    return fetch(`${url}?${query}`, {
+      method: "GET",
+      headers: {
+        Authorization: `Basic ${this.config.clientId}`,
+      },
+    });
+  }
+
   private async post(endpoint: string, payload: any) {
+    const data = new URLSearchParams(payload);
+    const credentials = btoa(this.config.clientId + ":");
+
     return fetch(this.getUrl(endpoint), {
       method: "POST",
-      body: JSON.stringify(payload),
-      ...this.getHeaders(),
+      body: data,
+      headers: {
+        "Content-Type": "application/x-www-form-urlencoded",
+        Authorization: `Basic ${credentials}`,
+      },
     });
   }
 }

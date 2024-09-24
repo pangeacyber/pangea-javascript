@@ -24,6 +24,14 @@ export interface ClientConfig {
   callbackUri?: string;
 
   /**
+   * scope: optional string
+   *
+   * A space separated list of requested scopes
+   *
+   */
+  scope?: string;
+
+  /**
    * sessionKey: optional string
    *
    * The key used to store session data in the browser
@@ -133,4 +141,5 @@ export interface AuthUrlOptions {
   challenge: string;
   challengeMethod: "plain" | "S256";
   responseType: "code_challenge";
+  scope?: string;
 }
