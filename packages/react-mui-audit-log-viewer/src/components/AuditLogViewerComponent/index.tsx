@@ -1,5 +1,5 @@
 import { FC, useCallback, useEffect, useMemo, useRef } from "react";
-import find from "lodash/find";
+import mapValues from "lodash/mapValues";
 
 import { Box } from "@mui/material";
 import { SxProps } from "@mui/system";
@@ -195,7 +195,10 @@ const AuditLogViewerComponent: FC<ViewerProps> = ({
           Filters: {
             // @ts-ignore
             filters: queryObj,
-            onFilterChange: setQueryObj,
+            onFilterChange: (values) =>
+              setQueryObj(
+                mapValues(values, (v) => (typeof v === "string" ? v.trim() : v))
+              ),
             // @ts-ignore
             options: filterFields,
           },
