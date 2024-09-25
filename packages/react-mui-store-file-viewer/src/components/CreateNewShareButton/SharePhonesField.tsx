@@ -133,7 +133,13 @@ const UnControlledSharePhonesField: FC<FieldComponentProps> = ({
 
   return (
     <Stack gap={1} width="100%">
-      <Stack width="100%" direction="row" mt={1} gap={0.5}>
+      <Stack
+        width="100%"
+        direction="row"
+        mt={1}
+        gap={0.5}
+        alignItems="flex-start"
+      >
         <TextField
           value={emailValue}
           name="recipient_email"

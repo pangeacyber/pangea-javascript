@@ -51,7 +51,7 @@ const StoreFileSharing: FC<Props> = ({ object }) => {
             shareType="email"
             object={object}
             ButtonProps={{
-              variant: "contained",
+              variant: "outlined",
               color: "primary",
               sx: { width: "100%" },
               fullWidth: true,
@@ -65,7 +65,7 @@ const StoreFileSharing: FC<Props> = ({ object }) => {
             shareType="link"
             object={object}
             ButtonProps={{
-              variant: "contained",
+              variant: "outlined",
               color: "primary",
               sx: { width: "100%" },
               fullWidth: true,

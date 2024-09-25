@@ -43,6 +43,7 @@ const ShareLinkDetails = () => {
           ":hover": {
             bgcolor: modify(theme.palette.info.main, 0.8),
           },
+          textWrap: "nowrap",
         }}
         fullWidth
         data-testid={"Share-Copy-Btn"}

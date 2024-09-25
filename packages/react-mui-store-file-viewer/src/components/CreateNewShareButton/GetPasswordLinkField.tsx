@@ -60,6 +60,7 @@ const UnControlledGetPasswordLinkField: FC<FieldComponentProps> = ({
         width="100%"
         direction="row"
         gap={1}
+        alignItems="flex-start"
         sx={{
           "& .MuiFormGroup-root": {
             width: "calc(100% - 100px)",
@@ -77,7 +78,10 @@ const UnControlledGetPasswordLinkField: FC<FieldComponentProps> = ({
           variant="outlined"
           onClick={handleSubmitValue}
           disabled={!password || !!passwordError || error || loading}
-          sx={{ minWidth: "100px" }}
+          sx={{
+            minWidth: "100px",
+            textWrap: "nowrap",
+          }}
         >
           {loading ? "Saving..." : "Get Link"}
         </Button>
