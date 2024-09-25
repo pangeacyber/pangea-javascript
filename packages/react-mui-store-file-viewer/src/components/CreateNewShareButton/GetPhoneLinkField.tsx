@@ -59,7 +59,7 @@ const UnControlledGetPhoneLinkField: FC<FieldComponentProps> = ({
         Enter a phone number to protect the link with a one-time authentication
         code
       </Typography>
-      <Stack width="100%" direction="row" spacing={1}>
+      <Stack width="100%" direction="row" spacing={1} alignItems="flex-start">
         <TextField
           value={newValue}
           name="recipient_phone"
@@ -95,7 +95,10 @@ const UnControlledGetPhoneLinkField: FC<FieldComponentProps> = ({
           variant="outlined"
           onClick={handleSubmitValue}
           disabled={!newValue || !!newValueError || loading}
-          sx={{ minWidth: "100px" }}
+          sx={{
+            minWidth: "100px",
+            textWrap: "nowrap",
+          }}
         >
           {loading ? "Saving..." : "Get Link"}
         </Button>
