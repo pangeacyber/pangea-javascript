@@ -77,22 +77,31 @@ export interface CookieOptions {
   cookieMaxAge?: number;
 
   /**
-   * cookieName: optional string
+   * tokenCookieName: optional string
    *
    * The name to be used when setting/getting the user token cookie.
    *
    * Defaults to "pangea-token" if not set.
    */
-  cookieName?: string;
+  tokenCookieName?: string;
 
   /**
-   * refreshCookieName: optional strinal
+   * refreshCookieName: optional string
    *
-   * The name to be used when setting/getting the refresh token cookie.
+   * The name used when setting/getting the refresh token cookie.
    *
    * Defaults to "pangea-refresh" if not set.
    */
   refreshCookieName?: string;
+
+  /**
+   * expiresName: optional string
+   *
+   * The name used when setting/getting the access token expires cookie.
+   *
+   * Defaults to "pangea-expires" if not set.
+   */
+  expiresCookieName?: string;
 
   /**
    * cookieDomain: optional string
@@ -121,10 +130,20 @@ export interface AppState {
   returnPath: string;
 }
 
+export interface Profile {
+  [key: string]: string;
+}
+
+export interface Intelligence {
+  [key: string]: string;
+}
+
 export interface AuthUser {
-  // TODO: fix user data
-  active_token?: any;
-  refresh_token?: any;
+  id?: string;
+  username?: string;
+  email?: string;
+  profile?: Profile;
+  intelligence?: Intelligence;
 }
 
 export interface SessionData {
@@ -132,6 +151,11 @@ export interface SessionData {
    * The user related to the session
    */
   user?: AuthUser;
+  access_token?: string;
+  expires_in?: number;
+  refresh_token?: string;
+  scope?: string;
+  id_token?: string;
 }
 
 export interface AuthUrlOptions {
@@ -140,6 +164,15 @@ export interface AuthUrlOptions {
   state: string;
   challenge: string;
   challengeMethod: "plain" | "S256";
-  responseType: "code_challenge";
+  responseType: "code";
   scope?: string;
+}
+
+export interface TokenResponse {
+  access_token: string;
+  token_type: "Bearer";
+  expires_in: number;
+  refresh_token: string;
+  scope: string;
+  id_token?: string;
 }

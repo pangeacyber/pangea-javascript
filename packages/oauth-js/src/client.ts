@@ -51,6 +51,7 @@ export class OAuthClient {
     this.storage = getStorageAPI(!!options?.useCookie);
     this.timer = null;
 
+    // handle non-standard ports for local development
     const port = ["80", "443"].includes(window.location.port)
       ? ""
       : `:${window.location.port}`;
@@ -85,7 +86,7 @@ export class OAuthClient {
           this.startTokenWatch();
         } catch {}
       } else {
-        // has a validate token
+        // has a token, check if it's valid
         // TODO: call introspect to validate for opaque tokens
         this.authState = "AUTHENTICATED";
       }
@@ -105,17 +106,13 @@ export class OAuthClient {
       `${location.pathname}${location.search}`
     );
 
-    const port = ["80", "443"].includes(window.location.port)
-      ? ""
-      : `:${window.location.port}`;
-
     const url = buildAuthorizeUrl(this.config.domain, {
       clientId: this.config.clientId,
       redirectUri: this.config.callbackUri || "",
       state: stateCode,
       challenge: challenge,
       challengeMethod: "S256",
-      responseType: "code_challenge",
+      responseType: "code",
       scope: this.config.scope,
     });
 
@@ -137,7 +134,7 @@ export class OAuthClient {
     this.storage.removeItem(STATE_DATA_KEY);
   }
 
-  async refresh() {
+  async refresh(force = false) {
     const initialState = this.authState;
     const lock = new Lock();
 
@@ -145,22 +142,24 @@ export class OAuthClient {
       this.authState = "UPDATING";
 
       if (await lock.acquireLock(REFRESH_LOCK_KEY)) {
-        const refreshToken = getRefreshToken(this.options);
-        const response = await this.post("token", {
-          client_id: this.config.clientId,
-          refresh_token: refreshToken,
-          grant_type: "refresh_token",
-          redirect_uri: this.config.callbackUri,
-          scope: this.config.scope || "",
-        });
+        if (this.shouldTokenRefresh() || force) {
+          const refreshToken = getRefreshToken(this.options);
+          const response = await this.post("token", {
+            client_id: this.config.clientId,
+            refresh_token: refreshToken,
+            grant_type: "refresh_token",
+            redirect_uri: this.config.callbackUri,
+            scope: this.config.scope || "",
+          });
 
-        this.processResponse(response);
+          this.processTokenResponse(response);
+        }
       } else {
         console.warn("Could not aquire refresh lock.");
       }
     } catch (error: any) {
       console.log(error);
-      if (initialState !== "INIT") {
+      if (initialState === "INIT") {
         // refresh expected to fail in initial state
       } else {
         this.authState = "ERROR";
@@ -229,7 +228,7 @@ export class OAuthClient {
     }
   }
 
-  private processResponse(data: any) {
+  private processTokenResponse(data: any) {
     // TODO: fix data type
     console.log("RESPONSE", data);
 
@@ -290,7 +289,7 @@ export class OAuthClient {
         if (response.ok) {
           this.authState = "AUTHENTICATED";
           this.startTokenWatch();
-          this.processResponse(response);
+          this.processTokenResponse(response);
         }
       } catch (err) {
         this.authState = "ERROR";
@@ -337,24 +336,20 @@ export class OAuthClient {
   private async get(endpoint: string, params?: any) {
     const url = this.getUrl(endpoint);
     const query = new URLSearchParams(params);
-    return fetch(`${url}?${query}`, {
-      method: "GET",
-      headers: {
-        Authorization: `Basic ${this.config.clientId}`,
-      },
-    });
+    return fetch(`${url}?${query}`);
   }
 
   private async post(endpoint: string, payload: any) {
     const data = new URLSearchParams(payload);
-    const credentials = btoa(this.config.clientId + ":");
+    // TODO: remove when client_id in data works correctly
+    // const credentials = btoa(this.config.clientId + ":");
 
     return fetch(this.getUrl(endpoint), {
       method: "POST",
       body: data,
       headers: {
         "Content-Type": "application/x-www-form-urlencoded",
-        Authorization: `Basic ${credentials}`,
+        "X-CSRF-Token": "cors",
       },
     });
   }

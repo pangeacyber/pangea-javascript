@@ -8,6 +8,7 @@ export const VERIFIER_DATA_KEY = "pangea-code-verifier";
 
 export const TOKEN_COOKIE_NAME = "pangea-token";
 export const REFRESH_COOKIE_NAME = "pangea-refresh";
+export const EXPIRES_COOKIE_NAME = "pangea-expires";
 
 export const REFRESH_CHECK_INTERVAL = 15; // Frequency of refresh check in seconds
 export const REFRESH_CHECK_THRESHOLD = 10;

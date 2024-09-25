@@ -1,4 +1,5 @@
 import { AuthUrlOptions } from "../types";
+import { API_VERSION } from "../constants";
 
 export const buildAuthorizeUrl = (
   domain: string,
@@ -26,5 +27,5 @@ export const buildAuthorizeUrl = (
   }
   const query = new URLSearchParams(params);
 
-  return `https://${domain}/authorize?${query}`;
+  return `https://${domain}/${API_VERSION}/authorize?${query}`;
 };
