@@ -2544,6 +2544,12 @@ export namespace Sanitize {
     /** Redact sensitive content. */
     redact?: boolean;
 
+    /**
+     * If redact is enabled, avoids redacting the file and instead returns the
+     * PII analysis engine results. Only works if redact is enabled.
+     */
+    redact_detect_only?: boolean;
+
     /** Remove file attachments (PDF only). */
     remove_attachments?: boolean;
 
@@ -2626,12 +2632,35 @@ export namespace Sanitize {
     domain_intel_summary?: string;
   }
 
+  export interface RedactRecognizerResult {
+    /** The entity name. */
+    field_type: string;
+
+    /** The certainty score that the entity matches this specific snippet. */
+    score: number;
+
+    /** The text snippet that matched. */
+    text: string;
+
+    /** The starting index of a snippet. */
+    start: number;
+
+    /** The ending index of a snippet. */
+    end: number;
+
+    /** Indicates if this rule was used to anonymize a text snippet. */
+    redacted: boolean;
+  }
+
   export interface RedactData {
     /** Number of items redacted. */
     redaction_count?: number;
 
     /** Summary counts. */
     summary_counts?: Dictionary;
+
+    /** The scoring result of a set of rules. */
+    recognizer_results?: RedactRecognizerResult[];
   }
 
   export interface CDR {
