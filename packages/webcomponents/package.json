@@ -40,7 +40,7 @@
     "@mui/types": "^7.2.17",
     "@pangeacyber/react-mui-audit-log-viewer": "^0.0.94",
     "@pangeacyber/react-mui-branding": "0.0.18",
-    "@pangeacyber/react-mui-store-file-viewer": "^0.0.68",
+    "@pangeacyber/react-mui-store-file-viewer": "^0.0.69",
     "@preact/compat": "^18.3.1",
     "preact": "^10.24.1",
     "styled-components": "^6.1.13"
