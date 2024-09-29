@@ -2771,7 +2771,7 @@ __metadata:
     react: "npm:17.0.2"
     react-beautiful-dnd: "npm:^13.1.1"
     react-dom: "npm:17.0.2"
-    rollup: "npm:^2.79.1"
+    rollup: "npm:^2.79.2"
     rollup-plugin-dts: "npm:^4.2.3"
     rollup-plugin-peer-deps-external: "npm:^2.2.4"
     rollup-plugin-polyfill-node: "npm:^0.13.0"
@@ -12052,7 +12052,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"rollup@npm:^2.79.1":
+"rollup@npm:^2.79.2":
   version: 2.79.2
   resolution: "rollup@npm:2.79.2"
   dependencies:
