@@ -1,3 +1,5 @@
+import { JWTPayload, JWTHeaderParameters } from "jose";
+
 export interface ClientConfig {
   /**
    * clientId: required string
@@ -48,6 +50,17 @@ export interface ClientConfig {
    * Defaults to undefined
    */
   onLogin?: (appState: AppState) => void;
+
+  /**
+   * onStateChange: optional callback function
+   *
+   * If defined, the function is called on state change with the current
+   * state data
+   *
+   * Defaults to undefined
+   *
+   */
+  onStateChange?: (state: StateData) => void;
 }
 
 /**
@@ -130,6 +143,20 @@ export interface AppState {
   returnPath: string;
 }
 
+export type AuthState =
+  | "INIT"
+  | "LOADING"
+  | "REFRESH"
+  | "AUTHENTICATED"
+  | "NOAUTH"
+  | "ERROR";
+
+export interface StateData {
+  state: AuthState;
+  user?: AuthUser;
+  error: string;
+}
+
 export interface Profile {
   [key: string]: string;
 }
@@ -144,18 +171,17 @@ export interface AuthUser {
   email?: string;
   profile?: Profile;
   intelligence?: Intelligence;
+  payload?: JWTPayload;
+  header?: JWTHeaderParameters;
 }
 
 export interface SessionData {
-  /**
-   * The user related to the session
-   */
   user?: AuthUser;
   access_token?: string;
-  expires_in?: number;
   refresh_token?: string;
   scope?: string;
   id_token?: string;
+  expires_at?: string;
 }
 
 export interface AuthUrlOptions {

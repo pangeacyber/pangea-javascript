@@ -1,4 +1,5 @@
 declare let setTimeout: any;
+
 class ProcessLocking {
   static instance: undefined | ProcessLocking;
   private locked: Map<string, (() => void)[]> = new Map<
@@ -34,7 +35,7 @@ class ProcessLocking {
   };
 
   lock = (key: string): Promise<void> => {
-    return new Promise<void>((resolve, reject) => {
+    return new Promise<void>((resolve, _reject) => {
       if (this.isLocked(key)) {
         this.addToLocked(key, resolve);
       } else {

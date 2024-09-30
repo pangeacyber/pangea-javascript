@@ -1,16 +1,22 @@
 import Lock from "./vendor/browser-tabs-lock";
-import { AuthOptions, ClientConfig, CookieOptions } from "./types";
-import { generateBase58, hasAuthParams } from "./utils/helpers";
+import type {
+  AuthOptions,
+  AuthState,
+  AuthUser,
+  ClientConfig,
+  CookieOptions,
+  SessionData,
+  TokenResponse,
+} from "./types";
+import { generateBase58, hasAuthParams, isJwt } from "./utils/helpers";
 import { buildAuthorizeUrl } from "./utils/urls";
 import {
   DEFAULT_COOKIE_OPTIONS,
+  getAccessToken,
   getRefreshToken,
   getSessionData,
-  getSessionToken,
-  getSessionTokenValues,
   getStorageAPI,
   getTokenExpire,
-  isTokenExpiring,
   removeTokenCookies,
   saveSessionData,
   setTokenCookies,
@@ -24,19 +30,14 @@ import {
   SESSION_DATA_KEY,
   VERIFIER_DATA_KEY,
 } from "./constants";
-import { createPkceChallenge } from "./utils";
-
-export type AuthState =
-  | "INIT"
-  | "UPDATING"
-  | "AUTHENTICATED"
-  | "NOAUTH"
-  | "ERROR";
+import { createPkceChallenge, isTokenExpiring } from "./utils";
+import { verifyJwt } from "./utils/jwt";
 
 export class OAuthClient {
   config: ClientConfig;
   options: AuthOptions;
   authState: AuthState; // current state of authentication
+  user: AuthUser | undefined;
   error: string; // the last error message
 
   private storage: Storage;
@@ -73,25 +74,24 @@ export class OAuthClient {
     if (this.authState !== "INIT") {
       return;
     }
+    this.setState("LOADING");
 
+    const accessToken = getAccessToken(this.options);
     const tokenExpire = getTokenExpire(this.options);
 
     if (hasAuthParams()) {
-      await this.exchange();
-    } else if (!!tokenExpire) {
+      await this.exchangeCodeForToken();
+    } else if (accessToken && tokenExpire) {
       // has a token and token will expire soon, do refresh
       if (isTokenExpiring(tokenExpire)) {
         try {
           await this.refresh();
-          this.startTokenWatch();
         } catch {}
       } else {
-        // has a token, check if it's valid
-        // TODO: call introspect to validate for opaque tokens
-        this.authState = "AUTHENTICATED";
+        this.validateToken(accessToken);
       }
     } else {
-      this.authState = "NOAUTH";
+      this.setState("NOAUTH");
     }
   }
 
@@ -120,18 +120,27 @@ export class OAuthClient {
   }
 
   async logout() {
-    const response = await this.post("logout", {
-      token: getRefreshToken(this.options),
-      token_type_hint: "refresh_token",
-    });
+    try {
+      // TODO: the logout endpoint doesn't work correctly yet
+      const response = await this.get("logout", {
+        state: generateBase58(32),
+        redirect_uri: this.config.callbackUri,
+      });
 
-    if (response.ok) {
-      this.authState = "INIT";
-    } else {
-      this.authState = "ERROR";
+      if (response.ok) {
+        this.user = undefined;
+        this.setState("NOAUTH");
+      } else {
+        this.setError(
+          `logout error: ${response.status} - ${response.statusText}`
+        );
+      }
+
+      this.clearData();
+    } catch (error) {
+      console.warn(error);
+      this.setError("logout failed");
     }
-    removeTokenCookies(this.options);
-    this.storage.removeItem(STATE_DATA_KEY);
   }
 
   async refresh(force = false) {
@@ -139,74 +148,142 @@ export class OAuthClient {
     const lock = new Lock();
 
     try {
-      this.authState = "UPDATING";
-
       if (await lock.acquireLock(REFRESH_LOCK_KEY)) {
         if (this.shouldTokenRefresh() || force) {
+          this.setState("REFRESH");
+
+          const stateData = getSessionData(this.options);
           const refreshToken = getRefreshToken(this.options);
+
           const response = await this.post("token", {
             client_id: this.config.clientId,
             refresh_token: refreshToken,
             grant_type: "refresh_token",
-            redirect_uri: this.config.callbackUri,
-            scope: this.config.scope || "",
+            scope: stateData.scope || this.config.scope || "",
           });
 
-          this.processTokenResponse(response);
+          if (response.ok) {
+            const data = (await response.json()) as TokenResponse;
+            this.processTokenResponse(data);
+          } else {
+            this.setState("NOAUTH");
+            this.user = undefined;
+            this.clearData();
+            this.stopTokenWatch();
+          }
         }
       } else {
         console.warn("Could not aquire refresh lock.");
       }
     } catch (error: any) {
-      console.log(error);
       if (initialState === "INIT") {
         // refresh expected to fail in initial state
       } else {
-        this.authState = "ERROR";
+        console.warn(error);
+        this.setError(error.toString());
       }
     } finally {
       await lock.releaseLock(REFRESH_LOCK_KEY);
     }
   }
 
-  async introspect() {
-    const token = getSessionToken(this.options);
+  async introspect(accessToken: string) {
     const response = await this.post("token/introspect", {
       client_id: this.config.clientId,
       token_type_hint: "access_token",
-      token,
+      token: accessToken,
     });
 
-    return await response.json();
+    return response;
   }
 
-  async userinfo() {
-    const response = await this.get("userinfo");
-
-    return await response.json();
-  }
-
-  async getToken() {
+  async getToken(): Promise<string> {
     if (this.shouldTokenRefresh()) {
       try {
         await this.refresh();
       } catch (err) {}
     }
 
-    const accessToken = getSessionToken(this.options);
-
+    const accessToken = getAccessToken(this.options);
     if (!accessToken) {
       // throw error
-      this.authState = "ERROR";
+      this.setError("no access token available");
     }
 
-    return accessToken;
+    return accessToken || "";
+  }
+
+  getUser(): AuthUser | undefined {
+    const sessionData = getSessionData(this.options);
+    return sessionData.user;
+  }
+
+  // internal methods
+
+  private setError(message: string) {
+    this.user = undefined;
+    this.error = message;
+    this.setState("ERROR");
+  }
+
+  private clearData() {
+    removeTokenCookies(this.options);
+    this.storage.removeItem(STATE_DATA_KEY);
+  }
+
+  private async validateToken(accessToken: string) {
+    // parse JWT
+    if (isJwt(accessToken)) {
+      const result = await verifyJwt(accessToken, this.config.domain);
+
+      if (!!result.error) {
+        this.setError(result.error);
+      } else {
+        this.user = result.user;
+        // this.setState("AUTHENTICATED");
+        this.authState = "AUTHENTICATED";
+        this.startTokenWatch();
+      }
+    } else {
+      // opaque token, call introspect to get user defails
+      const response = await this.introspect(accessToken);
+
+      if (response.ok) {
+        const data = await response.json();
+        this.user = {
+          id: data.sub,
+          username: data.username,
+          email: data.email,
+          profile: {
+            ...(data["pangea.profile"] || {}),
+          },
+          intelligence: {
+            ...(data["pangea.intelligence"] || {}),
+          },
+        };
+        this.setState("AUTHENTICATED");
+        this.startTokenWatch();
+      } else {
+        this.setError(`${response.status}: ${response.statusText}`);
+      }
+    }
+  }
+
+  private setState(state: AuthState) {
+    this.authState = state;
+    if (this.config.onStateChange) {
+      this.config.onStateChange({
+        state: this.authState,
+        user: this.user,
+        error: this.error,
+      });
+    }
   }
 
   private checkTokenLife() {
     const tokenExpire = getTokenExpire(this.options);
 
-    if (tokenExpire && isTokenExpiring(tokenExpire)) {
+    if (tokenExpire && this.beforeRefresh() && isTokenExpiring(tokenExpire)) {
       this.refresh();
     }
   }
@@ -228,38 +305,38 @@ export class OAuthClient {
     }
   }
 
-  private processTokenResponse(data: any) {
-    // TODO: fix data type
-    console.log("RESPONSE", data);
+  private beforeRefresh() {
+    return !document.hidden;
+  }
 
-    const user: any = {}; // getUserFromResponse(response); // TODO: fix user data
-    const sessionData = getSessionData(this.options);
-    sessionData.user = user;
-    saveSessionData(sessionData, this.options);
+  private async processTokenResponse(data: TokenResponse) {
+    const now = new Date();
+    const expiresAt = new Date(
+      now.getTime() + data.expires_in * 1000
+    ).toString();
 
-    const storageAPI = getStorageAPI(this.options.useCookie);
-    const returnURL = storageAPI.getItem(LAST_PATH_KEY) || "/";
+    // call validate token
+    await this.validateToken(data.access_token || "");
 
-    const appState = {
-      userData: user,
-      returnPath: returnURL,
-      authState: storageAPI.getItem(STATE_DATA_KEY),
+    const sessionData: SessionData = {
+      access_token: data.access_token,
+      refresh_token: data.refresh_token,
+      scope: data.scope,
+      id_token: data.id_token,
+      expires_at: expiresAt,
+      user: this.user,
     };
 
-    storageAPI.removeItem(LAST_PATH_KEY);
+    saveSessionData(sessionData, this.options);
+
+    this.storage.removeItem(LAST_PATH_KEY);
 
     if (this.options.useCookie) {
-      setTokenCookies(user, this.options);
-    }
-
-    this.startTokenWatch();
-
-    if (this.config.onLogin) {
-      this.config.onLogin(appState);
+      setTokenCookies(sessionData, this.options);
     }
   }
 
-  private async exchange() {
+  private async exchangeCodeForToken() {
     const queryString = window.location.search;
     const urlParams = new URLSearchParams(queryString);
     const savedState = this.storage.getItem(STATE_DATA_KEY);
@@ -268,14 +345,10 @@ export class OAuthClient {
     const state = urlParams.get("state");
     const code = urlParams.get("code");
 
-    this.authState = "UPDATING";
-
     if (!state || !code) {
-      const msg = "Missing required parameters";
-      this.authState = "ERROR";
+      this.setError("Missing required parameters");
     } else if (state !== savedState || savedState === "") {
-      const msg = "Invalid session state";
-      this.authState = "ERROR";
+      this.setError("Invalid session state");
     } else {
       try {
         const response = await this.post("token", {
@@ -287,35 +360,65 @@ export class OAuthClient {
         });
 
         if (response.ok) {
-          this.authState = "AUTHENTICATED";
+          const data = (await response.json()) as TokenResponse;
+          this.setState("AUTHENTICATED");
           this.startTokenWatch();
-          this.processTokenResponse(response);
+          this.processTokenResponse(data);
+
+          this.storage.removeItem(STATE_DATA_KEY);
+          this.storage.removeItem(VERIFIER_DATA_KEY);
+
+          // remove state and code params from the URL
+          urlParams.delete("state");
+          urlParams.delete("code");
+          const newSearch = urlParams.toString();
+          const cleanUrl = newSearch
+            ? `${window.location.pathname}?${newSearch}`
+            : window.location.pathname;
+
+          window.history.replaceState({}, "", cleanUrl);
+
+          const returnURL = this.storage.getItem(LAST_PATH_KEY) || "/";
+
+          const appState = {
+            userData: this.user,
+            returnPath: returnURL,
+            authState: this.storage.getItem(STATE_DATA_KEY),
+          };
+
+          if (this.config.onLogin) {
+            this.config.onLogin(appState);
+          }
         }
       } catch (err) {
-        this.authState = "ERROR";
+        this.setState("ERROR");
       }
     }
   }
 
-  private shouldTokenRefresh() {
+  private shouldTokenRefresh(): boolean {
     switch (this.authState) {
       case "INIT":
-      case "UPDATING":
         return true;
+      case "REFRESH":
       case "ERROR":
         return false;
+      case "LOADING":
       case "AUTHENTICATED":
-        const [token, expireTime] = getSessionTokenValues(this.options);
+        const accessToken = getAccessToken(this.options);
+        const tokenExpire = getTokenExpire(this.options);
 
-        if (!token) {
+        if (!accessToken) {
           return true;
         }
 
-        return isTokenExpiring(expireTime);
+        return isTokenExpiring(tokenExpire);
+      default:
+        return false;
     }
   }
 
-  getUrl(endpoint: string): string {
+  private getUrl(endpoint: string): string {
     const protocol = this.config.domain.match(/^local\.?host(:\d{2,5})?$/)
       ? "http"
       : "https";
@@ -324,9 +427,11 @@ export class OAuthClient {
   }
 
   getHeaders(): any {
+    const accessToken = getAccessToken(this.options);
     const headers = {
       headers: {
         "Content-Type": "application/json",
+        Authorization: `Bearer ${accessToken}`,
       },
     };
 
@@ -336,20 +441,19 @@ export class OAuthClient {
   private async get(endpoint: string, params?: any) {
     const url = this.getUrl(endpoint);
     const query = new URLSearchParams(params);
-    return fetch(`${url}?${query}`);
+    return fetch(`${url}${!query ? "" : "?" + query}`, {
+      ...this.getHeaders(),
+    });
   }
 
   private async post(endpoint: string, payload: any) {
     const data = new URLSearchParams(payload);
-    // TODO: remove when client_id in data works correctly
-    // const credentials = btoa(this.config.clientId + ":");
 
     return fetch(this.getUrl(endpoint), {
       method: "POST",
       body: data,
       headers: {
         "Content-Type": "application/x-www-form-urlencoded",
-        "X-CSRF-Token": "cors",
       },
     });
   }

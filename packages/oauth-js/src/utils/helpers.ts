@@ -1,3 +1,5 @@
+import { REFRESH_CHECK_INTERVAL, REFRESH_CHECK_THRESHOLD } from "../constants";
+
 const CODE_RE = /[?&]code=[^&]+/;
 const STATE_RE = /[?&]state=[^&]+/;
 
@@ -36,6 +38,19 @@ export const diffInSeconds = (dt1: Date, dt2: Date) => {
   return Math.round(diff);
 };
 
+export const isTokenExpiring = (expireTime: string) => {
+  const expiresAt = new Date(expireTime);
+  const timeDiff = diffInSeconds(expiresAt, new Date());
+  const threshold = REFRESH_CHECK_INTERVAL + REFRESH_CHECK_THRESHOLD;
+
+  return timeDiff < threshold;
+};
+
 export const delay = (ms: number) => {
   return new Promise((resolve) => setTimeout(resolve, ms));
+};
+
+export const isJwt = (token: string) => {
+  // is a better check needed?
+  return token.length > 36;
 };

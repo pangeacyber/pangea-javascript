@@ -1,6 +1,6 @@
 {
   "name": "@pangeacyber/oauth-js",
-  "version": "0.0.1-beta1.15",
+  "version": "0.0.1",
   "description": "Pangea OAuth Client",
   "source": "src/index.ts",
   "main": "dist/main.js",
@@ -14,9 +14,15 @@
     "build": "rm -rf .parcel-cache && parcel build"
   },
   "devDependencies": {
+    "@parcel/core": "^2.12.0",
     "@parcel/packager-ts": "2.12.0",
     "@parcel/transformer-typescript-types": "2.12.0",
+    "@types/typescript": "^2.0.0",
     "parcel": "^2.12.0",
     "typescript": "^5.6.2"
+  },
+  "packageManager": "yarn@4.5.0",
+  "dependencies": {
+    "jose": "^5.9.3"
   }
 }

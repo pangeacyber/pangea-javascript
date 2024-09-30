@@ -1,4 +1,10 @@
-export { hasAuthParams, isLocalhost, diffInSeconds, delay } from "./helpers";
+export {
+  delay,
+  diffInSeconds,
+  hasAuthParams,
+  isLocalhost,
+  isTokenExpiring,
+} from "./helpers";
 
 export { createPkceChallenge, base64urlEncode, sha256 } from "./pkce";
 
@@ -7,13 +13,10 @@ export {
   getCookies,
   setCookie,
   removeCookie,
-  getTokenFromCookie,
+  getCookieValue,
   getStorageAPI,
   saveSessionData,
   getSessionData,
-  getSessionToken,
+  getAccessToken,
   getRefreshToken,
-  getAllTokens,
-  getSessionTokenValues,
-  getTokenCookieFields,
 } from "./session";

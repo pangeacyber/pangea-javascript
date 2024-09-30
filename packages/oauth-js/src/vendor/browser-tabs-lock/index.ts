@@ -40,19 +40,19 @@ export type StorageHandler = {
 };
 
 const DEFAULT_STORAGE_HANDLER: StorageHandler = {
-  key: async (index: number) => {
+  key: async (_index: number) => {
     throw new Error("Unsupported");
   },
-  getItem: async (key: string) => {
+  getItem: async (_key: string) => {
     throw new Error("Unsupported");
   },
   clear: async () => {
     return window.localStorage.clear();
   },
-  removeItem: async (key: string) => {
+  removeItem: async (_key: string) => {
     throw new Error("Unsupported");
   },
-  setItem: async (key: string, value: string) => {
+  setItem: async (_key: string, _value: string) => {
     throw new Error("Unsupported");
   },
   keySync: (index: number) => {

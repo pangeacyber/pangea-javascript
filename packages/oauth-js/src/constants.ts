@@ -10,5 +10,8 @@ export const TOKEN_COOKIE_NAME = "pangea-token";
 export const REFRESH_COOKIE_NAME = "pangea-refresh";
 export const EXPIRES_COOKIE_NAME = "pangea-expires";
 
-export const REFRESH_CHECK_INTERVAL = 15; // Frequency of refresh check in seconds
-export const REFRESH_CHECK_THRESHOLD = 10;
+export const REFRESH_CHECK_INTERVAL = 10; // Frequency of refresh check in seconds
+export const REFRESH_CHECK_THRESHOLD = 5;
+
+export const JWKS_CACHE_KEY = "jwks-cache";
+export const JWKS_EXPIRE = 60 * 60 * 24; // 24 hours in seconds
