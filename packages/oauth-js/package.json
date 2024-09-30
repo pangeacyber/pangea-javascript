@@ -1,6 +1,6 @@
 {
   "name": "@pangeacyber/oauth-js",
-  "version": "0.0.1",
+  "version": "0.0.1-beta",
   "description": "Pangea OAuth Client",
   "source": "src/index.ts",
   "main": "dist/main.js",
