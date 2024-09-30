@@ -2758,7 +2758,7 @@ __metadata:
     "@types/crypto-js": "npm:^4.2.2"
     "@types/diff": "npm:^5.2.2"
     "@types/jest": "npm:^29.5.13"
-    "@types/react": "npm:^18.3.9"
+    "@types/react": "npm:^18.3.10"
     "@types/react-beautiful-dnd": "npm:^13.1.8"
     "@types/react-dom": "npm:^18.3.0"
     babel-loader: "npm:^9.2.1"
@@ -5112,7 +5112,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/react@npm:^18.3.9":
+"@types/react@npm:^18.3.10":
   version: 18.3.10
   resolution: "@types/react@npm:18.3.10"
   dependencies:
