@@ -1,28 +1,11 @@
 {
   "name": "@pangeacyber/oauth-js",
-  "version": "0.0.2-beta",
+  "version": "0.0.1-beta",
   "description": "Pangea OAuth Client",
-  "type": "commonjs",
   "source": "src/index.ts",
-  "main": "dist/index.cjs",
-  "module": "dist/index.mjs",
-  "types": "dist/index.d.ts",
-  "exports": {
-    ".": {
-      "require": {
-        "types": "./dist/index.d.ts",
-        "default": "./dist/index.cjs"
-      },
-      "import": {
-        "types": "./dist/index.d.mts",
-        "default": "./dist/index.mjs"
-      }
-    },
-    "./package.json": "./package.json"
-  },
-  "files": [
-    "dist"
-  ],
+  "main": "dist/main.js",
+  "module": "dist/module.js",
+  "types": "dist/types.d.ts",
   "author": "Glenn Gallien <glenn.gallien@pangea.cloud>",
   "license": "MIT",
   "scripts": {
