@@ -1372,7 +1372,7 @@
     "@mui/utils" "^5.16.6"
     prop-types "^15.8.1"
 
-"@mui/styled-engine-sc@^6.1.0":
+"@mui/styled-engine-sc@^6.1.1":
   version "6.1.1"
   resolved "https://registry.yarnpkg.com/@mui/styled-engine-sc/-/styled-engine-sc-6.1.1.tgz#b3179af7de64b45e2f761650eec666b3678b433b"
   integrity sha512-3BefwbGbt1Q3Blnr7mzebWf1wugdtXYWSFNhi5DuuK+QyQK7vJ3q8FlCvs5o978x5oMbih46YKZYlsre/ZMzpw==
@@ -1406,7 +1406,7 @@
     csstype "^3.1.3"
     prop-types "^15.8.1"
 
-"@mui/types@^7.2.15", "@mui/types@^7.2.16":
+"@mui/types@^7.2.15", "@mui/types@^7.2.17":
   version "7.2.17"
   resolved "https://registry.yarnpkg.com/@mui/types/-/types-7.2.17.tgz#329826062d4079de5ea2b97007575cebbba1fdbc"
   integrity sha512-oyumoJgB6jDV8JFzRqjBo2daUuHpzDjoO/e3IrRhhHo/FxJlaVhET6mcNrKHUq2E+R+q3ql0qAtvQ4rfWHhAeQ==
@@ -1468,10 +1468,10 @@
     "@babel/runtime" "^7.25.6"
     "@mui/utils" "^5.16.6"
 
-"@pangeacyber/react-mui-audit-log-viewer@^0.0.93":
-  version "0.0.93"
-  resolved "https://registry.yarnpkg.com/@pangeacyber/react-mui-audit-log-viewer/-/react-mui-audit-log-viewer-0.0.93.tgz#0ed5ac16544a85c055b0c604f03ef5750164c679"
-  integrity sha512-jZyCGU4kn1p7hLj9xotcDkCMuXRbAq10ONAV/90c8AYgV4XkPm9E0gz7h+VUiQi6VasofxZA2A4nsKKPmIN02A==
+"@pangeacyber/react-mui-audit-log-viewer@^0.0.94":
+  version "0.0.94"
+  resolved "https://registry.yarnpkg.com/@pangeacyber/react-mui-audit-log-viewer/-/react-mui-audit-log-viewer-0.0.94.tgz#fffb39024ba1e80573443159fede64ed3bfc0ae1"
+  integrity sha512-UjqpL5EoOUcth+vYSxd5pDBaNj83+FyEubFz1hqQ/qiBYUaCpFAlxL0Uewmd2NXd9ZRd60AchT4CVpAZ4C3Tzw==
   dependencies:
     "@pangeacyber/react-mui-shared" "0.0.67"
     crypto-js "^4.2.0"
@@ -1500,10 +1500,10 @@
     react-json-view "^1.21.3"
     yup "^1.4.0"
 
-"@pangeacyber/react-mui-store-file-viewer@^0.0.68":
-  version "0.0.68"
-  resolved "https://registry.yarnpkg.com/@pangeacyber/react-mui-store-file-viewer/-/react-mui-store-file-viewer-0.0.68.tgz#ba9de8c36fd81e8c33e2d1beafa681f09abd5efa"
-  integrity sha512-268/SeFPMrvsD6Iig3SFyWY2KyFMU7H+htHPxnx3HrEaQp4j+wBvIIvUXEq6voBLnDRWjQYdu0kyimgxWPoRcA==
+"@pangeacyber/react-mui-store-file-viewer@^0.0.69":
+  version "0.0.69"
+  resolved "https://registry.yarnpkg.com/@pangeacyber/react-mui-store-file-viewer/-/react-mui-store-file-viewer-0.0.69.tgz#0871f0f989d65562b5ae78ec2c0dd6efefd99d7e"
+  integrity sha512-06wVeGJYMkirspSG/h1UOV3crUhGBXtQjWKahq4AgwXuwRRZwKZQycI0p8D3rVz9h0xGkWNbKoVwGuSzhBcWJg==
   dependencies:
     "@pangeacyber/react-mui-shared" "0.0.67"
     awesome-phonenumber "^7.0.1"
@@ -3598,10 +3598,10 @@ posthtml@^0.16.4, posthtml@^0.16.5:
     posthtml-parser "^0.11.0"
     posthtml-render "^3.0.0"
 
-preact@^10.24.0:
-  version "10.24.0"
-  resolved "https://registry.yarnpkg.com/preact/-/preact-10.24.0.tgz#bd8139bee35aafede3c6de96d2453982610dfeef"
-  integrity sha512-aK8Cf+jkfyuZ0ZZRG9FbYqwmEiGQ4y/PUO4SuTWoyWL244nZZh7bd5h2APd4rSNDYTBNghg1L+5iJN3Skxtbsw==
+preact@^10.24.1:
+  version "10.24.1"
+  resolved "https://registry.yarnpkg.com/preact/-/preact-10.24.1.tgz#501e206d0a46667b6d0d8b780c7a65172239b2d0"
+  integrity sha512-PnBAwFI3Yjxxcxw75n6VId/5TFxNW/81zexzWD9jn1+eSrOP84NdsS38H5IkF/UH3frqRPT+MvuCoVHjTDTnDw==
 
 process@^0.11.10:
   version "0.11.10"

@@ -36,7 +36,7 @@ jobs:
 
     steps:
       - name: Checkout code
-        uses: actions/checkout@v4.1.7
+        uses: actions/checkout@v4.2.0
 
       - name: Calculate `examples-matrix` output
         id: examples-matrix
@@ -53,7 +53,7 @@ jobs:
         working-directory: ./packages/pangea-node-sdk
     steps:
       - name: Checkout code
-        uses: actions/checkout@v4.1.7
+        uses: actions/checkout@v4.2.0
 
       - name: Enabled Corepack
         run: corepack enable
@@ -87,7 +87,7 @@ jobs:
         working-directory: ./packages/react-auth
     steps:
       - name: Checkout code
-        uses: actions/checkout@v4.1.7
+        uses: actions/checkout@v4.2.0
 
       - name: Setup Node.js
         uses: actions/setup-node@v4.0.4
@@ -135,7 +135,7 @@ jobs:
         working-directory: ./packages/react-mui-audit-log-viewer
     steps:
       - name: Checkout code
-        uses: actions/checkout@v4.1.7
+        uses: actions/checkout@v4.2.0
 
       - name: Enabled Corepack
         run: corepack enable
@@ -169,7 +169,7 @@ jobs:
         working-directory: ./packages/react-mui-authn
     steps:
       - name: Checkout code
-        uses: actions/checkout@v4.1.7
+        uses: actions/checkout@v4.2.0
 
       - name: Setup Node.js
         uses: actions/setup-node@v4.0.4
@@ -205,7 +205,7 @@ jobs:
         working-directory: ./packages/react-mui-shared
     steps:
       - name: Checkout code
-        uses: actions/checkout@v4.1.7
+        uses: actions/checkout@v4.2.0
 
       - name: Setup Node.js
         uses: actions/setup-node@v4.0.4
@@ -235,7 +235,7 @@ jobs:
         working-directory: ./packages/react-mui-store-file-viewer
     steps:
       - name: Checkout code
-        uses: actions/checkout@v4.1.7
+        uses: actions/checkout@v4.2.0
 
       - name: Setup Node.js
         uses: actions/setup-node@v4.0.4
@@ -262,7 +262,7 @@ jobs:
         working-directory: ./packages/vanilla-js
     steps:
       - name: Checkout code
-        uses: actions/checkout@v4.1.7
+        uses: actions/checkout@v4.2.0
 
       - name: Enabled Corepack
         run: corepack enable
@@ -284,7 +284,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
-        uses: actions/checkout@v4.1.7
+        uses: actions/checkout@v4.2.0
 
       - name: Setup Node.js
         uses: actions/setup-node@v4.0.4
@@ -308,7 +308,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
-        uses: actions/checkout@v4.1.7
+        uses: actions/checkout@v4.2.0
 
       - uses: pre-commit/action@v3.0.1
 
@@ -323,7 +323,7 @@ jobs:
         working-directory: ./packages/pangea-node-sdk
     steps:
       - name: Checkout code
-        uses: actions/checkout@v4.1.7
+        uses: actions/checkout@v4.2.0
 
       - name: Enabled Corepack
         run: corepack enable
@@ -349,7 +349,7 @@ jobs:
         working-directory: ./packages/pangea-node-sdk
     steps:
       - name: Checkout code
-        uses: actions/checkout@v4.1.7
+        uses: actions/checkout@v4.2.0
 
       - name: Enabled Corepack
         run: corepack enable
@@ -384,7 +384,7 @@ jobs:
         working-directory: ./examples/${{ matrix.example }}
     steps:
       - name: Checkout code
-        uses: actions/checkout@v4.1.7
+        uses: actions/checkout@v4.2.0
 
       - name: Setup Node.js
         uses: actions/setup-node@v4.0.4
@@ -415,7 +415,7 @@ jobs:
         working-directory: ./examples/react-audit-log-viewer
     steps:
       - name: Checkout code
-        uses: actions/checkout@v4.1.7
+        uses: actions/checkout@v4.2.0
 
       - name: Setup Node.js
         uses: actions/setup-node@v4.0.4

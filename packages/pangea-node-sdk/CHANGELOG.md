@@ -7,6 +7,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## Unreleased
 
+## 3.12.0 - 2024-09-25
+
+### Added
+
+- Sanitize service support.
+
 ### Fixed
 
 - Event canonicalization of characters like a-circumflex and the replacement

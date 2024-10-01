@@ -88,6 +88,7 @@ const CreateShareModal: FC<Props> = ({ object, open, onClose, onDone }) => {
 
   const [settingsObj, setSettingsObj] = useState(obj);
   const [settingsError, setSettingsError] = useState(false);
+  const [linkCreated, setLinkCreated] = useState(false);
 
   useEffect(() => {
     var date = configurations?.settings?.defaultExpiresAt;
@@ -122,7 +123,7 @@ const CreateShareModal: FC<Props> = ({ object, open, onClose, onDone }) => {
   }, [isLarge, open]);
 
   const handleClose = () => {
-    const sharePassword = password;
+    const sharePassword = shareType === "link" ? "" : password;
     resetContext();
     onClose(sharePassword);
   };
@@ -239,6 +240,7 @@ const CreateShareModal: FC<Props> = ({ object, open, onClose, onDone }) => {
               (v, k) => !!v && ShareCreateRequestFields.has(k)
             )
           ).then((isSuccess) => {
+            setLinkCreated(true);
             if (isSuccess && shareType === "email") {
               handleClose();
             }
@@ -297,7 +299,9 @@ const CreateShareModal: FC<Props> = ({ object, open, onClose, onDone }) => {
         }}
         disabled={loading || settingsError}
         clearable={true}
-        clearButtonLabel={shareType === "link" ? "Done" : "Cancel"}
+        clearButtonLabel={
+          shareType === "link" && linkCreated ? "Done" : "Cancel"
+        }
         onCancel={handleClose}
         autoSave={shareType === "link" ? true : false}
         // @ts-ignore

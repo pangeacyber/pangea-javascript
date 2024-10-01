@@ -198,7 +198,7 @@
   resolved "https://registry.yarnpkg.com/@colors/colors/-/colors-1.5.0.tgz#bb504579c1cae923e6576a4f5da43d25f97bdbd9"
   integrity sha512-ooWCrlZP11i8GImSjTHYHLkvFDP48nS4+204nGb1RiX/WXYHmJA2III9/e2DWVabCESdW7hBAEzHRqUn9OUVvQ==
 
-"@cypress/request@^3.0.1":
+"@cypress/request@^3.0.4":
   version "3.0.5"
   resolved "https://registry.yarnpkg.com/@cypress/request/-/request-3.0.5.tgz#d893a6e68ce2636c085fcd8d7283c3186499ba63"
   integrity sha512-v+XHd9XmWbufxF1/bTaVm2yhbxY+TB4YtWRqF2zaXBlDNMkls34KiATz0AVDLavL3iB6bQk9/7n3oY1EoLSWGA==
@@ -670,10 +670,10 @@
     "@babel/runtime" "^7.25.6"
     "@mui/utils" "^5.16.6"
 
-"@pangeacyber/react-mui-audit-log-viewer@^0.0.93":
-  version "0.0.93"
-  resolved "https://registry.yarnpkg.com/@pangeacyber/react-mui-audit-log-viewer/-/react-mui-audit-log-viewer-0.0.93.tgz#0ed5ac16544a85c055b0c604f03ef5750164c679"
-  integrity sha512-jZyCGU4kn1p7hLj9xotcDkCMuXRbAq10ONAV/90c8AYgV4XkPm9E0gz7h+VUiQi6VasofxZA2A4nsKKPmIN02A==
+"@pangeacyber/react-mui-audit-log-viewer@^0.0.94":
+  version "0.0.94"
+  resolved "https://registry.yarnpkg.com/@pangeacyber/react-mui-audit-log-viewer/-/react-mui-audit-log-viewer-0.0.94.tgz#fffb39024ba1e80573443159fede64ed3bfc0ae1"
+  integrity sha512-UjqpL5EoOUcth+vYSxd5pDBaNj83+FyEubFz1hqQ/qiBYUaCpFAlxL0Uewmd2NXd9ZRd60AchT4CVpAZ4C3Tzw==
   dependencies:
     "@pangeacyber/react-mui-shared" "0.0.67"
     crypto-js "^4.2.0"
@@ -1459,12 +1459,12 @@ csstype@^3.0.2, csstype@^3.1.3:
   resolved "https://registry.yarnpkg.com/csstype/-/csstype-3.1.3.tgz#d80ff294d114fb0e6ac500fbf85b60137d7eff81"
   integrity sha512-M1uQkMl8rQK/szD0LNhtqxIPLpimGm8sOBwU7lLnCpSbTyY3yeU1Vc7l4KT5zT4s/yOxHH5O7tIuuLOCnLADRw==
 
-cypress@13.14.2:
-  version "13.14.2"
-  resolved "https://registry.yarnpkg.com/cypress/-/cypress-13.14.2.tgz#4237eb7b26de2baeaa1f01e585f965d88fca7f39"
-  integrity sha512-lsiQrN17vHMB2fnvxIrKLAjOr9bPwsNbPZNrWf99s4u+DVmCY6U+w7O3GGG9FvP4EUVYaDu+guWeNLiUzBrqvA==
+cypress@13.15.0:
+  version "13.15.0"
+  resolved "https://registry.yarnpkg.com/cypress/-/cypress-13.15.0.tgz#5eca5387ef34b2e611cfa291967c69c2cd39381d"
+  integrity sha512-53aO7PwOfi604qzOkCSzNlWquCynLlKE/rmmpSPcziRH6LNfaDUAklQT6WJIsD8ywxlIy+uVZsnTMCCQVd2kTw==
   dependencies:
-    "@cypress/request" "^3.0.1"
+    "@cypress/request" "^3.0.4"
     "@cypress/xvfb" "^1.2.4"
     "@types/sinonjs__fake-timers" "8.1.1"
     "@types/sizzle" "^2.3.2"
@@ -3198,7 +3198,18 @@ vite-node@2.1.1:
     pathe "^1.1.2"
     vite "^5.0.0"
 
-vite@5.4.7, vite@^5.0.0:
+vite@5.4.8:
+  version "5.4.8"
+  resolved "https://registry.yarnpkg.com/vite/-/vite-5.4.8.tgz#af548ce1c211b2785478d3ba3e8da51e39a287e8"
+  integrity sha512-FqrItQ4DT1NC4zCUqMB4c4AZORMKIa0m8/URVCZ77OZ/QSNeJ54bU1vrFADbDsuwfIPcgknRkmqakQcgnL4GiQ==
+  dependencies:
+    esbuild "^0.21.3"
+    postcss "^8.4.43"
+    rollup "^4.20.0"
+  optionalDependencies:
+    fsevents "~2.3.3"
+
+vite@^5.0.0:
   version "5.4.7"
   resolved "https://registry.yarnpkg.com/vite/-/vite-5.4.7.tgz#d226f57c08b61379e955f3836253ed3efb2dcf00"
   integrity sha512-5l2zxqMEPVENgvzTuBpHer2awaetimj2BGkhBPdnwKbPNOlHsODU+oiazEZzLK7KhAnOrO+XGYJYn4ZlUhDtDQ==

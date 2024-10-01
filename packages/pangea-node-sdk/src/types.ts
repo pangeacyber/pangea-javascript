@@ -63,6 +63,12 @@ export enum TransferMethod {
   DEST_URL = "dest-url",
 }
 
+export interface FileUploadParams {
+  size: number;
+  crc32c: string;
+  sha256: string;
+}
+
 export interface Dictionary {
   [key: string]: string | boolean | number | Dictionary;
 }
@@ -2507,5 +2513,164 @@ export namespace AuthZ {
 
   export interface ListSubjectsResult {
     subjects: Subject[];
+  }
+}
+
+export namespace Sanitize {
+  export interface SanitizeFile {
+    /** Provider to use for File Scan. */
+    scan_provider?: string;
+  }
+
+  export interface SanitizeContent {
+    /** Perform URL Intel lookup. */
+    url_intel?: boolean;
+
+    /** Provider to use for URL Intel. */
+    url_intel_provider?: string;
+
+    /** Perform Domain Intel lookup. */
+    domain_intel?: boolean;
+
+    /** Provider to use for Domain Intel lookup. */
+    domain_intel_provider?: string;
+
+    /** Defang external links. */
+    defang?: boolean;
+
+    /** Defang risk threshold. */
+    defang_threshold?: number;
+
+    /** Redact sensitive content. */
+    redact?: boolean;
+
+    /** Remove file attachments (PDF only). */
+    remove_attachments?: boolean;
+
+    /** Remove interactive content (PDF only). */
+    remove_interactive?: boolean;
+  }
+
+  export interface SanitizeShareOutput {
+    /**
+     * Store Sanitized files to Pangea Secure Share. If not enabled, a
+     * presigned URL will be returned in 'result.dest_url'.
+     */
+    enabled?: boolean;
+
+    /**
+     * Store Sanitized files to this Secure Share folder (will be auto-created
+     * if not exists).
+     */
+    output_folder?: string;
+  }
+
+  export interface SanitizeRequest {
+    /** The transfer method used to upload the file data. */
+    transfer_method: TransferMethod;
+
+    /** A URL where the file to be Sanitized can be downloaded. */
+    source_url?: string;
+
+    /** A Pangea Secure Share ID where the file to be Sanitized is stored. */
+    share_id?: string;
+
+    /** File. */
+    file?: SanitizeFile;
+
+    /** Content. */
+    content?: SanitizeContent;
+
+    /** Share output. */
+    share_output?: SanitizeShareOutput;
+
+    /**
+     * The size (in bytes) of the file. If the upload doesn't match, the call
+     * will fail.
+     */
+    size?: number;
+
+    /**
+     * The CRC32C hash of the file data, which will be verified by the server if
+     * provided.
+     */
+    crc32c?: string;
+
+    /**
+     * The hexadecimal-encoded SHA256 hash of the file data, which will be
+     * verified by the server if provided.
+     */
+    sha256?: string;
+
+    /**
+     * Name of the user-uploaded file, required for transfer-method 'put-url'
+     * and 'post-url'.
+     */
+    uploaded_file_name?: string;
+  }
+
+  export interface DefangData {
+    /** Number of external links found. */
+    external_urls_count?: number;
+
+    /** Number of external domains found. */
+    external_domains_count?: number;
+
+    /** Number of items defanged per provided rules and detections. */
+    defanged_count?: number;
+
+    /** Processed N URLs: X are malicious, Y are suspicious, Z are unknown. */
+    url_intel_summary?: string;
+
+    /** Processed N Domains: X are malicious, Y are suspicious, Z are unknown. */
+    domain_intel_summary?: string;
+  }
+
+  export interface RedactData {
+    /** Number of items redacted. */
+    redaction_count?: number;
+
+    /** Summary counts. */
+    summary_counts?: Dictionary;
+  }
+
+  export interface CDR {
+    /** Number of file attachments removed. */
+    file_attachments_removed?: number;
+
+    /** Number of interactive content items removed. */
+    interactive_contents_removed?: number;
+  }
+
+  export interface SanitizeData {
+    /** Defang. */
+    defang?: DefangData;
+
+    /** Redact. */
+    redact?: RedactData;
+
+    /** If the file scanned was malicious. */
+    malicious_file?: boolean;
+
+    /** Content Disarm and Reconstruct. */
+    cdr?: CDR;
+  }
+
+  export interface SanitizeResult {
+    /** A URL where the Sanitized file can be downloaded. */
+    dest_url?: string;
+
+    /** Pangea Secure Share ID of the Sanitized file. */
+    dest_share_id?: string;
+
+    /** Sanitize data. */
+    data: SanitizeData;
+
+    /** The parameters, which were passed in the request, echoed back. */
+    parameters: Dictionary;
+  }
+
+  export interface Options {
+    pollResultSync?: boolean;
   }
 }

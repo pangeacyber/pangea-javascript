@@ -84,7 +84,8 @@ it("File Scan crowdstrike async and poll result", async () => {
       // Wait until result could be ready
       await setTimeout(10 * 1000);
       const request_id = exception?.request_id || "";
-      const response = await fileScan.pollResult(request_id);
+      const response =
+        await fileScan.pollResult<FileScan.ScanResult>(request_id);
       expect(response.status).toBe("Success");
       expect(response.result.data).toBeDefined();
       expect(response.result.data.verdict).toBe("benign");
@@ -142,7 +143,8 @@ it("File Scan reversinglabs async and poll result", async () => {
       // Wait until result could be ready
       await setTimeout(10 * 1000);
       const request_id = exception?.request_id || "";
-      const response = await fileScan.pollResult(request_id);
+      const response =
+        await fileScan.pollResult<FileScan.ScanResult>(request_id);
       expect(response.status).toBe("Success");
       expect(response.result.data).toBeDefined();
       expect(response.result.data.verdict).toBe("benign");
@@ -184,7 +186,7 @@ it("File Scan get url and put upload", async () => {
     try {
       // Wait until result could be ready
       await setTimeout(10 * 1000);
-      const request_id = response.request_id || "";
+      const request_id: string = response.request_id || "";
       response = await fileScan.pollResult(request_id);
       expect(response.status).toBe("Success");
       expect(response.result.data).toBeDefined();
@@ -239,7 +241,7 @@ it("File Scan get url and post upload", async () => {
     try {
       // Wait until result could be ready
       await setTimeout(10 * 1000);
-      const request_id = response.request_id || "";
+      const request_id: string = response.request_id || "";
       response = await fileScan.pollResult(request_id);
       expect(response.status).toBe("Success");
       expect(response.result.data).toBeDefined();

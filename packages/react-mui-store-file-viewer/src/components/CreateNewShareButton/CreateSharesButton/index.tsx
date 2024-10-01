@@ -1,7 +1,8 @@
-import { Box, Button, ButtonProps } from "@mui/material";
-import { FC, useEffect, useState } from "react";
+import { Button, ButtonProps } from "@mui/material";
+import { FC, useState } from "react";
 
 import AddIcon from "@mui/icons-material/Add";
+import LinkIcon from "@mui/icons-material/Link";
 import { ObjectStore } from "../../../types";
 import { ShareCreateProvider } from "../../../hooks/context";
 import CreateShareModal from "./CreateShareModal";
@@ -42,7 +43,13 @@ const CreateSharesButton: FC<Props> = ({
       <Button
         variant="text"
         {...ButtonProps}
-        startIcon={<AddIcon fontSize="small" />}
+        startIcon={
+          shareType === "email" ? (
+            <AddIcon fontSize="small" />
+          ) : (
+            <LinkIcon fontSize="small" />
+          )
+        }
         data-testid="New-Share-Btn"
         onClick={() => setOpen(true)}
       >
