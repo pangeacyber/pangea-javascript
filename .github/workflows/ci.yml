@@ -228,11 +228,11 @@ jobs:
       - name: Storybook
         run: yarn build-storybook
 
-  build-react-mui-store-file-viewer:
+  build-react-mui-share-file-viewer:
     runs-on: ubuntu-latest
     defaults:
       run:
-        working-directory: ./packages/react-mui-store-file-viewer
+        working-directory: ./packages/react-mui-share-file-viewer
     steps:
       - name: Checkout code
         uses: actions/checkout@v4.2.0
@@ -242,7 +242,7 @@ jobs:
         with:
           node-version: 20
           cache: yarn
-          cache-dependency-path: ./packages/react-mui-store-file-viewer/yarn.lock
+          cache-dependency-path: ./packages/react-mui-share-file-viewer/yarn.lock
 
       - name: Install dependencies
         run: yarn install --frozen-lockfile
