@@ -170,7 +170,7 @@ import {
   ShareFileViewer,
 } from "@pangeacyber/react-mui-share-file-viewer";
 
-const storeCallbackHandler: ShareProxyApiRef = {
+const ShareCallbackHandler: ShareProxyApiRef = {
   get: async (data) => {
     const response = await api.storeGet(data);
     return response;
@@ -182,7 +182,7 @@ const storeCallbackHandler: ShareProxyApiRef = {
 };
 
 const MyComponent: React.FC = () => {
-  return <ShareFileViewer apiRef={storeCallbackHandler} />;
+  return <ShareFileViewer apiRef={ShareCallbackHandler} />;
 };
 ```
 
