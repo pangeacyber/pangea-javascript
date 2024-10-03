@@ -1,4 +1,4 @@
 {
-    "entryPoints": ["./src/types/*.ts"],
-    "json": "./docs/data.json"
+  "entryPoints": ["./src/types/*.ts"],
+  "json": "./docs/data.json"
 }
