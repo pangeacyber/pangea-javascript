@@ -1,6 +1,6 @@
 ---
 title: Install & Configure
-displayed_sidebar: react-mui-share-log-viewer
+displayed_sidebar: react-mui-share-file-viewer
 description: Learn how to configure the Secure Share File Viewer components from Pangea in your app
 # image: /img/og/open-graph-redact.jpg # TODO
 ---
