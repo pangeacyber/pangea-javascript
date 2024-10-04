@@ -710,6 +710,10 @@ export namespace Intel {
         usernames: string[];
       }
 
+      export interface BreachedDomainBulkRequest extends BreachedOptions {
+        domains: string[];
+      }
+
       export interface BreachedIPBulkRequest extends BreachedOptions {
         ips: string[];
       }
@@ -722,7 +726,8 @@ export namespace Intel {
         | BreachedEmailBulkRequest
         | BreachedIPBulkRequest
         | BreachedPhoneBulkRequest
-        | BreachedUsernameBulkRequest;
+        | BreachedUsernameBulkRequest
+        | BreachedDomainBulkRequest;
 
       export interface BreachedBulkResult
         extends Intel.User.BreachedBulkResult {}
