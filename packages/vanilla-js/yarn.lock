@@ -306,7 +306,7 @@ __metadata:
     "@rollup/plugin-typescript": "npm:^11.1.6"
     "@types/lodash": "npm:^4.17.9"
     lodash: "npm:^4.17.21"
-    rollup: "npm:^4.22.4"
+    rollup: "npm:^4.24.0"
     rollup-plugin-dts: "npm:^6.1.0"
     rollup-plugin-peer-deps-external: "npm:^2.2.4"
     rollup-plugin-polyfill-node: "npm:^0.13.0"
@@ -1537,7 +1537,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"rollup@npm:^4.22.4":
+"rollup@npm:^4.24.0":
   version: 4.24.0
   resolution: "rollup@npm:4.24.0"
   dependencies:

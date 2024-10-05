@@ -2764,7 +2764,7 @@ __metadata:
     react: "npm:17.0.2"
     react-beautiful-dnd: "npm:^13.1.1"
     react-dom: "npm:17.0.2"
-    rollup: "npm:^2.79.2"
+    rollup: "npm:^4.24.0"
     rollup-plugin-dts: "npm:^4.2.3"
     rollup-plugin-peer-deps-external: "npm:^2.2.4"
     rollup-plugin-polyfill-node: "npm:^0.13.0"
@@ -12033,21 +12033,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"rollup@npm:^2.79.2":
-  version: 2.79.2
-  resolution: "rollup@npm:2.79.2"
-  dependencies:
-    fsevents: "npm:~2.3.2"
-  dependenciesMeta:
-    fsevents:
-      optional: true
-  bin:
-    rollup: dist/bin/rollup
-  checksum: 10c0/bc3746c988d903c2211266ddc539379d53d92689b9cc5c2b4e3ae161689de9af491957a567c629b6cc81f48d0928a7591fc4c383fba68a48d2966c9fb8a2bce9
-  languageName: node
-  linkType: hard
-
-"rollup@npm:^4.20.0":
+"rollup@npm:^4.20.0, rollup@npm:^4.24.0":
   version: 4.24.0
   resolution: "rollup@npm:4.24.0"
   dependencies:
