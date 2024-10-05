@@ -1367,7 +1367,7 @@
     "@mui/utils" "^5.16.6"
     prop-types "^15.8.1"
 
-"@mui/styled-engine-sc@^6.1.1":
+"@mui/styled-engine-sc@^6.1.2":
   version "6.1.2"
   resolved "https://registry.yarnpkg.com/@mui/styled-engine-sc/-/styled-engine-sc-6.1.2.tgz#12c44e42943aedf745282b9796be618cf78017d2"
   integrity sha512-9l/TQk9SoBWrqSz/l4+Uc4j41dU1fwuYJA1dTGWXbcBdZaopIkO3xMsvz0mlrMF3Ids/ixF2czOR+L+4dgFo7Q==
