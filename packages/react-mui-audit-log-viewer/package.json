@@ -17,7 +17,7 @@
     "typecheck": "tsc --noEmit"
   },
   "devDependencies": {
-    "@babel/core": "^7.25.2",
+    "@babel/core": "^7.25.7",
     "@emotion/react": "^11.13.3",
     "@emotion/styled": "^11.13.0",
     "@mui/icons-material": "^5.16.7",
