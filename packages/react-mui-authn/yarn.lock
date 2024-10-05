@@ -4140,7 +4140,7 @@ available-typed-arrays@^1.0.7:
   dependencies:
     possible-typed-array-names "^1.0.0"
 
-awesome-phonenumber@^7.1.0:
+awesome-phonenumber@^7.2.0:
   version "7.2.0"
   resolved "https://registry.yarnpkg.com/awesome-phonenumber/-/awesome-phonenumber-7.2.0.tgz#009ec06cebfdf8a41b60cfb421ac2c842dbf3a35"
   integrity sha512-CqH0TyDMHiMhqGRg/kaJDiV5KRok5AdrJKvUsED9/QRQdiCjUzp32+NqEEnY+OWEDTeeqlyLsLs7SLR/sPQU2A==
