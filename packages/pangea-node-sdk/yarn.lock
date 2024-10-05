@@ -489,7 +489,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@gitlab/eslint-plugin@npm:^20.2.1":
+"@gitlab/eslint-plugin@npm:^20.3.0":
   version: 20.3.0
   resolution: "@gitlab/eslint-plugin@npm:20.3.0"
   dependencies:
@@ -5570,7 +5570,7 @@ __metadata:
   resolution: "pangea-node-sdk@workspace:."
   dependencies:
     "@aws-crypto/crc32c": "npm:^5.2.0"
-    "@gitlab/eslint-plugin": "npm:^20.2.1"
+    "@gitlab/eslint-plugin": "npm:^20.3.0"
     "@swc/core": "npm:1.7.26"
     "@swc/jest": "npm:0.2.36"
     "@tsconfig/node18": "npm:18.2.4"
