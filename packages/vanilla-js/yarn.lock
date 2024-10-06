@@ -304,7 +304,7 @@ __metadata:
     "@rollup/plugin-node-resolve": "npm:^15.3.0"
     "@rollup/plugin-terser": "npm:^0.4.4"
     "@rollup/plugin-typescript": "npm:^11.1.6"
-    "@types/lodash": "npm:^4.17.9"
+    "@types/lodash": "npm:^4.17.10"
     lodash: "npm:^4.17.21"
     rollup: "npm:^4.22.4"
     rollup-plugin-dts: "npm:^6.1.0"
@@ -578,7 +578,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/lodash@npm:^4.17.9":
+"@types/lodash@npm:^4.17.10":
   version: 4.17.10
   resolution: "@types/lodash@npm:4.17.10"
   checksum: 10c0/149b2b9fcc277204393423ed14df28894980c2322ec522fc23f2c6f7edef6ee8d876ee09ed4520f45d128adc0a7a6e618bb0017668349716cd99c6ef54a21621
