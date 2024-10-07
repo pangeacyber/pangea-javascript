@@ -1,0 +1,161 @@
+---
+title: Overview
+displayed_sidebar: react-mui-share-file-viewer
+slug: /libraries/react-mui-share-file-viewer/
+description: Learn how to use the Secure Share Viewer components from Pangea in your app
+---
+
+import ShareFileViewer from "@src/components/PreviewComponents/ShareFileViewer";
+
+# Overview
+
+The `ShareFileViewer` component provides an embeddable, secure file viewer for Pangea Secure Share, allowing users to search, view, and upload files or folders within your application. This React component uses Material-UI (MUI) and is built to work with an API interface, requiring callback handlers to communicate with the Secure Share API through a server-side proxy. This proxy ensures that Pangea service tokens remain secure and out of the client-side code.
+
+For applications requiring file sharing capabilities, Pangea’s Secure Share service is essential. Check out the [Secure Share Documentation](https://pangea.cloud/docs/share) for more information on integration and configuration.
+
+View source code [here](https://github.com/pangeacyber/pangea-javascript/blob/main/packages/react-mui-share-file-viewer/).
+
+---
+
+## Demo
+
+This is an example demo rendering of the Secure Share ShareFileViewer component. This demo is not connected to any Secure Share APIs. To see the component in action check out it's usage from within the [Pangea Console](https://console.pangea.cloud/service/share/files) or from a hosted share link page.
+
+<ShareFileViewer />
+
+## Basic Usage
+
+To integrate `ShareFileViewer`, you'll need to provide the `apiRef` prop, which defines callback functions to interact with the Secure Share API. Here’s a basic example:
+
+```tsx
+import React from "react";
+import { ShareProxyApiRef, ShareFileViewer } from "@pangeacyber/react-mui-share-file-viewer";
+
+const ShareCallbackHandler: ShareProxyApiRef = {
+  get: async (data) => {
+    const response = await api.storeGet(data);
+    return response;
+  },
+  list: async (data) => {
+    const response = await api.storeList(data);
+    return response;
+  },
+};
+
+const MyComponent: React.FC = () => {
+  return <ShareFileViewer apiRef={ShareCallbackHandler} />;
+};
+```
+
+In this example:
+
+`apiRef` is a required prop containing the list and get functions, which fetch and display files within the viewer.
+These callbacks should route through a server-side proxy endpoint to the Secure Share APIs.
+
+It's important to proxy calls through a server instead of placing an Pangea Service Token directly in the client to prevent unauthorized access and secure sensitive data. Exposing a service token in the client would allow anyone who inspects the code or network requests to see and use it, potentially accessing or modifying sensitive data in the Secure Share.
+
+A proxied server can be set up to authenticate and authorize requests by verifying the user's identity and permissions against your application's authentication system. This approach ensures that only authenticated users with the correct permissions can interact with the Secure Share API, protecting the integrity and security of your application's data.
+
+For example, in the proxy API you can enforce that users can only interact/search with files they should own by forcing the folder they can search within to have the path prefix with their user unique username or id.
+
+### Required Props
+
+The core prop for using ShareFileViewer is apiRef, which must implement at least the list and get functions, enabling file listing and detailed viewing within Secure Share.
+
+```tsx
+export interface ShareProxyApiRef {
+  list: (data: ObjectStore.ListRequest) => Promise<PangeaResponse<ObjectStore.ListResponse>>;
+  get: (data: ObjectStore.GetRequest) => Promise<PangeaResponse<ObjectStore.GetResponse>>;
+}
+```
+
+`list`: Fetches objects in the store.
+
+`get`: Retrieves a specific object.
+
+If your app needs to include file sharing or editing within the application, additional callbacks need to be provider
+
+### Example with File Editing and Sharing
+
+Below is example code for building the client-side `ShareProxyApiRef` object. Creating a proxy function call for each callback in `ShareProxyApiRef`.
+This example assumes there is a proxy server hosted on the same domain as client application, with endpoints managed under /api/share, pulled from a NextJS example application. Can see more details [here](https://pangea.cloud/docs/tutorials/cloudflare-app/).
+
+```tsx
+import { ShareProxyApiRef } from "@pangeacyber/react-mui-share-file-viewer";
+
+const makeProxy = (userSessionToken: string): ShareProxyApiRef => {
+  const proxyCall = (queryParam: string, method: string = "POST") => {
+    return async (data: any): Promise<any> => {
+      const url = new URL("/api/share", window.location.origin);
+      url.searchParams.append("path", queryParam);
+
+      const body: BodyInit = data instanceof FormData ? data : JSON.stringify(data);
+
+      const resp = await fetch(url.toString(), {
+        method,
+        body,
+        headers: {
+          Authorization: `Bearer ${userSessionToken}`,
+        },
+      });
+      return resp.json();
+    };
+  };
+
+  return {
+    list: proxyCall("list"),
+    get: proxyCall("get"),
+    delete: proxyCall("delete"),
+    update: proxyCall("update"),
+    upload: proxyCall("put"),
+    folderCreate: proxyCall("folder/create"),
+    share: {
+      create: proxyCall("share/link/create"),
+      delete: proxyCall("share/link/delete"),
+      list: proxyCall("share/link/list"),
+      get: proxyCall("share/link/get"),
+      send: proxyCall("share/link/send"),
+    },
+  };
+};
+```
+
+Example rendering the `ShareFileViewer`, wrapping with a Material-UI ThemeProvider.
+Since `ShareFileViewer` relies on Material-UI components, wrap it in a ThemeProvider to ensure consistent theming. Here’s a full example:
+
+```tsx
+import React from "react";
+import { ShareFileViewer, ShareProxyApiRef } from "@pangeacyber/react-mui-share-file-viewer";
+import { BrandingThemeProvider } from "@pangeacyber/react-mui-branding";
+import { Button, Container } from "@mui/material";
+
+const ShareView = () => {
+  const token = "<USER_SESSION_TOKEN>"; // A safe-client side token used to reach your share proxied endpoint 
+  const proxy = makeProxy(token);
+
+  return (
+    <BrandingThemeProvider 
+      brandingId={process.env.REACT_APP_BRANDING_ID}
+      auth={{
+        clientToken: process.env.REACT_APP_CLIENT_TOKEN,
+        domain: "aws.us.pangea.cloud",
+      }}
+    >
+      <Container maxWidth="md" sx={{ padding: "2rem" }}>
+        <Button variant="contained" color="primary">Navigate to Audit</Button>
+        <ShareFileViewer
+          apiRef={proxy}
+          configurations={{
+            settings: {
+              defaultAccessCount: 1,
+              maxAccessCount: 7,
+            },
+          }}
+        />
+      </Container>
+    </BrandingThemeProvider>
+  );
+};
+```
+
+BrandingThemeProvider is a wrapper around the ThemeProvider from Material-UI. It can auto retrieve your saved branding configurations. Can view the BrandingThemeProvider library [here](https://github.com/pangeacyber/pangea-javascript/blob/main/packages/react-mui-branding/).

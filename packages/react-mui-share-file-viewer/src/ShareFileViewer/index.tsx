@@ -1,12 +1,27 @@
 import { FC } from "react";
 import { Stack } from "@mui/material";
 
-import ShareDataGrid from "../ShareDataGrid";
-import FileViewerProvider from "../../hooks/context";
-import ShareDownloadDataGrid from "../ShareDownloadDataGrid";
-import CreateNewButton from "../CreateNewButton";
-import { ShareFileViewerProps } from "../../types";
+import ShareDataGrid from "../components/ShareDataGrid";
+import FileViewerProvider from "../hooks/context";
+import ShareDownloadDataGrid from "../components/ShareDownloadDataGrid";
+import CreateNewButton from "../components/CreateNewButton";
+import { ShareDataGridProps, FileViewerProviderProps } from "../types";
 
+/**
+ * Props for the `ShareFileViewer` component.
+ */
+export interface ShareFileViewerProps
+  extends ShareDataGridProps,
+    FileViewerProviderProps {
+  /**
+   * When set to `true`, assumes the first folder found in the initial list response is meant to opened. Used for folder sharing and starting exploration from within the folder.
+   */
+  virtualRoot?: boolean;
+}
+
+/**
+ * @hidden
+ */
 const ShareFileViewer: FC<ShareFileViewerProps> = ({
   apiRef,
   configurations,
@@ -31,6 +46,9 @@ const ShareFileViewer: FC<ShareFileViewerProps> = ({
   );
 };
 
+/**
+ * @hidden
+ */
 export const ShareDownloadFileViewer: FC<ShareFileViewerProps> = ({
   apiRef,
   configurations,

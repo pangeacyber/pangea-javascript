@@ -1,9 +1,9 @@
 export {
   default as ShareFileViewer,
   ShareDownloadFileViewer,
-} from "./components/ShareFileViewer";
-export type {
   ShareFileViewerProps,
+} from "./ShareFileViewer";
+export type {
   ShareDataGridColumns,
   ShareDataGridCustomizations,
   ObjectStore,

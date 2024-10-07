@@ -2,16 +2,14 @@ import React from "react";
 import dayjs from "dayjs";
 import { ComponentStory, ComponentMeta } from "@storybook/react";
 
-import ShareFileViewer, {
-  ShareFileViewerProps,
-} from "../components/ShareFileViewer";
+import ShareFileViewer, { ShareFileViewerProps } from "../ShareFileViewer";
 import { Box } from "@mui/material";
 import axios from "axios";
 import PangeaThemeProvider from "./theme/pangea/provider";
 
 import { LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
-import { ShareDataGridCustomizations } from "../components/ShareDataGrid";
+import { ShareDataGridCustomizations } from "../types";
 
 export default {
   title: "ShareFileViewer",

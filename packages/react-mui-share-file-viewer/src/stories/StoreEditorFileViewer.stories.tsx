@@ -4,7 +4,7 @@ import { ComponentStory, ComponentMeta } from "@storybook/react";
 import {
   ShareDownloadFileViewer,
   ShareFileViewerProps,
-} from "../components/ShareFileViewer";
+} from "../ShareFileViewer";
 import { Box } from "@mui/material";
 import axios from "axios";
 import PangeaThemeProvider from "./theme/pangea/provider";

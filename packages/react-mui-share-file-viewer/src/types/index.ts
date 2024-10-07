@@ -9,18 +9,6 @@ import { AlertProps } from "@mui/material/Alert";
 import dayjs from "dayjs";
 
 /**
- * Props for the `ShareFileViewer` component.
- */
-export interface ShareFileViewerProps
-  extends ShareDataGridProps,
-    FileViewerProviderProps {
-  /**
-   * When set to `true`, assumes the first folder found in the initial list response is meant to opened. Used for folder sharing and starting exploration from within the folder.
-   */
-  virtualRoot?: boolean;
-}
-
-/**
  * Available columns for the `ShareDataGrid`.
  */
 export type ShareDataGridColumns = "id" | "name" | "updated_at" | "size";
