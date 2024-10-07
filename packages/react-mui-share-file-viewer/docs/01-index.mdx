@@ -29,7 +29,10 @@ To integrate `ShareFileViewer`, you'll need to provide the `apiRef` prop, which 
 
 ```tsx
 import React from "react";
-import { ShareProxyApiRef, ShareFileViewer } from "@pangeacyber/react-mui-share-file-viewer";
+import {
+  ShareProxyApiRef,
+  ShareFileViewer,
+} from "@pangeacyber/react-mui-share-file-viewer";
 
 const ShareCallbackHandler: ShareProxyApiRef = {
   get: async (data) => {
@@ -64,8 +67,12 @@ The core prop for using ShareFileViewer is apiRef, which must implement at least
 
 ```tsx
 export interface ShareProxyApiRef {
-  list: (data: ObjectStore.ListRequest) => Promise<PangeaResponse<ObjectStore.ListResponse>>;
-  get: (data: ObjectStore.GetRequest) => Promise<PangeaResponse<ObjectStore.GetResponse>>;
+  list: (
+    data: ObjectStore.ListRequest
+  ) => Promise<PangeaResponse<ObjectStore.ListResponse>>;
+  get: (
+    data: ObjectStore.GetRequest
+  ) => Promise<PangeaResponse<ObjectStore.GetResponse>>;
 }
 ```
 
@@ -89,7 +96,8 @@ const makeProxy = (userSessionToken: string): ShareProxyApiRef => {
       const url = new URL("/api/share", window.location.origin);
       url.searchParams.append("path", queryParam);
 
-      const body: BodyInit = data instanceof FormData ? data : JSON.stringify(data);
+      const body: BodyInit =
+        data instanceof FormData ? data : JSON.stringify(data);
 
       const resp = await fetch(url.toString(), {
         method,
@@ -125,16 +133,19 @@ Since `ShareFileViewer` relies on Material-UI components, wrap it in a ThemeProv
 
 ```tsx
 import React from "react";
-import { ShareFileViewer, ShareProxyApiRef } from "@pangeacyber/react-mui-share-file-viewer";
+import {
+  ShareFileViewer,
+  ShareProxyApiRef,
+} from "@pangeacyber/react-mui-share-file-viewer";
 import { BrandingThemeProvider } from "@pangeacyber/react-mui-branding";
 import { Button, Container } from "@mui/material";
 
 const ShareView = () => {
-  const token = "<USER_SESSION_TOKEN>"; // A safe-client side token used to reach your share proxied endpoint 
+  const token = "<USER_SESSION_TOKEN>"; // A safe-client side token used to reach your share proxied endpoint
   const proxy = makeProxy(token);
 
   return (
-    <BrandingThemeProvider 
+    <BrandingThemeProvider
       brandingId={process.env.REACT_APP_BRANDING_ID}
       auth={{
         clientToken: process.env.REACT_APP_CLIENT_TOKEN,
@@ -142,7 +153,9 @@ const ShareView = () => {
       }}
     >
       <Container maxWidth="md" sx={{ padding: "2rem" }}>
-        <Button variant="contained" color="primary">Navigate to Audit</Button>
+        <Button variant="contained" color="primary">
+          Navigate to Audit
+        </Button>
         <ShareFileViewer
           apiRef={proxy}
           configurations={{
