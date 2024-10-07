@@ -638,9 +638,9 @@
     react-is "^18.3.1"
 
 "@mui/x-data-grid@^7.15.0":
-  version "7.18.0"
-  resolved "https://registry.yarnpkg.com/@mui/x-data-grid/-/x-data-grid-7.18.0.tgz#9be96110e0334eb347b09eef68f1d61d3720bb13"
-  integrity sha512-41UjJbRxWk+Yk/lfvaO55Pwo5p+F5s3rOTiHLl53ikCT5GuJ5OCCvik0Bi3c6DzTuUBdrEucae2618rydc2DGw==
+  version "7.19.0"
+  resolved "https://registry.yarnpkg.com/@mui/x-data-grid/-/x-data-grid-7.19.0.tgz#5a240773bc9e0cea38c2efdcf3d0b7399640438e"
+  integrity sha512-IcEkcTz8g7TIDxpe+x7ankAHoK5vCOKPYfnMtRD0HiJ1X7ZhK4VCCfpeVFS7v3DNy9qXYvwjDLQcI35W0hi3Og==
   dependencies:
     "@babel/runtime" "^7.25.6"
     "@mui/utils" "^5.16.6"

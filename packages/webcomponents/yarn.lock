@@ -1431,9 +1431,9 @@
     react-is "^18.3.1"
 
 "@mui/x-data-grid@^7.15.0":
-  version "7.18.0"
-  resolved "https://registry.yarnpkg.com/@mui/x-data-grid/-/x-data-grid-7.18.0.tgz#9be96110e0334eb347b09eef68f1d61d3720bb13"
-  integrity sha512-41UjJbRxWk+Yk/lfvaO55Pwo5p+F5s3rOTiHLl53ikCT5GuJ5OCCvik0Bi3c6DzTuUBdrEucae2618rydc2DGw==
+  version "7.19.0"
+  resolved "https://registry.yarnpkg.com/@mui/x-data-grid/-/x-data-grid-7.19.0.tgz#5a240773bc9e0cea38c2efdcf3d0b7399640438e"
+  integrity sha512-IcEkcTz8g7TIDxpe+x7ankAHoK5vCOKPYfnMtRD0HiJ1X7ZhK4VCCfpeVFS7v3DNy9qXYvwjDLQcI35W0hi3Og==
   dependencies:
     "@babel/runtime" "^7.25.6"
     "@mui/utils" "^5.16.6"
@@ -3787,9 +3787,9 @@ regjsgen@^0.8.0:
   integrity sha512-RvwtGe3d7LvWiDQXeQw8p5asZUmfU1G/l6WbUXeHta7Y2PEIvBTwH6E2EfmYUK8pxcxEdEmaomqyp0vZZ7C+3Q==
 
 regjsparser@^0.11.0:
-  version "0.11.0"
-  resolved "https://registry.yarnpkg.com/regjsparser/-/regjsparser-0.11.0.tgz#f01e6ccaba36d384fb0d00a06b78b372c8b681e8"
-  integrity sha512-vTbzVAjQDzwQdKuvj7qEq6OlAprCjE656khuGQ4QaBLg7abQ9I9ISpmLuc6inWe7zP75AECjqUa4g4sdQvOXhg==
+  version "0.11.1"
+  resolved "https://registry.yarnpkg.com/regjsparser/-/regjsparser-0.11.1.tgz#ae55c74f646db0c8fcb922d4da635e33da405149"
+  integrity sha512-1DHODs4B8p/mQHU9kr+jv8+wIC9mtG4eBHxWxIq5mhjE3D5oORhCc6deRKzTjs9DcfRFmj9BHSDguZklqCGFWQ==
   dependencies:
     jsesc "~3.0.2"
 
