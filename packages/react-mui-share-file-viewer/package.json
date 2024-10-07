@@ -35,7 +35,7 @@
     "@storybook/addon-links": "^7.6.20",
     "@storybook/react": "^7.6.20",
     "@storybook/react-vite": "^7.6.20",
-    "@types/react": "^18.3.10",
+    "@types/react": "^18.3.11",
     "@types/react-dom": "^18.3.0",
     "cross-env": "^7.0.3",
     "postcss": "^8.4.47",
@@ -54,7 +54,7 @@
   },
   "dependencies": {
     "@pangeacyber/react-mui-shared": "0.0.67",
-    "awesome-phonenumber": "^7.1.0",
+    "awesome-phonenumber": "^7.2.0",
     "axios": "^1.7.7",
     "lodash": "^4.17.21",
     "zustand": "^4.5.5"
