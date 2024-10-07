@@ -1,3 +1,4 @@
+import { AuthUrlOptions } from "../types";
 import { REFRESH_CHECK_INTERVAL, REFRESH_CHECK_THRESHOLD } from "../constants";
 
 const CODE_RE = /[?&]code=[^&]+/;
@@ -53,4 +54,33 @@ export const delay = (ms: number) => {
 export const isJwt = (token: string) => {
   // is a better check needed?
   return token.length > 36;
+};
+
+export const buildAuthorizeUrl = (
+  baseUrl: string,
+  {
+    clientId,
+    redirectUri,
+    state,
+    challenge,
+    challengeMethod,
+    responseType,
+    scope,
+  }: AuthUrlOptions
+): string => {
+  const params: Record<string, string> = {
+    client_id: clientId,
+    redirect_uri: redirectUri,
+    state,
+    code_challenge: challenge,
+    code_challenge_method: challengeMethod,
+    response_type: responseType,
+  };
+
+  if (scope) {
+    params.scope = scope;
+  }
+  const query = new URLSearchParams(params);
+
+  return `${baseUrl}/authorize?${query}`;
 };

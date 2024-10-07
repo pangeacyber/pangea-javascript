@@ -113,6 +113,11 @@ export const getSessionData = (options: AuthOptions): SessionData => {
   return sessionJSON;
 };
 
+export const removeSessionData = (options: AuthOptions): void => {
+  const storageAPI = getStorageAPI(options.useCookie);
+  storageAPI.removeItem(options.sessionKey);
+};
+
 export const getAccessToken = (options: AuthOptions) => {
   if (options.useCookie) {
     return getCookieValue(options.tokenCookieName as string);

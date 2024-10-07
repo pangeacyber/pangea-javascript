@@ -1,18 +1,16 @@
 import * as jose from "jose";
 
 import { JWKS_EXPIRE, JWKS_CACHE_KEY } from "../constants";
-
+import { AuthUser, Claims, Intelligence, Profile } from "../types";
 import { diffInSeconds } from "./helpers";
-
-import { AuthUser, Intelligence, Profile } from "../types";
 
 export interface VerifyResponse {
   user?: AuthUser;
   error?: string;
 }
 
-const fetchJWKS = async (domain: string) => {
-  const url = `https://${domain}/jwks.json`;
+const fetchJWKS = async (baseUrl: string) => {
+  const url = `${baseUrl}/jwks.json`;
   const response = await fetch(url);
 
   if (response.ok) {
@@ -36,14 +34,14 @@ const checkKeys = (jwksJSON: any) => {
   return false;
 };
 
-const getJWKS = async (domain: string): Promise<jose.JSONWebKeySet> => {
+const getJWKS = async (baseUrl: string): Promise<jose.JSONWebKeySet> => {
   const jwksData = localStorage.getItem(JWKS_CACHE_KEY);
   const jwksJSON = JSON.parse(jwksData || "{}");
 
   if (jwksData && checkKeys(jwksJSON)) {
     return jwksJSON.keySet;
   } else {
-    const keySet = await fetchJWKS(domain);
+    const keySet = await fetchJWKS(baseUrl);
     if (keySet) {
       const cacheData = { expire: Date.now(), keySet: keySet };
       localStorage.setItem(JWKS_CACHE_KEY, JSON.stringify(cacheData));
@@ -56,12 +54,12 @@ const getJWKS = async (domain: string): Promise<jose.JSONWebKeySet> => {
 
 export const verifyJwt = async (
   token: string,
-  domain: string
+  baseUrl: string
 ): Promise<VerifyResponse> => {
   const result: VerifyResponse = {};
 
   try {
-    const jwks = await getJWKS(domain);
+    const jwks = await getJWKS(baseUrl);
 
     if (jwks?.keys?.length > 0) {
       const keySet = jose.createLocalJWKSet(jwks);
@@ -72,6 +70,7 @@ export const verifyJwt = async (
       const intel: Intelligence = payload[
         "pangea.intelligence"
       ] as Intelligence;
+      const claims: Claims = payload["pangea.claims"] as Claims;
       const user: AuthUser = {
         username: payload.username as string,
         email: payload.email as string,
@@ -80,6 +79,9 @@ export const verifyJwt = async (
         },
         intelligence: {
           ...intel,
+        },
+        claims: {
+          ...claims,
         },
         payload,
         header: protectedHeader,

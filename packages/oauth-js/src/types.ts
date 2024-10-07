@@ -9,12 +9,21 @@ export interface ClientConfig {
   clientId: string;
 
   /**
-   * domain: required string
+   * metadataUrl: required string
    *
-   * The client hosted domain, obtained from AuthN settings in Pangea Console
+   * The metadata URL for the project OAuth Server
    *
    */
-  domain: string;
+  metadataUrl: string;
+
+  /**
+   * loadMetadata: optional boolean
+   *
+   * If set to true, the metadata URL with be fetched and parse determine the API version
+   *
+   * Defaults to false
+   */
+  loadMetadata?: boolean;
 
   /**
    * callbackUri: optional string
@@ -165,12 +174,17 @@ export interface Intelligence {
   [key: string]: string;
 }
 
+export interface Claims {
+  [key: string]: string;
+}
+
 export interface AuthUser {
   id?: string;
   username?: string;
   email?: string;
   profile?: Profile;
   intelligence?: Intelligence;
+  claims?: Claims;
   payload?: JWTPayload;
   header?: JWTHeaderParameters;
 }
@@ -192,6 +206,11 @@ export interface AuthUrlOptions {
   challengeMethod: "plain" | "S256";
   responseType: "code";
   scope?: string;
+}
+
+export interface LogoutUrlOptions {
+  redirectUri: string;
+  state: string;
 }
 
 export interface TokenResponse {

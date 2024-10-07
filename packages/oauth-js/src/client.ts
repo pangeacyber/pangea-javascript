@@ -8,8 +8,12 @@ import type {
   SessionData,
   TokenResponse,
 } from "./types";
-import { generateBase58, hasAuthParams, isJwt } from "./utils/helpers";
-import { buildAuthorizeUrl } from "./utils/urls";
+import {
+  generateBase58,
+  hasAuthParams,
+  isJwt,
+  buildAuthorizeUrl,
+} from "./utils/helpers";
 import {
   DEFAULT_COOKIE_OPTIONS,
   getAccessToken,
@@ -17,6 +21,7 @@ import {
   getSessionData,
   getStorageAPI,
   getTokenExpire,
+  removeSessionData,
   removeTokenCookies,
   saveSessionData,
   setTokenCookies,
@@ -42,15 +47,18 @@ export class OAuthClient {
 
   private storage: Storage;
   private timer: number | null;
+  private baseUrl: string;
 
   constructor(config: ClientConfig, options?: CookieOptions) {
+    console.log("config", config);
     if (!config.clientId) throw new Error("A clientId is required");
-    if (!config.domain) throw new Error("A domain is required");
+    if (!config.metadataUrl) throw new Error("A metadataUrl is required");
 
     this.authState = "INIT";
     this.error = "";
     this.storage = getStorageAPI(!!options?.useCookie);
     this.timer = null;
+    this.baseUrl = "";
 
     // handle non-standard ports for local development
     const port = ["80", "443"].includes(window.location.port)
@@ -75,6 +83,17 @@ export class OAuthClient {
       return;
     }
     this.setState("LOADING");
+
+    if (this.config.loadMetadata) {
+      await this.loadMetadataUrl();
+    } else {
+      this.parseMetadataUrl();
+    }
+
+    if (!this.baseUrl) {
+      this.setError("Could not determine baseUrl");
+      return;
+    }
 
     const accessToken = getAccessToken(this.options);
     const tokenExpire = getTokenExpire(this.options);
@@ -106,7 +125,7 @@ export class OAuthClient {
       `${location.pathname}${location.search}`
     );
 
-    const url = buildAuthorizeUrl(this.config.domain, {
+    const url = buildAuthorizeUrl(this.baseUrl, {
       clientId: this.config.clientId,
       redirectUri: this.config.callbackUri || "",
       state: stateCode,
@@ -120,26 +139,19 @@ export class OAuthClient {
   }
 
   async logout() {
+    const refreshToken = getRefreshToken(this.options);
+
     try {
-      // TODO: the logout endpoint doesn't work correctly yet
-      const response = await this.get("logout", {
-        state: generateBase58(32),
-        redirect_uri: this.config.callbackUri,
+      await this.post("logout", {
+        client_id: this.config.clientId,
+        redirectUri: this.config.callbackUri || "",
+        token: refreshToken,
+        token_type_hint: "refresh_token",
       });
-
-      if (response.ok) {
-        this.user = undefined;
-        this.setState("NOAUTH");
-      } else {
-        this.setError(
-          `logout error: ${response.status} - ${response.statusText}`
-        );
-      }
-
-      this.clearData();
     } catch (error) {
       console.warn(error);
-      this.setError("logout failed");
+    } finally {
+      this.setLoggedOut();
     }
   }
 
@@ -166,10 +178,7 @@ export class OAuthClient {
             const data = (await response.json()) as TokenResponse;
             this.processTokenResponse(data);
           } else {
-            this.setState("NOAUTH");
-            this.user = undefined;
-            this.clearData();
-            this.stopTokenWatch();
+            this.setLoggedOut();
           }
         }
       } else {
@@ -226,22 +235,51 @@ export class OAuthClient {
     this.setState("ERROR");
   }
 
-  private clearData() {
+  private setLoggedOut() {
     removeTokenCookies(this.options);
-    this.storage.removeItem(STATE_DATA_KEY);
+    removeSessionData(this.options);
+    this.user = undefined;
+    this.setState("NOAUTH");
+    this.stopTokenWatch();
+  }
+
+  private parseMetadataUrl() {
+    try {
+      const url = new URL(this.config.metadataUrl);
+      this.baseUrl = `${url.protocol}//${url.hostname}/${API_VERSION}`;
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  private async loadMetadataUrl() {
+    try {
+      const response = await fetch(this.config.metadataUrl);
+
+      if (response.ok) {
+        const data = await response.json();
+        const authEndpoint = data?.authorization_endpoint;
+
+        if (authEndpoint && authEndpoint.endsWith("/authorize")) {
+          this.baseUrl = authEndpoint.replace("/authorize", "");
+        }
+      }
+    } catch (error) {
+      console.warn(error);
+      this.setError("Failed to load metadata");
+    }
   }
 
   private async validateToken(accessToken: string) {
     // parse JWT
     if (isJwt(accessToken)) {
-      const result = await verifyJwt(accessToken, this.config.domain);
+      const result = await verifyJwt(accessToken, this.baseUrl);
 
       if (!!result.error) {
         this.setError(result.error);
       } else {
         this.user = result.user;
-        // this.setState("AUTHENTICATED");
-        this.authState = "AUTHENTICATED";
+        this.setState("AUTHENTICATED");
         this.startTokenWatch();
       }
     } else {
@@ -259,6 +297,9 @@ export class OAuthClient {
           },
           intelligence: {
             ...(data["pangea.intelligence"] || {}),
+          },
+          claims: {
+            ...(data["pangea.claims"] || {}),
           },
         };
         this.setState("AUTHENTICATED");
@@ -419,31 +460,13 @@ export class OAuthClient {
   }
 
   private getUrl(endpoint: string): string {
-    const protocol = this.config.domain.match(/^local\.?host(:\d{2,5})?$/)
-      ? "http"
-      : "https";
+    return `${this.baseUrl}/${endpoint}`;
 
-    return `${protocol}://${this.config.domain}/${API_VERSION}/${endpoint}`;
-  }
+    // const protocol = this.config.domain.match(/^local\.?host(:\d{2,5})?$/)
+    //   ? "http"
+    //   : "https";
 
-  getHeaders(): any {
-    const accessToken = getAccessToken(this.options);
-    const headers = {
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${accessToken}`,
-      },
-    };
-
-    return headers;
-  }
-
-  private async get(endpoint: string, params?: any) {
-    const url = this.getUrl(endpoint);
-    const query = new URLSearchParams(params);
-    return fetch(`${url}${!query ? "" : "?" + query}`, {
-      ...this.getHeaders(),
-    });
+    // return `${protocol}://${this.config.domain}/${API_VERSION}/${endpoint}`;
   }
 
   private async post(endpoint: string, payload: any) {
