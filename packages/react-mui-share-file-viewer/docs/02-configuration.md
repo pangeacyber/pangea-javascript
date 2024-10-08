@@ -15,13 +15,13 @@ Install Material-UI library.
 
 **npm**
 
-```
+```bash
 npm install @mui/material @emotion/react @emotion/styled @pangeacyber/react-mui-share-file-viewer
 ```
 
 **yarn**
 
-```
+```bash
 yarn add @mui/material @emotion/react @emotion/styled @pangeacyber/react-mui-share-file-viewer
 ```
 
@@ -29,7 +29,7 @@ yarn add @mui/material @emotion/react @emotion/styled @pangeacyber/react-mui-sha
 
 Please note that react and react-dom are peer dependencies too:
 
-```
+```javascript pangeaStyle=true
 "peerDependencies": {
   "react": "^17.0.0 || ^18.0.0",
   "react-dom": "^17.0.0 || ^18.0.0"

@@ -27,7 +27,7 @@ This is an example demo rendering of the Secure Share ShareFileViewer component.
 
 To integrate `ShareFileViewer`, you'll need to provide the `apiRef` prop, which defines callback functions to interact with the Secure Share API. Here’s a basic example:
 
-```tsx
+```javascript pangeaStyle=true
 import React from "react";
 import {
   ShareProxyApiRef,
@@ -65,7 +65,7 @@ For example, in the proxy API you can enforce that users can only interact/searc
 
 The core prop for using ShareFileViewer is apiRef, which must implement at least the list and get functions, enabling file listing and detailed viewing within Secure Share.
 
-```tsx
+```javascript pangeaStyle=true
 export interface ShareProxyApiRef {
   list: (
     data: ObjectStore.ListRequest
@@ -87,7 +87,7 @@ If your app needs to include file sharing or editing within the application, add
 Below is example code for building the client-side `ShareProxyApiRef` object. Creating a proxy function call for each callback in `ShareProxyApiRef`.
 This example assumes there is a proxy server hosted on the same domain as client application, with endpoints managed under /api/share, pulled from a NextJS example application. Can see more details [here](https://pangea.cloud/docs/tutorials/cloudflare-app/).
 
-```tsx
+```javascript pangeaStyle=true
 import { ShareProxyApiRef } from "@pangeacyber/react-mui-share-file-viewer";
 
 const makeProxy = (userSessionToken: string): ShareProxyApiRef => {
@@ -131,7 +131,7 @@ const makeProxy = (userSessionToken: string): ShareProxyApiRef => {
 Example rendering the `ShareFileViewer`, wrapping with a Material-UI ThemeProvider.
 Since `ShareFileViewer` relies on Material-UI components, wrap it in a ThemeProvider to ensure consistent theming. Here’s a full example:
 
-```tsx
+```javascript pangeaStyle=true
 import React from "react";
 import {
   ShareFileViewer,
