@@ -6,10 +6,11 @@ import { AuthFlowComponentProps } from "@src/features/AuthFlow/types";
 
 interface CaptchaComponentProps extends AuthFlowComponentProps {
   submitHandler: (code: string) => void;
+  errorHandler?: () => void;
 }
 
 const VerifyCaptchaView: FC<CaptchaComponentProps> = (props) => {
-  const { data, error, submitHandler } = props;
+  const { data, error, submitHandler, errorHandler } = props;
   const [viewKey, setViewKey] = useState<string>("");
 
   useEffect(() => {
@@ -22,9 +23,11 @@ const VerifyCaptchaView: FC<CaptchaComponentProps> = (props) => {
   };
 
   const handleChange = async (value: string): Promise<void> => {
-    if (value) {
-      submitHandler(value);
-    }
+    submitHandler(value);
+  };
+
+  const handleError = async (): Promise<void> => {
+    !!errorHandler && errorHandler();
   };
 
   // don't render until viewKey is set
@@ -37,6 +40,7 @@ const VerifyCaptchaView: FC<CaptchaComponentProps> = (props) => {
       <ReCAPTCHA
         sitekey={data?.captcha?.site_key}
         onChange={handleChange}
+        onErrored={handleError}
         className="recaptcha"
       />
     </Stack>

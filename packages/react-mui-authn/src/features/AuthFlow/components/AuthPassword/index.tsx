@@ -1,4 +1,4 @@
-import { FC, useEffect, useState } from "react";
+import { FC, useEffect, useState, useRef } from "react";
 import omit from "lodash/omit";
 import { useFormik } from "formik";
 import * as yup from "yup";
@@ -84,7 +84,12 @@ const AuthPassword: FC<AuthFlowComponentProps> = (props) => {
   };
 
   const submitCaptcha = (code: string) => {
-    setCaptcha(code);
+    setCaptcha(code || "");
+  };
+
+  const handleCaptchaError = () => {
+    // refresh on captcha error
+    update(AuthFlow.Choice.NONE, {});
   };
 
   const getSubmitLabel = (): string => {
@@ -143,7 +148,11 @@ const AuthPassword: FC<AuthFlowComponentProps> = (props) => {
             />
           )}
           {!!data.captcha && options.compactSignup && (
-            <VerifyCaptcha {...props} submitHandler={submitCaptcha} />
+            <VerifyCaptcha
+              {...props}
+              submitHandler={submitCaptcha}
+              errorHandler={handleCaptchaError}
+            />
           )}
           {status && <ErrorMessage response={status} />}
           <Stack gap={1}>
