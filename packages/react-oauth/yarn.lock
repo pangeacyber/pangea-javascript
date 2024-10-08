@@ -181,12 +181,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@pangeacyber/oauth-js@npm:^0.0.1-beta":
-  version: 0.0.1-beta
-  resolution: "@pangeacyber/oauth-js@npm:0.0.1-beta"
+"@pangeacyber/oauth-js@npm:0.0.3-beta":
+  version: 0.0.3-beta
+  resolution: "@pangeacyber/oauth-js@npm:0.0.3-beta"
   dependencies:
     jose: "npm:^5.9.3"
-  checksum: 10c0/d89203ea2f5d5d030e2b3cca7ea7336a95859e72a2f249ec4df60fbedddf6f5aa04296425aca692fdbfb3829073ec9b42c2ed6e6faae2969cfb0e2ef4fb6c5e5
+  checksum: 10c0/2ae667b5539491f5217399b607c7ee179d0cbd80e164d52e8914bc1a3b3464216bf9d58c55e379d949c89d96a09369cc6915a62d0cb454f091bb19034bb31d1b
   languageName: node
   linkType: hard
 
@@ -194,7 +194,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@pangeacyber/react-oauth@workspace:."
   dependencies:
-    "@pangeacyber/oauth-js": "npm:^0.0.1-beta"
+    "@pangeacyber/oauth-js": "npm:0.0.3-beta"
     "@parcel/core": "npm:^2.12.0"
     "@parcel/packager-ts": "npm:^2.12.0"
     "@parcel/transformer-typescript-types": "npm:2.12.0"
@@ -202,6 +202,7 @@ __metadata:
     "@types/react": "npm:^18.3.7"
     "@types/react-dom": "npm:^18.3.0"
     parcel: "npm:^2.12.0"
+    parcel-optimizer-react-use-client: "npm:^1.0.0"
     react: "npm:^18.3.1"
     typescript: "npm:^5.6.2"
   peerDependencies:
@@ -585,7 +586,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@parcel/plugin@npm:2.12.0":
+"@parcel/plugin@npm:2.12.0, @parcel/plugin@npm:^2.12.0":
   version: 2.12.0
   resolution: "@parcel/plugin@npm:2.12.0"
   dependencies:
@@ -913,7 +914,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@parcel/utils@npm:2.12.0":
+"@parcel/utils@npm:2.12.0, @parcel/utils@npm:^2.12.0":
   version: 2.12.0
   resolution: "@parcel/utils@npm:2.12.0"
   dependencies:
@@ -2591,6 +2592,18 @@ __metadata:
   version: 1.0.0
   resolution: "package-json-from-dist@npm:1.0.0"
   checksum: 10c0/e3ffaf6ac1040ab6082a658230c041ad14e72fabe99076a2081bb1d5d41210f11872403fc09082daf4387fc0baa6577f96c9c0e94c90c394fd57794b66aa4033
+  languageName: node
+  linkType: hard
+
+"parcel-optimizer-react-use-client@npm:^1.0.0":
+  version: 1.0.0
+  resolution: "parcel-optimizer-react-use-client@npm:1.0.0"
+  dependencies:
+    "@parcel/core": "npm:^2.12.0"
+    "@parcel/plugin": "npm:^2.12.0"
+    "@parcel/source-map": "npm:^2.1.1"
+    "@parcel/utils": "npm:^2.12.0"
+  checksum: 10c0/053e8db0c7324c984295ea3506d811ce186eaae8be3cc9a5c34abd44633d040322f267871d378693ef1c17d97ac93f41fdd4567c90a4c780f983a9dba1bd5c08
   languageName: node
   linkType: hard
 

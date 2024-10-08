@@ -1,4 +1,4 @@
-export type { AuthUser, Profile } from "@pangeacyber/oauth-js";
+export type { AuthUser, ClientConfig, Profile } from "@pangeacyber/oauth-js";
 
 export { AuthProvider, useAuth } from "./provider";
 
