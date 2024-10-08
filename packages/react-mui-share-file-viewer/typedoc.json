@@ -1,0 +1,4 @@
+{
+  "entryPoints": ["./src/ShareFileViewer/index.tsx", "./src/types/*.ts"],
+  "json": "./docs/data.json"
+}

@@ -1,0 +1,73 @@
+{
+  "name": "@pangeacyber/react-mui-share-file-viewer",
+  "version": "0.0.1",
+  "description": "An extension of material ui data-grid for Pangea share file objects",
+  "main": "dist/cjs/index.js",
+  "module": "dist/esm/index.js",
+  "types": "dist/index.d.ts",
+  "files": [
+    "dist"
+  ],
+  "repository": "https://github.com/pangeacyber/pangea-javascript.git",
+  "author": "Pangea (https://pangea.cloud)",
+  "license": "MIT",
+  "scripts": {
+    "storybook": "storybook dev -p 6006",
+    "build-storybook": "storybook build",
+    "build": "cross-env NODE_ENV=production rollup -c",
+    "build-docs": "typedoc --plugin typedoc-plugin-rename-defaults"
+  },
+  "devDependencies": {
+    "@emotion/react": "^11.13.3",
+    "@emotion/styled": "^11.13.0",
+    "@mui/icons-material": "^5.16.7",
+    "@mui/material": "^5.16.7",
+    "@mui/types": "^7.2.17",
+    "@rollup/plugin-commonjs": "^26.0.3",
+    "@rollup/plugin-json": "^6.1.0",
+    "@rollup/plugin-node-resolve": "^15.3.0",
+    "@rollup/plugin-replace": "^6.0.1",
+    "@rollup/plugin-terser": "^0.4.4",
+    "@rollup/plugin-typescript": "^11.1.6",
+    "@storybook/addon-actions": "^7.6.20",
+    "@storybook/addon-essentials": "^7.6.20",
+    "@storybook/addon-interactions": "^7.6.20",
+    "@storybook/addon-links": "^7.6.20",
+    "@storybook/react": "^7.6.20",
+    "@storybook/react-vite": "^7.6.20",
+    "@types/react": "^18.3.11",
+    "@types/react-dom": "^18.3.0",
+    "cross-env": "^7.0.3",
+    "postcss": "^8.4.47",
+    "react": "17.0.2",
+    "react-dom": "17.0.2",
+    "rollup": "^4.22.4",
+    "rollup-plugin-dts": "^6.1.0",
+    "rollup-plugin-peer-deps-external": "^2.2.4",
+    "rollup-plugin-polyfill-node": "^0.13.0",
+    "rollup-plugin-postcss": "^4.0.2",
+    "storybook": "^7.6.20",
+    "typescript": "^5.6.2",
+    "vite": "^5.4.8",
+    "typedoc": "^0.26.7",
+    "typedoc-plugin-rename-defaults": "^0.7.1"
+  },
+  "dependencies": {
+    "@pangeacyber/react-mui-shared": "0.0.67",
+    "awesome-phonenumber": "^7.2.0",
+    "axios": "^1.7.7",
+    "lodash": "^4.17.21",
+    "zustand": "^4.5.5"
+  },
+  "peerDependencies": {
+    "@emotion/react": "^11.11.3",
+    "@emotion/styled": "^11.10.4",
+    "@mui/icons-material": "^5.1.1",
+    "@mui/material": "^5.8.3",
+    "react": "^17.0.0 || ^18.0.0",
+    "react-dom": "^17.0.0 || ^18.0.0"
+  },
+  "resolutions": {
+    "jackspeak": "2.1.1"
+  }
+}
