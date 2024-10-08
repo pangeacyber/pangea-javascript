@@ -49,7 +49,7 @@ class VaultService extends BaseService {
   async stateChange(
     request: Vault.StateChangeRequest
   ): Promise<PangeaResponse<Vault.StateChangeResult>> {
-    return this.post("v2beta/state/change", request);
+    return this.post("v2/state/change", request);
   }
 
   /**
@@ -70,7 +70,7 @@ class VaultService extends BaseService {
       id: id,
     };
 
-    return this.post("v2beta/delete", data);
+    return this.post("v2/delete", data);
   }
 
   /**
@@ -100,7 +100,7 @@ class VaultService extends BaseService {
   async getItem(
     request: Vault.GetRequest
   ): Promise<PangeaResponse<Vault.GetResult>> {
-    return this.post("v2beta/get", request);
+    return this.post("v2/get", request);
   }
 
   /**
@@ -138,7 +138,7 @@ class VaultService extends BaseService {
   async getBulk(
     request: Vault.GetBulkRequest
   ): Promise<PangeaResponse<Vault.ListResult>> {
-    return this.post("v2beta/get_bulk", request);
+    return this.post("v2/get_bulk", request);
   }
 
   /**
@@ -176,7 +176,7 @@ class VaultService extends BaseService {
   async list(
     request: Vault.ListRequest = {}
   ): Promise<PangeaResponse<Vault.ListResult>> {
-    return this.post("v2beta/list", request);
+    return this.post("v2/list", request);
   }
 
   /**
@@ -219,7 +219,7 @@ class VaultService extends BaseService {
   async update(
     request: Vault.UpdateRequest
   ): Promise<PangeaResponse<Vault.UpdateResult>> {
-    return this.post("v2beta/update", request);
+    return this.post("v2/update", request);
   }
 
   /**
@@ -263,7 +263,7 @@ class VaultService extends BaseService {
   async secretStore(
     request: Vault.Secret.StoreRequest
   ): Promise<PangeaResponse<Vault.Secret.StoreResult>> {
-    return this.post("v2beta/secret/store", request);
+    return this.post("v2/secret/store", request);
   }
 
   /**
@@ -290,7 +290,7 @@ class VaultService extends BaseService {
   async secretRotate(
     request: Vault.Secret.RotateRequest
   ): Promise<PangeaResponse<Vault.Secret.RotateResult>> {
-    return this.post("v2beta/secret/rotate", request);
+    return this.post("v2/secret/rotate", request);
   }
 
   /**
@@ -333,7 +333,7 @@ class VaultService extends BaseService {
     request: Vault.Symmetric.GenerateRequest
   ): Promise<PangeaResponse<Vault.Symmetric.GenerateResult>> {
     request.type = Vault.ItemType.SYMMETRIC_KEY;
-    return this.post("v2beta/key/generate", request);
+    return this.post("v2/key/generate", request);
   }
 
   /**
@@ -376,7 +376,7 @@ class VaultService extends BaseService {
     request: Vault.Asymmetric.GenerateRequest
   ): Promise<PangeaResponse<Vault.Asymmetric.GenerateResult>> {
     request.type = Vault.ItemType.ASYMMETRIC_KEY;
-    return this.post("v2beta/key/generate", request);
+    return this.post("v2/key/generate", request);
   }
 
   /**
@@ -423,7 +423,7 @@ class VaultService extends BaseService {
     request: Vault.Asymmetric.StoreRequest
   ): Promise<PangeaResponse<Vault.Asymmetric.StoreResult>> {
     request.type = Vault.ItemType.ASYMMETRIC_KEY;
-    return this.post("v2beta/key/store", request);
+    return this.post("v2/key/store", request);
   }
 
   /**
@@ -468,7 +468,7 @@ class VaultService extends BaseService {
     request: Vault.Symmetric.StoreRequest
   ): Promise<PangeaResponse<Vault.Symmetric.StoreResult>> {
     request.type = Vault.ItemType.SYMMETRIC_KEY;
-    return this.post("v2beta/key/store", request);
+    return this.post("v2/key/store", request);
   }
 
   /**
@@ -497,7 +497,7 @@ class VaultService extends BaseService {
   async keyRotate(
     request: Vault.Key.RotateRequest
   ): Promise<PangeaResponse<Vault.Key.RotateResult>> {
-    return this.post("v2beta/key/rotate", request);
+    return this.post("v2/key/rotate", request);
   }
 
   /**
@@ -519,7 +519,7 @@ class VaultService extends BaseService {
   async encrypt(
     request: Vault.Symmetric.EncryptRequest
   ): Promise<PangeaResponse<Vault.Symmetric.EncryptResult>> {
-    return this.post("v2beta/encrypt", request);
+    return this.post("v2/encrypt", request);
   }
 
   /**
@@ -543,7 +543,7 @@ class VaultService extends BaseService {
   async decrypt(
     request: Vault.Symmetric.DecryptRequest
   ): Promise<PangeaResponse<Vault.Symmetric.DecryptResult>> {
-    return this.post("v2beta/decrypt", request);
+    return this.post("v2/decrypt", request);
   }
 
   /**
@@ -569,7 +569,7 @@ class VaultService extends BaseService {
       id: id,
       message: message,
     };
-    return this.post("v2beta/sign", data);
+    return this.post("v2/sign", data);
   }
 
   /**
@@ -594,7 +594,7 @@ class VaultService extends BaseService {
   async verify(
     request: Vault.Asymmetric.VerifyRequest
   ): Promise<PangeaResponse<Vault.Asymmetric.VerifyResult>> {
-    return this.post("v2beta/verify", request);
+    return this.post("v2/verify", request);
   }
 
   /**
@@ -616,7 +616,7 @@ class VaultService extends BaseService {
   async jwkGet(
     request: Vault.JWK.GetRequest
   ): Promise<PangeaResponse<Vault.JWK.GetResult>> {
-    return this.post("v2beta/jwk/get", request);
+    return this.post("v2/jwk/get", request);
   }
 
   /**
@@ -642,7 +642,7 @@ class VaultService extends BaseService {
       id: id,
       payload: payload,
     };
-    return this.post("v2beta/jwt/sign", data);
+    return this.post("v2/jwt/sign", data);
   }
 
   /**
@@ -664,7 +664,7 @@ class VaultService extends BaseService {
     let data: Vault.JWT.VerifyRequest = {
       jws: jws,
     };
-    return this.post("v2beta/jwt/verify", data);
+    return this.post("v2/jwt/verify", data);
   }
 
   /**
@@ -684,7 +684,7 @@ class VaultService extends BaseService {
   async folderCreate(
     request: Vault.Folder.CreateRequest
   ): Promise<PangeaResponse<Vault.Folder.CreateResult>> {
-    return this.post("v2beta/folder/create", request);
+    return this.post("v2/folder/create", request);
   }
 
   /**
@@ -705,7 +705,7 @@ class VaultService extends BaseService {
   async encryptStructured<O>(
     request: Vault.Key.EncryptStructuredRequest<O>
   ): Promise<PangeaResponse<Vault.Key.EncryptStructuredResult<O>>> {
-    return this.post("v2beta/encrypt_structured", request);
+    return this.post("v2/encrypt_structured", request);
   }
 
   /**
@@ -726,7 +726,7 @@ class VaultService extends BaseService {
   async decryptStructured<O>(
     request: Vault.Key.EncryptStructuredRequest<O>
   ): Promise<PangeaResponse<Vault.Key.EncryptStructuredResult<O>>> {
-    return this.post("v2beta/decrypt_structured", request);
+    return this.post("v2/decrypt_structured", request);
   }
 
   /**
@@ -748,7 +748,7 @@ class VaultService extends BaseService {
   async encryptTransform(
     request: Vault.Key.EncryptTransformRequest
   ): Promise<PangeaResponse<Vault.Key.EncryptTransformResult>> {
-    return this.post("v2beta/encrypt_transform", request);
+    return this.post("v2/encrypt_transform", request);
   }
 
   /**
@@ -770,7 +770,7 @@ class VaultService extends BaseService {
   async decryptTransform(
     request: Vault.Key.DecryptTransformRequest
   ): Promise<PangeaResponse<Vault.Key.DecryptTransformResult>> {
-    return this.post("v2beta/decrypt_transform", request);
+    return this.post("v2/decrypt_transform", request);
   }
 
   /**
@@ -796,7 +796,7 @@ class VaultService extends BaseService {
   async export(
     request: Vault.ExportRequest
   ): Promise<PangeaResponse<Vault.ExportResult>> {
-    return this.post("v2beta/export", request);
+    return this.post("v2/export", request);
   }
 }
 
