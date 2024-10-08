@@ -50,7 +50,6 @@ export class OAuthClient {
   private baseUrl: string;
 
   constructor(config: ClientConfig, options?: CookieOptions) {
-    console.log("config", config);
     if (!config.clientId) throw new Error("A clientId is required");
     if (!config.metadataUrl) throw new Error("A metadataUrl is required");
 
