@@ -16,7 +16,7 @@ const vault = new VaultService(token, config);
   try {
     console.log("Fetch the audit token...");
     const storeResponse = await vault.getItem({
-      id: audit_token_id
+      id: audit_token_id,
     });
     const audit_token = storeResponse.result.item_versions[0].secret;
 

@@ -19,7 +19,7 @@ const vault = new VaultService(token, config);
     const createResponse = await vault.asymmetricGenerate({
       algorithm: Vault.AsymmetricAlgorithm.Ed25519,
       purpose: Vault.KeyPurpose.SIGNING,
-      name: name
+      name: name,
     });
     console.log("Response: %s", createResponse.result);
     const keyID = createResponse.result.id;
@@ -33,7 +33,7 @@ const vault = new VaultService(token, config);
     const verifyResponse = await vault.verify({
       id: keyID,
       message: data,
-      signature:signResponse.result.signature
+      signature: signResponse.result.signature,
     });
 
     if (verifyResponse.result.valid_signature) {

@@ -29,14 +29,14 @@ const vault = new VaultService(token, config);
     const data = Buffer.from(text, "utf8").toString("base64");
     const encryptResponse = await vault.encrypt({
       id: keyID,
-      plain_text: data
+      plain_text: data,
     });
     console.log("Response: %s", encryptResponse.result);
 
     console.log("Decrypt...");
     const decryptResponse = await vault.decrypt({
       id: keyID,
-      cipher_text: encryptResponse.result.cipher_text
+      cipher_text: encryptResponse.result.cipher_text,
     });
     console.log("Response: %s", decryptResponse.result);
 

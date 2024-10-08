@@ -20,7 +20,7 @@ const vault = new VaultService(token, config);
   const generated = await vault.symmetricGenerate({
     algorithm: Vault.SymmetricAlgorithm.AES256_FF3_1,
     purpose: Vault.KeyPurpose.FPE,
-    name: `nodejs-fpe-example-${Date.now()}`
+    name: `nodejs-fpe-example-${Date.now()}`,
   });
   const keyId = generated.result.id;
 
