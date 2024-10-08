@@ -51,15 +51,7 @@ export function asymmetricDecrypt(
     .toString("utf8");
 }
 
-/**
- * Decrypt cipher text using the given asymmetric private key.
- * @param privateKey Asymmetric private key.
- * @param cipherText Cipher text.
- * @param oaepHash Hash function to use for OAEP padding and MGF1.
- * @param padding Padding value.
- * @returns Decrypted text.
- */
-export async function kemDecrypt(input: {
+async function kemDecrypt(input: {
   privateKey: string;
   cipher: Buffer;
   iv: Buffer;
@@ -139,7 +131,7 @@ export enum KEMkdf {
   PBKDF2 = "pbkdf2",
 }
 
-export function getKeyLength(algorithm: string): number {
+function getKeyLength(algorithm: string): number {
   if (algorithm == KEMSymmetricAlgorithm.AES256_GCM) {
     return 32;
   }
@@ -151,7 +143,7 @@ export async function kemDecryptExportResult(
   password: string,
   privateKey: string
 ) {
-  var cipherEncoded = result.private_key;
+  let cipherEncoded = result.private_key;
   if (!cipherEncoded) {
     cipherEncoded = result.key;
   }

@@ -30,7 +30,7 @@ class VaultService extends BaseService {
   /**
    * @summary State change
    * @description Change the state of a specific version of a secret or key.
-   * @operationId vault_post_v1_state_change
+   * @operationId vault_post_v2_state_change
    * @param {Vault.StateChangeRequest} request - State change options. The following options are supported:
    *   - id (string):  The item ID
    *   - state (Vault.ItemVersionState): The new state of the item version
@@ -55,7 +55,7 @@ class VaultService extends BaseService {
   /**
    * @summary Delete
    * @description Delete a secret or key.
-   * @operationId vault_post_v1_delete
+   * @operationId vault_post_v2_delete
    * @param {String} id - The item ID
    * @returns {Promise} - A promise representing an async call to the delete endpoint
    * @example
@@ -76,7 +76,7 @@ class VaultService extends BaseService {
   /**
    * @summary Retrieve
    * @description Retrieve a secret or key, and any associated information.
-   * @operationId vault_post_v1_get
+   * @operationId vault_post_v2_get
    * @param {Vault.GetRequest} request - The following options are supported:
    *   - id (string): The item ID
    *   - version (number | string): The key version(s).
@@ -106,7 +106,7 @@ class VaultService extends BaseService {
   /**
    * @summary Get Bulk
    * @description Retrieve a list of secrets, keys and folders.
-   * @operationId vault_post_v1_get_bulk
+   * @operationId vault_post_v2_get_bulk
    * @param {Vault.GetBulkRequest} request - The following options are supported:
    *   - filter (object): A set of filters to help you customize your search. Examples:
    *     `"folder": "/tmp"`, `"tags": "personal"`, `"name__contains": "xxx"`, `"created_at__gt": "2020-02-05T10:00:00Z"`
@@ -144,7 +144,7 @@ class VaultService extends BaseService {
   /**
    * @summary List
    * @description Look up a list of secrets, keys and folders, and their associated information.
-   * @operationId vault_post_v1_list
+   * @operationId vault_post_v2_list
    * @param {Vault.ListRequest} request - The following options are supported:
    *   - filter (object): A set of filters to help you customize your search. Examples:
    *     `"folder": "/tmp"`, `"tags": "personal"`, `"name__contains": "xxx"`, `"created_at__gt": "2020-02-05T10:00:00Z"`
@@ -182,7 +182,7 @@ class VaultService extends BaseService {
   /**
    * @summary Update
    * @description Update information associated with a secret or key.
-   * @operationId vault_post_v1_update
+   * @operationId vault_post_v2_update
    * @param {Vault.UpdateRequest} request - The following options are supported:
    *   - id (string): The item ID
    *   - name (string): The name of this item
@@ -225,7 +225,7 @@ class VaultService extends BaseService {
   /**
    * @summary Secret store
    * @description Import a secret.
-   * @operationId vault_post_v1_secret_store 1
+   * @operationId vault_post_v2_secret_store 1
    * @param {Vault.Secret.StoreRequest} request - The following options are supported:
    *   - secret (string): The secret value
    *   - token (string): The Pangea Token value
@@ -269,7 +269,7 @@ class VaultService extends BaseService {
   /**
    * @summary Secret rotate
    * @description Rotate a secret.
-   * @operationId vault_post_v1_secret_rotate 1
+   * @operationId vault_post_v2_secret_rotate 1
    * @param {Vault.Secret.RotateRequest} request - The following options are supported:
    *   - id (string): The item ID
    *   - secret (string): The secret value
@@ -296,7 +296,7 @@ class VaultService extends BaseService {
   /**
    * @summary Symmetric generate
    * @description Generate a symmetric key.
-   * @operationId vault_post_v1_key_generate 2
+   * @operationId vault_post_v2_key_generate 2
    * @param {Vault.Symmetric.GenerateRequest} request - The following options are supported:
    *   - algorithm (Vault.SymmetricAlgorithm): The algorithm of the key. Options
    * [listed in Vault documentation](https://pangea.cloud/docs/vault/manage-keys/generate-a-key#generating-a-symmetric-key).
@@ -339,7 +339,7 @@ class VaultService extends BaseService {
   /**
    * @summary Asymmetric generate
    * @description Generate an asymmetric key.
-   * @operationId vault_post_v1_key_generate 1
+   * @operationId vault_post_v2_key_generate 1
    * @param {Vault.Asymmetric.GenerateOptions} options - The following options are supported:
    *   - algorithm (Vault.AsymmetricAlgorithm): The algorithm of the key. Options
    * [listed in Vault documentation](https://pangea.cloud/docs/vault/manage-keys/generate-a-key#generating-asymmetric-key-pairs).
@@ -382,7 +382,7 @@ class VaultService extends BaseService {
   /**
    * @summary Asymmetric store
    * @description Import an asymmetric key.
-   * @operationId vault_post_v1_key_store 1
+   * @operationId vault_post_v2_key_store 1
    * @param {Vault.Asymmetric.StoreRequest} request - The following options are supported:
    *   - private_key (Vault.EncodedPrivateKey): The private key in PEM format
    *   - public_key (Vault.EncodedPublicKey): The public key in PEM format
@@ -429,7 +429,7 @@ class VaultService extends BaseService {
   /**
    * @summary Symmetric store
    * @description Import a symmetric key.
-   * @operationId vault_post_v1_key_store 2
+   * @operationId vault_post_v2_key_store 2
    * @param {Vault.Asymmetric.StoreRequest} request - The following options are supported:
    *   - key (string): The key material (in base64)
    *   - algorithm (Vault.SymmetricAlgorithm): The algorithm of the key. Options
@@ -474,7 +474,7 @@ class VaultService extends BaseService {
   /**
    * @summary Key rotate
    * @description Manually rotate a symmetric or asymmetric key.
-   * @operationId vault_post_v1_key_rotate
+   * @operationId vault_post_v2_key_rotate
    * @param {Vault.Key.RotateRequest} request - Supported options:
    *   - id (string): The ID of the item
    *   - rotation_state (Vault.ItemVersionState): State to which the previous version should transition upon rotation.
@@ -503,7 +503,7 @@ class VaultService extends BaseService {
   /**
    * @summary Encrypt
    * @description Encrypt a message using a key.
-   * @operationId vault_post_v1_key_encrypt
+   * @operationId vault_post_v2_key_encrypt
    * @param {Vault.Symmetric.EncryptRequest} request - Supported options:
    *   - id (string) The item ID
    *   - plainText (string): A message to be in encrypted (in base64)
@@ -525,7 +525,7 @@ class VaultService extends BaseService {
   /**
    * @summary Decrypt
    * @description Decrypt a message using a key.
-   * @operationId vault_post_v1_key_decrypt
+   * @operationId vault_post_v2_key_decrypt
    * @param {Object} request - Supported options:
    *   - id (string): The item ID
    *   - cipher_text (string): A message encrypted by Vault (in base64)
@@ -549,7 +549,7 @@ class VaultService extends BaseService {
   /**
    * @summary Sign
    * @description Sign a message using a key.
-   * @operationId vault_post_v1_key_sign
+   * @operationId vault_post_v2_key_sign
    * @param {String} id - The item ID
    * @param {String} message - The message to be signed, in base64
    * @returns {Promise} - A promise representing an async call to the key sign endpoint
@@ -575,7 +575,7 @@ class VaultService extends BaseService {
   /**
    * @summary Verify
    * @description Verify a signature using a key.
-   * @operationId vault_post_v1_key_verify
+   * @operationId vault_post_v2_key_verify
    * @param {Vault.Asymmetric.VerifyOptions} request - Supported options:
    *   - id (string): The item ID
    *   - message (string): The message to be verified (in base64)
@@ -600,7 +600,7 @@ class VaultService extends BaseService {
   /**
    * @summary JWT Retrieve
    * @description Retrieve a key in JWK format.
-   * @operationId vault_post_v1_get_jwk
+   * @operationId vault_post_v2_get_jwk
    * @param {Vault.JWK.GetOptions} options - Supported options:
    *   - id (string): The item ID
    *   - version (string): The key version(s). `all` for all versions, `num` for a specific version,
@@ -622,7 +622,7 @@ class VaultService extends BaseService {
   /**
    * @summary JWT Sign
    * @description Sign a JSON Web Token (JWT) using a key.
-   * @operationId vault_post_v1_key_sign_jwt
+   * @operationId vault_post_v2_key_sign_jwt
    * @param {String} id - The item ID
    * @param {String} payload - The JWT payload (in JSON)
    * @returns {Promise} - A promise representing an async call to the JWT sign endpoint
@@ -648,7 +648,7 @@ class VaultService extends BaseService {
   /**
    * @summary JWT Verify
    * @description Verify the signature of a JSON Web Token (JWT).
-   * @operationId vault_post_v1_key_verify_jwt
+   * @operationId vault_post_v2_key_verify_jwt
    * @param {String} jws - The signed JSON Web Token (JWS)
    * @returns {Promise} - A promise representing an async call to the JWT verify endpoint
    * @example
@@ -670,7 +670,7 @@ class VaultService extends BaseService {
   /**
    * @summary Create
    * @description Creates a folder.
-   * @operationId vault_post_v1_folder_create
+   * @operationId vault_post_v2_folder_create
    * @param {Vault.Folder.CreateRequest} request - An object representing request to /folder/create endpoint
    * @returns {Promise} - A promise representing an async call to the folder create endpoint
    * @example
@@ -690,7 +690,7 @@ class VaultService extends BaseService {
   /**
    * @summary Encrypt structured
    * @description Encrypt parts of a JSON object.
-   * @operationId vault_post_v1_key_encrypt_structured
+   * @operationId vault_post_v2_key_encrypt_structured
    * @param request Request parameters.
    * @returns A `Promise` of the encrypted result.
    * @example
@@ -711,7 +711,7 @@ class VaultService extends BaseService {
   /**
    * @summary Decrypt structured
    * @description Decrypt parts of a JSON object.
-   * @operationId vault_post_v1_key_decrypt_structured
+   * @operationId vault_post_v2_key_decrypt_structured
    * @param request Request parameters.
    * @returns A `Promise` of the decrypted result.
    * @example
@@ -732,7 +732,7 @@ class VaultService extends BaseService {
   /**
    * @summary Encrypt transform
    * @description Encrypt using a format-preserving algorithm (FPE).
-   * @operationId vault_post_v1_key_encrypt_transform
+   * @operationId vault_post_v2_key_encrypt_transform
    * @param request Request parameters.
    * @returns A `Promise` of the encrypted result.
    * @example
@@ -754,7 +754,7 @@ class VaultService extends BaseService {
   /**
    * @summary Decrypt transform
    * @description Decrypt using a format-preserving algorithm (FPE).
-   * @operationId vault_post_v1_key_decrypt_transform
+   * @operationId vault_post_v2_key_decrypt_transform
    * @param request Request parameters.
    * @returns A `Promise` of the decrypted result.
    * @example
@@ -776,7 +776,7 @@ class VaultService extends BaseService {
   /**
    * @summary Export
    * @description Export a symmetric or asymmetric key.
-   * @operationId vault_post_v1_export
+   * @operationId vault_post_v2_export
    * @param request Request parameters.
    * @returns A `Promise` of the export result.
    * @example
