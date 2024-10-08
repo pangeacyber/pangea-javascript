@@ -11,11 +11,11 @@ const vault = new VaultService(token, config);
 (async () => {
   // First create an encryption key, either from the Pangea Console or
   // programmatically as below.
-  const createResponse = await vault.symmetricGenerate(
-    Vault.SymmetricAlgorithm.AES256_CFB,
-    Vault.KeyPurpose.ENCRYPTION,
-    "Node.js encrypt example " + Date.now()
-  );
+  const createResponse = await vault.symmetricGenerate( {
+    algorithm: Vault.SymmetricAlgorithm.AES256_CFB,
+    purpose: Vault.KeyPurpose.ENCRYPTION,
+    name: "Node.js encrypt example " + Date.now()
+  });
   const encryptionKeyId = createResponse.result.id;
 
   // Structured data that we'll encrypt.

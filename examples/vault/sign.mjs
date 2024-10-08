@@ -16,11 +16,11 @@ const vault = new VaultService(token, config);
     console.log("Create...");
     // Name should be unique
     const name = "Node encrypt example " + Date.now();
-    const createResponse = await vault.asymmetricGenerate(
-      Vault.AsymmetricAlgorithm.Ed25519,
-      Vault.KeyPurpose.SIGNING,
-      name
-    );
+    const createResponse = await vault.asymmetricGenerate({
+      algorithm: Vault.AsymmetricAlgorithm.Ed25519,
+      purpose: Vault.KeyPurpose.SIGNING,
+      name: name
+    });
     console.log("Response: %s", createResponse.result);
     const keyID = createResponse.result.id;
 
@@ -30,11 +30,11 @@ const vault = new VaultService(token, config);
     console.log("Response: %s", signResponse.result);
 
     console.log("Verify...");
-    const verifyResponse = await vault.verify(
-      keyID,
-      data,
-      signResponse.result.signature
-    );
+    const verifyResponse = await vault.verify({
+      id: keyID,
+      message: data,
+      signature:signResponse.result.signature
+    });
 
     if (verifyResponse.result.valid_signature) {
       console.log("Signature is valid");

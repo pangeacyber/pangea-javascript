@@ -17,11 +17,11 @@ const vault = new VaultService(token, config);
   const tweak = "MTIzMTIzMT==";
 
   // Generate an encryption key.
-  const generated = await vault.symmetricGenerate(
-    Vault.SymmetricAlgorithm.AES256_FF3_1,
-    Vault.KeyPurpose.FPE,
-    `nodejs-fpe-example-${Date.now()}`
-  );
+  const generated = await vault.symmetricGenerate({
+    algorithm: Vault.SymmetricAlgorithm.AES256_FF3_1,
+    purpose: Vault.KeyPurpose.FPE,
+    name: `nodejs-fpe-example-${Date.now()}`
+  });
   const keyId = generated.result.id;
 
   // Encrypt the plain text.

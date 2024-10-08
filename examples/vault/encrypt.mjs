@@ -16,25 +16,28 @@ const vault = new VaultService(token, config);
     console.log("Create...");
     // Name should be unique
     const name = "Node encrypt example " + Date.now();
-    const createResponse = await vault.symmetricGenerate(
-      Vault.SymmetricAlgorithm.AES128_CFB,
-      Vault.KeyPurpose.ENCRYPTION,
-      name
-    );
+    const createResponse = await vault.symmetricGenerate({
+      algorithm: Vault.SymmetricAlgorithm.AES128_CFB,
+      purpose: Vault.KeyPurpose.ENCRYPTION,
+      name: name,
+    });
     console.log("Response: %s", createResponse.result);
     const keyID = createResponse.result.id;
 
     console.log("Encrypt...");
     const text = "mymessagetoencrypt";
     const data = Buffer.from(text, "utf8").toString("base64");
-    const encryptResponse = await vault.encrypt(keyID, data);
+    const encryptResponse = await vault.encrypt({
+      id: keyID,
+      plain_text: data
+    });
     console.log("Response: %s", encryptResponse.result);
 
     console.log("Decrypt...");
-    const decryptResponse = await vault.decrypt(
-      keyID,
-      encryptResponse.result.cipher_text
-    );
+    const decryptResponse = await vault.decrypt({
+      id: keyID,
+      cipher_text: encryptResponse.result.cipher_text
+    });
     console.log("Response: %s", decryptResponse.result);
 
     if (decryptResponse.result.plain_text === data) {
