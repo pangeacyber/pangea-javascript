@@ -15,7 +15,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
-- Vault v2 APIs
+- Vault v2 APIs support.
 
 ## 3.12.0 - 2024-09-25
 
