@@ -1079,7 +1079,11 @@ it("log stream", async () => {
 });
 
 it("export download", async () => {
-  const exportRes = await auditGeneral.export({ start: "1d", verbose: false });
+  const exportRes = await auditGeneral.export({
+    start: "5d",
+    end: "2d",
+    verbose: false,
+  });
   expect(exportRes.status).toStrictEqual("Accepted");
 
   const maxRetries = 10;
