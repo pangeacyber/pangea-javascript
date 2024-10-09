@@ -1007,9 +1007,6 @@ export namespace Vault {
   export interface ListResult {
     items: ListItemData[];
 
-    /** Total number of items matching the given query */
-    count: number;
-
     /** Internal ID returned in the previous look up response. Used for pagination. */
     last?: string;
   }

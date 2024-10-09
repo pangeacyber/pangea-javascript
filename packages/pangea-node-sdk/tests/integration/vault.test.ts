@@ -763,7 +763,7 @@ it("Folder endpoint", async () => {
       folder: FOLDER_PARENT,
     },
   });
-  expect(listResp.result.count).toBe(1);
+  expect(listResp.result.items.length).toBe(1);
   expect(createFolderResp.result.id).toBe(listResp.result.items[0]?.id);
   expect("folder").toBe(listResp.result.items[0]?.type);
   expect(FOLDER_NAME_NEW).toBe(listResp.result.items[0]?.name);
