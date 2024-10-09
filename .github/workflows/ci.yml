@@ -171,6 +171,9 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4.2.0
 
+      - name: Enabled Corepack
+        run: corepack enable
+
       - name: Setup Node.js
         uses: actions/setup-node@v4.0.4
         with:
