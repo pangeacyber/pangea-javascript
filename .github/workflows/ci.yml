@@ -182,9 +182,7 @@ jobs:
           cache-dependency-path: ./packages/react-mui-authn/yarn.lock
 
       - name: Install dependencies
-        run: yarn install --frozen-lockfile
-
-      - run: yarn list
+        run: yarn install --immutable
 
       - name: Storybook
         run: yarn build-storybook
