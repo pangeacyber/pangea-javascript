@@ -13,7 +13,6 @@
     - changes:
         - examples/**/*
         - packages/pangea-node-sdk/**/*
-      compare_to: "refs/head/main"
       when: on_success
 
 pangea-node-sdk-integration-tests:
@@ -109,7 +108,6 @@ pangea-node-sdk-integration-tests:
       changes:
         - examples/**/*
         - packages/pangea-node-sdk/**/*
-      compare_to: "refs/head/main"
   script:
     - npx jest --testPathPattern=tests/integration/${TEST}.test.ts
 
