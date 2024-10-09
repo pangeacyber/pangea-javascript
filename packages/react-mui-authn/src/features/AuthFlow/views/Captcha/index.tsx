@@ -22,7 +22,7 @@ const CaptchaView: FC<AuthFlowComponentProps> = (props) => {
     setViewKey(newKey);
   };
 
-  const handleChange = async (value: string): Promise<void> => {
+  const handleChange = async (value: string | null): Promise<void> => {
     if (value) {
       const payload: AuthFlow.CaptchaParams = {
         code: value,
