@@ -239,6 +239,7 @@ it("log an event, local sign and verify", async () => {
   const query = "message:" + MSG_SIGNED_LOCAL + " actor:" + ACTOR;
   const queryOptions: Audit.SearchParamsOptions = {
     limit: 1,
+    max_results: 1,
   };
 
   const respSearch = await auditGeneral.search(query, queryOptions, {});
@@ -273,6 +274,7 @@ it(
     const query = "message:" + MSG_SIGNED_LOCAL + " actor:" + ACTOR;
     const queryOptions: Audit.SearchParamsOptions = {
       limit: 1,
+      max_results: 1,
     };
 
     const respSearch = await auditGeneral.search(query, queryOptions, {});
@@ -329,6 +331,7 @@ it(
       "message:" + MSG_JSON + " actor:" + ACTOR + " status:" + STATUS_SIGNED;
     const queryOptions: Audit.SearchParamsOptions = {
       limit: 1,
+      max_results: 1,
     };
 
     const respSearch = await auditGeneral.search(query, queryOptions, {});
@@ -370,6 +373,7 @@ it(
       "message:" + MSG_JSON + " actor:" + ACTOR + " status:" + STATUS_SIGNED;
     const queryOptions: Audit.SearchParamsOptions = {
       limit: 1,
+      max_results: 1,
     };
 
     const respSearch = await auditVault.search(query, queryOptions, {});
@@ -534,6 +538,7 @@ it("custom log an event, local sign and verify", async () => {
   const query = "message:" + MSG_CUSTOM_SCHEMA_SIGNED_LOCAL;
   const queryOptions: Audit.SearchParamsOptions = {
     limit: 1,
+    max_results: 1,
   };
 
   const respSearch = await auditCustomSchema.search(query, queryOptions, {});
