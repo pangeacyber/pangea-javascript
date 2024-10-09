@@ -35,12 +35,12 @@ class BaseService {
         throw new Error(
           `Token passed as vault secret is not of type 'pangea_token', but of type '${token.type}'`
         );
-      if (token.item_state !== "enabled")
+      if (!token.enabled)
         throw new Error(
           "Token passed as vault secret is not currently enabled"
         );
 
-      const currentVersion = token.current_version;
+      const currentVersion = token.item_versions[0];
       if (!currentVersion)
         throw new Error(
           "Token passed as vault secret does not have a current version"
