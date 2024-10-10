@@ -97,14 +97,17 @@ class PangeaRequest {
   }
 
   private getFilenameFromContentDisposition(
-    contentDispositionHeader: string | string[] | undefined
-  ): string | undefined {
-    let contentDisposition = "";
-    if (Array.isArray(contentDispositionHeader)) {
-      contentDisposition = contentDispositionHeader[0] ?? contentDisposition;
+    contentDispositionHeader: string | string[] | null
+  ): string | null {
+    if (contentDispositionHeader === null) {
+      return null;
     }
 
-    return getHeaderField(contentDisposition, "filename", undefined);
+    const contentDisposition = Array.isArray(contentDispositionHeader)
+      ? (contentDispositionHeader[0] ?? "")
+      : contentDispositionHeader;
+
+    return getHeaderField(contentDisposition, "filename", null);
   }
 
   private getFilenameFromURL(url: string): string | undefined {
@@ -117,15 +120,13 @@ class PangeaRequest {
       retry: { limit: this.config.requestRetries },
     });
 
-    let filename = this.getFilenameFromContentDisposition(
-      response.headers.get("Content-Disposition")!
-    );
-    if (filename === undefined) {
-      filename = this.getFilenameFromURL(url);
-      if (filename === undefined) {
-        filename = "default_filename";
-      }
-    }
+    const filename =
+      this.getFilenameFromContentDisposition(
+        response.headers.get("Content-Disposition")
+      ) ??
+      this.getFilenameFromURL(url) ??
+      null ??
+      "default_filename";
 
     const contentTypeHeader = response.headers.get("Content-Type") ?? "";
     let contentType = "application/octet-stream";
@@ -193,6 +194,10 @@ class PangeaRequest {
     fileData: FileData
   ): Promise<PangeaResponse<any>> {
     const response = await this.requestPresignedURL(endpoint, data);
+    if (response.success && response.gotResponse) {
+      return response;
+    }
+
     if (!response.gotResponse || !response.accepted_result?.post_url) {
       throw new PangeaErrors.PangeaError(
         "Failed to request post presigned URL"
@@ -228,6 +233,7 @@ class PangeaRequest {
       }
     }
 
+    // Right now, only accept the file with name "file"
     form.append("file", await this.getFileToForm(fileData.file));
 
     const response = await this.httpPost(url, {
@@ -274,10 +280,9 @@ class PangeaRequest {
     }
 
     try {
-      await this.post(endpoint, data, {
+      return await this.post(endpoint, data, {
         pollResultSync: false,
       });
-      throw new PangeaErrors.PangeaError("This call should return 202");
     } catch (error) {
       if (!(error instanceof PangeaErrors.AcceptedRequestException)) {
         throw error;

@@ -2708,3 +2708,968 @@ export namespace Sanitize {
     pollResultSync?: boolean;
   }
 }
+
+export namespace Share {
+  export enum FileFormat {
+    F3G2 = "3G2",
+    F3GP = "3GP",
+    F3MF = "3MF",
+    F7Z = "7Z",
+    A = "A",
+    AAC = "AAC",
+    ACCDB = "ACCDB",
+    AIFF = "AIFF",
+    AMF = "AMF",
+    AMR = "AMR",
+    APE = "APE",
+    ASF = "ASF",
+    ATOM = "ATOM",
+    AU = "AU",
+    AVI = "AVI",
+    AVIF = "AVIF",
+    BIN = "BIN",
+    BMP = "BMP",
+    BPG = "BPG",
+    BZ2 = "BZ2",
+    CAB = "CAB",
+    CLASS = "CLASS",
+    CPIO = "CPIO",
+    CRX = "CRX",
+    CSV = "CSV",
+    DAE = "DAE",
+    DBF = "DBF",
+    DCM = "DCM",
+    DEB = "DEB",
+    DJVU = "DJVU",
+    DLL = "DLL",
+    DOC = "DOC",
+    DOCX = "DOCX",
+    DWG = "DWG",
+    EOT = "EOT",
+    EPUB = "EPUB",
+    EXE = "EXE",
+    FDF = "FDF",
+    FITS = "FITS",
+    FLAC = "FLAC",
+    FLV = "FLV",
+    GBR = "GBR",
+    GEOJSON = "GEOJSON",
+    GIF = "GIF",
+    GLB = "GLB",
+    GML = "GML",
+    GPX = "GPX",
+    GZ = "GZ",
+    HAR = "HAR",
+    HDR = "HDR",
+    HEIC = "HEIC",
+    HEIF = "HEIF",
+    HTML = "HTML",
+    ICNS = "ICNS",
+    ICO = "ICO",
+    ICS = "ICS",
+    ISO = "ISO",
+    JAR = "JAR",
+    JP2 = "JP2",
+    JPF = "JPF",
+    JPG = "JPG",
+    JPM = "JPM",
+    JS = "JS",
+    JSON = "JSON",
+    JXL = "JXL",
+    JXR = "JXR",
+    KML = "KML",
+    LIT = "LIT",
+    LNK = "LNK",
+    LUA = "LUA",
+    LZ = "LZ",
+    M3U = "M3U",
+    M4A = "M4A",
+    MACHO = "MACHO",
+    MDB = "MDB",
+    MIDI = "MIDI",
+    MKV = "MKV",
+    MOBI = "MOBI",
+    MOV = "MOV",
+    MP3 = "MP3",
+    MP4 = "MP4",
+    MPC = "MPC",
+    MPEG = "MPEG",
+    MQV = "MQV",
+    MRC = "MRC",
+    MSG = "MSG",
+    MSI = "MSI",
+    NDJSON = "NDJSON",
+    NES = "NES",
+    ODC = "ODC",
+    ODF = "ODF",
+    ODG = "ODG",
+    ODP = "ODP",
+    ODS = "ODS",
+    ODT = "ODT",
+    OGA = "OGA",
+    OGV = "OGV",
+    OTF = "OTF",
+    OTG = "OTG",
+    OTP = "OTP",
+    OTS = "OTS",
+    OTT = "OTT",
+    OWL = "OWL",
+    P7S = "P7S",
+    PAT = "PAT",
+    PDF = "PDF",
+    PHP = "PHP",
+    PL = "PL",
+    PNG = "PNG",
+    PPT = "PPT",
+    PPTX = "PPTX",
+    PS = "PS",
+    PSD = "PSD",
+    PUB = "PUB",
+    PY = "PY",
+    QCP = "QCP",
+    RAR = "RAR",
+    RMVB = "RMVB",
+    RPM = "RPM",
+    RSS = "RSS",
+    RTF = "RTF",
+    SHP = "SHP",
+    SHX = "SHX",
+    SO = "SO",
+    SQLITE = "SQLITE",
+    SRT = "SRT",
+    SVG = "SVG",
+    SWF = "SWF",
+    SXC = "SXC",
+    TAR = "TAR",
+    TCL = "TCL",
+    TCX = "TCX",
+    TIFF = "TIFF",
+    TORRENT = "TORRENT",
+    TSV = "TSV",
+    TTC = "TTC",
+    TTF = "TTF",
+    TXT = "TXT",
+    VCF = "VCF",
+    VOC = "VOC",
+    VTT = "VTT",
+    WARC = "WARC",
+    WASM = "WASM",
+    WAV = "WAV",
+    WEBM = "WEBM",
+    WEBP = "WEBP",
+    WOFF = "WOFF",
+    WOFF2 = "WOFF2",
+    X3D = "X3D",
+    XAR = "XAR",
+    XCF = "XCF",
+    XFDF = "XFDF",
+    XLF = "XLF",
+    XLS = "XLS",
+    XLSX = "XLSX",
+    XML = "XML",
+    XPM = "XPM",
+    XZ = "XZ",
+    ZIP = "ZIP",
+    ZST = "ZST",
+  }
+
+  export enum ArchiveFormat {
+    TAR = "tar",
+    ZIP = "zip",
+  }
+
+  export enum LinkType {
+    UPLOAD = "upload",
+    DOWNLOAD = "download",
+    EDITOR = "editor",
+  }
+  export enum AuthenticatorType {
+    EMAIL_OTP = "email_otp",
+    PASSWORD = "password",
+    SMS_OTP = "sms_otp",
+    SOCIAL = "social",
+  }
+
+  export enum ItemOrder {
+    ASC = "asc",
+    DESC = "desc",
+  }
+
+  export enum ItemOrderBy {
+    ID = "id",
+    CREATED_AT = "created_at",
+    NAME = "name",
+    PARENT_ID = "parent_id",
+    TYPE = "type",
+    UPDATED_AT = "updated_at",
+  }
+
+  export interface Metadata {
+    [key: string]: string;
+  }
+
+  export type Tags = string[];
+
+  export interface ItemData {
+    /**
+     * The number of billable bytes (includes Metadata, Tags, etc.) for the
+     * object.
+     */
+    billable_size?: number;
+
+    /** The date and time the object was created. */
+    created_at: string;
+
+    /** The key in the external bucket that contains this file. */
+    external_bucket_key: string;
+
+    /** The ID of a stored object. */
+    id: string;
+
+    /** The MD5 hash of the file contents. */
+    md5?: string;
+
+    /**
+     * A set of string-based key/value pairs used to provide additional data
+     * about an object.
+     */
+    metadata?: Metadata;
+
+    /** Protected (read-only) metadata. */
+    metadata_protected?: Metadata;
+
+    /** The name of the object. */
+    name: string;
+
+    /** The parent ID (a folder). Blanks means the root folder. */
+    parent_id: string;
+
+    /** The SHA256 hash of the file contents. */
+    sha256?: string;
+
+    /** The SHA512 hash of the file contents. */
+    sha512?: string;
+
+    /** The size of the object in bytes. */
+    size?: number;
+
+    /** A list of user-defined tags. */
+    tags?: Tags;
+
+    /** Protected (read-only) flags. */
+    tags_protected?: Tags;
+
+    /** The type of the item (file or dir). */
+    type: string;
+
+    /** The date and time the object was last updated. */
+    updated_at: string;
+  }
+
+  export interface DeleteRequest {
+    /**
+     * The ID of the object to delete.
+     */
+    id?: string;
+
+    /**
+     * If true, delete a folder even if it's not empty. Deletes the contents of
+     * folder as well.
+     */
+    force?: boolean;
+
+    /**
+     * The path of the object to delete.
+     */
+    path?: string;
+
+    /** The bucket to use, if not the default. */
+    bucket_id?: string;
+  }
+
+  export interface Authenticator {
+    /**
+     * An authentication mechanism.
+     */
+    auth_type: AuthenticatorType;
+
+    /**
+     * An email address.
+     */
+    auth_context: string;
+  }
+
+  export interface Bucket {
+    /** The ID of a share bucket resource. */
+    id: string;
+
+    /** If true, is the default bucket. */
+    default: boolean;
+
+    /** The bucket's friendly name. */
+    name: string;
+    transfer_methods: TransferMethod[];
+  }
+
+  export interface BucketsResult {
+    /** A list of available buckets. */
+    buckets: Bucket[];
+  }
+
+  export interface DeleteResult {
+    /**
+     * Number of objects deleted.
+     */
+    count: number;
+  }
+
+  export interface FolderCreateRequest {
+    /**
+     * The name of an object.
+     */
+    name?: string;
+
+    /**
+     * A set of string-based key/value pairs used to provide additional data
+     * about an object.
+     */
+    metadata?: Metadata;
+
+    /**
+     * The ID of a stored object.
+     */
+    parent_id?: string;
+
+    /**
+     * The folder to place the folder in. Must match `parent_id` if also set.
+     */
+    folder?: string;
+
+    /**
+     * A list of user-defined tags.
+     */
+    tags?: Tags;
+
+    /** The bucket to use, if not the default. */
+    bucket_id?: string;
+  }
+
+  export interface FolderCreateResult {
+    object: ItemData;
+  }
+
+  export interface GetRequest {
+    /** The bucket to use, if not the default. */
+    bucket_id?: string;
+
+    /** The ID of the object to retrieve. */
+    id?: string;
+
+    /** The requested transfer method for the file data. */
+    transfer_method?: TransferMethod;
+
+    /** If the file was protected with a password, the password to decrypt with. */
+    password?: string;
+  }
+
+  export interface GetResult {
+    object: ItemData;
+
+    /** A URL where the file can be downloaded from. */
+    dest_url?: string;
+  }
+
+  export interface PutRequest {
+    /** The bucket to use, if not the default. */
+    bucket_id?: string;
+
+    /**
+     * The hexadecimal-encoded CRC32C hash of the file data, which will be
+     * verified by the server if provided.
+     */
+    crc32c?: string;
+
+    /**
+     * The format of the file, which will be verified by the server if provided.
+     * Uploads not matching the supplied format will be rejected.
+     */
+    format?: FileFormat;
+
+    /**
+     * The hexadecimal-encoded MD5 hash of the file data, which will be verified
+     * by the server if provided.
+     */
+    md5?: string;
+
+    /**
+     * A set of string-based key/value pairs used to provide additional data
+     * about an object.
+     */
+    metadata?: Metadata;
+
+    /**
+     * The MIME type of the file, which will be verified by the server if
+     * provided. Uploads not matching the supplied MIME type will be rejected.
+     */
+    mimetype?: string;
+
+    /** The name of the object to store. */
+    name?: string;
+
+    /**
+     * The parent ID of the object (a folder). Leave blank to keep in the root
+     * folder.
+     */
+    parent_id?: string;
+
+    /**
+     * The path to the parent folder. Leave blank for the root folder. Path must
+     * resolve to parent_id if also set.
+     */
+    folder?: string;
+
+    /** An optional password to protect the file with. Downloading the file will require this password. */
+    password?: string;
+
+    /** An optional password algorithm to protect the file with. See symmetric vault password_algorithm. */
+    password_algorithm?: string;
+
+    /**
+     * The hexadecimal-encoded SHA1 hash of the file data, which will be
+     * verified by the server if provided.
+     */
+    sha1?: string;
+
+    /**
+     * The SHA256 hash of the file data, which will be verified by the server
+     * if provided.
+     */
+    sha256?: string;
+
+    /**
+     * The hexadecimal-encoded SHA512 hash of the file data, which will be
+     * verified by the server if provided.
+     */
+    sha512?: string;
+
+    /**
+     * The size (in bytes) of the file. If the upload doesn't match, the call
+     * will fail.
+     */
+    size?: number;
+
+    /** The URL to fetch the file payload from (for transfer_method source-url). */
+    source_url?: string;
+
+    /** A list of user-defined tags */
+    tags?: Tags;
+
+    /** The transfer method used to upload the file data. */
+    transfer_method?: TransferMethod;
+  }
+
+  export interface PutResult {
+    object: ItemData;
+  }
+
+  export interface UpdateRequest {
+    /**
+     * A list of metadata key/values to set in the object. If a provided key
+     * exists, the value will be replaced.
+     */
+    add_metadata?: Metadata;
+
+    /**
+     * A list of tags to add. It is not an error to provide a tag which already
+     * exists.
+     */
+    add_tags?: Tags;
+
+    /** The bucket to use, if not the default. */
+    bucket_id?: string;
+
+    /** Protect the file with the supplied password. */
+    add_password?: string;
+
+    /** The algorithm to use to password protect the file. */
+    add_password_algorithm?: string;
+
+    /** An identifier for the file to update. */
+    id: string;
+
+    /** Set the object's metadata. */
+    metadata?: Metadata;
+
+    /** Set the parent (folder) of the object. */
+    parent_id?: string;
+
+    /**
+     * Set the parent (folder). Leave blank for the root folder. Path must
+     * resolve to parent_id if also set.
+     */
+    folder?: string;
+
+    /**
+     * A list of metadata key/values to remove in the object. It is not an
+     * error for a provided key to not exist. If a provided key exists but
+     * doesn't match the provided value, it will not be removed.
+     */
+    remove_metadata?: Metadata;
+
+    /** Remove the supplied password from the file. */
+    remove_password?: string;
+
+    /**
+     * A list of tags to remove. It is not an error to provide a tag which is
+     * not present.
+     */
+    remove_tags?: Tags;
+
+    /** Set the object's tags. */
+    tags?: Tags;
+
+    /**
+     * The date and time the object was last updated. If included, the update
+     * will fail if this doesn't match the date and time of the last update for
+     * the object.
+     */
+    updated_at?: string;
+  }
+
+  export interface UpdateResult {
+    object: ItemData;
+  }
+
+  export interface ListFilter {
+    /** Only records where created_at equals this value. */
+    created_at?: string;
+
+    /** Only records where created_at is greater than this value. */
+    created_at__gt?: string;
+
+    /** Only records where created_at is greater than or equal to this value. */
+    created_at__gte?: string;
+
+    /** Only records where created_at is less than this value. */
+    created_at__lt?: string;
+
+    /** Only records where created_at is less than or equal to this value. */
+    created_at__lte?: string;
+
+    /**
+     * Only records where the object exists in the supplied parent folder path
+     * name.
+     */
+    folder?: string;
+
+    /** Only records where id equals this value. */
+    id?: string;
+
+    /** Only records where id equals one of the provided substrings. */
+    id__in?: string[];
+
+    /** Only records where name equals this value. */
+    name?: string;
+
+    /** Only records where name includes each substring. */
+    name__contains?: string[];
+
+    /** Only records where name equals one of the provided substrings. */
+    name__in?: string[];
+
+    /** Only records where parent_id equals this value. */
+    parent_id?: string;
+
+    /** Only records where parent_id equals one of the provided substrings. */
+    parent_id__in?: string[];
+
+    /** Only records where size equals this value. */
+    size?: number;
+
+    /** Only records where size is greater than this value. */
+    size__gt?: number;
+
+    /** Only records where size is greater than or equal to this value. */
+    size__gte?: number;
+
+    /** Only records where size is less than to this value. */
+    size__lt?: number;
+
+    /** Only records where size is less than or equal to this value. */
+    size__lte?: number;
+
+    /** A list of tags that all must be present. */
+    tags?: string[];
+
+    /** Only records where type equals this value. */
+    type?: string;
+
+    /** Only records where type includes each substring. */
+    type__contains?: string[];
+
+    /** Only records where type equals one of the provided substrings. */
+    type__in?: string[];
+
+    /** Only records where updated_at equals this value. */
+    updated_at?: string;
+
+    /** Only records where updated_at is greater than this value. */
+    updated_at__gt?: string;
+
+    /** Only records where updated_at is greater than or equal to this value. */
+    updated_at__gte?: string;
+
+    /** Only records where updated_at is less than this value. */
+    updated_at__lt?: string;
+
+    /** Only records where updated_at is less than or equal to this value. */
+    updated_at__lte?: string;
+  }
+
+  export interface ListRequest {
+    /** The bucket to use, if not the default. */
+    bucket_id?: string;
+
+    /** If true, include the `external_bucket_key` in results. */
+    include_external_bucket_key?: boolean;
+
+    filter?: ListFilter;
+
+    /**
+     * Reflected value from a previous response to obtain the next page of
+     * results.
+     */
+    last?: string;
+
+    /** Order results asc(ending) or desc(ending). */
+    order?: ItemOrder;
+
+    /** Which field to order results by. */
+    order_by?: ItemOrderBy;
+
+    /** Maximum results to include in the response. */
+    size?: number;
+  }
+
+  export interface ListResult {
+    /** The total number of objects matched by the list request. */
+    count: number;
+
+    /**
+     * Used to fetch the next page of the current listing when provided in a
+     * repeated request's last parameter.
+     */
+    last?: string;
+    objects: ItemData[];
+  }
+
+  export interface GetArchiveRequest {
+    /** The bucket to use, if not the default. */
+    bucket_id?: string;
+
+    /**
+     * The IDs of the objects to include in the archive. Folders include all
+     * children.
+     */
+    ids: string[];
+
+    /** The format to use to build the archive. */
+    format?: ArchiveFormat;
+
+    /** The requested transfer method for the file data. */
+    transfer_method?: TransferMethod;
+  }
+
+  export interface GetArchiveResult {
+    /** A location where the archive can be downloaded from. */
+    dest_url?: string;
+
+    /** Number of objects included in the archive. */
+    count: number;
+
+    /** A list of all objects included in the archive. */
+    objects?: ItemData[];
+  }
+
+  export interface Authenticator {
+    /** An authentication mechanism. */
+    auth_type: AuthenticatorType;
+
+    /** An email address. */
+    auth_context: string;
+  }
+
+  export interface ShareLinkCreateItem {
+    /** List of storage IDs. */
+    targets: string[];
+
+    /** Type of link. */
+    link_type?: LinkType;
+
+    /** The date and time the share link expires. */
+    expires_at?: string;
+
+    /**
+     * The maximum number of times a user can be authenticated to access the
+     * share link.
+     */
+    max_access_count?: number;
+
+    /** A list of authenticators. */
+    authenticators: Authenticator[];
+
+    /** An optional message to use in accessing shares. */
+    message?: string;
+
+    /** An optional title to use in accessing shares. */
+    title?: string;
+
+    /** An email address. */
+    notify_email?: string;
+
+    /** A list of user-defined tags. */
+    tags?: Tags;
+  }
+
+  export interface ShareLinkCreateRequest {
+    links: ShareLinkCreateItem[];
+  }
+
+  export interface ShareLinkItem {
+    /** The ID of a share link. */
+    id: string;
+
+    /** The ID of a share bucket resource. */
+    bucket_id: string;
+
+    /** List of storage IDs. */
+    targets: string[];
+
+    /** Type of link. */
+    link_type: string;
+
+    /**
+     * The number of times a user has authenticated to access the share link.
+     */
+    access_count: number;
+
+    /**
+     * The maximum number of times a user can be authenticated to access the
+     * share link.
+     */
+    max_access_count: number;
+
+    /** The date and time the share link was created. */
+    created_at: string;
+
+    /** The date and time the share link expires. */
+    expires_at: string;
+
+    /** The date and time the share link was last accessed. */
+    last_accessed_at?: string;
+
+    /** A list of authenticators */
+    authenticators: Authenticator[];
+
+    /** A URL to access the file/folders shared with a link. */
+    link: string;
+
+    /** An optional message to use in accessing shares. */
+    message?: string;
+
+    /** An optional title to use in accessing shares. */
+    title?: string;
+
+    /** An email address. */
+    notify_email?: string;
+
+    /** A list of user-defined tags. */
+    tags?: Tags;
+  }
+
+  export interface ShareLinkCreateResult {
+    share_link_objects: ShareLinkItem[];
+  }
+
+  export interface ShareLinkGetRequest {
+    /** The ID of a share link. */
+    id: string;
+  }
+
+  export interface ShareLinkGetResult {
+    share_link_object: ShareLinkItem;
+  }
+
+  export interface ShareLinkListFilter {
+    /** Only records where id equals this value. */
+    id?: string;
+
+    /** Only records where id includes each substring. */
+    id__contains?: string[];
+
+    /** Only records where id equals one of the provided substrings. */
+    id__in?: string[];
+
+    /** Only records where target_id equals this value. */
+    target_id?: string;
+
+    /** Only records where target_id includes each substring. */
+    target_id__contains?: string[];
+
+    /** Only records where target_id equals one of the provided substrings. */
+    target_id__in?: string[];
+
+    /** Only records where link_type equals this value. */
+    link_type?: string;
+
+    /** Only records where link_type includes each substring. */
+    link_type__contains?: string[];
+
+    /** Only records where link_type equals one of the provided substrings. */
+    link_type__in?: string[];
+
+    /** Only records where access_count equals this value. */
+    access_count?: number;
+
+    /** Only records where access_count is greater than this value. */
+    access_count__gt?: number;
+
+    /** Only records where access_count is greater than or equal to this value. */
+    access_count__gte?: number;
+
+    /** Only records where access_count is less than this value. */
+    access_count__lt?: number;
+
+    /** Only records where access_count is less than or equal to this value. */
+    access_count__lte?: number;
+
+    /** Only records where max_access_count equals this value. */
+    max_access_count?: number;
+
+    /** Only records where max_access_count is greater than this value. */
+    max_access_count__gt?: number;
+
+    /** Only records where max_access_count is greater than or equal to this value. */
+    max_access_count__gte?: number;
+
+    /** Only records where max_access_count is less than this value. */
+    max_access_count__lt?: number;
+
+    /** Only records where max_access_count is less than or equal to this value. */
+    max_access_count__lte?: number;
+
+    /** Only records where created_at equals this value. */
+    created_at?: string;
+
+    /** Only records where created_at is greater than this value. */
+    created_at__gt?: string;
+
+    /** Only records where created_at is greater than or equal to this value. */
+    created_at__gte?: string;
+
+    /** Only records where created_at is less than this value. */
+    created_at__lt?: string;
+
+    /** Only records where created_at is less than or equal to this value. */
+    created_at__lte?: string;
+
+    /** Only records where expires_at equals this value. */
+    expires_at?: string;
+
+    /** Only records where expires_at is greater than this value. */
+    expires_at__gt?: string;
+
+    /** Only records where expires_at is greater than or equal to this value. */
+    expires_at__gte?: string;
+
+    /** Only records where expires_at is less than this value. */
+    expires_at__lt?: string;
+
+    /** Only records where expires_at is less than or equal to this value. */
+    expires_at__lte?: string;
+
+    /** Only records where last_accessed_at equals this value. */
+    last_accessed_at?: string;
+
+    /** Only records where last_accessed_at is greater than this value. */
+    last_accessed_at__gt?: string;
+
+    /** Only records where last_accessed_at is greater than or equal to this value. */
+    last_accessed_at__gte?: string;
+
+    /** Only records where last_accessed_at is less than this value. */
+    last_accessed_at__lt?: string;
+
+    /** Only records where last_accessed_at is less than or equal to this value. */
+    last_accessed_at__lte?: string;
+
+    /** Only records where link equals this value. */
+    link?: string;
+
+    /** Only records where link includes each substring. */
+    link__contains?: string[];
+
+    /** Only records where link equals one of the provided substrings. */
+    link__in?: string[];
+  }
+
+  export interface ShareLinkListRequest {
+    /** The bucket to use, if not the default. */
+    bucket_id?: string;
+
+    filter?: ShareLinkListFilter;
+
+    /** Reflected value from a previous response to obtain the next page of results. */
+    last?: string;
+
+    /** Order results asc(ending) or desc(ending). */
+    order?: ItemOrder;
+
+    /** Which field to order results by. */
+    order_by?: ItemOrderBy;
+
+    /** Maximum results to include in the response. */
+    size?: number;
+  }
+
+  export interface ShareLinkListResult {
+    /** The total number of share links matched by the list request. */
+    count: number;
+
+    /** Used to fetch the next page of the current listing when provided in a repeated request's last parameter. */
+    last?: string;
+
+    share_link_objects: ShareLinkItem[];
+  }
+
+  export interface ShareLinkDeleteRequest {
+    /** The bucket to use, if not the default. */
+    bucket_id?: string;
+
+    ids: string[];
+  }
+
+  export interface ShareLinkDeleteResult {
+    share_link_objects: ShareLinkItem[];
+  }
+
+  export interface ShareLinkSendItem {
+    /** The ID of a share link. */
+    id: string;
+
+    /** An email address. */
+    email: string;
+  }
+
+  export interface ShareLinkSendRequest {
+    links: ShareLinkSendItem[];
+
+    /** An email address. */
+    sender_email: string;
+    sender_name?: string;
+  }
+
+  export interface ShareLinkSendResult {
+    share_link_objects: ShareLinkItem[];
+  }
+}

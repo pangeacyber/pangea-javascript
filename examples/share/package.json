@@ -1,0 +1,12 @@
+{
+  "name": "share_examples",
+  "version": "0.0.0",
+  "description": "Pangea Secure Share examples",
+  "private": true,
+  "author": "Pangea",
+  "license": "MIT",
+  "dependencies": {
+    "citty": "^0.1.6",
+    "pangea-node-sdk": "file:../../packages/pangea-node-sdk"
+  }
+}

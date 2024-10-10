@@ -33,6 +33,7 @@ pangea-node-sdk-integration-tests:
     SERVICE_REDACT_ENV: LVE
     SERVICE_SANITIZE_ENV: LVE
     SERVICE_VAULT_ENV: LVE
+    SERVICE_SHARE_ENV: LVE
     NODE_OPTIONS: "--experimental-vm-modules --openssl-legacy-provider"
   before_script:
     - echo $ENV
@@ -103,6 +104,9 @@ pangea-node-sdk-integration-tests:
       - CLOUD: [AWS, GCP]
         ENV: ${SERVICE_VAULT_ENV}
         TEST: vault
+      - CLOUD: [AWS, GCP]
+        ENV: ${SERVICE_SHARE_ENV}
+        TEST: share
   rules:
     - if: $CI_COMMIT_BRANCH
       changes:

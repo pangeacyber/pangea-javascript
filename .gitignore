@@ -8,3 +8,4 @@ node_modules
 *.tgz
 *.gz
 .parcel-cache
+packages/pangea-node-sdk/download/
