@@ -1,7 +1,7 @@
 {
   "name": "@pangeacyber/react-auth",
   "description": "Pangea auth provider React component",
-  "version": "0.0.14",
+  "version": "0.0.15",
   "type": "commonjs",
   "source": "src/index.ts",
   "main": "dist/index.cjs",
@@ -36,7 +36,7 @@
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
-    "axios": "^1.7.7",
+    "@pangeacyber/vanilla-js": "^0.1.11",
     "jose": "^5.9.3",
     "lodash": "^4.17.21"
   },
@@ -46,7 +46,7 @@
   },
   "devDependencies": {
     "@arethetypeswrong/cli": "^0.16.4",
-    "@babel/core": "^7.25.7",
+    "@babel/core": "^7.25.8",
     "@futureportal/parcel-transformer-package-version": "^1.0.0",
     "@parcel/config-default": "^2.12.0",
     "@parcel/packager-ts": "^2.12.0",
@@ -62,6 +62,6 @@
     "react": "^18.3.1",
     "typedoc": "^0.26.8",
     "typedoc-plugin-rename-defaults": "^0.7.1",
-    "typescript": "^5.6.2"
+    "typescript": "^5.6.3"
   }
 }
