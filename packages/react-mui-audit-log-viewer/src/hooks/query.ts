@@ -18,7 +18,7 @@ export const useAuditQueryState = (
   );
 
   useEffect(() => {
-    if (initialQuery) {
+    if (initialQuery !== undefined) {
       setQuery(initialQuery);
     }
   }, [initialQuery]);
