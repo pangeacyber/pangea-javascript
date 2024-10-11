@@ -26,7 +26,7 @@
   "repository": "github:pangeacyber/pangea-javascript",
   "author": "Pangea (https://pangea.cloud)",
   "license": "MIT",
-  "packageManager": "yarn@1.22.22",
+  "packageManager": "yarn@4.5.0",
   "scripts": {
     "build": "yarn build-docs && parcel build && cp dist/index.d.ts dist/index.d.mts",
     "build-docs": "typedoc --plugin typedoc-plugin-rename-defaults",
