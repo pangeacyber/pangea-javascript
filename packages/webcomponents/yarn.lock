@@ -1367,10 +1367,10 @@
     "@mui/utils" "^5.16.6"
     prop-types "^15.8.1"
 
-"@mui/styled-engine-sc@^6.1.2":
-  version "6.1.2"
-  resolved "https://registry.yarnpkg.com/@mui/styled-engine-sc/-/styled-engine-sc-6.1.2.tgz#12c44e42943aedf745282b9796be618cf78017d2"
-  integrity sha512-9l/TQk9SoBWrqSz/l4+Uc4j41dU1fwuYJA1dTGWXbcBdZaopIkO3xMsvz0mlrMF3Ids/ixF2czOR+L+4dgFo7Q==
+"@mui/styled-engine-sc@^6.1.3":
+  version "6.1.3"
+  resolved "https://registry.yarnpkg.com/@mui/styled-engine-sc/-/styled-engine-sc-6.1.3.tgz#f7f7db4c0e9d4c9a0d076060c99e47744bd2659b"
+  integrity sha512-Y+BZHQxygyKklawo9eMilthFALQpndcfDdEz0LpoZmkvVtWBD3kAPCyYeSAlqFRFQ++MdiQWlWY8O1R9ORuxJg==
   dependencies:
     "@babel/runtime" "^7.25.6"
     csstype "^3.1.3"
@@ -1401,10 +1401,15 @@
     csstype "^3.1.3"
     prop-types "^15.8.1"
 
-"@mui/types@^7.2.15", "@mui/types@^7.2.17":
+"@mui/types@^7.2.15":
   version "7.2.17"
   resolved "https://registry.yarnpkg.com/@mui/types/-/types-7.2.17.tgz#329826062d4079de5ea2b97007575cebbba1fdbc"
   integrity sha512-oyumoJgB6jDV8JFzRqjBo2daUuHpzDjoO/e3IrRhhHo/FxJlaVhET6mcNrKHUq2E+R+q3ql0qAtvQ4rfWHhAeQ==
+
+"@mui/types@^7.2.18":
+  version "7.2.18"
+  resolved "https://registry.yarnpkg.com/@mui/types/-/types-7.2.18.tgz#4b6385ed2f7828ef344113cdc339d6fdf8e4bc23"
+  integrity sha512-uvK9dWeyCJl/3ocVnTOS6nlji/Knj8/tVqVX03UVTpdmTJYu/s4jtDd9Kvv0nRGE0CUSNW1UYAci7PYypjealg==
 
 "@mui/utils@6.0.0-rc.0":
   version "6.0.0-rc.0"
