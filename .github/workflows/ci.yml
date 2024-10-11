@@ -89,6 +89,9 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4.2.1
 
+      - name: Enabled Corepack
+        run: corepack enable
+
       - name: Setup Node.js
         uses: actions/setup-node@v4.0.4
         with:
@@ -97,9 +100,7 @@ jobs:
           cache-dependency-path: ./packages/react-auth/yarn.lock
 
       - name: Install dependencies
-        run: yarn install --frozen-lockfile
-
-      - run: yarn list
+        run: yarn install --immutable
 
       - name: Type check
         run: yarn typecheck

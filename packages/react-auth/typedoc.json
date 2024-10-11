@@ -1,8 +1,4 @@
 {
-  "entryPoints": [
-    "./src/AuthNClient/index.ts",
-    "./src/AuthProvider/index.tsx",
-    "./src/types.ts"
-  ],
+  "entryPoints": ["./src/AuthProvider/index.tsx", "./src/types.ts"],
   "json": "./docs/data.json"
 }
