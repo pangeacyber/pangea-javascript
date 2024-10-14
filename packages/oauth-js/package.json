@@ -8,6 +8,9 @@
   "types": "dist/types.d.ts",
   "author": "Glenn Gallien <glenn.gallien@pangea.cloud>",
   "license": "MIT",
+  "publishConfig": {
+    "access": "public"
+  },
   "scripts": {
     "watch": "parcel watch",
     "build": "rm -rf .parcel-cache && parcel build"

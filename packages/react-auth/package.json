@@ -26,6 +26,9 @@
   "repository": "github:pangeacyber/pangea-javascript",
   "author": "Pangea (https://pangea.cloud)",
   "license": "MIT",
+  "publishConfig": {
+    "access": "public"
+  },
   "packageManager": "yarn@4.5.0",
   "scripts": {
     "build": "yarn build-docs && parcel build && cp dist/index.d.ts dist/index.d.mts",

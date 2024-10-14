@@ -11,6 +11,9 @@
   "repository": "https://github.com/pangeacyber/pangea-javascript.git",
   "author": "Pangea (https://pangea.cloud)",
   "license": "MIT",
+  "publishConfig": {
+    "access": "public"
+  },
   "devDependencies": {
     "@babel/core": "^7.25.7",
     "@babel/preset-env": "^7.25.7",
