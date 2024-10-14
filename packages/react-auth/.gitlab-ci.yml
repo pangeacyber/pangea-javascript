@@ -1,10 +1,11 @@
 .react_auth_base:
   image: node:20.15.1@sha256:6326b52a508f0d99ffdbfaa29a69380321b215153db6f32974835bac71b38fa4
   before_script:
-    - cd packages/react-auth
-    - yarn install --frozen-lockfile
     - apt-get -qq update
     - apt-get install -y jq
+    - corepack enable
+    - cd packages/react-auth
+    - yarn install --immutable
   cache:
     - key:
         files:

@@ -1,5 +1,6 @@
 {
   "name": "@pangeacyber/webcomponents",
+  "version": "1.0.0",
   "author": "Michael Combs <michael.combs@pangea.cloud>",
   "license": "MIT",
   "source": "src/main.ts",
@@ -10,7 +11,9 @@
     "audit-log-viewer": "dist/browser/audit-log-viewer.js",
     "store-file-viewer": "dist/browser/store-file-viewer.js"
   },
-  "version": "1.0.0",
+  "publishConfig": {
+    "access": "public"
+  },
   "scripts": {
     "build": "parcel build"
   },
