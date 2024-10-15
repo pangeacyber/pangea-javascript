@@ -30,39 +30,32 @@ class VaultService extends BaseService {
   /**
    * @summary State change
    * @description Change the state of a specific version of a secret or key.
-   * @operationId vault_post_v1_state_change
-   * @param {String} id - The item ID
-   * @param {Vault.ItemVersionState} state - The new state of the item version
-   * @param {Vault.StateChangeOptions} options - State change options. The following options are supported:
+   * @operationId vault_post_v2_state_change
+   * @param {Vault.StateChangeRequest} request - State change options. The following options are supported:
+   *   - id (string):  The item ID
+   *   - state (Vault.ItemVersionState): The new state of the item version
    *   - version (number): the item version
    *   - destroy_period (string): Period of time for the destruction of a compromised key.
    *     Only valid if state=`compromised`
    * @returns {Promise} - A promise representing an async call to the state change endpoint
    * @example
    * ```js
-   * const response = await vault.stateChange(
-   *   "pvi_p6g5i3gtbvqvc3u6zugab6qs6r63tqf5",
-   *   Vault.ItemVersionState.DEACTIVATED
-   * );
+   * const response = await vault.stateChange( {
+   *   id: "pvi_p6g5i3gtbvqvc3u6zugab6qs6r63tqf5",
+   *   state: Vault.ItemVersionState.DEACTIVATED
+   * });
    * ```
    */
   async stateChange(
-    id: string,
-    state: Vault.ItemVersionState,
-    options: Vault.StateChangeOptions = {}
+    request: Vault.StateChangeRequest
   ): Promise<PangeaResponse<Vault.StateChangeResult>> {
-    const data: Vault.StateChangeRequest = {
-      id: id,
-      state: state,
-    };
-    Object.assign(data, options);
-    return this.post("v1/state/change", data);
+    return this.post("v2/state/change", request);
   }
 
   /**
    * @summary Delete
    * @description Delete a secret or key.
-   * @operationId vault_post_v1_delete
+   * @operationId vault_post_v2_delete
    * @param {String} id - The item ID
    * @returns {Promise} - A promise representing an async call to the delete endpoint
    * @example
@@ -77,15 +70,15 @@ class VaultService extends BaseService {
       id: id,
     };
 
-    return this.post("v1/delete", data);
+    return this.post("v2/delete", data);
   }
 
   /**
    * @summary Retrieve
    * @description Retrieve a secret or key, and any associated information.
-   * @operationId vault_post_v1_get
-   * @param {String} id - The item ID
-   * @param {Vault.GetOptions} options - The following options are supported:
+   * @operationId vault_post_v2_get
+   * @param {Vault.GetRequest} request - The following options are supported:
+   *   - id (string): The item ID
    *   - version (number | string): The key version(s).
    *     `all` for all versions, `num` for a specific version,
    *      `-num` for the `num` latest versions.
@@ -95,8 +88,8 @@ class VaultService extends BaseService {
    * @example
    * ```js
    * const response = await vault.getItem(
-   *   "pvi_p6g5i3gtbvqvc3u6zugab6qs6r63tqf5",
    *   {
+   *     id: "pvi_p6g5i3gtbvqvc3u6zugab6qs6r63tqf5",
    *     version: 1,
    *     version_state: Vault.ItemVersionState.ACTIVE,
    *     verbose: true,
@@ -105,22 +98,54 @@ class VaultService extends BaseService {
    * ```
    */
   async getItem(
-    id: string,
-    options: Vault.GetOptions = {}
+    request: Vault.GetRequest
   ): Promise<PangeaResponse<Vault.GetResult>> {
-    let data: Vault.GetRequest = {
-      id: id,
-    };
+    return this.post("v2/get", request);
+  }
 
-    Object.assign(data, options);
-    return this.post("v1/get", data);
+  /**
+   * @summary Get Bulk
+   * @description Retrieve a list of secrets, keys and folders.
+   * @operationId vault_post_v2_get_bulk
+   * @param {Vault.GetBulkRequest} request - The following options are supported:
+   *   - filter (object): A set of filters to help you customize your search. Examples:
+   *     `"folder": "/tmp"`, `"tags": "personal"`, `"name__contains": "xxx"`, `"created_at__gt": "2020-02-05T10:00:00Z"`
+   *     For metadata, use: `"metadata_": "<value>"`
+   *   - last (string): Internal ID returned in the previous look up response. Used for pagination.
+   *   - order: (Vault.ItemOrder): Ordering direction
+   *   - order_by: (Vault.ItemOrderBy): Property used to order the results
+   *   - size: (number): Maximum number of items in the response
+   * @returns {Promise} - A promise representing an async call to the get_bulk endpoint
+   * @example
+   * ```js
+   * const response = await vault.getBulk(
+   *   {
+   *     filter: {
+   *       folder: "/",
+   *       type: "asymmetric_key",
+   *       name__contains: "test",
+   *       metadata_key1: "value1",
+   *       created_at__lt: "2023-12-12T00:00:00Z",
+   *     },
+   *     last: "WyIvdGVzdF8yMDdfc3ltbWV0cmljLyJd",
+   *     order: Vault.ItemOrder.ASC,
+   *     order_by: Vault.ItemOrderby.NAME,
+   *     size=20,
+   *   }
+   * );
+   * ```
+   */
+  async getBulk(
+    request: Vault.GetBulkRequest
+  ): Promise<PangeaResponse<Vault.ListResult>> {
+    return this.post("v2/get_bulk", request);
   }
 
   /**
    * @summary List
    * @description Look up a list of secrets, keys and folders, and their associated information.
-   * @operationId vault_post_v1_list
-   * @param {Vault.ListOptions} options - The following options are supported:
+   * @operationId vault_post_v2_list
+   * @param {Vault.ListRequest} request - The following options are supported:
    *   - filter (object): A set of filters to help you customize your search. Examples:
    *     `"folder": "/tmp"`, `"tags": "personal"`, `"name__contains": "xxx"`, `"created_at__gt": "2020-02-05T10:00:00Z"`
    *     For metadata, use: `"metadata_": "<value>"`
@@ -149,17 +174,17 @@ class VaultService extends BaseService {
    * ```
    */
   async list(
-    options: Vault.ListOptions = {}
+    request: Vault.ListRequest = {}
   ): Promise<PangeaResponse<Vault.ListResult>> {
-    return this.post("v1/list", options);
+    return this.post("v2/list", request);
   }
 
   /**
    * @summary Update
    * @description Update information associated with a secret or key.
-   * @operationId vault_post_v1_update
-   * @param {String} id - The item ID
-   * @param {Vault.UpdateOptions} options - The following options are supported:
+   * @operationId vault_post_v2_update
+   * @param {Vault.UpdateRequest} request - The following options are supported:
+   *   - id (string): The item ID
    *   - name (string): The name of this item
    *   - folder (string): The folder where this item is stored
    *   - metadata (object): User-provided metadata
@@ -173,8 +198,8 @@ class VaultService extends BaseService {
    * @example
    * ```js
    * const response = await vault.update(
-   *   "pvi_p6g5i3gtbvqvc3u6zugab6qs6r63tqf5",
    *   {
+   *     id: "pvi_p6g5i3gtbvqvc3u6zugab6qs6r63tqf5",
    *     name: "my-very-secret-secret",
    *     folder: "/personal",
    *     metadata: {
@@ -192,27 +217,26 @@ class VaultService extends BaseService {
    * ```
    */
   async update(
-    id: string,
-    options: Vault.UpdateOptions = {}
+    request: Vault.UpdateRequest
   ): Promise<PangeaResponse<Vault.UpdateResult>> {
-    let data: Vault.UpdateRequest = {
-      id: id,
-    };
-
-    Object.assign(data, options);
-    return this.post("v1/update", data);
+    return this.post("v2/update", request);
   }
 
   /**
    * @summary Secret store
    * @description Import a secret.
-   * @operationId vault_post_v1_secret_store 1
-   * @param {String} secret - The secret value
-   * @param {String} name - The name of this item
-   * @param {Vault.Secret.StoreOptions} options - The following options are supported:
+   * @operationId vault_post_v2_secret_store 1
+   * @param {Vault.Secret.StoreRequest} request - The following options are supported:
+   *   - secret (string): The secret value
+   *   - token (string): The Pangea Token value
+   *   - client_secret (string): The oauth client secret
+   *   - client_id (string): The oauth client ID
+   *   - client_secret_id (string): The oauth client secret ID
+   *   - name (string): The name of this item
    *   - folder (string): The folder where this item is stored
    *   - metadata (object): User-provided metadata
    *   - tags (string[]): A list of user-defined tags
+   *   - rotation_grace_period (string): Grace period for the previous version of the secret
    *   - rotation_frequency (string): Period of time between item rotations
    *   - rotation_state (Vault.ItemVersionState): State to which the previous version should transition upon rotation.
    *   - expiration (string): Expiration timestamp
@@ -220,9 +244,9 @@ class VaultService extends BaseService {
    * @example
    * ```js
    * const response = await vault.secretStore(
-   *   "12sdfgs4543qv@#%$casd",
-   *   "my-very-secret-secret",
    *   {
+   *     secret: "12sdfgs4543qv@#%$casd",
+   *     name: "my-very-secret-secret",
    *     folder: "/personal",
    *     metadata: {
    *       "created_by": "John Doe",
@@ -237,138 +261,47 @@ class VaultService extends BaseService {
    * ```
    */
   async secretStore(
-    secret: string,
-    name: string,
-    options: Vault.Secret.StoreOptions = {}
+    request: Vault.Secret.StoreRequest
   ): Promise<PangeaResponse<Vault.Secret.StoreResult>> {
-    let data: Vault.Secret.StoreRequest = {
-      type: Vault.ItemType.SECRET,
-      secret: secret,
-      name: name,
-    };
-
-    Object.assign(data, options);
-    return this.post("v1/secret/store", data);
-  }
-
-  /**
-   * @summary Pangea token store
-   * @description Import a secret.
-   * @operationId vault_post_v1_secret_store 2
-   * @param {String} pangeaToken - The pangea token to store
-   * @param {String} name - The name of this item
-   * @param {Vault.Secret.StoreOptions} options - The following options are supported:
-   *   - folder (string): The folder where this item is stored
-   *   - metadata (object): User-provided metadata
-   *   - tags (string[]): A list of user-defined tags
-   *   - rotation_frequency (string): Period of time between item rotations
-   *   - rotation_state (Vault.ItemVersionState): State to which the previous version should transition upon rotation.
-   *   - expiration (string): Expiration timestamp
-   * @returns {Promise} - A promise representing an async call to the secret store endpoint
-   * @example
-   * ```js
-   * const response = await vault.pangeaTokenStore(
-   *   "ptv_x6fdiizbon6j3bsdvnpmwxsz2aan7fqd",
-   *   "my-very-secret-secret",
-   *   {
-   *     folder: "/personal",
-   *     metadata: {
-   *       "created_by": "John Doe",
-   *       "used_in": "Google products"
-   *     },
-   *     tags: ["irs_2023", "personal"],
-   *     rotation_frequency: "10d",
-   *     rotation_state: Vault.ItemVersionState.DEACTIVATED,
-   *     expiration: "2025-01-01T10:00:00Z",
-   *   }
-   * );
-   * ```
-   */
-  async pangeaTokenStore(
-    pangeaToken: string,
-    name: string,
-    options: Vault.Secret.StoreOptions = {}
-  ): Promise<PangeaResponse<Vault.Secret.StoreResult>> {
-    let data: Vault.Secret.StoreRequest = {
-      type: Vault.ItemType.PANGEA_TOKEN,
-      secret: pangeaToken,
-      name: name,
-    };
-
-    Object.assign(data, options);
-    return this.post("v1/secret/store", data);
+    return this.post("v2/secret/store", request);
   }
 
   /**
    * @summary Secret rotate
    * @description Rotate a secret.
-   * @operationId vault_post_v1_secret_rotate 1
-   * @param {String} id - The item ID
-   * @param {String} secret - The secret value
-   * @param {Vault.Secret.Secret.RotateOptions} options - The following options are supported:
+   * @operationId vault_post_v2_secret_rotate 1
+   * @param {Vault.Secret.RotateRequest} request - The following options are supported:
+   *   - id (string): The item ID
+   *   - secret (string): The secret value
    *   - rotation_state (Vault.ItemVersionState): State to which the previous version should transition upon rotation.
    *     Default is `deactivated`.
    * @returns {Promise} - A promise representing an async call to the secret rotate endpoint
    * @example
    * ```js
    * const response = await vault.secretRotate(
-   *   "pvi_p6g5i3gtbvqvc3u6zugab6qs6r63tqf5",
-   *   "12sdfgs4543qv@#%$casd",
    *   {
+   *     id: "pvi_p6g5i3gtbvqvc3u6zugab6qs6r63tqf5",
+   *     secret: "12sdfgs4543qv@#%$casd",
    *     rotation_state: Vault.ItemVersionState.DEACTIVATED,
    *   }
    * );
    * ```
    */
   async secretRotate(
-    id: string,
-    secret: string,
-    options: Vault.Secret.Secret.RotateOptions = {}
+    request: Vault.Secret.RotateRequest
   ): Promise<PangeaResponse<Vault.Secret.RotateResult>> {
-    let data: Vault.Secret.Secret.RotateRequest = {
-      id: id,
-      secret: secret,
-    };
-    Object.assign(data, options);
-    return this.post("v1/secret/rotate", data);
-  }
-
-  /**
-   * @summary Token rotate
-   * @description Rotate a Pangea token.
-   * @operationId vault_post_v1_secret_rotate 2
-   * @param {String} id - The item ID
-   * @param {String} rotation_grace_period - Grace period for the previous version of the Pangea Token
-   * @returns {Promise} - A promise representing an async call to the secret rotate endpoint
-   * @example
-   * ```js
-   * const response = await vault.pangeaTokenRotate(
-   *   "pvi_p6g5i3gtbvqvc3u6zugab6qs6r63tqf5",
-   *   "1d"
-   * );
-   * ```
-   */
-  async pangeaTokenRotate(
-    id: string,
-    rotation_grace_period: string
-  ): Promise<PangeaResponse<Vault.Secret.RotateResult>> {
-    let data: Vault.Secret.Token.RotateRequest = {
-      id: id,
-      rotation_grace_period: rotation_grace_period,
-    };
-
-    return this.post("v1/secret/rotate", data);
+    return this.post("v2/secret/rotate", request);
   }
 
   /**
    * @summary Symmetric generate
    * @description Generate a symmetric key.
-   * @operationId vault_post_v1_key_generate 2
-   * @param {Vault.SymmetricAlgorithm} algorithm - The algorithm of the key. Options
+   * @operationId vault_post_v2_key_generate 2
+   * @param {Vault.Symmetric.GenerateRequest} request - The following options are supported:
+   *   - algorithm (Vault.SymmetricAlgorithm): The algorithm of the key. Options
    * [listed in Vault documentation](https://pangea.cloud/docs/vault/manage-keys/generate-a-key#generating-a-symmetric-key).
-   * @param {Vault.KeyPurpose} purpose - The purpose of this key
-   * @param {String} name - The name of this item
-   * @param {Vault.Symmetric.GenerateOptions} options - The following options are supported:
+   *   - purpose (Vault.KeyPurpose): The purpose of this key
+   *   - name (string): The name of this item
    *   - folder (string): The folder where this item is stored
    *   - metadata (object): User-provided metadata
    *   - tags (string[]): A list of user-defined tags
@@ -379,10 +312,10 @@ class VaultService extends BaseService {
    * @example
    * ```js
    * const response = await vault.symmetricGenerate(
-   *   Vault.SymmetricAlgorithm.AES128_CFB,
-   *   Vault.KeyPurpose.ENCRYPTION,
-   *   "my-very-secret-secret",
    *   {
+   *     algorithm: Vault.SymmetricAlgorithm.AES128_CFB,
+   *     purpose: Vault.KeyPurpose.ENCRYPTION,
+   *     name: "my-very-secret-secret",
    *     folder: "/personal",
    *     metadata: {
    *       "created_by": "John Doe",
@@ -397,31 +330,21 @@ class VaultService extends BaseService {
    * ```
    */
   async symmetricGenerate(
-    algorithm: Vault.SymmetricAlgorithm,
-    purpose: Vault.KeyPurpose,
-    name: string,
-    options: Vault.Symmetric.GenerateOptions = {}
+    request: Vault.Symmetric.GenerateRequest
   ): Promise<PangeaResponse<Vault.Symmetric.GenerateResult>> {
-    let data: Vault.Symmetric.GenerateRequest = {
-      type: Vault.ItemType.SYMMETRIC_KEY,
-      algorithm: algorithm,
-      purpose: purpose,
-      name: name,
-    };
-
-    Object.assign(data, options);
-    return this.post("v1/key/generate", data);
+    request.type = Vault.ItemType.SYMMETRIC_KEY;
+    return this.post("v2/key/generate", request);
   }
 
   /**
    * @summary Asymmetric generate
    * @description Generate an asymmetric key.
-   * @operationId vault_post_v1_key_generate 1
-   * @param {Vault.AsymmetricAlgorithm} algorithm - The algorithm of the key. Options
-   * [listed in Vault documentation](https://pangea.cloud/docs/vault/manage-keys/generate-a-key#generating-asymmetric-key-pairs).
-   * @param {Vault.KeyPurpose} purpose - The purpose of this key
-   * @param {String} name - The name of this item
+   * @operationId vault_post_v2_key_generate 1
    * @param {Vault.Asymmetric.GenerateOptions} options - The following options are supported:
+   *   - algorithm (Vault.AsymmetricAlgorithm): The algorithm of the key. Options
+   * [listed in Vault documentation](https://pangea.cloud/docs/vault/manage-keys/generate-a-key#generating-asymmetric-key-pairs).
+   *   - purpose (Vault.KeyPurpose): The purpose of this key
+   *   - name (string): The name of this item
    *   - folder (string): The folder where this item is stored
    *   - metadata (object): User-provided metadata
    *   - tags (string[]): A list of user-defined tags
@@ -432,10 +355,10 @@ class VaultService extends BaseService {
    * @example
    * ```js
    * const response = await vault.asymmetricGenerate(
-   *   Vault.AsymmetricAlgorithm.RSA2048_PKCS1V15_SHA256,
-   *   Vault.KeyPurpose.SIGNING,
-   *   "my-very-secret-secret",
    *   {
+   *     algorithm: Vault.AsymmetricAlgorithm.RSA2048_PKCS1V15_SHA256,
+   *     purpose: Vault.KeyPurpose.SIGNING,
+   *     name: "my-very-secret-secret",
    *     folder: "/personal",
    *     metadata: {
    *       "created_by": "John Doe",
@@ -450,33 +373,23 @@ class VaultService extends BaseService {
    * ```
    */
   async asymmetricGenerate(
-    algorithm: Vault.AsymmetricAlgorithm,
-    purpose: Vault.KeyPurpose,
-    name: string,
-    options: Vault.Asymmetric.GenerateOptions = {}
+    request: Vault.Asymmetric.GenerateRequest
   ): Promise<PangeaResponse<Vault.Asymmetric.GenerateResult>> {
-    let data: Vault.Asymmetric.GenerateRequest = {
-      type: Vault.ItemType.ASYMMETRIC_KEY,
-      algorithm: algorithm,
-      purpose: purpose,
-      name: name,
-    };
-
-    Object.assign(data, options);
-    return this.post("v1/key/generate", data);
+    request.type = Vault.ItemType.ASYMMETRIC_KEY;
+    return this.post("v2/key/generate", request);
   }
 
   /**
    * @summary Asymmetric store
    * @description Import an asymmetric key.
-   * @operationId vault_post_v1_key_store 1
-   * @param {Vault.EncodedPrivateKey} privateKey - The private key in PEM format
-   * @param {Vault.EncodedPublicKey} publicKey - The public key in PEM format
-   * @param {Vault.AsymmetricAlgorithm} algorithm - The algorithm of the key. Options
+   * @operationId vault_post_v2_key_store 1
+   * @param {Vault.Asymmetric.StoreRequest} request - The following options are supported:
+   *   - private_key (Vault.EncodedPrivateKey): The private key in PEM format
+   *   - public_key (Vault.EncodedPublicKey): The public key in PEM format
+   *   - algorithm (Vault.AsymmetricAlgorithm): The algorithm of the key. Options
    * [listed in Vault documentation](https://pangea.cloud/docs/vault/manage-keys/import-a-key#importing-an-asymmetric-key-pair).
-   * @param {Vault.KeyPurpose} purpose - The purpose of this key. `signing`, `encryption`, or `jwt`.
-   * @param {String} name - The name of this item
-   * @param {Vault.Asymmetric.StoreOptions} options - The following options are supported:
+   *   - purpose (Vault.KeyPurpose): The purpose of this key. `signing`, `encryption`, or `jwt`.
+   *   - name (string): The name of this item
    *   - folder (string): The folder where this item is stored
    *   - metadata (object): User-provided metadata
    *   - tags (string[]): A list of user-defined tags
@@ -487,12 +400,12 @@ class VaultService extends BaseService {
    * @example
    * ```js
    * const response = await vault.asymmetricStore(
-   *   "private key example",
-   *   "-----BEGIN PUBLIC KEY-----\nMCowBQYDK2VwAyEA8s5JopbEPGBylPBcMK+L5PqHMqPJW/5KYPgBHzZGncc=\n-----END PUBLIC KEY-----",
-   *   Vault.AsymmetricAlgorithm.RSA2048_PKCS1V15_SHA256,
-   *   Vault.KeyPurpose.SIGNING,
-   *   "my-very-secret-secret",
    *   {
+   *     private_key: "private key example",
+   *     public_key: "-----BEGIN PUBLIC KEY-----\nMCowBQYDK2VwAyEA8s5JopbEPGBylPBcMK+L5PqHMqPJW/5KYPgBHzZGncc=\n-----END PUBLIC KEY-----",
+   *     algorithm: Vault.AsymmetricAlgorithm.RSA2048_PKCS1V15_SHA256,
+   *     purpose: Vault.KeyPurpose.SIGNING,
+   *     name: "my-very-secret-secret",
    *     folder: "/personal",
    *     metadata: {
    *       "created_by": "John Doe",
@@ -507,36 +420,22 @@ class VaultService extends BaseService {
    * ```
    */
   async asymmetricStore(
-    privateKey: Vault.EncodedPrivateKey,
-    publicKey: Vault.EncodedPublicKey,
-    algorithm: Vault.AsymmetricAlgorithm,
-    purpose: Vault.KeyPurpose,
-    name: string,
-    options: Vault.Asymmetric.StoreOptions = {}
+    request: Vault.Asymmetric.StoreRequest
   ): Promise<PangeaResponse<Vault.Asymmetric.StoreResult>> {
-    let data: Vault.Asymmetric.StoreRequest = {
-      type: Vault.ItemType.ASYMMETRIC_KEY,
-      private_key: privateKey,
-      public_key: publicKey,
-      algorithm: algorithm,
-      purpose: purpose,
-      name: name,
-    };
-
-    Object.assign(data, options);
-    return this.post("v1/key/store", data);
+    request.type = Vault.ItemType.ASYMMETRIC_KEY;
+    return this.post("v2/key/store", request);
   }
 
   /**
    * @summary Symmetric store
    * @description Import a symmetric key.
-   * @operationId vault_post_v1_key_store 2
-   * @param {String} key - The key material (in base64)
-   * @param {Vault.SymmetricAlgorithm} algorithm - The algorithm of the key. Options
+   * @operationId vault_post_v2_key_store 2
+   * @param {Vault.Asymmetric.StoreRequest} request - The following options are supported:
+   *   - key (string): The key material (in base64)
+   *   - algorithm (Vault.SymmetricAlgorithm): The algorithm of the key. Options
    * [listed in Vault documentation](https://pangea.cloud/docs/vault/manage-keys/import-a-key#importing-a-symmetric-key).
-   * @param {Vault.KeyPurpose} purpose - The purpose of this key. `encryption` or `jwt`
-   * @param {String} name - The name of this item
-   * @param {Vault.Asymmetric.StoreOptions} options - The following options are supported:
+   *   - purpose (Vault.KeyPurpose): The purpose of this key. `encryption` or `jwt`
+   *   - name (string): The name of this item
    *   - folder (string): The folder where this item is stored
    *   - metadata (object): User-provided metadata
    *   - tags (string[]): A list of user-defined tags
@@ -547,11 +446,11 @@ class VaultService extends BaseService {
    * @example
    * ```js
    * const response = await vault.symmetricStore(
-   *   "lJkk0gCLux+Q+rPNqLPEYw==",
-   *   Vault.SymmetricAlgorithm.AES128_CFB,
-   *   Vault.KeyPurpose.ENCRYPTION,
-   *   "my-very-secret-secret",
    *   {
+   *     keY: "lJkk0gCLux+Q+rPNqLPEYw==",
+   *     algorithm: Vault.SymmetricAlgorithm.AES128_CFB,
+   *     purpose: Vault.KeyPurpose.ENCRYPTION,
+   *     name: "my-very-secret-secret",
    *     folder: "/personal",
    *     metadata: {
    *       "created_by": "John Doe",
@@ -566,30 +465,18 @@ class VaultService extends BaseService {
    * ```
    */
   async symmetricStore(
-    key: string,
-    algorithm: Vault.SymmetricAlgorithm,
-    purpose: Vault.KeyPurpose,
-    name: string,
-    options: Vault.Asymmetric.StoreOptions = {}
+    request: Vault.Symmetric.StoreRequest
   ): Promise<PangeaResponse<Vault.Symmetric.StoreResult>> {
-    let data: Vault.Symmetric.StoreRequest = {
-      type: Vault.ItemType.SYMMETRIC_KEY,
-      key: key,
-      algorithm: algorithm,
-      purpose: purpose,
-      name: name,
-    };
-
-    Object.assign(data, options);
-    return this.post("v1/key/store", data);
+    request.type = Vault.ItemType.SYMMETRIC_KEY;
+    return this.post("v2/key/store", request);
   }
 
   /**
    * @summary Key rotate
    * @description Manually rotate a symmetric or asymmetric key.
-   * @operationId vault_post_v1_key_rotate
-   * @param {String} id - The ID of the item
-   * @param {Vault.Key.RotateOptions} options - Supported options:
+   * @operationId vault_post_v2_key_rotate
+   * @param {Vault.Key.RotateRequest} request - Supported options:
+   *   - id (string): The ID of the item
    *   - rotation_state (Vault.ItemVersionState): State to which the previous version should transition upon rotation.
    *     `deactivated`, `suspended`, or `destroyed`. Default is `deactivated`.
    *   - public_key (string): The public key (in PEM format)
@@ -608,78 +495,61 @@ class VaultService extends BaseService {
    * ```
    */
   async keyRotate(
-    id: string,
-    options: Vault.Key.RotateOptions = {}
+    request: Vault.Key.RotateRequest
   ): Promise<PangeaResponse<Vault.Key.RotateResult>> {
-    let data: Vault.Key.RotateRequest = {
-      id: id,
-    };
-
-    Object.assign(data, options);
-    return this.post("v1/key/rotate", data);
+    return this.post("v2/key/rotate", request);
   }
 
   /**
    * @summary Encrypt
    * @description Encrypt a message using a key.
-   * @operationId vault_post_v1_key_encrypt
-   * @param {String} id - The item ID
-   * @param {String} plainText - A message to be in encrypted (in base64)
+   * @operationId vault_post_v2_key_encrypt
+   * @param {Vault.Symmetric.EncryptRequest} request - Supported options:
+   *   - id (string) The item ID
+   *   - plainText (string): A message to be in encrypted (in base64)
    * @returns {Promise} - A promise representing an async call to the key encrypt endpoint
    * @example
    * ```js
-   * const response = await vault.encrypt(
-   *   "pvi_p6g5i3gtbvqvc3u6zugab6qs6r63tqf5",
-   *   "lJkk0gCLux+Q+rPNqLPEYw=="
-   * );
+   * const response = await vault.encrypt({
+   *   id: "pvi_p6g5i3gtbvqvc3u6zugab6qs6r63tqf5",
+   *   plain_text: "lJkk0gCLux+Q+rPNqLPEYw=="
+   * });
    * ```
    */
   async encrypt(
-    id: string,
-    plainText: string
+    request: Vault.Symmetric.EncryptRequest
   ): Promise<PangeaResponse<Vault.Symmetric.EncryptResult>> {
-    let data: Vault.Symmetric.EncryptRequest = {
-      id: id,
-      plain_text: plainText,
-    };
-    return this.post("v1/key/encrypt", data);
+    return this.post("v2/encrypt", request);
   }
 
   /**
    * @summary Decrypt
    * @description Decrypt a message using a key.
-   * @operationId vault_post_v1_key_decrypt
-   * @param {String} id - The item ID
-   * @param {String} cipherText - A message encrypted by Vault (in base64)
-   * @param {Object} options - Supported options:
+   * @operationId vault_post_v2_key_decrypt
+   * @param {Object} request - Supported options:
+   *   - id (string): The item ID
+   *   - cipher_text (string): A message encrypted by Vault (in base64)
    *   - version (number): The item version
    * @returns {Promise} - A promise representing an async call to the key decrypt endpoint
    * @example
    * ```js
-   * const response = await vault.decrypt(
-   *   "pvi_p6g5i3gtbvqvc3u6zugab6qs6r63tqf5",
-   *   "lJkk0gCLux+Q+rPNqLPEYw==",
-   *   1
-   * );
+   * const response = await vault.decrypt({
+   *   id: "pvi_p6g5i3gtbvqvc3u6zugab6qs6r63tqf5",
+   *   cipher_text: "lJkk0gCLux+Q+rPNqLPEYw==",
+   *   version: 1
+   * });
    * ```
    */
   async decrypt(
-    id: string,
-    cipherText: string,
-    options: Vault.Symmetric.DecryptOptions = {}
+    request: Vault.Symmetric.DecryptRequest
   ): Promise<PangeaResponse<Vault.Symmetric.DecryptResult>> {
-    let data: Vault.Symmetric.DecryptRequest = {
-      id: id,
-      cipher_text: cipherText,
-    };
-    Object.assign(data, options);
-    return this.post("v1/key/decrypt", data);
+    return this.post("v2/decrypt", request);
   }
 
   /**
    * @summary Sign
    * @description Sign a message using a key.
-   * @operationId vault_post_v1_key_sign
+   * @operationId vault_post_v2_key_sign
    * @param {String} id - The item ID
    * @param {String} message - The message to be signed, in base64
    * @returns {Promise} - A promise representing an async call to the key sign endpoint
@@ -699,49 +569,40 @@ class VaultService extends BaseService {
       id: id,
       message: message,
     };
-    return this.post("v1/key/sign", data);
+    return this.post("v2/sign", data);
   }
 
   /**
    * @summary Verify
    * @description Verify a signature using a key.
-   * @operationId vault_post_v1_key_verify
-   * @param {String} id - The item ID
-   * @param {String} message - The message to be verified (in base64)
-   * @param {String} signature - The message signature (in base64)
-   * @param {Vault.Asymmetric.VerifyOptions} options - Supported options:
+   * @operationId vault_post_v2_key_verify
+   * @param {Vault.Asymmetric.VerifyOptions} request - Supported options:
+   *   - id (string): The item ID
+   *   - message (string): The message to be verified (in base64)
+   *   - signature (string): The message signature (in base64)
    *   - version (number): The item version
    * @returns {Promise} - A promise representing an async call to the key verify endpoint
    * @example
    * ```js
-   * const response = await vault.verify(
-   *   "pvi_p6g5i3gtbvqvc3u6zugab6qs6r63tqf5",
-   *   "lJkk0gCLux+Q+rPNqLPEYw=="
-   *   "FfWuT2Mq/+cxa7wIugfhzi7ktZxVf926idJNgBDCysF/knY9B7M6wxqHMMPDEBs86D8OsEGuED21y3J7IGOpCQ==",
-   * );
+   * const response = await vault.verify({
+   *   id: "pvi_p6g5i3gtbvqvc3u6zugab6qs6r63tqf5",
+   *   message: "lJkk0gCLux+Q+rPNqLPEYw=="
+   *   signature: "FfWuT2Mq/+cxa7wIugfhzi7ktZxVf926idJNgBDCysF/knY9B7M6wxqHMMPDEBs86D8OsEGuED21y3J7IGOpCQ==",
+   * });
    * ```
    */
   async verify(
-    id: string,
-    message: string,
-    signature: string,
-    options: Vault.Asymmetric.VerifyOptions = {}
+    request: Vault.Asymmetric.VerifyRequest
   ): Promise<PangeaResponse<Vault.Asymmetric.VerifyResult>> {
-    let data: Vault.Asymmetric.VerifyRequest = {
-      id: id,
-      message: message,
-      signature: signature,
-    };
-    Object.assign(data, options);
-    return this.post("v1/key/verify", data);
+    return this.post("v2/verify", request);
   }
 
   /**
    * @summary JWT Retrieve
    * @description Retrieve a key in JWK format.
-   * @operationId vault_post_v1_get_jwk
-   * @param {String} id - The item ID
+   * @operationId vault_post_v2_get_jwk
    * @param {Vault.JWK.GetOptions} options - Supported options:
+   *   - id (string): The item ID
    *   - version (string): The key version(s). `all` for all versions, `num` for a specific version,
    *     `-num` for the `num` latest versions
    * @returns {Promise} - A promise representing an async call to the get JWK endpoint
@@ -753,20 +614,15 @@ class VaultService extends BaseService {
    * ```
    */
   async jwkGet(
-    id: string,
-    options: Vault.JWK.GetOptions = {}
+    request: Vault.JWK.GetRequest
   ): Promise<PangeaResponse<Vault.JWK.GetResult>> {
-    let data: Vault.JWK.GetRequest = {
-      id: id,
-    };
-    Object.assign(data, options);
-    return this.post("v1/get/jwk", data);
+    return this.post("v2/jwk/get", request);
   }
 
   /**
    * @summary JWT Sign
    * @description Sign a JSON Web Token (JWT) using a key.
-   * @operationId vault_post_v1_key_sign_jwt
+   * @operationId vault_post_v2_key_sign_jwt
    * @param {String} id - The item ID
    * @param {String} payload - The JWT payload (in JSON)
    * @returns {Promise} - A promise representing an async call to the JWT sign endpoint
@@ -786,13 +642,13 @@ class VaultService extends BaseService {
       id: id,
       payload: payload,
     };
-    return this.post("v1/key/sign/jwt", data);
+    return this.post("v2/jwt/sign", data);
   }
 
   /**
    * @summary JWT Verify
    * @description Verify the signature of a JSON Web Token (JWT).
-   * @operationId vault_post_v1_key_verify_jwt
+   * @operationId vault_post_v2_key_verify_jwt
    * @param {String} jws - The signed JSON Web Token (JWS)
    * @returns {Promise} - A promise representing an async call to the JWT verify endpoint
    * @example
@@ -808,13 +664,13 @@ class VaultService extends BaseService {
     let data: Vault.JWT.VerifyRequest = {
       jws: jws,
     };
-    return this.post("v1/key/verify/jwt", data);
+    return this.post("v2/jwt/verify", data);
   }
 
   /**
    * @summary Create
    * @description Creates a folder.
-   * @operationId vault_post_v1_folder_create
+   * @operationId vault_post_v2_folder_create
    * @param {Vault.Folder.CreateRequest} request - An object representing request to /folder/create endpoint
    * @returns {Promise} - A promise representing an async call to the folder create endpoint
    * @example
@@ -828,13 +684,13 @@ class VaultService extends BaseService {
   async folderCreate(
     request: Vault.Folder.CreateRequest
   ): Promise<PangeaResponse<Vault.Folder.CreateResult>> {
-    return this.post("v1/folder/create", request);
+    return this.post("v2/folder/create", request);
   }
 
   /**
    * @summary Encrypt structured
    * @description Encrypt parts of a JSON object.
-   * @operationId vault_post_v1_key_encrypt_structured
+   * @operationId vault_post_v2_key_encrypt_structured
    * @param request Request parameters.
    * @returns A `Promise` of the encrypted result.
    * @example
@@ -849,13 +705,13 @@ class VaultService extends BaseService {
   async encryptStructured<O>(
     request: Vault.Key.EncryptStructuredRequest<O>
   ): Promise<PangeaResponse<Vault.Key.EncryptStructuredResult<O>>> {
-    return this.post("v1/key/encrypt/structured", request);
+    return this.post("v2/encrypt_structured", request);
   }
 
   /**
    * @summary Decrypt structured
    * @description Decrypt parts of a JSON object.
-   * @operationId vault_post_v1_key_decrypt_structured
+   * @operationId vault_post_v2_key_decrypt_structured
    * @param request Request parameters.
    * @returns A `Promise` of the decrypted result.
    * @example
@@ -870,13 +726,13 @@ class VaultService extends BaseService {
   async decryptStructured<O>(
     request: Vault.Key.EncryptStructuredRequest<O>
   ): Promise<PangeaResponse<Vault.Key.EncryptStructuredResult<O>>> {
-    return this.post("v1/key/decrypt/structured", request);
+    return this.post("v2/decrypt_structured", request);
   }
 
   /**
    * @summary Encrypt transform
    * @description Encrypt using a format-preserving algorithm (FPE).
-   * @operationId vault_post_v1_key_encrypt_transform
+   * @operationId vault_post_v2_key_encrypt_transform
    * @param request Request parameters.
    * @returns A `Promise` of the encrypted result.
    * @example
@@ -892,13 +748,13 @@ class VaultService extends BaseService {
   async encryptTransform(
     request: Vault.Key.EncryptTransformRequest
   ): Promise<PangeaResponse<Vault.Key.EncryptTransformResult>> {
-    return this.post("v1/key/encrypt/transform", request);
+    return this.post("v2/encrypt_transform", request);
   }
 
   /**
    * @summary Decrypt transform
    * @description Decrypt using a format-preserving algorithm (FPE).
-   * @operationId vault_post_v1_key_decrypt_transform
+   * @operationId vault_post_v2_key_decrypt_transform
    * @param request Request parameters.
    * @returns A `Promise` of the decrypted result.
    * @example
@@ -914,13 +770,13 @@ class VaultService extends BaseService {
   async decryptTransform(
     request: Vault.Key.DecryptTransformRequest
   ): Promise<PangeaResponse<Vault.Key.DecryptTransformResult>> {
-    return this.post("v1/key/decrypt/transform", request);
+    return this.post("v2/decrypt_transform", request);
   }
 
   /**
    * @summary Export
    * @description Export a symmetric or asymmetric key.
-   * @operationId vault_post_v1_export
+   * @operationId vault_post_v2_export
    * @param request Request parameters.
    * @returns A `Promise` of the export result.
    * @example
@@ -940,7 +796,7 @@ class VaultService extends BaseService {
   async export(
     request: Vault.ExportRequest
   ): Promise<PangeaResponse<Vault.ExportResult>> {
-    return this.post("v1/export", request);
+    return this.post("v2/export", request);
   }
 }
 

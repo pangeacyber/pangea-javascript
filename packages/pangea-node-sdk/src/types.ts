@@ -828,6 +828,8 @@ export namespace Vault {
   export enum ExportEncryptionAlgorithm {
     /** RSA 4096-bit key, OAEP padding, SHA512 digest. */
     RSA4096_OAEP_SHA512 = "RSA-OAEP-4096-SHA512",
+
+    RSA4096_NO_PADDING_KEM = "RSA-NO-PADDING-4096-KEM",
   }
 
   export enum ItemType {
@@ -835,6 +837,9 @@ export namespace Vault {
     SYMMETRIC_KEY = "symmetric_key",
     SECRET = "secret",
     PANGEA_TOKEN = "pangea_token",
+    FOLDER = "folder",
+    PANGEA_CLIENT_SECRET = "pangea_client_secret",
+    PANGEA_PLATFORM_CLIENT_SECRET = "pangea_platform_client_secret",
   }
 
   export enum ItemState {
@@ -890,6 +895,11 @@ export namespace Vault {
     NUMERIC = "numeric",
   }
 
+  export enum ExportEncryptionType {
+    ASYMMETRIC = "asymmetric",
+    KEM = "kem",
+  }
+
   export type Metadata = Object;
   export type Tags = string[];
 
@@ -904,14 +914,11 @@ export namespace Vault {
   // EncodedSymmetricKey is a base64 encoded key
   export type EncodedSymmetricKey = string;
 
-  export interface StateChangeOptions {
-    version?: number;
-    destroy_period?: string;
-  }
-
-  export interface StateChangeRequest extends StateChangeOptions {
+  export interface StateChangeRequest {
     id: string;
     state: Vault.ItemVersionState;
+    version?: number;
+    destroy_period?: string;
   }
 
   export interface StateChangeResult {
@@ -930,25 +937,67 @@ export namespace Vault {
   }
 
   export interface ItemData {
+    /** The type of the item */
     type: string;
+
+    /** The ID of the item */
     id: string;
-    item_state?: string;
-    current_version?: ItemVersionData;
+
+    /** Latest version number */
+    num_versions: number;
+
+    /** True if the item is enabled */
+    enabled: boolean;
+
+    /** The name of this item */
     name?: string;
+
+    /** The folder where this item is stored */
     folder?: string;
+
+    /** User-provided metadata */
     metadata?: Metadata;
+
+    /** A list of user-defined tags */
     tags?: Tags;
+
+    /** Period of time between item rotations. */
     rotation_frequency?: string;
+
+    /** State to which the previous version should transition upon rotation */
     rotation_state?: string;
+
+    /** Timestamp of the last rotation (if any) */
     last_rotated?: string;
+
+    /** Timestamp of the next rotation, if auto rotation is enabled. */
     next_rotation?: string;
-    expiration?: string;
+
+    /** Timestamp indicating when the item will be disabled */
+    disabled_at?: string;
+
+    /** Timestamp indicating when the item was created */
     created_at: string;
-    algorithm: string;
-    purpose: string;
+
+    /** The algorithm of the key */
+    algorithm?: string;
+
+    /** The purpose of the key */
+    purpose?: string;
+
+    /** Grace period for the previous version of the secret */
+    rotation_grace_period?: string;
 
     /** Whether the key is exportable or not. */
     exportable?: boolean;
+
+    /** */
+    client_id?: string;
+
+    /** For settings that inherit a value from a parent folder, the full path of the folder where the value is set */
+    inherited_settings?: InheritedSettigs;
+
+    item_versions: ItemVersionData[];
   }
 
   export interface ListItemData extends ItemData {
@@ -957,55 +1006,110 @@ export namespace Vault {
 
   export interface ListResult {
     items: ListItemData[];
-    count: number;
+
+    /** Internal ID returned in the previous look up response. Used for pagination. */
     last?: string;
   }
 
-  export interface ListOptions {
+  export interface ListRequest {
+    /** A set of filters to help you customize your search. */
     filter?: Object;
+
+    /** Internal ID returned in the previous look up response. Used for pagination. */
     last?: string;
+
+    /** Maximum number of items in the response */
     size?: number;
+
+    /** Ordering direction */
     order?: Vault.ItemOrder;
+
+    /** Property used to order the results */
     order_by?: Vault.ItemOrderBy;
   }
 
-  export interface UpdateOptions {
+  export interface GetBulkRequest {
+    /** A set of filters to help you customize your search. */
+    filter?: Object;
+
+    /** Internal ID returned in the previous look up response. Used for pagination. */
+    last?: string;
+
+    /** Maximum number of items in the response */
+    size?: number;
+
+    /** Ordering direction */
+    order?: Vault.ItemOrder;
+
+    /** Property used to order the results */
+    order_by?: Vault.ItemOrderBy;
+  }
+
+  export interface GetBulkResult {
+    items: ItemData[];
+    last?: string;
+  }
+
+  export interface UpdateRequest {
+    /** The item ID */
+    id: string;
+
+    /** The name of this item */
     name?: string;
+
+    /** The parent folder where this item is stored */
     folder?: string;
+
+    /** User-provided metadata */
     metadata?: Metadata;
+
+    /** A list of user-defined tags */
     tags?: Tags;
+
+    /** Timestamp indicating when the item will be disabled */
+    disabled_at?: string;
+
+    /** True if the item is enabled */
+    enabled?: boolean;
+
+    /** Period of time between item rotations, never to disable rotation or inherited to inherit the value from the parent folder or from the default settings (format: a positive number followed by a time period (secs, mins, hrs, days, weeks, months, years) or an abbreviation */
     rotation_frequency?: string;
+
+    /** State to which the previous version should transition upon rotation or inherited to inherit the value from the parent folder or from the default settings */
     rotation_state?: ItemVersionState;
+
+    /** Grace period for the previous version of the Pangea Token or inherited to inherit the value from the parent folder or from the default settings (format: a positive number followed by a time period (secs, mins, hrs, days, weeks, months, years) or an abbreviation */
     rotation_grace_period?: string;
-    expiration?: string;
-    item_state?: string;
   }
 
-  export interface UpdateRequest extends UpdateOptions {
+  export interface UpdateResult extends ItemData {}
+
+  export interface GetRequest {
     id: string;
-  }
-
-  export interface UpdateResult {
-    id: string;
-  }
-
-  export interface GetOptions {
     version?: number | string;
-    verbose?: boolean;
-    version_state?: ItemVersionState;
-  }
-
-  export interface GetRequest extends GetOptions {
-    id: string;
   }
 
   export interface ItemVersionData {
+    /** The item version */
     version: number;
+
+    /** The state of the item version */
     state: string;
+
+    /** Timestamp indicating when the item was created */
     created_at: string;
-    destroy_at?: string;
+
+    /** Timestamp indicating when the item version will be destroyed */
+    destroyed_at?: string;
+
+    /** Timestamp indicating when the item version will be rotated */
+    rotated_at?: string;
+
     public_key?: EncodedPublicKey;
     secret?: string;
+    token?: string;
+    client_secret?: string;
+    client_secret_id?: string;
   }
 
   export interface InheritedSettigs {
@@ -1014,32 +1118,23 @@ export namespace Vault {
     rotation_grace_period?: string;
   }
 
-  export interface GetResult extends ItemData {
-    rotation_grace_period?: string;
-    versions: ItemVersionData[];
-    inherited_settings?: InheritedSettigs;
-  }
+  export interface GetResult extends ItemData {}
 
   export interface ExportRequest {
-    /**
-     * The ID of the item.
-     */
+    /** The ID of the item */
     id: string;
 
-    /**
-     * The item version.
-     */
+    /** The item version */
     version?: number;
 
-    /**
-     * Public key in pem format used to encrypt exported key(s).
-     */
-    encryption_key?: string;
+    /** Public key in pem format used to encrypt exported key(s). */
+    asymmetric_public_key?: string;
 
-    /**
-     * The algorithm of the public key.
-     */
-    encryption_algorithm?: ExportEncryptionAlgorithm;
+    /** The algorithm of the public key. */
+    asymmetric_algorithm?: ExportEncryptionAlgorithm;
+
+    /** This is the password that will be used along with a salt to derive the symmetric key that is used to encrypt the exported key material. Required if encryption_type is kem. */
+    kem_password?: string;
   }
 
   export interface ExportResult {
@@ -1059,9 +1154,9 @@ export namespace Vault {
     type: string;
 
     /**
-     * The state of the item.
+     * True if the item is enabled.
      */
-    item_state: string;
+    enabled: boolean;
 
     /**
      * The algorithm of the key.
@@ -1083,28 +1178,49 @@ export namespace Vault {
      */
     key?: string;
 
-    /**
-     * Whether exported key(s) are encrypted with encryption_key sent on the request or not.
-     * If encrypted, the result is sent in base64, any other case they are in PEM format plain text.
-     */
-    encrypted: boolean;
+    /** Encryption format of the exported key(s). It could be none if returned in plain text, asymmetric if it is encrypted just with the public key sent in asymmetric_public_key, or kem if it was encrypted using KEM protocol. */
+    encryption_type?: string;
+
+    /** The algorithm of the public key used to encrypt exported material */
+    asymmetric_algorithm?: string;
+
+    /** The algorithm of the symmetric key used to encrypt exported material */
+    symmetric_algorithm?: string;
+
+    /** Key derivation function used to derivate the symmetric key when `encryption_type` is `kem` */
+    kdf?: string;
+
+    /** Hash algorithm used to derivate the symmetric key when `encryption_type` is `kem` */
+    hash_algorithm?: string;
+
+    /** Salt used to derivate the symmetric key when `encryption_type` is `kem`, encrypted with the public key provided in `asymmetric_key` */
+    encrypted_salt?: string;
+
+    /** Iteration count used to derivate the symmetric key when `encryption_type` is `kem` */
+    iteration_count?: number;
   }
 
   export namespace JWT {
     export interface SignRequest {
+      /** The item ID */
       id: string;
+
+      /** The JWT payload (in JSON) */
       payload: string;
     }
 
     export interface SignResult {
+      /** The signed JSON Web Token (JWS) */
       jws: string;
     }
 
     export interface VerifyRequest {
+      /** The signed JSON Web Token (JWS) */
       jws: string;
     }
 
     export interface VerifyResult {
+      /** Indicates if messages have been verified */
       valid_signature: boolean;
     }
   }
@@ -1133,75 +1249,68 @@ export namespace Vault {
     export interface JWK extends Header {}
 
     export interface GetResult {
+      /** The JSON Web Key Set (JWKS) object. Fields with key information are base64URL encoded. */
       keys: [JWKrsa | JWKec][];
     }
 
-    export interface GetOptions {
-      version?: string;
-    }
-
-    export interface GetRequest extends GetOptions {
+    export interface GetRequest {
+      /** The item ID */
       id: string;
+
+      /** The key version(s). all for all versions, num for a specific version, -num for the num latest versions */
+      version?: string;
     }
   }
 
   export namespace Common {
-    export interface StoreOptions {
-      folder?: string;
-      metadata?: Metadata;
-      tags?: Tags;
-      rotation_frequency?: string;
-      rotation_state?: ItemVersionState;
-      expiration?: string;
-    }
-
-    export interface StoreRequest {
+    export interface StoreRequest extends GenerateStoreOptions {
+      /** The type of the item */
       type: Vault.ItemType;
+
+      /** The name of this item */
       name: string;
     }
 
-    export interface StoreResult {
-      id: string;
-      type: string;
-      version: number;
-    }
+    export interface GenerateRequest extends GenerateStoreOptions {
+      /** The type of the item */
+      type?: Vault.ItemType;
 
-    export interface GenerateRequest {
-      type: Vault.ItemType;
+      /** The name of this item */
       name: string;
     }
 
-    export interface GenerateOptions {
+    export interface GenerateStoreOptions {
+      /** The folder where this item is stored */
       folder?: string;
+
+      /** User-provided metadata */
       metadata?: Metadata;
+
+      /** A list of user-defined tags */
       tags?: Tags;
+
+      /** Period of time between item rotations. */
       rotation_frequency?: string;
+
+      /** State to which the previous version should transition upon rotation */
       rotation_state?: ItemVersionState;
-      expiration?: string;
+
+      /** Timestamp indicating when the item will be disabled */
+      disabled_at?: string;
 
       /** Whether the key is exportable or not. */
       exportable?: boolean;
     }
 
-    export interface GenerateResult {
-      id: string;
-      type: string;
-      version: number;
-    }
-
     export interface RotateRequest {
+      /** The ID of the item */
       id: string;
-    }
 
-    export interface RotateOptions {
+      /** State to which the previous version should transition upon rotation */
       rotation_state?: ItemVersionState;
     }
 
-    export interface RotateResult {
-      id: string;
-      version: number;
-      type: string;
-    }
+    export interface RotateResult extends ItemData {}
   }
 
   export namespace Secret {
@@ -1209,52 +1318,70 @@ export namespace Vault {
       BASE32: "base32",
     };
 
-    export interface StoreOptions extends Common.StoreOptions {}
+    export interface StoreRequest extends Common.StoreRequest {
+      /** The secret value */
+      secret?: string;
 
-    export interface StoreRequest extends Common.StoreRequest, StoreOptions {
-      secret: string;
+      /** The Pangea Token value */
+      token?: string;
+
+      /** The oauth client secret */
+      client_secret?: string;
+
+      /** The oauth client ID */
+      client_id?: string;
+
+      /** The oauth client secret ID */
+      client_secret_id?: string;
+
+      /** Grace period for the previous version of the secret */
+      rotation_grace_period?: string;
     }
 
-    export interface StoreResult extends Common.StoreResult {
-      secret: string;
+    export interface StoreResult extends ItemData {
+      /** The secret value */
+      secret?: string;
+
+      /** The Pangea Token value */
+      token?: string;
+
+      /** The oauth client secret */
+      client_secret?: string;
+
+      /** The oauth client ID */
+      client_id?: string;
+
+      /** The oauth client secret ID */
+      client_secret_id?: string;
+
+      /** Grace period for the previous version of the secret */
+      rotation_grace_period?: string;
     }
 
-    export namespace Secret {
-      export interface RotateOptions extends Common.RotateOptions {}
-      export interface RotateRequest
-        extends Common.RotateRequest,
-          RotateOptions {
-        secret?: string;
-      }
+    export interface RotateRequest extends Common.RotateRequest {
+      /** The secret value */
+      secret?: string;
+
+      /** Grace period for the previous version of the secret */
+      rotation_grace_period?: string;
     }
 
-    export namespace Token {
-      export interface RotateRequest extends Common.RotateRequest {
-        rotation_grace_period: string;
-      }
-    }
-
-    export interface RotateResult extends Common.RotateResult {
-      secret: string;
-    }
+    export interface RotateResult extends ItemData {}
   }
 
   export namespace Key {
-    export interface RotateOptions extends Common.RotateOptions {
-      key?: EncodedSymmetricKey;
+    export interface RotateRequest extends Common.RotateRequest {
+      /** The public key (in PEM format) */
       public_key?: EncodedPublicKey;
+
+      /** The private key (in PEM format) */
       private_key?: EncodedPrivateKey;
+
+      /** The key material */
+      key?: EncodedSymmetricKey;
     }
 
-    export interface RotateRequest
-      extends Common.RotateRequest,
-        RotateOptions {}
-
-    export interface RotateResult extends Common.RotateResult {
-      algorithm: string;
-      purpose: string;
-      public_key?: EncodedPublicKey;
-    }
+    export interface RotateResult extends ItemData {}
 
     /**
      * Parameters for an encrypt/decrypt structured request.
@@ -1399,154 +1526,208 @@ export namespace Vault {
   }
 
   export namespace Asymmetric {
-    export interface GenerateOptions extends Common.GenerateOptions {}
-
-    export interface GenerateRequest
-      extends Common.GenerateRequest,
-        GenerateOptions {
+    export interface GenerateRequest extends Common.GenerateRequest {
+      /** The algorithm of the key */
       algorithm: Vault.AsymmetricAlgorithm;
+
+      /** The purpose of the key */
       purpose: Vault.KeyPurpose;
     }
 
-    export interface GenerateResult extends Common.GenerateResult {
+    export interface GenerateResult extends ItemData {
+      /** The algorithm of the key */
       algorithm: string;
+
+      /** The purpose of the key */
       purpose: string;
+
       public_key: EncodedPublicKey;
     }
 
-    export interface StoreOptions extends Common.StoreOptions {
+    export interface StoreRequest extends Common.StoreRequest {
+      /** The private key (in PEM format) */
+      private_key: EncodedPrivateKey;
+
+      /** The public key (in PEM format) */
+      public_key: EncodedPublicKey;
+
+      /** The algorithm of the key */
+      algorithm: Vault.AsymmetricAlgorithm;
+
+      /** The purpose of the key */
+      purpose: Vault.KeyPurpose;
+
       /** Whether the key is exportable or not. */
       exportable?: boolean;
     }
 
-    export interface StoreRequest extends Common.StoreRequest, StoreOptions {
-      private_key: EncodedPrivateKey;
-      public_key: EncodedPublicKey;
-      algorithm: Vault.AsymmetricAlgorithm;
-      purpose: Vault.KeyPurpose;
-    }
+    export interface StoreResult extends ItemData {}
 
-    export interface StoreResult extends Common.StoreResult {
-      public_key: EncodedPublicKey;
-      algorithm: string;
-      purpose: string;
-    }
-
-    export interface SignOptions {
-      version?: number;
-    }
-
-    export interface SignRequest extends SignOptions {
+    export interface SignRequest {
+      /** The ID of the item */
       id: string;
+
+      /** The message to be signed */
       message: string;
+
+      /** The item version */
+      version?: number;
     }
 
     export interface SignResult {
+      /** The ID of the item */
       id: string;
+
+      /** The item version */
       version: number;
+
+      /** The signature of the message */
       signature: string;
+
+      /** The algorithm of the key */
       algorithm: string;
+
+      /** The public key (in PEM format) */
       public_key?: EncodedPublicKey;
     }
 
-    export interface VerifyOptions {
+    export interface VerifyRequest {
+      /** The ID of the item */
+      id: string;
+
+      /** A message to be verified */
+      message: string;
+
+      /** The message signature */
+      signature: string;
+
+      /** The item version */
       version?: number;
     }
 
-    export interface VerifyRequest extends VerifyOptions {
-      id: string;
-      message: string;
-      signature: string;
-    }
-
     export interface VerifyResult {
+      /** The ID of the item */
       id: string;
+
+      /** The item version */
       version: number;
+
+      /** The algorithm of the key */
       algorithm: string;
+
+      /** Indicates if messages have been verified. */
       valid_signature: boolean;
     }
   }
 
   export namespace Symmetric {
-    export interface StoreOptions extends Common.StoreOptions {
+    export interface StoreRequest extends Common.StoreRequest {
+      key: EncodedSymmetricKey;
+
+      /** The algorithm of the key */
+      algorithm: Vault.SymmetricAlgorithm;
+
+      /** The purpose of the key */
+      purpose: Vault.KeyPurpose;
+
       /** Whether the key is exportable or not. */
       exportable?: boolean;
     }
 
-    export interface StoreRequest extends Common.StoreRequest, StoreOptions {
-      key: EncodedSymmetricKey;
+    export interface StoreResult extends ItemData {}
+
+    export interface GenerateRequest extends Common.GenerateRequest {
+      /** The algorithm of the key */
       algorithm: Vault.SymmetricAlgorithm;
+
+      /** The purpose of the key */
       purpose: Vault.KeyPurpose;
     }
 
-    export interface StoreResult extends Common.StoreResult {
-      algorithm?: string;
-      purpose?: string;
-    }
+    export interface GenerateResult extends ItemData {}
 
-    export interface GenerateOptions extends Common.GenerateOptions {}
-
-    export interface GenerateRequest
-      extends Common.GenerateRequest,
-        GenerateOptions {
-      algorithm: Vault.SymmetricAlgorithm;
-      purpose: Vault.KeyPurpose;
-    }
-
-    export interface GenerateResult extends Common.GenerateResult {
-      algorithm: string;
-      purpose: string;
-    }
-
-    export interface EncryptOptions {
-      version?: number;
-      additional_data?: string;
-    }
-
-    export interface EncryptRequest extends EncryptOptions {
+    export interface EncryptRequest {
+      /** The item ID */
       id: string;
+
+      /** A message to be encrypted (Base64 encoded) */
       plain_text: string;
+
+      /** The item version */
+      version?: number;
+
+      /** User provided authentication data */
+      additional_data?: string;
     }
 
     export interface EncryptResult {
+      /** The item ID */
       id: string;
+
+      /** The item version */
       version: number;
+
+      /** The algorithm of the key */
       algorithm: string;
+
+      /** The encrypted message (Base64 encoded) */
       cipher_text: string;
     }
 
-    export interface DecryptOptions {
+    export interface DecryptRequest {
+      /** The item ID */
+      id: string;
+
+      /** The item version */
       version?: number;
+
+      /** A message encrypted by Vault (Base64 encoded) */
+      cipher_text: string;
+
+      /** User provided authentication data */
       additional_data?: string;
     }
 
-    export interface DecryptRequest extends DecryptOptions {
-      id: string;
-      cipher_text: string;
-    }
-
     export interface DecryptResult {
+      /** The item ID */
       id: string;
+
+      /** The item version */
       version?: number;
+
+      /** The algorithm of the key */
       algorithm: string;
+
+      /** The decrypted message */
       plain_text: string;
     }
   }
 
   export namespace Folder {
     export interface CreateRequest {
+      /** The name of this folder */
       name: string;
+
+      /** The parent folder where this folder is stored */
       folder: string;
+
+      /** User-provided metadata */
       metadata?: Metadata;
+
+      /** A list of user-defined tags */
       tags?: Tags;
+
+      /** Period of time between item rotations. */
       rotation_frequency?: string;
+
+      /** State to which the previous version should transition upon rotation */
       rotation_state?: ItemVersionState;
+
+      /** Grace period for the previous version of the secret */
       rotation_grace_period?: string;
     }
 
-    export interface CreateResult {
-      id: string;
-    }
+    export interface CreateResult extends ItemData {}
   }
 }
 
