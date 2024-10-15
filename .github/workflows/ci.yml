@@ -55,7 +55,7 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4.2.1
 
-      - name: Enabled Corepack
+      - name: Enable Corepack
         run: corepack enable
 
       - name: Setup Node.js
@@ -89,7 +89,7 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4.2.1
 
-      - name: Enabled Corepack
+      - name: Enable Corepack
         run: corepack enable
 
       - name: Setup Node.js
@@ -138,7 +138,7 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4.2.1
 
-      - name: Enabled Corepack
+      - name: Enable Corepack
         run: corepack enable
 
       - name: Setup Node.js
@@ -172,7 +172,7 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4.2.1
 
-      - name: Enabled Corepack
+      - name: Enable Corepack
         run: corepack enable
 
       - name: Setup Node.js
@@ -239,7 +239,7 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4.2.1
 
-      - name: Enabled Corepack
+      - name: Enable Corepack
         run: corepack enable
 
       - name: Setup Node.js
@@ -297,7 +297,7 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4.2.1
 
-      - name: Enabled Corepack
+      - name: Enable Corepack
         run: corepack enable
 
       - name: Setup Node.js
@@ -358,7 +358,7 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4.2.1
 
-      - name: Enabled Corepack
+      - name: Enable Corepack
         run: corepack enable
 
       - name: Setup Node.js
@@ -384,7 +384,7 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4.2.1
 
-      - name: Enabled Corepack
+      - name: Enable Corepack
         run: corepack enable
 
       - name: Setup Node.js
@@ -419,6 +419,9 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4.2.1
 
+      - name: Enable Corepack
+        run: corepack enable
+
       - name: Setup Node.js
         uses: actions/setup-node@v4.0.4
         with:
@@ -427,7 +430,7 @@ jobs:
           cache-dependency-path: ./examples/${{ matrix.example }}/yarn.lock
 
       - name: Install dependencies
-        run: yarn install --frozen-lockfile
+        run: yarn install
 
       - name: Download locally built pangea-node-sdk
         uses: actions/download-artifact@v4.1.8
@@ -439,8 +442,6 @@ jobs:
         run: tar -xf package.tgz --strip-components 1 -C .
         working-directory: ./packages/pangea-node-sdk
 
-      - run: yarn list
-
   examples-react-audit-log-viewer:
     runs-on: ubuntu-latest
     defaults:
@@ -450,17 +451,18 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4.2.1
 
+      - name: Enable Corepack
+        run: corepack enable
+
       - name: Setup Node.js
         uses: actions/setup-node@v4.0.4
         with:
-          node-version: 18
+          node-version: 22
           cache: yarn
           cache-dependency-path: ./examples/react-audit-log-viewer/yarn.lock
 
       - name: Install dependencies
-        run: yarn install --frozen-lockfile
-
-      - run: yarn list
+        run: yarn install --immutable
 
       - name: Build
         run: yarn build
