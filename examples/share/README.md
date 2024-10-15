@@ -1,4 +1,4 @@
-# Pangea Store Service Example
+# Pangea Secure Share examples
 
 ## Setup
 
@@ -8,5 +8,5 @@ Set up environment variables ([Instructions](https://pangea.cloud/docs/getting-s
 
 ```
 yarn install
-node folder_create_n_delete.mjs
+node folder_create_and_delete.mjs
 ```

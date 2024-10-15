@@ -1,8 +1,10 @@
+import { Buffer } from "node:buffer";
 import fs from "node:fs";
 import { FormDataEncoder } from "form-data-encoder";
-import { FormData } from "formdata-node";
+import { File, FormData } from "formdata-node";
 import { fileFromPath } from "formdata-node/file-from-path";
 import promiseRetry from "promise-retry";
+
 import PangeaConfig, { version } from "./config.js";
 import { PangeaErrors } from "./errors.js";
 import { AttachedFile, PangeaResponse } from "./response.js";
@@ -174,9 +176,14 @@ class PangeaRequest {
     return await this.httpPost(url, request);
   }
 
-  private async getFileToForm(file: Blob | Buffer | string) {
+  private async getFileToForm(
+    file: Blob | Buffer | string
+  ): Promise<Blob | File> {
     if (typeof file === "string") {
-      return await fileFromPath(file);
+      return await fileFromPath(file, "file");
+    }
+    if (Buffer.isBuffer(file)) {
+      return new Blob([file]);
     }
     return file;
   }
@@ -234,7 +241,7 @@ class PangeaRequest {
     }
 
     // Right now, only accept the file with name "file"
-    form.append("file", await this.getFileToForm(fileData.file));
+    form.append("file", await this.getFileToForm(fileData.file), "file");
 
     const response = await this.httpPost(url, {
       body: form,

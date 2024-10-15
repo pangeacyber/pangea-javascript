@@ -477,3 +477,12 @@ it("Item life cycle", async () => {
   expect(respList.result.count).toBe(2);
   expect(respList.result.objects.length).toBe(2);
 });
+
+it("transfer via `source-url`", async () => {
+  const response = await client.put({
+    transfer_method: TransferMethod.SOURCE_URL,
+    source_url: "https://www.google.com/robots.txt",
+  });
+  expect(response.status).toBe("Success");
+  expect(response.success).toBeTruthy();
+});
