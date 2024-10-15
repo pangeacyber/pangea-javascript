@@ -131,6 +131,14 @@ class ShareService extends BaseService {
     return this.post("v1/list", request);
   }
 
+  put(
+    request: Share.PutRequest,
+    fileData: FileData
+  ): Promise<PangeaResponse<Share.PutResult>>;
+  put(
+    request: Share.PutRequest & { transfer_method: TransferMethod.SOURCE_URL }
+  ): Promise<PangeaResponse<Share.PutResult>>;
+
   /**
    * @summary Upload a file
    * @description Upload a file.
@@ -161,8 +169,20 @@ class ShareService extends BaseService {
    */
   put(
     request: Share.PutRequest,
-    fileData: FileData
+    fileData?: FileData
   ): Promise<PangeaResponse<Share.PutResult>> {
+    // With `source-url`, no file data is needed.
+    if (request.transfer_method === TransferMethod.SOURCE_URL) {
+      return this.post("v1/put", request);
+    }
+
+    // Otherwise, file data is required.
+    if (!fileData) {
+      throw new TypeError(
+        "`fileData` is required when `transfer_method` is not `SOURCE_URL`."
+      );
+    }
+
     let fsData = {} as FileUploadParams;
 
     if (
@@ -173,7 +193,7 @@ class ShareService extends BaseService {
       request.crc32c = fsData.crc32c;
       request.sha256 = fsData.sha256;
       request.size = fsData.size;
-    } else if (getFileSize(fileData.file) == 0) {
+    } else if (getFileSize(fileData.file) === 0) {
       request.size = 0;
     }
 
