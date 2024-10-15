@@ -1468,10 +1468,10 @@
     "@babel/runtime" "^7.25.6"
     "@mui/utils" "^5.16.6"
 
-"@pangeacyber/react-mui-audit-log-viewer@^0.0.94":
-  version "0.0.94"
-  resolved "https://registry.yarnpkg.com/@pangeacyber/react-mui-audit-log-viewer/-/react-mui-audit-log-viewer-0.0.94.tgz#fffb39024ba1e80573443159fede64ed3bfc0ae1"
-  integrity sha512-UjqpL5EoOUcth+vYSxd5pDBaNj83+FyEubFz1hqQ/qiBYUaCpFAlxL0Uewmd2NXd9ZRd60AchT4CVpAZ4C3Tzw==
+"@pangeacyber/react-mui-audit-log-viewer@^0.0.95":
+  version "0.0.95"
+  resolved "https://registry.yarnpkg.com/@pangeacyber/react-mui-audit-log-viewer/-/react-mui-audit-log-viewer-0.0.95.tgz#1c484e5b3abc807ba3bcd288d398516294edc1aa"
+  integrity sha512-Aq+Arut2giEwlMtPQveOmMEh26PRp3up+OXF17QpG7A3A3XiU5XIWq1DeVOzcQi62ueLbGnfFkKi0SuX5dwZTg==
   dependencies:
     "@pangeacyber/react-mui-shared" "0.0.67"
     crypto-js "^4.2.0"
