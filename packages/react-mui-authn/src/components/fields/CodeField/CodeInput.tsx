@@ -131,11 +131,13 @@ const CodeInput: FC<CodeInputProps> = ({
   };
 
   const handlePaste = (e: React.ClipboardEvent) => {
-    const clip = e.clipboardData.getData("text");
-    if (!/\d{6}/.test(clip)) return;
     e.preventDefault();
+    const clip = e.clipboardData.getData("text");
+    const cleanedClip = clip.trim().replace(/(\r\n|\n|\r)/gm, "");
 
-    const s = clip.split("");
+    if (!/\d{6}/.test(cleanedClip)) return;
+
+    const s = cleanedClip.split("");
     inputs.map((inputId, idx) => {
       setValues((state) => ({
         ...state,
