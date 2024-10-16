@@ -141,7 +141,7 @@ const OtpForm: FC<Props> = ({
         <Stack
           direction={{ xs: "column", sm: "row" }}
           justifyContent="center"
-          gap={{ xs: 0, sm: 1 }}
+          gap={1}
         >
           {otpType !== "totp" && (
             <Button
