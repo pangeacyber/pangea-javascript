@@ -1,6 +1,6 @@
 build_react_mui_store_file_viewer:
   stage: build
-  image: node:22.9.0@sha256:69e667a79aa41ec0db50bc452a60e705ca16f35285eaf037ebe627a65a5cdf52
+  image: node:22.9.0@sha256:8398ea18b8b72817c84af283f72daed9629af2958c4f618fe6db4f453c5c9328
   script:
     - cd packages/react-mui-share-file-viewer
     - yarn install --frozen-lockfile
@@ -12,7 +12,7 @@ build_react_mui_store_file_viewer:
 publish_react_mui_store_file_viewer:
   needs: [build_react_mui_store_file_viewer]
   stage: publish
-  image: node:22.9.0@sha256:69e667a79aa41ec0db50bc452a60e705ca16f35285eaf037ebe627a65a5cdf52
+  image: node:22.9.0@sha256:8398ea18b8b72817c84af283f72daed9629af2958c4f618fe6db4f453c5c9328
   script:
     # Install jq for the publish script.
     - apt-get -qq update
