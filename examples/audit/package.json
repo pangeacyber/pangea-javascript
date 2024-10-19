@@ -6,6 +6,6 @@
   "author": "Pangea",
   "license": "MIT",
   "dependencies": {
-    "pangea-node-sdk": "3.11.0"
+    "pangea-node-sdk": "4.1.0"
   }
 }
