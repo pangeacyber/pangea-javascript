@@ -15,7 +15,7 @@ import {
   getMultiConfigTestToken,
   getConfigID,
 } from "../../src/utils/utils.js";
-import { loadTestEnvironment, trySlowRequest } from "./utils.js";
+import { loadTestEnvironment, skipAccepted, trySlowRequest } from "./utils.js";
 
 const ACTOR = "node-sdk";
 const MSG_NO_SIGNED = "test-message";
@@ -310,7 +310,7 @@ it("log an event, vault sign", async () => {
 
 it(
   "log JSON event, sign and verify",
-  async () => {
+  skipAccepted(async () => {
     const event: Audit.Event = {
       actor: ACTOR,
       message: MSG_JSON,
@@ -340,7 +340,7 @@ it(
     expect(searchEvent?.envelope.public_key).toBe(
       String.raw`{"algorithm":"ED25519","key":"-----BEGIN PUBLIC KEY-----\nMCowBQYDK2VwAyEAlvOyDMpK2DQ16NI8G41yINl01wMHzINBahtDPoh4+mE=\n-----END PUBLIC KEY-----\n"}`
     );
-  },
+  }),
   2 * (config.pollResultTimeoutMs + 1000)
 );
 
@@ -634,7 +634,7 @@ it("search audit log and verify signature", async () => {
 
 it(
   "search audit log and verify consistency",
-  async () => {
+  skipAccepted(async () => {
     const query = 'message:""';
     const limit = 2;
     const maxResults = 4;
@@ -667,7 +667,7 @@ it(
       expect(record.consistency_verification).toBe("none"); // Newest events should not pass
       expect(record.membership_verification).toBe("pass");
     });
-  },
+  }),
   2 * (config.pollResultTimeoutMs + 1000)
 );
 
@@ -1018,7 +1018,7 @@ it("log an audit event bulk async", async () => {
 
 it(
   "search and download",
-  async () => {
+  skipAccepted(async () => {
     const query = 'message:""';
     const searchLimit = 2;
     const searchMaxResults = 20;
@@ -1047,7 +1047,7 @@ it(
     const file = await auditGeneral.downloadFile(downloadResp.result.dest_url);
 
     file.save("./");
-  },
+  }),
   3 * (config.pollResultTimeoutMs + 1000)
 );
 
