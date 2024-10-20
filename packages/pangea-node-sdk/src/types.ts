@@ -293,6 +293,113 @@ export namespace Audit {
   }
 }
 
+export namespace DataGuard {
+  export interface TextGuardArtifact {
+    defanged: boolean;
+    end: number;
+    start: number;
+    type: string;
+    value: string;
+
+    /** The verdict, given by the Pangea service, for the indicator. */
+    verdict?: string;
+  }
+
+  export interface TextGuardSecurityIssues {
+    compromised_email_addresses: number;
+    malicious_domain_count: number;
+    malicious_ip_count: number;
+    malicious_url_count: number;
+    redacted_item_count: number;
+  }
+
+  export interface TextGuardFindings {
+    artifact_count: number;
+    malicious_count: number;
+    security_issues: TextGuardSecurityIssues;
+  }
+
+  export interface RedactRecognizerResult {
+    /** The entity name. */
+    field_type: string;
+
+    /** The certainty score that the entity matches this specific snippet. */
+    score: number;
+
+    /** The text snippet that matched. */
+    text: string;
+
+    /** The starting index of a snippet. */
+    start: number;
+
+    /** The ending index of a snippet. */
+    end: number;
+
+    /** Indicates if this rule was used to anonymize a text snippet. */
+    redacted: boolean;
+  }
+
+  export interface RedactReport {
+    count: number;
+    recognizer_results: RedactRecognizerResult[];
+  }
+
+  export interface IntelResults {
+    /** The categories that apply to this indicator as determined by the provider. */
+    category: string[];
+
+    /** The score, given by the Pangea service, for the indicator. */
+    score: number;
+
+    /** The verdict for the indicator. */
+    verdict: "malicious" | "suspicious" | "unknown" | "benign";
+  }
+
+  export interface TextGuardReport {
+    domain_intel?: IntelResults;
+    ip_intel?: IntelResults;
+    redact: RedactReport;
+    url_intel?: IntelResults;
+    user_intel?: Intel.User.BreachedData;
+  }
+
+  export interface TextGuardRequest {
+    text: string;
+    recipe?: "pangea_prompt_guard" | (string & Record<never, never>);
+    debug?: boolean;
+  }
+
+  export interface TextGuardResult {
+    artifacts?: TextGuardArtifact[];
+    findings: TextGuardFindings;
+    redacted_prompt: string;
+
+    // `debug=true` only.
+    report?: TextGuardReport;
+  }
+
+  export interface FileGuardRequest {
+    file_url: string;
+  }
+}
+
+export namespace PromptGuard {
+  export interface Message {
+    role: string;
+    content: string;
+  }
+
+  export interface GuardRequest {
+    messages: readonly Message[];
+  }
+
+  export interface GuardResult {
+    prompt_injection_detected: boolean;
+    prompt_injection_type?: string;
+    prompt_injection_detector?: string;
+  }
+}
+
 export namespace Redact {
   export interface TextResult {
     redacted_text?: string;
