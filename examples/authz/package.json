@@ -8,6 +8,7 @@
   },
   "author": "Pangea",
   "license": "MIT",
+  "packageManager": "yarn@1.22.22",
   "dependencies": {
     "pangea-node-sdk": "file:../../packages/pangea-node-sdk"
   }
