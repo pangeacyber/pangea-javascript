@@ -23,6 +23,7 @@ pangea-node-sdk-integration-tests:
     SERVICE_AUDIT_ENV: LVE
     SERVICE_AUTHN_ENV: LVE
     SERVICE_AUTHZ_ENV: LVE
+    SERVICE_DATA_GUARD_ENV: LVE
     SERVICE_EMBARGO_ENV: LVE
     SERVICE_FILE_SCAN_ENV: LVE
     SERVICE_IP_INTEL_ENV: LVE
@@ -30,6 +31,7 @@ pangea-node-sdk-integration-tests:
     SERVICE_URL_INTEL_ENV: LVE
     SERVICE_FILE_INTEL_ENV: LVE
     SERVICE_USER_INTEL_ENV: LVE
+    SERVICE_PROMPT_GUARD_ENV: LVE
     SERVICE_REDACT_ENV: LVE
     SERVICE_SANITIZE_ENV: LVE
     SERVICE_VAULT_ENV: LVE
@@ -75,6 +77,9 @@ pangea-node-sdk-integration-tests:
         ENV: ${SERVICE_AUTHZ_ENV}
         TEST: authz
       - CLOUD: [AWS, GCP]
+        ENV: ${SERVICE_DATA_GUARD_ENV}
+        TEST: data_guard
+      - CLOUD: [AWS, GCP]
         ENV: ${SERVICE_EMBARGO_ENV}
         TEST: embargo
       - CLOUD: [AWS, GCP]
@@ -95,6 +100,9 @@ pangea-node-sdk-integration-tests:
       - CLOUD: [AWS, GCP]
         ENV: ${SERVICE_FILE_SCAN_ENV}
         TEST: file_scan
+      - CLOUD: [AWS, GCP]
+        ENV: ${SERVICE_PROMPT_GUARD_ENV}
+        TEST: prompt_guard
       - CLOUD: [AWS, GCP]
         ENV: ${SERVICE_REDACT_ENV}
         TEST: redact
