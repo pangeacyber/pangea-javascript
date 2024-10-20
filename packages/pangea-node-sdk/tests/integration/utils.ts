@@ -33,3 +33,9 @@ export async function trySlowRequest<T>(
     throw error;
   }
 }
+
+export function skipAccepted(fn: () => Promise<void>): () => Promise<void> {
+  return async function () {
+    await trySlowRequest(fn);
+  };
+}
