@@ -29,7 +29,7 @@
   "publishConfig": {
     "access": "public"
   },
-  "packageManager": "yarn@4.5.0",
+  "packageManager": "yarn@4.5.1",
   "scripts": {
     "build": "yarn build-docs && parcel build && cp dist/index.d.ts dist/index.d.mts",
     "build-docs": "typedoc --plugin typedoc-plugin-rename-defaults",
