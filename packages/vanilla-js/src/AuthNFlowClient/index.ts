@@ -25,6 +25,7 @@ const DEFAULT_FLOW_DATA: AuthFlow.StateData = {
   samlProviderMap: {},
   callbackStateMap: {},
   agreements: [],
+  scopes: [],
 };
 
 const API_FLOW_BASE = "flow";
@@ -74,18 +75,18 @@ export class AuthNFlowClient extends AuthNClient {
     const payload: AuthFlow.StartRequest = {
       cb_uri: this.config.callbackUri || "",
       flow_types: flowTypes,
+      ...data,
     };
-
-    if (data?.email) {
-      payload.email = data.email;
-    }
 
     return await this._post(path, payload);
   }
 
   async restart(
     choice: AuthFlow.RestartChoice,
-    data?: AuthFlow.SmsOtpRestart
+    data?:
+      | AuthFlow.SmsOtpRestart
+      | AuthFlow.MagiclinkRestart
+      | AuthFlow.EmailOtpRestart
   ): Promise<ClientResponse> {
     const path = `${API_FLOW_BASE}/${AuthFlow.Endpoint.RESTART}`;
     const payload: AuthFlow.RestartRequest = {
@@ -97,11 +98,15 @@ export class AuthNFlowClient extends AuthNClient {
     return await this._post(path, payload);
   }
 
-  async complete(): Promise<ClientResponse> {
+  async complete(device_id: string = ""): Promise<ClientResponse> {
     const path = `${API_FLOW_BASE}/${AuthFlow.Endpoint.COMPLETE}`;
     const payload: AuthFlow.CompleteRequest = {
       flow_id: this.state.flowId,
     };
+
+    if (device_id) {
+      payload.device_id = device_id;
+    }
 
     return await this._post(path, payload);
   }
@@ -125,6 +130,16 @@ export class AuthNFlowClient extends AuthNClient {
     const payload: AuthFlow.SetEmailRequest = {
       flow_id: this.state.flowId,
       choice: AuthFlow.Choice.SET_EMAIL,
+      data: data,
+    };
+
+    return await this._update(payload);
+  }
+
+  async setUsername(data: AuthFlow.UsernameParams): Promise<ClientResponse> {
+    const payload: AuthFlow.SetUsernameRequest = {
+      flow_id: this.state.flowId,
+      choice: AuthFlow.Choice.SET_USERNAME,
       data: data,
     };
 
@@ -273,6 +288,16 @@ export class AuthNFlowClient extends AuthNClient {
     return await this._update(payload);
   }
 
+  async oauthConsent(data: AuthFlow.ConsentParams): Promise<ClientResponse> {
+    const payload: AuthFlow.ConsentRequest = {
+      flow_id: this.state.flowId,
+      choice: AuthFlow.Choice.CONSENT,
+      data: data,
+    };
+
+    return await this._update(payload);
+  }
+
   // reset state to default
   reset() {
     this.state = {
@@ -315,6 +340,20 @@ export class AuthNFlowClient extends AuthNClient {
       this.state.flowChoices = cloneDeep(response.result.flow_choices);
       this.state.phase = result.flow_phase;
 
+      // initial parsed data variables
+      this.state.authChoices = [];
+      this.state.socialChoices = [];
+      this.state.samlChoices = [];
+      this.state.socialProviderMap = {};
+      this.state.samlProviderMap = {};
+      this.state.callbackStateMap = {};
+      this.state.agreements = [];
+      this.state.scopes = [];
+
+      if (result.username) {
+        this.state.username = result.username;
+      }
+
       if (result.email) {
         this.state.email = result.email;
       }
@@ -327,18 +366,18 @@ export class AuthNFlowClient extends AuthNClient {
         this.state.complete = true;
       }
 
-      // initial parsed data variables
-      this.state.authChoices = [];
-      this.state.socialChoices = [];
-      this.state.samlChoices = [];
-      this.state.socialProviderMap = {};
-      this.state.samlProviderMap = {};
-      this.state.callbackStateMap = {};
-      this.state.agreements = [];
-
       if (result.disclaimer) {
         this.state.disclaimer = result.disclaimer;
       }
+
+      if (result.conditional_mfa) {
+        this.state.conditionalMfa = result.conditional_mfa;
+      }
+
+      // default to "email" username_format
+      this.state.usernameFormat = !!result.username_format
+        ? result.username_format
+        : AuthFlow.UsernameFormat.EMAIL;
 
       // parse flow_choices into groups and choice_map
       response.result?.flow_choices?.forEach((choice: AuthFlow.Result) => {
@@ -389,6 +428,9 @@ export class AuthNFlowClient extends AuthNClient {
             }
             this.state.setEmail = choice.data;
             break;
+          case AuthFlow.Choice.SET_USERNAME:
+            this.state.setUsername = choice.data;
+            break;
           case AuthFlow.Choice.SET_PHONE:
             if (result.flow_phase === "phase_one_time") {
               this.state.authChoices.push(choice.choice);
@@ -409,6 +451,9 @@ export class AuthNFlowClient extends AuthNClient {
             break;
           case AuthFlow.Choice.PROVISIONAL:
             this.state.provisional = choice.data;
+            break;
+          case AuthFlow.Choice.CONSENT:
+            this.state.scopes = choice.data?.scopes || [];
             break;
           default:
             console.warn("Unknown choice: ", choice);

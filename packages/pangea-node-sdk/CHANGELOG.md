@@ -5,7 +5,98 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [Unreleased]
+## Unreleased
+
+## 4.1.0 - 2024-10-16
+
+### Added
+
+- Secure Share service support.
+- Multiple bucket ID support to Share.
+- `metadata_protected` and `tags_protected` support to Share `ItemData`
+- `password` and `password_algorithm` support to Share
+- Filter fields to `filter_list` on Share service
+- `objects` field to Share `GetArchiveResult`
+- `title` and `message` to Share `ShareCreateLinkItem`
+
+## 4.0.0 - 2024-10-15
+
+### Added
+
+- Detect-only Redact for Sanitize.
+- Support for `domains` field in `v2/user/breached` endpoint in User Intel service.
+- Vault KEM export support.
+
+### Changed
+
+- Vault v2 APIs support.
+
+## 3.12.0 - 2024-09-25
+
+### Added
+
+- Sanitize service support.
+
+### Fixed
+
+- Event canonicalization of characters like a-circumflex and the replacement
+  character.
+
+## 3.11.0 - 2024-07-30
+
+### Added
+
+- `attributes` field in `/list-resources` and `/list-subjects` endpoint
+- Added full error response payloads to API error messages to improve debugging experience when running into validation error issues.
+
+### Fixed
+
+- AuthN `getProfile()` TSDoc example.
+- Non-ASCII values not being escaped properly during event canonicalization.
+
+### Changed
+
+- Service constructors now support Vault service's `GetResult` type as well as strings as tokens.
+
+## [3.10.0] - 2024-07-16
+
+### Added
+
+- Improvements in verification of Audit consistency proofs
+- CommonJS support.
+- Vault `/export` support.
+- AuthN user password expiration support.
+- `"state"` and other new properties to `AuthN.User.Authenticators.Authenticator`.
+
+### Changed
+
+- `enable` in `AuthN.User.Authenticators.Authenticator` has been renamed to
+  `enabled`. The previous name did not match the name used in the API's response
+  schema so it was unusable anyways.
+
+## [3.9.0] - 2024-06-07
+
+### Added
+
+- `fpe_context` field in Audit search events
+- `return_context` support in Audit `/search`, `/results` and `/download` endpoints
+- Redact `/unredact` endpoint support
+- `redaction_method_overrides` field support in `/redact` and `redact_structured` endpoints
+- AuthN usernames support.
+- Support for format-preserving encryption.
+
+### Changed
+
+- `BaseService.post()` is now `protected` and `@internal`, as it was never meant
+  for public use.
+
+### Removed
+
+- Beta tags from AuthZ.
+
+## [3.8.0] - 2024-05-10
+
+Note that Sanitize and Secure Share did not make it into this release.
 
 ### Added
 

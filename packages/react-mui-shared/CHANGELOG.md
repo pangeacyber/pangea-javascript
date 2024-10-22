@@ -5,6 +5,74 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.0.67] - 2024-09-04
+
+### Fixed
+
+- update react peerDependencies to ^17.0.0 || ^18.0.0
+
+## [0.0.66] - 2024-09-03
+
+### Fixed
+
+- update @mui/x-data-grid to 7.15.0
+
+## [0.0.65] - 2024-07-10
+
+### Fixed
+
+- setPage on useLastPagination now updates last right away
+
+## [0.0.64] - 2024-07-10
+
+### Fixed
+
+- Expand/collapse column adjusting to state of the row
+- Column configuration having a max height and scroll
+- Datetime quick filter appearing even if column is too small
+
+## [0.0.63] - 2024-06-14
+
+### Added
+
+- stringWithCopy cell support to pangea data grid
+
+## [0.0.62] - 2024-06-14
+
+### Added
+
+- Add month and year to the time range filter dropdown
+
+## [0.0.61] - 2024-05-30
+
+### Added
+
+- Fix bug with delayed query updating using "enter" search
+
+## [0.0.59] - 2024-05-15
+
+### Added
+
+- Support optional "success" and "error" highlights to the JSONViewer component. As well a "info" to highlights to render a Tooltip around the highlighted text
+
+## [0.0.58] - 2024-04-22
+
+### Added
+
+- Support optional onSearch callback for PangeaDataGrid. Triggered upon explicit refresh/search. Clicking the "Search" button or typing "Enter"
+
+## [0.0.57] - 2024-03-25
+
+### Fixed
+
+- Update search autocomplete error helper text rendering, render links clickable
+
+## [0.0.56] - 2024-02-26
+
+### Fixed
+
+- Catch exceptions on date
+
 ## [0.0.55] - 2024-02-26
 
 ### Fixed

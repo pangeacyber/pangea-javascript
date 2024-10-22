@@ -1,41 +1,49 @@
-import { FC } from "react";
+import { FC, useEffect, useState } from "react";
+import { Stack } from "@mui/material";
 import ReCAPTCHA from "react-google-recaptcha-enterprise";
 
-import { AuthFlow } from "@pangeacyber/vanilla-js";
-
 import { AuthFlowComponentProps } from "@src/features/AuthFlow/types";
-import ErrorMessage from "../ErrorMessage";
-import AuthFlowLayout from "../../views/Layout";
-import IdField from "@src/components/fields/IdField";
 
-const VerifyCaptchaView: FC<AuthFlowComponentProps> = ({
-  options,
-  data,
-  error,
-  update,
-  reset,
-}) => {
-  const handleChange = (value: string) => {
-    const payload: AuthFlow.CaptchaParams = {
-      code: value,
-    };
-    update(AuthFlow.Choice.CAPTCHA, payload);
+interface CaptchaComponentProps extends AuthFlowComponentProps {
+  submitHandler: (code: string) => void;
+  errorHandler?: () => void;
+}
+
+const VerifyCaptchaView: FC<CaptchaComponentProps> = (props) => {
+  const { data, error, submitHandler, errorHandler } = props;
+  const [viewKey, setViewKey] = useState<string>("");
+
+  useEffect(() => {
+    updateViewKey();
+  }, [error]);
+
+  const updateViewKey = () => {
+    const newKey = new Date().valueOf().toString();
+    setViewKey(newKey);
   };
 
+  const handleChange = async (value: string): Promise<void> => {
+    submitHandler(value);
+  };
+
+  const handleError = async (): Promise<void> => {
+    !!errorHandler && errorHandler();
+  };
+
+  // don't render until viewKey is set
+  if (!viewKey) {
+    return <></>;
+  }
+
   return (
-    <AuthFlowLayout title={options.captchaHeading}>
-      <IdField
-        value={data?.email}
-        resetCallback={reset}
-        resetLabel={options.cancelLabel}
-      />
+    <Stack key={`recaptcha-view-${viewKey}`}>
       <ReCAPTCHA
         sitekey={data?.captcha?.site_key}
         onChange={handleChange}
+        onErrored={handleError}
         className="recaptcha"
       />
-      {error && <ErrorMessage response={error} />}
-    </AuthFlowLayout>
+    </Stack>
   );
 };
 

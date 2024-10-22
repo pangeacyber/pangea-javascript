@@ -1,0 +1,72 @@
+{
+  "name": "@pangeacyber/webcomponents",
+  "version": "1.0.0",
+  "author": "Michael Combs <michael.combs@pangea.cloud>",
+  "license": "MIT",
+  "source": "src/main.ts",
+  "main": "dist/lib/main.js",
+  "module": "dist/lib/module.js",
+  "types": "dist/lib/types.d.ts",
+  "browser": {
+    "audit-log-viewer": "dist/browser/audit-log-viewer.js",
+    "store-file-viewer": "dist/browser/store-file-viewer.js"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "scripts": {
+    "build": "parcel build"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.25.8",
+    "@babel/plugin-transform-runtime": "^7.25.7",
+    "@babel/preset-env": "^7.25.8",
+    "@babel/preset-react": "^7.25.7",
+    "@babel/preset-typescript": "^7.25.7",
+    "@parcel/packager-ts": "2.12.0",
+    "@parcel/transformer-typescript-types": "2.12.0",
+    "babel-loader": "^9.2.1",
+    "css-loader": "^7.1.2",
+    "parcel": "^2.12.0",
+    "process": "^0.11.10",
+    "style-loader": "^4.0.0",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.6.3"
+  },
+  "dependencies": {
+    "@emotion/cache": "^11.13.1",
+    "@emotion/react": "^11.13.3",
+    "@emotion/styled": "^11.13.0",
+    "@mui/icons-material": "^5.16.7",
+    "@mui/material": "^5.16.7",
+    "@mui/styled-engine-sc": "^6.1.4",
+    "@mui/types": "^7.2.18",
+    "@pangeacyber/react-mui-audit-log-viewer": "^0.0.95",
+    "@pangeacyber/react-mui-branding": "0.0.18",
+    "@pangeacyber/react-mui-store-file-viewer": "^0.0.69",
+    "@preact/compat": "^18.3.1",
+    "preact": "^10.24.3",
+    "styled-components": "^6.1.13"
+  },
+  "alias": {
+    "react": "preact/compat",
+    "react-dom": "preact/compat"
+  },
+  "targets": {
+    "types": {},
+    "main": {},
+    "browser": false,
+    "browsers": {
+      "source": [
+        "src/audit-log-viewer.tsx",
+        "src/store-file-viewer.tsx"
+      ],
+      "distDir": "dist/browser",
+      "context": "browser",
+      "engines": {
+        "browsers": "> 0.5%, last 2 versions, not dead"
+      },
+      "outputFormat": "global"
+    }
+  }
+}

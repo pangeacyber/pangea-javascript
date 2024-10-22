@@ -4,6 +4,7 @@ import { Tooltip, Typography, Chip, Stack } from "@mui/material";
 import { lighten, darken, useTheme } from "@mui/material/styles";
 import { PDG } from "../types";
 import { limitCharacters } from "../../../utils";
+import CopyButton from "../../IconButtons/CopyButton";
 
 export const TextCell: FC<PDG.CellProps> = ({ params, color }) => {
   const { value } = params;
@@ -17,6 +18,35 @@ export const TextCell: FC<PDG.CellProps> = ({ params, color }) => {
         {value}
       </Typography>
     </Tooltip>
+  );
+};
+
+export const TextWithCopyCell: FC<PDG.CellProps> = ({ params, color }) => {
+  const { value } = params;
+
+  if (!value) return <TextCell params={params} color={color} />;
+
+  return (
+    <Stack
+      direction="row"
+      alignItems="center"
+      sx={{ width: "100%", overflow: "hidden" }}
+    >
+      <Tooltip title={value ?? ""} placement="bottom-start">
+        <Typography
+          variant="body2"
+          color={color}
+          sx={{
+            textOverflow: "ellipsis",
+            whiteSpace: "nowrap",
+            overflow: "hidden",
+          }}
+        >
+          {value}
+        </Typography>
+      </Tooltip>
+      <CopyButton size="small" label={value} value={value} />
+    </Stack>
   );
 };
 

@@ -1,7 +1,7 @@
 {
   "flowId": "pfl_flowflowflowflowflowflowflow",
   "flowType": ["signin"],
-  "phase": "phase_primary",
+  "phase": "phase_profile",
   "flowChoices": [],
   "email": "storybook@pangea.cloud",
   "password": {
@@ -21,5 +21,58 @@
   "samlChoices": [],
   "samlProviderMap": {},
   "callbackStateMap": {},
-  "agreements": []
+  "agreements": [],
+  "profile": {
+    "fields": [
+      {
+        "id": "first_name",
+        "label": "First Name",
+        "type": "string",
+        "show_on_signup": true,
+        "required": true
+      },
+      {
+        "id": "last_name",
+        "label": "Last Name",
+        "type": "string",
+        "show_on_signup": true,
+        "required": true
+      },
+      {
+        "id": "email",
+        "label": "Email",
+        "type": "email",
+        "show_on_signup": true,
+        "required": true
+      },
+      {
+        "id": "age",
+        "label": "Age",
+        "type": "integer",
+        "show_on_signup": true,
+        "required": true
+      },
+      {
+        "id": "check",
+        "label": "Checkbox",
+        "type": "boolean",
+        "show_on_signup": true,
+        "required": true
+      },
+      {
+        "id": "start_date",
+        "label": "Start Date",
+        "type": "date",
+        "show_on_signup": true,
+        "required": true
+      },
+      {
+        "id": "phone",
+        "label": "Phone",
+        "type": "phone",
+        "show_on_signup": true,
+        "required": true
+      }
+    ]
+  }
 }

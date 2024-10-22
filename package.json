@@ -6,9 +6,9 @@
   "author": "Pangea (https://pangea.cloud)",
   "license": "MIT",
   "devDependencies": {
-    "husky": "^9.0.11",
-    "lint-staged": "^15.2.2",
-    "prettier": "^3.2.5"
+    "husky": "^9.1.6",
+    "lint-staged": "^15.2.10",
+    "prettier": "3.3.3"
   },
   "scripts": {
     "lint": "npx prettier --check .",
@@ -16,5 +16,6 @@
   },
   "lint-staged": {
     "*.{js,jsx,ts,tsx,css,md}": "npx prettier --write"
-  }
+  },
+  "packageManager": "yarn@1.22.22"
 }

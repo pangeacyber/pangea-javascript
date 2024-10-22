@@ -1,5 +1,10 @@
-import { APIResponse, AuthUser, SessionData } from "~/src/types";
-import { AuthOptions, CookieOptions } from "~/src/shared/types";
+import {
+  APIResponse,
+  AuthOptions,
+  AuthUser,
+  CookieOptions,
+  SessionData,
+} from "~/src/types";
 import { isLocalhost, diffInSeconds } from "./utils";
 
 type CookieObj = {
@@ -25,6 +30,12 @@ const BASE_COOKIE_FLAGS = "; path=/";
 const CODE_RE = /[?&]code=[^&]+/;
 const STATE_RE = /[?&]state=[^&]+/;
 
+/**
+ * Check if the given search parameters have a state or code parameter
+ *
+ * @param searchParams A string representation of query or search params
+ * @returns boolean
+ */
 export const hasAuthParams = (searchParams = window.location.search): boolean =>
   CODE_RE.test(searchParams) && STATE_RE.test(searchParams);
 
@@ -98,9 +109,12 @@ export const getTokenCookieFields = (name: string) => {
   return [token || "", expire || ""];
 };
 
-/*
-  Support for fetching a token by name
-*/
+/**
+ * Get the token from a cookie
+ *
+ * @param {string} name Name of the cookie to look in
+ * @returns {string} The token if it is found, an empty string if it is not found
+ */
 export const getTokenFromCookie = (name: string): string => {
   const cookies = getCookies();
   const cookie = cookies[name];
@@ -230,6 +244,7 @@ export const getUserFromResponse = (data: APIResponse): AuthUser => {
   const refreshToken = data.result?.refresh_token?.token
     ? { ...data.result.refresh_token }
     : {};
+  const username = activeToken.owner as string;
   const email = activeToken.email as string;
   const profile = { ...activeToken.profile };
 
@@ -240,6 +255,7 @@ export const getUserFromResponse = (data: APIResponse): AuthUser => {
   delete refreshToken.profile;
 
   const user: AuthUser = {
+    username: username,
     email: email,
     profile: profile,
     active_token: activeToken,

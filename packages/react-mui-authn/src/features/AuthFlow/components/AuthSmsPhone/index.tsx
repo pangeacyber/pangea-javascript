@@ -36,7 +36,7 @@ const AuthSmsPhone: FC<AuthFlowComponentProps> = (props) => {
 
   const formik = useFormik({
     initialValues: {
-      phone: "",
+      phone: data.phone || "",
     },
     validationSchema: validationSchema,
     validateOnBlur: true,
@@ -58,6 +58,7 @@ const AuthSmsPhone: FC<AuthFlowComponentProps> = (props) => {
             label="Phone Number"
             formik={formik}
             autoComplete="phone"
+            hideLabel={true}
             startAdornment={
               <Typography color="textSecondary" sx={{ paddingRight: 1 }}>
                 +1

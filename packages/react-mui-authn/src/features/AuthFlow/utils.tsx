@@ -6,8 +6,12 @@ import {
   GitLabIcon,
   LinkedInIcon,
 } from "@src/components/Icons";
+import { parsePhoneNumber } from "awesome-phonenumber";
 
-export const getSocialProviderIcon = (provider: string) => {
+export const STORAGE_DEVICE_ID_KEY = "remember-device-id";
+export const STORAGE_REMEMBER_USERNAME_KEY = "remember-username";
+
+export const getProviderIcon = (provider: string) => {
   switch (provider) {
     case "google":
       return <GoogleIcon />;
@@ -26,7 +30,7 @@ export const getSocialProviderIcon = (provider: string) => {
   }
 };
 
-export const getSocialProviderLabel = (provider: string): string => {
+export const getProviderLabel = (provider: string): string => {
   switch (provider) {
     case "google":
       return "Google";
@@ -40,6 +44,8 @@ export const getSocialProviderLabel = (provider: string): string => {
       return "GitLab";
     case "linkedin":
       return "LinkedIn";
+    case "password":
+      return "a password";
     default:
       return provider;
   }
@@ -94,4 +100,21 @@ export const isDark = (color: any): boolean => {
   } else {
     return true;
   }
+};
+
+export const generateGuid = (): string => {
+  return "xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx".replace(/[xy]/g, function (c) {
+    var r = (Math.random() * 16) | 0,
+      v = c == "x" ? r : (r & 0x3) | 0x8;
+    return v.toString(16);
+  });
+};
+
+export const formatUsername = (value: string): string => {
+  if (value.startsWith("+")) {
+    const pn = parsePhoneNumber(value, { regionCode: "US" });
+    if (pn.valid) return pn.number.international;
+  }
+
+  return value;
 };

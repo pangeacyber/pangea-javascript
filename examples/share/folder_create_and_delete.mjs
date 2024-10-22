@@ -16,17 +16,13 @@ const folderPath = "/sdk_examples/node/delete/" + time;
 (async () => {
   try {
     console.log("Creating folder...");
-    const respCreate = await client.folderCreate({
-      path: folderPath,
-    });
+    const respCreate = await client.folderCreate({ folder: folderPath });
 
     const id = respCreate.result.object.id;
     console.log(`Folder create success. Folder ID: ${id}`);
 
     console.log("Deleting folder...");
-    const respDelete = await client.delete({
-      id: id,
-    });
+    const respDelete = await client.delete({ id });
 
     console.log(`Deleted ${respDelete.result.count} item(s)`);
   } catch (e) {

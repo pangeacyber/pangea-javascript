@@ -1,4 +1,2 @@
-node_modules/
-dist/
-/yarn-error.log
-*.tgz
+dist
+/docs/data.json

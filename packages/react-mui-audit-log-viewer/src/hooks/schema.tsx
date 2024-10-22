@@ -8,7 +8,7 @@ import cloneDeep from "lodash/cloneDeep";
 import keyBy from "lodash/keyBy";
 import mapValues from "lodash/mapValues";
 
-import { Audit, AuthConfig } from "../types";
+import { Audit, AuthConfig, SchemaOptions } from "../types";
 import { GridColDef } from "@mui/x-data-grid";
 import {
   FilterOptions,
@@ -94,7 +94,8 @@ export const DEFAULT_AUDIT_SCHEMA: Audit.Schema = {
 
 export const useSchema = (
   auth: AuthConfig | undefined,
-  schemaProp: Audit.Schema | undefined
+  schemaProp: Audit.Schema | undefined,
+  options: SchemaOptions | undefined = undefined
 ): {
   schema: Audit.Schema;
   loading: boolean;
@@ -154,7 +155,17 @@ export const useSchema = (
     if (error) console.error(error);
   }, [error]);
 
-  return { schema: schemaProp ?? schema_, loading, error };
+  const schema = useMemo(() => {
+    const schema = cloneDeep(schemaProp ?? schema_);
+    schema.fields = schema.fields?.filter(
+      (f) =>
+        !options?.hiddenFields?.length || !options?.hiddenFields?.includes(f.id)
+    );
+
+    return schema;
+  }, [schemaProp, schema_, options]);
+
+  return { schema, loading, error };
 };
 
 const COLUMN_TYPE_MAP = {
@@ -168,7 +179,10 @@ const CUSTOM_CELLS = {
 
 export const useAuditColumns = <Event,>(
   schema: Audit.Schema,
-  fields: Partial<Record<keyof Event, Partial<GridColDef>>> | undefined
+  fields: Partial<Record<keyof Event, Partial<GridColDef>>> | undefined,
+  fieldTypes:
+    | Partial<Record<keyof typeof Audit.SchemaFieldType, Partial<GridColDef>>>
+    | undefined
 ) => {
   const gridFields: PDG.GridSchemaFields<Event> = useMemo(() => {
     const schemaFields = cloneDeep(schema?.fields ?? []);
@@ -178,16 +192,35 @@ export const useAuditColumns = <Event,>(
       keyBy(schemaFields, "id"),
       (field) => {
         const isLarge =
-          (field.type === "string" || field.type === "string-unindexed") &&
+          (field.type === "string" ||
+            field.type === "string-unindexed" ||
+            field.type === "text") &&
           (field.size ?? 0) > 128;
+
+        let fieldTypeColumnOverrides: Partial<GridColDef> = {};
+        if (!!fieldTypes && !!field.type) {
+          const idx = Object.values(Audit.SchemaFieldType).indexOf(
+            field.type as Audit.SchemaFieldType
+          );
+          if (idx >= 0) {
+            const fieldTypeKey = Object.keys(Audit.SchemaFieldType)[idx];
+            fieldTypeColumnOverrides = {
+              ...fieldTypes[fieldTypeKey as keyof typeof Audit.SchemaFieldType],
+            };
+          }
+        }
+
         const column: Partial<PDG.GridField> = {
           label: field.name ?? field.id,
-          description: `Field: ${field.id}${!!field.description ? ". " + field.description : ""}`,
+          description: `Field: ${field.id}${
+            !!field.description ? ". " + field.description : ""
+          }`,
+          // @ts-ignore
           type: get(COLUMN_TYPE_MAP, field.type, "string"),
           sortable: field.type !== "string-unindexed", // FIXME: What fields exactly should be sortable
           width: 150,
           ...(field.type === "datetime" && {
-            width: 180,
+            width: 194,
           }),
           ...(isLarge
             ? {
@@ -196,6 +229,7 @@ export const useAuditColumns = <Event,>(
               }
             : {}),
           renderCell: get(CUSTOM_CELLS, field.type, undefined),
+          ...fieldTypeColumnOverrides,
         };
 
         return column;
@@ -209,7 +243,7 @@ export const useAuditColumns = <Event,>(
         map(schemaFields, (f) => f.id)
       )
     );
-  }, [fields, schema]);
+  }, [fields, fieldTypes, schema]);
 
   const columns = useGridSchemaColumns(gridFields);
   return columns;
@@ -281,7 +315,7 @@ const operators = new Set(["AND", "OR"]);
 export const useAuditConditionalOptions = <Event,>(schema: Audit.Schema) => {
   const options = useMemo(() => {
     const optionalFields = (schema?.fields ?? []).filter(
-      (field) => field.type === "string"
+      (field) => field.type !== "string-unindexed"
     );
 
     return [

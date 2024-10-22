@@ -42,12 +42,13 @@ const AuthOnetimePhone: FC<AuthFlowComponentProps> = (props) => {
     <Stack gap={2} width="100%">
       <form onSubmit={formik.handleSubmit} style={{ width: "100%" }}>
         <Stack gap={1}>
-          <BodyText>Confirm your phone number.</BodyText>
+          <BodyText>Confirm your phone number</BodyText>
           <StringField
             name="phone"
             label="Phone Number"
             formik={formik}
             autoComplete="phone"
+            hideLabel={true}
             startAdornment={
               <Typography color="textSecondary" sx={{ paddingRight: 1 }}>
                 +1

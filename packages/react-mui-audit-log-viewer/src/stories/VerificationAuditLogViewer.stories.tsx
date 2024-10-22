@@ -5,7 +5,11 @@ import AuditLogViewer, { AuditLogViewerProps } from "../AuditLogViewer";
 import { Box } from "@mui/material";
 import PangeaThemeProvider from "./theme/pangea/provider";
 import { Audit } from "../types";
+import { handle202Response } from "./utils";
 
+/**
+ * @hidden
+ */
 export default {
   title: "AuditLogViewer",
   component: AuditLogViewer,
@@ -117,24 +121,38 @@ export const VerificationAuditLogViewer: {
 } = ThemeTemplate.bind({});
 
 VerificationAuditLogViewer.args = {
+  searchOnChange: false,
+  searchOnMount: false,
+  searchOnFilterChange: false,
+  fpeOptions: {
+    highlightRedaction: true,
+  },
   onSearch: async (body) => {
     return fetch(
-      `https://audit.${process.env.STORYBOOK_SERVICE_DOMAIN}/v1/search`,
+      `https://audit.${import.meta.env.STORYBOOK_SERVICE_DOMAIN}/v1/search`,
       {
         method: "POST",
         body: JSON.stringify({
           ...body,
           verify_signature: true,
-          ...(!!process.env.STORYBOOK_CONFIG_ID && {
-            config_id: process.env.STORYBOOK_CONFIG_ID,
+          ...(!!import.meta.env.STORYBOOK_CONFIG_ID && {
+            config_id: import.meta.env.STORYBOOK_CONFIG_ID,
           }),
         }),
         headers: {
-          Authorization: `Bearer ${process.env.STORYBOOK_PANGEA_TOKEN}`,
+          Authorization: `Bearer ${import.meta.env.STORYBOOK_PANGEA_TOKEN}`,
         },
       }
     )
-      .then((res) => res.json())
+      .then(async (res) =>
+        handle202Response(
+          await res.json(),
+          {
+            Authorization: `Bearer ${import.meta.env.STORYBOOK_PANGEA_TOKEN}`,
+          },
+          5
+        )
+      )
       .then((response) => response?.result)
       .catch((err) => {
         console.log(err);
@@ -143,18 +161,18 @@ VerificationAuditLogViewer.args = {
   },
   onPageChange: async (body) => {
     return fetch(
-      `https://audit.${process.env.STORYBOOK_SERVICE_DOMAIN}/v1/results`,
+      `https://audit.${import.meta.env.STORYBOOK_SERVICE_DOMAIN}/v1/results`,
       {
         method: "POST",
         body: JSON.stringify({
           ...body,
           verify_signature: true,
-          ...(!!process.env.STORYBOOK_CONFIG_ID && {
-            config_id: process.env.STORYBOOK_CONFIG_ID,
+          ...(!!import.meta.env.STORYBOOK_CONFIG_ID && {
+            config_id: import.meta.env.STORYBOOK_CONFIG_ID,
           }),
         }),
         headers: {
-          Authorization: `Bearer ${process.env.STORYBOOK_PANGEA_TOKEN}`,
+          Authorization: `Bearer ${import.meta.env.STORYBOOK_PANGEA_TOKEN}`,
         },
       }
     )
@@ -164,14 +182,14 @@ VerificationAuditLogViewer.args = {
   },
   onDownload: async (body) => {
     return fetch(
-      `https://audit.${process.env.STORYBOOK_SERVICE_DOMAIN}/v1/download_results`,
+      `https://audit.${import.meta.env.STORYBOOK_SERVICE_DOMAIN}/v1/download_results`,
       {
         method: "POST",
         body: JSON.stringify({
           ...body,
         }),
         headers: {
-          Authorization: `Bearer ${process.env.STORYBOOK_PANGEA_TOKEN}`,
+          Authorization: `Bearer ${import.meta.env.STORYBOOK_PANGEA_TOKEN}`,
         },
       }
     )
@@ -182,17 +200,17 @@ VerificationAuditLogViewer.args = {
   verificationOptions: {
     onFetchRoot: async (body) => {
       return fetch(
-        `https://audit.${process.env.STORYBOOK_SERVICE_DOMAIN}/v1/root`,
+        `https://audit.${import.meta.env.STORYBOOK_SERVICE_DOMAIN}/v1/root`,
         {
           method: "POST",
           body: JSON.stringify({
             ...body,
-            ...(!!process.env.STORYBOOK_CONFIG_ID && {
-              config_id: process.env.STORYBOOK_CONFIG_ID,
+            ...(!!import.meta.env.STORYBOOK_CONFIG_ID && {
+              config_id: import.meta.env.STORYBOOK_CONFIG_ID,
             }),
           }),
           headers: {
-            Authorization: `Bearer ${process.env.STORYBOOK_PANGEA_TOKEN}`,
+            Authorization: `Bearer ${import.meta.env.STORYBOOK_PANGEA_TOKEN}`,
           },
         }
       )
@@ -202,8 +220,8 @@ VerificationAuditLogViewer.args = {
     },
   },
   config: {
-    domain: process.env.STORYBOOK_SERVICE_DOMAIN ?? "",
-    clientToken: process.env.STORYBOOK_CLIENT_TOKEN ?? "",
-    configId: process.env.STORYBOOK_CONFIG_ID ?? "",
+    domain: import.meta.env.STORYBOOK_SERVICE_DOMAIN ?? "",
+    clientToken: import.meta.env.STORYBOOK_CLIENT_TOKEN ?? "",
+    configId: import.meta.env.STORYBOOK_CONFIG_ID ?? "",
   },
 };

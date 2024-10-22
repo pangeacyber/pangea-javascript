@@ -5,6 +5,7 @@ import {
   CSSProperties,
   useEffect,
   ReactNode,
+  MutableRefObject,
 } from "react";
 import { useTheme } from "@mui/material/styles";
 import {
@@ -35,15 +36,36 @@ import PopoutCard from "../../../PopoutCard";
 
 import { getTransformValue, reorder } from "../../../../utils";
 
-// FIXME: Split out drag-and-drop to it's own component
+const draggingMap: Record<number, number> = {};
+
+const getScrollOffset = (
+  idx: number,
+  isDragging: boolean,
+  scrollRef?: MutableRefObject<HTMLElement | undefined>
+) => {
+  if (isDragging) {
+    if (!(idx in draggingMap))
+      draggingMap[idx] = scrollRef?.current?.scrollTop ?? 0;
+    return get(draggingMap, idx, scrollRef?.current?.scrollTop ?? 0);
+  } else {
+    delete draggingMap[idx];
+    return scrollRef?.current?.scrollTop ?? 0;
+  }
+};
+
 const getDraggingStyle = (
   style: CSSProperties = {},
   { isDragging }: DraggableStateSnapshot,
-  idx: number
+  idx: number,
+  scrollRef?: MutableRefObject<HTMLElement | undefined>
 ): CSSProperties => {
   if (style.transform) {
     const { x, y } = getTransformValue(style.transform);
-    const transform = `translate(0px, ${isDragging ? idx * 36 + x : x}px)`;
+    const transform = `translate(0px, ${
+      isDragging
+        ? idx * 36 + x - getScrollOffset(idx, isDragging, scrollRef)
+        : x
+    }px)`;
 
     return {
       ...style,
@@ -95,6 +117,7 @@ const ColumnsPopout: FC<ColumnsPopoutProps> = ({
   setOrder,
 }) => {
   const theme = useTheme();
+  const scrollRef = useRef<any>(undefined);
   const [open, setOpen] = useState(false);
   const buttonRef = useRef(null);
 
@@ -134,96 +157,114 @@ const ColumnsPopout: FC<ColumnsPopoutProps> = ({
         <div id="draggable-portal" />
         <Stack sx={{ position: "relative", width: "180px" }}>
           <Typography variant="h6">Configure Table</Typography>
-          <List sx={{ minHeight: `${order_.length * 38 + 2}px` }}>
-            <DragDropContext onDragEnd={handleDrop}>
-              <Droppable droppableId="droppable">
-                {(provided, snapshot) => (
-                  <div {...provided.droppableProps} ref={provided.innerRef}>
-                    <Stack sx={{ position: "relative" }}>
-                      {order_.map((fieldKey, idx) => {
-                        const fieldLabel = get(visibility, fieldKey, {
-                          label: fieldKey,
-                        })?.label;
-                        return (
-                          <Draggable
-                            key={fieldKey}
-                            draggableId={fieldKey}
-                            index={idx}
-                          >
-                            {(provided, snapshot) => (
-                              <div
-                                ref={provided.innerRef}
-                                {...provided.draggableProps}
-                                style={getDraggingStyle(
-                                  provided.draggableProps.style,
-                                  snapshot,
-                                  idx
-                                )}
+          <Stack
+            sx={{
+              maxHeight: "calc(100vh - 300px)",
+              overflowY: "auto",
+              overflowX: "hidden",
+            }}
+            ref={scrollRef}
+            className="PangeaConfigureTable-ScrollContainer"
+          >
+            <Stack sx={{ position: "relative", height: "100%" }}>
+              <List
+                sx={{
+                  minHeight: `${order_.length * 38 + 2}px`,
+                }}
+              >
+                <DragDropContext onDragEnd={handleDrop}>
+                  <Droppable droppableId="droppable">
+                    {(provided, snapshot) => (
+                      <div {...provided.droppableProps} ref={provided.innerRef}>
+                        <Stack sx={{ position: "relative" }}>
+                          {order_.map((fieldKey, idx) => {
+                            const fieldLabel = get(visibility, fieldKey, {
+                              label: fieldKey,
+                            })?.label;
+                            return (
+                              <Draggable
+                                key={fieldKey}
+                                draggableId={fieldKey}
+                                index={idx}
                               >
-                                <Stack
-                                  direction="row"
-                                  spacing={0.5}
-                                  alignItems="center"
-                                >
-                                  <ListItemIcon
-                                    className="drag-handle"
-                                    sx={{ width: "24px", minWidth: "24px" }}
+                                {(provided, snapshot) => (
+                                  <div
+                                    ref={provided.innerRef}
+                                    {...provided.draggableProps}
+                                    style={getDraggingStyle(
+                                      provided.draggableProps.style,
+                                      snapshot,
+                                      idx,
+                                      scrollRef
+                                    )}
                                   >
-                                    <div
-                                      {...provided.dragHandleProps}
-                                      style={{
-                                        ...provided.dragHandleProps,
-                                        height: "24px",
-                                        width: "24px",
-                                      }}
+                                    <Stack
+                                      direction="row"
+                                      spacing={0.5}
+                                      alignItems="center"
                                     >
-                                      <DragIndicatorIcon />
-                                    </div>
-                                  </ListItemIcon>
-                                  <ListItemIcon
-                                    sx={{ width: "40px", minWidth: "40px" }}
-                                  >
-                                    <Checkbox
-                                      size="small"
-                                      sx={{
-                                        padding: "8px",
-                                        "&.MuiCheckbox-root": {
-                                          color: theme.palette.action.active,
-                                        },
-                                      }}
-                                      checked={
-                                        get(vis_, fieldKey, {
-                                          isVisible: false,
-                                        }).isVisible
-                                      }
-                                      onChange={(event) => {
-                                        setVis_((state) => ({
-                                          ...state,
-                                          [fieldKey]: {
-                                            label: fieldLabel,
-                                            isVisible: event.target.checked,
-                                          },
-                                        }));
-                                      }}
-                                    />
-                                  </ListItemIcon>
-                                  <ListItemText>
-                                    <Typography variant="body2">
-                                      {fieldLabel}
-                                    </Typography>
-                                  </ListItemText>
-                                </Stack>
-                              </div>
-                            )}
-                          </Draggable>
-                        );
-                      })}
-                    </Stack>
-                  </div>
-                )}
-              </Droppable>
-            </DragDropContext>
-          </List>
+                                      <ListItemIcon
+                                        className="drag-handle"
+                                        sx={{ width: "24px", minWidth: "24px" }}
+                                      >
+                                        <div
+                                          {...provided.dragHandleProps}
+                                          style={{
+                                            ...provided.dragHandleProps,
+                                            height: "24px",
+                                            width: "24px",
+                                          }}
+                                        >
+                                          <DragIndicatorIcon />
+                                        </div>
+                                      </ListItemIcon>
+                                      <ListItemIcon
+                                        sx={{ width: "40px", minWidth: "40px" }}
+                                      >
+                                        <Checkbox
+                                          size="small"
+                                          sx={{
+                                            padding: "8px",
+                                            "&.MuiCheckbox-root": {
+                                              color:
+                                                theme.palette.action.active,
+                                            },
+                                          }}
+                                          checked={
+                                            get(vis_, fieldKey, {
+                                              isVisible: false,
+                                            }).isVisible
+                                          }
+                                          onChange={(event) => {
+                                            setVis_((state) => ({
+                                              ...state,
+                                              [fieldKey]: {
+                                                label: fieldLabel,
+                                                isVisible: event.target.checked,
+                                              },
+                                            }));
+                                          }}
+                                        />
+                                      </ListItemIcon>
+                                      <ListItemText>
+                                        <Typography variant="body2">
+                                          {fieldLabel}
+                                        </Typography>
+                                      </ListItemText>
+                                    </Stack>
+                                  </div>
+                                )}
+                              </Draggable>
+                            );
+                          })}
+                        </Stack>
+                      </div>
+                    )}
+                  </Droppable>
+                </DragDropContext>
+              </List>
+            </Stack>
+          </Stack>
           <Stack spacing={1} direction="row" alignSelf="end">
             <Button
               variant="contained"

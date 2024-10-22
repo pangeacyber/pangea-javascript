@@ -34,10 +34,9 @@ export class SanitizeService extends BaseService {
   }
 
   /**
-   * @summary Sanitize (Beta)
+   * @summary Sanitize
    * @description Apply file sanitization actions according to specified rules.
-   * How to install a [Beta release](https://pangea.cloud/docs/sdk/js/#beta-releases).
-   * @operationId sanitize_post_v1beta_sanitize
+   * @operationId sanitize_post_v1_sanitize
    * @param request Request parameters.
    * @param fileData Optional file data for when the "source-url" transfer
    * method is used.
@@ -95,15 +94,14 @@ export class SanitizeService extends BaseService {
     }
 
     Object.assign(request, fsData);
-    return this.post("v1beta/sanitize", request, postOptions);
+    return this.post("v1/sanitize", request, postOptions);
   }
 
   /**
-   * @summary Sanitize via presigned URL (Beta)
+   * @summary Sanitize via presigned URL
    * @description Apply file sanitization actions according to specified rules
    * via a [presigned URL](https://pangea.cloud/docs/api/transfer-methods).
-   * How to install a [Beta release](https://pangea.cloud/docs/sdk/js/#beta-releases).
-   * @operationId sanitize_post_v1beta_sanitize 2
+   * @operationId sanitize_post_v1_sanitize 2
    * @param request Request parameters.
    * @returns A presigned URL.
    * @example
@@ -132,7 +130,7 @@ export class SanitizeService extends BaseService {
       );
     }
 
-    return await this.request.requestPresignedURL("v1beta/sanitize", request);
+    return await this.request.requestPresignedURL("v1/sanitize", request);
   }
 }
 

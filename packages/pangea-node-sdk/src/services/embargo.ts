@@ -1,7 +1,7 @@
 import PangeaResponse from "@src/response.js";
 import BaseService from "./base.js";
 import PangeaConfig from "@src/config.js";
-import { Embargo } from "@src/types.js";
+import { Embargo, PangeaToken } from "@src/types.js";
 
 /**
  * EmbargoService class provides methods for interacting with the Embargo Service
@@ -23,7 +23,7 @@ class EmbargoService extends BaseService {
    *
    * @summary Embargo
    */
-  constructor(token: string, config: PangeaConfig) {
+  constructor(token: PangeaToken, config: PangeaConfig) {
     super("embargo", token, config);
   }
 

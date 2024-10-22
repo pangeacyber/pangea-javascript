@@ -10,6 +10,7 @@ import AuthFlowLayout from "../Layout";
 import { AuthOptions, SocialOptions } from "../../components";
 import IdField from "@src/components/fields/IdField";
 import { ErrorText } from "@src/components/core/Text";
+import RememberDevice from "../../components/RememberDevice";
 
 const getDisplayData = (
   data: AuthFlow.StateData,
@@ -31,7 +32,7 @@ const SignupView: FC<AuthFlowComponentProps> = (props) => {
   return (
     <AuthFlowLayout title={title} disclaimer={disclaimer}>
       <IdField
-        value={data?.email}
+        value={data?.username || data?.email}
         resetCallback={reset}
         resetLabel={options.cancelLabel}
       />
@@ -44,6 +45,9 @@ const SignupView: FC<AuthFlowComponentProps> = (props) => {
       {(data.invite ||
         data.phase === "phase_secondary" ||
         data.samlChoices.length > 0) && <SocialOptions {...props} />}
+      {!!data.conditionalMfa && data.phase === "phase_secondary" && (
+        <RememberDevice {...props} />
+      )}
     </AuthFlowLayout>
   );
 };

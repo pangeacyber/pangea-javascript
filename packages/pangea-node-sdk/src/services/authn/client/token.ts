@@ -1,10 +1,10 @@
 import PangeaResponse from "@src/response.js";
 import BaseService from "@src/services/base.js";
 import PangeaConfig from "@src/config.js";
-import { AuthN } from "@src/types.js";
+import { AuthN, PangeaToken } from "@src/types.js";
 
 export default class ClientToken extends BaseService {
-  constructor(token: string, config: PangeaConfig) {
+  constructor(token: PangeaToken, config: PangeaConfig) {
     super("authn", token, config);
   }
 

@@ -13,7 +13,7 @@ export const PANGEA: any = {
   brand_page_logo:
     "https://pangea-marketing.s3.us-west-2.amazonaws.com/pangea-color-beta.svg",
   brand_url: "",
-  button_border_radius: "4px",
+  button_border_radius: "20px",
   button_variant: "contained",
   density: "normal",
   font_family: "Kanit",

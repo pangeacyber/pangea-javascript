@@ -85,6 +85,9 @@ export interface PangeaDataGridProps<
     query?: string;
     error?: PDG.SearchError;
     placeholder?: string;
+    // Optional specific callback triggered when search or refresh is clicked
+    // By default onChange is called if onSearch is not provided
+    onSearch?: () => void;
     onChange: (query: string) => void;
     conditionalOptions?: ConditionalOption[];
     Filters?: FilterFormProps<FiltersObj>;
@@ -417,12 +420,13 @@ const PangeaDataGrid = <
                 letterSpacing: "0.1px",
                 border: "none",
                 color: theme.palette.text.secondary,
-                ".PangeaDataGrid-Pinned-Right": {
-                  position: "sticky",
-                  right: "0px",
-                  float: "right",
-                  backgroundColor: theme.palette.background.paper,
-                },
+                ".MuiDataGrid-columnHeaders.PangeaDataGrid-Pinned-Right, .MuiDataGrid-cell.PangeaDataGrid-Pinned-Right":
+                  {
+                    position: "sticky",
+                    right: "0px",
+                    float: "right",
+                    backgroundColor: theme.palette.background.paper,
+                  },
                 ".MuiDataGrid-columnHeaders": {
                   color: theme.palette.text.secondary,
                   backgroundColor: modify(theme.palette.secondary.main, 0.9),
@@ -442,6 +446,8 @@ const PangeaDataGrid = <
                   },
                 ".MuiDataGrid-cell": {
                   border: "none",
+                  alignItems: "center",
+                  display: "flex",
                 },
                 ".MuiDataGrid-row": {
                   borderRadius: "4px",

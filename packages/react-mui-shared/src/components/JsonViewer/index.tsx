@@ -11,6 +11,8 @@ export interface JsonViewerProps {
   depth?: number;
   colors?: {
     highlightBackground: string;
+    successBackground?: string;
+    errorBackground?: string;
     highlightColor: string;
   };
   allowEmpty?: boolean;
@@ -51,16 +53,40 @@ const JsonViewer: FC<JsonViewerProps> = ({
           marginTop: "-2px",
           color: `${theme.palette.info.main}!important`,
         },
-        ".variable-value.Pangea-Highlight": {
+        ".variable-value.PangeaHighlight-highlight": {
           div: {
             backgroundColor: colors.highlightBackground,
             padding: "0 2px",
             color: `${colors.highlightColor}!important`,
           },
         },
-        ".string-value.Pangea-Highlight": {
+        ".string-value.PangeaHighlight-highlight": {
           backgroundColor: colors.highlightBackground,
           color: `${colors.highlightColor}!important`,
+        },
+        ".variable-value.PangeaHighlight-success": {
+          div: {
+            padding: "0 2px",
+            color: (theme) =>
+              `${colors.successBackground ?? theme.palette.success.main}!important`,
+          },
+        },
+        ".string-value.PangeaHighlight-success": {
+          color: (theme) =>
+            `${colors.successBackground ?? theme.palette.success.main}!important`,
+        },
+        ".variable-value.PangeaHighlight-error": {
+          div: {
+            backgroundColor: (theme) =>
+              colors.errorBackground ?? theme.palette.error.main,
+            padding: "0 2px",
+            color: (theme) =>
+              `${colors.errorBackground ?? theme.palette.error.main}!important`,
+          },
+        },
+        ".string-value.PangeaHighlight-error": {
+          color: (theme) =>
+            `${colors.errorBackground ?? theme.palette.error.main}!important`,
         },
         span: {
           opacity: `1!important`,

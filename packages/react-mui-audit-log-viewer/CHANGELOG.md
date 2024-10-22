@@ -5,6 +5,146 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.0.95] - 2024-10-11
+
+### Fixed
+
+- Allow initialQuery of empty string to reset
+
+## [0.0.94] - 2024-09-24
+
+### Fixed
+
+- Trim values from the filter options
+
+## [0.0.93] - 2024-09-04
+
+### Added
+
+- Updated to the latest @pangeacyber/react-mui-share@0.0.67, remove @types from dependencies
+
+## [0.0.92] - 2024-09-04
+
+### Added
+
+- Support for fieldTypes, to apply GridColDef to Audit field types
+- Updated to the latest @pangeacyber/react-mui-share@0.0.66, which updates @mui/x-data-grid@^7.15.0 supporting resizeable columns
+
+## [0.0.91] - 2024-08-20
+
+### Fixed
+
+- Update auto-complete search options to include all fields except unindexed
+
+## [0.0.90] - 2024-08-02
+
+### Fixed
+
+- Fix boolean field not displaying in expansion row and update linting
+
+## [0.0.89] - 2024-08-02
+
+### Fixed
+
+- Fix consistency proof check when viewing only non published logs
+
+## [0.0.88] - 2024-07-31
+
+### Fixed
+
+- Fix FPE context parsing to work with updated `k` path.
+
+## [0.0.87] - 2024-07-29
+
+### Fixed
+
+- Fix old and new using special labels in the expansion row
+
+## [0.0.86] - 2024-07-26
+
+### Fixed
+
+- Consistency proof verification line
+
+## [0.0.84] - 2024-07-10
+
+### Added
+
+- Added searchOnMount boolean prop, to allow the user to control if the AuditLogViewer should trigger a search on intial mount. Default: true
+
+## [0.0.83] - 2024-07-10
+
+### Fixed
+
+- Upgraded @pangeacyber/react-mui-share@0.0.64. Fixed expand/collapse icon updating and column customization having scroll
+- Fixed quick time filter to hover over value, to ensure it is always selectable
+
+## [0.0.82] - 2024-07-10
+
+### Fixed
+
+- StringCell rendering "undefined" for empty string values
+
+## [0.0.81] - 2024-06-14
+
+### Fixed
+
+- Filters not being applied to search api call with updated query
+
+## [0.0.80] - 2024-06-09
+
+### Changed
+
+- ts-jest is now a dev dependency instead of a regular dependency.
+
+## [0.0.79] - 2024-05-31
+
+### Fixed
+
+- Treat "text" field type as long string field. Available in search auto-complete and flex grow column
+
+## [0.0.78] - 2024-05-30
+
+### Fixed
+
+- Typing "Enter" to trigger search now reflects current query in search input on search, instead of out of sync query
+
+## [0.0.77] - 2024-05-17
+
+### Added
+
+- Added searchOnFilterChange boolean prop, to allow the user to control if the AuditLogViewer should trigger a search on filters change. Default: true
+
+## [0.0.75] - 2024-05-15
+
+### Added
+
+- Added fpeOptions prop, to control whether format preserving encryption should be highlighted
+
+## [0.0.74] - 2024-05-02
+
+### Fixed
+
+- Fixed removing error on successful followup download
+
+## [0.0.73] - 2024-04-22
+
+### Added
+
+- Added searchOnChange boolean prop, to allow the user to change the default behaviour of auto searching on query change
+
+## [0.0.72] - 2024-04-16
+
+### Added
+
+- Added schemaOptions prop, which accepts hiddenFields to remove fields from the schema
+
+## [0.0.71] - 2024-03-25
+
+### Changed
+
+- Update to @pangeacyber/react-mui-shared@0.0.57
+
 ## [0.0.70] - 2024-02-28
 
 ### Changed

@@ -5,6 +5,7 @@ import AuthFlowLayout from "../Layout";
 import { AuthOptions, SocialOptions } from "../../components";
 import IdField from "@src/components/fields/IdField";
 import { BodyText } from "@src/components/core/Text";
+import RememberDevice from "../../components/RememberDevice";
 
 const LoginView: FC<AuthFlowComponentProps> = (props) => {
   const { options, data, reset } = props;
@@ -12,16 +13,13 @@ const LoginView: FC<AuthFlowComponentProps> = (props) => {
     data.disclaimer && data.phase !== "phase_one_time" ? data.disclaimer : "";
 
   // TODO: Add branding option for onetime title
-  const title =
-    data.phase === "phase_one_time"
-      ? "Confirm your identity"
-      : options.passwordHeading;
+  const title = data.phase === "phase_one_time" ? "" : options.passwordHeading;
 
   return (
     <AuthFlowLayout title={title} disclaimer={disclaimer}>
       {data.phase !== "phase_one_time" && (
         <IdField
-          value={data?.email}
+          value={data?.username || data?.email}
           resetCallback={reset}
           resetLabel={options.cancelLabel}
         />
@@ -35,6 +33,9 @@ const LoginView: FC<AuthFlowComponentProps> = (props) => {
           </BodyText>
         )}
       <SocialOptions {...props} />
+      {!!data.conditionalMfa && data.phase === "phase_secondary" && (
+        <RememberDevice {...props} />
+      )}
     </AuthFlowLayout>
   );
 };

@@ -1,7 +1,7 @@
 /* eslint-disable no-console */
 
 import { PangeaConfig, ShareService, TransferMethod } from "pangea-node-sdk";
-import * as fs from "fs";
+import { readFileSync } from "node:fs";
 
 // Load Pangea token and domain from environment variables
 const token = process.env.PANGEA_SHARE_TOKEN;
@@ -21,7 +21,7 @@ const filepath = "./testfile.pdf";
     const name = time + "_file_post_url";
 
     // Read file content as buffer
-    const data = fs.readFileSync(filepath);
+    const data = readFileSync(filepath);
 
     // Send Put request setting transfer_method to post-url
     // SDK will request an upload url, post the file to that url and then poll the upload result to Share service

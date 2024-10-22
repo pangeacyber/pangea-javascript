@@ -1,4 +1,4 @@
-import { FC, FormEvent, MouseEvent, useState } from "react";
+import { FC, MouseEvent, useState } from "react";
 import {
   FormControl,
   IconButton,
@@ -7,8 +7,6 @@ import {
   Tooltip,
 } from "@mui/material";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
-import useMediaQuery from "@mui/material/useMediaQuery";
-import { useTheme } from "@mui/material/styles";
 
 import { validatePassword } from "@src/utils";
 import PasswordRequirements from "@src/components/core/PasswordRequirements";
@@ -17,6 +15,7 @@ export interface Props {
   name: string;
   label: string;
   formik: any;
+  autofocus?: boolean;
   policy?: any;
 }
 
@@ -26,7 +25,13 @@ export const checkPassword = (value: string | undefined, policy: any) => {
   return Object.keys(matches).length === 0;
 };
 
-const PasswordField: FC<Props> = ({ name, label, formik, policy }) => {
+const PasswordField: FC<Props> = ({
+  name,
+  label,
+  formik,
+  autofocus = true,
+  policy,
+}) => {
   const [showPassword, setShowPassword] = useState<boolean>(false);
   const [showStatus, setShowStatus] = useState<boolean>(false);
 
@@ -66,7 +71,7 @@ const PasswordField: FC<Props> = ({ name, label, formik, policy }) => {
           }
           value={formik.values[name]}
           placeholder={label}
-          autoFocus
+          autoFocus={autofocus}
         />
       </FormControl>
       <PasswordRequirements value={formik.values[name]} policy={policy} />

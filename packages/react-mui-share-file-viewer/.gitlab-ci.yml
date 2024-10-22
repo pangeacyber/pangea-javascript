@@ -1,0 +1,29 @@
+build_react_mui_store_file_viewer:
+  stage: build
+  image: node:22.9.0@sha256:8398ea18b8b72817c84af283f72daed9629af2958c4f618fe6db4f453c5c9328
+  script:
+    - cd packages/react-mui-share-file-viewer
+    - yarn install --frozen-lockfile
+    - yarn build
+  artifacts:
+    paths: ["packages/react-mui-share-file-viewer/dist"]
+    when: on_success
+
+publish_react_mui_store_file_viewer:
+  needs: [build_react_mui_store_file_viewer]
+  stage: publish
+  image: node:22.9.0@sha256:8398ea18b8b72817c84af283f72daed9629af2958c4f618fe6db4f453c5c9328
+  script:
+    # Install jq for the publish script.
+    - apt-get -qq update
+    - apt-get install -y jq
+
+    - cd packages/react-mui-share-file-viewer
+    - cp ../../scripts/publish.sh .
+    - echo "${NPMRC}" > .npmrc && ./publish.sh && rm .npmrc
+    - rm publish.sh
+  rules:
+    - if: $CI_COMMIT_BRANCH == "main"
+      changes:
+        - packages/react-mui-share-file-viewer/**/*
+      when: always

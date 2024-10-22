@@ -22,6 +22,7 @@ export namespace AuthFlow {
 
   export enum Choice {
     SET_EMAIL = "set_email",
+    SET_USERNAME = "set_username",
     PASSWORD = "password",
     SET_PASSWORD = "set_password",
     SET_PHONE = "set_phone",
@@ -38,8 +39,15 @@ export namespace AuthFlow {
     AGREEMENTS = "agreements",
     PROFILE = "profile",
     PROVISIONAL = "provisional_enrollment",
+    CONSENT = "oauth_consent",
     COMPLETE = "complete",
     NONE = "",
+  }
+
+  export enum UsernameFormat {
+    EMAIL = "email",
+    STRING = "string",
+    PHONE = "phone",
   }
 
   export interface PasswordPolicy {
@@ -53,6 +61,8 @@ export namespace AuthFlow {
 
   export interface StartParams {
     email?: string;
+    device_id?: string;
+    client_id?: string;
   }
 
   export type ChoiceResponse =
@@ -79,6 +89,7 @@ export namespace AuthFlow {
     | SmsOtpParams
     | TotpParams
     | AgreementsParams
+    | ConsentParams
     | ProfileParams;
 
   export type EmptyObject = {};
@@ -88,11 +99,21 @@ export namespace AuthFlow {
   export interface PasswordResponse {
     enrollment: boolean;
     password_policy: PasswordPolicy;
+    need_email?: boolean;
   }
 
   export interface PasswordResult {
-    choice: Choice.PASSWORD | Choice.SET_PASSWORD;
+    choice: Choice.PASSWORD;
     data: PasswordResponse;
+  }
+
+  export interface SetPasswordResponse {
+    password_policy: PasswordPolicy;
+  }
+
+  export interface SetPasswordResult {
+    choice: Choice.SET_PASSWORD;
+    data: SetPasswordResponse;
   }
 
   export interface ResetPasswordResponse {
@@ -108,6 +129,7 @@ export namespace AuthFlow {
 
   export interface PasswordParams {
     password: string;
+    email?: string;
   }
 
   export interface PasswordRequest {
@@ -228,6 +250,27 @@ export namespace AuthFlow {
     data: EmailParams;
   }
 
+  // Set Username
+
+  export interface SetUsernameResponse {
+    required_for: string[];
+  }
+
+  export interface SetUsernameResult {
+    choice: Choice.SET_USERNAME;
+    data: SetUsernameResponse;
+  }
+
+  export interface UsernameParams {
+    username: string;
+  }
+
+  export interface SetUsernameRequest {
+    flow_id: string;
+    choice: Choice.SET_USERNAME;
+    data: UsernameParams;
+  }
+
   // Set Phone
 
   export interface SetPhoneResult {
@@ -258,6 +301,22 @@ export namespace AuthFlow {
     data: EmptyObject;
   }
 
+  export interface VerifyEmailResponse {
+    sent: boolean;
+    resend_time?: string;
+    state: string;
+    need_email?: boolean;
+  }
+
+  export interface ResultVerifyEmail {
+    choice: Choice.VERIFY_EMAIL;
+    data: VerifyEmailResponse;
+  }
+
+  export interface VerifyEmailRestart {
+    email?: string;
+  }
+
   // Captcha
 
   export interface CaptchaResponse {
@@ -279,25 +338,13 @@ export namespace AuthFlow {
     data: CaptchaParams;
   }
 
-  // Verify Email
-
-  export interface VerifyEmailResponse {
-    sent: boolean;
-    resend_time?: string;
-    state: string;
-  }
-
-  export interface ResultVerifyEmail {
-    choice: Choice.VERIFY_EMAIL;
-    data: VerifyEmailResponse;
-  }
-
   // Email OTP
 
   export interface EmailOtpResponse {
     sent: boolean;
     enrollment: boolean;
     resend_time?: string;
+    need_email?: boolean;
   }
 
   export interface EmailOtpResult {
@@ -313,6 +360,10 @@ export namespace AuthFlow {
     flow_id: string;
     choice: Choice.EMAIL_OTP;
     data: EmailOtpParams;
+  }
+
+  export interface EmailOtpRestart {
+    email: string;
   }
 
   // SMS OTP
@@ -381,6 +432,11 @@ export namespace AuthFlow {
     sent: boolean;
     resend_time?: string;
     state: string;
+    need_email?: boolean;
+  }
+
+  export interface MagiclinkRestart {
+    email: string;
   }
 
   // Provisional
@@ -427,6 +483,32 @@ export namespace AuthFlow {
     data: AgreementsParams;
   }
 
+  // User Consent
+
+  export interface SelectedScope {
+    scope: string;
+    is_allowed: boolean;
+  }
+
+  export interface ConsentResponse {
+    scopes: Scope[];
+  }
+
+  export interface ConsentResult {
+    choice: Choice.CONSENT;
+    data: ConsentResponse;
+  }
+
+  export interface ConsentParams {
+    scope_selections: SelectedScope[];
+  }
+
+  export interface ConsentRequest {
+    flow_id: string;
+    choice: Choice.CONSENT;
+    data: ConsentParams;
+  }
+
   // Profile
 
   export interface ProfileField {
@@ -465,12 +547,28 @@ export namespace AuthFlow {
     data: EmptyObject;
   }
 
+  // Conditional MFA
+  export interface ConditionalMfaConfig {
+    strict_mode: boolean;
+    lifetime: number;
+  }
+
+  // Scope
+
+  export interface Scope {
+    name: string;
+    display_name: string;
+    description: string;
+  }
+
   // Result, Request and State types
 
   export type Result =
     | SetEmailResult
+    | SetUsernameResult
     | SetPhoneResult
     | PasswordResult
+    | SetPasswordResult
     | ResetPasswordResult
     | SocialResult
     | SamlResult
@@ -483,7 +581,8 @@ export namespace AuthFlow {
     | MagiclinkResult
     | AgreementsResult
     | ProfileResult
-    | ProvisionalResult;
+    | ProvisionalResult
+    | ConsentResult;
 
   export interface StateData {
     flowId: string;
@@ -491,10 +590,12 @@ export namespace AuthFlow {
     flowChoices: Result[];
     phase?: string;
     email?: string;
+    username?: string;
     phone?: string;
     invite?: boolean;
     complete?: boolean;
     disclaimer?: string;
+    usernameFormat?: UsernameFormat;
     authChoices: string[];
     socialChoices: SocialResponse[];
     socialProviderMap: { [key: string]: SocialResponse };
@@ -504,9 +605,10 @@ export namespace AuthFlow {
     passkey?: PasskeyResponse;
     agreements: AgreementData[];
     setEmail?: SetEmailResponse;
+    setUsername?: SetUsernameResponse;
     setPhone?: EmptyObject;
     password?: PasswordResponse;
-    setPassword?: EmptyObject;
+    setPassword?: SetPasswordResponse;
     resetPassword?: ResetPasswordResponse;
     verifyEmail?: VerifyEmailResponse;
     captcha?: CaptchaResponse;
@@ -516,6 +618,8 @@ export namespace AuthFlow {
     magiclink?: MagiclinkResponse;
     profile?: ProfileResponse;
     provisional?: ProvisionalResponse;
+    conditionalMfa?: ConditionalMfaConfig;
+    scopes?: Scope[];
   }
 
   export interface StartRequest {
@@ -523,6 +627,8 @@ export namespace AuthFlow {
     flow_types: string[];
     email?: string;
     invitation?: string;
+    device_id?: string;
+    client_id?: string;
   }
 
   export type UpdateRequest =
@@ -542,7 +648,8 @@ export namespace AuthFlow {
     | AgreementsRequest
     | ProfileRequest
     | StatusRequest
-    | ProfileRequest;
+    | ProfileRequest
+    | ConsentRequest;
 
   export interface BaseRequest {
     flow_id: string;
@@ -552,6 +659,7 @@ export namespace AuthFlow {
 
   export interface CompleteRequest {
     flow_id: string;
+    device_id?: string;
   }
 
   export type RestartChoice =
@@ -567,6 +675,6 @@ export namespace AuthFlow {
   export interface RestartRequest {
     flow_id: string;
     choice: RestartChoice;
-    data: {};
+    data: EmptyObject | SmsOtpRestart | EmailOtpRestart | MagiclinkRestart;
   }
 }

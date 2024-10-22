@@ -1,9 +1,11 @@
+.yarn
 node_modules
 /yarn-error.log
 *.code-workspace
 *.DS_Store
 .env
 *.exe
-pangea-node-sdk-*.tgz
+*.tgz
 *.gz
+.parcel-cache
 packages/pangea-node-sdk/download/

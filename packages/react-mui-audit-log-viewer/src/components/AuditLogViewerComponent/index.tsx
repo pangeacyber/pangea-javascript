@@ -1,5 +1,5 @@
-import { FC, useCallback, useEffect, useMemo } from "react";
-import find from "lodash/find";
+import { FC, useCallback, useEffect, useMemo, useRef } from "react";
+import mapValues from "lodash/mapValues";
 
 import { Box } from "@mui/material";
 import { SxProps } from "@mui/system";
@@ -44,9 +44,17 @@ export interface ViewerProps<Event = Audit.DefaultEvent> {
   sx?: SxProps;
   pageSize?: number;
   dataGridProps?: Partial<DataGridProps>;
+
   fields?: Partial<Record<keyof Event, Partial<GridColDef>>>;
+  fieldTypes?: Partial<
+    Record<keyof typeof Audit.SchemaFieldType, Partial<GridColDef>>
+  >;
+
   visibilityModel?: Partial<Record<keyof Event, boolean>>;
   filters?: PublicAuditQuery;
+  searchOnChange?: boolean;
+  searchOnFilterChange?: boolean;
+  searchOnMount?: boolean;
 }
 
 const AuditLogViewerComponent: FC<ViewerProps> = ({
@@ -57,7 +65,13 @@ const AuditLogViewerComponent: FC<ViewerProps> = ({
   onSearch,
   sx = {},
   dataGridProps = {},
+
   fields,
+  fieldTypes,
+
+  searchOnChange = true,
+  searchOnFilterChange = true,
+  searchOnMount = true,
 }) => {
   const {
     visibilityModel,
@@ -72,34 +86,62 @@ const AuditLogViewerComponent: FC<ViewerProps> = ({
     setQueryObj,
     setSort,
   } = useAuditContext();
-  const { body } = useAuditBody(limit, maxResults);
+  const { body, bodyWithoutQuery } = useAuditBody(limit, maxResults);
   const pagination = usePagination();
   const defaultVisibility = useDefaultVisibility(schema);
   const defaultOrder = useDefaultOrder(schema);
 
-  const schemaColumns = useAuditColumns(schema, fields);
+  const schemaColumns = useAuditColumns(schema, fields, fieldTypes);
   const columns = useAuditColumnsWithErrors(schemaColumns, logs);
   const filterFields = useAuditFilterFields(schema);
   const conditionalOptions = useAuditConditionalOptions(schema);
 
+  const hasMountedRef = useRef(false);
+
+  const bodyRef = useRef(body);
+  bodyRef.current = body;
+
   const handleSearch = () => {
-    if (!body) return;
-    return onSearch(body);
+    if (!bodyRef.current) return;
+    return onSearch(bodyRef.current);
   };
 
   useEffect(() => {
-    if (!!body) handleSearch();
-  }, [body]);
+    if (
+      !!bodyWithoutQuery &&
+      (searchOnFilterChange || searchOnMount) &&
+      !searchOnChange
+    ) {
+      if (!searchOnFilterChange && hasMountedRef.current === true) {
+        return;
+      }
+
+      if (!searchOnMount && hasMountedRef.current === false) {
+        hasMountedRef.current = true;
+        return;
+      }
+
+      hasMountedRef.current = true;
+      setTimeout(() => {
+        handleSearch();
+        // Add slight delay since since filters may update the query string
+      }, 100);
+    }
+  }, [bodyWithoutQuery, searchOnFilterChange, searchOnMount, searchOnChange]);
+
+  useEffect(() => {
+    if (!!body && searchOnChange) handleSearch();
+  }, [body, searchOnChange]);
 
   const handleChange = useCallback(
     (newQuery: string) => {
-      if (newQuery === query) {
+      if (newQuery === query && searchOnChange) {
         handleSearch();
-      } else {
+      } else if (newQuery !== query) {
         setQuery(newQuery);
       }
     },
-    [query, setQuery, body]
+    [query, setQuery, body, searchOnChange]
   );
 
   return (
@@ -148,11 +190,15 @@ const AuditLogViewerComponent: FC<ViewerProps> = ({
         Search={{
           query: query,
           error: searchError,
+          onSearch: handleSearch,
           onChange: handleChange,
           Filters: {
             // @ts-ignore
             filters: queryObj,
-            onFilterChange: setQueryObj,
+            onFilterChange: (values) =>
+              setQueryObj(
+                mapValues(values, (v) => (typeof v === "string" ? v.trim() : v))
+              ),
             // @ts-ignore
             options: filterFields,
           },

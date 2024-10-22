@@ -137,6 +137,20 @@ it("User breached bulk by ip should succeed", async () => {
   expect(Object.keys(response.result.data).length).toBe(2);
 });
 
+it("User breached bulk by domain should succeed", async () => {
+  const request = {
+    domains: ["example.com"],
+    provider: "spycloud",
+    verbose: true,
+    raw: true,
+  };
+  const response = await userIntel.userBreachedBulk(request);
+
+  expect(response.status).toBe("Success");
+  expect(response.result.data).toBeDefined();
+  expect(Object.keys(response.result.data).length).toBe(1);
+});
+
 it("User breached with default provider should succeed", async () => {
   const request = { phone_number: "8005550123", verbose: true, raw: true };
   const response = await userIntel.userBreached(request);

@@ -1,13 +1,18 @@
+import { expect, it, jest } from "@jest/globals";
 import PangeaConfig from "../../src/config.js";
+import { PangeaErrors } from "../../src/errors.js";
 import VaultService from "../../src/services/vault.js";
 import { Vault } from "../../src/types.js";
-import { jest, it, expect } from "@jest/globals";
-import { PangeaErrors } from "../../src/errors.js";
-import { strToB64 } from "../../src/utils/utils.js";
 import {
-  TestEnvironment,
+  asymmetricDecrypt,
+  generateRsaKeyPair,
+  kemDecryptExportResult,
+} from "../../src/utils/crypto.js";
+import {
   getTestDomain,
   getTestToken,
+  strToB64,
+  TestEnvironment,
 } from "../../src/utils/utils.js";
 import { loadTestEnvironment } from "./utils.js";
 
@@ -56,43 +61,49 @@ it("Secret life cycle", async () => {
   const name = getName("SecretLifeCycle");
   // Store
   const secretV1 = "mysecret";
-  const store1Resp = await vault.secretStore(secretV1, name);
+  const store1Resp = await vault.secretStore({
+    type: Vault.ItemType.SECRET,
+    secret: secretV1,
+    name: name,
+  });
   const id = store1Resp.result.id;
   expect(id).toBeDefined();
-  expect(store1Resp.result.secret).toBe(secretV1);
-  expect(store1Resp.result.version).toBe(1);
+  expect(store1Resp.result.item_versions[0]?.version).toBe(1);
 
   // Rotate
   const secretV2 = "newsecret";
-  const rotateResp = await vault.secretRotate(id, secretV2, {
+  const rotateResp = await vault.secretRotate({
+    id: id,
+    secret: secretV2,
     rotation_state: Vault.ItemVersionState.SUSPENDED,
   });
-  expect(rotateResp.result.secret).toBe(secretV2);
-  expect(rotateResp.result.version).toBe(2);
+  expect(rotateResp.result.item_versions[0]?.version).toBe(2);
 
   // Get
-  let getResp = await vault.getItem(id);
-  expect(getResp.result.versions.length).toBe(0);
-  expect(getResp.result.current_version?.secret).toBe(secretV2);
-  expect(getResp.result.current_version?.version).toBe(2);
-  expect(getResp.result.current_version?.public_key).toBeUndefined();
+  let getResp = await vault.getItem({
+    id: id,
+  });
+  expect(getResp.result.item_versions.length).toBe(1);
+  expect(getResp.result.item_versions[0]?.secret).toBe(secretV2);
+  expect(getResp.result.num_versions).toBe(2);
+  expect(getResp.result.item_versions[0]?.public_key).toBeUndefined();
 
   // Deactivate
-  const stateChangeResp = await vault.stateChange(
-    id,
-    Vault.ItemVersionState.DEACTIVATED,
-    {
-      version: 1,
-    }
-  );
+  const stateChangeResp = await vault.stateChange({
+    id: id,
+    state: Vault.ItemVersionState.DEACTIVATED,
+    version: 1,
+  });
   expect(stateChangeResp.result.id).toBe(id);
 
   // Get after deactivate
-  getResp = await vault.getItem(id);
-  expect(getResp.result.versions.length).toBe(0);
-  expect(getResp.result.current_version?.secret).toBe(secretV2);
-  expect(getResp.result.current_version?.version).toBe(2);
-  expect(getResp.result.current_version?.public_key).toBeUndefined();
+  getResp = await vault.getItem({
+    id: id,
+  });
+  expect(getResp.result.item_versions.length).toBe(1);
+  expect(getResp.result.item_versions[0]?.secret).toBe(secretV2);
+  expect(getResp.result.num_versions).toBe(2);
+  expect(getResp.result.item_versions[0]?.public_key).toBeUndefined();
 });
 
 async function asymSigningCycle(id: string) {
@@ -105,10 +116,11 @@ async function asymSigningCycle(id: string) {
   expect(sign1Resp.result.signature).toBeDefined();
 
   // Rotate
-  const rotateResp = await vault.keyRotate(id, {
+  const rotateResp = await vault.keyRotate({
+    id: id,
     rotation_state: Vault.ItemVersionState.SUSPENDED,
   });
-  expect(rotateResp.result.version).toBe(2);
+  expect(rotateResp.result.item_versions[0]?.version).toBe(2);
   expect(rotateResp.result.id).toBe(id);
 
   // Sign2
@@ -118,59 +130,71 @@ async function asymSigningCycle(id: string) {
   expect(sign2Resp.result.signature).toBeDefined();
 
   // Verify 2
-  const verify2Resp = await vault.verify(id, data, sign2Resp.result.signature, {
+  const verify2Resp = await vault.verify({
+    id: id,
+    message: data,
+    signature: sign2Resp.result.signature,
     version: 2,
   });
   expect(verify2Resp.result.valid_signature).toBe(true);
 
   // Verify default version
-  const verifyDefaultResp = await vault.verify(
+  const verifyDefaultResp = await vault.verify({
     id,
-    data,
-    sign2Resp.result.signature
-  );
+    message: data,
+    signature: sign2Resp.result.signature,
+  });
   expect(verifyDefaultResp.result.valid_signature).toBe(true);
 
   // Verify wrong id
   let f = async () => {
-    await vault.verify("notanid", data, sign2Resp.result.signature);
+    await vault.verify({
+      id: "notanid",
+      message: data,
+      signature: sign2Resp.result.signature,
+    });
   };
   await expect(f()).rejects.toThrow(PangeaErrors.APIError);
 
   // # Verify wrong signature
   f = async () => {
-    await vault.verify(id, data, "thisisnotasignature");
+    await vault.verify({
+      id: id,
+      message: data,
+      signature: "thisisnotasignature",
+    });
   };
   await expect(f()).rejects.toThrow(PangeaErrors.APIError);
 
   // verify wrong signature
-  const verifyBad1Resp = await vault.verify(
-    id,
-    data,
-    sign1Resp.result.signature
-  );
+  const verifyBad1Resp = await vault.verify({
+    id: id,
+    message: data,
+    signature: sign1Resp.result.signature,
+  });
   expect(verifyBad1Resp.result.valid_signature).toBe(false);
 
   // verify wrong data
-  const verifyBad2Resp = await vault.verify(
-    id,
-    "thisisnottheoriginaldata",
-    sign2Resp.result.signature
-  );
+  const verifyBad2Resp = await vault.verify({
+    id: id,
+    message: "thisisnottheoriginaldata",
+    signature: sign2Resp.result.signature,
+  });
   expect(verifyBad2Resp.result.valid_signature).toBe(false);
 
   // Deactivate key
-  const stateChangeResp = await vault.stateChange(
-    id,
-    Vault.ItemVersionState.DEACTIVATED,
-    {
-      version: 1,
-    }
-  );
+  const stateChangeResp = await vault.stateChange({
+    id: id,
+    state: Vault.ItemVersionState.DEACTIVATED,
+    version: 1,
+  });
   expect(stateChangeResp.result.id).toBe(id);
 
   // Verify after deactivated
-  const verify1Resp = await vault.verify(id, data, sign1Resp.result.signature, {
+  const verify1Resp = await vault.verify({
+    id: id,
+    message: data,
+    signature: sign1Resp.result.signature,
     version: 1,
   });
   expect(verify1Resp.result.valid_signature).toBe(true);
@@ -190,10 +214,11 @@ async function jwtAsymSigningCycle(id: string) {
     expect(sign1Resp.result.jws).toBeDefined();
 
     // Rotate
-    const rotateResp = await vault.keyRotate(id, {
+    const rotateResp = await vault.keyRotate({
+      id: id,
       rotation_state: Vault.ItemVersionState.SUSPENDED,
     });
-    expect(rotateResp.result.version).toBe(2);
+    expect(rotateResp.result.item_versions[0]?.version).toBe(2);
     expect(rotateResp.result.id).toBe(id);
 
     // Sign2
@@ -205,29 +230,27 @@ async function jwtAsymSigningCycle(id: string) {
     expect(verify2Resp.result.valid_signature).toBe(true);
 
     // Get default
-    let getResp = await vault.jwkGet(id);
+    let getResp = await vault.jwkGet({ id });
     expect(getResp.result.keys.length).toBe(1);
 
     // Get version
-    getResp = await vault.jwkGet(id, { version: "1" });
+    getResp = await vault.jwkGet({ id, version: "1" });
     expect(getResp.result.keys.length).toBe(1);
 
     // Get all
-    getResp = await vault.jwkGet(id, { version: "all" });
+    getResp = await vault.jwkGet({ id, version: "all" });
     expect(getResp.result.keys.length).toBe(2);
 
     // Get -1
-    getResp = await vault.jwkGet(id, { version: "-1" });
-    expect(getResp.result.keys.length).toBe(2);
+    getResp = await vault.jwkGet({ id, version: "-1" });
+    expect(getResp.result.keys.length).toBe(1);
 
     // Deactivate key
-    const stateChangeResp = await vault.stateChange(
-      id,
-      Vault.ItemVersionState.DEACTIVATED,
-      {
-        version: 1,
-      }
-    );
+    const stateChangeResp = await vault.stateChange({
+      id: id,
+      state: Vault.ItemVersionState.DEACTIVATED,
+      version: 1,
+    });
     expect(stateChangeResp.result.id).toBe(id);
 
     // Verify after deactivated
@@ -255,10 +278,11 @@ async function jwtSymSigningCycle(id: string) {
     expect(sign1Resp.result.jws).toBeDefined();
 
     // Rotate
-    const rotateResp = await vault.keyRotate(id, {
+    const rotateResp = await vault.keyRotate({
+      id,
       rotation_state: Vault.ItemVersionState.SUSPENDED,
     });
-    expect(rotateResp.result.version).toBe(2);
+    expect(rotateResp.result.item_versions[0]?.version).toBe(2);
     expect(rotateResp.result.id).toBe(id);
 
     // Sign2
@@ -270,13 +294,11 @@ async function jwtSymSigningCycle(id: string) {
     expect(verify2Resp.result.valid_signature).toBe(true);
 
     // Deactivate key
-    const stateChangeResp = await vault.stateChange(
+    const stateChangeResp = await vault.stateChange({
       id,
-      Vault.ItemVersionState.DEACTIVATED,
-      {
-        version: 1,
-      }
-    );
+      state: Vault.ItemVersionState.DEACTIVATED,
+      version: 1,
+    });
     expect(stateChangeResp.result.id).toBe(id);
 
     // Verify after deactivated
@@ -295,58 +317,75 @@ async function encryptingCycle(id: string) {
   const dataB64 = strToB64(msg);
 
   // Encrypt 1
-  const enc1Resp = await vault.encrypt(id, dataB64);
+  const enc1Resp = await vault.encrypt({
+    id,
+    plain_text: dataB64,
+  });
   expect(enc1Resp.result.id).toBe(id);
   expect(enc1Resp.result.version).toBe(1);
   expect(enc1Resp.result.cipher_text).toBeDefined();
 
   // Rotate
-  const rotateResp = await vault.keyRotate(id, {
+  const rotateResp = await vault.keyRotate({
+    id,
     rotation_state: Vault.ItemVersionState.SUSPENDED,
   });
   expect(rotateResp.result.id).toBe(id);
-  expect(rotateResp.result.version).toBe(2);
+  expect(rotateResp.result.item_versions[0]?.version).toBe(2);
 
   // Encrypt 2
-  const enc2Resp = await vault.encrypt(id, dataB64);
+  const enc2Resp = await vault.encrypt({
+    id,
+    plain_text: dataB64,
+  });
   expect(enc2Resp.result.id).toBe(id);
   expect(enc2Resp.result.version).toBe(2);
   expect(enc2Resp.result.cipher_text).toBeDefined();
 
   // Decrypt 1
-  const dec1Resp = await vault.decrypt(id, enc1Resp.result.cipher_text, {
+  const dec1Resp = await vault.decrypt({
+    id,
+    cipher_text: enc1Resp.result.cipher_text,
     version: 1,
   });
   expect(dec1Resp.result.plain_text).toBe(dataB64);
 
   // Decrypt 2
-  const dec2Resp = await vault.decrypt(id, enc2Resp.result.cipher_text, {
+  const dec2Resp = await vault.decrypt({
+    id,
+    cipher_text: enc2Resp.result.cipher_text,
     version: 2,
   });
   expect(dec2Resp.result.plain_text).toBe(dataB64);
 
   // Decrypt default
-  const decDefaultResp = await vault.decrypt(id, enc2Resp.result.cipher_text);
+  const decDefaultResp = await vault.decrypt({
+    id,
+    cipher_text: enc2Resp.result.cipher_text,
+  });
   expect(decDefaultResp.result.plain_text).toBe(dataB64);
 
   let f = async () => {
-    await vault.decrypt("notandid", enc2Resp.result.cipher_text);
+    await vault.decrypt({
+      id: "notandid",
+      cipher_text: enc2Resp.result.cipher_text,
+    });
   };
 
   await expect(f()).rejects.toThrow(PangeaErrors.APIError);
 
   // Deactivate key
-  const stateChangeResp = await vault.stateChange(
+  const stateChangeResp = await vault.stateChange({
     id,
-    Vault.ItemVersionState.DEACTIVATED,
-    {
-      version: 1,
-    }
-  );
+    state: Vault.ItemVersionState.DEACTIVATED,
+    version: 1,
+  });
   expect(stateChangeResp.result.id).toBe(id);
 
   // Decrypt after deactivated
-  const dec1RespRevoked = await vault.decrypt(id, enc1Resp.result.cipher_text, {
+  const dec1RespRevoked = await vault.decrypt({
+    id,
+    cipher_text: enc1Resp.result.cipher_text,
     version: 1,
   });
   expect(dec1RespRevoked.result.plain_text).toBe(dataB64);
@@ -357,9 +396,13 @@ async function symGenerateDefault(
   purpose: Vault.KeyPurpose
 ): Promise<string> {
   const name = getName("symGenerateDefault");
-  const response = await vault.symmetricGenerate(algorithm, purpose, name);
+  const response = await vault.symmetricGenerate({
+    algorithm,
+    purpose,
+    name,
+  });
   expect(response.result.type).toBe(Vault.ItemType.SYMMETRIC_KEY);
-  expect(response.result.version).toBe(1);
+  expect(response.result.item_versions[0]?.version).toBe(1);
   expect(response.result.id).toBeDefined();
   return response.result.id;
 }
@@ -369,24 +412,29 @@ async function symGenerateParams(
   purpose: Vault.KeyPurpose
 ): Promise<string> {
   const name = getName("symGenerateParams");
-  const genResp = await vault.symmetricGenerate(algorithm, purpose, name, {
+  const genResp = await vault.symmetricGenerate({
+    algorithm,
+    purpose,
+    name,
     metadata: METADATA_VALUE,
     tags: TAGS_VALUE,
     folder: FOLDER_VALUE,
-    expiration: EXPIRATION_VALUE,
+    disabled_at: EXPIRATION_VALUE,
     rotation_frequency: ROTATION_FREQUENCY_VALUE,
     rotation_state: ROTATION_STATE_VALUE,
   });
   expect(genResp.result.type).toBe(Vault.ItemType.SYMMETRIC_KEY);
-  expect(genResp.result.version).toBe(1);
+  expect(genResp.result.item_versions[0]?.version).toBe(1);
   expect(genResp.result.id).toBeDefined();
 
-  const getResp = await vault.getItem(genResp.result.id, { verbose: true });
+  const getResp = await vault.getItem({
+    id: genResp.result.id,
+  });
   expect(getResp.result.algorithm).toBe(algorithm);
-  expect(getResp.result.versions.length).toBe(0);
-  expect(getResp.result.current_version?.version).toBe(1);
+  expect(getResp.result.item_versions.length).toBe(1);
+  expect(getResp.result.num_versions).toBe(1);
   expect(getResp.result.name).toBe(name);
-  const expiration = new Date(getResp.result.expiration ?? "").toISOString();
+  const expiration = new Date(getResp.result.disabled_at ?? "").toISOString();
   expect(expiration).toBe(EXPIRATION_VALUE);
   expect(getResp.result.rotation_frequency).toBe(ROTATION_FREQUENCY_VALUE);
   expect(getResp.result.rotation_state).toBe(ROTATION_STATE_VALUE);
@@ -399,9 +447,13 @@ async function asymGenerateDefault(
   purpose: Vault.KeyPurpose
 ): Promise<string> {
   const name = getName("asymGenerateDefault");
-  const genResp = await vault.asymmetricGenerate(algorithm, purpose, name);
+  const genResp = await vault.asymmetricGenerate({
+    algorithm,
+    purpose,
+    name,
+  });
   expect(genResp.result.type).toBe(Vault.ItemType.ASYMMETRIC_KEY);
-  expect(genResp.result.version).toBe(1);
+  expect(genResp.result.item_versions[0]?.version).toBe(1);
   expect(genResp.result.id).toBeDefined();
   return genResp.result.id;
 }
@@ -411,26 +463,31 @@ async function asymGenerateParams(
   purpose: Vault.KeyPurpose
 ): Promise<string> {
   const name = getName("asymGenerateParams");
-  const genResp = await vault.asymmetricGenerate(algorithm, purpose, name, {
+  const genResp = await vault.asymmetricGenerate({
+    algorithm,
+    purpose,
+    name,
     metadata: METADATA_VALUE,
     tags: TAGS_VALUE,
     folder: FOLDER_VALUE,
-    expiration: EXPIRATION_VALUE,
+    disabled_at: EXPIRATION_VALUE,
     rotation_frequency: ROTATION_FREQUENCY_VALUE,
     rotation_state: ROTATION_STATE_VALUE,
   });
   expect(genResp.result.type).toBe(Vault.ItemType.ASYMMETRIC_KEY);
-  expect(genResp.result.version).toBe(1);
+  expect(genResp.result.item_versions[0]?.version).toBe(1);
   expect(genResp.result.id).toBeDefined();
 
-  const getResp = await vault.getItem(genResp.result.id, { verbose: true });
-  expect(getResp.result.versions.length).toBe(0);
+  const getResp = await vault.getItem({
+    id: genResp.result.id,
+  });
+  expect(getResp.result.item_versions.length).toBe(1);
   expect(getResp.result.algorithm).toBe(algorithm);
-  expect(getResp.result.current_version?.version).toBe(1);
+  expect(getResp.result.num_versions).toBe(1);
   expect(getResp.result.name).toBe(name);
   expect(getResp.result.folder).toBe(FOLDER_VALUE);
 
-  const expiration = new Date(getResp.result.expiration ?? "").toISOString();
+  const expiration = new Date(getResp.result.disabled_at ?? "").toISOString();
   expect(expiration).toBe(EXPIRATION_VALUE);
   expect(getResp.result.rotation_frequency).toBe(ROTATION_FREQUENCY_VALUE);
   expect(getResp.result.rotation_state).toBe(ROTATION_STATE_VALUE);
@@ -482,28 +539,30 @@ it("Asymmetric signing generate all params", async () => {
 
 it("Ed25519 default store", async () => {
   const name = getName("Ed25519defaultStore");
-  const genResp = await vault.asymmetricStore(
-    KEY_ED25519.private_key,
-    KEY_ED25519.public_key,
-    KEY_ED25519.algorithm,
-    Vault.KeyPurpose.SIGNING,
-    name
-  );
+  const genResp = await vault.asymmetricStore({
+    type: Vault.ItemType.ASYMMETRIC_KEY,
+    private_key: KEY_ED25519.private_key,
+    public_key: KEY_ED25519.public_key,
+    algorithm: KEY_ED25519.algorithm,
+    purpose: Vault.KeyPurpose.SIGNING,
+    name,
+  });
   expect(genResp.result.type).toBe(Vault.ItemType.ASYMMETRIC_KEY);
-  expect(genResp.result.version).toBe(1);
+  expect(genResp.result.item_versions[0]?.version).toBe(1);
   expect(genResp.result.id).toBeDefined();
 });
 
 it("AES default store", async () => {
   const name = getName("AESdefaultStore");
-  const genResp = await vault.symmetricStore(
-    KEY_AES.key,
-    KEY_AES.algorithm,
-    Vault.KeyPurpose.ENCRYPTION,
-    name
-  );
+  const genResp = await vault.symmetricStore({
+    type: Vault.ItemType.SYMMETRIC_KEY,
+    key: KEY_AES.key,
+    algorithm: KEY_AES.algorithm,
+    purpose: Vault.KeyPurpose.ENCRYPTION,
+    name,
+  });
   expect(genResp.result.type).toBe(Vault.ItemType.SYMMETRIC_KEY);
-  expect(genResp.result.version).toBe(1);
+  expect(genResp.result.item_versions[0]?.version).toBe(1);
   expect(genResp.result.id).toBeDefined();
 });
 
@@ -692,7 +751,8 @@ it("Folder endpoint", async () => {
   expect(createFolderResp.result.id).toBeDefined();
 
   // Update name
-  const updateFolderResp = await vault.update(createFolderResp.result.id, {
+  const updateFolderResp = await vault.update({
+    id: createFolderResp.result.id,
     name: FOLDER_NAME_NEW,
   });
   expect(createFolderResp.result.id).toBe(updateFolderResp.result.id);
@@ -703,7 +763,7 @@ it("Folder endpoint", async () => {
       folder: FOLDER_PARENT,
     },
   });
-  expect(listResp.result.count).toBe(1);
+  expect(listResp.result.items.length).toBe(1);
   expect(createFolderResp.result.id).toBe(listResp.result.items[0]?.id);
   expect("folder").toBe(listResp.result.items[0]?.type);
   expect(FOLDER_NAME_NEW).toBe(listResp.result.items[0]?.name);
@@ -745,4 +805,117 @@ it("encrypt structured", async () => {
   const decryptedData = decrypted.result.structured_data;
   expect(decryptedData.field1).toStrictEqual(data.field1);
   expect(decryptedData.field2).toStrictEqual(data.field2);
+});
+
+it("encrypt transform", async () => {
+  const plainText = "123-4567-8901";
+  const tweak = "MTIzMTIzMT==";
+
+  // Generate an encryption key.
+  const key = await symGenerateDefault(
+    Vault.SymmetricAlgorithm.AES256_FF3_1,
+    Vault.KeyPurpose.FPE
+  );
+
+  // Encrypt.
+  const encrypted = await vault.encryptTransform({
+    id: key,
+    plain_text: plainText,
+    tweak,
+    alphabet: Vault.TransformAlphabet.ALPHANUMERIC,
+  });
+  expect(encrypted.result.id).toStrictEqual(key);
+  expect(encrypted.result.cipher_text).toHaveLength(plainText.length);
+
+  // Decrypt.
+  const decrypted = await vault.decryptTransform({
+    id: key,
+    cipher_text: encrypted.result.cipher_text,
+    tweak,
+    alphabet: Vault.TransformAlphabet.ALPHANUMERIC,
+  });
+  expect(decrypted.result.id).toStrictEqual(key);
+  expect(decrypted.result.plain_text).toStrictEqual(plainText);
+});
+
+it("export", async () => {
+  // Generate an exportable key.
+  const generated = await vault.asymmetricGenerate({
+    algorithm: Vault.AsymmetricAlgorithm.Ed25519,
+    purpose: Vault.KeyPurpose.SIGNING,
+    name: getName("export"),
+    exportable: true,
+  });
+
+  // Export in plain
+  var exportedPlain = await vault.export({
+    id: generated.result.id,
+  });
+
+  expect(exportedPlain.result.id).toStrictEqual(generated.result.id);
+  expect(exportedPlain.result.encryption_type).toStrictEqual("none");
+  expect(exportedPlain.result.public_key).toBeDefined();
+
+  // Generate a RSA key pair.
+  const keyPair = await generateRsaKeyPair(4096);
+
+  // Export asymmetric encrypted
+  let actual = await vault.export({
+    id: generated.result.id,
+    asymmetric_algorithm: Vault.ExportEncryptionAlgorithm.RSA4096_OAEP_SHA512,
+    asymmetric_public_key: keyPair.publicKey,
+  });
+  expect(actual.result.id).toStrictEqual(generated.result.id);
+  expect(actual.result.encryption_type).toStrictEqual("asymmetric");
+  expect(actual.result.public_key).toStrictEqual(
+    exportedPlain.result.public_key
+  );
+  const decryptedPrivateKey = asymmetricDecrypt(
+    keyPair.privateKey,
+    Buffer.from(actual.result.private_key!, "base64"),
+    "sha512"
+  );
+  expect(decryptedPrivateKey).toStrictEqual(exportedPlain.result.private_key);
+
+  // Store it under a new name, again as exportable.
+  const stored = await vault.asymmetricStore({
+    type: Vault.ItemType.ASYMMETRIC_KEY,
+    private_key: decryptedPrivateKey,
+    public_key: exportedPlain.result.public_key!,
+    algorithm: Vault.AsymmetricAlgorithm.Ed25519,
+    purpose: Vault.KeyPurpose.SIGNING,
+    name: getName("export"),
+    exportable: true,
+  });
+  expect(stored.result.id).toBeDefined();
+
+  // Should still be able to export it.
+  actual = await vault.export({ id: stored.result.id });
+  expect(actual.result.id).toStrictEqual(stored.result.id);
+  expect(actual.result.public_key).toBeDefined();
+  expect(actual.result.private_key).toBeDefined();
+
+  // Export kem encrypted
+  const password = "mypassword";
+  actual = await vault.export({
+    id: generated.result.id,
+    asymmetric_algorithm:
+      Vault.ExportEncryptionAlgorithm.RSA4096_NO_PADDING_KEM,
+    asymmetric_public_key: keyPair.publicKey,
+    kem_password: password,
+  });
+  expect(actual.result.id).toStrictEqual(generated.result.id);
+  expect(actual.result.encryption_type).toStrictEqual("kem");
+  expect(actual.result.public_key).toStrictEqual(
+    exportedPlain.result.public_key
+  );
+
+  const decryptedPrivateKeyKEM = await kemDecryptExportResult(
+    actual.result,
+    password,
+    keyPair.privateKey
+  );
+  expect(decryptedPrivateKeyKEM).toStrictEqual(
+    exportedPlain.result.private_key
+  );
 });

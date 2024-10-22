@@ -11,5 +11,5 @@
     "skipLibCheck": true,
     "forceConsistentCasingInFileNames": true
   },
-  "exclude": ["src/stories", "**/*.stories.tsx"]
+  "exclude": ["src/stories", "**/*.stories.tsx", "vite.config.mts"]
 }

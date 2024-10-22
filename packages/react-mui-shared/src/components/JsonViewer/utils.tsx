@@ -4,6 +4,7 @@ import ReactDom from "react-dom";
 import keyBy from "lodash/keyBy";
 import get from "lodash/get";
 import isEmpty from "lodash/isEmpty";
+import { Tooltip } from "@mui/material";
 
 enum ReactJsonView {
   CollapseBtn = ".collapsed-icon",
@@ -12,13 +13,13 @@ enum ReactJsonView {
   VariableEl = ".variable-value",
 }
 
-export const HIGHLIGHTED_CLASS = "Pangea-Highlight";
-
+export type HighlightColor = "success" | "highlight" | "error";
 export interface Highlight {
   value: string;
   prefix?: string;
   suffix?: string;
-  color: "highlight" | "error";
+  color: "success" | "highlight" | "error";
+  info?: string;
 }
 
 interface HighlightOptions {}
@@ -79,7 +80,7 @@ export const useReactJsonViewHighlight = (
 
         const change = get(textToHighlightMap, text?.replace(/"/g, "") ?? "");
         if (change) {
-          el.className = `${el.className} ${HIGHLIGHTED_CLASS}`;
+          el.className = `${el.className} PangeaHighlight-${change.color}`;
         }
       });
 
@@ -102,7 +103,7 @@ export const useReactJsonViewHighlight = (
 
         let left: string = el.textContent;
         let checkIdx: number = 0;
-        const values: { val: string; isHighlighted: boolean }[] = [];
+        const values: { val: string; highlight: string; title?: string }[] = [];
 
         for (let idx = 0; idx < highlights_.length; idx++) {
           const hl = highlights_[idx];
@@ -118,11 +119,12 @@ export const useReactJsonViewHighlight = (
           ) {
             values.push({
               val: previous,
-              isHighlighted: false,
+              highlight: "",
             });
             values.push({
               val: hl.value,
-              isHighlighted: true,
+              highlight: hl.color,
+              title: hl.info,
             });
 
             left = rest.join(hl.value);
@@ -139,19 +141,33 @@ export const useReactJsonViewHighlight = (
 
         values.push({
           val: left,
-          isHighlighted: false,
+          highlight: "",
         });
 
         ReactDom.render(
           <div style={{ display: "inline-block", color: "rgb(203, 75, 22)" }}>
-            {values.map(({ val, isHighlighted }, idx) => (
-              <span
-                className={`string-value ${isHighlighted && HIGHLIGHTED_CLASS}`}
-                key={`string-value-${val}-${idx}-${text}`}
-              >
-                {val}
-              </span>
-            ))}
+            {values.map(({ val, highlight, title }, idx) =>
+              !!title ? (
+                <Tooltip
+                  title={title}
+                  key={`tooltip-string-value-${val}-${idx}-${text}`}
+                >
+                  <span
+                    className={`string-value ${!!highlight && `PangeaHighlight-${highlight}`}`}
+                    key={`string-value-${val}-${idx}-${text}`}
+                  >
+                    {val}
+                  </span>
+                </Tooltip>
+              ) : (
+                <span
+                  className={`string-value ${!!highlight && `PangeaHighlight-${highlight}`}`}
+                  key={`string-value-${val}-${idx}-${text}`}
+                >
+                  {val}
+                </span>
+              )
+            )}
           </div>,
           el
         );

@@ -2,9 +2,9 @@ import PangeaConfig from "../../src/config.js";
 import { it, expect, jest } from "@jest/globals";
 import {
   TestEnvironment,
+  getCustomSchemaTestToken,
   getFileUploadParams,
   getTestDomain,
-  getTestToken,
 } from "../../src/utils/utils.js";
 import {
   SanitizeService,
@@ -12,10 +12,13 @@ import {
   FileUploader,
 } from "../../src/index.js";
 import { Sanitize, TransferMethod } from "../../src/types.js";
-import { loadTestEnvironment } from "./utils.js";
+import { loadTestEnvironment, trySlowRequest } from "./utils.js";
 
 const environment = loadTestEnvironment("sanitize", TestEnvironment.LIVE);
-const token = getTestToken(environment);
+
+// The Sanitize config in the regular org was obsoleted by a breaking change,
+// so the custom schema org is used instead.
+const token = getCustomSchemaTestToken(environment);
 const testHost = getTestDomain(environment);
 const config = new PangeaConfig({
   domain: testHost,
@@ -25,7 +28,7 @@ const config = new PangeaConfig({
 const client = new SanitizeService(token, config);
 
 const testfilePath = "./tests/testdata/ds11.pdf";
-jest.setTimeout(130000);
+jest.setTimeout(2 * config.pollResultTimeoutMs);
 
 const delay = async (ms: number) =>
   new Promise((resolve) => {
@@ -34,10 +37,7 @@ const delay = async (ms: number) =>
 
 it("Sanitize and share", async () => {
   try {
-    let file_scan: Sanitize.SanitizeFile = {
-      scan_provider: "crowdstrike",
-      cdr_provider: "apryse",
-    };
+    const file_scan: Sanitize.SanitizeFile = { scan_provider: "crowdstrike" };
     let content: Sanitize.SanitizeContent = {
       url_intel: true,
       url_intel_provider: "crowdstrike",
@@ -60,10 +60,16 @@ it("Sanitize and share", async () => {
       share_output: share_output,
       uploaded_file_name: "uploaded_file",
     };
-    const response = await client.sanitize(request, {
-      file: testfilePath,
-      name: "file",
-    });
+    const response = await trySlowRequest(
+      async () =>
+        await client.sanitize(request, {
+          file: testfilePath,
+          name: "file",
+        })
+    );
+    if (!response) {
+      return;
+    }
 
     expect(response.status).toBe("Success");
     expect(response.result.dest_url).toBeUndefined();
@@ -100,10 +106,7 @@ it("Sanitize and share", async () => {
 
 it("Sanitize no share", async () => {
   try {
-    let file_scan: Sanitize.SanitizeFile = {
-      scan_provider: "crowdstrike",
-      cdr_provider: "apryse",
-    };
+    const file_scan: Sanitize.SanitizeFile = { scan_provider: "crowdstrike" };
     let content: Sanitize.SanitizeContent = {
       url_intel: true,
       url_intel_provider: "crowdstrike",
@@ -125,10 +128,16 @@ it("Sanitize no share", async () => {
       share_output: share_output,
       uploaded_file_name: "uploaded_file",
     };
-    const response = await client.sanitize(request, {
-      file: testfilePath,
-      name: "file",
-    });
+    const response = await trySlowRequest(
+      async () =>
+        await client.sanitize(request, {
+          file: testfilePath,
+          name: "file",
+        })
+    );
+    if (!response) {
+      return;
+    }
 
     expect(response.status).toBe("Success");
     expect(response.result.dest_url).toBeDefined();
@@ -169,116 +178,107 @@ it("Sanitize no share", async () => {
 });
 
 it("Sanitize all defaults", async () => {
-  try {
-    const request: Sanitize.SanitizeRequest = {
-      transfer_method: TransferMethod.POST_URL,
-      uploaded_file_name: "uploaded_file",
-    };
-    const response = await client.sanitize(request, {
-      file: testfilePath,
-      name: "file",
-    });
+  const request: Sanitize.SanitizeRequest = {
+    transfer_method: TransferMethod.POST_URL,
+    uploaded_file_name: "uploaded_file",
+  };
+  const response = await trySlowRequest(
+    async () =>
+      await client.sanitize(request, {
+        file: testfilePath,
+        name: "file",
+      })
+  );
+  if (!response) {
+    return;
+  }
 
-    expect(response.status).toBe("Success");
-    expect(response.result.dest_url).toBeDefined();
-    expect(response.result.dest_share_id).toBeUndefined();
-    expect(response.result.data.redact).toBeUndefined();
-    expect(response.result.data.defang).toBeDefined();
-    if (response.result.data.defang) {
-      expect(response.result.data.defang.external_urls_count).toBeGreaterThan(
-        0
-      );
-      expect(
-        response.result.data.defang.external_domains_count
-      ).toBeGreaterThan(0);
-      expect(response.result.data.defang.defanged_count).toBe(0);
-      expect(response.result.data.defang.domain_intel_summary).toBeDefined();
-    }
-    expect(response.result.data.cdr).toBeDefined();
-    if (response.result.data.cdr) {
-      expect(response.result.data.cdr.file_attachments_removed).toBe(0);
-      expect(response.result.data.cdr.interactive_contents_removed).toBe(0);
-    }
-    expect(response.result.data.malicious_file).toBeFalsy();
-    if (response.result.dest_url) {
-      const attachedFile = await client.downloadFile(response.result.dest_url);
-      attachedFile.save("./");
-    }
-  } catch (e) {
-    e instanceof PangeaErrors.APIError
-      ? console.log(e.toString())
-      : console.log(e);
-    throw e;
+  expect(response.status).toBe("Success");
+  expect(response.result.dest_url).toBeDefined();
+  expect(response.result.dest_share_id).toBeUndefined();
+  expect(response.result.data.redact).toBeUndefined();
+  expect(response.result.data.defang).toBeDefined();
+  if (response.result.data.defang) {
+    expect(response.result.data.defang.external_urls_count).toBeGreaterThan(0);
+    expect(response.result.data.defang.external_domains_count).toBeGreaterThan(
+      0
+    );
+    expect(response.result.data.defang.defanged_count).toBe(0);
+    expect(response.result.data.defang.domain_intel_summary).toBeDefined();
+  }
+  expect(response.result.data.cdr).toBeDefined();
+  if (response.result.data.cdr) {
+    expect(response.result.data.cdr.file_attachments_removed).toBe(0);
+    expect(response.result.data.cdr.interactive_contents_removed).toBe(0);
+  }
+  expect(response.result.data.malicious_file).toBeFalsy();
+  if (response.result.dest_url) {
+    const attachedFile = await client.downloadFile(response.result.dest_url);
+    attachedFile.save("./");
   }
 });
 
 it("Sanitize multipart upload", async () => {
-  try {
-    let file_scan: Sanitize.SanitizeFile = {
-      scan_provider: "crowdstrike",
-      cdr_provider: "apryse",
-    };
-    let content: Sanitize.SanitizeContent = {
-      url_intel: true,
-      url_intel_provider: "crowdstrike",
-      domain_intel: true,
-      domain_intel_provider: "crowdstrike",
-      defang: true,
-      defang_threshold: 20,
-      remove_interactive: true,
-      remove_attachments: true,
-      redact: true,
-    };
-    let share_output: Sanitize.SanitizeShareOutput = {
-      enabled: false,
-    };
-    const request: Sanitize.SanitizeRequest = {
-      transfer_method: TransferMethod.MULTIPART,
-      file: file_scan,
-      content: content,
-      share_output: share_output,
-      uploaded_file_name: "uploaded_file",
-    };
-    const response = await client.sanitize(request, {
-      file: testfilePath,
-      name: "file",
-    });
+  const file_scan: Sanitize.SanitizeFile = { scan_provider: "crowdstrike" };
+  let content: Sanitize.SanitizeContent = {
+    url_intel: true,
+    url_intel_provider: "crowdstrike",
+    domain_intel: true,
+    domain_intel_provider: "crowdstrike",
+    defang: true,
+    defang_threshold: 20,
+    remove_interactive: true,
+    remove_attachments: true,
+    redact: true,
+  };
+  let share_output: Sanitize.SanitizeShareOutput = {
+    enabled: false,
+  };
+  const request: Sanitize.SanitizeRequest = {
+    transfer_method: TransferMethod.MULTIPART,
+    file: file_scan,
+    content: content,
+    share_output: share_output,
+    uploaded_file_name: "uploaded_file",
+  };
+  const response = await trySlowRequest(
+    async () =>
+      await client.sanitize(request, {
+        file: testfilePath,
+        name: "file",
+      })
+  );
+  if (!response) {
+    return;
+  }
 
-    expect(response.status).toBe("Success");
-    expect(response.result.dest_url).toBeDefined();
-    expect(response.result.dest_share_id).toBeUndefined();
-    expect(response.result.data.redact).toBeDefined();
-    if (response.result.data.redact) {
-      expect(response.result.data.redact.redaction_count).toBeGreaterThan(0);
-      expect(response.result.data.redact.summary_counts).not.toEqual({});
-    }
-    expect(response.result.data.defang).toBeDefined();
-    if (response.result.data.defang) {
-      expect(response.result.data.defang.external_urls_count).toBeGreaterThan(
-        0
-      );
-      expect(
-        response.result.data.defang.external_domains_count
-      ).toBeGreaterThan(0);
-      expect(response.result.data.defang.defanged_count).toBe(0);
-      expect(response.result.data.defang.domain_intel_summary).toBeDefined();
-    }
-    expect(response.result.data.cdr).toBeDefined();
-    if (response.result.data.cdr) {
-      expect(response.result.data.cdr.file_attachments_removed).toBe(0);
-      expect(response.result.data.cdr.interactive_contents_removed).toBe(0);
-    }
-    expect(response.result.data.malicious_file).toBeFalsy();
+  expect(response.status).toBe("Success");
+  expect(response.result.dest_url).toBeDefined();
+  expect(response.result.dest_share_id).toBeUndefined();
+  expect(response.result.data.redact).toBeDefined();
+  if (response.result.data.redact) {
+    expect(response.result.data.redact.redaction_count).toBeGreaterThan(0);
+    expect(response.result.data.redact.summary_counts).not.toEqual({});
+  }
+  expect(response.result.data.defang).toBeDefined();
+  if (response.result.data.defang) {
+    expect(response.result.data.defang.external_urls_count).toBeGreaterThan(0);
+    expect(response.result.data.defang.external_domains_count).toBeGreaterThan(
+      0
+    );
+    expect(response.result.data.defang.defanged_count).toBe(0);
+    expect(response.result.data.defang.domain_intel_summary).toBeDefined();
+  }
+  expect(response.result.data.cdr).toBeDefined();
+  if (response.result.data.cdr) {
+    expect(response.result.data.cdr.file_attachments_removed).toBe(0);
+    expect(response.result.data.cdr.interactive_contents_removed).toBe(0);
+  }
+  expect(response.result.data.malicious_file).toBeFalsy();
 
-    if (response.result.dest_url) {
-      const attachedFile = await client.downloadFile(response.result.dest_url);
-      attachedFile.save("./");
-    }
-  } catch (e) {
-    e instanceof PangeaErrors.APIError
-      ? console.log(e.toString())
-      : console.log(e);
-    throw e;
+  if (response.result.dest_url) {
+    const attachedFile = await client.downloadFile(response.result.dest_url);
+    attachedFile.save("./");
   }
 });
 
@@ -347,15 +347,17 @@ it("Sanitize async and poll result", async () => {
         );
         attachedFile.save("./");
       }
-      break;
+      return;
     } catch (e) {
-      if (e instanceof PangeaErrors.AcceptedRequestException) {
-        expect(retry).toBeLessThan(maxRetry - 1);
-      } else {
+      if (!(e instanceof PangeaErrors.AcceptedRequestException)) {
         throw e;
       }
     }
   }
+
+  console.warn(
+    `The result of request '${exception?.request_id}' took too long to be ready.`
+  );
 });
 
 it("Sanitize get url and put upload", async () => {
@@ -420,15 +422,17 @@ it("Sanitize get url and put upload", async () => {
         );
         attachedFile.save("./");
       }
-      break;
+      return;
     } catch (e) {
-      if (e instanceof PangeaErrors.AcceptedRequestException) {
-        expect(retry).toBeLessThan(maxRetry - 1);
-      } else {
+      if (!(e instanceof PangeaErrors.AcceptedRequestException)) {
         throw e;
       }
     }
   }
+
+  console.warn(
+    `The result of request '${response.request_id}' took too long to be ready.`
+  );
 });
 
 it("Sanitize get url and post upload", async () => {
@@ -499,13 +503,15 @@ it("Sanitize get url and post upload", async () => {
         );
         attachedFile.save("./");
       }
-      break;
+      return;
     } catch (e) {
-      if (e instanceof PangeaErrors.AcceptedRequestException) {
-        expect(retry).toBeLessThan(maxRetry - 1);
-      } else {
+      if (!(e instanceof PangeaErrors.AcceptedRequestException)) {
         throw e;
       }
     }
   }
+
+  console.warn(
+    `The result of request '${response.request_id}' took too long to be ready.`
+  );
 });

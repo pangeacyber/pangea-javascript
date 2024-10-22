@@ -1,11 +1,74 @@
 import { FC, useMemo } from "react";
 import isEmpty from "lodash/isEmpty";
 
-import { Container, Typography, Stack, Box } from "@mui/material";
+import {
+  Container,
+  Typography,
+  Stack,
+  Box,
+  Tooltip,
+  TypographyProps,
+} from "@mui/material";
 
 import { JsonViewer } from "@pangeacyber/react-mui-shared";
 // FIXME: Diff needs to be split out to react-mui-shared
 import { Change } from "../../hooks/diff";
+import DateTimeFilter from "../AuditLogViewerComponent/DateTimeFilter";
+
+export const ChangesTypography: FC<{
+  value: string;
+  changes?: Change[];
+  uniqueId: string;
+  TypographyProps?: Partial<TypographyProps>;
+}> = ({ value, changes, uniqueId, TypographyProps }) => {
+  return (
+    <Typography
+      variant="body2"
+      sx={{
+        ".PangeaHighlight-highlight": {
+          backgroundColor: "#FFFF0B",
+          color: "#000",
+        },
+        ".PangeaHighlight-success": {
+          color: (theme) => theme.palette.success.main,
+        },
+      }}
+      {...TypographyProps}
+    >
+      {!isEmpty(changes)
+        ? changes?.map((change, idx) => {
+            const span_ = (
+              <span
+                key={`change-found-${idx}-${uniqueId}`}
+                className={
+                  change.added
+                    ? "PangeaHighlight-highlight PangeaHighlight-new"
+                    : change.removed
+                      ? "PangeaHighlight-highlight PangeaHighlight-removed"
+                      : change.redacted
+                        ? "PangeaHighlight-success PangeaHighlight-pfe"
+                        : ""
+                }
+              >
+                {change.value}
+              </span>
+            );
+
+            return !!change.info ? (
+              <Tooltip
+                title={change.info}
+                key={`tooltip-change-found-${idx}-${uniqueId}`}
+              >
+                {span_}
+              </Tooltip>
+            ) : (
+              span_
+            );
+          })
+        : (value ?? "-")}
+    </Typography>
+  );
+};
 
 export interface StringFieldProps {
   inRow?: boolean;
@@ -16,11 +79,14 @@ export interface StringFieldProps {
   uniqueId: string;
 }
 
+const StringFieldTypographyProps: Partial<TypographyProps> = {
+  color: "textPrimary",
+};
 export const StringField: FC<StringFieldProps> = ({
   title,
   inRow,
   value: value_,
-  changes = [],
+  changes,
   uniqueId,
 }) => {
   const direction = inRow ? "column" : "row";
@@ -32,34 +98,28 @@ export const StringField: FC<StringFieldProps> = ({
         {title}
       </Typography>
       <Container sx={{ padding: "4px!important" }}>
-        <Typography
-          color="textPrimary"
-          variant="body2"
-          sx={{
-            ".Pangea-Highlight": {
-              backgroundColor: "#FFFF0B",
-              color: "#000",
-            },
-          }}
-        >
-          {!isEmpty(changes)
-            ? changes.map((change, idx) => {
-                return (
-                  <span
-                    key={`change-found-${idx}-${uniqueId}`}
-                    className={
-                      change.added
-                        ? "Pangea-Highlight Pangea-HighlightNew"
-                        : change.removed
-                          ? "Pangea-Highlight Pangea-HighlightRemoved"
-                          : ""
-                    }
-                  >
-                    {change.value}
-                  </span>
-                );
-              })
-            : value ?? "-"}
+        <ChangesTypography
+          value={value}
+          changes={changes}
+          uniqueId={uniqueId}
+          TypographyProps={StringFieldTypographyProps}
+        />
+      </Container>
+    </Stack>
+  );
+};
+
+export const BooleanField: FC<StringFieldProps> = ({ title, inRow, value }) => {
+  const direction = inRow ? "column" : "row";
+
+  return (
+    <Stack spacing={1} direction={direction} alignItems="start">
+      <Typography variant="body2" sx={{ width: "120px", paddingTop: "4px" }}>
+        {title}
+      </Typography>
+      <Container sx={{ padding: "4px!important" }}>
+        <Typography variant="body2" {...StringFieldTypographyProps}>
+          {`${value}`}
         </Typography>
       </Container>
     </Stack>
@@ -67,6 +127,8 @@ export const StringField: FC<StringFieldProps> = ({
 };
 
 export const DateTimeField: FC<StringFieldProps> = (props) => {
+  const direction = props.inRow ? "column" : "row";
+
   const dateTimeString = useMemo(() => {
     let dateTimeString = "-";
     if (props.value) {
@@ -84,7 +146,20 @@ export const DateTimeField: FC<StringFieldProps> = (props) => {
     return dateTimeString;
   }, [props.value]);
 
-  return <StringField {...props} value={dateTimeString} />;
+  return (
+    <Stack spacing={1} direction={direction} alignItems="start">
+      <Typography variant="body2" sx={{ width: "120px", paddingTop: "4px" }}>
+        {props.title}
+      </Typography>
+      <Container sx={{ padding: "4px!important", width: "fit-content" }}>
+        <DateTimeFilter value={props.value} field={props.field}>
+          <Typography variant="body2" {...StringFieldTypographyProps}>
+            {dateTimeString}
+          </Typography>
+        </DateTimeFilter>
+      </Container>
+    </Stack>
+  );
 };
 
 const parseJson = (value: any): object | null => {
@@ -129,7 +204,8 @@ const StringJsonField: FC<{
               prefix: c.prefix,
               suffix: c.suffix,
               value: c.value,
-              color: "highlight",
+              color: c.redacted ? "success" : "highlight",
+              info: c.info,
             }))}
             depth={3}
           />

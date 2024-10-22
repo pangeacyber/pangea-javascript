@@ -21,10 +21,9 @@ class ShareService extends BaseService {
   }
 
   /**
-   * @summary Buckets (Beta)
+   * @summary Buckets
    * @description Get information on the accessible buckets.
-   * How to install a [Beta release](https://pangea.cloud/docs/sdk/js/#beta-releases).
-   * @operationId share_post_v1beta_buckets
+   * @operationId share_post_v1_buckets
    * @returns Information on the accessible buckets
    * @example
    * ```js
@@ -32,14 +31,13 @@ class ShareService extends BaseService {
    * ```
    */
   buckets(): Promise<PangeaResponse<Share.BucketsResult>> {
-    return this.post("v1beta/buckets", {});
+    return this.post("v1/buckets", {});
   }
 
   /**
-   * @summary Delete (Beta)
+   * @summary Delete
    * @description Delete object by ID or path. If both are supplied, the path must match that of the object represented by the ID.
-   * How to install a [Beta release](https://pangea.cloud/docs/sdk/js/#beta-releases).
-   * @operationId share_post_v1beta_delete
+   * @operationId share_post_v1_delete
    * @param {Share.DeleteRequest} request
    * @returns {Promise} - A promise representing an async call to the delete endpoint.
    * @example
@@ -51,14 +49,13 @@ class ShareService extends BaseService {
   delete(
     request: Share.DeleteRequest
   ): Promise<PangeaResponse<Share.DeleteResult>> {
-    return this.post("v1beta/delete", request);
+    return this.post("v1/delete", request);
   }
 
   /**
-   * @summary Create a folder (Beta)
+   * @summary Create a folder
    * @description Create a folder, either by name or path and parent_id.
-   * How to install a [Beta release](https://pangea.cloud/docs/sdk/js/#beta-releases).
-   * @operationId share_post_v1beta_folder_create
+   * @operationId share_post_v1_folder_create
    * @param {Share.FolderCreateRequest} request
    * @returns {Promise} - A promise representing an async call to the folder create endpoint.
    * @example
@@ -69,7 +66,7 @@ class ShareService extends BaseService {
    *     priority: "medium",
    *   },
    *   parent_id: "pos_3djfmzg2db4c6donarecbyv5begtj2bm",
-   *   path: "/",
+   *   folder: "/",
    *   tags: ["irs_2023", "personal"],
    * };
    *
@@ -79,35 +76,29 @@ class ShareService extends BaseService {
   folderCreate(
     request: Share.FolderCreateRequest
   ): Promise<PangeaResponse<Share.FolderCreateResult>> {
-    return this.post("v1beta/folder/create", request);
+    return this.post("v1/folder/create", request);
   }
 
   /**
-   * @summary Get an object (Beta)
+   * @summary Get an object
    * @description Get object. If both ID and path are supplied, the call will fail if the target object doesn't match both properties.
-   * How to install a [Beta release](https://pangea.cloud/docs/sdk/js/#beta-releases).
-   * @operationId share_post_v1beta_get
+   * @operationId share_post_v1_get
    * @param {Share.GetRequest} request
    * @returns {Promise} - A promise representing an async call to the get item endpoint.
    * @example
    * ```js
-   * const request = {
-   *   id: "pos_3djfmzg2db4c6donarecbyv5begtj2bm",
-   *   path: "/",
-   * };
-   *
+   * const request = { id: "pos_3djfmzg2db4c6donarecbyv5begtj2bm" };
    * const response = await client.getItem(request);
    * ```
    */
   getItem(request: Share.GetRequest): Promise<PangeaResponse<Share.GetResult>> {
-    return this.post("v1beta/get", request);
+    return this.post("v1/get", request);
   }
 
   /**
-   * @summary Get archive (Beta)
+   * @summary Get archive
    * @description Get an archive file of multiple objects.
-   * How to install a [Beta release](https://pangea.cloud/docs/sdk/js/#beta-releases).
-   * @operationId share_post_v1beta_get_archive
+   * @operationId share_post_v1_get_archive
    * @param {Share.GetArchiveRequest} request
    * @returns {Promise} - A promise representing an async call to the get archive endpoint.
    * @example
@@ -119,14 +110,13 @@ class ShareService extends BaseService {
   getArchive(
     request: Share.GetArchiveRequest
   ): Promise<PangeaResponse<Share.GetArchiveResult>> {
-    return this.post("v1beta/get_archive", request);
+    return this.post("v1/get_archive", request);
   }
 
   /**
-   * @summary List (Beta)
+   * @summary List
    * @description List or filter/search records.
-   * How to install a [Beta release](https://pangea.cloud/docs/sdk/js/#beta-releases).
-   * @operationId share_post_v1beta_list
+   * @operationId share_post_v1_list
    * @param {Share.ListRequest} request
    * @returns {Promise} - A promise representing an async call to the list endpoint.
    * @example
@@ -138,14 +128,21 @@ class ShareService extends BaseService {
   list(
     request: Share.ListRequest = {}
   ): Promise<PangeaResponse<Share.ListResult>> {
-    return this.post("v1beta/list", request);
+    return this.post("v1/list", request);
   }
 
+  put(
+    request: Share.PutRequest,
+    fileData: FileData
+  ): Promise<PangeaResponse<Share.PutResult>>;
+  put(
+    request: Share.PutRequest & { transfer_method: TransferMethod.SOURCE_URL }
+  ): Promise<PangeaResponse<Share.PutResult>>;
+
   /**
-   * @summary Upload a file (Beta)
+   * @summary Upload a file
    * @description Upload a file.
-   * How to install a [Beta release](https://pangea.cloud/docs/sdk/js/#beta-releases).
-   * @operationId share_post_v1beta_put
+   * @operationId share_post_v1_put
    * @param {Share.PutRequest} request
    * @param {FileData} fileData
    * @returns {Promise} - A promise representing an async call to the put endpoint.
@@ -158,7 +155,7 @@ class ShareService extends BaseService {
    *     priority: "medium",
    *   },
    *   parent_id: "pos_3djfmzg2db4c6donarecbyv5begtj2bm",
-   *   path: "/",
+   *   folder: "/",
    *   tags: ["irs_2023", "personal"],
    * };
    * const file = fs.readFileSync("./path/to/file.pdf");
@@ -172,8 +169,20 @@ class ShareService extends BaseService {
    */
   put(
     request: Share.PutRequest,
-    fileData: FileData
+    fileData?: FileData
   ): Promise<PangeaResponse<Share.PutResult>> {
+    // With `source-url`, no file data is needed.
+    if (request.transfer_method === TransferMethod.SOURCE_URL) {
+      return this.post("v1/put", request);
+    }
+
+    // Otherwise, file data is required.
+    if (!fileData) {
+      throw new TypeError(
+        "`fileData` is required when `transfer_method` is not `SOURCE_URL`."
+      );
+    }
+
     let fsData = {} as FileUploadParams;
 
     if (
@@ -184,11 +193,11 @@ class ShareService extends BaseService {
       request.crc32c = fsData.crc32c;
       request.sha256 = fsData.sha256;
       request.size = fsData.size;
-    } else if (getFileSize(fileData.file) == 0) {
+    } else if (getFileSize(fileData.file) === 0) {
       request.size = 0;
     }
 
-    return this.post("v1beta/put", request, {
+    return this.post("v1/put", request, {
       files: {
         file: fileData,
       },
@@ -196,10 +205,9 @@ class ShareService extends BaseService {
   }
 
   /**
-   * @summary Request upload URL (Beta)
+   * @summary Request upload URL
    * @description Request a [presigned URL](https://pangea.cloud/docs/api/transfer-methods).
-   * How to install a [Beta release](https://pangea.cloud/docs/sdk/js/#beta-releases).
-   * @operationId share_post_v1beta_put 2
+   * @operationId share_post_v1_put 2
    * @param {Share.PutRequest} request
    * @returns {Promise} - A promise representing an async call to the put endpoint.
    * @example
@@ -216,7 +224,7 @@ class ShareService extends BaseService {
    *     priority: "medium",
    *   },
    *   parent_id: "pos_3djfmzg2db4c6donarecbyv5begtj2bm",
-   *   path: "/",
+   *   folder: "/",
    *   tags: ["irs_2023", "personal"],
    * };
    *
@@ -235,21 +243,20 @@ class ShareService extends BaseService {
       );
     }
 
-    return this.request.requestPresignedURL("v1beta/put", request);
+    return this.request.requestPresignedURL("v1/put", request);
   }
 
   /**
-   * @summary Update a file (Beta)
+   * @summary Update a file
    * @description Update a file.
-   * How to install a [Beta release](https://pangea.cloud/docs/sdk/js/#beta-releases).
-   * @operationId share_post_v1beta_update
+   * @operationId share_post_v1_update
    * @param {Share.UpdateRequest} request
    * @returns {Promise} - A promise representing an async call to the update endpoint.
    * @example
    * ```js
    * const request = {
    *   id: "pos_3djfmzg2db4c6donarecbyv5begtj2bm",
-   *   path: "/",
+   *   folder: "/",
    *   remove_metadata: {
    *     created_by: "jim",
    *     priority: "medium",
@@ -263,14 +270,13 @@ class ShareService extends BaseService {
   update(
     request: Share.UpdateRequest
   ): Promise<PangeaResponse<Share.UpdateResult>> {
-    return this.post("v1beta/update", request);
+    return this.post("v1/update", request);
   }
 
   /**
-   * @summary Create share links (Beta)
+   * @summary Create share links
    * @description Create a share link.
-   * How to install a [Beta release](https://pangea.cloud/docs/sdk/js/#beta-releases).
-   * @operationId share_post_v1beta_share_link_create
+   * @operationId share_post_v1_share_link_create
    * @param {Share.ShareLinkCreateRequest} request
    * @returns {Promise} - A promise representing an async call to the share link create endpoint.
    * @example
@@ -291,14 +297,13 @@ class ShareService extends BaseService {
   shareLinkCreate(
     request: Share.ShareLinkCreateRequest
   ): Promise<PangeaResponse<Share.ShareLinkCreateResult>> {
-    return this.post("v1beta/share/link/create", request);
+    return this.post("v1/share/link/create", request);
   }
 
   /**
-   * @summary Get share link (Beta)
+   * @summary Get share link
    * @description Get a share link.
-   * How to install a [Beta release](https://pangea.cloud/docs/sdk/js/#beta-releases).
-   * @operationId share_post_v1beta_share_link_get
+   * @operationId share_post_v1_share_link_get
    * @param {Share.ShareLinkGetRequest} request
    * @returns {Promise} - A promise representing an async call to the share link get endpoint.
    * @example
@@ -310,14 +315,13 @@ class ShareService extends BaseService {
   shareLinkGet(
     request: Share.ShareLinkGetRequest
   ): Promise<PangeaResponse<Share.ShareLinkGetResult>> {
-    return this.post("v1beta/share/link/get", request);
+    return this.post("v1/share/link/get", request);
   }
 
   /**
-   * @summary List share links (Beta)
+   * @summary List share links
    * @description Look up share links by filter options.
-   * How to install a [Beta release](https://pangea.cloud/docs/sdk/js/#beta-releases).
-   * @operationId share_post_v1beta_share_link_list
+   * @operationId share_post_v1_share_link_list
    * @param {Share.ShareLinkListRequest} request
    * @returns {Promise} - A promise representing an async call to the share link list endpoint.
    * @example
@@ -329,14 +333,13 @@ class ShareService extends BaseService {
   shareLinkList(
     request: Share.ShareLinkListRequest = {}
   ): Promise<PangeaResponse<Share.ShareLinkListResult>> {
-    return this.post("v1beta/share/link/list", request);
+    return this.post("v1/share/link/list", request);
   }
 
   /**
-   * @summary Delete share links (Beta)
+   * @summary Delete share links
    * @description Delete share links.
-   * How to install a [Beta release](https://pangea.cloud/docs/sdk/js/#beta-releases).
-   * @operationId share_post_v1beta_share_link_delete
+   * @operationId share_post_v1_share_link_delete
    * @param {Share.ShareLinkDeleteRequest} request
    * @returns {Promise} - A promise representing an async call to the delete share links endpoint.
    * @example
@@ -348,14 +351,13 @@ class ShareService extends BaseService {
   shareLinkDelete(
     request: Share.ShareLinkDeleteRequest
   ): Promise<PangeaResponse<Share.ShareLinkDeleteResult>> {
-    return this.post("v1beta/share/link/delete", request);
+    return this.post("v1/share/link/delete", request);
   }
 
   /**
-   * @summary Send share links (Beta)
+   * @summary Send share links
    * @description Send share links.
-   * How to install a [Beta release](https://pangea.cloud/docs/sdk/js/#beta-releases).
-   * @operationId share_post_v1beta_share_link_send
+   * @operationId share_post_v1_share_link_send
    * @param {Share.ShareLinkDeleteRequest} request
    * @returns {Promise} - A promise representing an async call to the send share links endpoint.
    * @example
@@ -372,7 +374,7 @@ class ShareService extends BaseService {
   shareLinkSend(
     request: Share.ShareLinkSendRequest
   ): Promise<PangeaResponse<Share.ShareLinkSendResult>> {
-    return this.post("v1beta/share/link/send", request);
+    return this.post("v1/share/link/send", request);
   }
 }
 

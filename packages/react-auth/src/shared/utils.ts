@@ -1,7 +1,7 @@
 // Copyright 2023 Pangea Cyber Corporation
 // Author: Pangea Cyber Corporation
 
-import snakeCase from "lodash/snakeCase";
+import snakeCase from "lodash/snakeCase.js";
 
 const BASE58_ALPHABET =
   "123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz";
@@ -24,6 +24,12 @@ const bytesToHex = (uint8a: any) => {
   return hex;
 };
 
+/**
+ * Generates a base58 string from an input source
+ *
+ * @param {any} source The input data to encode
+ * @returns {string} A base58 encoded string
+ */
 export const encode58 = (source: any) => {
   if (source.length === 0) return "";
   if (typeof source === "string") {
@@ -48,6 +54,12 @@ export const encode58 = (source: any) => {
   return output.reverse().join("");
 };
 
+/**
+ * Converts an object into a URL encoded query parameter string
+ *
+ * @param {any} obj
+ * @returns {string} A URL encoded query parameter string
+ */
 export const toUrlEncoded = (obj: { [key: string]: string }): string => {
   return Object.keys(obj)
     .map(
@@ -66,6 +78,8 @@ export const toUrlEncoded = (obj: { [key: string]: string }): string => {
  *
  * isLocalhost("127.0.0.1");
  * // true
+ *
+ * @hidden
  */
 export const isLocalhost = (hostname: string): boolean => {
   if (hostname === "localhost" || hostname === "127.0.0.1") {

@@ -29,7 +29,7 @@ export interface Pagination {
 
 const DEFAULT_LIMIT_OPTIONS = [10, 20, 30, 40, 50];
 const DEFAULT_MAX_RESULT_OPTIONS = [
-  1000, 2000, 3000, 4000, 5000, 6000, 7000, 8000, 9000, 10000,
+  100, 500, 1000, 2000, 3000, 4000, 5000, 6000, 7000, 8000, 9000, 10000,
 ];
 
 interface AuditContextShape<Event = Audit.DefaultEvent> {
@@ -77,7 +77,7 @@ const AuditContext = createContext<AuditContextShape>({
   limit: 20,
   limitOptions: DEFAULT_LIMIT_OPTIONS,
   setLimit: () => {},
-  maxResults: 1000,
+  maxResults: 100,
   maxResultOptions: DEFAULT_MAX_RESULT_OPTIONS,
   setMaxResults: () => {},
   resultsId: undefined,
@@ -157,7 +157,7 @@ const AuditContextProvider = <Event,>({
     !!propLimit ? Number(propLimit) : 20
   );
   const [maxResults, setMaxResults] = useState<number>(
-    !!propMaxResults ? Number(propMaxResults) : 1000
+    !!propMaxResults ? Number(propMaxResults) : 100
   );
   const [proofs, setProofs] = useState<Record<string, boolean>>({});
   const [consistency, setConsistency] = useState<Record<string, boolean>>({});
@@ -329,14 +329,15 @@ export const useConsitency = (
     rowToLeafIndex,
     consistencyRef,
   } = useAuditContext();
-  const consistencyKey = `${record?.leaf_index}`;
+  const consistencyKey = `${record?.leaf_index ?? 0}`;
   const transactionId =
-    get(publishedRoots, record?.leaf_index ?? "", {}).transactionId ?? "";
+    (get(publishedRoots, record?.leaf_index ?? "0") as Audit.Root)
+      ?.transactionId ?? "";
 
   const isConsistent = get(consistency ?? {}, consistencyKey, false);
 
   const getIndex = (id: any): string =>
-    get(rowToLeafIndex, id, { leaf_index: "" })?.leaf_index ?? "";
+    get(rowToLeafIndex, id, { leaf_index: "" })?.leaf_index ?? "0";
 
   const isConsistentWithNext =
     get(consistency ?? {}, getIndex(record.id + 1), false) && isConsistent;
@@ -355,12 +356,16 @@ export const useConsitency = (
       !record ||
       !consistencyKey ||
       consistencyKey in (consistencyRef?.current ?? {}) ||
-      !publishedRoots
+      (!publishedRoots && consistencyKey !== "0") ||
+      (!publishedRoots?.[Number(consistencyKey)] && consistencyKey !== "0")
     )
       return;
 
     (consistencyRef?.current ?? {})[consistencyKey] = false;
-    verifyConsistencyProof({ record, publishedRoots }).then((isValid) => {
+    verifyConsistencyProof({
+      record,
+      publishedRoots: publishedRoots ?? {},
+    }).then((isValid) => {
       setLeafIsConsistent(isValid);
     });
   }, [record?.leaf_index, publishedRoots]);
@@ -461,6 +466,7 @@ export const useVerification = (
 
 interface UseAuditQuery {
   body: Audit.SearchRequest | null;
+  bodyWithoutQuery: Audit.SearchRequest | null;
 }
 
 export const useAuditBody = (
@@ -475,24 +481,31 @@ export const useAuditBody = (
     setQuery,
   } = useAuditContext();
 
-  const body = useMemo<Audit.SearchRequest | null>(() => {
+  const bodyWithoutQuery = useMemo<Audit.SearchRequest | null>(() => {
     if (isEmpty(queryObj)) return null;
     return {
-      query: query,
+      query: "",
       ...getTimeFilterKwargs(queryObj),
       ...(sort ?? {}),
       limit,
       max_results: maxResults,
       verbose: true,
     };
-  }, [query, queryObj, sort, maxResults]);
+  }, [queryObj, sort, maxResults]);
+
+  const body = useMemo<Audit.SearchRequest | null>(() => {
+    return {
+      ...bodyWithoutQuery,
+      query: query,
+    };
+  }, [query, bodyWithoutQuery]);
 
   useEffect(() => {
     const queryString = constructQueryString(queryObj);
     if (queryString) setQuery(queryString);
   }, [queryObj]);
 
-  return { body };
+  return { body, bodyWithoutQuery };
 };
 
 export default AuditContextProvider;

@@ -1,5 +1,6 @@
 import AuditService from "./audit.js";
 import AuthNService from "./authn/index.js";
+import AuthZService from "./authz.js";
 import EmbargoService from "./embargo.js";
 import BaseService from "./base.js";
 import RedactService from "./redact.js";
@@ -12,13 +13,13 @@ import {
 } from "./intel.js";
 import VaultService from "./vault.js";
 import { FileScanService } from "./file_scan.js";
-import ShareService from "./share.js";
 import SanitizeService from "./sanitize.js";
-import AuthZService from "./authz.js";
+import ShareService from "./share.js";
 
 export default {
   AuditService,
   AuthNService,
+  AuthZService,
   EmbargoService,
   BaseService,
   RedactService,
@@ -29,7 +30,6 @@ export default {
   UserIntelService,
   VaultService,
   FileScanService,
-  ShareService: ShareService,
   SanitizeService,
-  AuthZService,
+  ShareService,
 };

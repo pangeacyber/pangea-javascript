@@ -43,6 +43,8 @@ export interface ConfigOptions {
   customUserAgent?: string;
 }
 
+export type PangeaToken = string | ({ type: "pangea_token" } & Vault.GetResult);
+
 export interface PostOptions {
   pollResultSync?: boolean;
   files?: FileItems;
@@ -147,6 +149,7 @@ export namespace Audit {
     consistency_verification?: string;
     membership_verification?: string;
     signature_verification?: string;
+    fpe_context?: string;
   }
 
   export interface Root {
@@ -204,6 +207,7 @@ export namespace Audit {
     order_by?: string;
     search_restriction?: Audit.SearchRestriction;
     verbose?: boolean;
+    return_context?: boolean;
   }
 
   export interface SearchParams extends SearchParamsOptions {
@@ -212,6 +216,11 @@ export namespace Audit {
 
   export interface RootParams {
     tree_size?: number;
+  }
+
+  export interface ResultOptions {
+    assert_search_restriction?: Audit.SearchRestriction;
+    return_context?: boolean;
   }
 
   export interface ResultResponse {
@@ -229,27 +238,25 @@ export namespace Audit {
   }
 
   export enum DownloadFormat {
-    /**
-     * JSON.
-     */
+    /** JSON. */
     JSON = "json",
 
-    /**
-     * CSV.
-     */
+    /** CSV. */
     CSV = "csv",
   }
 
   export interface DownloadRequest {
-    /**
-     * ID returned by the search API.
-     */
-    result_id: string;
+    /** ID returned by the export API. */
+    request_id?: string;
 
-    /**
-     * Format for the records.
-     */
+    /** ID returned by the search API. */
+    result_id?: string;
+
+    /** Format for the records. */
     format?: DownloadFormat;
+
+    /** Return the context data needed to decrypt secure audit events that have been redacted with format preserving encryption. */
+    return_context?: boolean;
   }
 
   export interface DownloadResult {
@@ -257,6 +264,32 @@ export namespace Audit {
      * URL where search results can be downloaded.
      */
     dest_url: string;
+  }
+
+  export interface ExportRequest {
+    /** Format for the records. */
+    format?: DownloadFormat;
+
+    /** The start of the time range to perform the search on. */
+    start?: string;
+
+    /**
+     * The end of the time range to perform the search on. If omitted, then all
+     * records up to the latest will be searched.
+     */
+    end?: string;
+
+    /** Name of column to sort the results by. */
+    order_by?: string;
+
+    /** Specify the sort order of the response. */
+    order?: "asc" | "desc";
+
+    /**
+     * Whether or not to include the root hash of the tree and the membership
+     * proof for each record.
+     */
+    verbose?: boolean;
   }
 }
 
@@ -276,6 +309,7 @@ export namespace Redact {
     rules?: string[];
     rulesets?: string[];
     return_result?: boolean;
+    redaction_method_overrides?: RedactionMethodOverrides;
   }
 
   export interface TextOptions extends Options {}
@@ -290,6 +324,53 @@ export namespace Redact {
 
   export interface StructuredParams extends StructuredOptions {
     data: Object;
+  }
+
+  export enum RedactType {
+    MASK = "mask",
+    PARTIAL_MASKING = "partial_masking",
+    REPLACEMENT = "replacement",
+    DETECT_ONLY = "detect_only",
+    HASH = "hash",
+    FPE = "fpe",
+  }
+
+  export enum FPEAlphabet {
+    NUMERIC = "numeric",
+    ALPHANUMERICLOWER = "alphanumericlower",
+    ALPHANUMERIC = "alphanumeric",
+  }
+
+  export enum MaskingType {
+    MASK = "mask",
+    UNMASK = "unmask",
+  }
+
+  export interface PartialMasking {
+    masking_type?: MaskingType;
+    unmasked_from_left?: number;
+    unmasked_from_right?: number;
+    masked_from_left?: number;
+    masked_from_right?: number;
+    chars_to_ignore?: string[];
+    masking_char?: string[];
+  }
+
+  export interface RedactionMethodOverrides {
+    redaction_type: RedactType;
+    hash?: object;
+    fpe_alphabet?: FPEAlphabet;
+    partial_masking?: PartialMasking;
+    redaction_value?: string;
+  }
+
+  export interface UnredactRequest<O = object> {
+    redacted_data: O;
+    fpe_context?: string;
+  }
+
+  export interface UnredactResult<O = object> {
+    data: O;
   }
 }
 
@@ -629,6 +710,10 @@ export namespace Intel {
         usernames: string[];
       }
 
+      export interface BreachedDomainBulkRequest extends BreachedOptions {
+        domains: string[];
+      }
+
       export interface BreachedIPBulkRequest extends BreachedOptions {
         ips: string[];
       }
@@ -641,7 +726,8 @@ export namespace Intel {
         | BreachedEmailBulkRequest
         | BreachedIPBulkRequest
         | BreachedPhoneBulkRequest
-        | BreachedUsernameBulkRequest;
+        | BreachedUsernameBulkRequest
+        | BreachedDomainBulkRequest;
 
       export interface BreachedBulkResult
         extends Intel.User.BreachedBulkResult {}
@@ -677,6 +763,9 @@ export namespace Vault {
     SIGNING = "signing",
     ENCRYPTION = "encryption",
     JWT = "jwt",
+
+    /** Format-preserving encryption. */
+    FPE = "fpe",
   }
 
   export enum AsymmetricAlgorithm {
@@ -727,6 +816,20 @@ export namespace Vault {
     AES128_CBC = "AES-CBC-128",
     AES256_CBC = "AES-CBC-256",
     AES = "AES-CFB-128", // deprecated, use AES128_CFB instead
+
+    /** 128-bit encryption using the FF3-1 algorithm. Beta feature. */
+    AES128_FF3_1 = "AES-FF3-1-128-BETA",
+
+    /** 256-bit encryption using the FF3-1 algorithm. Beta feature. */
+    AES256_FF3_1 = "AES-FF3-1-256-BETA",
+  }
+
+  /** Algorithm of an exported public key. */
+  export enum ExportEncryptionAlgorithm {
+    /** RSA 4096-bit key, OAEP padding, SHA512 digest. */
+    RSA4096_OAEP_SHA512 = "RSA-OAEP-4096-SHA512",
+
+    RSA4096_NO_PADDING_KEM = "RSA-NO-PADDING-4096-KEM",
   }
 
   export enum ItemType {
@@ -734,10 +837,13 @@ export namespace Vault {
     SYMMETRIC_KEY = "symmetric_key",
     SECRET = "secret",
     PANGEA_TOKEN = "pangea_token",
+    FOLDER = "folder",
+    PANGEA_CLIENT_SECRET = "pangea_client_secret",
+    PANGEA_PLATFORM_CLIENT_SECRET = "pangea_platform_client_secret",
   }
 
   export enum ItemState {
-    ENABLED = "ENABLED",
+    ENABLED = "enabled",
     DISABLED = "disabled",
   }
 
@@ -768,6 +874,32 @@ export namespace Vault {
     VERSION = "version",
   }
 
+  /** Character sets for format-preserving encryption. */
+  export enum TransformAlphabet {
+    /** Lowercase alphabet (a-z). */
+    ALPHA_LOWER = "alphalower",
+
+    /** Uppercase alphabet (A-Z). */
+    ALPHA_UPPER = "alphaupper",
+
+    /** Alphanumeric (a-z, A-Z, 0-9). */
+    ALPHANUMERIC = "alphanumeric",
+
+    /** Lowercase alphabet with numbers (a-z, 0-9). */
+    ALPHANUMERIC_LOWER = "alphanumericlower",
+
+    /** Uppercase alphabet with numbers (A-Z, 0-9). */
+    ALPHANUMERIC_UPPER = "alphanumericupper",
+
+    /** Numeric (0-9). */
+    NUMERIC = "numeric",
+  }
+
+  export enum ExportEncryptionType {
+    ASYMMETRIC = "asymmetric",
+    KEM = "kem",
+  }
+
   export type Metadata = Object;
   export type Tags = string[];
 
@@ -782,14 +914,11 @@ export namespace Vault {
   // EncodedSymmetricKey is a base64 encoded key
   export type EncodedSymmetricKey = string;
 
-  export interface StateChangeOptions {
-    version?: number;
-    destroy_period?: string;
-  }
-
-  export interface StateChangeRequest extends StateChangeOptions {
+  export interface StateChangeRequest {
     id: string;
     state: Vault.ItemVersionState;
+    version?: number;
+    destroy_period?: string;
   }
 
   export interface StateChangeResult {
@@ -808,22 +937,67 @@ export namespace Vault {
   }
 
   export interface ItemData {
+    /** The type of the item */
     type: string;
+
+    /** The ID of the item */
     id: string;
-    item_state?: string;
-    current_version?: ItemVersionData;
+
+    /** Latest version number */
+    num_versions: number;
+
+    /** True if the item is enabled */
+    enabled: boolean;
+
+    /** The name of this item */
     name?: string;
+
+    /** The folder where this item is stored */
     folder?: string;
+
+    /** User-provided metadata */
     metadata?: Metadata;
+
+    /** A list of user-defined tags */
     tags?: Tags;
+
+    /** Period of time between item rotations. */
     rotation_frequency?: string;
+
+    /** State to which the previous version should transition upon rotation */
     rotation_state?: string;
+
+    /** Timestamp of the last rotation (if any) */
     last_rotated?: string;
+
+    /** Timestamp of the next rotation, if auto rotation is enabled. */
     next_rotation?: string;
-    expiration?: string;
+
+    /** Timestamp indicating when the item will be disabled */
+    disabled_at?: string;
+
+    /** Timestamp indicating when the item was created */
     created_at: string;
-    algorithm: string;
-    purpose: string;
+
+    /** The algorithm of the key */
+    algorithm?: string;
+
+    /** The purpose of the key */
+    purpose?: string;
+
+    /** Grace period for the previous version of the secret */
+    rotation_grace_period?: string;
+
+    /** Whether the key is exportable or not. */
+    exportable?: boolean;
+
+    /** */
+    client_id?: string;
+
+    /** For settings that inherit a value from a parent folder, the full path of the folder where the value is set */
+    inherited_settings?: InheritedSettigs;
+
+    item_versions: ItemVersionData[];
   }
 
   export interface ListItemData extends ItemData {
@@ -832,55 +1006,110 @@ export namespace Vault {
 
   export interface ListResult {
     items: ListItemData[];
-    count: number;
+
+    /** Internal ID returned in the previous look up response. Used for pagination. */
     last?: string;
   }
 
-  export interface ListOptions {
+  export interface ListRequest {
+    /** A set of filters to help you customize your search. */
     filter?: Object;
+
+    /** Internal ID returned in the previous look up response. Used for pagination. */
     last?: string;
+
+    /** Maximum number of items in the response */
     size?: number;
+
+    /** Ordering direction */
     order?: Vault.ItemOrder;
+
+    /** Property used to order the results */
     order_by?: Vault.ItemOrderBy;
   }
 
-  export interface UpdateOptions {
+  export interface GetBulkRequest {
+    /** A set of filters to help you customize your search. */
+    filter?: Object;
+
+    /** Internal ID returned in the previous look up response. Used for pagination. */
+    last?: string;
+
+    /** Maximum number of items in the response */
+    size?: number;
+
+    /** Ordering direction */
+    order?: Vault.ItemOrder;
+
+    /** Property used to order the results */
+    order_by?: Vault.ItemOrderBy;
+  }
+
+  export interface GetBulkResult {
+    items: ItemData[];
+    last?: string;
+  }
+
+  export interface UpdateRequest {
+    /** The item ID */
+    id: string;
+
+    /** The name of this item */
     name?: string;
+
+    /** The parent folder where this item is stored */
     folder?: string;
+
+    /** User-provided metadata */
     metadata?: Metadata;
+
+    /** A list of user-defined tags */
     tags?: Tags;
+
+    /** Timestamp indicating when the item will be disabled */
+    disabled_at?: string;
+
+    /** True if the item is enabled */
+    enabled?: boolean;
+
+    /** Period of time between item rotations, never to disable rotation or inherited to inherit the value from the parent folder or from the default settings (format: a positive number followed by a time period (secs, mins, hrs, days, weeks, months, years) or an abbreviation */
     rotation_frequency?: string;
+
+    /** State to which the previous version should transition upon rotation or inherited to inherit the value from the parent folder or from the default settings */
     rotation_state?: ItemVersionState;
+
+    /** Grace period for the previous version of the Pangea Token or inherited to inherit the value from the parent folder or from the default settings (format: a positive number followed by a time period (secs, mins, hrs, days, weeks, months, years) or an abbreviation */
     rotation_grace_period?: string;
-    expiration?: string;
-    item_state?: string;
   }
 
-  export interface UpdateRequest extends UpdateOptions {
+  export interface UpdateResult extends ItemData {}
+
+  export interface GetRequest {
     id: string;
-  }
-
-  export interface UpdateResult {
-    id: string;
-  }
-
-  export interface GetOptions {
     version?: number | string;
-    verbose?: boolean;
-    version_state?: ItemVersionState;
-  }
-
-  export interface GetRequest extends GetOptions {
-    id: string;
   }
 
   export interface ItemVersionData {
+    /** The item version */
     version: number;
+
+    /** The state of the item version */
     state: string;
+
+    /** Timestamp indicating when the item was created */
     created_at: string;
-    destroy_at?: string;
+
+    /** Timestamp indicating when the item version will be destroyed */
+    destroyed_at?: string;
+
+    /** Timestamp indicating when the item version will be rotated */
+    rotated_at?: string;
+
     public_key?: EncodedPublicKey;
     secret?: string;
+    token?: string;
+    client_secret?: string;
+    client_secret_id?: string;
   }
 
   export interface InheritedSettigs {
@@ -889,27 +1118,109 @@ export namespace Vault {
     rotation_grace_period?: string;
   }
 
-  export interface GetResult extends ItemData {
-    rotation_grace_period?: string;
-    versions: ItemVersionData[];
-    inherited_settings?: InheritedSettigs;
+  export interface GetResult extends ItemData {}
+
+  export interface ExportRequest {
+    /** The ID of the item */
+    id: string;
+
+    /** The item version */
+    version?: number;
+
+    /** Public key in pem format used to encrypt exported key(s). */
+    asymmetric_public_key?: string;
+
+    /** The algorithm of the public key. */
+    asymmetric_algorithm?: ExportEncryptionAlgorithm;
+
+    /** This is the password that will be used along with a salt to derive the symmetric key that is used to encrypt the exported key material. Required if encryption_type is kem. */
+    kem_password?: string;
+  }
+
+  export interface ExportResult {
+    /**
+     * The ID of the item.
+     */
+    id: string;
+
+    /**
+     * The item version.
+     */
+    version: number;
+
+    /**
+     * The type of the key.
+     */
+    type: string;
+
+    /**
+     * True if the item is enabled.
+     */
+    enabled: boolean;
+
+    /**
+     * The algorithm of the key.
+     */
+    algorithm: string;
+
+    /**
+     * The public key (in PEM format).
+     */
+    public_key?: string;
+
+    /**
+     * The private key (in PEM format).
+     */
+    private_key?: string;
+
+    /**
+     * The key material.
+     */
+    key?: string;
+
+    /** Encryption format of the exported key(s). It could be none if returned in plain text, asymmetric if it is encrypted just with the public key sent in asymmetric_public_key, or kem if it was encrypted using KEM protocol. */
+    encryption_type?: string;
+
+    /** The algorithm of the public key used to encrypt exported material */
+    asymmetric_algorithm?: string;
+
+    /** The algorithm of the symmetric key used to encrypt exported material */
+    symmetric_algorithm?: string;
+
+    /** Key derivation function used to derivate the symmetric key when `encryption_type` is `kem` */
+    kdf?: string;
+
+    /** Hash algorithm used to derivate the symmetric key when `encryption_type` is `kem` */
+    hash_algorithm?: string;
+
+    /** Salt used to derivate the symmetric key when `encryption_type` is `kem`, encrypted with the public key provided in `asymmetric_key` */
+    encrypted_salt?: string;
+
+    /** Iteration count used to derivate the symmetric key when `encryption_type` is `kem` */
+    iteration_count?: number;
   }
 
   export namespace JWT {
     export interface SignRequest {
+      /** The item ID */
       id: string;
+
+      /** The JWT payload (in JSON) */
       payload: string;
     }
 
     export interface SignResult {
+      /** The signed JSON Web Token (JWS) */
       jws: string;
     }
 
     export interface VerifyRequest {
+      /** The signed JSON Web Token (JWS) */
       jws: string;
     }
 
     export interface VerifyResult {
+      /** Indicates if messages have been verified */
       valid_signature: boolean;
     }
   }
@@ -938,72 +1249,68 @@ export namespace Vault {
     export interface JWK extends Header {}
 
     export interface GetResult {
+      /** The JSON Web Key Set (JWKS) object. Fields with key information are base64URL encoded. */
       keys: [JWKrsa | JWKec][];
     }
 
-    export interface GetOptions {
-      version?: string;
-    }
-
-    export interface GetRequest extends GetOptions {
+    export interface GetRequest {
+      /** The item ID */
       id: string;
+
+      /** The key version(s). all for all versions, num for a specific version, -num for the num latest versions */
+      version?: string;
     }
   }
 
   export namespace Common {
-    export interface StoreOptions {
-      folder?: string;
-      metadata?: Metadata;
-      tags?: Tags;
-      rotation_frequency?: string;
-      rotation_state?: ItemVersionState;
-      expiration?: string;
-    }
-
-    export interface StoreRequest {
+    export interface StoreRequest extends GenerateStoreOptions {
+      /** The type of the item */
       type: Vault.ItemType;
+
+      /** The name of this item */
       name: string;
     }
 
-    export interface StoreResult {
-      id: string;
-      type: string;
-      version: number;
-    }
+    export interface GenerateRequest extends GenerateStoreOptions {
+      /** The type of the item */
+      type?: Vault.ItemType;
 
-    export interface GenerateRequest {
-      type: Vault.ItemType;
+      /** The name of this item */
       name: string;
     }
 
-    export interface GenerateOptions {
+    export interface GenerateStoreOptions {
+      /** The folder where this item is stored */
       folder?: string;
-      metadata?: Metadata;
-      tags?: Tags;
-      rotation_frequency?: string;
-      rotation_state?: ItemVersionState;
-      expiration?: string;
-    }
 
-    export interface GenerateResult {
-      id: string;
-      type: string;
-      version: number;
+      /** User-provided metadata */
+      metadata?: Metadata;
+
+      /** A list of user-defined tags */
+      tags?: Tags;
+
+      /** Period of time between item rotations. */
+      rotation_frequency?: string;
+
+      /** State to which the previous version should transition upon rotation */
+      rotation_state?: ItemVersionState;
+
+      /** Timestamp indicating when the item will be disabled */
+      disabled_at?: string;
+
+      /** Whether the key is exportable or not. */
+      exportable?: boolean;
     }
 
     export interface RotateRequest {
+      /** The ID of the item */
       id: string;
-    }
 
-    export interface RotateOptions {
+      /** State to which the previous version should transition upon rotation */
       rotation_state?: ItemVersionState;
     }
 
-    export interface RotateResult {
-      id: string;
-      version: number;
-      type: string;
-    }
+    export interface RotateResult extends ItemData {}
   }
 
   export namespace Secret {
@@ -1011,60 +1318,70 @@ export namespace Vault {
       BASE32: "base32",
     };
 
-    export interface StoreOptions extends Common.StoreOptions {}
+    export interface StoreRequest extends Common.StoreRequest {
+      /** The secret value */
+      secret?: string;
 
-    export interface StoreRequest extends Common.StoreRequest, StoreOptions {
-      secret: string;
+      /** The Pangea Token value */
+      token?: string;
+
+      /** The oauth client secret */
+      client_secret?: string;
+
+      /** The oauth client ID */
+      client_id?: string;
+
+      /** The oauth client secret ID */
+      client_secret_id?: string;
+
+      /** Grace period for the previous version of the secret */
+      rotation_grace_period?: string;
     }
 
-    export interface StoreResult extends Common.StoreResult {
-      secret: string;
+    export interface StoreResult extends ItemData {
+      /** The secret value */
+      secret?: string;
+
+      /** The Pangea Token value */
+      token?: string;
+
+      /** The oauth client secret */
+      client_secret?: string;
+
+      /** The oauth client ID */
+      client_id?: string;
+
+      /** The oauth client secret ID */
+      client_secret_id?: string;
+
+      /** Grace period for the previous version of the secret */
+      rotation_grace_period?: string;
     }
 
-    export interface GenerateRequest
-      extends Common.GenerateRequest,
-        Common.GenerateOptions {}
+    export interface RotateRequest extends Common.RotateRequest {
+      /** The secret value */
+      secret?: string;
 
-    export interface GenerateResult extends Common.GenerateRequest {
-      secret: string;
+      /** Grace period for the previous version of the secret */
+      rotation_grace_period?: string;
     }
 
-    export namespace Secret {
-      export interface RotateOptions extends Common.RotateOptions {}
-      export interface RotateRequest
-        extends Common.RotateRequest,
-          RotateOptions {
-        secret?: string;
-      }
-    }
-
-    export namespace Token {
-      export interface RotateRequest extends Common.RotateRequest {
-        rotation_grace_period: string;
-      }
-    }
-
-    export interface RotateResult extends Common.RotateResult {
-      secret: string;
-    }
+    export interface RotateResult extends ItemData {}
   }
 
   export namespace Key {
-    export interface RotateOptions extends Common.RotateOptions {
-      key?: EncodedSymmetricKey;
+    export interface RotateRequest extends Common.RotateRequest {
+      /** The public key (in PEM format) */
       public_key?: EncodedPublicKey;
+
+      /** The private key (in PEM format) */
       private_key?: EncodedPrivateKey;
+
+      /** The key material */
+      key?: EncodedSymmetricKey;
     }
 
-    export interface RotateRequest
-      extends Common.RotateRequest,
-        RotateOptions {}
-
-    export interface RotateResult extends Common.RotateResult {
-      algorithm: string;
-      purpose: string;
-      public_key?: EncodedPublicKey;
-    }
+    export interface RotateResult extends ItemData {}
 
     /**
      * Parameters for an encrypt/decrypt structured request.
@@ -1122,151 +1439,295 @@ export namespace Vault {
        */
       structured_data: O;
     }
+
+    /** Parameters for an encrypt transform request. */
+    export interface EncryptTransformRequest {
+      /** The ID of the key to use. */
+      id: string;
+
+      /** Message to be encrypted. */
+      plain_text: string;
+
+      /** Set of characters to use for format-preserving encryption (FPE). */
+      alphabet: TransformAlphabet;
+
+      /**
+       * User provided tweak string. If not provided, a random string will be
+       * generated and returned. The user must securely store the tweak source
+       * which will be needed to decrypt the data.
+       */
+      tweak?: string;
+
+      /** The item version. Defaults to the current version. */
+      version?: number;
+    }
+
+    /** Result of an encrypt transform request. */
+    export interface EncryptTransformResult {
+      /** The ID of the item. */
+      id: string;
+
+      /** The item version. */
+      version: number;
+
+      /** The algorithm of the key. */
+      algorithm: string;
+
+      /** The encrypted message. */
+      cipher_text: string;
+
+      /**
+       * User provided tweak string. If not provided, a random string will be
+       * generated and returned. The user must securely store the tweak source
+       * which will be needed to decrypt the data.
+       */
+      tweak: string;
+
+      /** Set of characters to use for format-preserving encryption (FPE). */
+      alphabet: string;
+    }
+
+    /** Parameters for an decrypt transform request. */
+    export interface DecryptTransformRequest {
+      /** The ID of the key to use. */
+      id: string;
+
+      /** A message encrypted by Vault. */
+      cipher_text: string;
+
+      /**
+       * User provided tweak string. If not provided, a random string will be
+       * generated and returned. The user must securely store the tweak source
+       * which will be needed to decrypt the data.
+       */
+      tweak: string;
+
+      /** Set of characters to use for format-preserving encryption (FPE). */
+      alphabet: TransformAlphabet;
+
+      /** The item version. Defaults to the current version. */
+      version?: number;
+    }
+
+    /** Result of an decrypt transform request. */
+    export interface DecryptTransformResult {
+      /** The ID of the item. */
+      id: string;
+
+      /** The item version. */
+      version: number;
+
+      /** The algorithm of the key. */
+      algorithm: string;
+
+      /** Decrypted message. */
+      plain_text: string;
+    }
   }
 
   export namespace Asymmetric {
-    export interface GenerateOptions extends Common.GenerateOptions {}
-
-    export interface GenerateRequest
-      extends Common.GenerateRequest,
-        GenerateOptions {
+    export interface GenerateRequest extends Common.GenerateRequest {
+      /** The algorithm of the key */
       algorithm: Vault.AsymmetricAlgorithm;
+
+      /** The purpose of the key */
       purpose: Vault.KeyPurpose;
     }
 
-    export interface GenerateResult extends Common.GenerateResult {
+    export interface GenerateResult extends ItemData {
+      /** The algorithm of the key */
       algorithm: string;
+
+      /** The purpose of the key */
       purpose: string;
+
       public_key: EncodedPublicKey;
     }
 
-    export interface StoreOptions extends Common.StoreOptions {}
-
-    export interface StoreRequest extends Common.StoreRequest, StoreOptions {
+    export interface StoreRequest extends Common.StoreRequest {
+      /** The private key (in PEM format) */
       private_key: EncodedPrivateKey;
+
+      /** The public key (in PEM format) */
       public_key: EncodedPublicKey;
+
+      /** The algorithm of the key */
       algorithm: Vault.AsymmetricAlgorithm;
+
+      /** The purpose of the key */
       purpose: Vault.KeyPurpose;
+
+      /** Whether the key is exportable or not. */
+      exportable?: boolean;
     }
 
-    export interface StoreResult extends Common.StoreResult {
-      public_key: EncodedPublicKey;
-      algorithm: string;
-      purpose: string;
-    }
+    export interface StoreResult extends ItemData {}
 
-    export interface SignOptions {
-      version?: number;
-    }
-
-    export interface SignRequest extends SignOptions {
+    export interface SignRequest {
+      /** The ID of the item */
       id: string;
+
+      /** The message to be signed */
       message: string;
+
+      /** The item version */
+      version?: number;
     }
 
     export interface SignResult {
+      /** The ID of the item */
       id: string;
+
+      /** The item version */
       version: number;
+
+      /** The signature of the message */
       signature: string;
+
+      /** The algorithm of the key */
       algorithm: string;
+
+      /** The public key (in PEM format) */
       public_key?: EncodedPublicKey;
     }
 
-    export interface VerifyOptions {
+    export interface VerifyRequest {
+      /** The ID of the item */
+      id: string;
+
+      /** A message to be verified */
+      message: string;
+
+      /** The message signature */
+      signature: string;
+
+      /** The item version */
       version?: number;
     }
 
-    export interface VerifyRequest extends VerifyOptions {
-      id: string;
-      message: string;
-      signature: string;
-    }
-
     export interface VerifyResult {
+      /** The ID of the item */
       id: string;
+
+      /** The item version */
       version: number;
+
+      /** The algorithm of the key */
       algorithm: string;
+
+      /** Indicates if messages have been verified. */
       valid_signature: boolean;
     }
   }
 
   export namespace Symmetric {
-    export interface StoreOptions extends Common.StoreOptions {}
-
-    export interface StoreRequest extends Common.StoreRequest, StoreOptions {
+    export interface StoreRequest extends Common.StoreRequest {
       key: EncodedSymmetricKey;
+
+      /** The algorithm of the key */
       algorithm: Vault.SymmetricAlgorithm;
+
+      /** The purpose of the key */
+      purpose: Vault.KeyPurpose;
+
+      /** Whether the key is exportable or not. */
+      exportable?: boolean;
+    }
+
+    export interface StoreResult extends ItemData {}
+
+    export interface GenerateRequest extends Common.GenerateRequest {
+      /** The algorithm of the key */
+      algorithm: Vault.SymmetricAlgorithm;
+
+      /** The purpose of the key */
       purpose: Vault.KeyPurpose;
     }
 
-    export interface StoreResult extends Common.StoreResult {
-      algorithm?: string;
-      purpose?: string;
-    }
+    export interface GenerateResult extends ItemData {}
 
-    export interface GenerateOptions extends Common.GenerateOptions {}
-
-    export interface GenerateRequest
-      extends Common.GenerateRequest,
-        GenerateOptions {
-      algorithm: Vault.SymmetricAlgorithm;
-      purpose: Vault.KeyPurpose;
-    }
-
-    export interface GenerateResult extends Common.GenerateResult {
-      algorithm: string;
-      purpose: string;
-    }
-
-    export interface EncryptOptions {
-      version?: number;
-      additional_data?: string;
-    }
-
-    export interface EncryptRequest extends EncryptOptions {
+    export interface EncryptRequest {
+      /** The item ID */
       id: string;
+
+      /** A message to be encrypted (Base64 encoded) */
       plain_text: string;
+
+      /** The item version */
+      version?: number;
+
+      /** User provided authentication data */
+      additional_data?: string;
     }
 
     export interface EncryptResult {
+      /** The item ID */
       id: string;
+
+      /** The item version */
       version: number;
+
+      /** The algorithm of the key */
       algorithm: string;
+
+      /** The encrypted message (Base64 encoded) */
       cipher_text: string;
     }
 
-    export interface DecryptOptions {
+    export interface DecryptRequest {
+      /** The item ID */
+      id: string;
+
+      /** The item version */
       version?: number;
+
+      /** A message encrypted by Vault (Base64 encoded) */
+      cipher_text: string;
+
+      /** User provided authentication data */
       additional_data?: string;
     }
 
-    export interface DecryptRequest extends DecryptOptions {
-      id: string;
-      cipher_text: string;
-    }
-
     export interface DecryptResult {
+      /** The item ID */
       id: string;
+
+      /** The item version */
       version?: number;
+
+      /** The algorithm of the key */
       algorithm: string;
+
+      /** The decrypted message */
       plain_text: string;
     }
   }
 
   export namespace Folder {
     export interface CreateRequest {
+      /** The name of this folder */
       name: string;
+
+      /** The parent folder where this folder is stored */
       folder: string;
+
+      /** User-provided metadata */
       metadata?: Metadata;
+
+      /** A list of user-defined tags */
       tags?: Tags;
+
+      /** Period of time between item rotations. */
       rotation_frequency?: string;
+
+      /** State to which the previous version should transition upon rotation */
       rotation_state?: ItemVersionState;
+
+      /** Grace period for the previous version of the secret */
       rotation_grace_period?: string;
     }
 
-    export interface CreateResult {
-      id: string;
-    }
+    export interface CreateResult extends ItemData {}
   }
 }
 
@@ -1288,8 +1749,6 @@ export namespace AuthN {
 
   export interface Profile {
     [key: string]: string | undefined;
-    first_name?: string;
-    last_name?: string;
   }
 
   export enum MFAProvider {
@@ -1304,19 +1763,41 @@ export namespace AuthN {
   }
 
   export interface UserItem {
+    /** The identity of a user or a service. */
     id: string;
+
+    /** An email address. */
     email: string;
+
+    /** A username. */
+    username: string;
+
+    /** A user profile as a collection of string properties. */
     profile: Profile;
+
+    /** True if the user's email has been verified. */
     verified: boolean;
+
+    /** True if the service administrator has disabled user account. */
     disabled: boolean;
+
+    /** An ID for an agreement. */
     accepted_eula_id?: string;
+
+    /** An ID for an agreement. */
     accepted_privacy_policy_id?: string;
+
+    /** A time in ISO-8601 format. */
     last_login_at?: string;
+
+    /** A time in ISO-8601 format. */
     created_at: string;
     login_count: number;
     last_login_ip?: string;
     last_login_city?: string;
     last_login_country?: string;
+
+    /** A list of authenticators. */
     authenticators?: AuthN.User.Authenticators.Authenticator[];
   }
 
@@ -1740,8 +2221,14 @@ export namespace AuthN {
     export interface CreateOptions {}
 
     export interface CreateRequest extends CreateOptions {
+      /** An email address. */
       email: string;
+
+      /** A user profile as a collection of string properties. */
       profile: Profile;
+
+      /** A username. */
+      username?: string;
     }
 
     export interface CreateResult {
@@ -1782,11 +2269,18 @@ export namespace AuthN {
 
     export namespace Delete {
       export interface EmailRequest {
+        /** An email address. */
         email: string;
       }
 
       export interface IDRequest {
+        /** The identity of a user or a service. */
         id: string;
+      }
+
+      export interface UsernameRequest {
+        /** A username. */
+        username: string;
       }
     }
 
@@ -1918,31 +2412,82 @@ export namespace AuthN {
     export namespace Authenticators {
       export namespace Delete {
         export interface IDRequest {
-          id: string;
+          /** An ID for an authenticator. */
           authenticator_id: string;
+
+          /** The identity of a user or a service. */
+          id: string;
         }
 
         export interface EmailRequest {
-          email: string;
+          /** An ID for an authenticator. */
           authenticator_id: string;
+
+          /** An email address. */
+          email: string;
+        }
+
+        export interface UsernameRequest {
+          /** An ID for an authenticator. */
+          authenticator_id: string;
+
+          /** A username. */
+          username: string;
         }
       }
 
       export interface ListRequest {
+        /** An email address. */
         email?: string;
+
+        /** The identity of a user or a service. */
         id?: string;
+
+        /** A username. */
+        username?: string;
       }
 
+      /** Authenticator. */
       export interface Authenticator {
+        /** An ID for an authenticator. */
         id: string;
+
+        /** An authentication mechanism. */
         type: string;
-        enable: boolean;
+
+        /** Enabled. */
+        enabled: boolean;
+
+        /** Provider. */
         provider?: string;
+
+        /** Provider name. */
+        provider_name?: string;
+
+        /** RPID. */
         rpid: string;
+
+        /** Phase. */
         phase: string;
+
+        /** Enrolling browser. */
+        enrolling_browser?: string;
+
+        /** Enrolling IP. */
+        enrolling_ip?: string;
+
+        /** A time in ISO-8601 format. */
+        created_at: string;
+
+        /** A time in ISO-8601 format. */
+        updated_at: string;
+
+        /** State. */
+        state?: string;
       }
 
       export interface ListResult {
+        /** A list of authenticators. */
         authenticators: Authenticator[];
       }
     }
@@ -1952,25 +2497,40 @@ export namespace AuthN {
 
       export namespace Get {
         export interface EmailRequest {
+          /** An email address. */
           email: string;
         }
 
         export interface IDRequest {
+          /** The identity of a user or a service. */
           id: string;
+        }
+
+        export interface UsernameRequest {
+          /** A username. */
+          username: string;
         }
       }
 
       export namespace Update {
         export interface Common {
+          /** Updates to a user profile. */
           profile: Profile;
         }
 
         export interface EmailRequest extends Common {
+          /** An email address. */
           email: string;
         }
 
         export interface IDRequest extends Common {
+          /** The identity of a user or a service. */
           id: string;
+        }
+
+        export interface UsernameRequest extends Common {
+          /** A username. */
+          username: string;
         }
       }
 
@@ -1979,20 +2539,354 @@ export namespace AuthN {
 
     export namespace Update {
       export interface Options {
+        /**
+         * New disabled value. Disabling a user account will prevent them from
+         * logging in.
+         */
         disabled?: boolean;
+
+        /**
+         * Unlock a user account if it has been locked out due to failed
+         * authentication attempts.
+         */
         unlock?: boolean;
       }
 
       export interface EmailRequest extends Options {
+        /** An email address. */
         email: string;
       }
 
       export interface IDRequest extends Options {
+        /** The identity of a user or a service. */
         id: string;
+      }
+
+      export interface UsernameRequest extends Options {
+        /** A username. */
+        username: string;
       }
     }
 
     export interface UpdateResult extends UserItem {}
+  }
+}
+
+export namespace AuthZ {
+  export enum ItemOrder {
+    ASC = "asc",
+    DESC = "desc",
+  }
+  export enum TupleOrderBy {
+    RESOURCE_NAMESPACE = "resource_namespace",
+    RESOURCE_ID = "resource_id",
+    RELATION = "relation",
+    SUBJECT_NAMESPACE = "subject_namespace",
+    SUBJECT_ID = "subject_id",
+    SUBJECT_ACTION = "subject_action",
+  }
+
+  export interface Resource {
+    type: string;
+    id?: string;
+  }
+
+  export interface Subject {
+    type: string;
+    id: string;
+    action?: string;
+  }
+
+  export interface Tuple {
+    resource: Resource;
+    relation: string;
+    subject: Subject;
+  }
+
+  export interface TupleCreateRequest {
+    tuples: Tuple[];
+  }
+
+  export interface TupleCreateResult {}
+
+  export interface TupleListFilter {
+    resource_type?: string;
+    resource_type__contains?: string[];
+    resource_type__in?: string[];
+    resource_id?: string;
+    resource_id__contains?: string[];
+    resource_id__in?: string[];
+    relation?: string;
+    relation__contains?: string[];
+    relation__in?: string[];
+    subject_type?: string;
+    subject_type__contains?: string[];
+    subject_type__in?: string[];
+    subject_id?: string;
+    subject_id__contains?: string[];
+    subject_id__in?: string[];
+    subject_action?: string;
+    subject_action__contains?: string[];
+    subject_action__in?: string[];
+  }
+
+  export interface TupleListRequest {
+    filter: TupleListFilter;
+    size?: number;
+    last?: string;
+    order?: ItemOrder;
+    order_by?: TupleOrderBy;
+  }
+
+  export interface TupleListResult {
+    tuples: Tuple[];
+    last: string;
+    count: number;
+  }
+
+  export interface TupleDeleteRequest {
+    tuples: Tuple[];
+  }
+
+  export interface TupleDeleteResult {}
+
+  export interface CheckRequest {
+    resource: Resource;
+    action: string;
+    subject: Subject;
+    debug?: boolean;
+    attributes?: Dictionary;
+  }
+
+  export interface DebugPath {
+    type: string;
+    id: string;
+    action: string;
+  }
+
+  export interface Debug {
+    path: DebugPath[];
+  }
+
+  export interface CheckResult {
+    schema_id: string;
+    schema_version: number;
+    depth: number;
+    allowed: boolean;
+    debug?: Debug;
+  }
+
+  export interface ListResourcesRequest {
+    type: string;
+    action: string;
+    subject: Subject;
+
+    /** A JSON object of attribute data. */
+    attributes?: Dictionary;
+  }
+
+  export interface ListResourcesResult {
+    ids: string[];
+  }
+
+  export interface ListSubjectsRequest {
+    resource: Resource;
+    action: string;
+
+    /** A JSON object of attribute data. */
+    attributes?: Dictionary;
+  }
+
+  export interface ListSubjectsResult {
+    subjects: Subject[];
+  }
+}
+
+export namespace Sanitize {
+  export interface SanitizeFile {
+    /** Provider to use for File Scan. */
+    scan_provider?: string;
+  }
+
+  export interface SanitizeContent {
+    /** Perform URL Intel lookup. */
+    url_intel?: boolean;
+
+    /** Provider to use for URL Intel. */
+    url_intel_provider?: string;
+
+    /** Perform Domain Intel lookup. */
+    domain_intel?: boolean;
+
+    /** Provider to use for Domain Intel lookup. */
+    domain_intel_provider?: string;
+
+    /** Defang external links. */
+    defang?: boolean;
+
+    /** Defang risk threshold. */
+    defang_threshold?: number;
+
+    /** Redact sensitive content. */
+    redact?: boolean;
+
+    /**
+     * If redact is enabled, avoids redacting the file and instead returns the
+     * PII analysis engine results. Only works if redact is enabled.
+     */
+    redact_detect_only?: boolean;
+
+    /** Remove file attachments (PDF only). */
+    remove_attachments?: boolean;
+
+    /** Remove interactive content (PDF only). */
+    remove_interactive?: boolean;
+  }
+
+  export interface SanitizeShareOutput {
+    /**
+     * Store Sanitized files to Pangea Secure Share. If not enabled, a
+     * presigned URL will be returned in 'result.dest_url'.
+     */
+    enabled?: boolean;
+
+    /**
+     * Store Sanitized files to this Secure Share folder (will be auto-created
+     * if not exists).
+     */
+    output_folder?: string;
+  }
+
+  export interface SanitizeRequest {
+    /** The transfer method used to upload the file data. */
+    transfer_method: TransferMethod;
+
+    /** A URL where the file to be Sanitized can be downloaded. */
+    source_url?: string;
+
+    /** A Pangea Secure Share ID where the file to be Sanitized is stored. */
+    share_id?: string;
+
+    /** File. */
+    file?: SanitizeFile;
+
+    /** Content. */
+    content?: SanitizeContent;
+
+    /** Share output. */
+    share_output?: SanitizeShareOutput;
+
+    /**
+     * The size (in bytes) of the file. If the upload doesn't match, the call
+     * will fail.
+     */
+    size?: number;
+
+    /**
+     * The CRC32C hash of the file data, which will be verified by the server if
+     * provided.
+     */
+    crc32c?: string;
+
+    /**
+     * The hexadecimal-encoded SHA256 hash of the file data, which will be
+     * verified by the server if provided.
+     */
+    sha256?: string;
+
+    /**
+     * Name of the user-uploaded file, required for transfer-method 'put-url'
+     * and 'post-url'.
+     */
+    uploaded_file_name?: string;
+  }
+
+  export interface DefangData {
+    /** Number of external links found. */
+    external_urls_count?: number;
+
+    /** Number of external domains found. */
+    external_domains_count?: number;
+
+    /** Number of items defanged per provided rules and detections. */
+    defanged_count?: number;
+
+    /** Processed N URLs: X are malicious, Y are suspicious, Z are unknown. */
+    url_intel_summary?: string;
+
+    /** Processed N Domains: X are malicious, Y are suspicious, Z are unknown. */
+    domain_intel_summary?: string;
+  }
+
+  export interface RedactRecognizerResult {
+    /** The entity name. */
+    field_type: string;
+
+    /** The certainty score that the entity matches this specific snippet. */
+    score: number;
+
+    /** The text snippet that matched. */
+    text: string;
+
+    /** The starting index of a snippet. */
+    start: number;
+
+    /** The ending index of a snippet. */
+    end: number;
+
+    /** Indicates if this rule was used to anonymize a text snippet. */
+    redacted: boolean;
+  }
+
+  export interface RedactData {
+    /** Number of items redacted. */
+    redaction_count?: number;
+
+    /** Summary counts. */
+    summary_counts?: Dictionary;
+
+    /** The scoring result of a set of rules. */
+    recognizer_results?: RedactRecognizerResult[];
+  }
+
+  export interface CDR {
+    /** Number of file attachments removed. */
+    file_attachments_removed?: number;
+
+    /** Number of interactive content items removed. */
+    interactive_contents_removed?: number;
+  }
+
+  export interface SanitizeData {
+    /** Defang. */
+    defang?: DefangData;
+
+    /** Redact. */
+    redact?: RedactData;
+
+    /** If the file scanned was malicious. */
+    malicious_file?: boolean;
+
+    /** Content Disarm and Reconstruct. */
+    cdr?: CDR;
+  }
+
+  export interface SanitizeResult {
+    /** A URL where the Sanitized file can be downloaded. */
+    dest_url?: string;
+
+    /** Pangea Secure Share ID of the Sanitized file. */
+    dest_share_id?: string;
+
+    /** Sanitize data. */
+    data: SanitizeData;
+
+    /** The parameters, which were passed in the request, echoed back. */
+    parameters: Dictionary;
+  }
+
+  export interface Options {
+    pollResultSync?: boolean;
   }
 }
 
@@ -2328,11 +3222,9 @@ export namespace Share {
     parent_id?: string;
 
     /**
-     * A case-sensitive path to an object. Contains a sequence of path segments
-     * delimited by the the `/` character. Any path ending in a `/` character
-     * refers to a folder.
+     * The folder to place the folder in. Must match `parent_id` if also set.
      */
-    path?: string;
+    folder?: string;
 
     /**
      * A list of user-defined tags.
@@ -2353,9 +3245,6 @@ export namespace Share {
 
     /** The ID of the object to retrieve. */
     id?: string;
-
-    /** The path of the object to retrieve. */
-    path?: string;
 
     /** The requested transfer method for the file data. */
     transfer_method?: TransferMethod;
@@ -2415,10 +3304,10 @@ export namespace Share {
     parent_id?: string;
 
     /**
-     * An optional path where the file should be placed. It will auto-create
-     * directories if necessary.
+     * The path to the parent folder. Leave blank for the root folder. Path must
+     * resolve to parent_id if also set.
      */
-    path?: string;
+    folder?: string;
 
     /** An optional password to protect the file with. Downloading the file will require this password. */
     password?: string;
@@ -2495,8 +3384,11 @@ export namespace Share {
     /** Set the parent (folder) of the object. */
     parent_id?: string;
 
-    /** An alternative to ID for identifying the target file. */
-    path?: string;
+    /**
+     * Set the parent (folder). Leave blank for the root folder. Path must
+     * resolve to parent_id if also set.
+     */
+    folder?: string;
 
     /**
      * A list of metadata key/values to remove in the object. It is not an
@@ -2960,202 +3852,5 @@ export namespace Share {
 
   export interface ShareLinkSendResult {
     share_link_objects: ShareLinkItem[];
-  }
-}
-
-export namespace Sanitize {
-  export interface SanitizeFile {
-    scan_provider?: string;
-    cdr_provider?: string;
-  }
-
-  export interface SanitizeContent {
-    url_intel?: boolean;
-    url_intel_provider?: string;
-    domain_intel?: boolean;
-    domain_intel_provider?: string;
-    defang?: boolean;
-    defang_threshold?: number;
-    redact?: boolean;
-    remove_attachments?: boolean;
-    remove_interactive?: boolean;
-  }
-
-  export interface SanitizeShareOutput {
-    enabled?: boolean;
-    output_folder?: string;
-  }
-
-  export interface SanitizeRequest {
-    transfer_method: TransferMethod;
-    source_url?: string;
-    share_id?: string;
-    file?: SanitizeFile;
-    content?: SanitizeContent;
-    share_output?: SanitizeShareOutput;
-    size?: number;
-    crc32c?: string;
-    sha256?: string;
-    uploaded_file_name?: string;
-  }
-
-  export interface DefangData {
-    external_urls_count?: number;
-    external_domains_count?: number;
-    defanged_count?: number;
-    url_intel_summary?: string;
-    domain_intel_summary?: string;
-  }
-
-  export interface RedactData {
-    redaction_count?: number;
-    summary_counts?: Dictionary;
-  }
-
-  export interface CDR {
-    file_attachments_removed?: number;
-    interactive_contents_removed?: number;
-  }
-
-  export interface SanitizeData {
-    defang?: DefangData;
-    redact?: RedactData;
-    malicious_file?: boolean;
-    cdr?: CDR;
-  }
-
-  export interface SanitizeResult {
-    dest_url?: string;
-    dest_share_id?: string;
-    data: SanitizeData;
-    parameters: Dictionary;
-  }
-
-  export interface Options {
-    pollResultSync?: boolean;
-  }
-}
-export namespace AuthZ {
-  export enum ItemOrder {
-    ASC = "asc",
-    DESC = "desc",
-  }
-
-  export enum TupleOrderBy {
-    RESOURCE_NAMESPACE = "resource_namespace",
-    RESOURCE_ID = "resource_id",
-    RELATION = "relation",
-    SUBJECT_NAMESPACE = "subject_namespace",
-    SUBJECT_ID = "subject_id",
-    SUBJECT_ACTION = "subject_action",
-  }
-
-  export interface Resource {
-    type: string;
-    id?: string;
-  }
-
-  export interface Subject {
-    type: string;
-    id: string;
-    action?: string;
-  }
-
-  export interface Tuple {
-    resource: Resource;
-    relation: string;
-    subject: Subject;
-  }
-
-  export interface TupleCreateRequest {
-    tuples: Tuple[];
-  }
-
-  export interface TupleCreateResult {}
-
-  export interface TupleListFilter {
-    resource_type?: string;
-    resource_type__contains?: string[];
-    resource_type__in?: string[];
-    resource_id?: string;
-    resource_id__contains?: string[];
-    resource_id__in?: string[];
-    relation?: string;
-    relation__contains?: string[];
-    relation__in?: string[];
-    subject_type?: string;
-    subject_type__contains?: string[];
-    subject_type__in?: string[];
-    subject_id?: string;
-    subject_id__contains?: string[];
-    subject_id__in?: string[];
-    subject_action?: string;
-    subject_action__contains?: string[];
-    subject_action__in?: string[];
-  }
-
-  export interface TupleListRequest {
-    filter: TupleListFilter;
-    size?: number;
-    last?: string;
-    order?: ItemOrder;
-    order_by?: TupleOrderBy;
-  }
-
-  export interface TupleListResult {
-    tuples: Tuple[];
-    last: string;
-    count: number;
-  }
-
-  export interface TupleDeleteRequest {
-    tuples: Tuple[];
-  }
-
-  export interface TupleDeleteResult {}
-
-  export interface CheckRequest {
-    resource: Resource;
-    action: string;
-    subject: Subject;
-    debug?: boolean;
-    attributes?: Dictionary;
-  }
-
-  export interface DebugPath {
-    type: string;
-    id: string;
-    action: string;
-  }
-
-  export interface Debug {
-    path: DebugPath[];
-  }
-
-  export interface CheckResult {
-    schema_id: string;
-    schema_version: number;
-    depth: number;
-    allowed: boolean;
-    debug?: Debug;
-  }
-
-  export interface ListResourcesRequest {
-    type: string;
-    action: string;
-    subject: Subject;
-  }
-
-  export interface ListResourcesResult {
-    ids: string[];
-  }
-
-  export interface ListSubjectsRequest {
-    resource: Resource;
-    action: string;
-  }
-
-  export interface ListSubjectsResult {
-    subjects: Subject[];
   }
 }

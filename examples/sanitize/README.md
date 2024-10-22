@@ -8,5 +8,5 @@ Set up environment variables ([Instructions](https://pangea.cloud/docs/getting-s
 
 ```
 yarn install
-node TODO: .mjs
+node sanitize_no_share.mjs
 ```

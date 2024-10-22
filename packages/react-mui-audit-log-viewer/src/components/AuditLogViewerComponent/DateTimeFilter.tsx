@@ -46,10 +46,12 @@ const DateTimeFilter: FC<Props> = ({ value, field, children }) => {
             opacity: 1,
           },
         },
+        maxWidth: "100%",
       }}
       spacing={1}
       direction="row"
       alignItems="center"
+      paddingRight={4}
     >
       {children}
       <>
@@ -58,6 +60,7 @@ const DateTimeFilter: FC<Props> = ({ value, field, children }) => {
           data-testid="PangeaDateTime-Filter-Button"
           onClick={handleClickFilter}
           size="small"
+          sx={{ position: "absolute", right: 0.5 }}
         >
           <AddCircleOutlineIcon color="info" sx={{ fontSize: "16px" }} />
         </IconButton>
@@ -76,7 +79,7 @@ const DateTimeFilter: FC<Props> = ({ value, field, children }) => {
         >
           <MenuItem
             onClick={() => {
-              setQueryObj((state) => ({ ...state, [field]: value }));
+              setQueryObj((state) => ({ ...state, [field]: `"${value}"` }));
               handleCloseFilter();
             }}
           >
@@ -87,7 +90,7 @@ const DateTimeFilter: FC<Props> = ({ value, field, children }) => {
               setQueryObj((state) => ({
                 ...state,
                 [field]: {
-                  value,
+                  value: `"${value}"`,
                   operation: FieldFilter.LessThan,
                 },
               }));
@@ -101,7 +104,7 @@ const DateTimeFilter: FC<Props> = ({ value, field, children }) => {
               setQueryObj((state) => ({
                 ...state,
                 [field]: {
-                  value,
+                  value: `"${value}"`,
                   operation: FieldFilter.GreaterThan,
                 },
               }));

@@ -18,7 +18,7 @@ if [ "$PACKAGE_VERSION" != "$LATEST_PACKAGE_VERSION" ] ; then
     yarn build
 
     if [[ "$PACKAGE_VERSION" == *"beta"* ]] ; then
-	      yarn publish --new-version "$PACKAGE_VERSION" --tag beta
+        yarn publish --new-version "$PACKAGE_VERSION" --tag beta
     else
         yarn publish --new-version "$PACKAGE_VERSION"
     fi

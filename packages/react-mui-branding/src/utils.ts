@@ -1,5 +1,31 @@
-import { Branding } from "./types";
-import { ThemeOptions } from "@mui/material/styles";
+import { Branding, PangeaAuth } from "./types";
+import merge from "lodash/merge";
+import { ThemeOptions, createTheme } from "@mui/material/styles";
+
+export const BRANDING_CONFIGURATION_STORAGE_KEY =
+  "pangea-branding-configuration";
+
+export const getBrandingConfig = (): Branding.Config | null => {
+  const storedData = localStorage.getItem(BRANDING_CONFIGURATION_STORAGE_KEY);
+  if (storedData) {
+    const config: Branding.Config = JSON.parse(storedData);
+    if (!config?.id) {
+      console.error(
+        "Loaded unrecognized branding configuration from local storage"
+      );
+    }
+    return config;
+  }
+
+  return null;
+};
+
+export const setBrandingConfig = (config: Branding.Config) => {
+  localStorage.setItem(
+    BRANDING_CONFIGURATION_STORAGE_KEY,
+    JSON.stringify(config)
+  );
+};
 
 // FIXME: This was added to prevent crashes from invalid colors;
 const getColor = (color: string | undefined): string => {
@@ -9,6 +35,62 @@ const getColor = (color: string | undefined): string => {
 
   return "#000";
 };
+
+export const fetchBrandingConfig = async (
+  auth: PangeaAuth,
+  brandingId: string
+): Promise<Branding.Config> => {
+  if (!auth?.clientToken || !auth?.domain) {
+    const err = new Error(
+      "Invalid authentication. Both clientToken and domain are required."
+    );
+    throw err;
+  }
+  if (!brandingId) {
+    const err = new Error(
+      "Missing brandingId. Authentication provider, but id is required to fetch branding."
+    );
+    throw err;
+  }
+
+  return fetch(`https://authn.${auth.domain}/v1/resource/branding`, {
+    method: "POST",
+    headers: {
+      Accept: "application/json",
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${auth.clientToken}`,
+    },
+    body: JSON.stringify({
+      id: brandingId,
+    }),
+  }).then(async (res) => {
+    const data = await res.json();
+    if (data.result) {
+      return data.result;
+    } else {
+      const err = new Error(
+        data.summary ?? "Unable to retrieve branding configuration"
+      );
+      throw err;
+    }
+  });
+};
+
+const noop = (options: ThemeOptions) => options;
+
+export const fetchBrandingThemeOptions = (
+  auth: PangeaAuth,
+  brandingId: string,
+  themeOptions: Partial<ThemeOptions> = {},
+  themeOptionsHook: (options: ThemeOptions) => ThemeOptions = noop
+) =>
+  fetchBrandingConfig(auth, brandingId).then((config) => {
+    const themeOptions_ = getBrandingThemeOptions(config);
+    let finalTheme = merge({ ...themeOptions_ }, { ...themeOptions });
+    finalTheme = themeOptionsHook(finalTheme);
+
+    return createTheme(finalTheme);
+  });
 
 export const getBrandingThemeOptions = (
   config: Partial<Branding.Config>

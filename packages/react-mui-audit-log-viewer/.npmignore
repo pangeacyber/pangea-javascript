@@ -8,7 +8,13 @@ jest.config.js
 package.json
 rollup.config.js
 tsconfig.json
+vite.config.mts
+javascript.code-workspace
+typedoc.json
+docs/
 src/
 .storybook/
 *.tgz
 CHANGELOG.md
+.env
+.yarn

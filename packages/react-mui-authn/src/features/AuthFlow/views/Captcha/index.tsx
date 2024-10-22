@@ -1,5 +1,5 @@
 import { FC, useEffect, useState } from "react";
-import { Stack, Typography } from "@mui/material";
+import { Stack } from "@mui/material";
 import ReCAPTCHA from "react-google-recaptcha-enterprise";
 
 import { AuthFlow } from "@pangeacyber/vanilla-js";
@@ -8,7 +8,6 @@ import { AuthFlowComponentProps } from "@src/features/AuthFlow/types";
 import AuthFlowLayout from "../Layout";
 import IdField from "@src/components/fields/IdField";
 import ErrorMessage from "../../components/ErrorMessage";
-import Button from "@src/components/core/Button";
 
 const CaptchaView: FC<AuthFlowComponentProps> = (props) => {
   const { options, data, error, update, reset } = props;
@@ -23,7 +22,7 @@ const CaptchaView: FC<AuthFlowComponentProps> = (props) => {
     setViewKey(newKey);
   };
 
-  const handleChange = async (value: string): Promise<void> => {
+  const handleChange = async (value: string | null): Promise<void> => {
     if (value) {
       const payload: AuthFlow.CaptchaParams = {
         code: value,

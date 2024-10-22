@@ -2,18 +2,27 @@ import { FC, useMemo } from "react";
 import map from "lodash/map";
 import get from "lodash/get";
 import some from "lodash/some";
+import find from "lodash/find";
+
 import { Stack } from "@mui/material";
 import { useTheme, lighten, darken } from "@mui/material/styles";
 
 import { Audit } from "../../types";
 
 import StringJsonField, {
+  BooleanField,
   DateTimeField,
   StringField,
   StringFieldProps,
 } from "../AuditStringJsonField";
 import OldNewFields from "../AuditOldNewFields";
 import VerificationLine from "./VerificationLine";
+import {
+  getFieldMatches,
+  injectFPEMatchesIntoChanges,
+  useFpeContext,
+} from "../../hooks/fpe";
+import { Change } from "../../hooks/diff";
 
 interface Props {
   record: Audit.FlattenedAuditRecord;
@@ -35,6 +44,10 @@ const getFieldComponent = (field: Audit.SchemaField): FC<StringFieldProps> => {
 
   if (field.type === "string" || field.type === "string-unindexed") {
     return StringJsonField;
+  }
+
+  if (field.type === "boolean") {
+    return BooleanField;
   }
 
   return StringField;
@@ -72,6 +85,8 @@ const AuditPreviewRow: FC<Props> = ({
   // @ts-ignore - Is an internal optional field used when some incorrect fields are logged
   const hasErrorValues = !!record.err;
 
+  const context = useFpeContext(record);
+
   const modify = theme.palette.mode === "dark" ? darken : lighten;
   return (
     <Stack
@@ -96,6 +111,18 @@ const AuditPreviewRow: FC<Props> = ({
             {fields.map((field, idx) => {
               const { FieldComp, title } = field;
 
+              let changes: Change[] = [];
+              try {
+                const matches = getFieldMatches(field.id, context);
+                changes = injectFPEMatchesIntoChanges(matches, [
+                  {
+                    value: get(record, field.id),
+                  },
+                ]);
+              } catch {
+                // Unable to generate changes based on fpe matches
+              }
+
               return (
                 <FieldComp
                   key={`preview-field-${idx}-${rowId}`}
@@ -103,6 +130,7 @@ const AuditPreviewRow: FC<Props> = ({
                   field={field.id}
                   value={get(record, field.id)}
                   uniqueId={rowId}
+                  changes={changes}
                 />
               );
             })}
@@ -115,8 +143,11 @@ const AuditPreviewRow: FC<Props> = ({
                 // @ts-ignore
                 new: record.new,
               }}
+              oldField={find(fields, (f) => f.id === "old")}
+              newField={find(fields, (f) => f.id === "new")}
               direction="row"
               uniqueId={rowId}
+              context={context}
             />
           )}
           {hasErrorValues && (

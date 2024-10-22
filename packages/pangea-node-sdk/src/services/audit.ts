@@ -1,7 +1,7 @@
 import PangeaResponse from "@src/response.js";
 import BaseService from "./base.js";
 import PangeaConfig from "@src/config.js";
-import { Audit, PostOptions } from "@src/types.js";
+import { Audit, PangeaToken, PostOptions } from "@src/types.js";
 import {
   PublishedRoots,
   getArweavePublishedRoots,
@@ -45,7 +45,7 @@ class AuditService extends BaseService {
    * @summary Audit
    */
   constructor(
-    token: string,
+    token: PangeaToken,
     config: PangeaConfig,
     tenantID?: string,
     configID?: string
@@ -190,7 +190,8 @@ class AuditService extends BaseService {
       response = await this.post("v2/log_async", data, postOptions);
     } catch (e) {
       if (e instanceof PangeaErrors.AcceptedRequestException) {
-        return e.pangeaResponse;
+        // TODO: bad type cast
+        return e.pangeaResponse as unknown as PangeaResponse<Audit.LogBulkResponse>;
       } else {
         throw e;
       }
@@ -299,11 +300,19 @@ class AuditService extends BaseService {
    *   - old:
    *   - status:
    *   - target:
-   * @param {Object} options - Search options. The following search options are supported:
+   * @param {Object} queryOptions - Search options. The following search options are supported:
    *   - limit (number): Maximum number of records to return per page.
    *   - start (string): The start of the time range to perform the search on.
    *   - end (string): The end of the time range to perform the search on. All records up to the latest if left out.
-   *   - sources (array): A list of sources that the search can apply to. If empty or not provided, matches only the default source.
+   *   - max_results (number): Maximum number of results to return.
+   *   - order (string): Specify the sort order of the response.
+   *   - order_by (string): Name of column to sort the results by.
+   *   - search_restriction (Audit.SearchRestriction): A list of keys to restrict the search results to. Useful for partitioning data available to the query string.
+   *   - verbose (boolean): If true, include the root hash of the tree and the membership proof for each record.
+   *   - return_context (boolean): Return the context data needed to decrypt secure audit events that have been redacted with format preserving encryption.
+   * @param {Object} options - Search options. The following search options are supported:
+   *   - verifyConsistency (boolean): If true verify published roots and membership proof of each event
+   *   - skipEventVerification (boolean): If true skip event hash verification
    * @returns {Promise} - A promise representing an async call to the search endpoint
    * @example
    * ```js
@@ -345,7 +354,12 @@ class AuditService extends BaseService {
    * @param {String} id - The id of a successful search
    * @param {number} limit (default 20) - The number of results returned
    * @param {number} offset (default 0) - The starting position of the first returned result
-   * @param {boolean} verifyResponse (default false) - Verify consistency and membership proof of every record
+   * @param {Object} options - Search options. The following search options are supported:
+   *   - verifyConsistency (boolean): If true verify published roots and membership proof of each event
+   *   - skipEventVerification (boolean): If true skip event hash verification
+   * @param {Object} queryOptions - Search options. The following search options are supported:
+   *   - assert_search_restriction (Audit.SearchRestriction): A list of keys to restrict the search results to. Useful for partitioning data available to the query string.
+   *   - return_context (boolean): Return the context data needed to decrypt secure audit events that have been redacted with format preserving encryption.
    * @returns {Promise} - A promise representing an async call to the results endpoint
    * @example
    * ```js
@@ -360,7 +374,8 @@ class AuditService extends BaseService {
     id: string,
     limit = 20,
     offset = 0,
-    options: Audit.SearchOptions
+    options: Audit.SearchOptions,
+    queryOptions: Audit.ResultOptions = {}
   ): Promise<PangeaResponse<Audit.ResultResponse>> {
     if (!id) {
       throw new Error("Missing required `id` parameter");
@@ -371,12 +386,85 @@ class AuditService extends BaseService {
       limit,
       offset,
     };
+    Object.assign(payload, queryOptions);
 
     const response: PangeaResponse<Audit.SearchResponse> = await this.post(
       "v1/results",
       payload
     );
     return this.processSearchResponse(response, options);
+  }
+
+  /**
+   * @summary Log streaming endpoint
+   * @description This API allows 3rd party vendors (like Auth0) to stream
+   * events to this endpoint where the structure of the payload varies across
+   * different vendors.
+   * @operationId audit_post_v1_log_stream
+   * @param data Event data. The exact schema of this will vary by vendor.
+   * @returns A Pangea response.
+   * @example
+   * ```js
+   * const data = {
+   *   logs: [
+   *     {
+   *       log_id: "some log id",
+   *       data: {
+   *         date: "2024-03-29T17:26:50.193Z",
+   *         type: "some_type",
+   *         description: "Create a log stream",
+   *         client_id: "test client ID",
+   *         ip: "127.0.0.1",
+   *         user_agent: "AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0",
+   *         user_id: "test user ID",
+   *       },
+   *     },
+   *   ],
+   * };
+   * const response = await audit.logStream(data);
+   * ```
+   */
+  logStream(data: object): Promise<PangeaResponse<{}>> {
+    return this.post("v1/log_stream", data);
+  }
+
+  /**
+   * @summary Export from the audit log
+   * @description Bulk export of data from the Secure Audit Log, with optional
+   * filtering.
+   * @operationId audit_post_v1_export
+   * @param request Request parameters.
+   * @returns A Pangea response with a `request_id` that can be used to fetch
+   * the exported results at a later time.
+   * @example
+   * ```js
+   * const exportRes = await audit.export({ verbose: false });
+   *
+   * // Export may take several dozens of minutes, so polling for the result
+   * // should be done in a loop. That is omitted here for brevity's sake.
+   * try {
+   *   await audit.pollResult(exportRes.request_id);
+   * } catch (error) {
+   *   if (error instanceof PangeaErrors.AcceptedRequestException) {
+   *     // Retry later.
+   *   }
+   * }
+   *
+   * // Download the result when it's ready.
+   * const downloadRes = await audit.downloadResults({ request_id: exportRes.request_id });
+   * downloadRes.result.dest_url;
+   * // => https://pangea-runtime.s3.amazonaws.com/audit/xxxxx/search_results_[...]
+   * ```
+   */
+  async export(request: Audit.ExportRequest): Promise<PangeaResponse<{}>> {
+    try {
+      return await this.post("v1/export", request, { pollResultSync: false });
+    } catch (error) {
+      if (error instanceof PangeaErrors.AcceptedRequestException) {
+        return error.pangeaResponse;
+      }
+      throw error;
+    }
   }
 
   /**
@@ -417,6 +505,16 @@ class AuditService extends BaseService {
   downloadResults(
     request: Audit.DownloadRequest
   ): Promise<PangeaResponse<Audit.DownloadResult>> {
+    if (!request.request_id && !request.result_id) {
+      throw new TypeError("Must specify one of `request_id` or `result_id`.");
+    }
+
+    if (request.request_id && request.result_id) {
+      throw new TypeError(
+        "Must specify only one of `request_id` or `result_id`."
+      );
+    }
+
     return this.post("v1/download_results", request);
   }
 
@@ -432,6 +530,24 @@ class AuditService extends BaseService {
       const response = await this.root(treeSize);
       const root: Audit.Root = response.result.data;
       return root;
+    };
+
+    const fixConsistencyProof = async (treeSize: number) => {
+      // we can only fix if the root has been downloaded
+      let pubRoot: Audit.Root | undefined = this.publishedRoots[treeSize];
+      if (pubRoot === undefined) {
+        return;
+      }
+
+      const root: Audit.Root = await localRoot(treeSize);
+
+      // compare the root hash with the published root hash
+      if (root?.root_hash !== pubRoot.root_hash) {
+        return;
+      }
+
+      // override the proof
+      pubRoot.consistency_proof = root.consistency_proof;
     };
 
     if (!options?.skipEventVerification) {
@@ -465,6 +581,8 @@ class AuditService extends BaseService {
         );
       }
 
+      const pending: Promise<void>[] = [];
+
       response.result.events.forEach((record: Audit.AuditRecord) => {
         record.membership_verification = verifyRecordMembershipProof({
           root: record.published ? root : response.result.unpublished_root,
@@ -475,7 +593,25 @@ class AuditService extends BaseService {
           publishedRoots: this.publishedRoots,
           record: record,
         });
+
+        if (
+          record.consistency_verification === "fail" &&
+          record.leaf_index !== undefined
+        ) {
+          pending.push(
+            fixConsistencyProof(parseInt(record.leaf_index, 10) + 1).then(
+              () => {
+                record.consistency_verification = verifyRecordConsistencyProof({
+                  publishedRoots: this.publishedRoots,
+                  record: record,
+                });
+              }
+            )
+          );
+        }
       });
+
+      await Promise.all(pending);
     }
     return response;
   }

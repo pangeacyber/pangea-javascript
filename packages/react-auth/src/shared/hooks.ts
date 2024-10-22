@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useRef } from "react";
 import * as jose from "jose";
 
-import { AuthNClient } from "~/src/AuthNClient";
+import { AuthNClient } from "@pangeacyber/vanilla-js";
 import {
   getAllTokens,
   getSessionData,
@@ -13,8 +13,7 @@ import {
   setTokenCookies,
 } from "~/src/shared/session";
 import { diffInSeconds } from "~/src/shared/utils";
-import { AuthUser, Profile } from "~/src/types";
-import { AuthOptions, VerifyResponse } from "./types";
+import { AuthOptions, AuthUser, Profile, VerifyResponse } from "~/src/types";
 
 export const REFRESH_CHECK_INTERVAL = 15; // Frequency of refresh check in seconds
 export const REFRESH_CHECK_THRESHOLD = 10;
@@ -84,11 +83,10 @@ export const useValidateToken = (
 
           const profile: Profile = payload.profile as Profile;
           const user: AuthUser = {
+            username: payload.username as string,
             email: payload.email as string,
             profile: {
-              first_name: profile?.first_name,
-              last_name: profile?.first_name,
-              phone: profile?.phone,
+              ...profile,
             },
             header: protectedHeader,
             payload: payload,

@@ -101,9 +101,19 @@ const OtpForm: FC<Props> = ({
   }, []);
 
   useEffect(() => {
-    formik.resetForm();
-    if (otpType !== "totp") {
-      setDisabled(true);
+    // reset the form, except on comms failure
+    if (
+      error?.status === "ServiceNotAvailable" ||
+      error?.summary === "Failed to fetch"
+    ) {
+      // do nothing, allow resubmitting the same code
+    } else {
+      formik.resetForm();
+
+      // disable the inputs, except for TOTP. code can't be re-entered
+      if (otpType !== "totp") {
+        setDisabled(true);
+      }
     }
   }, [error]);
 
@@ -131,7 +141,7 @@ const OtpForm: FC<Props> = ({
         <Stack
           direction={{ xs: "column", sm: "row" }}
           justifyContent="center"
-          gap={{ xs: 0, sm: 1 }}
+          gap={1}
         >
           {otpType !== "totp" && (
             <Button

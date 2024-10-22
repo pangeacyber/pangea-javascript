@@ -126,7 +126,9 @@ const VerificationModal: FC<VerificationModalProps> = ({
   };
 
   const verificationCmd = () => {
-    return `echo $'${verificationArtifacts(true)}' | python -m pangea.verify_audit`;
+    return `echo $'${verificationArtifacts(
+      true
+    )}' | python -m pangea.verify_audit`;
   };
 
   return (
@@ -149,7 +151,9 @@ const VerificationModal: FC<VerificationModalProps> = ({
                 ? "secondary.main"
                 : "error"
           }
-          data-testid={`Pangea-VerificationLock-${isMembershipValid ? "Verified" : "Unverified"}`}
+          data-testid={`Pangea-VerificationLock-${
+            isMembershipValid ? "Verified" : "Unverified"
+          }`}
         />
       </IconButton>
       <PopoutCard
@@ -350,6 +354,7 @@ export const AuditSecureColumn: GridColDef = {
             marginBottom: "-4px",
             transition: "background-color 1s ease;",
           }}
+          className="Pangea-VerificationLine-Box"
         />
         <VerificationModal
           isMembershipValid={isMembershipValid}
@@ -372,6 +377,7 @@ export const AuditSecureColumn: GridColDef = {
             marginTop: "-4px",
             transition: "background-color 1s ease;",
           }}
+          className="Pangea-VerificationLine-Box"
         />
       </Stack>
     );

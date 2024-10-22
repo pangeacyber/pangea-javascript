@@ -1,7 +1,7 @@
-import { FC, useEffect } from "react";
+import { FC } from "react";
 import { useFormik } from "formik";
 import * as yup from "yup";
-import { Stack, Typography } from "@mui/material";
+import { Stack } from "@mui/material";
 
 import { AuthFlow } from "@pangeacyber/vanilla-js";
 
@@ -36,13 +36,14 @@ const AuthOnetimeEmail: FC<AuthFlowComponentProps> = (props) => {
     <Stack gap={2} width="100%">
       <form onSubmit={formik.handleSubmit} style={{ width: "100%" }}>
         <Stack gap={1}>
-          <BodyText>Confirm your email.</BodyText>
+          <BodyText>Confirm your email</BodyText>
           <StringField
             name="email"
             label="Email"
             formik={formik}
             autoComplete="email"
             autoFocus={true}
+            hideLabel={true}
           />
           {error && <ErrorMessage response={error} />}
           <Button color="primary" type="submit" disabled={loading} fullWidth>

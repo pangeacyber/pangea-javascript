@@ -1,15 +1,12 @@
-import type { Response } from "got";
+import fs from "node:fs";
+import path from "node:path";
 import { AcceptedResult } from "./types.js";
 import { getBoundary, parse } from "./utils/multipart.js";
-import * as path from "path";
-import fs from "fs";
 
 const SupportedJSONFields = ["message", "new", "old"];
+const decoder = new TextDecoder("utf-8");
 
-/**
- * Pangea Response object
- */
-
+/** Pangea response object. */
 export class ResponseObject<M> {
   request_id: string = "InvalidPayloadReceived";
   request_time: string = "InvalidPayloadReceived";
@@ -19,17 +16,17 @@ export class ResponseObject<M> {
   accepted_result?: AcceptedResult;
   summary: string = "InvalidPayloadReceived";
 
-  constructor(body: Object) {
+  constructor(body: object) {
     Object.assign(this, body);
   }
 }
 
 export class AttachedFile {
   filename: string;
-  file: Buffer;
+  file: ArrayBuffer;
   contentType: string;
 
-  constructor(filename: string, file: Buffer, contentType: string) {
+  constructor(filename: string, file: ArrayBuffer, contentType: string) {
     this.filename = filename;
     this.file = file;
     this.contentType = contentType;
@@ -48,7 +45,7 @@ export class AttachedFile {
     }
 
     const filepath = path.resolve(destFolder, filename);
-    fs.writeFileSync(filepath, this.file);
+    fs.writeFileSync(filepath, Buffer.from(this.file));
   }
 }
 
@@ -57,16 +54,13 @@ export class PangeaResponse<M> extends ResponseObject<M> {
   success: boolean;
   attachedFiles: AttachedFile[] = [];
 
-  constructor(response: Response) {
+  constructor(response: Response, body: ArrayBuffer) {
     let jsonResp = {};
     let attachedFilesTemp: AttachedFile[] = [];
-
-    if (
-      response.headers["content-type"] &&
-      response.headers["content-type"].includes("multipart")
-    ) {
-      const boundary = getBoundary(response.headers["content-type"]);
-      const parts = parse(response.rawBody, boundary);
+    const contentType = response.headers.get("content-type");
+    if (contentType && contentType.includes("multipart")) {
+      const boundary = getBoundary(contentType);
+      const parts = parse(Buffer.from(body), boundary);
       parts.forEach((part, index) => {
         if (index == 0) {
           jsonResp = JSON.parse(part.data.toString("utf-8"));
@@ -77,7 +71,7 @@ export class PangeaResponse<M> extends ResponseObject<M> {
         }
       });
     } else {
-      jsonResp = JSON.parse(JSON.stringify(response.body), parseJSONfields);
+      jsonResp = JSON.parse(decoder.decode(body), parseJSONfields);
     }
     super(jsonResp);
     this.attachedFiles = attachedFilesTemp;
@@ -85,7 +79,7 @@ export class PangeaResponse<M> extends ResponseObject<M> {
 
     this.success = this.status === "Success";
     this.result = this.result == null ? ({} as M) : this.result;
-    if (this.gotResponse.statusCode == 202) {
+    if (this.gotResponse.status === 202) {
       this.accepted_result = this.result as AcceptedResult;
       this.result = {} as M;
     }
@@ -102,10 +96,9 @@ export class PangeaResponse<M> extends ResponseObject<M> {
   }
 }
 
-function parseJSONfields(key: any, value: any) {
+function parseJSONfields(key: string, value: any) {
   if (SupportedJSONFields.includes(key) && typeof value === "string") {
     try {
-      // @ts-ignore
       const obj = JSON.parse(value);
       return obj;
     } catch (e) {

@@ -1,8 +1,22 @@
 import React from "react";
 import { StoryFn, Meta } from "@storybook/react";
 
-import PangeaDataGrid, { PangeaDataGridProps } from "./index";
+import PangeaDataGrid, {
+  PangeaDataGridProps,
+  PDG,
+  useGridSchemaColumns,
+} from "./index";
 import { Show, SHOWS } from "../../stories/data/television";
+
+export const Fields: PDG.GridSchemaFields<Show> = {
+  title: {
+    label: "Title",
+    cellClassName: "columnPrimary",
+  },
+  description: {
+    label: "Description",
+  },
+};
 
 export default {
   title: "PangeaDataGrid",
@@ -14,22 +28,27 @@ export default {
   },
 } as Meta<typeof PangeaDataGrid>;
 
-const Template: StoryFn<typeof PangeaDataGrid> = (args) => (
-  <PangeaDataGrid
-    {...args}
-    ExpansionRow={{
-      render: (object: any, open: boolean) => {
-        if (!open) return null;
+const Template: StoryFn<typeof PangeaDataGrid> = (args) => {
+  const columns = useGridSchemaColumns(Fields);
 
-        return (
-          <div style={{ padding: "16px" }}>
-            {object.description || "No description"}
-          </div>
-        );
-      },
-    }}
-  />
-);
+  return (
+    <PangeaDataGrid
+      {...args}
+      columns={!!args?.columns?.length ? args.columns : columns}
+      ExpansionRow={{
+        render: (object: any, open: boolean) => {
+          if (!open) return null;
+
+          return (
+            <div style={{ padding: "16px" }}>
+              {object.description || "No description"}
+            </div>
+          );
+        },
+      }}
+    />
+  );
+};
 
 export const SimpleDataGrid: {
   args: PangeaDataGridProps<Show>;
@@ -85,13 +104,6 @@ export const FilterableDataGrid: {
 // More on args: https://storybook.js.org/docs/react/writing-stories/args
 
 FilterableDataGrid.args = {
-  columns: [
-    {
-      field: "title",
-    },
-    {
-      field: "description",
-    },
-  ],
+  columns: [],
   data: SHOWS,
 };

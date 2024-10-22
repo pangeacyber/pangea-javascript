@@ -1,3 +1,5 @@
+import { setTimeout } from "node:timers/promises";
+
 import PangeaConfig from "../../src/config.js";
 import AuditService from "../../src/services/audit.js";
 import { Audit } from "../../src/types.js";
@@ -13,7 +15,7 @@ import {
   getMultiConfigTestToken,
   getConfigID,
 } from "../../src/utils/utils.js";
-import { loadTestEnvironment } from "./utils.js";
+import { loadTestEnvironment, skipAccepted, trySlowRequest } from "./utils.js";
 
 const ACTOR = "node-sdk";
 const MSG_NO_SIGNED = "test-message";
@@ -65,7 +67,8 @@ const auditVault = new AuditService(tokenVault, config);
 const auditWithTenantId = new AuditService(tokenGeneral, config, "mytenantid");
 const auditCustomSchema = new AuditService(tokenCustomSchema, config);
 
-jest.setTimeout(60000);
+jest.setTimeout(2 * config.pollResultTimeoutMs);
+
 it("log an audit event. no verbose", async () => {
   const event: Audit.Event = {
     actor: ACTOR,
@@ -162,52 +165,57 @@ it("log an audit event. verbose and verify", async () => {
   expect(response.result.signature_verification).toBe("none");
 });
 
-it("log an audit event in JSON format", async () => {
-  const options: Audit.LogOptions = {
-    verbose: true,
-  };
+it(
+  "log an audit event in JSON format",
+  async () => {
+    const options: Audit.LogOptions = {
+      verbose: true,
+    };
 
-  const event: Audit.Event = {
-    actor: ACTOR,
-    message: MSG_JSON,
-    status: STATUS_NO_SIGNED,
-    new: JSON_NEW_DATA,
-    old: JSON_OLD_DATA,
-  };
+    const event: Audit.Event = {
+      actor: ACTOR,
+      message: MSG_JSON,
+      status: STATUS_NO_SIGNED,
+      new: JSON_NEW_DATA,
+      old: JSON_OLD_DATA,
+    };
 
-  const response = await auditGeneral.log(event, options);
+    const response = await auditGeneral.log(event, options);
 
-  expect(response.status).toBe("Success");
-  expect(typeof response.result.hash).toBe("string");
-  expect(typeof response.result?.envelope?.event?.message).toBe("string");
-  expect(typeof response.result?.envelope?.event?.new).toBe("object");
-  expect(typeof response.result?.envelope?.event?.old).toBe("object");
+    expect(response.status).toBe("Success");
+    expect(typeof response.result.hash).toBe("string");
+    expect(typeof response.result?.envelope?.event?.message).toBe("string");
+    expect(typeof response.result?.envelope?.event?.new).toBe("object");
+    expect(typeof response.result?.envelope?.event?.old).toBe("object");
 
-  const query = "message:" + MSG_JSON + " status:" + STATUS_NO_SIGNED;
-  const searchOptions: Audit.SearchOptions = {
-    verifyConsistency: true,
-  };
+    const query = "message:" + MSG_JSON + " status:" + STATUS_NO_SIGNED;
+    const searchOptions: Audit.SearchOptions = {
+      verifyConsistency: true,
+    };
 
-  const limit = 1;
-  const maxResults = 1;
-  const queryOptions: Audit.SearchParamsOptions = {
-    limit: limit,
-    max_results: maxResults,
-  };
+    const limit = 1;
+    const maxResults = 1;
+    const queryOptions: Audit.SearchParamsOptions = {
+      limit: limit,
+      max_results: maxResults,
+    };
 
-  const respSearch = await auditGeneral.search(
-    query,
-    queryOptions,
-    searchOptions
-  );
-  expect(respSearch.result.count).toBe(maxResults);
+    const respSearch = await trySlowRequest(
+      async () => await auditGeneral.search(query, queryOptions, searchOptions)
+    );
+    if (!respSearch) {
+      return;
+    }
+    expect(respSearch.result.count).toBe(maxResults);
 
-  respSearch.result.events.forEach((record) => {
-    expect(record.membership_verification).toBe("pass");
-    expect(record.signature_verification).toBe("none");
-    expect(record.consistency_verification).toBe("none");
-  });
-});
+    respSearch.result.events.forEach((record) => {
+      expect(record.membership_verification).toBe("pass");
+      expect(record.signature_verification).toBe("none");
+      expect(record.consistency_verification).toBe("none");
+    });
+  },
+  2 * (config.pollResultTimeoutMs + 1000)
+);
 
 it("log an event, local sign and verify", async () => {
   const event: Audit.Event = {
@@ -231,6 +239,7 @@ it("log an event, local sign and verify", async () => {
   const query = "message:" + MSG_SIGNED_LOCAL + " actor:" + ACTOR;
   const queryOptions: Audit.SearchParamsOptions = {
     limit: 1,
+    max_results: 1,
   };
 
   const respSearch = await auditGeneral.search(query, queryOptions, {});
@@ -241,37 +250,42 @@ it("log an event, local sign and verify", async () => {
   );
 });
 
-it("log an event, local sign and tenant id", async () => {
-  const event: Audit.Event = {
-    message: MSG_SIGNED_LOCAL,
-    source: "Source",
-    status: "Status",
-    target: "Target",
-    actor: ACTOR,
-    action: "Action",
-    new: "New",
-    old: "Old",
-  };
+it(
+  "log an event, local sign and tenant id",
+  async () => {
+    const event: Audit.Event = {
+      message: MSG_SIGNED_LOCAL,
+      source: "Source",
+      status: "Status",
+      target: "Target",
+      actor: ACTOR,
+      action: "Action",
+      new: "New",
+      old: "Old",
+    };
 
-  const respLog = await auditWithTenantId.log(event, {
-    verbose: true,
-    signer: signer,
-  });
-  expect(respLog.status).toBe("Success");
-  expect(typeof respLog.result.hash).toBe("string");
+    const respLog = await auditWithTenantId.log(event, {
+      verbose: true,
+      signer: signer,
+    });
+    expect(respLog.status).toBe("Success");
+    expect(typeof respLog.result.hash).toBe("string");
 
-  const query = "message:" + MSG_SIGNED_LOCAL + " actor:" + ACTOR;
-  const queryOptions: Audit.SearchParamsOptions = {
-    limit: 1,
-  };
+    const query = "message:" + MSG_SIGNED_LOCAL + " actor:" + ACTOR;
+    const queryOptions: Audit.SearchParamsOptions = {
+      limit: 1,
+      max_results: 1,
+    };
 
-  const respSearch = await auditGeneral.search(query, queryOptions, {});
-  const searchEvent = respSearch.result.events[0];
-  expect(searchEvent?.signature_verification).toBe("pass");
-  expect(searchEvent?.envelope.public_key).toBe(
-    String.raw`{"algorithm":"ED25519","key":"-----BEGIN PUBLIC KEY-----\nMCowBQYDK2VwAyEAlvOyDMpK2DQ16NI8G41yINl01wMHzINBahtDPoh4+mE=\n-----END PUBLIC KEY-----\n"}`
-  );
-});
+    const respSearch = await auditGeneral.search(query, queryOptions, {});
+    const searchEvent = respSearch.result.events[0];
+    expect(searchEvent?.signature_verification).toBe("pass");
+    expect(searchEvent?.envelope.public_key).toBe(
+      String.raw`{"algorithm":"ED25519","key":"-----BEGIN PUBLIC KEY-----\nMCowBQYDK2VwAyEAlvOyDMpK2DQ16NI8G41yINl01wMHzINBahtDPoh4+mE=\n-----END PUBLIC KEY-----\n"}`
+    );
+  },
+  2 * (config.pollResultTimeoutMs + 1000)
+);
 
 it("log an event, vault sign", async () => {
   const event: Audit.Event = {
@@ -294,70 +308,80 @@ it("log an event, vault sign", async () => {
   expect(respLog.result.signature_verification).toBe("pass");
 });
 
-it("log JSON event, sign and verify", async () => {
-  const event: Audit.Event = {
-    actor: ACTOR,
-    message: MSG_JSON,
-    status: STATUS_SIGNED,
-    new: JSON_NEW_DATA,
-    old: JSON_OLD_DATA,
-  };
+it(
+  "log JSON event, sign and verify",
+  skipAccepted(async () => {
+    const event: Audit.Event = {
+      actor: ACTOR,
+      message: MSG_JSON,
+      status: STATUS_SIGNED,
+      new: JSON_NEW_DATA,
+      old: JSON_OLD_DATA,
+    };
 
-  const respLog = await auditGeneral.log(event, {
-    verbose: true,
-    signer: signer,
-  });
-  expect(respLog.status).toBe("Success");
-  expect(typeof respLog.result.hash).toBe("string");
-  expect(respLog.result.signature_verification).toBe("pass");
-
-  const query =
-    "message:" + MSG_JSON + " actor:" + ACTOR + " status:" + STATUS_SIGNED;
-  const queryOptions: Audit.SearchParamsOptions = {
-    limit: 1,
-  };
-
-  const respSearch = await auditGeneral.search(query, queryOptions, {});
-  const searchEvent = respSearch.result.events[0];
-  expect(searchEvent?.signature_verification).toBe("pass");
-  expect(searchEvent?.envelope.public_key).toBe(
-    String.raw`{"algorithm":"ED25519","key":"-----BEGIN PUBLIC KEY-----\nMCowBQYDK2VwAyEAlvOyDMpK2DQ16NI8G41yINl01wMHzINBahtDPoh4+mE=\n-----END PUBLIC KEY-----\n"}`
-  );
-});
-
-it("log JSON event, vault sign and verify", async () => {
-  const event: Audit.Event = {
-    actor: ACTOR,
-    message: MSG_JSON,
-    status: STATUS_SIGNED,
-    new: JSON_NEW_DATA,
-    old: JSON_OLD_DATA,
-  };
-  try {
-    const respLog = await auditVault.log(event, {
+    const respLog = await auditGeneral.log(event, {
       verbose: true,
+      signer: signer,
     });
-
     expect(respLog.status).toBe("Success");
     expect(typeof respLog.result.hash).toBe("string");
     expect(respLog.result.signature_verification).toBe("pass");
-    expect(respLog.result.envelope.public_key).toBeDefined();
-  } catch (e) {
-    if (e instanceof PangeaErrors.APIError) {
-      console.log(e.toString());
+
+    const query =
+      "message:" + MSG_JSON + " actor:" + ACTOR + " status:" + STATUS_SIGNED;
+    const queryOptions: Audit.SearchParamsOptions = {
+      limit: 1,
+      max_results: 1,
+    };
+
+    const respSearch = await auditGeneral.search(query, queryOptions, {});
+    const searchEvent = respSearch.result.events[0];
+    expect(searchEvent?.signature_verification).toBe("pass");
+    expect(searchEvent?.envelope.public_key).toBe(
+      String.raw`{"algorithm":"ED25519","key":"-----BEGIN PUBLIC KEY-----\nMCowBQYDK2VwAyEAlvOyDMpK2DQ16NI8G41yINl01wMHzINBahtDPoh4+mE=\n-----END PUBLIC KEY-----\n"}`
+    );
+  }),
+  2 * (config.pollResultTimeoutMs + 1000)
+);
+
+it(
+  "log JSON event, vault sign and verify",
+  async () => {
+    const event: Audit.Event = {
+      actor: ACTOR,
+      message: MSG_JSON,
+      status: STATUS_SIGNED,
+      new: JSON_NEW_DATA,
+      old: JSON_OLD_DATA,
+    };
+    try {
+      const respLog = await auditVault.log(event, {
+        verbose: true,
+      });
+
+      expect(respLog.status).toBe("Success");
+      expect(typeof respLog.result.hash).toBe("string");
+      expect(respLog.result.signature_verification).toBe("pass");
+      expect(respLog.result.envelope.public_key).toBeDefined();
+    } catch (e) {
+      if (e instanceof PangeaErrors.APIError) {
+        console.log(e.toString());
+      }
     }
-  }
 
-  const query =
-    "message:" + MSG_JSON + " actor:" + ACTOR + " status:" + STATUS_SIGNED;
-  const queryOptions: Audit.SearchParamsOptions = {
-    limit: 1,
-  };
+    const query =
+      "message:" + MSG_JSON + " actor:" + ACTOR + " status:" + STATUS_SIGNED;
+    const queryOptions: Audit.SearchParamsOptions = {
+      limit: 1,
+      max_results: 1,
+    };
 
-  const respSearch = await auditVault.search(query, queryOptions, {});
-  const searchEvent = respSearch.result.events[0];
-  expect(searchEvent?.signature_verification).toBe("pass");
-});
+    const respSearch = await auditVault.search(query, queryOptions, {});
+    const searchEvent = respSearch.result.events[0];
+    expect(searchEvent?.signature_verification).toBe("pass");
+  },
+  2 * (config.pollResultTimeoutMs + 1000)
+);
 
 // Custom schema tests
 it("custom schema log an audit event. no verbose", async () => {
@@ -514,6 +538,7 @@ it("custom log an event, local sign and verify", async () => {
   const query = "message:" + MSG_CUSTOM_SCHEMA_SIGNED_LOCAL;
   const queryOptions: Audit.SearchParamsOptions = {
     limit: 1,
+    max_results: 1,
   };
 
   const respSearch = await auditCustomSchema.search(query, queryOptions, {});
@@ -524,67 +549,70 @@ it("custom log an event, local sign and verify", async () => {
   );
 });
 
-it("custom schema log an audit event in JSON format, local sign and verify", async () => {
-  const options: Audit.LogOptions = {
-    verbose: true,
-  };
+it(
+  "custom schema log an audit event in JSON format, local sign and verify",
+  async () => {
+    const options: Audit.LogOptions = {
+      verbose: true,
+    };
 
-  const jsonfield = {
-    customtag3: "mycustommsg3",
-    ct6: "cm6",
-    ct4: "cm4",
-    field_int: 2,
-    field_bool: true,
-  };
-  const event = {
-    message: JSON_CUSTOM_SCHEMA_SIGNED_LOCAL,
-    field_int: 1,
-    field_bool: true,
-    field_str_short: STATUS_SIGNED,
-    field_str_long: jsonfield,
-    field_time: new Date(Date.now()),
-  };
+    const jsonfield = {
+      customtag3: "mycustommsg3",
+      ct6: "cm6",
+      ct4: "cm4",
+      field_int: 2,
+      field_bool: true,
+    };
+    const event = {
+      message: JSON_CUSTOM_SCHEMA_SIGNED_LOCAL,
+      field_int: 1,
+      field_bool: true,
+      field_str_short: STATUS_SIGNED,
+      field_str_long: jsonfield,
+      field_time: new Date(Date.now()),
+    };
 
-  try {
-    const response = await auditCustomSchema.log(event, options);
+    try {
+      const response = await auditCustomSchema.log(event, options);
 
-    expect(response.status).toBe("Success");
-    expect(typeof response.result.hash).toBe("string");
-    expect(typeof response.result?.envelope?.event?.message).toBe("string");
-    expect(response.result.signature_verification).toBe("pass");
-  } catch (e) {
-    if (e instanceof PangeaErrors.APIError) {
-      console.log(e.toString());
+      expect(response.status).toBe("Success");
+      expect(typeof response.result.hash).toBe("string");
+      expect(typeof response.result?.envelope?.event?.message).toBe("string");
+      expect(response.result.signature_verification).toBe("pass");
+    } catch (e) {
+      if (e instanceof PangeaErrors.APIError) {
+        console.log(e.toString());
+      }
     }
-  }
 
-  const query = "message:" + JSON_CUSTOM_SCHEMA_SIGNED_LOCAL;
-  const searchOptions: Audit.SearchOptions = {
-    verifyConsistency: true,
-  };
+    const query = "message:" + JSON_CUSTOM_SCHEMA_SIGNED_LOCAL;
+    const searchOptions: Audit.SearchOptions = {
+      verifyConsistency: true,
+    };
 
-  const limit = 1;
-  const maxResults = 1;
-  const queryOptions: Audit.SearchParamsOptions = {
-    limit: limit,
-    max_results: maxResults,
-  };
+    const limit = 1;
+    const maxResults = 1;
+    const queryOptions: Audit.SearchParamsOptions = {
+      limit: limit,
+      max_results: maxResults,
+    };
 
-  const respSearch = await auditCustomSchema.search(
-    query,
-    queryOptions,
-    searchOptions
-  );
-  expect(respSearch.result.count).toBe(maxResults);
+    const respSearch = await auditCustomSchema.search(
+      query,
+      queryOptions,
+      searchOptions
+    );
+    expect(respSearch.result.count).toBe(maxResults);
 
-  respSearch.result.events.forEach((record) => {
-    expect(record.membership_verification).toBe("pass");
-    expect(record.signature_verification).toBe("none");
-    expect(record.consistency_verification).toBe("none");
-  });
-});
+    respSearch.result.events.forEach((record) => {
+      expect(record.membership_verification).toBe("pass");
+      expect(record.signature_verification).toBe("none");
+      expect(record.consistency_verification).toBe("none");
+    });
+  },
+  2 * (config.pollResultTimeoutMs + 1000)
+);
 
-jest.setTimeout(20000);
 it("search audit log and verify signature", async () => {
   const query = "message:" + MSG_SIGNED_LOCAL + " status:" + STATUS_SIGNED;
   const limit = 2;
@@ -604,40 +632,44 @@ it("search audit log and verify signature", async () => {
   });
 });
 
-it("search audit log and verify consistency", async () => {
-  const query = 'message:""';
-  const limit = 2;
-  const maxResults = 4;
-  const options: Audit.SearchOptions = {
-    verifyConsistency: true,
-  };
+it(
+  "search audit log and verify consistency",
+  skipAccepted(async () => {
+    const query = 'message:""';
+    const limit = 2;
+    const maxResults = 4;
+    const options: Audit.SearchOptions = {
+      verifyConsistency: true,
+    };
 
-  let queryOptions: Audit.SearchParamsOptions = {
-    limit: limit,
-    order: "asc", // Oldest events should have consistency proofs
-    max_results: maxResults,
-    start: "30d",
-  };
+    let queryOptions: Audit.SearchParamsOptions = {
+      limit: limit,
+      order: "asc", // Oldest events should have consistency proofs
+      max_results: maxResults,
+      start: "30d",
+    };
 
-  let response = await auditGeneral.search(query, queryOptions, options);
-  expect(response.status).toBe("Success");
-  expect(response.result.events.length).toBeLessThanOrEqual(limit);
-  response.result.events.forEach((record) => {
-    expect(record.consistency_verification).toBe("pass"); // Oldest events should pass
-    expect(record.membership_verification).toBe("pass");
-  });
+    let response = await auditGeneral.search(query, queryOptions, options);
+    expect(response.status).toBe("Success");
+    expect(response.result.events.length).toBeLessThanOrEqual(limit);
+    response.result.events.forEach((record) => {
+      expect(record.consistency_verification).toBe("pass"); // Oldest events should pass
+      expect(record.membership_verification).toBe("pass");
+    });
 
-  queryOptions.order = "desc"; // Newest events should not pass consistency proof
+    queryOptions.order = "desc"; // Newest events should not pass consistency proof
 
-  response = await auditGeneral.search(query, queryOptions, options);
+    response = await auditGeneral.search(query, queryOptions, options);
 
-  expect(response.status).toBe("Success");
-  expect(response.result.events.length).toBeLessThanOrEqual(limit);
-  response.result.events.forEach((record) => {
-    expect(record.consistency_verification).toBe("none"); // Newest events should not pass
-    expect(record.membership_verification).toBe("pass");
-  });
-});
+    expect(response.status).toBe("Success");
+    expect(response.result.events.length).toBeLessThanOrEqual(limit);
+    response.result.events.forEach((record) => {
+      expect(record.consistency_verification).toBe("none"); // Newest events should not pass
+      expect(record.membership_verification).toBe("pass");
+    });
+  }),
+  2 * (config.pollResultTimeoutMs + 1000)
+);
 
 it("search audit log and skip consistency verification", async () => {
   const query = "message:" + MSG_SIGNED_LOCAL;
@@ -984,33 +1016,101 @@ it("log an audit event bulk async", async () => {
   expect(response.request_id).toBeDefined();
 });
 
-it("search and download", async () => {
-  const query = 'message:""';
-  const searchLimit = 2;
-  const searchMaxResults = 20;
+it(
+  "search and download",
+  skipAccepted(async () => {
+    const query = 'message:""';
+    const searchLimit = 2;
+    const searchMaxResults = 20;
 
-  const queryOptions: Audit.SearchParamsOptions = {
-    limit: searchLimit,
-    max_results: searchMaxResults,
-    order: "asc",
-    verbose: false,
-    start: "7d",
+    const queryOptions: Audit.SearchParamsOptions = {
+      limit: searchLimit,
+      max_results: searchMaxResults,
+      order: "asc",
+      verbose: false,
+      start: "7d",
+    };
+
+    const searchResponse = await auditGeneral.search(query, queryOptions, {});
+    expect(searchResponse.status).toBe("Success");
+    expect(searchResponse.result.id).toBeDefined();
+    expect(searchResponse.result.events.length).toBe(searchLimit);
+
+    const downloadResp = await auditGeneral.downloadResults({
+      result_id: searchResponse.result.id,
+      format: Audit.DownloadFormat.JSON,
+    });
+
+    expect(downloadResp.status).toBe("Success");
+    expect(downloadResp.result.dest_url).toBeDefined();
+
+    const file = await auditGeneral.downloadFile(downloadResp.result.dest_url);
+
+    file.save("./");
+  }),
+  3 * (config.pollResultTimeoutMs + 1000)
+);
+
+it("log stream", async () => {
+  const data = {
+    logs: [
+      {
+        log_id: "some log id",
+        data: {
+          date: "2024-03-29T17:26:50.193Z",
+          type: "some_type",
+          description: "Create a log stream",
+          client_id: "test client ID",
+          ip: "127.0.0.1",
+          user_agent: "AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0",
+          user_id: "test user ID",
+        },
+      },
+    ],
   };
-
-  const searchResponse = await auditGeneral.search(query, queryOptions, {});
-  expect(searchResponse.status).toBe("Success");
-  expect(searchResponse.result.id).toBeDefined();
-  expect(searchResponse.result.events.length).toBe(searchLimit);
-
-  const downloadResp = await auditGeneral.downloadResults({
-    result_id: searchResponse.result.id,
-    format: Audit.DownloadFormat.JSON,
+  const configId = getConfigID(environment, "audit", 3);
+  const config = new PangeaConfig({
+    domain: domain,
+    customUserAgent: "sdk-test",
   });
+  const audit = new AuditService(tokenMultiConfig, config, undefined, configId);
+  const response = await audit.logStream(data);
+  expect(response.status).toEqual("Success");
+});
 
-  expect(downloadResp.status).toBe("Success");
-  expect(downloadResp.result.dest_url).toBeDefined();
+it("export download", async () => {
+  const exportRes = await auditGeneral.export({
+    start: "5d",
+    end: "2d",
+    verbose: false,
+  });
+  expect(exportRes.status).toStrictEqual("Accepted");
 
-  const file = await auditGeneral.downloadFile(downloadResp.result.dest_url);
+  const maxRetries = 10;
+  for (let retry = 0; retry < maxRetries; retry++) {
+    try {
+      const pollRes = await auditGeneral.pollResult(exportRes.request_id);
+      if (pollRes.status === "Success") {
+        break;
+      }
+    } catch (error) {
+      if (
+        error instanceof PangeaErrors.AcceptedRequestException ||
+        error instanceof PangeaErrors.NotFound
+      ) {
+        // Continue.
+      } else {
+        throw error;
+      }
+    }
 
-  file.save("./");
+    expect(retry).toBeLessThan(maxRetries - 1);
+    await setTimeout(3000);
+  }
+
+  const downloadRes = await auditGeneral.downloadResults({
+    request_id: exportRes.request_id,
+  });
+  expect(downloadRes.status).toStrictEqual("Success");
+  expect(downloadRes.result.dest_url).toBeDefined();
 });

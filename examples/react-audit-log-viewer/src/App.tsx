@@ -8,10 +8,10 @@ function App() {
   return (
     <div className="App">
       <BrandingThemeProvider
-        brandingId={import.meta.env.REACT_APP_PANGEA_BRANDING_ID}
+        brandingId={import.meta.env.VITE_APP_PANGEA_BRANDING_ID}
         auth={{
-          clientToken: import.meta.env.REACT_APP_PANGEA_CLIENT_TOKEN,
-          domain: import.meta.env.REACT_APP_PANGEA_SERVICE_DOMAIN,
+          clientToken: import.meta.env.VITE_APP_PANGEA_CLIENT_TOKEN,
+          domain: import.meta.env.VITE_APP_PANGEA_SERVICE_DOMAIN,
         }}
       >
         <Container sx={{ paddingTop: 4 }}>

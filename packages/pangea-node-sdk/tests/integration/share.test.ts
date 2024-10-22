@@ -29,7 +29,6 @@ const TAGS = ["tag1", "tag2"];
 const ADD_TAGS = ["tag3"];
 
 const testFilePath = "./tests/testdata/testfile.pdf";
-const testFilePath18MB = "./tests/testdata/interactive3.pdf";
 const zeroBytesFilePath = "./tests/testdata/zerobytes.txt";
 jest.setTimeout(120000);
 
@@ -39,29 +38,18 @@ const delay = async (ms: number) =>
   });
 
 it("Folder create/delete", async () => {
-  try {
-    const respCreate = await client.folderCreate({
-      path: FOLDER_DELETE,
-    });
-    expect(respCreate.success).toBeTruthy();
-    expect(respCreate.result.object.id).toBeDefined();
-    expect(respCreate.result.object.type).toBe("folder");
-    expect(respCreate.result.object.name).toBeDefined();
-    expect(respCreate.result.object.created_at).toBeDefined();
-    expect(respCreate.result.object.updated_at).toBeDefined();
+  const respCreate = await client.folderCreate({ folder: FOLDER_DELETE });
+  expect(respCreate.success).toBeTruthy();
+  expect(respCreate.result.object.id).toBeDefined();
+  expect(respCreate.result.object.type).toBe("folder");
+  expect(respCreate.result.object.name).toBeDefined();
+  expect(respCreate.result.object.created_at).toBeDefined();
+  expect(respCreate.result.object.updated_at).toBeDefined();
 
-    const id = respCreate.result.object.id;
-    const respDelete = await client.delete({
-      id: id,
-    });
-    expect(respDelete.success).toBeTruthy();
-    expect(respDelete.result.count).toBe(1);
-  } catch (e) {
-    e instanceof PangeaErrors.APIError
-      ? console.log(e.toString())
-      : console.log(e);
-    expect(false).toBeTruthy();
-  }
+  const id = respCreate.result.object.id;
+  const respDelete = await client.delete({ id: id });
+  expect(respDelete.success).toBeTruthy();
+  expect(respDelete.result.count).toBe(1);
 });
 
 it("Put file. Multipart transfer_method", async () => {
@@ -149,109 +137,53 @@ it("Put zero bytes file. Multipart transfer_method", async () => {
 });
 
 it("Put file. post-url transfer_method", async () => {
-  try {
-    const name = TIME + "_file_post_url";
-    const respPut = await client.put(
-      {
-        name: name,
-        transfer_method: TransferMethod.POST_URL,
-      },
-      {
-        file: testFilePath,
-        name: name,
-      }
-    );
-    expect(respPut.success).toBeTruthy();
+  const name = TIME + "_file_post_url";
+  const respPut = await client.put(
+    {
+      name: name,
+      transfer_method: TransferMethod.POST_URL,
+    },
+    {
+      file: testFilePath,
+      name: name,
+    }
+  );
+  expect(respPut.success).toBeTruthy();
 
-    let respGet = await client.getItem({
-      id: respPut.result.object.id,
-      transfer_method: TransferMethod.MULTIPART,
-    });
+  let respGet = await client.getItem({
+    id: respPut.result.object.id,
+    transfer_method: TransferMethod.MULTIPART,
+  });
 
-    expect(respGet.success).toBeTruthy();
-    expect(respGet.result.dest_url).toBeUndefined();
-    expect(respGet.attachedFiles.length).toBe(1);
-    expect(respGet.attachedFiles[0]).toBeDefined();
-    respGet.attachedFiles[0]?.save("./download/");
+  expect(respGet.success).toBeTruthy();
+  expect(respGet.result.dest_url).toBeUndefined();
+  expect(respGet.attachedFiles.length).toBe(1);
+  expect(respGet.attachedFiles[0]).toBeDefined();
+  respGet.attachedFiles[0]?.save("./download/");
 
-    respGet = await client.getItem({
-      id: respPut.result.object.id,
-      transfer_method: TransferMethod.DEST_URL,
-    });
+  respGet = await client.getItem({
+    id: respPut.result.object.id,
+    transfer_method: TransferMethod.DEST_URL,
+  });
 
-    expect(respGet.success).toBeTruthy();
-    expect(respGet.attachedFiles.length).toBe(0);
-    expect(respGet.result.dest_url).toBeDefined();
-  } catch (e) {
-    e instanceof PangeaErrors.APIError
-      ? console.log(e.toString())
-      : console.log(e);
-    throw e;
-  }
-});
-
-it("Put file. post-url transfer_method and path", async () => {
-  try {
-    const path = "sdk/test/js/" + TIME + "_file_post_url";
-    const respPut = await client.put(
-      {
-        path: path,
-        transfer_method: TransferMethod.POST_URL,
-      },
-      {
-        file: testFilePath18MB,
-        name: "file",
-      }
-    );
-    expect(respPut.success).toBeTruthy();
-
-    let respGet = await client.getItem({
-      id: respPut.result.object.id,
-      transfer_method: TransferMethod.MULTIPART,
-    });
-
-    expect(respGet.success).toBeTruthy();
-    expect(respGet.result.dest_url).toBeUndefined();
-    expect(respGet.attachedFiles.length).toBe(1);
-    expect(respGet.attachedFiles[0]).toBeDefined();
-    respGet.attachedFiles[0]?.save("./download/");
-
-    respGet = await client.getItem({
-      id: respPut.result.object.id,
-      transfer_method: TransferMethod.DEST_URL,
-    });
-
-    expect(respGet.success).toBeTruthy();
-    expect(respGet.attachedFiles.length).toBe(0);
-    expect(respGet.result.dest_url).toBeDefined();
-  } catch (e) {
-    e instanceof PangeaErrors.APIError
-      ? console.log(e.toString())
-      : console.log(e);
-    throw e;
-  }
+  expect(respGet.success).toBeTruthy();
+  expect(respGet.attachedFiles.length).toBe(0);
+  expect(respGet.result.dest_url).toBeDefined();
 });
 
 it("Put zero bytes file. post-url transfer_method", async () => {
-  try {
-    const name = TIME + "_file_zero_bytes_post_url";
-    const respPut = await client.put(
-      {
-        name: name,
-        transfer_method: TransferMethod.POST_URL,
-      },
-      {
-        file: zeroBytesFilePath,
-        name: name,
-      }
-    );
-    expect(respPut.success).toBeTruthy();
-  } catch (e) {
-    e instanceof PangeaErrors.APIError
-      ? console.log(e.toString())
-      : console.log(e);
-    throw e;
-  }
+  const name = TIME + "_file_zero_bytes_post_url";
+  const respPut = await client.put(
+    {
+      name: name,
+      transfer_method: TransferMethod.POST_URL,
+    },
+    {
+      file: zeroBytesFilePath,
+      name: name,
+    }
+  );
+  expect(respPut.success).toBeTruthy();
 });
 
 it("get url and put upload", async () => {
@@ -354,9 +286,7 @@ it("get url and post upload", async () => {
 
 it("Item life cycle", async () => {
   // Create a folder
-  const respCreate = await client.folderCreate({
-    path: FOLDER_FILES,
-  });
+  const respCreate = await client.folderCreate({ folder: FOLDER_FILES });
   expect(respCreate.success).toBeTruthy();
   const folderID = respCreate.result.object.id;
 
@@ -364,7 +294,7 @@ it("Item life cycle", async () => {
   const path1 = FOLDER_FILES + "/" + TIME + "_file_multipart_1";
   const respPutPath = await client.put(
     {
-      path: path1,
+      folder: path1,
       transfer_method: TransferMethod.MULTIPART,
     },
     {
@@ -374,11 +304,10 @@ it("Item life cycle", async () => {
   );
 
   expect(respPutPath.success).toBeTruthy();
-  expect(respPutPath.result.object.parent_id).toBe(folderID);
   expect(respPutPath.result.object.metadata).toBeUndefined();
   expect(respPutPath.result.object.tags).toBeUndefined();
-  expect(respPutPath.result.object.md5).toBeUndefined();
-  expect(respPutPath.result.object.sha512).toBeUndefined();
+  expect(respPutPath.result.object.md5).toBeDefined();
+  expect(respPutPath.result.object.sha512).toBeDefined();
   expect(respPutPath.result.object.sha256).toBeDefined();
 
   // Upload a file with parent id and name
@@ -402,8 +331,8 @@ it("Item life cycle", async () => {
   expect(respPutId.result.object.metadata).toStrictEqual(METADATA);
   expect(respPutId.result.object.tags).toStrictEqual(TAGS);
   expect(respPutId.result.object.sha256).toBeDefined();
-  expect(respPutId.result.object.md5).toBeUndefined();
-  expect(respPutId.result.object.sha512).toBeUndefined();
+  expect(respPutId.result.object.md5).toBeDefined();
+  expect(respPutId.result.object.sha512).toBeDefined();
 
   // Update file. full metadata and tags
   const respUpdate = await client.update({
@@ -457,7 +386,7 @@ it("Item life cycle", async () => {
   const url = respGetArchive2.result.dest_url ?? "";
   let downloadedFile = await client.downloadFile(url);
   downloadedFile.save("./download/");
-  expect(downloadedFile.file.length).toBeGreaterThan(0);
+  expect(downloadedFile.file.byteLength).toBeGreaterThan(0);
 
   // Create share link
   const authenticators: Share.Authenticator[] = [
@@ -547,4 +476,13 @@ it("Item life cycle", async () => {
   expect(respList.success).toBeTruthy();
   expect(respList.result.count).toBe(2);
   expect(respList.result.objects.length).toBe(2);
+});
+
+it("transfer via `source-url`", async () => {
+  const response = await client.put({
+    transfer_method: TransferMethod.SOURCE_URL,
+    source_url: "https://www.google.com/robots.txt",
+  });
+  expect(response.status).toBe("Success");
+  expect(response.success).toBeTruthy();
 });

@@ -7,12 +7,14 @@ import { AuthFlowComponentProps } from "@src/features/AuthFlow/types";
 import Button from "@src/components/core/Button";
 import ErrorMessage from "../ErrorMessage";
 import { BodyText, ErrorText } from "@src/components/core/Text";
+import EmailForm from "../EmailForm";
 
 const AuthMagicLink: FC<AuthFlowComponentProps> = (props) => {
   const { data, error, loading, update, restart } = props;
 
   const [checked, setChecked] = useState<boolean>(false);
   const [status, setStatus] = useState<string>("");
+  const [showEmail, setShowEmail] = useState<boolean>(false);
 
   useEffect(() => {
     if (checked) {
@@ -20,6 +22,10 @@ const AuthMagicLink: FC<AuthFlowComponentProps> = (props) => {
       setTimeout(() => {
         setStatus("");
       }, 3000);
+    }
+
+    if (!data?.magiclink?.need_email) {
+      setShowEmail(false);
     }
   }, [data]);
 
@@ -32,11 +38,26 @@ const AuthMagicLink: FC<AuthFlowComponentProps> = (props) => {
     restart(AuthFlow.Choice.MAGICLINK);
   };
 
+  const changeEmail = () => {
+    setShowEmail(true);
+  };
+
   useEffect(() => {
-    if (data?.magiclink?.sent === false) {
+    if (!data?.magiclink?.sent && !data?.magiclink?.need_email) {
       sendLink();
     }
   }, []);
+
+  if (!!data?.magiclink?.need_email || showEmail) {
+    return (
+      <Stack gap={1}>
+        <BodyText sxProps={{ padding: "0 16px" }}>
+          Enter an email for Magic Link verification.
+        </BodyText>
+        <EmailForm {...props} choice={AuthFlow.Choice.MAGICLINK} />
+      </Stack>
+    );
+  }
 
   return (
     <Stack gap={1}>
@@ -68,6 +89,12 @@ const AuthMagicLink: FC<AuthFlowComponentProps> = (props) => {
           Verify
         </Button>
       </Stack>
+      {data.usernameFormat !== AuthFlow.UsernameFormat.EMAIL &&
+        data.emailOtp?.enrollment && (
+          <Button variant="text" onClick={changeEmail}>
+            Change email address
+          </Button>
+        )}
     </Stack>
   );
 };

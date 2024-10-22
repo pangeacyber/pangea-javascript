@@ -1,10 +1,10 @@
 import PangeaResponse from "@src/response.js";
 import BaseService from "@src/services/base.js";
 import PangeaConfig from "@src/config.js";
-import { AuthN } from "@src/types.js";
+import { AuthN, PangeaToken } from "@src/types.js";
 
 export default class ClientPassword extends BaseService {
-  constructor(token: string, config: PangeaConfig) {
+  constructor(token: PangeaToken, config: PangeaConfig) {
     super("authn", token, config);
   }
 
@@ -37,5 +37,20 @@ export default class ClientPassword extends BaseService {
       new_password: newPassword,
     };
     return this.post("v2/client/password/change", data);
+  }
+
+  /**
+   * @summary Expire a user's password
+   * @description Expire a user's password.
+   * @operationId authn_post_v2_user_password_expire
+   * @param id The identity of a user or a service.
+   * @returns A `Promise` of an empty response.
+   * @example
+   * ```js
+   * await authn.client.password.expire("pui_[...]");
+   * ```
+   */
+  expire(id: string): Promise<PangeaResponse<{}>> {
+    return this.post("v2/user/password/expire", { id });
   }
 }

@@ -4,29 +4,10 @@ import fs from "node:fs";
 
 import { crc32c } from "@aws-crypto/crc32c";
 import CryptoJS from "crypto-js";
+import serialize from "json-canon";
 
 import { PangeaErrors } from "@src/errors.js";
 import { FileScan } from "@src/types.js";
-
-function orderKeysRecursive(obj: Object) {
-  const orderedEntries = Object.entries(obj).sort((a, b) =>
-    a[0].localeCompare(b[0])
-  );
-  orderedEntries.forEach((value) => {
-    if (value[1] instanceof Object) {
-      value[1] = orderKeysRecursive(value[1]);
-    }
-  });
-  const orderedObj = Object.fromEntries(orderedEntries);
-  return orderedObj;
-}
-
-var replacer = function (this: any, key: string, value: any) {
-  if (this[key] instanceof Date) {
-    return this[key].toISOString();
-  }
-  return value;
-};
 
 export function eventOrderAndStringifySubfields(obj: Object) {
   const orderedEntries = Object.entries(obj).sort((a, b) =>
@@ -36,18 +17,17 @@ export function eventOrderAndStringifySubfields(obj: Object) {
     if (value[1] instanceof Date) {
       value[1] = value[1].toISOString();
     } else if (value[1] instanceof Object) {
-      value[1] = JSON.stringify(value[1], replacer); // This is to stringify JSON objects in the same way server do
+      value[1] = canonicalize(value[1]); // This is to stringify JSON objects in the same way server do
     }
   });
-  const orderedObj = Object.fromEntries(orderedEntries);
-  return orderedObj;
+  return Object.fromEntries(orderedEntries);
 }
 
 export function canonicalize(obj: Object): string {
-  return JSON.stringify(orderKeysRecursive(obj), replacer);
+  return serialize(obj);
 }
 
-export function canonicalizeEnvelope(obj: Object) {
+export function canonicalizeEnvelope(obj: Object): string {
   const objCopy = JSON.parse(JSON.stringify(obj));
   if (objCopy.event !== undefined) {
     objCopy.event = eventOrderAndStringifySubfields(objCopy.event);
@@ -55,7 +35,7 @@ export function canonicalizeEnvelope(obj: Object) {
   return canonicalize(objCopy);
 }
 
-export function canonicalizeEvent(obj: Object) {
+export function canonicalizeEvent(obj: Object): string {
   return canonicalize(eventOrderAndStringifySubfields(obj));
 }
 
@@ -137,7 +117,7 @@ export function getConfigID(
   environment: string,
   service: string,
   configNumber: number
-) {
+): string {
   const name =
     `PANGEA_${service.toUpperCase()}_CONFIG_ID_${configNumber}_` + environment;
   return loadEnvVar(name);

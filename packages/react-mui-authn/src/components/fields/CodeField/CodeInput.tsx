@@ -1,6 +1,5 @@
 import { Stack, TextField } from "@mui/material";
-import React, { FC, useRef, useState, useEffect } from "react";
-import { useTheme } from "@mui/material/styles";
+import React, { FC, useRef, useState, useEffect, useMemo } from "react";
 
 interface CodeInputProps {
   length?: number;
@@ -17,7 +16,6 @@ const CodeInput: FC<CodeInputProps> = ({
   onFinish,
   disabled = false,
 }) => {
-  const theme = useTheme();
   const [values, setValues] = useState<Record<number, string>>({});
   const inputRefs = useRef<Record<number, HTMLDivElement | null>>({});
   const inputs = Array(0, 1, 2, 3, 4, 5);
@@ -49,6 +47,12 @@ const CodeInput: FC<CodeInputProps> = ({
 
     if (newValue !== value) onChange(newValue);
   }, [values]);
+
+  const inputName = useMemo(() => {
+    return Math.random()
+      .toString(36)
+      .replace(/[^a-z0-9]/g, "");
+  }, []);
 
   const getInputs = (
     inputId: number
@@ -127,11 +131,13 @@ const CodeInput: FC<CodeInputProps> = ({
   };
 
   const handlePaste = (e: React.ClipboardEvent) => {
-    const clip = e.clipboardData.getData("text");
-    if (!/\d{6}/.test(clip)) return;
     e.preventDefault();
+    const clip = e.clipboardData.getData("text");
+    const cleanedClip = clip.trim().replace(/(\r\n|\n|\r)/gm, "");
 
-    const s = clip.split("");
+    if (!/\d{6}/.test(cleanedClip)) return;
+
+    const s = cleanedClip.split("");
     inputs.map((inputId, idx) => {
       setValues((state) => ({
         ...state,
@@ -151,10 +157,12 @@ const CodeInput: FC<CodeInputProps> = ({
             inputRef={(ref) => {
               inputRefs.current[inputId] = ref;
             }}
+            name={`otp-input-${inputName}`}
             inputProps={{
-              autoComplete: "new-password",
+              autoComplete: "one-time-code",
+              inputMode: "numeric",
               form: {
-                autoComplete: "off",
+                autoComplete: "one-time-code",
               },
             }}
             sx={{

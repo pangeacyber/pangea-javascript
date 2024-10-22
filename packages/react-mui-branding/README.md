@@ -10,7 +10,7 @@
 <br />
 
 [![documentation](https://img.shields.io/badge/documentation-pangea-blue?style=for-the-badge&labelColor=551B76)](https://pangea.cloud/docs/sdk/js/)
-[![Slack](https://img.shields.io/badge/Slack-4A154B?style=for-the-badge&logo=slack&logoColor=white)](https://pangea.cloud/join-slack/)
+[![Discourse](https://img.shields.io/badge/Discourse-4A154B?style=for-the-badge&logo=discourse&logoColor=white)](https://l.pangea.cloud/Jd4wlGs)
 
 <br />
 </p>
@@ -59,6 +59,8 @@ The BrandingThemeProvider component accepts the following props:
   - domain: string;
 - brandingId (optional): Found in the Project -> Branding page within console is required along with "auth" in order to retrieve Pangea branding configurations.
 - ThemeProviderProps (optional): An object container MUI ThemeProvider props overrides
+- themeOptions (optional): A partial ThemeOptions object that is merged with the fetched branding configurations ThemeOptions, using lodash/merge. Can override parts of the Pangea branding built MUI ThemeOptions
+- overrideThemeOptions (optional): A post hook over the final fetched ThemeOptions before createTheme is called
 
 For a deeper dive into the Prop interface check the source code [here](https://github.com/pangeacyber/pangea-javascript/blob/main/packages/react-mui-branding/src/components/BrandingThemeProvider/index.tsx)
 
@@ -69,6 +71,11 @@ The following is a brief example on how to initialize the AuditLogViewer compone
 ```jsx
 import React from "react";
 import { BrandingThemeProvider } from "@pangeacyber/react-mui-branding";
+import {
+  Audit,
+  AuditLogViewerProps,
+  AuditLogViewer,
+} from "@pangeacyber/react-mui-audit-log-viewer";
 
 const MyComponent: React.FC = () => {
   return (
@@ -78,7 +85,13 @@ const MyComponent: React.FC = () => {
         clientToken: process.env.REACT_APP_CLIENT_TOKEN,
         domain: "aws.us.pangea.cloud",
       }}
-    />
+    >
+      <AuditLogViewer
+        initialQuery="message:testing"
+        onSearch={handleSearch}
+        onPageChange={handlePageChange}
+      />
+    </BrandingThemeProvider>
   );
 };
 ```
@@ -86,3 +99,5 @@ const MyComponent: React.FC = () => {
 ### Customization
 
 The BrandingThemeProvider component is primarily a light wrapper around the Material-UI component library, ThemeProvider component. so styling of the component can be controlled through a MUI Theme. See Theming documentation [here](https://mui.com/material-ui/customization/theming/)
+
+We additionally export utility functions such as `fetchBrandingThemeOptions(auth, brandingId, themeOptions = {}, themeOptionsHook = noop) -> Theme`, which accepts the same interfaces as the BrandingThemeProvider, to allow you to fetch the Pangea branding MUI Theme outside of react, can be fetched server-side, such that the Theme can be directly passed in ThemeProvider for Material-UI.
