@@ -464,7 +464,7 @@ __metadata:
     "@parcel/transformer-typescript-types": "npm:^2.12.0"
     "@parcel/utils": "npm:^2.12.0"
     "@tsconfig/strictest": "npm:^2.0.5"
-    "@types/lodash": "npm:^4.17.10"
+    "@types/lodash": "npm:^4.17.12"
     "@types/react": "npm:^18.3.11"
     jose: "npm:^5.9.4"
     lodash: "npm:^4.17.21"
@@ -1589,7 +1589,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/lodash@npm:^4.17.10":
+"@types/lodash@npm:^4.17.12":
   version: 4.17.12
   resolution: "@types/lodash@npm:4.17.12"
   checksum: 10c0/106008f628ea3c74ed7ee7842dee79e230c84e3721ac38c293700031adb5bd130113048c22f476dbde0d0c119506b0fc447d4bd62eca922682d11e00e1377967
