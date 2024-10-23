@@ -40,13 +40,13 @@ guarantees as stable releases. [Beta changelog](https://github.com/pangeacyber/p
 Via npm:
 
 ```bash
-$ npm install pangea-node-sdk@3.8.0-beta.2
+$ npm install pangea-node-sdk@4.2.0-beta.1
 ```
 
 Via yarn:
 
 ```bash
-$ yarn add pangea-node-sdk@3.8.0-beta.2
+$ yarn add pangea-node-sdk@4.2.0-beta.1
 ```
 
 ## Usage
