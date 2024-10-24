@@ -63,7 +63,7 @@ jobs:
         with:
           node-version: 20
           cache: yarn
-          cache-dependency-path: ./packages/pangea-node-sdk/yarn.lock
+          cache-dependency-path: yarn.lock
 
       - name: Install dependencies
         run: yarn install --immutable
@@ -370,7 +370,7 @@ jobs:
         with:
           node-version: ${{ matrix.node-version }}
           cache: yarn
-          cache-dependency-path: ./packages/pangea-node-sdk/yarn.lock
+          cache-dependency-path: yarn.lock
 
       - name: Install dependencies
         run: yarn install --immutable
@@ -396,7 +396,7 @@ jobs:
         with:
           node-version: 20
           cache: yarn
-          cache-dependency-path: ./packages/pangea-node-sdk/yarn.lock
+          cache-dependency-path: yarn.lock
 
       - name: Install dependencies
         run: yarn install --immutable
@@ -463,7 +463,7 @@ jobs:
         with:
           node-version: 22
           cache: yarn
-          cache-dependency-path: ./examples/react-audit-log-viewer/yarn.lock
+          cache-dependency-path: yarn.lock
 
       - name: Install dependencies
         run: yarn install --immutable
