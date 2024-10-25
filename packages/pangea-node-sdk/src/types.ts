@@ -310,7 +310,7 @@ export namespace DataGuard {
     malicious_domain_count: number;
     malicious_ip_count: number;
     malicious_url_count: number;
-    redacted_item_count: number;
+    matched_rules_count: number;
   }
 
   export interface TextGuardFindings {
@@ -377,10 +377,6 @@ export namespace DataGuard {
     // `debug=true` only.
     report?: TextGuardReport;
   }
-
-  export interface FileGuardRequest {
-    file_url: string;
-  }
 }
 
 export namespace PromptGuard {
@@ -394,9 +390,10 @@ export namespace PromptGuard {
   }
 
   export interface GuardResult {
-    prompt_injection_detected: boolean;
-    prompt_injection_type?: string;
-    prompt_injection_detector?: string;
+    detected: boolean;
+    injection_type?: string;
+    detector?: string;
+    confidence: number;
   }
 }
 

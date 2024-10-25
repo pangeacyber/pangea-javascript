@@ -27,7 +27,7 @@ export class DataGuardService extends BaseService {
   /**
    * @summary Text guard (Beta)
    * @description Undocumented.
-   * @operationId data_guard_post_v1_text_guard
+   * @operationId data_guard_post_v1beta_text_guard
    * @param request Request parameters.
    * @example
    * ```ts
@@ -39,23 +39,7 @@ export class DataGuardService extends BaseService {
   guardText(
     request: DataGuard.TextGuardRequest
   ): Promise<PangeaResponse<DataGuard.TextGuardResult>> {
-    return this.post("v1/text/guard", request);
-  }
-
-  /**
-   * @summary File guard (Beta)
-   * @description Undocumented.
-   * @operationId data_guard_post_v1_file_guard
-   * @param request Request parameters.
-   * @example
-   * ```ts
-   * const response = await dataGuard.guardFile({
-   *   file_url: "https://example.org/file.txt",
-   * });
-   * ```
-   */
-  guardFile(request: DataGuard.FileGuardRequest): Promise<PangeaResponse<{}>> {
-    return this.post("v1/file/guard", request);
+    return this.post("v1beta/text/guard", request);
   }
 }
 
