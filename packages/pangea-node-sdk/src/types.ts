@@ -310,7 +310,7 @@ export namespace DataGuard {
     malicious_domain_count: number;
     malicious_ip_count: number;
     malicious_url_count: number;
-    matched_rules_count: number;
+    redact_rule_match_count: number;
   }
 
   export interface TextGuardFindings {
