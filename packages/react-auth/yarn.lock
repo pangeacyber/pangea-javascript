@@ -466,7 +466,7 @@ __metadata:
     "@tsconfig/strictest": "npm:^2.0.5"
     "@types/lodash": "npm:^4.17.12"
     "@types/react": "npm:^18.3.11"
-    jose: "npm:^5.9.4"
+    jose: "npm:^5.9.6"
     lodash: "npm:^4.17.21"
     parcel: "npm:^2.12.0"
     publint: "npm:0.2.11"
@@ -2707,7 +2707,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"jose@npm:^5.9.4":
+"jose@npm:^5.9.6":
   version: 5.9.6
   resolution: "jose@npm:5.9.6"
   checksum: 10c0/d6bcd8c7d655b5cda8e182952a76f0c093347f5476d74795405bb91563f7ab676f61540310dd4b1531c60d685335ceb600571a409551d2cbd2ab3e9f9fbf1e4d

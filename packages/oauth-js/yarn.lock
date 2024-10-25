@@ -189,7 +189,7 @@ __metadata:
     "@parcel/packager-ts": "npm:^2.12.0"
     "@parcel/transformer-typescript-types": "npm:2.12.0"
     "@types/typescript": "npm:^2.0.0"
-    jose: "npm:^5.9.4"
+    jose: "npm:^5.9.6"
     parcel: "npm:^2.12.0"
     typescript: "npm:^5.6.3"
   languageName: unknown
@@ -2014,7 +2014,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"jose@npm:^5.9.4":
+"jose@npm:^5.9.6":
   version: 5.9.6
   resolution: "jose@npm:5.9.6"
   checksum: 10c0/d6bcd8c7d655b5cda8e182952a76f0c093347f5476d74795405bb91563f7ab676f61540310dd4b1531c60d685335ceb600571a409551d2cbd2ab3e9f9fbf1e4d

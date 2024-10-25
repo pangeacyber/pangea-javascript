@@ -1,6 +1,12 @@
 build_react_mui_share_file_viewer:
   stage: build
   image: node:22.10.0@sha256:da53547a061beb7f11f58ee2231589b999acfca89bdf6dfd740627340c879f63
+  timeout: 10m
+  retry:
+    max: 2
+    when:
+      - job_execution_timeout
+      - stuck_or_timeout_failure
   script:
     - cd packages/react-mui-share-file-viewer
     - yarn install --frozen-lockfile
