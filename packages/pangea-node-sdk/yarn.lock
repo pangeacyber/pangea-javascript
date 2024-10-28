@@ -1357,12 +1357,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/node@npm:18.19.57":
-  version: 18.19.57
-  resolution: "@types/node@npm:18.19.57"
+"@types/node@npm:18.19.59":
+  version: 18.19.59
+  resolution: "@types/node@npm:18.19.59"
   dependencies:
     undici-types: "npm:~5.26.4"
-  checksum: 10c0/b2f959899308c1d0145f831ef9b08d7dbed49641b50847a511f5ed0ca6628a3a40fb5540d906458247a49d1d6453b6fbc7d7b5b4f3095ece826ab7efb1e0ee4f
+  checksum: 10c0/6ef007a560b505eea8285f84cd9f689c6ec209ec15462bbc0a5cc9b69d19bcc6e0795ef74cd4edc77aac8d52001a49969f94a3cb4b26ff5987da943b835b9456
   languageName: node
   linkType: hard
 
@@ -5636,7 +5636,7 @@ __metadata:
     "@tsconfig/node18": "npm:18.2.4"
     "@types/crypto-js": "npm:^4.2.2"
     "@types/jest": "npm:29.5.13"
-    "@types/node": "npm:18.19.57"
+    "@types/node": "npm:18.19.59"
     "@types/promise-retry": "npm:1.1.6"
     "@typescript-eslint/eslint-plugin": "npm:8.11.0"
     "@typescript-eslint/parser": "npm:8.11.0"
