@@ -14,6 +14,10 @@ build_react_mui_share_file_viewer:
   artifacts:
     paths: ["packages/react-mui-share-file-viewer/dist"]
     when: on_success
+  rules:
+    - changes:
+        - packages/react-mui-share-file-viewer/**/*
+      when: always
 
 publish_react_mui_share_file_viewer:
   needs: [build_react_mui_share_file_viewer]
