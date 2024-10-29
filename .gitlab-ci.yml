@@ -1,7 +1,16 @@
+variables:
+  YARN_CACHE_FOLDER: "${CI_PROJECT_DIR}/.yarn/cache/"
+
 default:
   image: node:18.20.5@sha256:83eb05700940a88b14f21fb31cc92e9571a34b1db1a5d8781b466fc26cbb1472
   tags:
     - pangea-internal
+  cache:
+    key:
+      files:
+        - yarn.lock
+    paths:
+      - ${YARN_CACHE_FOLDER}
 
 stages:
   - build
