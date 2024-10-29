@@ -3,12 +3,6 @@
     - cd packages/pangea-node-sdk
     - corepack enable
     - yarn install --immutable
-  cache:
-    - key:
-        files:
-          - packages/pangea-node-sdk/yarn.lock
-      paths:
-        - packages/pangea-node-sdk/node_modules
   rules:
     - changes:
         - examples/**/*
@@ -59,12 +53,6 @@ pangea-node-sdk-integration-tests:
     - cd packages/pangea-node-sdk
     - corepack enable
     - yarn install --immutable
-  cache:
-    - key:
-        files:
-          - packages/pangea-node-sdk/yarn.lock
-      paths:
-        - packages/pangea-node-sdk/node_modules
   parallel:
     matrix:
       - CLOUD: [AWS]
@@ -144,6 +132,7 @@ pangea-node-sdk-pack:
 
 pangea-node-sdk-lint:
   extends: .pangea-node-sdk-base
+  needs: []
   stage: lint
   script:
     - yarn lint
@@ -151,12 +140,6 @@ pangea-node-sdk-lint:
 pangea-node-sdk-publish:
   needs: [pangea-node-sdk-build, pangea-node-sdk-pack]
   stage: publish
-  cache:
-    - key:
-        files:
-          - packages/pangea-node-sdk/yarn.lock
-      paths:
-        - packages/pangea-node-sdk/node_modules
   script:
     - apt update -y
     - apt install -y jq

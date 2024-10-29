@@ -1,15 +1,12 @@
 {
-  "name": "intel_examples",
-  "version": "2.0.0",
-  "description": "Pangea Intel Services examples",
-  "main": "index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
+  "name": "@pangeacyber/file-scan-examples",
+  "version": "0.0.0-development",
+  "description": "Pangea File Scan examples",
+  "private": true,
   "author": "Pangea",
   "license": "MIT",
-  "packageManager": "yarn@1.22.22",
+  "packageManager": "yarn@4.5.1",
   "dependencies": {
-    "pangea-node-sdk": "4.4.0"
+    "pangea-node-sdk": "workspace:^"
   }
 }
