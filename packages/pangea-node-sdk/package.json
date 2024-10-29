@@ -41,7 +41,7 @@
     "@tsconfig/node18": "18.2.4",
     "@types/crypto-js": "^4.2.2",
     "@types/jest": "29.5.14",
-    "@types/node": "18.19.59",
+    "@types/node": "22.8.1",
     "@types/promise-retry": "1.1.6",
     "@typescript-eslint/eslint-plugin": "8.11.0",
     "@typescript-eslint/parser": "8.11.0",
