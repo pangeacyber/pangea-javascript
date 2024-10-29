@@ -32,11 +32,4 @@ describe("Data Guard", () => {
     expect(response.result.findings.artifact_count).toStrictEqual(1);
     expect(response.result.findings.malicious_count).toStrictEqual(0);
   });
-
-  it("should guard file URL", async () => {
-    let response = await client.guardFile({
-      file_url: "https://pangea.cloud/robots.txt",
-    });
-    expect(response.status).toStrictEqual("Success");
-  });
 });

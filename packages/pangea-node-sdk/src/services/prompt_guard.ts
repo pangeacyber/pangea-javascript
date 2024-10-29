@@ -27,7 +27,7 @@ export class PromptGuardService extends BaseService {
   /**
    * @summary Guard (Beta)
    * @description Undocumented.
-   * @operationId prompt_guard_post_v1_guard
+   * @operationId prompt_guard_post_v1beta_guard
    * @param request Request parameters.
    * @example
    * ```ts
@@ -39,7 +39,7 @@ export class PromptGuardService extends BaseService {
   guard(
     request: PromptGuard.GuardRequest
   ): Promise<PangeaResponse<PromptGuard.GuardResult>> {
-    return this.post("v1/guard", request);
+    return this.post("v1beta/guard", request);
   }
 }
 
