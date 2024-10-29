@@ -233,8 +233,8 @@ jobs:
       - name: Storybook
         run: yarn build-storybook
 
-  build-react-mui-share-file-viewer-docs:
-    runs-on: ubuntu-latest
+  build-react-mui-share-file-viewer:
+    runs-on: ubuntu-24.04
     defaults:
       run:
         working-directory: ./packages/react-mui-share-file-viewer
@@ -248,48 +248,30 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v4.0.4
         with:
-          node-version: 20
+          node-version: 22
           cache: yarn
           cache-dependency-path: ./packages/react-mui-share-file-viewer/yarn.lock
 
       - name: Install dependencies
         run: yarn install --frozen-lockfile
-
-      - name: Build Docs
-        run: yarn build-docs
-
-      - name: Upload Docs
-        uses: actions/upload-artifact@v4.4.3
-        with:
-          name: react-mui-share-file-viewer-docs
-          path: ./packages/react-mui-share-file-viewer/docs/
-
-  build-react-mui-share-file-viewer:
-    runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: ./packages/react-mui-share-file-viewer
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v4.2.2
-
-      - name: Setup Node.js
-        uses: actions/setup-node@v4.0.4
-        with:
-          node-version: 20
-          cache: yarn
-          cache-dependency-path: ./packages/react-mui-share-file-viewer/yarn.lock
-
-      - name: Install dependencies
-        run: yarn install --frozen-lockfile
-
-      - run: yarn list
 
       - name: Build
         run: yarn build
 
-      - name: Storybook
+      - name: Build Storybook
         run: yarn build-storybook
+
+      - name: Build docs
+        run: yarn build-docs
+
+      - name: publint
+        run: yarn lint-publint
+
+      - name: Upload docs
+        uses: actions/upload-artifact@v4.4.3
+        with:
+          name: react-mui-share-file-viewer-docs
+          path: ./packages/react-mui-share-file-viewer/docs/
 
   build-vanilla-js:
     runs-on: ubuntu-latest

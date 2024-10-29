@@ -1,6 +1,6 @@
 {
   "name": "@pangeacyber/react-mui-share-file-viewer",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "An extension of material ui data-grid for Pangea share file objects",
   "main": "dist/cjs/index.js",
   "module": "dist/esm/index.js",
@@ -16,10 +16,12 @@
   },
   "packageManager": "yarn@1.22.22",
   "scripts": {
+    "clean": "rimraf dist",
     "storybook": "storybook dev -p 6006",
     "build-storybook": "storybook build",
-    "build": "cross-env NODE_ENV=production rollup -c",
-    "build-docs": "typedoc --plugin typedoc-plugin-rename-defaults"
+    "build": "yarn clean && cross-env NODE_ENV=production rollup -c",
+    "build-docs": "typedoc --plugin typedoc-plugin-rename-defaults",
+    "lint-publint": "publint"
   },
   "devDependencies": {
     "@emotion/react": "^11.13.3",
@@ -43,18 +45,20 @@
     "@types/react-dom": "^18.3.1",
     "cross-env": "^7.0.3",
     "postcss": "^8.4.47",
+    "publint": "0.2.12",
     "react": "17.0.2",
     "react-dom": "17.0.2",
+    "rimraf": "6.0.1",
     "rollup": "4.24.0",
     "rollup-plugin-dts": "6.1.1",
     "rollup-plugin-peer-deps-external": "^2.2.4",
     "rollup-plugin-polyfill-node": "^0.13.0",
     "rollup-plugin-postcss": "^4.0.2",
     "storybook": "^7.6.20",
+    "typedoc": "0.26.10",
+    "typedoc-plugin-rename-defaults": "0.7.1",
     "typescript": "^5.6.3",
-    "vite": "^5.4.9",
-    "typedoc": "^0.26.10",
-    "typedoc-plugin-rename-defaults": "^0.7.1"
+    "vite": "5.4.9"
   },
   "dependencies": {
     "@pangeacyber/react-mui-shared": "0.0.67",
