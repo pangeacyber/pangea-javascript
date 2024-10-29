@@ -2278,9 +2278,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@mui/x-date-pickers@npm:^7.21.0":
-  version: 7.21.0
-  resolution: "@mui/x-date-pickers@npm:7.21.0"
+"@mui/x-date-pickers@npm:^7.22.0":
+  version: 7.22.0
+  resolution: "@mui/x-date-pickers@npm:7.22.0"
   dependencies:
     "@babel/runtime": "npm:^7.25.7"
     "@mui/utils": "npm:^5.16.6 || ^6.0.0"
@@ -2322,7 +2322,7 @@ __metadata:
       optional: true
     moment-jalaali:
       optional: true
-  checksum: 10c0/a54a5a872977583329ebf7f61615d599bc7d79eaecee089a5aacd79a6f8bb2b930acadc31e63c112e952795bd65f36b7b879a685c8e064b000c5b205a6234f14
+  checksum: 10c0/7b5ba6a2b523956631219af912f0689e2f24e3d0023aa7bcb285c20065b6160c829879a9c21d19697e1622c0b8a42dd311bd53e2c8f877a5fb96d3eeff011c5e
   languageName: node
   linkType: hard
 
@@ -2411,7 +2411,7 @@ __metadata:
     "@mui/icons-material": "npm:^5.16.7"
     "@mui/material": "npm:^5.16.7"
     "@mui/types": "npm:^7.2.18"
-    "@mui/x-date-pickers": "npm:^7.21.0"
+    "@mui/x-date-pickers": "npm:^7.22.0"
     "@pangeacyber/react-mui-branding": "npm:0.0.18"
     "@pangeacyber/vanilla-js": "npm:0.1.11"
     "@rollup/plugin-babel": "npm:6.0.4"

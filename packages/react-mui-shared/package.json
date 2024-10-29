@@ -57,7 +57,7 @@
   },
   "dependencies": {
     "@loadable/component": "^5.16.4",
-    "@mui/x-data-grid": "^7.21.0",
+    "@mui/x-data-grid": "^7.22.0",
     "@mui/x-date-pickers": "^6.20.2",
     "dayjs": "^1.11.13",
     "formik": "^2.4.6",

@@ -2,18 +2,13 @@
   image: node:20.15.1@sha256:6326b52a508f0d99ffdbfaa29a69380321b215153db6f32974835bac71b38fa4
   before_script:
     - cd packages/webcomponents
-    - yarn install --frozen-lockfile
+    - yarn install --immutable
     - apt-get -qq update
     - apt-get install -y jq
-  cache:
-    - key:
-        files:
-          - packages/webcomponents/yarn.lock
-      paths:
-        - packages/webcomponents/node_modules
 
 publish_webcomponents:
   extends: .webcomponents_base
+  needs: []
   stage: publish
   script:
     - cp ../../scripts/publish.sh .
@@ -27,6 +22,7 @@ publish_webcomponents:
 
 tag_webcomponents:
   extends: .webcomponents_base
+  needs: [publish_webcomponents]
   stage: tag_release
   script:
     - apt install -y python3 python3-github
