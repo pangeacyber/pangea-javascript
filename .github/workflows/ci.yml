@@ -36,7 +36,7 @@ jobs:
 
     steps:
       - name: Checkout code
-        uses: actions/checkout@v4.2.1
+        uses: actions/checkout@v4.2.2
 
       - name: Calculate `examples-matrix` output
         id: examples-matrix
@@ -53,13 +53,13 @@ jobs:
         working-directory: ./packages/pangea-node-sdk
     steps:
       - name: Checkout code
-        uses: actions/checkout@v4.2.1
+        uses: actions/checkout@v4.2.2
 
       - name: Enable Corepack
         run: corepack enable
 
       - name: Setup Node.js
-        uses: actions/setup-node@v4.0.4
+        uses: actions/setup-node@v4.1.0
         with:
           node-version: 20
           cache: yarn
@@ -87,13 +87,13 @@ jobs:
         working-directory: ./packages/react-auth
     steps:
       - name: Checkout code
-        uses: actions/checkout@v4.2.1
+        uses: actions/checkout@v4.2.2
 
       - name: Enable Corepack
         run: corepack enable
 
       - name: Setup Node.js
-        uses: actions/setup-node@v4.0.4
+        uses: actions/setup-node@v4.1.0
         with:
           node-version: 20
           cache: yarn
@@ -136,13 +136,13 @@ jobs:
         working-directory: ./packages/react-mui-audit-log-viewer
     steps:
       - name: Checkout code
-        uses: actions/checkout@v4.2.1
+        uses: actions/checkout@v4.2.2
 
       - name: Enable Corepack
         run: corepack enable
 
       - name: Setup Node.js
-        uses: actions/setup-node@v4.0.4
+        uses: actions/setup-node@v4.1.0
         with:
           node-version: 20
           cache: yarn
@@ -170,13 +170,13 @@ jobs:
         working-directory: ./packages/react-mui-authn
     steps:
       - name: Checkout code
-        uses: actions/checkout@v4.2.1
+        uses: actions/checkout@v4.2.2
 
       - name: Enable Corepack
         run: corepack enable
 
       - name: Setup Node.js
-        uses: actions/setup-node@v4.0.4
+        uses: actions/setup-node@v4.1.0
         with:
           node-version: 20
           cache: yarn
@@ -207,13 +207,13 @@ jobs:
         working-directory: ./packages/react-mui-shared
     steps:
       - name: Checkout code
-        uses: actions/checkout@v4.2.1
+        uses: actions/checkout@v4.2.2
 
       - name: Enable Corepack
         run: corepack enable
 
       - name: Setup Node.js
-        uses: actions/setup-node@v4.0.4
+        uses: actions/setup-node@v4.1.0
         with:
           node-version: 20
           cache: yarn
@@ -233,63 +233,45 @@ jobs:
       - name: Storybook
         run: yarn build-storybook
 
-  build-react-mui-share-file-viewer-docs:
-    runs-on: ubuntu-latest
+  build-react-mui-share-file-viewer:
+    runs-on: ubuntu-24.04
     defaults:
       run:
         working-directory: ./packages/react-mui-share-file-viewer
     steps:
       - name: Checkout code
-        uses: actions/checkout@v4.2.1
+        uses: actions/checkout@v4.2.2
 
       - name: Enable Corepack
         run: corepack enable
 
       - name: Setup Node.js
-        uses: actions/setup-node@v4.0.4
+        uses: actions/setup-node@v4.1.0
         with:
-          node-version: 20
+          node-version: 22
           cache: yarn
           cache-dependency-path: ./packages/react-mui-share-file-viewer/yarn.lock
 
       - name: Install dependencies
         run: yarn install --frozen-lockfile
-
-      - name: Build Docs
-        run: yarn build-docs
-
-      - name: Upload Docs
-        uses: actions/upload-artifact@v4.4.3
-        with:
-          name: react-mui-share-file-viewer-docs
-          path: ./packages/react-mui-share-file-viewer/docs/
-
-  build-react-mui-share-file-viewer:
-    runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: ./packages/react-mui-share-file-viewer
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v4.2.1
-
-      - name: Setup Node.js
-        uses: actions/setup-node@v4.0.4
-        with:
-          node-version: 20
-          cache: yarn
-          cache-dependency-path: ./packages/react-mui-share-file-viewer/yarn.lock
-
-      - name: Install dependencies
-        run: yarn install --frozen-lockfile
-
-      - run: yarn list
 
       - name: Build
         run: yarn build
 
-      - name: Storybook
+      - name: Build Storybook
         run: yarn build-storybook
+
+      - name: Build docs
+        run: yarn build-docs
+
+      - name: publint
+        run: yarn lint-publint
+
+      - name: Upload docs
+        uses: actions/upload-artifact@v4.4.3
+        with:
+          name: react-mui-share-file-viewer-docs
+          path: ./packages/react-mui-share-file-viewer/docs/
 
   build-vanilla-js:
     runs-on: ubuntu-latest
@@ -298,13 +280,13 @@ jobs:
         working-directory: ./packages/vanilla-js
     steps:
       - name: Checkout code
-        uses: actions/checkout@v4.2.1
+        uses: actions/checkout@v4.2.2
 
       - name: Enable Corepack
         run: corepack enable
 
       - name: Setup Node.js
-        uses: actions/setup-node@v4.0.4
+        uses: actions/setup-node@v4.1.0
         with:
           node-version: 20
           cache: yarn
@@ -320,13 +302,13 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
-        uses: actions/checkout@v4.2.1
+        uses: actions/checkout@v4.2.2
 
       - name: Enable Corepack
         run: corepack enable
 
       - name: Setup Node.js
-        uses: actions/setup-node@v4.0.4
+        uses: actions/setup-node@v4.1.0
         with:
           node-version: 20
           cache: yarn
@@ -345,7 +327,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
-        uses: actions/checkout@v4.2.1
+        uses: actions/checkout@v4.2.2
 
       - uses: pre-commit/action@v3.0.1
 
@@ -360,13 +342,13 @@ jobs:
         working-directory: ./packages/pangea-node-sdk
     steps:
       - name: Checkout code
-        uses: actions/checkout@v4.2.1
+        uses: actions/checkout@v4.2.2
 
       - name: Enable Corepack
         run: corepack enable
 
       - name: Setup Node.js
-        uses: actions/setup-node@v4.0.4
+        uses: actions/setup-node@v4.1.0
         with:
           node-version: ${{ matrix.node-version }}
           cache: yarn
@@ -386,13 +368,13 @@ jobs:
         working-directory: ./packages/pangea-node-sdk
     steps:
       - name: Checkout code
-        uses: actions/checkout@v4.2.1
+        uses: actions/checkout@v4.2.2
 
       - name: Enable Corepack
         run: corepack enable
 
       - name: Setup Node.js
-        uses: actions/setup-node@v4.0.4
+        uses: actions/setup-node@v4.1.0
         with:
           node-version: 20
           cache: yarn
@@ -421,13 +403,13 @@ jobs:
         working-directory: ./examples/${{ matrix.example }}
     steps:
       - name: Checkout code
-        uses: actions/checkout@v4.2.1
+        uses: actions/checkout@v4.2.2
 
       - name: Enable Corepack
         run: corepack enable
 
       - name: Setup Node.js
-        uses: actions/setup-node@v4.0.4
+        uses: actions/setup-node@v4.1.0
         with:
           node-version: 20
           cache: yarn
@@ -453,13 +435,13 @@ jobs:
         working-directory: ./examples/react-audit-log-viewer
     steps:
       - name: Checkout code
-        uses: actions/checkout@v4.2.1
+        uses: actions/checkout@v4.2.2
 
       - name: Enable Corepack
         run: corepack enable
 
       - name: Setup Node.js
-        uses: actions/setup-node@v4.0.4
+        uses: actions/setup-node@v4.1.0
         with:
           node-version: 22
           cache: yarn

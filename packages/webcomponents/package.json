@@ -14,15 +14,16 @@
   "publishConfig": {
     "access": "public"
   },
+  "packageManager": "yarn@4.5.1",
   "scripts": {
     "build": "parcel build"
   },
   "devDependencies": {
-    "@babel/core": "^7.25.8",
-    "@babel/plugin-transform-runtime": "^7.25.7",
-    "@babel/preset-env": "^7.25.8",
-    "@babel/preset-react": "^7.25.7",
-    "@babel/preset-typescript": "^7.25.7",
+    "@babel/core": "^7.26.0",
+    "@babel/plugin-transform-runtime": "^7.25.9",
+    "@babel/preset-env": "^7.26.0",
+    "@babel/preset-react": "^7.25.9",
+    "@babel/preset-typescript": "^7.26.0",
     "@parcel/packager-ts": "2.12.0",
     "@parcel/transformer-typescript-types": "2.12.0",
     "babel-loader": "^9.2.1",
@@ -39,7 +40,7 @@
     "@emotion/styled": "^11.13.0",
     "@mui/icons-material": "^5.16.7",
     "@mui/material": "^5.16.7",
-    "@mui/styled-engine-sc": "^6.1.4",
+    "@mui/styled-engine-sc": "^6.1.5",
     "@mui/types": "^7.2.18",
     "@pangeacyber/react-mui-audit-log-viewer": "^0.0.95",
     "@pangeacyber/react-mui-branding": "0.0.18",

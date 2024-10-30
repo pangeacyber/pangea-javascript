@@ -1,17 +1,18 @@
-import resolve from "@rollup/plugin-node-resolve";
-import external from "rollup-plugin-peer-deps-external";
-import terser from "@rollup/plugin-terser";
-import postcss from "rollup-plugin-postcss";
-import typescript from "@rollup/plugin-typescript";
 import commonjs from "@rollup/plugin-commonjs";
-import replace from "@rollup/plugin-replace";
-import { dts } from "rollup-plugin-dts";
 import json from "@rollup/plugin-json";
+import resolve from "@rollup/plugin-node-resolve";
+import replace from "@rollup/plugin-replace";
+import terser from "@rollup/plugin-terser";
+import typescript from "@rollup/plugin-typescript";
+import { defineConfig } from "rollup";
+import { dts } from "rollup-plugin-dts";
+import external from "rollup-plugin-peer-deps-external";
 import nodePolyfills from "rollup-plugin-polyfill-node";
+import postcss from "rollup-plugin-postcss";
 
 import pkg from "./package.json" with { type: "json" };
 
-export default [
+export default defineConfig([
   {
     input: "src/index.ts",
     output: [
@@ -19,14 +20,12 @@ export default [
         dir: "dist/cjs",
         format: "cjs",
         sourcemap: true,
-        name: "react-lib",
-        interop: "auto",
+        name: pkg.name,
       },
       {
         dir: "dist/esm",
         format: "esm",
         sourcemap: true,
-        preserveModules: true,
       },
     ],
     plugins: [
@@ -51,4 +50,4 @@ export default [
     external: [/\.css$/],
     plugins: [dts()],
   },
-];
+]);
