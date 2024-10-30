@@ -293,7 +293,7 @@ export namespace Audit {
   }
 }
 
-export namespace DataGuard {
+export namespace AIGuard {
   export interface TextGuardArtifact {
     defanged: boolean;
     end: number;
@@ -314,8 +314,8 @@ export namespace DataGuard {
   }
 
   export interface TextGuardFindings {
-    artifact_count: number;
-    malicious_count: number;
+    artifact_count?: number;
+    malicious_count?: number;
     security_issues: TextGuardSecurityIssues;
   }
 

@@ -29,11 +29,11 @@ export const PangeaConfig = _PangeaConfig;
 export const PangeaRequest = _PangeaRequest;
 export const PangeaResponse = _PangeaResponse;
 
+export const AIGuardService = services.AIGuardService;
 export const AuditService = services.AuditService;
 export const AuthNService = services.AuthNService;
 export const AuthZService = services.AuthZService;
 export const BaseService = services.BaseService;
-export const DataGuardService = services.DataGuardService;
 export const EmbargoService = services.EmbargoService;
 export const PromptGuardService = services.PromptGuardService;
 export const RedactService = services.RedactService;
