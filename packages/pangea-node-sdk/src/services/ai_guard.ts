@@ -1,12 +1,12 @@
 import PangeaConfig from "../config.js";
 import PangeaResponse from "../response.js";
-import { DataGuard } from "../types.js";
+import { AIGuard } from "../types.js";
 import BaseService from "./base.js";
 
-/** Data Guard API client. */
-export class DataGuardService extends BaseService {
+/** AI Guard API client. */
+export class AIGuardService extends BaseService {
   /**
-   * Creates a new `DataGuardService` with the given Pangea API token and
+   * Creates a new `AIGuardService` with the given Pangea API token and
    * configuration.
    *
    * @param token Pangea API token.
@@ -15,32 +15,32 @@ export class DataGuardService extends BaseService {
    * @example
    * ```js
    * const config = new PangeaConfig({ domain: "pangea_domain" });
-   * const dataGuard = new DataGuardService("pangea_token", config);
+   * const aiGuard = new AIGuardService("pangea_token", config);
    * ```
    *
-   * @summary Data Guard
+   * @summary AI Guard
    */
   constructor(token: string, config: PangeaConfig) {
-    super("data-guard", token, config);
+    super("ai-guard", token, config);
   }
 
   /**
    * @summary Text guard (Beta)
    * @description Undocumented.
-   * @operationId data_guard_post_v1beta_text_guard
+   * @operationId ai_guard_post_v1beta_text_guard
    * @param request Request parameters.
    * @example
    * ```ts
-   * const response = await dataGuard.guardText({
+   * const response = await aiGuard.guardText({
    *   text: "foobar",
    * });
    * ```
    */
   guardText(
-    request: DataGuard.TextGuardRequest
-  ): Promise<PangeaResponse<DataGuard.TextGuardResult>> {
+    request: AIGuard.TextGuardRequest
+  ): Promise<PangeaResponse<AIGuard.TextGuardResult>> {
     return this.post("v1beta/text/guard", request);
   }
 }
 
-export default DataGuardService;
+export default AIGuardService;
