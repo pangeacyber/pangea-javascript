@@ -24,13 +24,13 @@ describe("AI Guard", () => {
     let response = await client.guardText({ text: "hello world" });
     expect(response.status).toStrictEqual("Success");
     expect(response.result.redacted_prompt).toBeDefined();
-    expect(response.result.findings.artifact_count).toStrictEqual(0);
-    expect(response.result.findings.malicious_count).toStrictEqual(0);
+    expect(response.result.findings.artifact_count).toBeUndefined();
+    expect(response.result.findings.malicious_count).toBeUndefined();
 
     response = await client.guardText({ text: "security@pangea.cloud" });
     expect(response.status).toStrictEqual("Success");
     expect(response.result.redacted_prompt).toBeDefined();
     expect(response.result.findings.artifact_count).toStrictEqual(1);
-    expect(response.result.findings.malicious_count).toStrictEqual(0);
+    expect(response.result.findings.malicious_count).toBeUndefined();
   });
 });

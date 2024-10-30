@@ -314,8 +314,8 @@ export namespace AIGuard {
   }
 
   export interface TextGuardFindings {
-    artifact_count: number;
-    malicious_count: number;
+    artifact_count?: number;
+    malicious_count?: number;
     security_issues: TextGuardSecurityIssues;
   }
 
