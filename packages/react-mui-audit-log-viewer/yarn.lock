@@ -2855,7 +2855,7 @@ __metadata:
     "@mui/icons-material": "npm:^6.1.6"
     "@mui/material": "npm:^6.1.6"
     "@mui/types": "npm:^7.2.19"
-    "@pangeacyber/react-mui-branding": "npm:1.0.0-beta.2"
+    "@pangeacyber/react-mui-branding": "npm:1.0.0-beta.4"
     "@pangeacyber/react-mui-shared": "npm:1.0.0-beta.0"
     "@rollup/plugin-babel": "npm:^6.0.4"
     "@rollup/plugin-commonjs": "npm:^26.0.3"
@@ -2909,15 +2909,15 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@pangeacyber/react-mui-branding@npm:1.0.0-beta.2":
-  version: 1.0.0-beta.2
-  resolution: "@pangeacyber/react-mui-branding@npm:1.0.0-beta.2"
+"@pangeacyber/react-mui-branding@npm:1.0.0-beta.4":
+  version: 1.0.0-beta.4
+  resolution: "@pangeacyber/react-mui-branding@npm:1.0.0-beta.4"
   peerDependencies:
     "@mui/icons-material": ^6.0.0
     "@mui/material": ^6.0.0
     react: ^17.0.2 || ^18.2.0
     react-dom: ^17.0.2 || ^18.2.0
-  checksum: 10c0/5ffaec4c585fc3cd835ae9ae20b787f921ae73f1250191eb676e6f8fff2d2abd2163f0baa707bd4758d3b8e56983168acf82d8047e7a7d6260bf760ee32ca987
+  checksum: 10c0/1ad7ff52a28b1b9840ac99a60c40460463b63772ef049d68d33abe6e5623f504a9447d7631a855eb82c3dddd09e081302e2c4c745851bf7712fe19a79df9fa6f
   languageName: node
   linkType: hard
 

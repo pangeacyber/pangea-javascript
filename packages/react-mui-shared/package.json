@@ -24,6 +24,7 @@
     "@mui/icons-material": "^6.1.6",
     "@mui/material": "^6.1.6",
     "@mui/types": "^7.2.19",
+    "@pangeacyber/react-mui-branding": "1.0.0-beta.4",
     "@rollup/plugin-commonjs": "^26.0.3",
     "@rollup/plugin-node-resolve": "^15.3.0",
     "@rollup/plugin-replace": "^6.0.1",

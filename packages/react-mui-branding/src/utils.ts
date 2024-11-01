@@ -96,31 +96,24 @@ export const getBrandingThemeOptions = (
   config: Partial<Branding.Config>
 ): ThemeOptions => {
   const cssBaslineStyles: SxProps = {
-    "div.MuiDataGrid-root": {
+    "div.MuiDataGrid-root, div.MuiDataGrid-root.LinedPangeaDataGrid-root": {
       ".MuiDataGrid-columnHeaders": {
-        backgroundColor:
-          config?.custom_metadata?.audit?.column_header_bg_color ??
-          config?.panel_bg_color,
+        backgroundColor: config?.custom_metadata?.audit?.column_header_bg_color,
       },
       ".MuiDataGrid-row.Mui-selected": {
-        backgroundColor:
-          config?.custom_metadata?.audit?.selected_row_bg_color ??
-          config?.panel_bg_color,
+        backgroundColor: config?.custom_metadata?.audit?.selected_row_bg_color,
         ".PangeaDataGrid-Pinned-Right": {
           backgroundColor:
-            config?.custom_metadata?.audit?.selected_row_bg_color ??
-            config?.panel_bg_color,
+            config?.custom_metadata?.audit?.selected_row_bg_color,
         },
         ":hover": {
           backgroundColor:
             config?.custom_metadata?.audit?.hover_row_bg_color ??
-            config?.custom_metadata?.audit?.selected_row_bg_color ??
-            config?.panel_bg_color,
+            config?.custom_metadata?.audit?.selected_row_bg_color,
           ".PangeaDataGrid-Pinned-Right": {
             backgroundColor:
               config?.custom_metadata?.audit?.hover_row_bg_color ??
-              config?.custom_metadata?.audit?.selected_row_bg_color ??
-              config?.panel_bg_color,
+              config?.custom_metadata?.audit?.selected_row_bg_color,
           },
         },
       },
@@ -128,32 +121,25 @@ export const getBrandingThemeOptions = (
         ":hover": {
           backgroundColor:
             config?.custom_metadata?.audit?.hover_row_bg_color ??
-            config?.custom_metadata?.audit?.selected_row_bg_color ??
-            config?.panel_bg_color,
+            config?.custom_metadata?.audit?.selected_row_bg_color,
           ".PangeaDataGrid-Pinned-Right": {
             backgroundColor:
               config?.custom_metadata?.audit?.hover_row_bg_color ??
-              config?.custom_metadata?.audit?.selected_row_bg_color ??
-              config?.panel_bg_color,
+              config?.custom_metadata?.audit?.selected_row_bg_color,
           },
         },
       },
       ".PangeaDataGrid-ExpansionRow, .PangeaDataGrid-Chip": {
-        backgroundColor:
-          config?.custom_metadata?.audit?.selected_row_bg_color ??
-          config?.panel_bg_color,
+        backgroundColor: config?.custom_metadata?.audit?.selected_row_bg_color,
       },
     },
     ".MuiBox-root.widget, .PangeaPanel-root": {
-      backgroundColor: "hsl(var(--field))",
-      borderRadius: "8px",
+      backgroundColor: config?.panel_bg_color ?? "inherit",
+      borderRadius: config?.panel_border_radius ?? "8px",
     },
     ".PangeaInput-root": {
-      borderRadius: "4px",
-      backgroundColor: "hsl(var(--field))",
-    },
-    ".Pangea-Flyout-Container": {
-      backgroundColor: "hsl(var(--foreground))",
+      borderRadius: config?.input_border_radius ?? "8px",
+      backgroundColor: config?.input_bg_color,
     },
   };
 
@@ -318,6 +304,21 @@ export const getBrandingThemeOptions = (
       background: {
         default: getColor(config?.bg_color),
         paper: getColor(config?.panel_bg_color),
+      },
+    },
+    mixins: {
+      // @ts-ignore
+      MuiDataGrid: {
+        // Pinned columns sections
+        pinnedBackground: getColor(
+          config?.custom_metadata?.audit?.selected_row_bg_color ??
+            config?.panel_bg_color
+        ),
+        // Headers, and top & bottom fixed rows
+        containerBackground: getColor(
+          config?.custom_metadata?.audit?.column_header_bg_color ??
+            config?.panel_bg_color
+        ),
       },
     },
   };
