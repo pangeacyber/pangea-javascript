@@ -1,6 +1,6 @@
 {
   "name": "@pangeacyber/react-mui-audit-log-viewer",
-  "version": "0.0.95",
+  "version": "1.0.0-beta.0",
   "description": "An extension of material ui data-grid for Pangea audit log records",
   "main": "dist/cjs/index.js",
   "module": "dist/esm/index.js",
@@ -23,9 +23,10 @@
     "@babel/core": "^7.26.0",
     "@emotion/react": "^11.13.3",
     "@emotion/styled": "^11.13.0",
-    "@mui/icons-material": "^5.16.7",
-    "@mui/material": "^5.16.7",
-    "@mui/types": "^7.2.18",
+    "@mui/icons-material": "^6.1.6",
+    "@mui/material": "^6.1.6",
+    "@mui/types": "^7.2.19",
+    "@pangeacyber/react-mui-branding": "1.0.0-beta.2",
     "@rollup/plugin-babel": "^6.0.4",
     "@rollup/plugin-commonjs": "^26.0.3",
     "@rollup/plugin-json": "^6.1.0",
@@ -65,7 +66,7 @@
     "vite": "^5.4.10"
   },
   "dependencies": {
-    "@pangeacyber/react-mui-shared": "0.0.67",
+    "@pangeacyber/react-mui-shared": "1.0.0-beta.0",
     "crypto-js": "^4.2.0",
     "diff": "^5.2.0",
     "lodash": "^4.17.21",
@@ -75,8 +76,8 @@
   "peerDependencies": {
     "@emotion/react": "^11.10.4",
     "@emotion/styled": "^11.10.4",
-    "@mui/icons-material": "^5.1.1",
-    "@mui/material": "^5.8.3",
+    "@mui/icons-material": "^6.0.0",
+    "@mui/material": "^6.0.0",
     "react": "^17.0.0 || ^18.0.0",
     "react-dom": "^17.0.0 || ^18.0.0"
   },

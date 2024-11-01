@@ -1,6 +1,6 @@
 import { Branding, PangeaAuth } from "./types";
 import merge from "lodash/merge";
-import { ThemeOptions, createTheme } from "@mui/material/styles";
+import { SxProps, ThemeOptions, createTheme } from "@mui/material/styles";
 
 export const BRANDING_CONFIGURATION_STORAGE_KEY =
   "pangea-branding-configuration";
@@ -95,6 +95,68 @@ export const fetchBrandingThemeOptions = (
 export const getBrandingThemeOptions = (
   config: Partial<Branding.Config>
 ): ThemeOptions => {
+  const cssBaslineStyles: SxProps = {
+    "div.MuiDataGrid-root": {
+      ".MuiDataGrid-columnHeaders": {
+        backgroundColor:
+          config?.custom_metadata?.audit?.column_header_bg_color ??
+          config?.panel_bg_color,
+      },
+      ".MuiDataGrid-row.Mui-selected": {
+        backgroundColor:
+          config?.custom_metadata?.audit?.selected_row_bg_color ??
+          config?.panel_bg_color,
+        ".PangeaDataGrid-Pinned-Right": {
+          backgroundColor:
+            config?.custom_metadata?.audit?.selected_row_bg_color ??
+            config?.panel_bg_color,
+        },
+        ":hover": {
+          backgroundColor:
+            config?.custom_metadata?.audit?.hover_row_bg_color ??
+            config?.custom_metadata?.audit?.selected_row_bg_color ??
+            config?.panel_bg_color,
+          ".PangeaDataGrid-Pinned-Right": {
+            backgroundColor:
+              config?.custom_metadata?.audit?.hover_row_bg_color ??
+              config?.custom_metadata?.audit?.selected_row_bg_color ??
+              config?.panel_bg_color,
+          },
+        },
+      },
+      ".MuiDataGrid-row": {
+        ":hover": {
+          backgroundColor:
+            config?.custom_metadata?.audit?.hover_row_bg_color ??
+            config?.custom_metadata?.audit?.selected_row_bg_color ??
+            config?.panel_bg_color,
+          ".PangeaDataGrid-Pinned-Right": {
+            backgroundColor:
+              config?.custom_metadata?.audit?.hover_row_bg_color ??
+              config?.custom_metadata?.audit?.selected_row_bg_color ??
+              config?.panel_bg_color,
+          },
+        },
+      },
+      ".PangeaDataGrid-ExpansionRow, .PangeaDataGrid-Chip": {
+        backgroundColor:
+          config?.custom_metadata?.audit?.selected_row_bg_color ??
+          config?.panel_bg_color,
+      },
+    },
+    ".MuiBox-root.widget, .PangeaPanel-root": {
+      backgroundColor: "hsl(var(--field))",
+      borderRadius: "8px",
+    },
+    ".PangeaInput-root": {
+      borderRadius: "4px",
+      backgroundColor: "hsl(var(--field))",
+    },
+    ".Pangea-Flyout-Container": {
+      backgroundColor: "hsl(var(--foreground))",
+    },
+  };
+
   const themeOptions: ThemeOptions = {
     spacing: config?.density === "comfortable" ? 12 : 8,
     typography: {
@@ -215,60 +277,6 @@ export const getBrandingThemeOptions = (
           },
         },
       },
-      MuiGrid: {
-        styleOverrides: {
-          root: {
-            ".MuiDataGrid-root": {
-              ".MuiDataGrid-columnHeaders": {
-                backgroundColor:
-                  config?.custom_metadata?.audit?.column_header_bg_color ??
-                  config?.panel_bg_color,
-              },
-              ".MuiDataGrid-row.Mui-selected": {
-                backgroundColor:
-                  config?.custom_metadata?.audit?.selected_row_bg_color ??
-                  config?.panel_bg_color,
-                ".PangeaDataGrid-Pinned-Right": {
-                  backgroundColor:
-                    config?.custom_metadata?.audit?.selected_row_bg_color ??
-                    config?.panel_bg_color,
-                },
-                ":hover": {
-                  backgroundColor:
-                    config?.custom_metadata?.audit?.hover_row_bg_color ??
-                    config?.custom_metadata?.audit?.selected_row_bg_color ??
-                    config?.panel_bg_color,
-                  ".PangeaDataGrid-Pinned-Right": {
-                    backgroundColor:
-                      config?.custom_metadata?.audit?.hover_row_bg_color ??
-                      config?.custom_metadata?.audit?.selected_row_bg_color ??
-                      config?.panel_bg_color,
-                  },
-                },
-              },
-              ".MuiDataGrid-row": {
-                ":hover": {
-                  backgroundColor:
-                    config?.custom_metadata?.audit?.hover_row_bg_color ??
-                    config?.custom_metadata?.audit?.selected_row_bg_color ??
-                    config?.panel_bg_color,
-                  ".PangeaDataGrid-Pinned-Right": {
-                    backgroundColor:
-                      config?.custom_metadata?.audit?.hover_row_bg_color ??
-                      config?.custom_metadata?.audit?.selected_row_bg_color ??
-                      config?.panel_bg_color,
-                  },
-                },
-              },
-              ".PangeaDataGrid-ExpansionRow, .PangeaDataGrid-Chip": {
-                backgroundColor:
-                  config?.custom_metadata?.audit?.selected_row_bg_color ??
-                  config?.panel_bg_color,
-              },
-            },
-          },
-        },
-      },
       MuiCard: {
         styleOverrides: {
           root: {
@@ -285,30 +293,12 @@ export const getBrandingThemeOptions = (
       },
       MuiCssBaseline: {
         styleOverrides: {
-          root: {
-            ".MuiBox-root.widget, .PangeaPanel-root": {
-              backgroundColor: config?.panel_bg_color ?? "#fff",
-              borderRadius: config?.panel_border_radius ?? "8px",
-            },
-            ".PangeaInput-root": {
-              borderRadius: config?.input_border_radius ?? "8px",
-              backgroundColor: config?.input_bg_color,
-            },
-          },
+          root: { ...cssBaslineStyles },
         },
       },
       MuiScopedCssBaseline: {
         styleOverrides: {
-          root: {
-            ".MuiBox-root.widget, .PangeaPanel-root": {
-              backgroundColor: config?.panel_bg_color ?? "#fff",
-              borderRadius: config?.panel_border_radius ?? "8px",
-            },
-            ".PangeaInput-root": {
-              borderRadius: config?.input_border_radius ?? "8px",
-              backgroundColor: config?.input_bg_color,
-            },
-          },
+          root: { ...cssBaslineStyles },
         },
       },
     },

@@ -7,7 +7,6 @@ import {
 } from "@mui/material";
 import { FC, useEffect, useState } from "react";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
-import { DateTimePicker } from "@mui/x-date-pickers/DateTimePicker";
 import { DesktopDateTimePicker } from "@mui/x-date-pickers/DesktopDateTimePicker";
 import { AdapterMoment } from "@mui/x-date-pickers/AdapterMoment";
 import { getISO } from "../../utils";

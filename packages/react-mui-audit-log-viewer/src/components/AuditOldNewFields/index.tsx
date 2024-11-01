@@ -35,9 +35,13 @@ const OldNewFields: FC<Props> = ({
 }) => {
   const changes = useDiffWords(event.old, event.new);
 
+  console.log(changes);
+
   const oldChanges = useMemo(() => {
     const matches = getFieldMatches("old", context);
     const changes_ = changes.filter((c) => !c.added);
+
+    console.log(matches);
 
     try {
       // Adjust field FPE matches to be relative to the entire strinified object
