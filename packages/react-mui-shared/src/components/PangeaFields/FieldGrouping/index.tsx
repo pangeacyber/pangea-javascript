@@ -1,6 +1,6 @@
 import React, { FC, useState } from "react";
 
-import { Grid, Typography, Collapse } from "@mui/material";
+import { Grid2 as Grid, Typography, Collapse } from "@mui/material";
 import { useTheme } from "@mui/material/styles";
 
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
@@ -32,7 +32,6 @@ const FieldGrouping: FC<{
     <>
       {metadata?.hideLabel !== true && (
         <Grid
-          item
           width="100%"
           sx={
             collaspable
@@ -69,7 +68,7 @@ const FieldGrouping: FC<{
         </Grid>
       )}
       {!!collaspable ? (
-        <Grid item width="100%">
+        <Grid width="100%">
           <Collapse in={open}>
             <Grid container spacing={1}>
               {children}

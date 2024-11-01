@@ -21,7 +21,7 @@ import Button from "@mui/material/Button";
 import {
   ButtonProps,
   Divider,
-  Grid,
+  Grid2 as Grid,
   Stack,
   SxProps,
   Tooltip,
@@ -32,11 +32,10 @@ import FieldComponent from "./FieldComponent";
 import {
   FieldFormSchema,
   FieldsFormSchema,
-  FieldsFormSchemaWithoutGrouping,
   FormFieldLabelProps,
 } from "./types";
 import { FormikObject } from "./types/formik";
-import { FormObject, GenericGroupedFields } from "../types";
+import { FormObject } from "../types";
 import { useBreakpoint } from "./hooks";
 import FieldGrouping from "../FieldGrouping";
 import { useInternalState } from "../../../utils/hooks";
@@ -69,7 +68,6 @@ const Fields: FC<{
 
         return (
           <Grid
-            item
             style={{
               // FIXME: This is a hack. We need to update the schema
               //  to be able to specify separate values
@@ -349,7 +347,7 @@ const FieldsForm: FC<FieldsFormProps> = ({
                     />
                   </FieldGrouping>
                   {numGroups !== 1 && useDivider && numGroups - 1 !== idx && (
-                    <Grid item sx={{ width: "100%" }}>
+                    <Grid sx={{ width: "100%" }}>
                       <Divider />
                     </Grid>
                   )}

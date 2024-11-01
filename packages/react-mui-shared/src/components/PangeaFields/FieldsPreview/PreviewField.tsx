@@ -1,6 +1,6 @@
 import { FC } from "react";
 import startCase from "lodash/startCase";
-import { Stack, Grid } from "@mui/material";
+import { Stack, Grid2 as Grid } from "@mui/material";
 
 import { FormObject } from "../types";
 import {
@@ -57,7 +57,7 @@ const PreviewField = <T extends FormObject>({
     ValueRenderer ?? getPreviewFieldComp(schema.type ?? "string");
 
   return (
-    <Grid item sx={{ width: "100%" }}>
+    <Grid sx={{ width: "100%" }}>
       <Stack
         direction={LabelProps.placement === "top" ? undefined : "row"}
         alignItems={LabelProps.placement === "top" ? "start" : "center"}
