@@ -1,7 +1,7 @@
 import cloneDeep from "lodash/cloneDeep";
 import valuesIn from "lodash/valuesIn";
 
-import AuthNClient from "../AuthNClient";
+import { AuthNClient } from "../AuthNClient";
 
 import { APIResponse, ClientConfig, ClientResponse } from "../types";
 

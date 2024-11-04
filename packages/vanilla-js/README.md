@@ -19,10 +19,9 @@
 
 A javascript SDK for using Pangea Client APIs in the browser.
 
-Client Classes
+Client Class
 
 - AuthNClient: Support for interacting with AuthN `v2/client` endpoints.
-- AuthNFlowClient: Support for interacting with AuthN `v2/flow` endpoints.
 
 This package is provided with support for ESM and CommonJS.
 

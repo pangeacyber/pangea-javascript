@@ -1,7 +1,5 @@
-import AuthNClient from "./AuthNClient";
-import AuthNFlowClient from "./AuthNFlowClient";
-
-export { AuthNClient, AuthNFlowClient };
+export { AuthNClient } from "./AuthNClient";
+export { AuthNFlowClient } from "./AuthNFlowClient";
 
 export { APIResponse, ClientConfig, ClientResponse } from "./types";
 
