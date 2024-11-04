@@ -1,11 +1,10 @@
-// rollup.config.mjs
+import commonjs from "@rollup/plugin-commonjs";
+import json from "@rollup/plugin-json";
 import resolve from "@rollup/plugin-node-resolve";
-import external from "rollup-plugin-peer-deps-external";
 import terser from "@rollup/plugin-terser";
 import typescript from "@rollup/plugin-typescript";
-import commonjs from "@rollup/plugin-commonjs";
-import dts from "rollup-plugin-dts";
-import json from "@rollup/plugin-json";
+import { dts } from "rollup-plugin-dts";
+import external from "rollup-plugin-peer-deps-external";
 import nodePolyfills from "rollup-plugin-polyfill-node";
 
 import pkg from "./package.json" assert { type: "json" };
@@ -37,7 +36,7 @@ export default [
     external: Object.keys(pkg.dependencies),
   },
   {
-    input: "dist/esm/types/index.d.ts",
+    input: "src/index.ts",
     output: [{ file: "dist/index.d.ts", format: "esm" }],
     external: [/\.css$/],
     plugins: [dts()],
