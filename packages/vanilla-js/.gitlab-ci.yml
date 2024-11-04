@@ -5,12 +5,6 @@
     - yarn install
     - apt-get -qq update
     - apt-get install -y jq
-  cache:
-    - key:
-        files:
-          - yarn.lock
-      paths:
-        - node_modules
 
 publish_vanilla_js:
   extends: .vanilla_js_base

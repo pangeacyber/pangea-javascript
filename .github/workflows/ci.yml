@@ -298,6 +298,9 @@ jobs:
       - name: Build
         run: yarn build
 
+      - name: publint
+        run: yarn lint-publint
+
   lint-prettier:
     runs-on: ubuntu-latest
     steps:
