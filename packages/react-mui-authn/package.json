@@ -76,7 +76,7 @@
     "@mui/x-date-pickers": "^7.22.0",
     "@pangeacyber/react-mui-branding": "0.0.18",
     "@pangeacyber/vanilla-js": "0.1.11",
-    "@simplewebauthn/browser": "9.0.1",
+    "@simplewebauthn/browser": "11.0.0",
     "awesome-phonenumber": "^7.2.0",
     "dayjs": "^1.11.13",
     "formik": "^2.4.6",
