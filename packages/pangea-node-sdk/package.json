@@ -35,16 +35,16 @@
     "promise-retry": "^2.0.1"
   },
   "devDependencies": {
-    "@gitlab/eslint-plugin": "^20.4.1",
+    "@gitlab/eslint-plugin": "^20.5.0",
     "@swc/core": "1.7.40",
     "@swc/jest": "0.2.36",
     "@tsconfig/node18": "18.2.4",
     "@types/crypto-js": "^4.2.2",
     "@types/jest": "29.5.14",
-    "@types/node": "18.19.59",
+    "@types/node": "18.19.63",
     "@types/promise-retry": "1.1.6",
-    "@typescript-eslint/eslint-plugin": "8.11.0",
-    "@typescript-eslint/parser": "8.11.0",
+    "@typescript-eslint/eslint-plugin": "8.12.2",
+    "@typescript-eslint/parser": "8.12.2",
     "coverage": "^0.4.1",
     "cross-env": "^7.0.3",
     "eslint": "^8.57.1",
@@ -56,7 +56,7 @@
     "ts-node": "^10.9.2",
     "tsc-alias": "^1.8.10",
     "tshy": "2.0.1",
-    "typedoc": "^0.26.10",
+    "typedoc": "^0.26.11",
     "typescript": "5.6.3"
   },
   "scripts": {

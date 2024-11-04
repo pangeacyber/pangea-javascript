@@ -58,12 +58,12 @@
     "@parcel/transformer-typescript-types": "^2.12.0",
     "@parcel/utils": "^2.12.0",
     "@tsconfig/strictest": "^2.0.5",
-    "@types/lodash": "^4.17.12",
+    "@types/lodash": "^4.17.13",
     "@types/react": "^18.3.12",
     "parcel": "^2.12.0",
     "publint": "0.2.12",
     "react": "^18.3.1",
-    "typedoc": "^0.26.10",
+    "typedoc": "^0.26.11",
     "typedoc-plugin-rename-defaults": "^0.7.1",
     "typescript": "^5.6.3"
   }

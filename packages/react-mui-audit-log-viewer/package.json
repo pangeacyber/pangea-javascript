@@ -40,7 +40,7 @@
     "@storybook/addon-links": "^7.6.20",
     "@storybook/react": "^7.6.20",
     "@storybook/react-vite": "^7.6.20",
-    "@testing-library/jest-dom": "^6.6.2",
+    "@testing-library/jest-dom": "^6.6.3",
     "@testing-library/react": "^15.0.7",
     "@types/crypto-js": "^4.2.2",
     "@types/diff": "^5.2.3",
@@ -60,7 +60,7 @@
     "rollup-plugin-postcss": "^4.0.2",
     "storybook": "^7.6.20",
     "ts-jest": "^29.2.5",
-    "typedoc": "^0.26.10",
+    "typedoc": "^0.26.11",
     "typedoc-plugin-rename-defaults": "^0.7.1",
     "typescript": "^5.6.3",
     "vite": "^5.4.10"
