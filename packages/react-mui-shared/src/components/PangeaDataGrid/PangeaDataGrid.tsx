@@ -16,7 +16,7 @@ import find from "lodash/find";
 import findLast from "lodash/findLast";
 import isEmpty from "lodash/isEmpty";
 
-import Grid from "@mui/material/Grid";
+import Grid from "@mui/material/Grid2";
 import {
   DataGrid,
   GridColDef,
@@ -177,7 +177,7 @@ const PangeaDataGrid = <
     : undefined;
 
   const columns = useMemo(() => {
-    let columns = cloneDeep(columnsProp);
+    let columns = cloneDeep(columnsProp ?? []);
     if (!!ExpansionRow?.render) {
       columns.unshift(
         constructExpandColumn(ExpansionRow?.render, ExpansionRow?.GridColDef)
@@ -258,7 +258,7 @@ const PangeaDataGrid = <
       }
 
       const sort = model[0];
-      if (!sort.sort) {
+      if (!sort?.sort) {
         ServerSorting.onSortChange(undefined, undefined);
         return;
       }
@@ -314,7 +314,6 @@ const PangeaDataGrid = <
     <Box sx={sx}>
       <Stack direction="row" width="100%" sx={{ overflow: "hidden" }}>
         <Grid
-          item
           sx={{
             maxWidth: "100%",
             width: `calc(100% - ${!!preview ? PreviewPanel?.width : "0px"} - 2px)`,

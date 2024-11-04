@@ -20,6 +20,7 @@ export default defineConfig([
         dir: "dist/cjs",
         format: "cjs",
         sourcemap: true,
+        interop: "auto",
         name: pkg.name,
       },
       {

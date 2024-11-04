@@ -1,6 +1,6 @@
 {
   "name": "@pangeacyber/react-mui-authn",
-  "version": "0.5.15",
+  "version": "1.0.0",
   "description": "Components for integration with Pangea AuthN Service",
   "main": "dist/cjs/index.js",
   "module": "dist/esm/index.js",
@@ -27,9 +27,9 @@
     "@emotion/styled": "^11.13.0",
     "@fontsource/kanit": "^5.1.0",
     "@fontsource/roboto": "^5.1.0",
-    "@mui/icons-material": "^5.16.7",
-    "@mui/material": "^5.16.7",
-    "@mui/types": "^7.2.18",
+    "@mui/icons-material": "^6.1.6",
+    "@mui/material": "^6.1.6",
+    "@mui/types": "^7.2.19",
     "@rollup/plugin-babel": "6.0.4",
     "@rollup/plugin-commonjs": "26.0.3",
     "@rollup/plugin-json": "6.1.0",
@@ -66,15 +66,14 @@
     "typescript": "^5.6.3"
   },
   "peerDependencies": {
-    "@mui/icons-material": "^5.10.6",
-    "@mui/material": "^5.10.6",
+    "@mui/icons-material": "^6.0.0",
+    "@mui/material": "^6.0.0",
     "react": "^17.0.2 || ^18.2.0",
     "react-dom": "^17.0.2 || ^18.2.0"
   },
   "dependencies": {
     "@lexical/react": "^0.18.0",
     "@mui/x-date-pickers": "^7.22.0",
-    "@pangeacyber/react-mui-branding": "0.0.18",
     "@pangeacyber/vanilla-js": "0.1.11",
     "@simplewebauthn/browser": "9.0.1",
     "awesome-phonenumber": "^7.2.0",
