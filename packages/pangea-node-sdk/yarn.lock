@@ -5564,7 +5564,7 @@ __metadata:
     ts-node: "npm:^10.9.2"
     tsc-alias: "npm:^1.8.10"
     tshy: "npm:2.0.1"
-    typedoc: "npm:^0.26.10"
+    typedoc: "npm:^0.26.11"
     typescript: "npm:5.6.3"
   languageName: unknown
   linkType: soft
@@ -6839,7 +6839,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"typedoc@npm:^0.26.10":
+"typedoc@npm:^0.26.11":
   version: 0.26.11
   resolution: "typedoc@npm:0.26.11"
   dependencies:

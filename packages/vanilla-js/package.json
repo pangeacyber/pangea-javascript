@@ -8,7 +8,7 @@
   "files": [
     "dist"
   ],
-  "repository": "https://github.com/pangeacyber/pangea-javascript.git",
+  "repository": "github:pangeacyber/pangea-javascript",
   "author": "Pangea (https://pangea.cloud)",
   "license": "MIT",
   "publishConfig": {
@@ -17,7 +17,8 @@
   "packageManager": "yarn@4.5.1",
   "scripts": {
     "build": "rm -rf dist && rollup -c",
-    "build-docs": "typedoc --plugin typedoc-plugin-rename-defaults"
+    "build-docs": "typedoc --plugin typedoc-plugin-rename-defaults",
+    "lint-publint": "publint"
   },
   "dependencies": {
     "lodash": "^4.17.21"
@@ -29,13 +30,15 @@
     "@rollup/plugin-json": "^6.1.0",
     "@rollup/plugin-node-resolve": "^15.3.0",
     "@rollup/plugin-terser": "^0.4.4",
-    "@rollup/plugin-typescript": "^11.1.6",
-    "@types/lodash": "^4.17.12",
+    "@rollup/plugin-typescript": "12.1.1",
+    "@types/lodash": "^4.17.13",
+    "publint": "0.2.12",
+    "rimraf": "6.0.1",
     "rollup": "^4.22.4",
-    "rollup-plugin-dts": "^6.1.1",
+    "rollup-plugin-dts": "6.1.1",
     "rollup-plugin-peer-deps-external": "^2.2.4",
     "rollup-plugin-polyfill-node": "^0.13.0",
-    "tslib": "^2.8.0",
+    "tslib": "^2.8.1",
     "typedoc": "^0.26.8",
     "typedoc-plugin-rename-defaults": "^0.7.1",
     "typescript": "^5.6.3"

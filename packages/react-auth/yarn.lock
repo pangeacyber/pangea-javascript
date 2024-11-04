@@ -442,14 +442,14 @@ __metadata:
     "@parcel/transformer-typescript-types": "npm:^2.12.0"
     "@parcel/utils": "npm:^2.12.0"
     "@tsconfig/strictest": "npm:^2.0.5"
-    "@types/lodash": "npm:^4.17.12"
+    "@types/lodash": "npm:^4.17.13"
     "@types/react": "npm:^18.3.12"
     jose: "npm:^5.9.6"
     lodash: "npm:^4.17.21"
     parcel: "npm:^2.12.0"
     publint: "npm:0.2.12"
     react: "npm:^18.3.1"
-    typedoc: "npm:^0.26.10"
+    typedoc: "npm:^0.26.11"
     typedoc-plugin-rename-defaults: "npm:^0.7.1"
     typescript: "npm:^5.6.3"
   peerDependencies:
@@ -1577,7 +1577,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/lodash@npm:^4.17.12":
+"@types/lodash@npm:^4.17.13":
   version: 4.17.13
   resolution: "@types/lodash@npm:4.17.13"
   checksum: 10c0/c3d0b7efe7933ac0369b99f2f7bff9240d960680fdb74b41ed4bd1b3ca60cca1e31fe4046d9abbde778f941a41bc2a75eb629abf8659fa6c27b66efbbb0802a9
@@ -4000,7 +4000,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"typedoc@npm:^0.26.10":
+"typedoc@npm:^0.26.11":
   version: 0.26.11
   resolution: "typedoc@npm:0.26.11"
   dependencies:
