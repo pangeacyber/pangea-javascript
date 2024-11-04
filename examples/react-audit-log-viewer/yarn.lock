@@ -993,11 +993,11 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@pangeacyber/react-mui-audit-log-viewer@npm:1.0.0-beta.0":
-  version: 1.0.0-beta.0
-  resolution: "@pangeacyber/react-mui-audit-log-viewer@npm:1.0.0-beta.0"
+"@pangeacyber/react-mui-audit-log-viewer@npm:^1.0.0":
+  version: 1.0.0
+  resolution: "@pangeacyber/react-mui-audit-log-viewer@npm:1.0.0"
   dependencies:
-    "@pangeacyber/react-mui-shared": "npm:1.0.0-beta.0"
+    "@pangeacyber/react-mui-shared": "npm:1.0.0"
     crypto-js: "npm:^4.2.0"
     diff: "npm:^5.2.0"
     lodash: "npm:^4.17.21"
@@ -1010,25 +1010,25 @@ __metadata:
     "@mui/material": ^6.0.0
     react: ^17.0.0 || ^18.0.0
     react-dom: ^17.0.0 || ^18.0.0
-  checksum: 10c0/d730b64e8ee83a3b787def47bd059af0e8f2c4a0c8e9028644d6b9c12abe37f8524c13d19ac7c6176ac1748e440a4b23e02bec06bdfac7188f6844ceffd6ea28
+  checksum: 10c0/82ffaea1e59884a8370dc594e5af7692ad1c2f91b0da73ebf2b6867f42f728bf667e02f0af996f853c292568450642fd7025a4047ecbd26765c610696bdb97dd
   languageName: node
   linkType: hard
 
-"@pangeacyber/react-mui-branding@npm:1.0.0-beta.4":
-  version: 1.0.0-beta.4
-  resolution: "@pangeacyber/react-mui-branding@npm:1.0.0-beta.4"
+"@pangeacyber/react-mui-branding@npm:^1.0.0":
+  version: 1.0.0
+  resolution: "@pangeacyber/react-mui-branding@npm:1.0.0"
   peerDependencies:
     "@mui/icons-material": ^6.0.0
     "@mui/material": ^6.0.0
     react: ^17.0.2 || ^18.2.0
     react-dom: ^17.0.2 || ^18.2.0
-  checksum: 10c0/1ad7ff52a28b1b9840ac99a60c40460463b63772ef049d68d33abe6e5623f504a9447d7631a855eb82c3dddd09e081302e2c4c745851bf7712fe19a79df9fa6f
+  checksum: 10c0/55e914426f42457abfd2fb18806947eb7cca432c6b1654edf8116aaf59cf9ced67975c20a5226c60b7a6ad6af24f89f7ef225b4e8ca74d0e1a041b6c559d90e7
   languageName: node
   linkType: hard
 
-"@pangeacyber/react-mui-shared@npm:1.0.0-beta.0":
-  version: 1.0.0-beta.0
-  resolution: "@pangeacyber/react-mui-shared@npm:1.0.0-beta.0"
+"@pangeacyber/react-mui-shared@npm:1.0.0":
+  version: 1.0.0
+  resolution: "@pangeacyber/react-mui-shared@npm:1.0.0"
   dependencies:
     "@loadable/component": "npm:^5.16.4"
     "@mui/x-data-grid": "npm:^7.22.0"
@@ -1046,7 +1046,7 @@ __metadata:
     "@mui/material": ^6.0.0
     react: ^17.0.0 || ^18.0.0
     react-dom: ^17.0.0 || ^18.0.0
-  checksum: 10c0/c99f57b816fef5355d61c6dabfdac6a0e5c76761b1646453fb11a5fc9e07745953771f5d79eafac826a9b5c383bd392d59191e5c7a67496a4411e2bc8588e28a
+  checksum: 10c0/27c6f273027c122dad608f2fbde51d6233fd6a78434eec39bd86b3399a11b6a4c9c8d070ff446fbfe3a5d8650241bbc901928282f2b070a233916ba8713e9c86
   languageName: node
   linkType: hard
 
@@ -4074,8 +4074,8 @@ __metadata:
     "@emotion/styled": "npm:11.13.0"
     "@mui/icons-material": "npm:^6.1.6"
     "@mui/material": "npm:^6.1.6"
-    "@pangeacyber/react-mui-audit-log-viewer": "npm:1.0.0-beta.0"
-    "@pangeacyber/react-mui-branding": "npm:1.0.0-beta.4"
+    "@pangeacyber/react-mui-audit-log-viewer": "npm:^1.0.0"
+    "@pangeacyber/react-mui-branding": "npm:^1.0.0"
     "@testing-library/jest-dom": "npm:6.6.3"
     "@testing-library/react": "npm:15.0.7"
     "@tsconfig/cypress": "npm:1.0.2"

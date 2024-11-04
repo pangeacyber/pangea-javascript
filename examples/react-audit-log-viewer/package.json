@@ -19,8 +19,8 @@
     "@emotion/styled": "11.13.0",
     "@mui/icons-material": "^6.1.6",
     "@mui/material": "^6.1.6",
-    "@pangeacyber/react-mui-audit-log-viewer": "1.0.0-beta.0",
-    "@pangeacyber/react-mui-branding": "1.0.0-beta.4",
+    "@pangeacyber/react-mui-audit-log-viewer": "^1.0.0",
+    "@pangeacyber/react-mui-branding": "^1.0.0",
     "react": "18.3.1",
     "react-dom": "18.3.1"
   },

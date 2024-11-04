@@ -1581,15 +1581,15 @@
     "@nodelib/fs.scandir" "2.1.5"
     fastq "^1.6.0"
 
-"@pangeacyber/react-mui-branding@1.0.0-beta.4":
-  version "1.0.0-beta.4"
-  resolved "https://registry.yarnpkg.com/@pangeacyber/react-mui-branding/-/react-mui-branding-1.0.0-beta.4.tgz#76c8d8a43e130208d79f2e8541a9d179df14776c"
-  integrity sha512-CRAjO7quW7cY3Jgw1y0PvZNDvGN5rZzm7/2HUUNQIKsSGaWdgfXRwlpkNCRTQCYovq5YE2M0cQATYR2vGcsGhQ==
+"@pangeacyber/react-mui-branding@1.0.0":
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/@pangeacyber/react-mui-branding/-/react-mui-branding-1.0.0.tgz#1da5d4bdf87a54066880ec892b69867c72954f61"
+  integrity sha512-0R2SIeiZYm9BIA3x3aIjbfMlcP/zRLomN2N0zyz2m9k2pYzxgC57S96YnbkQCBztvq5nao3PsXHZVFD7SrWDug==
 
-"@pangeacyber/react-mui-shared@1.0.0-beta.0":
-  version "1.0.0-beta.0"
-  resolved "https://registry.yarnpkg.com/@pangeacyber/react-mui-shared/-/react-mui-shared-1.0.0-beta.0.tgz#3ff5d81a715005f2cef502386ed5d6e1896d0148"
-  integrity sha512-/gzu01DpgUNl8BwUeiGW0I2r2pd4s8mvwrUaaqOWfUuseVeiaGgazLnuw1ZXg7Avj3c8uDs3Pz2xN4HfXTuvtg==
+"@pangeacyber/react-mui-shared@1.0.0":
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/@pangeacyber/react-mui-shared/-/react-mui-shared-1.0.0.tgz#824ee38b0b7c71b90884af6520995f23381a76ce"
+  integrity sha512-lk6sfUyjFl53ogp2iK1WNIm2a8b8brw9/Dl2gW/ZACmg03KVSuvdF4tR0X6pPZ5lGI7Wl7WMSTLYWixN4XI+QA==
   dependencies:
     "@loadable/component" "^5.16.4"
     "@mui/x-data-grid" "^7.22.0"
