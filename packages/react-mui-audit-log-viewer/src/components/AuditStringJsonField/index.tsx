@@ -191,16 +191,6 @@ const StringJsonField: FC<{
 }) => {
   const jsonValue = parseJson(value);
 
-  console.log(
-    changes.filter(shouldHighlight).map((c) => ({
-      prefix: c.prefix,
-      suffix: c.suffix,
-      value: c.value,
-      color: c.redacted ? "success" : "highlight",
-      info: c.info,
-    }))
-  );
-
   if (jsonValue && typeof jsonValue === "object")
     return (
       <Stack direction="row" spacing={1} sx={{ width: "100%", pt: 0.5 }}>
