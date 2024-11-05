@@ -153,5 +153,3 @@ export class AuthNClient {
     return message;
   }
 }
-
-export default AuthNClient;
