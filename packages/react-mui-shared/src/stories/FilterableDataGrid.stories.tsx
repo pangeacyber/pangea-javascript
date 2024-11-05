@@ -51,7 +51,7 @@ const Template: StoryFn<typeof LinedPangeaDataGrid> = (args) => {
   const [query, setQuery] = useState("");
   const [filters, setFilters] = useState({});
 
-  const [previewId, setPreviewId] = useState("2");
+  const [previewId, setPreviewId] = useState(undefined);
 
   // @ts-ignore
   const [data, setData] = useState<Show[]>(args.data);
