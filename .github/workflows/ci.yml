@@ -301,6 +301,37 @@ jobs:
       - name: publint
         run: yarn lint-publint
 
+  build-webcomponents:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./packages/webcomponents
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4.2.2
+
+      - name: Enable Corepack
+        run: corepack enable
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4.1.0
+        with:
+          node-version: 20
+          cache: yarn
+          cache-dependency-path: ./packages/webcomponents/yarn.lock
+
+      - name: Install dependencies
+        run: yarn
+
+      - name: Typecheck
+        run: yarn typecheck
+
+      - name: Build
+        run: yarn build
+
+      - name: publint
+        run: yarn lint-publint
+
   lint-prettier:
     runs-on: ubuntu-latest
     steps:

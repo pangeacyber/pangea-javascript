@@ -106,7 +106,7 @@ export function CreateMUIWebComponent<T>(
               overrideThemeOptions: themeOverride,
             }}
           >
-            <ReactComponent {...transformedProps} />
+            <ReactComponent {...(transformedProps as T)} />
           </BrandingThemeProvider>
         </CacheProvider>,
         mountPoint
