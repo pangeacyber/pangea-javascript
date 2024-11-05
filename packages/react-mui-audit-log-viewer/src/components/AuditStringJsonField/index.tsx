@@ -203,7 +203,8 @@ const StringJsonField: FC<{
             highlights={changes.filter(shouldHighlight).map((c) => ({
               prefix: c.prefix,
               suffix: c.suffix,
-              value: c.value,
+              value:
+                typeof c.value === "object" ? JSON.stringify(c.value) : c.value,
               color: c.redacted ? "success" : "highlight",
               info: c.info,
             }))}

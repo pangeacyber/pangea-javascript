@@ -39,4 +39,10 @@ export const BROWSERFLIX: any = {
   signup_button_label: "Create account",
   signup_social_heading: "Other ways to sign up",
   otp_button_label: "Submit",
+  custom_metadata: {
+    audit: {
+      hover_row_bg_color: "#4B4B4B",
+      selected_row_bg_color: "#4B4B4B",
+    },
+  },
 };

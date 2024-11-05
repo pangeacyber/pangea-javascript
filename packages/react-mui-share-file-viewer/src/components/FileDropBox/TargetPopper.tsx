@@ -1,17 +1,8 @@
 import { useTheme, lighten, darken } from "@mui/material/styles";
-import Box from "@mui/material/Box";
-import {
-  Collapse,
-  Stack,
-  Typography,
-  Popper,
-  Fade,
-  Button,
-} from "@mui/material";
-import { FC, useRef } from "react";
+import { Stack, Typography, Popper, Fade } from "@mui/material";
+import { FC } from "react";
 
 import StoreObjectIcon from "../StoreObjectIcon";
-import AddIcon from "@mui/icons-material/Add";
 import { ObjectStore } from "../../types";
 
 import HomeIcon from "@mui/icons-material/Home";

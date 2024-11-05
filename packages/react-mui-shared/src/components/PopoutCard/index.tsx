@@ -1,7 +1,12 @@
 import React, { FC, MutableRefObject, useRef, useEffect } from "react";
 
-import { PopperPlacementType } from "@mui/base";
-import { Popper, Paper, Card, PopperProps } from "@mui/material";
+import {
+  Popper,
+  Paper,
+  Card,
+  PopperProps,
+  PopperPlacementType,
+} from "@mui/material";
 import { SxProps } from "@mui/system";
 import ClickAwayListener from "@mui/material/ClickAwayListener";
 

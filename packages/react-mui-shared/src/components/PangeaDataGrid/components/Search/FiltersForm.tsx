@@ -1,6 +1,12 @@
 import { FC, useState, useEffect } from "react";
 import get from "lodash/get";
-import { Grid, TextField, Button, Stack, ChipProps } from "@mui/material";
+import {
+  Grid2 as Grid,
+  TextField,
+  Button,
+  Stack,
+  ChipProps,
+} from "@mui/material";
 
 interface FilterOption {
   label: string;
@@ -61,7 +67,12 @@ const FiltersForm = <FiltersObj extends { [key: string]: string }>({
               field.type === "csv" ? [] : ""
             );
             return (
-              <Grid xs={6} item key={`audit-field-${fieldName}`}>
+              <Grid
+                size={{
+                  xs: 6,
+                }}
+                key={`audit-field-${fieldName}`}
+              >
                 <TextField
                   value={field.type === "csv" ? value.join(",") : value}
                   onChange={(event) => {
