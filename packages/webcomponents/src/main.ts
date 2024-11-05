@@ -1,9 +1,9 @@
 import { CreateMUIWebComponent } from "./";
 import registerAuditLogViewer from "./audit-log-viewer";
-import registerStoreFileViewer from "./store-file-viewer";
+import registerShareFileViewer from "./share-file-viewer";
 
 export {
   CreateMUIWebComponent,
   registerAuditLogViewer,
-  registerStoreFileViewer,
+  registerShareFileViewer,
 };

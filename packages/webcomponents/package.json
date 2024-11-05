@@ -3,20 +3,23 @@
   "version": "1.0.0",
   "author": "Michael Combs <michael.combs@pangea.cloud>",
   "license": "MIT",
+  "type": "commonjs",
   "source": "src/main.ts",
-  "main": "dist/lib/main.js",
-  "module": "dist/lib/module.js",
+  "main": "dist/lib/main.cjs",
+  "module": "dist/lib/main.mjs",
   "types": "dist/lib/types.d.ts",
   "browser": {
     "audit-log-viewer": "dist/browser/audit-log-viewer.js",
-    "store-file-viewer": "dist/browser/store-file-viewer.js"
+    "share-file-viewer": "dist/browser/share-file-viewer.js"
   },
   "publishConfig": {
     "access": "public"
   },
   "packageManager": "yarn@4.5.1",
   "scripts": {
-    "build": "parcel build"
+    "build": "parcel build",
+    "lint-publint": "publint",
+    "typecheck": "tsc --noEmit"
   },
   "devDependencies": {
     "@babel/core": "^7.26.0",
@@ -30,6 +33,7 @@
     "css-loader": "^7.1.2",
     "parcel": "^2.12.0",
     "process": "^0.11.10",
+    "publint": "0.2.12",
     "style-loader": "^4.0.0",
     "ts-node": "^10.9.2",
     "typescript": "^5.6.3"
@@ -42,9 +46,9 @@
     "@mui/material": "^6.1.6",
     "@mui/styled-engine-sc": "^6.1.5",
     "@mui/types": "^7.2.18",
-    "@pangeacyber/react-mui-audit-log-viewer": "^0.0.95",
-    "@pangeacyber/react-mui-branding": "0.0.18",
-    "@pangeacyber/react-mui-store-file-viewer": "^0.0.69",
+    "@pangeacyber/react-mui-audit-log-viewer": "^1.0.1",
+    "@pangeacyber/react-mui-branding": "^1.0.0",
+    "@pangeacyber/react-mui-share-file-viewer": "^1.0.0",
     "@preact/compat": "^18.3.1",
     "preact": "^10.24.3",
     "styled-components": "^6.1.13"
@@ -60,7 +64,7 @@
     "browsers": {
       "source": [
         "src/audit-log-viewer.tsx",
-        "src/store-file-viewer.tsx"
+        "src/share-file-viewer.tsx"
       ],
       "distDir": "dist/browser",
       "context": "browser",
