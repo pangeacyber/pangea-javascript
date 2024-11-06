@@ -7,11 +7,17 @@ import Button from "@src/components/core/Button";
 
 interface Props {
   label: string;
+  message?: string;
   showLock?: boolean;
   onClick: () => void;
 }
 
-const PasskeyError: FC<Props> = ({ label, showLock = false, onClick }) => {
+const PasskeyError: FC<Props> = ({
+  label,
+  message,
+  showLock = false,
+  onClick,
+}) => {
   const theme = useTheme();
 
   return (
@@ -39,7 +45,7 @@ const PasskeyError: FC<Props> = ({ label, showLock = false, onClick }) => {
           <WarningRounded
             sx={{ fontSize: "20px", color: theme.palette.error.main }}
           />
-          Authentication failed
+          {!message ? "Authentication failed" : message}
         </Stack>
       </Button>
       <Button

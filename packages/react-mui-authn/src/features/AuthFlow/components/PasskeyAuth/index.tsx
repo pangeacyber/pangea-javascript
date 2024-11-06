@@ -5,6 +5,7 @@ import { HourglassBottomRounded, VpnKeyRounded } from "@mui/icons-material";
 import {
   startAuthentication,
   browserSupportsWebAuthn,
+  WebAuthnError,
 } from "@simplewebauthn/browser";
 
 import { AuthFlow } from "@pangeacyber/vanilla-js";
@@ -12,9 +13,9 @@ import { AuthFlow } from "@pangeacyber/vanilla-js";
 import { AuthFlowComponentProps } from "@src/features/AuthFlow/types";
 import Button from "@src/components/core/Button";
 import PasskeyError from "@src/components/fields/PasskeyError";
+import { base64UrlDecode, base64UrlEncode } from "@src/utils";
 
 const PasskeyAuth: FC<AuthFlowComponentProps> = ({
-  options,
   update,
   restart,
   data,
@@ -45,10 +46,21 @@ const PasskeyAuth: FC<AuthFlowComponentProps> = ({
   const passkeyDiscovery = async () => {
     try {
       const publicKey = data.passkey?.authentication?.publicKey;
-      const authResp = await startAuthentication(publicKey, true);
+      const authResp = await startAuthentication({
+        optionsJSON: publicKey,
+        useBrowserAutofill: true,
+      });
+      authResp.response.userHandle = base64UrlDecode(
+        authResp.response.userHandle || ""
+      );
       update(AuthFlow.Choice.PASSKEY, { authentication: authResp });
-    } catch (_e) {
-      console.debug("PASSKEY ERROR", _e);
+    } catch (err: any) {
+      setStage("error");
+      if (err instanceof WebAuthnError) {
+        console.log("PASSKEY ERROR:", err.message);
+      } else {
+        console.debug("PASSKEY ERROR:", err);
+      }
     }
   };
 
@@ -56,14 +68,15 @@ const PasskeyAuth: FC<AuthFlowComponentProps> = ({
     setStage("wait");
     try {
       const publicKey = data.passkey?.authentication?.publicKey;
-      const authResp = await startAuthentication(publicKey);
+      publicKey.userHandle = base64UrlEncode(publicKey.userHandle);
+      const authResp = await startAuthentication({ optionsJSON: publicKey });
       update(AuthFlow.Choice.PASSKEY, { authentication: authResp });
-    } catch (_e) {
+    } catch (err) {
       setStage("error");
-
-      // @ts-ignore
-      if (window.PASSKEY_DEBUG) {
-        console.debug("PASSKEY ERROR", _e);
+      if (err instanceof WebAuthnError) {
+        console.log("PASSKEY ERROR:", err.message);
+      } else {
+        console.debug("PASSKEY ERROR:", err);
       }
     }
   };
