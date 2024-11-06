@@ -2,16 +2,16 @@ import { FC, useEffect, useState } from "react";
 import { Stack } from "@mui/material";
 import { useTheme } from "@mui/material/styles";
 import { HourglassBottomRounded } from "@mui/icons-material";
-import { startRegistration } from "@simplewebauthn/browser";
+import { startRegistration, WebAuthnError } from "@simplewebauthn/browser";
 
 import { AuthFlow } from "@pangeacyber/vanilla-js";
 
 import { AuthFlowComponentProps } from "@src/features/AuthFlow/types";
 import Button from "@src/components/core/Button";
 import PasskeyError from "@src/components/fields/PasskeyError";
+import { base64UrlEncode } from "@src/utils";
 
 const PasskeyAuth: FC<AuthFlowComponentProps> = ({
-  options,
   update,
   restart,
   data,
@@ -38,11 +38,16 @@ const PasskeyAuth: FC<AuthFlowComponentProps> = ({
     const publicKey = data.passkey?.registration?.publicKey;
 
     try {
-      const authResp = await startRegistration(publicKey);
+      publicKey.user.id = base64UrlEncode(publicKey.user.id);
+      const authResp = await startRegistration({ optionsJSON: publicKey });
       update(AuthFlow.Choice.PASSKEY, { registration: authResp });
-    } catch (_e) {
+    } catch (err: any) {
       setStage("error");
-      console.debug("PASSKEY ERROR", _e);
+      if (err instanceof WebAuthnError) {
+        console.log("PASSKEY ERROR:", err.message);
+      } else {
+        console.debug("PASSKEY ERROR:", err);
+      }
     }
   };
 

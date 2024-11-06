@@ -111,3 +111,15 @@ export const USERNAME_REGEXP = /^[0-9a-zA-Z+._+@-]{2,320}$/;
 export const validateUsername = (username: string): boolean => {
   return USERNAME_REGEXP.test(username);
 };
+
+export const base64UrlEncode = (value: string): string => {
+  return btoa(value).replace(/\+/g, "-").replace(/\//g, "_").replace(/=/g, "");
+};
+
+export const base64UrlDecode = (value: string): string => {
+  let str = value.replace(/-/g, "+").replace(/_/g, "/");
+  while (str.length % 4) {
+    str += "=";
+  }
+  return atob(str);
+};
