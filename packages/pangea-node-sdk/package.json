@@ -36,7 +36,7 @@
   },
   "devDependencies": {
     "@gitlab/eslint-plugin": "^20.5.0",
-    "@swc/core": "1.8.0",
+    "@swc/core": "1.9.1",
     "@swc/jest": "0.2.37",
     "@tsconfig/node18": "18.2.4",
     "@types/crypto-js": "^4.2.2",
