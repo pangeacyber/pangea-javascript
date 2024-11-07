@@ -129,8 +129,8 @@ jobs:
           name: react-auth-docs
           path: ./packages/react-auth/docs/
 
-  build-react-mui-audit-log-viewer-docs:
-    runs-on: ubuntu-latest
+  build-react-mui-audit-log-viewer:
+    runs-on: ubuntu-24.04
     defaults:
       run:
         working-directory: ./packages/react-mui-audit-log-viewer
@@ -154,14 +154,20 @@ jobs:
       - name: Type check
         run: yarn typecheck
 
-      - name: Build Docs
-        run: yarn build-docs
+      - name: Build
+        run: yarn build
 
       - name: Upload Docs
         uses: actions/upload-artifact@v4.4.3
         with:
           name: react-mui-audit-log-viewer-docs
           path: ./packages/react-mui-audit-log-viewer/docs/
+
+      - name: Test
+        run: yarn test
+
+      - name: Storybook
+        run: yarn build-storybook
 
   build-react-mui-authn:
     runs-on: ubuntu-latest
@@ -199,6 +205,34 @@ jobs:
         with:
           name: react-mui-authn-package
           path: ./packages/react-mui-authn/pangeacyber-react-mui-authn-v*.tgz
+
+  build-react-mui-branding:
+    runs-on: ubuntu-24.04
+    defaults:
+      run:
+        working-directory: ./packages/react-mui-branding
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4.2.2
+
+      - name: Enable Corepack
+        run: corepack enable
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4.1.0
+        with:
+          node-version: 20
+          cache: yarn
+          cache-dependency-path: ./packages/react-mui-branding/yarn.lock
+
+      - name: Install dependencies
+        run: yarn install
+
+      - name: Build
+        run: yarn build
+
+      - name: Storybook
+        run: yarn build-storybook
 
   build-react-mui-shared:
     runs-on: ubuntu-latest

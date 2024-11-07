@@ -1,6 +1,7 @@
 .yarn
 dist
 node_modules
+storybook-static
 /yarn-error.log
 *.code-workspace
 *.DS_Store
