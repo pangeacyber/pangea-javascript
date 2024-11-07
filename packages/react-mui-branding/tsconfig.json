@@ -11,9 +11,7 @@
     "esModuleInterop": true,
     "skipLibCheck": true,
     "forceConsistentCasingInFileNames": true,
-    "declaration": true,
-    "declarationDir": "types",
-    "emitDeclarationOnly": true,
+    "noEmit": true,
     "baseUrl": ".",
     "paths": {
       "@src/*": ["./src/*"]

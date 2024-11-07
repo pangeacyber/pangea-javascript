@@ -6,12 +6,6 @@
     - corepack enable
     - cd packages/react-mui-audit-log-viewer
     - yarn install --immutable
-  cache:
-    - key:
-        files:
-          - yarn.lock
-      paths:
-        - node_modules
 
 publish_react_mui_audit_log_viewer:
   extends: .react_mui_audit_log_viewer_base
