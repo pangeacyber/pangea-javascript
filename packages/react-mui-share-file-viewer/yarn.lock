@@ -1518,10 +1518,10 @@
     prop-types "^15.8.1"
     react-is "^18.3.1"
 
-"@mui/x-data-grid@^7.22.0":
-  version "7.22.1"
-  resolved "https://registry.yarnpkg.com/@mui/x-data-grid/-/x-data-grid-7.22.1.tgz#de1b711cf314fedadacfeb30ce5ec049c12355f4"
-  integrity sha512-YHF96MEv7ACG/VuiycZjEAPH7cZLNuV2+bi/MyR1t/e6E6LTolYFykvjSFq+Imz1mYbW4+9mEvrHZsIKL5KKIQ==
+"@mui/x-data-grid@7.21.0":
+  version "7.21.0"
+  resolved "https://registry.yarnpkg.com/@mui/x-data-grid/-/x-data-grid-7.21.0.tgz#e1b7308e66a04ccf0d3a5a3a729c52b549b0eecd"
+  integrity sha512-0JAiwb2yRuVAd4idzfA64Bs1yn6KfC8VPBH7Njba0ySQB0+Ix+hvkzWQySD96hl7tK5heXbvbJ48pYLvhqS4Vw==
   dependencies:
     "@babel/runtime" "^7.25.7"
     "@mui/utils" "^5.16.6 || ^6.0.0"
@@ -1586,13 +1586,13 @@
   resolved "https://registry.yarnpkg.com/@pangeacyber/react-mui-branding/-/react-mui-branding-1.0.0.tgz#1da5d4bdf87a54066880ec892b69867c72954f61"
   integrity sha512-0R2SIeiZYm9BIA3x3aIjbfMlcP/zRLomN2N0zyz2m9k2pYzxgC57S96YnbkQCBztvq5nao3PsXHZVFD7SrWDug==
 
-"@pangeacyber/react-mui-shared@1.0.0":
-  version "1.0.0"
-  resolved "https://registry.yarnpkg.com/@pangeacyber/react-mui-shared/-/react-mui-shared-1.0.0.tgz#824ee38b0b7c71b90884af6520995f23381a76ce"
-  integrity sha512-lk6sfUyjFl53ogp2iK1WNIm2a8b8brw9/Dl2gW/ZACmg03KVSuvdF4tR0X6pPZ5lGI7Wl7WMSTLYWixN4XI+QA==
+"@pangeacyber/react-mui-shared@1.0.1":
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/@pangeacyber/react-mui-shared/-/react-mui-shared-1.0.1.tgz#346f17d705aa3367824db6df71167ae0df5e12ad"
+  integrity sha512-OB3Rle5dCXTG1nxtvDZIoJj0QXCKslUWC5dAllKcUIpe3OIWHpS4J56OWs+tGk7tio5OyncOyrEOFaRbdmpk2A==
   dependencies:
     "@loadable/component" "^5.16.4"
-    "@mui/x-data-grid" "^7.22.0"
+    "@mui/x-data-grid" "7.21.0"
     "@mui/x-date-pickers" "^7.22.1"
     dayjs "^1.11.13"
     formik "^2.4.6"
