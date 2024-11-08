@@ -61,7 +61,6 @@ const PasskeyAuth: FC<AuthFlowComponentProps> = ({
           setStage("error");
           setErrorMsg(err.message);
         }
-        console.log("WebAuthnError:", err.message);
       } else {
         setStage("error");
         console.debug("PASSKEY ERROR:", err);
