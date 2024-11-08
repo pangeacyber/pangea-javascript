@@ -1,5 +1,5 @@
 import { FC } from "react";
-import { Stack } from "@mui/material";
+import { Stack, Typography } from "@mui/material";
 import { useTheme } from "@mui/material/styles";
 import { VpnKeyRounded, WarningRounded } from "@mui/icons-material";
 
@@ -7,14 +7,14 @@ import Button from "@src/components/core/Button";
 
 interface Props {
   label: string;
-  message?: string;
+  error?: string;
   showLock?: boolean;
   onClick: () => void;
 }
 
 const PasskeyError: FC<Props> = ({
   label,
-  message,
+  error,
   showLock = false,
   onClick,
 }) => {
@@ -45,7 +45,7 @@ const PasskeyError: FC<Props> = ({
           <WarningRounded
             sx={{ fontSize: "20px", color: theme.palette.error.main }}
           />
-          {!message ? "Authentication failed" : message}
+          Authentication failed
         </Stack>
       </Button>
       <Button
@@ -62,6 +62,13 @@ const PasskeyError: FC<Props> = ({
           {label}
         </Stack>
       </Button>
+      {error && (
+        <Stack direction="row" justifyContent="center" pt={1}>
+          <Typography variant="body2" color="error">
+            {error}
+          </Typography>
+        </Stack>
+      )}
     </Stack>
   );
 };
