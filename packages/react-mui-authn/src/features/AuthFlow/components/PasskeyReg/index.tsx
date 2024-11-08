@@ -19,6 +19,7 @@ const PasskeyAuth: FC<AuthFlowComponentProps> = ({
 }) => {
   const theme = useTheme();
   const [stage, setStage] = useState<string>("start");
+  const [errorMsg, setErrorMsg] = useState<string>("");
 
   useEffect(() => {
     if (data.passkey?.enrollment && !data.passkey?.started) {
@@ -42,10 +43,13 @@ const PasskeyAuth: FC<AuthFlowComponentProps> = ({
       const authResp = await startRegistration({ optionsJSON: publicKey });
       update(AuthFlow.Choice.PASSKEY, { registration: authResp });
     } catch (err: any) {
-      setStage("error");
       if (err instanceof WebAuthnError) {
-        console.log("PASSKEY ERROR:", err.message);
+        if (err.name !== "AbortError") {
+          setStage("error");
+          setErrorMsg(err.message);
+        }
       } else {
+        setStage("error");
         console.debug("PASSKEY ERROR:", err);
       }
     }
@@ -75,7 +79,13 @@ const PasskeyAuth: FC<AuthFlowComponentProps> = ({
   }
 
   if (stage === "error") {
-    return <PasskeyError label="Retry passkey" onClick={passkeyAuth} />;
+    return (
+      <PasskeyError
+        label="Retry passkey"
+        error={errorMsg}
+        onClick={passkeyAuth}
+      />
+    );
   }
 
   return (

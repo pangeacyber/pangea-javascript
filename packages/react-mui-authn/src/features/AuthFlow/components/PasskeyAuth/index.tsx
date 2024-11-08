@@ -13,7 +13,7 @@ import { AuthFlow } from "@pangeacyber/vanilla-js";
 import { AuthFlowComponentProps } from "@src/features/AuthFlow/types";
 import Button from "@src/components/core/Button";
 import PasskeyError from "@src/components/fields/PasskeyError";
-import { base64UrlDecode, base64UrlEncode } from "@src/utils";
+import { base64UrlDecode } from "@src/utils";
 
 const PasskeyAuth: FC<AuthFlowComponentProps> = ({
   update,
@@ -23,6 +23,7 @@ const PasskeyAuth: FC<AuthFlowComponentProps> = ({
 }) => {
   const theme = useTheme();
   const [stage, setStage] = useState<string>("start");
+  const [errorMsg, setErrorMsg] = useState<string>("");
   const passkeyEnabled = !!data?.passkey && browserSupportsWebAuthn();
 
   useEffect(() => {
@@ -55,10 +56,14 @@ const PasskeyAuth: FC<AuthFlowComponentProps> = ({
       );
       update(AuthFlow.Choice.PASSKEY, { authentication: authResp });
     } catch (err: any) {
-      setStage("error");
       if (err instanceof WebAuthnError) {
-        console.log("PASSKEY ERROR:", err.message);
+        if (err.name !== "AbortError") {
+          setStage("error");
+          setErrorMsg(err.message);
+        }
+        console.log("WebAuthnError:", err.message);
       } else {
+        setStage("error");
         console.debug("PASSKEY ERROR:", err);
       }
     }
@@ -68,14 +73,19 @@ const PasskeyAuth: FC<AuthFlowComponentProps> = ({
     setStage("wait");
     try {
       const publicKey = data.passkey?.authentication?.publicKey;
-      publicKey.userHandle = base64UrlEncode(publicKey.userHandle);
       const authResp = await startAuthentication({ optionsJSON: publicKey });
+      authResp.response.userHandle = base64UrlDecode(
+        authResp.response.userHandle || ""
+      );
       update(AuthFlow.Choice.PASSKEY, { authentication: authResp });
     } catch (err) {
-      setStage("error");
       if (err instanceof WebAuthnError) {
-        console.log("PASSKEY ERROR:", err.message);
+        if (err.name !== "AbortError") {
+          setStage("error");
+          setErrorMsg(err.message);
+        }
       } else {
+        setStage("error");
         console.debug("PASSKEY ERROR:", err);
       }
     }
@@ -113,6 +123,7 @@ const PasskeyAuth: FC<AuthFlowComponentProps> = ({
     return (
       <PasskeyError
         label="Retry passkey"
+        error={errorMsg}
         showLock={true}
         onClick={passkeyAuth}
       />
