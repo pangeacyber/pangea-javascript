@@ -2710,9 +2710,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@mui/x-data-grid@npm:^7.22.0":
-  version: 7.22.1
-  resolution: "@mui/x-data-grid@npm:7.22.1"
+"@mui/x-data-grid@npm:7.21.0":
+  version: 7.21.0
+  resolution: "@mui/x-data-grid@npm:7.21.0"
   dependencies:
     "@babel/runtime": "npm:^7.25.7"
     "@mui/utils": "npm:^5.16.6 || ^6.0.0"
@@ -2732,7 +2732,7 @@ __metadata:
       optional: true
     "@emotion/styled":
       optional: true
-  checksum: 10c0/f7141c8d0a71f234e2b7cf77637298827dde0e1fd9b843105370fcf8ab4309a5ca72c513bda4062bd8cd7932f2b6efbdcf3158536fa54bb3e3d30fce58dea2cf
+  checksum: 10c0/725220ccd3856fd87ed500925ee5a3644a05a765549ea6e20af7c92721fcf685945f83f117a014142238039f598169fb335977f5e910032093481588434a8605
   languageName: node
   linkType: hard
 
@@ -2867,7 +2867,7 @@ __metadata:
     "@mui/material": "npm:^6.1.6"
     "@mui/types": "npm:^7.2.19"
     "@pangeacyber/react-mui-branding": "npm:1.0.0"
-    "@pangeacyber/react-mui-shared": "npm:1.0.0"
+    "@pangeacyber/react-mui-shared": "npm:1.0.1"
     "@rollup/plugin-commonjs": "npm:28.0.1"
     "@rollup/plugin-json": "npm:^6.1.0"
     "@rollup/plugin-node-resolve": "npm:^15.3.0"
@@ -2931,12 +2931,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@pangeacyber/react-mui-shared@npm:1.0.0":
-  version: 1.0.0
-  resolution: "@pangeacyber/react-mui-shared@npm:1.0.0"
+"@pangeacyber/react-mui-shared@npm:1.0.1":
+  version: 1.0.1
+  resolution: "@pangeacyber/react-mui-shared@npm:1.0.1"
   dependencies:
     "@loadable/component": "npm:^5.16.4"
-    "@mui/x-data-grid": "npm:^7.22.0"
+    "@mui/x-data-grid": "npm:7.21.0"
     "@mui/x-date-pickers": "npm:^7.22.1"
     dayjs: "npm:^1.11.13"
     formik: "npm:^2.4.6"
@@ -2951,7 +2951,7 @@ __metadata:
     "@mui/material": ^6.0.0
     react: ^17.0.0 || ^18.0.0
     react-dom: ^17.0.0 || ^18.0.0
-  checksum: 10c0/27c6f273027c122dad608f2fbde51d6233fd6a78434eec39bd86b3399a11b6a4c9c8d070ff446fbfe3a5d8650241bbc901928282f2b070a233916ba8713e9c86
+  checksum: 10c0/cd4a6413061760beb448458a8c626145859a12dfa31fa49b9b077f2ca4b234bfbdb28578e6d2e5062c6e237d32599e9d4e5d61b4aec82e05b241de1669d3e6f6
   languageName: node
   linkType: hard
 
