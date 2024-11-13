@@ -19,6 +19,7 @@ export default [
         dir: "dist/cjs",
         format: "cjs",
         sourcemap: true,
+        interop: "auto",
         name: "react-lib",
       },
       {
