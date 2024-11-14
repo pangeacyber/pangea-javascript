@@ -2635,7 +2635,7 @@ __metadata:
     dayjs: "npm:^1.11.13"
     formik: "npm:^2.4.6"
     lexical: "npm:^0.18.0"
-    postcss: "npm:^8.4.48"
+    postcss: "npm:^8.4.49"
     react: "npm:17.0.2"
     react-dom: "npm:17.0.2"
     react-google-recaptcha-enterprise: "npm:^1.0.3"
@@ -11285,7 +11285,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"postcss@npm:^8.4.48":
+"postcss@npm:^8.4.49":
   version: 8.4.49
   resolution: "postcss@npm:8.4.49"
   dependencies:
