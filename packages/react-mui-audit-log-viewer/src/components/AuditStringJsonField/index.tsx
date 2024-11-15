@@ -139,7 +139,9 @@ export const DateTimeField: FC<StringFieldProps> = (props) => {
         day: "2-digit",
         hour: "2-digit",
         minute: "2-digit",
-        second: undefined,
+        second: "2-digit",
+        // @ts-ignore
+        fractionalSecondDigits: 3,
       });
     }
 
