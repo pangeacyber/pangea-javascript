@@ -676,6 +676,14 @@ export namespace Intel {
       export interface BreachedOptions extends Intel.Options {
         start?: string;
         end?: string;
+
+        /** A token given in the raw response from SpyCloud. Post this back to paginate results */
+        cursor?: string;
+      }
+
+      export interface BreachedBulkOptions extends Intel.Options {
+        start?: string;
+        end?: string;
       }
 
       export interface BreachedEmailRequest extends BreachedOptions {
@@ -702,23 +710,23 @@ export namespace Intel {
         | BreachedPhoneRequest
         | BreachedUsernameRequest;
 
-      export interface BreachedEmailBulkRequest extends BreachedOptions {
+      export interface BreachedEmailBulkRequest extends BreachedBulkOptions {
         emails: string[];
       }
 
-      export interface BreachedUsernameBulkRequest extends BreachedOptions {
+      export interface BreachedUsernameBulkRequest extends BreachedBulkOptions {
         usernames: string[];
       }
 
-      export interface BreachedDomainBulkRequest extends BreachedOptions {
+      export interface BreachedDomainBulkRequest extends BreachedBulkOptions {
         domains: string[];
       }
 
-      export interface BreachedIPBulkRequest extends BreachedOptions {
+      export interface BreachedIPBulkRequest extends BreachedBulkOptions {
         ips: string[];
       }
 
-      export interface BreachedPhoneBulkRequest extends BreachedOptions {
+      export interface BreachedPhoneBulkRequest extends BreachedBulkOptions {
         phone_numbers: string[];
       }
 
