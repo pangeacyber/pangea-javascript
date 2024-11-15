@@ -2663,7 +2663,7 @@ __metadata:
     "@mui/material": "npm:^6.1.6"
     "@mui/types": "npm:^7.2.19"
     "@pangeacyber/react-mui-branding": "npm:1.0.0"
-    "@pangeacyber/react-mui-shared": ./pangeacyber-react-mui-shared-v1.0.2-beta.0.tgz
+    "@pangeacyber/react-mui-shared": "npm:1.0.2"
     "@rollup/plugin-commonjs": "npm:28.0.1"
     "@rollup/plugin-json": "npm:^6.1.0"
     "@rollup/plugin-node-resolve": "npm:^15.3.0"
@@ -2727,9 +2727,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@pangeacyber/react-mui-shared@file:./pangeacyber-react-mui-shared-v1.0.2-beta.0.tgz::locator=%40pangeacyber%2Freact-mui-audit-log-viewer%40workspace%3A.":
-  version: 1.0.2-beta.0
-  resolution: "@pangeacyber/react-mui-shared@file:./pangeacyber-react-mui-shared-v1.0.2-beta.0.tgz#./pangeacyber-react-mui-shared-v1.0.2-beta.0.tgz::hash=b4a59d&locator=%40pangeacyber%2Freact-mui-audit-log-viewer%40workspace%3A."
+"@pangeacyber/react-mui-shared@npm:1.0.2":
+  version: 1.0.2
+  resolution: "@pangeacyber/react-mui-shared@npm:1.0.2"
   dependencies:
     "@loadable/component": "npm:^5.16.4"
     "@mui/x-data-grid": "npm:7.21.0"
@@ -2747,7 +2747,7 @@ __metadata:
     "@mui/material": ^6.0.0
     react: ^17.0.0 || ^18.0.0
     react-dom: ^17.0.0 || ^18.0.0
-  checksum: 10c0/b4c25111c23a8d11342974c7472f936f75acf26b26099b36c38b909886770fa3ac831e53de73dc693284beb679c39e577d3cdfe0166596dc1176d1175e70417a
+  checksum: 10c0/6563cdff61a6ab9a8d68eeeccd7ad34b87a5c6d639b86ff8662b408ef317c4b39042ea3296425a4c3a88d84b545094a300c1184404308492ff7712120631fe57
   languageName: node
   linkType: hard
 

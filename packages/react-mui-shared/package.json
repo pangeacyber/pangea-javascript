@@ -1,6 +1,6 @@
 {
   "name": "@pangeacyber/react-mui-shared",
-  "version": "1.0.2-beta.0",
+  "version": "1.0.2",
   "description": "Pangea shared Material-UI React library",
   "main": "dist/cjs/index.js",
   "module": "dist/esm/index.js",
