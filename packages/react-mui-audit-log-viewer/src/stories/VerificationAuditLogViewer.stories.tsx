@@ -1,8 +1,8 @@
-import React from "react";
+import React, { useState } from "react";
 import { ComponentStory, ComponentMeta } from "@storybook/react";
 
 import AuditLogViewer, { AuditLogViewerProps } from "../AuditLogViewer";
-import { Box } from "@mui/material";
+import { Box, Button } from "@mui/material";
 import PangeaThemeProvider from "./theme/pangea/provider";
 import { Audit } from "../types";
 import { handle202Response } from "./utils";
@@ -80,6 +80,8 @@ const AUDIT_SCHEMA: Audit.Schema = {
 };
 
 const ThemeTemplate: ComponentStory<typeof AuditLogViewer> = (args) => {
+  const [query, setQuery] = useState("");
+
   const [schema, setSchema] = React.useState<any>({
     fields: [
       {
@@ -109,8 +111,11 @@ const ThemeTemplate: ComponentStory<typeof AuditLogViewer> = (args) => {
 
   return (
     <PangeaThemeProvider>
+      <Button onClick={() => setQuery("hi")}>Set query</Button>
+      <Button onClick={() => setQuery("")}>Set empty</Button>
+
       <Box className="widget" sx={{ padding: 1 }}>
-        <AuditLogViewer {...args} />
+        <AuditLogViewer {...args} initialQuery={query} />
       </Box>
     </PangeaThemeProvider>
   );
@@ -122,7 +127,7 @@ export const VerificationAuditLogViewer: {
 
 VerificationAuditLogViewer.args = {
   searchOnChange: false,
-  searchOnMount: false,
+  searchOnMount: true,
   searchOnFilterChange: false,
   fpeOptions: {
     highlightRedaction: true,

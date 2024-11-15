@@ -19,6 +19,7 @@ const Template: StoryFn<FC<Partial<JsonViewerProps>>> = (args) => {
       src={args.src ?? {}}
       highlights={args.highlights}
       depth={args.depth}
+      ReactJsonViewProps={args.ReactJsonViewProps}
     />
   );
 };
@@ -31,6 +32,15 @@ export const JsonViewerDemo: {
 JsonViewerDemo.args = {
   src: {
     email: "sourabh@s.com",
+    listData: [
+      {
+        hello: "world",
+      },
+      {
+        testing: 1,
+      },
+    ],
+    listStrs: ["what", "is", "up"],
   },
   highlights: [
     {

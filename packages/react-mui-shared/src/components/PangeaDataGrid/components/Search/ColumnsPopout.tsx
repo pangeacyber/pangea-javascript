@@ -155,7 +155,7 @@ const ColumnsPopout: FC<ColumnsPopoutProps> = ({
         placement={"bottom-end"}
       >
         <div id="draggable-portal" />
-        <Stack sx={{ position: "relative", width: "180px" }}>
+        <Stack sx={{ position: "relative", width: "220px" }}>
           <Typography variant="h6">Configure Table</Typography>
           <Stack
             sx={{

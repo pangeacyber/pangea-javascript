@@ -284,6 +284,7 @@ const AuditLogViewerWithProvider = <Event,>({
         root={root}
         loading={loading}
         onSearch={handleSearch}
+        initialQuery={initialQuery}
         {...props}
       />
     </AuditContextProvider>

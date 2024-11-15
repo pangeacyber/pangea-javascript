@@ -16,6 +16,18 @@ export interface JsonViewerProps {
     highlightColor: string;
   };
   allowEmpty?: boolean;
+
+  ReactJsonViewProps?: Partial<{
+    enableClipboard?: boolean | ((copy: any) => void); // default false
+    sortKeys?: boolean; // default false
+    quotesOnKeys?: boolean; // default true
+    displayDataTypes?: boolean; // defaults false
+    displayArrayKey?: boolean; // defaults false
+    displayObjectSize?: boolean; // defaults false
+    groupArraysAfterLength?: number; // defaults 100
+    collapsed?: boolean | number; // defaults false
+    indentWidth?: number;
+  }>;
 }
 
 const JsonViewer: FC<JsonViewerProps> = ({
@@ -27,6 +39,7 @@ const JsonViewer: FC<JsonViewerProps> = ({
     highlightColor: "#000",
   },
   allowEmpty = false,
+  ReactJsonViewProps,
 }) => {
   const theme = useTheme();
   const ref = useReactJsonViewHighlight(highlights);
@@ -101,11 +114,13 @@ const JsonViewer: FC<JsonViewerProps> = ({
           displayDataTypes={false}
           displayObjectSize={false}
           enableClipboard={false}
+          displayArrayKey={false}
           style={{
             backgroundColor: "transparent",
             fontFamily: "'Source Code Pro', monospace",
             fontSize: "0.875rem",
           }}
+          {...ReactJsonViewProps}
         />
       </Suspense>
     </Box>
