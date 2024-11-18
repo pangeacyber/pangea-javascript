@@ -1796,6 +1796,32 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@mui/x-data-grid@npm:7.21.0":
+  version: 7.21.0
+  resolution: "@mui/x-data-grid@npm:7.21.0"
+  dependencies:
+    "@babel/runtime": "npm:^7.25.7"
+    "@mui/utils": "npm:^5.16.6 || ^6.0.0"
+    "@mui/x-internals": "npm:7.21.0"
+    clsx: "npm:^2.1.1"
+    prop-types: "npm:^15.8.1"
+    reselect: "npm:^5.1.1"
+  peerDependencies:
+    "@emotion/react": ^11.9.0
+    "@emotion/styled": ^11.8.1
+    "@mui/material": ^5.15.14 || ^6.0.0
+    "@mui/system": ^5.15.14 || ^6.0.0
+    react: ^17.0.0 || ^18.0.0
+    react-dom: ^17.0.0 || ^18.0.0
+  peerDependenciesMeta:
+    "@emotion/react":
+      optional: true
+    "@emotion/styled":
+      optional: true
+  checksum: 10c0/725220ccd3856fd87ed500925ee5a3644a05a765549ea6e20af7c92721fcf685945f83f117a014142238039f598169fb335977f5e910032093481588434a8605
+  languageName: node
+  linkType: hard
+
 "@mui/x-data-grid@npm:^7.22.0":
   version: 7.22.1
   resolution: "@mui/x-data-grid@npm:7.22.1"
@@ -1937,11 +1963,11 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@pangeacyber/react-mui-share-file-viewer@npm:^1.0.0":
-  version: 1.0.0
-  resolution: "@pangeacyber/react-mui-share-file-viewer@npm:1.0.0"
+"@pangeacyber/react-mui-share-file-viewer@npm:^1.0.2":
+  version: 1.0.2
+  resolution: "@pangeacyber/react-mui-share-file-viewer@npm:1.0.2"
   dependencies:
-    "@pangeacyber/react-mui-shared": "npm:1.0.0"
+    "@pangeacyber/react-mui-shared": "npm:1.0.2"
     awesome-phonenumber: "npm:^7.2.0"
     axios: "npm:^1.7.7"
     lodash: "npm:^4.17.21"
@@ -1953,7 +1979,7 @@ __metadata:
     "@mui/material": ^6.0.0
     react: ^17.0.0 || ^18.0.0
     react-dom: ^17.0.0 || ^18.0.0
-  checksum: 10c0/fd12acd6bd947d9bdc70f9ed8941f45511e54e5f7a95e7452c23c25f60a1b1b744fad54339c5bc4de3fde5b2d011051b5e1daabc7e6809f3493bb437c6aac6eb
+  checksum: 10c0/8c387a92ca7e2f672bb0746d122a2a699233feacd93a2e1d34fb54c6bb511a786de2be63dc7ea5d079684978b59c614908015e921841dd24dfefd7a094032123
   languageName: node
   linkType: hard
 
@@ -1981,6 +2007,30 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@pangeacyber/react-mui-shared@npm:1.0.2":
+  version: 1.0.2
+  resolution: "@pangeacyber/react-mui-shared@npm:1.0.2"
+  dependencies:
+    "@loadable/component": "npm:^5.16.4"
+    "@mui/x-data-grid": "npm:7.21.0"
+    "@mui/x-date-pickers": "npm:^7.22.1"
+    dayjs: "npm:^1.11.13"
+    formik: "npm:^2.4.6"
+    moment: "npm:^2.30.1"
+    react-beautiful-dnd: "npm:^13.1.1"
+    react-json-view: "npm:^1.21.3"
+    yup: "npm:^1.4.0"
+  peerDependencies:
+    "@emotion/react": ^11.10.4
+    "@emotion/styled": ^11.10.4
+    "@mui/icons-material": ^6.0.0
+    "@mui/material": ^6.0.0
+    react: ^17.0.0 || ^18.0.0
+    react-dom: ^17.0.0 || ^18.0.0
+  checksum: 10c0/6563cdff61a6ab9a8d68eeeccd7ad34b87a5c6d639b86ff8662b408ef317c4b39042ea3296425a4c3a88d84b545094a300c1184404308492ff7712120631fe57
+  languageName: node
+  linkType: hard
+
 "@pangeacyber/webcomponents@workspace:.":
   version: 0.0.0-use.local
   resolution: "@pangeacyber/webcomponents@workspace:."
@@ -1999,7 +2049,7 @@ __metadata:
     "@mui/types": "npm:^7.2.18"
     "@pangeacyber/react-mui-audit-log-viewer": "npm:^1.0.1"
     "@pangeacyber/react-mui-branding": "npm:^1.0.0"
-    "@pangeacyber/react-mui-share-file-viewer": "npm:^1.0.0"
+    "@pangeacyber/react-mui-share-file-viewer": "npm:^1.0.2"
     "@parcel/packager-ts": "npm:2.13.0"
     "@parcel/transformer-typescript-types": "npm:2.13.0"
     "@preact/compat": "npm:^18.3.1"
