@@ -158,6 +158,16 @@ export namespace Audit {
      */
     published?: boolean;
 
+    /**
+     * Whether the record has imported
+     */
+    imported?: boolean;
+
+    /**
+     * @hidden
+     */
+    ingested?: boolean;
+
     /** Only present in logs if record is signed by Vault */
     valid_signature?: boolean;
 
