@@ -1822,32 +1822,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@mui/x-data-grid@npm:^7.22.0":
-  version: 7.22.1
-  resolution: "@mui/x-data-grid@npm:7.22.1"
-  dependencies:
-    "@babel/runtime": "npm:^7.25.7"
-    "@mui/utils": "npm:^5.16.6 || ^6.0.0"
-    "@mui/x-internals": "npm:7.21.0"
-    clsx: "npm:^2.1.1"
-    prop-types: "npm:^15.8.1"
-    reselect: "npm:^5.1.1"
-  peerDependencies:
-    "@emotion/react": ^11.9.0
-    "@emotion/styled": ^11.8.1
-    "@mui/material": ^5.15.14 || ^6.0.0
-    "@mui/system": ^5.15.14 || ^6.0.0
-    react: ^17.0.0 || ^18.0.0
-    react-dom: ^17.0.0 || ^18.0.0
-  peerDependenciesMeta:
-    "@emotion/react":
-      optional: true
-    "@emotion/styled":
-      optional: true
-  checksum: 10c0/f7141c8d0a71f234e2b7cf77637298827dde0e1fd9b843105370fcf8ab4309a5ca72c513bda4062bd8cd7932f2b6efbdcf3158536fa54bb3e3d30fce58dea2cf
-  languageName: node
-  linkType: hard
-
 "@mui/x-date-pickers@npm:^7.22.1":
   version: 7.22.1
   resolution: "@mui/x-date-pickers@npm:7.22.1"
@@ -1980,30 +1954,6 @@ __metadata:
     react: ^17.0.0 || ^18.0.0
     react-dom: ^17.0.0 || ^18.0.0
   checksum: 10c0/8c387a92ca7e2f672bb0746d122a2a699233feacd93a2e1d34fb54c6bb511a786de2be63dc7ea5d079684978b59c614908015e921841dd24dfefd7a094032123
-  languageName: node
-  linkType: hard
-
-"@pangeacyber/react-mui-shared@npm:1.0.0":
-  version: 1.0.0
-  resolution: "@pangeacyber/react-mui-shared@npm:1.0.0"
-  dependencies:
-    "@loadable/component": "npm:^5.16.4"
-    "@mui/x-data-grid": "npm:^7.22.0"
-    "@mui/x-date-pickers": "npm:^7.22.1"
-    dayjs: "npm:^1.11.13"
-    formik: "npm:^2.4.6"
-    moment: "npm:^2.30.1"
-    react-beautiful-dnd: "npm:^13.1.1"
-    react-json-view: "npm:^1.21.3"
-    yup: "npm:^1.4.0"
-  peerDependencies:
-    "@emotion/react": ^11.10.4
-    "@emotion/styled": ^11.10.4
-    "@mui/icons-material": ^6.0.0
-    "@mui/material": ^6.0.0
-    react: ^17.0.0 || ^18.0.0
-    react-dom: ^17.0.0 || ^18.0.0
-  checksum: 10c0/27c6f273027c122dad608f2fbde51d6233fd6a78434eec39bd86b3399a11b6a4c9c8d070ff446fbfe3a5d8650241bbc901928282f2b070a233916ba8713e9c86
   languageName: node
   linkType: hard
 
