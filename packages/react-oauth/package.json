@@ -47,7 +47,7 @@
   "peerDependencies": {
     "react": ">=17"
   },
-  "packageManager": "yarn@4.5.2",
+  "packageManager": "yarn@4.5.3",
   "dependencies": {
     "@pangeacyber/oauth-js": "0.0.3-beta"
   }

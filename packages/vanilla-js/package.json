@@ -14,7 +14,7 @@
   "publishConfig": {
     "access": "public"
   },
-  "packageManager": "yarn@4.5.2",
+  "packageManager": "yarn@4.5.3",
   "scripts": {
     "build": "rm -rf dist && rollup -c",
     "build-docs": "typedoc --plugin typedoc-plugin-rename-defaults",
