@@ -450,7 +450,7 @@ __metadata:
     publint: "npm:0.2.12"
     react: "npm:^18.3.1"
     typedoc: "npm:^0.26.11"
-    typedoc-plugin-rename-defaults: "npm:^0.7.1"
+    typedoc-plugin-rename-defaults: "npm:^0.7.2"
     typescript: "npm:^5.7.2"
   peerDependencies:
     react: ^17.0.2 || ^18.2.0
@@ -4106,14 +4106,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"typedoc-plugin-rename-defaults@npm:^0.7.1":
-  version: 0.7.1
-  resolution: "typedoc-plugin-rename-defaults@npm:0.7.1"
+"typedoc-plugin-rename-defaults@npm:^0.7.2":
+  version: 0.7.2
+  resolution: "typedoc-plugin-rename-defaults@npm:0.7.2"
   dependencies:
     camelcase: "npm:^8.0.0"
   peerDependencies:
-    typedoc: ">=0.22.x <0.27.x"
-  checksum: 10c0/8a76aeb66528b4162f0be1ad0e2aedea6f511d725530eeeea1c9da86fb989b525b7c45bc9070a2b1675822ec4096e113b5e6542829cc47dbdb3ab781511f998d
+    typedoc: ">=0.22.x <0.28.x"
+  checksum: 10c0/f50401df7d89f3d8c46570a0c15f2a208e3879eff8becd775e0d9eee2754fd8cd2fb0fd557be64232e9b93d4aed3967737556d479c93e6457fd6f1dc9b326d1d
   languageName: node
   linkType: hard
 

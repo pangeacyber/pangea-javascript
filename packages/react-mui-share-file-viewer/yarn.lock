@@ -7983,10 +7983,10 @@ typedarray@^0.0.6:
   resolved "https://registry.yarnpkg.com/typedarray/-/typedarray-0.0.6.tgz#867ac74e3864187b1d3d47d996a78ec5c8830777"
   integrity sha512-/aCDEGatGvZ2BIk+HmLf4ifCJFwvKFNb9/JeZPMulfgFracn9QFcAf5GO8B/mweUjSoblS5In0cWhqpfs/5PQA==
 
-typedoc-plugin-rename-defaults@0.7.1:
-  version "0.7.1"
-  resolved "https://registry.yarnpkg.com/typedoc-plugin-rename-defaults/-/typedoc-plugin-rename-defaults-0.7.1.tgz#804ceb784372f276437a509513ee77a2419250dc"
-  integrity sha512-hgg4mAy5IumgUmPOnVVGmGywjTGtUCmRJ2jRbseqtXdlUuYKj652ODL9joUWFt5uvNu4Dr/pNILc/qsKGHJw+w==
+typedoc-plugin-rename-defaults@0.7.2:
+  version "0.7.2"
+  resolved "https://registry.yarnpkg.com/typedoc-plugin-rename-defaults/-/typedoc-plugin-rename-defaults-0.7.2.tgz#376b701f8b73fd62dbf083d5c6eab8e057f0a92c"
+  integrity sha512-9oa1CsMN4p/xuVR2JW2YDD6xE7JcrIth3KAfjR8YBi6NnrDk2Q72o4lbArybLDjxKAkOzk7N1uUdGwJlooLEOg==
   dependencies:
     camelcase "^8.0.0"
 
