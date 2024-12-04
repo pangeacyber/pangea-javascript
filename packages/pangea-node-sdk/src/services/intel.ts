@@ -1034,6 +1034,25 @@ export class UserIntelService extends BaseService {
     return this.post("v2/password/breached", data);
   }
 
+  /**
+   * @summary Look up information about a specific breach
+   * @description Given a provider specific breach ID, find details about the breach.
+   * @operationId user_intel_post_v1_breach
+   * @param request Request to send to v1/breach endpoint
+   * @returns {Promise} - A promise representing an async call to the password/breached endpoint.
+   * @example
+   * ```js
+   * const response = await userIntel.breach({
+   *  breach_id: "66111",
+   * });
+   * ```
+   */
+  breach(
+    request: Intel.User.BreachRequest
+  ): Promise<PangeaResponse<Intel.User.BreachResult>> {
+    return this.post("v1/breach", request);
+  }
+
   static isPasswordBreached(
     response: PangeaResponse<Intel.User.User.BreachedResult>,
     hash: string
