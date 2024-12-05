@@ -150,7 +150,7 @@ class ShareService extends BaseService {
    * ```js
    * const request = {
    *   transfer_method: TransferMethod.MULTIPART,
-   *   Metadata: {
+   *   metadata: {
    *     created_by: "jim",
    *     priority: "medium",
    *   },
@@ -219,7 +219,7 @@ class ShareService extends BaseService {
    *   crc32c,
    *   sha256,
    *   size,
-   *   Metadata: {
+   *   metadata: {
    *     created_by: "jim",
    *     priority: "medium",
    *   },
