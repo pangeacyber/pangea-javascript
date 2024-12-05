@@ -310,6 +310,18 @@ export namespace Redact {
     rulesets?: string[];
     return_result?: boolean;
     redaction_method_overrides?: RedactionMethodOverrides;
+    vault_parameters?: VaultParameters;
+
+    /** Is this redact call going to be used in an LLM request? */
+    llm_request?: boolean;
+  }
+
+  export interface VaultParameters {
+    /** A vault key ID of an exportable key used to redact with FPE instead of using the service config default. */
+    fpe_key_id?: string;
+
+    /** A vault secret ID of a secret used to salt a hash instead of using the service config default. */
+    salt_secret_id?: string;
   }
 
   export interface TextOptions extends Options {}
