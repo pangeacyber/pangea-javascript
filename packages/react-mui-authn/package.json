@@ -81,7 +81,7 @@
     "formik": "^2.4.6",
     "lexical": "^0.18.0",
     "react-google-recaptcha-enterprise": "^1.0.3",
-    "yup": "1.4.0"
+    "yup": "1.5.0"
   },
   "packageManager": "yarn@4.5.3"
 }
