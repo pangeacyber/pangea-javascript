@@ -31,7 +31,7 @@
     "@tsconfig/vite-react": "3.4.0",
     "@types/react-dom": "18.3.2",
     "@vitejs/plugin-react": "4.3.4",
-    "cypress": "13.16.0",
+    "cypress": "13.16.1",
     "happy-dom": "15.11.7",
     "start-server-and-test": "2.0.8",
     "typescript": "5.7.2",
