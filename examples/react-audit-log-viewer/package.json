@@ -29,7 +29,7 @@
     "@testing-library/react": "15.0.7",
     "@tsconfig/cypress": "1.0.2",
     "@tsconfig/vite-react": "3.4.0",
-    "@types/react-dom": "18.3.1",
+    "@types/react-dom": "18.3.2",
     "@vitejs/plugin-react": "4.3.4",
     "cypress": "13.16.0",
     "happy-dom": "15.11.7",
