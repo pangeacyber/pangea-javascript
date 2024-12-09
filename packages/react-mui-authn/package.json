@@ -50,12 +50,12 @@
     "@storybook/react-webpack5": "7.6.20",
     "@storybook/test": "^7.6.20",
     "@storybook/testing-library": "0.2.2",
-    "@types/react": "17.0.83",
-    "@types/react-dom": "17.0.25",
+    "@types/react": "19.0.1",
+    "@types/react-dom": "19.0.1",
     "babel-loader": "^9.2.1",
     "postcss": "^8.4.49",
-    "react": "17.0.2",
-    "react-dom": "17.0.2",
+    "react": "19.0.0",
+    "react-dom": "19.0.0",
     "rollup": "4.28.1",
     "rollup-plugin-dts": "6.1.1",
     "rollup-plugin-peer-deps-external": "^2.2.4",
@@ -68,8 +68,8 @@
   "peerDependencies": {
     "@mui/icons-material": "^6.0.0",
     "@mui/material": "^6.0.0",
-    "react": "^17.0.2 || ^18.2.0",
-    "react-dom": "^17.0.2 || ^18.2.0"
+    "react": "^17.0.2 || ^18.2.0 || ^19.0.0",
+    "react-dom": "^17.0.2 || ^18.2.0 || ^19.0.0"
   },
   "dependencies": {
     "@lexical/react": "^0.18.0",
