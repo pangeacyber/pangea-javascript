@@ -1039,7 +1039,7 @@ export class UserIntelService extends BaseService {
    * @description Given a provider specific breach ID, find details about the breach.
    * @operationId user_intel_post_v1_breach
    * @param request Request to send to v1/breach endpoint
-   * @returns {Promise} - A promise representing an async call to the password/breached endpoint.
+   * @returns {Promise} - A promise representing an async call to the breach endpoint.
    * @example
    * ```js
    * const response = await userIntel.breach({
