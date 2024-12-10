@@ -456,7 +456,7 @@ export namespace Intel {
   }
 
   export interface CommonResult {
-    parameter?: Dictionary;
+    parameters?: Dictionary;
     raw_data?: Dictionary;
   }
 
@@ -703,7 +703,7 @@ export namespace Intel {
       data?: object;
 
       /** The parameters, which were passed in the request, echoed back. */
-      parameter?: Dictionary;
+      parameters?: Dictionary;
     }
 
     export interface BreachedBulkData {

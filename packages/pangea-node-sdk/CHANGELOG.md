@@ -14,6 +14,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Support for `severity` field on `v1/user/breached` and `v2/user/breached` of `user-intel` service.
 - `/v1/breach` endpoint support on `user-intel` service.
 
+### Fixed
+
+- `parameters` field in `intel` services.
+
 ## 4.1.0 - 2024-10-16
 
 ### Added
