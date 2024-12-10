@@ -672,8 +672,38 @@ export namespace Intel {
       breach_count: number;
     }
 
-    export interface BreachedResult extends Intel.CommonResult {
-      data: BreachedData;
+    export interface BreachRequest {
+      /** The ID of a breach returned by a provider. */
+      breach_id?: string;
+
+      /** Echo the API parameters in the response. */
+      verbose?: boolean;
+
+      /** Get breach data from this provider. */
+      provider?: string;
+
+      /** A token given in the raw response from SpyCloud. Post this back to paginate results. */
+      cursor?: string;
+
+      /** This parameter allows you to define the starting point for a date range query on the spycloud_publish_date field. */
+      start?: string;
+
+      /** This parameter allows you to define the ending point for a date range query on the spycloud_publish_date field. */
+      end?: string;
+
+      /** Filter for records that match one of the given severities. */
+      severity?: string[];
+    }
+
+    export interface BreachResult {
+      /** A flag indicating if the lookup was successful. */
+      found: boolean;
+
+      /** Breach details given by the provider. */
+      data?: object;
+
+      /** The parameters, which were passed in the request, echoed back. */
+      parameter?: Dictionary;
     }
 
     export interface BreachedBulkData {
@@ -686,16 +716,28 @@ export namespace Intel {
 
     export namespace User {
       export interface BreachedOptions extends Intel.Options {
+        /** Earliest date for search. */
         start?: string;
+
+        /** Latest date for search. */
         end?: string;
 
-        /** A token given in the raw response from SpyCloud. Post this back to paginate results */
+        /** A token given in the raw response from SpyCloud. Post this back to paginate results. */
         cursor?: string;
+
+        /** Filter for records that match one of the given severities. */
+        severity?: string[];
       }
 
       export interface BreachedBulkOptions extends Intel.Options {
+        /** Earliest date for search. */
         start?: string;
+
+        /** Latest date for search. */
         end?: string;
+
+        /** Filter for records that match one of the given severities. */
+        severity?: string[];
       }
 
       export interface BreachedEmailRequest extends BreachedOptions {
@@ -714,7 +756,9 @@ export namespace Intel {
         phone_number: string;
       }
 
-      export interface BreachedResult extends Intel.User.BreachedResult {}
+      export interface BreachedResult extends Intel.CommonResult {
+        data: BreachedData;
+      }
 
       export type BreachedRequest =
         | BreachedEmailRequest
