@@ -56,7 +56,7 @@
     "ts-node": "^10.9.2",
     "tsc-alias": "^1.8.10",
     "tshy": "2.0.1",
-    "typedoc": "^0.27.3",
+    "typedoc": "^0.27.4",
     "typescript": "5.7.2"
   },
   "scripts": {
