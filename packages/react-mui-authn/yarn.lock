@@ -2405,7 +2405,7 @@ __metadata:
     "@rollup/plugin-node-resolve": "npm:^15.3.0"
     "@rollup/plugin-terser": "npm:^0.4.4"
     "@rollup/plugin-typescript": "npm:^12.1.1"
-    "@simplewebauthn/browser": "npm:11.0.0"
+    "@simplewebauthn/browser": "npm:13.0.0"
     "@storybook/addon-actions": "npm:7.6.20"
     "@storybook/addon-essentials": "npm:7.6.20"
     "@storybook/addon-interactions": "npm:7.6.20"
@@ -3499,19 +3499,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@simplewebauthn/browser@npm:11.0.0":
-  version: 11.0.0
-  resolution: "@simplewebauthn/browser@npm:11.0.0"
-  dependencies:
-    "@simplewebauthn/types": "npm:^11.0.0"
-  checksum: 10c0/c3d1886b971af38d1aebb883b7901e73aaf8b433750df7e00e5881e932431263d4a5862df70faae237acc519aeb6419ef2adda5c661596af1dacd153ad6633da
-  languageName: node
-  linkType: hard
-
-"@simplewebauthn/types@npm:^11.0.0":
-  version: 11.0.0
-  resolution: "@simplewebauthn/types@npm:11.0.0"
-  checksum: 10c0/ae2ef16ed62aaae51f1ce98d16c5a4b1f0939679ff2af4d70631138291f67ed285ed735d8dc6f163784d4e621ba5cd05badfb7b1ec8d96b47fe05dd7191027dd
+"@simplewebauthn/browser@npm:13.0.0":
+  version: 13.0.0
+  resolution: "@simplewebauthn/browser@npm:13.0.0"
+  checksum: 10c0/6ee8ba226ea2a8e1e26b44c78858990881983c601b5c9733141301fbd22b1b7da1bb93b413d73f64d1b1d468aef33b886f7810e52884c96e7e4b0779decd3ef1
   languageName: node
   linkType: hard
 
