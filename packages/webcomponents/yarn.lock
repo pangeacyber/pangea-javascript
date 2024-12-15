@@ -2020,7 +2020,7 @@ __metadata:
     babel-loader: "npm:^9.2.1"
     css-loader: "npm:^7.1.2"
     parcel: "npm:^2.13.2"
-    preact: "npm:^10.25.1"
+    preact: "npm:^10.25.2"
     process: "npm:^0.11.10"
     publint: "npm:0.2.12"
     style-loader: "npm:^4.0.0"
@@ -5488,10 +5488,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"preact@npm:^10.25.1":
-  version: 10.25.1
-  resolution: "preact@npm:10.25.1"
-  checksum: 10c0/bc9255b20931781ed4b26f9d294ba2ec433dc6df8248d802a82a32b3841eb64cd5a70948a814f3793eb9eae7f95a556ec5573b63c62221534533a26db6a71fcb
+"preact@npm:^10.25.2":
+  version: 10.25.2
+  resolution: "preact@npm:10.25.2"
+  checksum: 10c0/03eb73164eb49a77c62cead2b9a951aa8bca39ccad58257f94353404b280465c60580c7bf32a3d44c8c24b24d7974c6db9807bafa69a6fc5dc9cdbd9a0e0df30
   languageName: node
   linkType: hard
 
