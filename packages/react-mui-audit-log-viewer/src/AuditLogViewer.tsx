@@ -86,6 +86,17 @@ export interface AuditLogViewerProps<Event = Audit.DefaultEvent> {
   /** Partial definitions for the visibility of the grid columns. The keys of the object correspond to properties of the Event type, and the values are boolean values indicating the visibility of the column */
   visibilityModel?: Partial<Record<keyof Event, boolean>>;
 
+  /** Callback function triggered on visibilityModel mount and change */
+  onVisibilityModelChange?: (
+    visibilityModel: Record<keyof Event, boolean>
+  ) => void;
+
+  /** Optional order to render columns in. Defaults to using the order of fields in schema */
+  order?: string[];
+
+  /** Callback function triggered on order mount and change */
+  onOrderChange?: (order: string[]) => void;
+
   /** The public audit query to filter the audit log data */
   filters?: PublicAuditQuery;
 

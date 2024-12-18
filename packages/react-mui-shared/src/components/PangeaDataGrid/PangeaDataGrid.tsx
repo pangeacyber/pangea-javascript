@@ -46,6 +46,7 @@ import {
 } from "./components/Search/ColumnsPopout";
 import ColumnHeaders from "./components/ColumnHeaders";
 import { PDG } from "./types";
+import { getModelFromVisibility, getVisibilityFromModel } from "./utils";
 
 export interface PangeaDataGridProps<
   DataType extends GridValidRowModel,
@@ -57,7 +58,13 @@ export interface PangeaDataGridProps<
   loading?: boolean;
   ColumnCustomization?: {
     visibilityModel: Record<string, boolean>;
+    onVisibilityModelChange?: (
+      visibilityModel: Record<string, boolean>
+    ) => void;
+
     order?: string[];
+    onOrderChange?: (order: string[]) => void;
+
     position?: "inline";
     dynamicFlexColumn?: boolean;
   };
@@ -165,7 +172,23 @@ const PangeaDataGrid = <
   const pageSize = ServerPagination?.pageSize || 20;
 
   const [visibility, setVisibility] = useState<Visibility>({});
+  useEffect(() => {
+    if (!ColumnCustomization?.onVisibilityModelChange) {
+      return;
+    }
+
+    const visibilityModel = getModelFromVisibility(visibility);
+    ColumnCustomization.onVisibilityModelChange(visibilityModel);
+  }, [visibility]);
+
   const [order, setOrder] = useState<string[]>([]);
+  useEffect(() => {
+    if (!ColumnCustomization?.onOrderChange) {
+      return;
+    }
+
+    ColumnCustomization.onOrderChange(order);
+  }, [order]);
 
   const columnsPopoutProps = !!ColumnCustomization
     ? {
@@ -273,10 +296,10 @@ const PangeaDataGrid = <
   useEffect(() => {
     if (!ColumnCustomization?.visibilityModel) return;
 
-    const vis = mapValues(ColumnCustomization?.visibilityModel, (val, key) => ({
-      isVisible: val,
-      label: get(columnsMap, key, { headerName: key }).headerName ?? key,
-    }));
+    const vis = getVisibilityFromModel(
+      ColumnCustomization.visibilityModel,
+      columnsMap
+    );
 
     const customizableFields =
       ColumnCustomization?.order ?? Object.keys(columnsMap);

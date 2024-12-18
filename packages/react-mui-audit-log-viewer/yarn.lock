@@ -2703,7 +2703,7 @@ __metadata:
     "@mui/material": "npm:^6.1.6"
     "@mui/types": "npm:^7.2.19"
     "@pangeacyber/react-mui-branding": "npm:1.0.0"
-    "@pangeacyber/react-mui-shared": "npm:1.0.2"
+    "@pangeacyber/react-mui-shared": ./pangeacyber-react-mui-shared-v1.0.3-beta.0.tgz
     "@rollup/plugin-commonjs": "npm:28.0.1"
     "@rollup/plugin-json": "npm:^6.1.0"
     "@rollup/plugin-node-resolve": "npm:^15.3.0"
@@ -2767,9 +2767,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@pangeacyber/react-mui-shared@npm:1.0.2":
-  version: 1.0.2
-  resolution: "@pangeacyber/react-mui-shared@npm:1.0.2"
+"@pangeacyber/react-mui-shared@file:./pangeacyber-react-mui-shared-v1.0.3-beta.0.tgz::locator=%40pangeacyber%2Freact-mui-audit-log-viewer%40workspace%3A.":
+  version: 1.0.3-beta.0
+  resolution: "@pangeacyber/react-mui-shared@file:./pangeacyber-react-mui-shared-v1.0.3-beta.0.tgz#./pangeacyber-react-mui-shared-v1.0.3-beta.0.tgz::hash=966016&locator=%40pangeacyber%2Freact-mui-audit-log-viewer%40workspace%3A."
   dependencies:
     "@loadable/component": "npm:^5.16.4"
     "@mui/x-data-grid": "npm:7.21.0"
@@ -2779,7 +2779,7 @@ __metadata:
     moment: "npm:^2.30.1"
     react-beautiful-dnd: "npm:^13.1.1"
     react-json-view: "npm:^1.21.3"
-    yup: "npm:^1.4.0"
+    yup: "npm:^1.5.0"
   peerDependencies:
     "@emotion/react": ^11.10.4
     "@emotion/styled": ^11.10.4
@@ -2787,7 +2787,7 @@ __metadata:
     "@mui/material": ^6.0.0
     react: ^17.0.0 || ^18.0.0
     react-dom: ^17.0.0 || ^18.0.0
-  checksum: 10c0/6563cdff61a6ab9a8d68eeeccd7ad34b87a5c6d639b86ff8662b408ef317c4b39042ea3296425a4c3a88d84b545094a300c1184404308492ff7712120631fe57
+  checksum: 10c0/01101452c09d4829ad8198223b713fafb554edb2fe5e3634470b360bd167598ef50e1b008ee261cec023873363e0613d611119f1dcb42b81530d329e066f71a1
   languageName: node
   linkType: hard
 
@@ -13964,14 +13964,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"yup@npm:^1.4.0":
-  version: 1.4.0
-  resolution: "yup@npm:1.4.0"
+"yup@npm:^1.5.0":
+  version: 1.6.1
+  resolution: "yup@npm:1.6.1"
   dependencies:
     property-expr: "npm:^2.0.5"
     tiny-case: "npm:^1.0.3"
     toposort: "npm:^2.0.2"
     type-fest: "npm:^2.19.0"
-  checksum: 10c0/fe142141365eed0f78fb2e18bdd2f10bf101385dae12a5f9de14884448067bdca16a54b547fc0bffec04a098dd70b4519ff366422f3da006fd11a0717a7863ac
+  checksum: 10c0/84c2b53996e8001041239cf2719851719f67063ec7cd843067df73562353216f5ad4f8a222319696882d5a6058e528fade1e463c59d70cbffb41b99cd0d7571b
   languageName: node
   linkType: hard
