@@ -46,6 +46,7 @@ import {
 } from "./components/Search/ColumnsPopout";
 import ColumnHeaders from "./components/ColumnHeaders";
 import { PDG } from "./types";
+import { getModelFromVisibility, getVisibilityFromModel } from "./utils";
 
 export interface PangeaDataGridProps<
   DataType extends GridValidRowModel,
@@ -57,7 +58,13 @@ export interface PangeaDataGridProps<
   loading?: boolean;
   ColumnCustomization?: {
     visibilityModel: Record<string, boolean>;
+    onVisibilityModelChange?: (
+      visibilityModel: Record<string, boolean>
+    ) => void;
+
     order?: string[];
+    onOrderChange?: (order: string[]) => void;
+
     position?: "inline";
     dynamicFlexColumn?: boolean;
   };
@@ -164,8 +171,30 @@ const PangeaDataGrid = <
   const isRowClickable = !!ExpansionRow?.render || !!onRowClick;
   const pageSize = ServerPagination?.pageSize || 20;
 
-  const [visibility, setVisibility] = useState<Visibility>({});
-  const [order, setOrder] = useState<string[]>([]);
+  const [visibility, setVisibility_] = useState<Visibility>({});
+  const setVisibility = useCallback(
+    (visibility: Visibility) => {
+      setVisibility_(visibility);
+
+      if (!!ColumnCustomization?.onVisibilityModelChange) {
+        const visibilityModel = getModelFromVisibility(visibility);
+        ColumnCustomization.onVisibilityModelChange(visibilityModel);
+      }
+    },
+    [setVisibility_]
+  );
+
+  const [order, setOrder_] = useState<string[]>([]);
+  const setOrder = useCallback(
+    (order: string[]) => {
+      setOrder_(order);
+
+      if (!!ColumnCustomization?.onOrderChange) {
+        ColumnCustomization.onOrderChange(order);
+      }
+    },
+    [setOrder_]
+  );
 
   const columnsPopoutProps = !!ColumnCustomization
     ? {
@@ -273,17 +302,17 @@ const PangeaDataGrid = <
   useEffect(() => {
     if (!ColumnCustomization?.visibilityModel) return;
 
-    const vis = mapValues(ColumnCustomization?.visibilityModel, (val, key) => ({
-      isVisible: val,
-      label: get(columnsMap, key, { headerName: key }).headerName ?? key,
-    }));
+    const vis = getVisibilityFromModel(
+      ColumnCustomization.visibilityModel,
+      columnsMap
+    );
 
     const customizableFields =
       ColumnCustomization?.order ?? Object.keys(columnsMap);
     const order = customizableFields.filter((field) => !!vis[field]);
 
-    setOrder(order);
-    setVisibility(vis);
+    setOrder_(order);
+    setVisibility_(vis);
   }, [ColumnCustomization?.visibilityModel, ColumnCustomization?.order]);
 
   useEffect(() => {

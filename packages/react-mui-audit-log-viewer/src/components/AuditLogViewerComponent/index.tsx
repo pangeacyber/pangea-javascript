@@ -51,6 +51,11 @@ export interface ViewerProps<Event = Audit.DefaultEvent> {
   >;
 
   visibilityModel?: Partial<Record<keyof Event, boolean>>;
+  onVisibilityModelChange?: (visibilityModel: Record<any, boolean>) => void;
+
+  order?: string[];
+  onOrderChange?: (order: string[]) => void;
+
   filters?: PublicAuditQuery;
   searchOnChange?: boolean;
   searchOnFilterChange?: boolean;
@@ -74,6 +79,11 @@ const AuditLogViewerComponent: FC<ViewerProps> = ({
   searchOnMount = true,
 
   initialQuery = "",
+
+  onVisibilityModelChange,
+
+  order,
+  onOrderChange,
 }) => {
   const {
     visibilityModel,
@@ -176,7 +186,11 @@ const AuditLogViewerComponent: FC<ViewerProps> = ({
         ColumnCustomization={{
           // @ts-ignore
           visibilityModel: visibilityModel ?? defaultVisibility,
-          order: defaultOrder,
+          onVisibilityModelChange,
+
+          order: order ?? defaultOrder,
+          onOrderChange,
+
           dynamicFlexColumn: true,
         }}
         ExpansionRow={{

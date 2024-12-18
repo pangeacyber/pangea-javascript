@@ -1,6 +1,6 @@
 {
   "name": "@pangeacyber/react-mui-share-file-viewer",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "An extension of material ui data-grid for Pangea share file objects",
   "main": "dist/cjs/index.js",
   "module": "dist/esm/index.js",
@@ -62,7 +62,7 @@
     "vite": "6.0.3"
   },
   "dependencies": {
-    "@pangeacyber/react-mui-shared": "1.0.2",
+    "@pangeacyber/react-mui-shared": "1.0.3",
     "awesome-phonenumber": "^7.2.0",
     "axios": "^1.7.9",
     "lodash": "^4.17.21",
