@@ -34,12 +34,12 @@ export interface ShareDataGridProps {
    */
   defaultColumnOrder?: string[];
 
-  /** Callback function triggered on visibilityModel mount and change */
+  /** Callback function triggered on visibilityModel change */
   onVisibilityModelChange?: (
     visibilityModel: Record<keyof Event, boolean>
   ) => void;
 
-  /** Callback function triggered on order mount and change */
+  /** Callback function triggered on order change */
   onOrderChange?: (order: string[]) => void;
 
   /**

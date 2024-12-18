@@ -171,24 +171,30 @@ const PangeaDataGrid = <
   const isRowClickable = !!ExpansionRow?.render || !!onRowClick;
   const pageSize = ServerPagination?.pageSize || 20;
 
-  const [visibility, setVisibility] = useState<Visibility>({});
-  useEffect(() => {
-    if (!ColumnCustomization?.onVisibilityModelChange) {
-      return;
-    }
+  const [visibility, setVisibility_] = useState<Visibility>({});
+  const setVisibility = useCallback(
+    (visibility: Visibility) => {
+      setVisibility_(visibility);
 
-    const visibilityModel = getModelFromVisibility(visibility);
-    ColumnCustomization.onVisibilityModelChange(visibilityModel);
-  }, [visibility]);
+      if (!!ColumnCustomization?.onVisibilityModelChange) {
+        const visibilityModel = getModelFromVisibility(visibility);
+        ColumnCustomization.onVisibilityModelChange(visibilityModel);
+      }
+    },
+    [setVisibility_]
+  );
 
-  const [order, setOrder] = useState<string[]>([]);
-  useEffect(() => {
-    if (!ColumnCustomization?.onOrderChange) {
-      return;
-    }
+  const [order, setOrder_] = useState<string[]>([]);
+  const setOrder = useCallback(
+    (order: string[]) => {
+      setOrder_(order);
 
-    ColumnCustomization.onOrderChange(order);
-  }, [order]);
+      if (!!ColumnCustomization?.onOrderChange) {
+        ColumnCustomization.onOrderChange(order);
+      }
+    },
+    [setOrder_]
+  );
 
   const columnsPopoutProps = !!ColumnCustomization
     ? {
@@ -305,8 +311,8 @@ const PangeaDataGrid = <
       ColumnCustomization?.order ?? Object.keys(columnsMap);
     const order = customizableFields.filter((field) => !!vis[field]);
 
-    setOrder(order);
-    setVisibility(vis);
+    setOrder_(order);
+    setVisibility_(vis);
   }, [ColumnCustomization?.visibilityModel, ColumnCustomization?.order]);
 
   useEffect(() => {
