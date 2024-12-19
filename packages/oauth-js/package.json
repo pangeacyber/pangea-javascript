@@ -19,11 +19,11 @@
     "dist"
   ],
   "devDependencies": {
-    "@parcel/core": "^2.13.2",
-    "@parcel/packager-ts": "^2.13.2",
-    "@parcel/transformer-typescript-types": "2.13.2",
+    "@parcel/core": "^2.13.3",
+    "@parcel/packager-ts": "^2.13.3",
+    "@parcel/transformer-typescript-types": "2.13.3",
     "@types/typescript": "^2.0.0",
-    "parcel": "^2.13.2",
+    "parcel": "^2.13.3",
     "typescript": "^5.7.2"
   },
   "packageManager": "yarn@4.5.3",
