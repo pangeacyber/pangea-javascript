@@ -65,7 +65,7 @@
     "moment": "^2.30.1",
     "react-beautiful-dnd": "^13.1.1",
     "react-json-view": "^1.21.3",
-    "yup": "^1.5.0"
+    "yup": "^1.6.1"
   },
   "scripts": {
     "storybook": "storybook dev -p 6006",
