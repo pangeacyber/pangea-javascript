@@ -1918,11 +1918,11 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@pangeacyber/react-mui-audit-log-viewer@npm:^1.0.5":
-  version: 1.0.5
-  resolution: "@pangeacyber/react-mui-audit-log-viewer@npm:1.0.5"
+"@pangeacyber/react-mui-audit-log-viewer@npm:^1.0.6":
+  version: 1.0.6
+  resolution: "@pangeacyber/react-mui-audit-log-viewer@npm:1.0.6"
   dependencies:
-    "@pangeacyber/react-mui-shared": "npm:1.0.2"
+    "@pangeacyber/react-mui-shared": "npm:1.0.3"
     crypto-js: "npm:^4.2.0"
     diff: "npm:^5.2.0"
     lodash: "npm:^4.17.21"
@@ -1935,7 +1935,7 @@ __metadata:
     "@mui/material": ^6.0.0
     react: ^17.0.0 || ^18.0.0
     react-dom: ^17.0.0 || ^18.0.0
-  checksum: 10c0/7e4e6cb065cd7737b3c029f7485def9bc7f6fe7db4230eab34963df1a419744ae046457e58d00e8ed02eee530db283463df55fb33c4f9eda2013694975d76c9b
+  checksum: 10c0/e03890e9e653f9a42a0d9b7cb5ce3d269a56a7fed0210577ae97bd3c4ec383fc6caffcb996530d6f899b3c883b9f268d4c38482d6bf93a92fdd77b208ed94423
   languageName: node
   linkType: hard
 
@@ -1995,6 +1995,30 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@pangeacyber/react-mui-shared@npm:1.0.3":
+  version: 1.0.3
+  resolution: "@pangeacyber/react-mui-shared@npm:1.0.3"
+  dependencies:
+    "@loadable/component": "npm:^5.16.4"
+    "@mui/x-data-grid": "npm:7.21.0"
+    "@mui/x-date-pickers": "npm:^7.22.1"
+    dayjs: "npm:^1.11.13"
+    formik: "npm:^2.4.6"
+    moment: "npm:^2.30.1"
+    react-beautiful-dnd: "npm:^13.1.1"
+    react-json-view: "npm:^1.21.3"
+    yup: "npm:^1.5.0"
+  peerDependencies:
+    "@emotion/react": ^11.10.4
+    "@emotion/styled": ^11.10.4
+    "@mui/icons-material": ^6.0.0
+    "@mui/material": ^6.0.0
+    react: ^17.0.0 || ^18.0.0
+    react-dom: ^17.0.0 || ^18.0.0
+  checksum: 10c0/edcee4a6f0d0ec0bffe4f21350d8d29890b6215873aef2066c9231bc5422b214473eb3bfcdc010c2b8c7133fc6a84198394423d40482f4a2be4351f014d4b616
+  languageName: node
+  linkType: hard
+
 "@pangeacyber/webcomponents@workspace:.":
   version: 0.0.0-use.local
   resolution: "@pangeacyber/webcomponents@workspace:."
@@ -2011,7 +2035,7 @@ __metadata:
     "@mui/material": "npm:^6.1.6"
     "@mui/styled-engine-sc": "npm:^6.1.5"
     "@mui/types": "npm:^7.2.18"
-    "@pangeacyber/react-mui-audit-log-viewer": "npm:^1.0.5"
+    "@pangeacyber/react-mui-audit-log-viewer": "npm:^1.0.6"
     "@pangeacyber/react-mui-branding": "npm:^1.0.0"
     "@pangeacyber/react-mui-share-file-viewer": "npm:^1.0.2"
     "@parcel/packager-ts": "npm:2.13.2"
@@ -6527,6 +6551,18 @@ __metadata:
     toposort: "npm:^2.0.2"
     type-fest: "npm:^2.19.0"
   checksum: 10c0/fe142141365eed0f78fb2e18bdd2f10bf101385dae12a5f9de14884448067bdca16a54b547fc0bffec04a098dd70b4519ff366422f3da006fd11a0717a7863ac
+  languageName: node
+  linkType: hard
+
+"yup@npm:^1.5.0":
+  version: 1.6.1
+  resolution: "yup@npm:1.6.1"
+  dependencies:
+    property-expr: "npm:^2.0.5"
+    tiny-case: "npm:^1.0.3"
+    toposort: "npm:^2.0.2"
+    type-fest: "npm:^2.19.0"
+  checksum: 10c0/84c2b53996e8001041239cf2719851719f67063ec7cd843067df73562353216f5ad4f8a222319696882d5a6058e528fade1e463c59d70cbffb41b99cd0d7571b
   languageName: node
   linkType: hard
 
