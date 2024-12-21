@@ -1918,11 +1918,11 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@pangeacyber/react-mui-audit-log-viewer@npm:^1.0.5":
-  version: 1.0.5
-  resolution: "@pangeacyber/react-mui-audit-log-viewer@npm:1.0.5"
+"@pangeacyber/react-mui-audit-log-viewer@npm:^1.0.6":
+  version: 1.0.6
+  resolution: "@pangeacyber/react-mui-audit-log-viewer@npm:1.0.6"
   dependencies:
-    "@pangeacyber/react-mui-shared": "npm:1.0.2"
+    "@pangeacyber/react-mui-shared": "npm:1.0.3"
     crypto-js: "npm:^4.2.0"
     diff: "npm:^5.2.0"
     lodash: "npm:^4.17.21"
@@ -1935,7 +1935,7 @@ __metadata:
     "@mui/material": ^6.0.0
     react: ^17.0.0 || ^18.0.0
     react-dom: ^17.0.0 || ^18.0.0
-  checksum: 10c0/7e4e6cb065cd7737b3c029f7485def9bc7f6fe7db4230eab34963df1a419744ae046457e58d00e8ed02eee530db283463df55fb33c4f9eda2013694975d76c9b
+  checksum: 10c0/e03890e9e653f9a42a0d9b7cb5ce3d269a56a7fed0210577ae97bd3c4ec383fc6caffcb996530d6f899b3c883b9f268d4c38482d6bf93a92fdd77b208ed94423
   languageName: node
   linkType: hard
 
@@ -2035,7 +2035,7 @@ __metadata:
     "@mui/material": "npm:^6.1.6"
     "@mui/styled-engine-sc": "npm:^6.1.5"
     "@mui/types": "npm:^7.2.18"
-    "@pangeacyber/react-mui-audit-log-viewer": "npm:^1.0.5"
+    "@pangeacyber/react-mui-audit-log-viewer": "npm:^1.0.6"
     "@pangeacyber/react-mui-branding": "npm:^1.0.0"
     "@pangeacyber/react-mui-share-file-viewer": "npm:^1.0.3"
     "@parcel/packager-ts": "npm:2.13.2"
