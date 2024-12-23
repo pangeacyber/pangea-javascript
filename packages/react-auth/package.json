@@ -59,7 +59,7 @@
     "@parcel/utils": "^2.13.2",
     "@tsconfig/strictest": "^2.0.5",
     "@types/lodash": "^4.17.13",
-    "@types/react": "19.0.1",
+    "@types/react": "19.0.2",
     "parcel": "^2.13.2",
     "publint": "0.2.12",
     "react": "19.0.0",
