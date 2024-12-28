@@ -2913,7 +2913,25 @@ __metadata:
   languageName: node
   linkType: hard
 
-"eslint-plugin-jest@npm:28.9.0, eslint-plugin-jest@npm:^28.6.0":
+"eslint-plugin-jest@npm:28.10.0":
+  version: 28.10.0
+  resolution: "eslint-plugin-jest@npm:28.10.0"
+  dependencies:
+    "@typescript-eslint/utils": "npm:^6.0.0 || ^7.0.0 || ^8.0.0"
+  peerDependencies:
+    "@typescript-eslint/eslint-plugin": ^6.0.0 || ^7.0.0 || ^8.0.0
+    eslint: ^7.0.0 || ^8.0.0 || ^9.0.0
+    jest: "*"
+  peerDependenciesMeta:
+    "@typescript-eslint/eslint-plugin":
+      optional: true
+    jest:
+      optional: true
+  checksum: 10c0/f1eeabcc9bf650e755ef07da501271e9a54d2ef6414c648a33d5dc71f2545fcfc060d06846549ec7978e7bd9d11e6cb57b33ccd97ebf5a86ee4682853c06381b
+  languageName: node
+  linkType: hard
+
+"eslint-plugin-jest@npm:^28.6.0":
   version: 28.9.0
   resolution: "eslint-plugin-jest@npm:28.9.0"
   dependencies:
@@ -5506,7 +5524,7 @@ __metadata:
     crypto-js: "npm:^4.2.0"
     eslint: "npm:^8.57.1"
     eslint-config-prettier: "npm:^9.1.0"
-    eslint-plugin-jest: "npm:28.9.0"
+    eslint-plugin-jest: "npm:28.10.0"
     eslint-plugin-node: "npm:^11.1.0"
     eslint-plugin-prettier: "npm:^5.2.1"
     form-data-encoder: "npm:^4.0.2"
