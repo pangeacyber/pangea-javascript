@@ -95,10 +95,10 @@ merkle-tools@^1.4.1:
   dependencies:
     js-sha3 "^0.8.0"
 
-pangea-node-sdk@4.1.0:
-  version "4.1.0"
-  resolved "https://registry.yarnpkg.com/pangea-node-sdk/-/pangea-node-sdk-4.1.0.tgz#fd7b8e3b8932daeda3081b423a328ac174b1d64c"
-  integrity sha512-Q8at+VK+F6qzyifvyTRbEDu19zbaCoqV++bJcCLLSb0wfv6KpVz3rSmj/Kz9QvJ8WRZPKuGY7QdY/2TpwKyDjA==
+pangea-node-sdk@4.2.0:
+  version "4.2.0"
+  resolved "https://registry.yarnpkg.com/pangea-node-sdk/-/pangea-node-sdk-4.2.0.tgz#458a66144de26efec6496fc07b764a255bb4211f"
+  integrity sha512-41bGKEk6rbvE5nhUSRaQaqIqzoopM8C3UrDir2EWdAMaoznXp6zhiHEcxPQtq7LcdlFwY9HauUFS1P1NmxkoLQ==
   dependencies:
     "@aws-crypto/crc32c" "^5.2.0"
     crypto-js "^4.2.0"
