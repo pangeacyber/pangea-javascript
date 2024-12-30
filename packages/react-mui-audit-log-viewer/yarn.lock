@@ -1956,17 +1956,17 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@happy-dom/jest-environment@npm:15.11.7":
-  version: 15.11.7
-  resolution: "@happy-dom/jest-environment@npm:15.11.7"
+"@happy-dom/jest-environment@npm:16.0.1":
+  version: 16.0.1
+  resolution: "@happy-dom/jest-environment@npm:16.0.1"
   dependencies:
     "@jest/environment": "npm:^29.4.0"
     "@jest/fake-timers": "npm:^29.4.0"
     "@jest/types": "npm:^29.4.0"
-    happy-dom: "npm:^15.11.7"
+    happy-dom: "npm:^16.0.1"
     jest-mock: "npm:^29.4.0"
     jest-util: "npm:^29.4.0"
-  checksum: 10c0/f61f4d96be1f3d009be3555a12c43574bd7a4aa959ced78777c0e24d00c1bb819acc9aea58c24707268da16f9f5781c7d7e52b026a49274911a9f53434d4e185
+  checksum: 10c0/ca190a86f5a8057474e8495c8a4eed95b0a43184383bfcf8a8d26f55dfe9354e4eef7a0f03cda837f569742811251a0a1e875d96d9e853cd1dfaa9a533d4a2aa
   languageName: node
   linkType: hard
 
@@ -2682,7 +2682,7 @@ __metadata:
     "@babel/core": "npm:^7.26.0"
     "@emotion/react": "npm:^11.14.0"
     "@emotion/styled": "npm:^11.14.0"
-    "@happy-dom/jest-environment": "npm:15.11.7"
+    "@happy-dom/jest-environment": "npm:16.0.1"
     "@mui/icons-material": "npm:^6.1.6"
     "@mui/material": "npm:^6.1.6"
     "@mui/types": "npm:^7.2.19"
@@ -6938,7 +6938,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"entities@npm:^4.4.0, entities@npm:^4.5.0":
+"entities@npm:^4.4.0":
   version: 4.5.0
   resolution: "entities@npm:4.5.0"
   checksum: 10c0/5b039739f7621f5d1ad996715e53d964035f75ad3b9a4d38c6b3804bb226e282ffeae2443624d8fdd9c47d8e926ae9ac009c54671243f0c3294c26af7cc85250
@@ -8058,14 +8058,13 @@ __metadata:
   languageName: node
   linkType: hard
 
-"happy-dom@npm:^15.11.7":
-  version: 15.11.7
-  resolution: "happy-dom@npm:15.11.7"
+"happy-dom@npm:^16.0.1":
+  version: 16.0.1
+  resolution: "happy-dom@npm:16.0.1"
   dependencies:
-    entities: "npm:^4.5.0"
     webidl-conversions: "npm:^7.0.0"
     whatwg-mimetype: "npm:^3.0.0"
-  checksum: 10c0/22b08cac20192b08edf2e9c857ceeda8333a3301c4b5965a9550787b00db60d6d107c726390bd45a35305cd12ab086abd656bf957a408be0fcdc9fcd389f1973
+  checksum: 10c0/55ce94ff211711fc069d91a27c01f6e5b986bd3e429109cf2b0db39b568b572bd669a119044add7d9a22dc76070d0cba0bdc0b93288267dd1f7d83c13910a8d7
   languageName: node
   linkType: hard
 
