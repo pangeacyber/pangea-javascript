@@ -3168,6 +3168,21 @@ export namespace Share {
     /** The key in the external bucket that contains this file. */
     external_bucket_key: string;
 
+    /** The explicit file TTL setting for this object. */
+    file_ttl?: string;
+
+    /**
+     * The effective file TTL setting for this object, either explicitly set or
+     * inherited (see file_ttl_from_id.)
+     */
+    file_ttl_effective?: string;
+
+    /**
+     * The ID of the object the expiry / TTL is set from. Either a service
+     * configuration, the object itself, or a parent folder.
+     */
+    file_ttl_from_id?: string;
+
     /** The ID of a stored object. */
     id: string;
 
@@ -3274,6 +3289,9 @@ export namespace Share {
      */
     name?: string;
 
+    /** Duration until files within this folder are automatically deleted. */
+    file_ttl?: string;
+
     /**
      * A set of string-based key/value pairs used to provide additional data
      * about an object.
@@ -3373,6 +3391,9 @@ export namespace Share {
      */
     folder?: string;
 
+    /** The TTL before expiry for the file. */
+    file_ttl?: string;
+
     /** An optional password to protect the file with. Downloading the file will require this password. */
     password?: string;
 
@@ -3429,6 +3450,9 @@ export namespace Share {
      * exists.
      */
     add_tags?: Tags;
+
+    /** Set the file TTL. */
+    file_ttl?: string;
 
     /** The bucket to use, if not the default. */
     bucket_id?: string;
