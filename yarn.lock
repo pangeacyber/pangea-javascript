@@ -221,7 +221,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"lint-staged@npm:^15.2.11":
+"lint-staged@npm:^15.3.0":
   version: 15.3.0
   resolution: "lint-staged@npm:15.3.0"
   dependencies:
@@ -338,7 +338,7 @@ __metadata:
   resolution: "pangeacyber@workspace:."
   dependencies:
     husky: "npm:^9.1.7"
-    lint-staged: "npm:^15.2.11"
+    lint-staged: "npm:^15.3.0"
     prettier: "npm:3.4.2"
   languageName: unknown
   linkType: soft
