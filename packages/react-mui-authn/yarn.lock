@@ -1652,14 +1652,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@fontsource/kanit@npm:^5.1.0":
+"@fontsource/kanit@npm:^5.1.1":
   version: 5.1.1
   resolution: "@fontsource/kanit@npm:5.1.1"
   checksum: 10c0/5a944c764abc070279900f9f7dee1c3d78edc411f5a2ca6ddafab181aa020ad6575a6c99eb048cce193e8a57bbdc0d047e773e67b6bfcff4a5c5fcaa600ffba2
   languageName: node
   linkType: hard
 
-"@fontsource/roboto@npm:^5.1.0":
+"@fontsource/roboto@npm:^5.1.1":
   version: 5.1.1
   resolution: "@fontsource/roboto@npm:5.1.1"
   checksum: 10c0/913b254f3c64f6ede01c832051819e15d3bc3e6c9f0c778e92f63805d7a66179183ba036aaee994af22b4d3c21340a246c136a6bc6c569fd0e718e5e10e02789
@@ -2378,8 +2378,8 @@ __metadata:
     "@babel/core": "npm:7.26.0"
     "@emotion/react": "npm:^11.14.0"
     "@emotion/styled": "npm:^11.14.0"
-    "@fontsource/kanit": "npm:^5.1.0"
-    "@fontsource/roboto": "npm:^5.1.0"
+    "@fontsource/kanit": "npm:^5.1.1"
+    "@fontsource/roboto": "npm:^5.1.1"
     "@lexical/react": "npm:^0.18.0"
     "@mui/icons-material": "npm:^6.1.6"
     "@mui/material": "npm:^6.1.6"
