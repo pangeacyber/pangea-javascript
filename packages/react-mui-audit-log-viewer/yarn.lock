@@ -1956,17 +1956,17 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@happy-dom/jest-environment@npm:16.0.1":
-  version: 16.0.1
-  resolution: "@happy-dom/jest-environment@npm:16.0.1"
+"@happy-dom/jest-environment@npm:16.1.0":
+  version: 16.1.0
+  resolution: "@happy-dom/jest-environment@npm:16.1.0"
   dependencies:
     "@jest/environment": "npm:^29.4.0"
     "@jest/fake-timers": "npm:^29.4.0"
     "@jest/types": "npm:^29.4.0"
-    happy-dom: "npm:^16.0.1"
+    happy-dom: "npm:^16.1.0"
     jest-mock: "npm:^29.4.0"
     jest-util: "npm:^29.4.0"
-  checksum: 10c0/ca190a86f5a8057474e8495c8a4eed95b0a43184383bfcf8a8d26f55dfe9354e4eef7a0f03cda837f569742811251a0a1e875d96d9e853cd1dfaa9a533d4a2aa
+  checksum: 10c0/207196830b5866c0a26b44d3c8aa25e5438203c14071b53405f10a85ed71c92a20da4a807c9f52f043c41a1bb678cacc7abfe29247047a4286f5a5e53f8fec6a
   languageName: node
   linkType: hard
 
@@ -2682,7 +2682,7 @@ __metadata:
     "@babel/core": "npm:^7.26.0"
     "@emotion/react": "npm:^11.14.0"
     "@emotion/styled": "npm:^11.14.0"
-    "@happy-dom/jest-environment": "npm:16.0.1"
+    "@happy-dom/jest-environment": "npm:16.1.0"
     "@mui/icons-material": "npm:^6.1.6"
     "@mui/material": "npm:^6.1.6"
     "@mui/types": "npm:^7.2.19"
@@ -8058,13 +8058,13 @@ __metadata:
   languageName: node
   linkType: hard
 
-"happy-dom@npm:^16.0.1":
-  version: 16.0.1
-  resolution: "happy-dom@npm:16.0.1"
+"happy-dom@npm:^16.1.0":
+  version: 16.3.0
+  resolution: "happy-dom@npm:16.3.0"
   dependencies:
     webidl-conversions: "npm:^7.0.0"
     whatwg-mimetype: "npm:^3.0.0"
-  checksum: 10c0/55ce94ff211711fc069d91a27c01f6e5b986bd3e429109cf2b0db39b568b572bd669a119044add7d9a22dc76070d0cba0bdc0b93288267dd1f7d83c13910a8d7
+  checksum: 10c0/c90e29ff44818008aaae1fc65b276a9a1920455884fe895fdc634ced3f98a71fe81317ddf9a2ec1d7d07af0b300500d9f652ba7cfc144ed96c5f7c480edde83b
   languageName: node
   linkType: hard
 
