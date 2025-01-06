@@ -68,9 +68,11 @@ const AuthPassword: FC<AuthFlowComponentProps> = (props) => {
 
       if (data.setPassword) {
         update(AuthFlow.Choice.SET_PASSWORD, payload);
-      } else {
+      } else if (!!data.captcha && options.compactSignup) {
         // pass captcha code as extra param for combined password/captcha view
         update(AuthFlow.Choice.PASSWORD, payload, captcha);
+      } else {
+        update(AuthFlow.Choice.PASSWORD, payload);
       }
     },
   });
