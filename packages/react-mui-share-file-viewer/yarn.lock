@@ -8157,7 +8157,7 @@ yup@^1.5.0:
     toposort "^2.0.2"
     type-fest "^2.19.0"
 
-zustand@^4.5.5:
+zustand@^4.5.6:
   version "4.5.6"
   resolved "https://registry.yarnpkg.com/zustand/-/zustand-4.5.6.tgz#6857d52af44874a79fb3408c9473f78367255c96"
   integrity sha512-ibr/n1hBzLLj5Y+yUcU7dYw8p6WnIVzdJbnX+1YpaScvZVF2ziugqHs+LAmHw4lWO9c/zRj+K1ncgWDQuthEdQ==
