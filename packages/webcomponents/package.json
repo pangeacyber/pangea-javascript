@@ -36,7 +36,7 @@
     "publint": "0.2.12",
     "style-loader": "^4.0.0",
     "ts-node": "^10.9.2",
-    "typescript": "^5.7.2"
+    "typescript": "^5.7.3"
   },
   "dependencies": {
     "@emotion/cache": "^11.14.0",
