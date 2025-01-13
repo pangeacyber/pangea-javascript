@@ -21,16 +21,28 @@ const client = new AIGuardService(token, config);
 
 describe("AI Guard", () => {
   it("should guard text", async () => {
-    let response = await client.guardText({ text: "hello world" });
+    let response = await client.guardText({
+      text: "hello world",
+      recipe: "pangea_prompt_guard",
+    });
     expect(response.status).toStrictEqual("Success");
-    expect(response.result.redacted_prompt).toBeDefined();
-    expect(response.result.findings.artifact_count).toBeUndefined();
-    expect(response.result.findings.malicious_count).toBeUndefined();
+    expect(response.result.prompt).toBeDefined();
+    expect(response.result.detectors.prompt_injection.detected).toBe(false);
+    expect(response.result.detectors.prompt_injection.data).toBeNull();
+    expect(response.result.detectors.pii_entity?.detected).toBe(false);
+    expect(response.result.detectors.pii_entity?.data).toBeNull();
+    expect(response.result.detectors.malicious_entity?.detected).toBe(false);
+    expect(response.result.detectors.malicious_entity?.data).toBeNull();
 
-    response = await client.guardText({ text: "security@pangea.cloud" });
+    response = await client.guardText({
+      text: "security@pangea.cloud",
+      recipe: "pangea_prompt_guard",
+    });
     expect(response.status).toStrictEqual("Success");
-    expect(response.result.redacted_prompt).toBeDefined();
-    expect(response.result.findings.artifact_count).toStrictEqual(1);
-    expect(response.result.findings.malicious_count).toBeUndefined();
+    expect(response.result.prompt).toBeDefined();
+    expect(response.result.detectors.pii_entity?.detected).toBe(true);
+    expect(response.result.detectors.pii_entity?.data?.entities.length).toEqual(
+      1
+    );
   });
 });
