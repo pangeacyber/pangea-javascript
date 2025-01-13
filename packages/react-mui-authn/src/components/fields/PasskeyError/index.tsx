@@ -1,5 +1,5 @@
 import { FC } from "react";
-import { Stack } from "@mui/material";
+import { Stack, Typography } from "@mui/material";
 import { useTheme } from "@mui/material/styles";
 import { VpnKeyRounded, WarningRounded } from "@mui/icons-material";
 
@@ -7,11 +7,17 @@ import Button from "@src/components/core/Button";
 
 interface Props {
   label: string;
+  error?: string;
   showLock?: boolean;
   onClick: () => void;
 }
 
-const PasskeyError: FC<Props> = ({ label, showLock = false, onClick }) => {
+const PasskeyError: FC<Props> = ({
+  label,
+  error,
+  showLock = false,
+  onClick,
+}) => {
   const theme = useTheme();
 
   return (
@@ -56,6 +62,13 @@ const PasskeyError: FC<Props> = ({ label, showLock = false, onClick }) => {
           {label}
         </Stack>
       </Button>
+      {error && (
+        <Stack direction="row" justifyContent="center" pt={1}>
+          <Typography variant="body2" color="error">
+            {error}
+          </Typography>
+        </Stack>
+      )}
     </Stack>
   );
 };

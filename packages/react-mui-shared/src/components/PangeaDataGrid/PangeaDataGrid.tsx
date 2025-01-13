@@ -16,7 +16,7 @@ import find from "lodash/find";
 import findLast from "lodash/findLast";
 import isEmpty from "lodash/isEmpty";
 
-import Grid from "@mui/material/Grid";
+import Grid from "@mui/material/Grid2";
 import {
   DataGrid,
   GridColDef,
@@ -46,6 +46,7 @@ import {
 } from "./components/Search/ColumnsPopout";
 import ColumnHeaders from "./components/ColumnHeaders";
 import { PDG } from "./types";
+import { getModelFromVisibility, getVisibilityFromModel } from "./utils";
 
 export interface PangeaDataGridProps<
   DataType extends GridValidRowModel,
@@ -57,7 +58,13 @@ export interface PangeaDataGridProps<
   loading?: boolean;
   ColumnCustomization?: {
     visibilityModel: Record<string, boolean>;
+    onVisibilityModelChange?: (
+      visibilityModel: Record<string, boolean>
+    ) => void;
+
     order?: string[];
+    onOrderChange?: (order: string[]) => void;
+
     position?: "inline";
     dynamicFlexColumn?: boolean;
   };
@@ -164,8 +171,30 @@ const PangeaDataGrid = <
   const isRowClickable = !!ExpansionRow?.render || !!onRowClick;
   const pageSize = ServerPagination?.pageSize || 20;
 
-  const [visibility, setVisibility] = useState<Visibility>({});
-  const [order, setOrder] = useState<string[]>([]);
+  const [visibility, setVisibility_] = useState<Visibility>({});
+  const setVisibility = useCallback(
+    (visibility: Visibility) => {
+      setVisibility_(visibility);
+
+      if (!!ColumnCustomization?.onVisibilityModelChange) {
+        const visibilityModel = getModelFromVisibility(visibility);
+        ColumnCustomization.onVisibilityModelChange(visibilityModel);
+      }
+    },
+    [setVisibility_]
+  );
+
+  const [order, setOrder_] = useState<string[]>([]);
+  const setOrder = useCallback(
+    (order: string[]) => {
+      setOrder_(order);
+
+      if (!!ColumnCustomization?.onOrderChange) {
+        ColumnCustomization.onOrderChange(order);
+      }
+    },
+    [setOrder_]
+  );
 
   const columnsPopoutProps = !!ColumnCustomization
     ? {
@@ -177,7 +206,7 @@ const PangeaDataGrid = <
     : undefined;
 
   const columns = useMemo(() => {
-    let columns = cloneDeep(columnsProp);
+    let columns = cloneDeep(columnsProp ?? []);
     if (!!ExpansionRow?.render) {
       columns.unshift(
         constructExpandColumn(ExpansionRow?.render, ExpansionRow?.GridColDef)
@@ -258,7 +287,7 @@ const PangeaDataGrid = <
       }
 
       const sort = model[0];
-      if (!sort.sort) {
+      if (!sort?.sort) {
         ServerSorting.onSortChange(undefined, undefined);
         return;
       }
@@ -273,17 +302,17 @@ const PangeaDataGrid = <
   useEffect(() => {
     if (!ColumnCustomization?.visibilityModel) return;
 
-    const vis = mapValues(ColumnCustomization?.visibilityModel, (val, key) => ({
-      isVisible: val,
-      label: get(columnsMap, key, { headerName: key }).headerName ?? key,
-    }));
+    const vis = getVisibilityFromModel(
+      ColumnCustomization.visibilityModel,
+      columnsMap
+    );
 
     const customizableFields =
       ColumnCustomization?.order ?? Object.keys(columnsMap);
     const order = customizableFields.filter((field) => !!vis[field]);
 
-    setOrder(order);
-    setVisibility(vis);
+    setOrder_(order);
+    setVisibility_(vis);
   }, [ColumnCustomization?.visibilityModel, ColumnCustomization?.order]);
 
   useEffect(() => {
@@ -314,7 +343,6 @@ const PangeaDataGrid = <
     <Box sx={sx}>
       <Stack direction="row" width="100%" sx={{ overflow: "hidden" }}>
         <Grid
-          item
           sx={{
             maxWidth: "100%",
             width: `calc(100% - ${!!preview ? PreviewPanel?.width : "0px"} - 2px)`,

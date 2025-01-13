@@ -5,6 +5,54 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.0.6] - 2024-12-18
+
+### Added
+
+- Added callback support for onVisibilityModelChange and onOrderChange
+
+## [1.0.5] - 2024-11-18
+
+### Fixed
+
+- Add imported support for tamperproofing messaging
+
+## [1.0.4] - 2024-11-14
+
+### Fixed
+
+- Updated to "@pangeacyber/react-mui-shared": "1.0.2",
+- Updated searchOnMount to re-search if initialQuery changes
+- Updated to diplay seconds for time fields
+
+## [1.0.3] - 2024-11-13
+
+### Fixed
+
+- CommonJS/ESM interop.
+
+## [1.0.2] - 2024-11-12
+
+### Fixed
+
+- "@pangeacyber/react-mui-shared": "1.0.1",
+- Downgraded @mui/x-data-grid to 7.21.0. Version 7.22.0 has a bug throwing an exception when the list of data is cleared
+
+## [1.0.1] - 2024-11-04
+
+### Fixed
+
+- Remove stray console logs
+
+## [1.0.0] - 2024-11-04
+
+### Added
+
+- Upgrade material-ui packages to version 6
+- "@mui/icons-material": "^6.0.0",
+- "@mui/material": "^6.0.0",
+- "@pangeacyber/react-mui-shared": "1.0.0-beta.0",
+
 ## [0.0.95] - 2024-10-11
 
 ### Fixed

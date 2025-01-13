@@ -2,6 +2,7 @@
 
 import {
   FC,
+  type JSX,
   createContext,
   useCallback,
   useContext,

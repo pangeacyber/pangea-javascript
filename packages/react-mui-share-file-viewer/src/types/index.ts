@@ -34,6 +34,14 @@ export interface ShareDataGridProps {
    */
   defaultColumnOrder?: string[];
 
+  /** Callback function triggered on visibilityModel change */
+  onVisibilityModelChange?: (
+    visibilityModel: Record<keyof Event, boolean>
+  ) => void;
+
+  /** Callback function triggered on order change */
+  onOrderChange?: (order: string[]) => void;
+
   /**
    * Toggle whether to include the object ID as a new column. Defaults to `false`.
    */

@@ -18,6 +18,7 @@ module.exports = {
     "^.+\\.(jpg|jpeg|png|gif|webp|avif|svg)$":
       "<rootDir>/__mocks__/fileMock.js",
   },
+  testEnvironment: "@happy-dom/jest-environment",
   testPathIgnorePatterns: ["<rootDir>/node_modules/"],
   transform: {
     "^.+\\.(ts|tsx)$": ["ts-jest"],

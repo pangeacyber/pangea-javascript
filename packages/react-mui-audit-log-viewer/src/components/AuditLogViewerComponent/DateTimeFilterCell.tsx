@@ -1,5 +1,4 @@
 import { Typography } from "@mui/material";
-import { PDG } from "@pangeacyber/react-mui-shared";
 import { FC } from "react";
 
 import DateTimeFilter from "./DateTimeFilter";
@@ -21,7 +20,7 @@ const DateTimeFilterCell: FC<any> = (params) => {
           day: "2-digit",
           hour: "2-digit",
           minute: "2-digit",
-          second: undefined,
+          second: "2-digit",
         })}
       </Typography>
     </DateTimeFilter>

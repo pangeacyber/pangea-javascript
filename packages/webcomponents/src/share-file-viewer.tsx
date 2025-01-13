@@ -5,19 +5,19 @@ import {
 } from ".";
 
 import {
-  StoreFileViewer,
-  StoreFileViewerProps as SFVP,
-} from "@pangeacyber/react-mui-store-file-viewer";
+  ShareFileViewer,
+  ShareFileViewerProps as SFVP,
+} from "@pangeacyber/react-mui-share-file-viewer";
 
-type StoreFileViewerProps = TransformedProps<SFVP>;
+type ShareFileViewerProps = TransformedProps<SFVP>;
 
-export default function registerStoreFileViewer({
+export default function registerShareFileViewer({
   props,
   brandingProps,
-  name = "store-file-viewer",
+  name = "share-file-viewer",
   replaceExisting = false,
 }: {
-  props: StoreFileViewerProps;
+  props: ShareFileViewerProps;
   brandingProps?: BrandingThemeProviderProps;
   name: string;
   replaceExisting: boolean;
@@ -36,7 +36,7 @@ export default function registerStoreFileViewer({
   ];
 
   const webComponent = CreateMUIWebComponent(
-    StoreFileViewer,
+    ShareFileViewer,
     props,
     brandingProps,
     notOriginallyFunctions
@@ -61,10 +61,10 @@ export default function registerStoreFileViewer({
 
 declare global {
   interface Window {
-    registerStoreFileViewer: typeof registerStoreFileViewer;
+    registerStoreFileViewer: typeof registerShareFileViewer;
   }
 }
 
 if (typeof window !== "undefined") {
-  window.registerStoreFileViewer = registerStoreFileViewer;
+  window.registerStoreFileViewer = registerShareFileViewer;
 }

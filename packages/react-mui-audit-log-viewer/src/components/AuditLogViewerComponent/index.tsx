@@ -51,6 +51,11 @@ export interface ViewerProps<Event = Audit.DefaultEvent> {
   >;
 
   visibilityModel?: Partial<Record<keyof Event, boolean>>;
+  onVisibilityModelChange?: (visibilityModel: Record<any, boolean>) => void;
+
+  order?: string[];
+  onOrderChange?: (order: string[]) => void;
+
   filters?: PublicAuditQuery;
   searchOnChange?: boolean;
   searchOnFilterChange?: boolean;
@@ -72,6 +77,13 @@ const AuditLogViewerComponent: FC<ViewerProps> = ({
   searchOnChange = true,
   searchOnFilterChange = true,
   searchOnMount = true,
+
+  initialQuery = "",
+
+  onVisibilityModelChange,
+
+  order,
+  onOrderChange,
 }) => {
   const {
     visibilityModel,
@@ -96,7 +108,7 @@ const AuditLogViewerComponent: FC<ViewerProps> = ({
   const filterFields = useAuditFilterFields(schema);
   const conditionalOptions = useAuditConditionalOptions(schema);
 
-  const hasMountedRef = useRef(false);
+  const hasMountedRef = useRef<string | undefined>(undefined);
 
   const bodyRef = useRef(body);
   bodyRef.current = body;
@@ -107,27 +119,34 @@ const AuditLogViewerComponent: FC<ViewerProps> = ({
   };
 
   useEffect(() => {
+    const initialQuery_ = initialQuery ?? "";
     if (
       !!bodyWithoutQuery &&
       (searchOnFilterChange || searchOnMount) &&
       !searchOnChange
     ) {
-      if (!searchOnFilterChange && hasMountedRef.current === true) {
+      if (!searchOnFilterChange && hasMountedRef.current === initialQuery_) {
         return;
       }
 
-      if (!searchOnMount && hasMountedRef.current === false) {
-        hasMountedRef.current = true;
+      if (!searchOnMount && hasMountedRef.current === undefined) {
+        hasMountedRef.current = initialQuery_;
         return;
       }
 
-      hasMountedRef.current = true;
+      hasMountedRef.current = initialQuery_;
       setTimeout(() => {
         handleSearch();
         // Add slight delay since since filters may update the query string
       }, 100);
     }
-  }, [bodyWithoutQuery, searchOnFilterChange, searchOnMount, searchOnChange]);
+  }, [
+    bodyWithoutQuery,
+    searchOnFilterChange,
+    searchOnMount,
+    searchOnChange,
+    initialQuery,
+  ]);
 
   useEffect(() => {
     if (!!body && searchOnChange) handleSearch();
@@ -167,7 +186,11 @@ const AuditLogViewerComponent: FC<ViewerProps> = ({
         ColumnCustomization={{
           // @ts-ignore
           visibilityModel: visibilityModel ?? defaultVisibility,
-          order: defaultOrder,
+          onVisibilityModelChange,
+
+          order: order ?? defaultOrder,
+          onOrderChange,
+
           dynamicFlexColumn: true,
         }}
         ExpansionRow={{

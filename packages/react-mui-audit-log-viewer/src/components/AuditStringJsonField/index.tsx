@@ -139,7 +139,9 @@ export const DateTimeField: FC<StringFieldProps> = (props) => {
         day: "2-digit",
         hour: "2-digit",
         minute: "2-digit",
-        second: undefined,
+        second: "2-digit",
+        // @ts-ignore
+        fractionalSecondDigits: 3,
       });
     }
 
@@ -203,7 +205,8 @@ const StringJsonField: FC<{
             highlights={changes.filter(shouldHighlight).map((c) => ({
               prefix: c.prefix,
               suffix: c.suffix,
-              value: c.value,
+              value:
+                typeof c.value === "object" ? JSON.stringify(c.value) : c.value,
               color: c.redacted ? "success" : "highlight",
               info: c.info,
             }))}

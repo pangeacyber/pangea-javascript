@@ -131,6 +131,7 @@ const VerificationModal: FC<VerificationModalProps> = ({
     )}' | python -m pangea.verify_audit`;
   };
 
+  const imported = record?.imported ?? record?.ingested;
   return (
     <>
       <IconButton
@@ -177,6 +178,13 @@ const VerificationModal: FC<VerificationModalProps> = ({
                   <>
                     <Typography color="success.main" variant="body2">
                       Verified
+                    </Typography>
+                    <CheckCircleOutlinedIcon color="success" fontSize="small" />
+                  </>
+                ) : !!imported ? (
+                  <>
+                    <Typography color="success.main" variant="body2">
+                      Imported
                     </Typography>
                     <CheckCircleOutlinedIcon color="success" fontSize="small" />
                   </>
@@ -260,6 +268,16 @@ const VerificationModal: FC<VerificationModalProps> = ({
                   </VerificationRow>
                 )}
               </>
+            ) : !!imported ? (
+              <Stack direction="row">
+                <Typography
+                  color="textSecondary"
+                  variant="body2"
+                  sx={{ paddingTop: 1 }}
+                >
+                  Tamperproofing is not available for imported logs
+                </Typography>
+              </Stack>
             ) : (
               <Stack direction="row">
                 <Typography

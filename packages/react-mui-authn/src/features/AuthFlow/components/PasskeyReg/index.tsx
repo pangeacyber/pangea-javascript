@@ -2,16 +2,16 @@ import { FC, useEffect, useState } from "react";
 import { Stack } from "@mui/material";
 import { useTheme } from "@mui/material/styles";
 import { HourglassBottomRounded } from "@mui/icons-material";
-import { startRegistration } from "@simplewebauthn/browser";
+import { startRegistration, WebAuthnError } from "@simplewebauthn/browser";
 
 import { AuthFlow } from "@pangeacyber/vanilla-js";
 
 import { AuthFlowComponentProps } from "@src/features/AuthFlow/types";
 import Button from "@src/components/core/Button";
 import PasskeyError from "@src/components/fields/PasskeyError";
+import { base64UrlEncode } from "@src/utils";
 
 const PasskeyAuth: FC<AuthFlowComponentProps> = ({
-  options,
   update,
   restart,
   data,
@@ -19,6 +19,7 @@ const PasskeyAuth: FC<AuthFlowComponentProps> = ({
 }) => {
   const theme = useTheme();
   const [stage, setStage] = useState<string>("start");
+  const [errorMsg, setErrorMsg] = useState<string>("");
 
   useEffect(() => {
     if (data.passkey?.enrollment && !data.passkey?.started) {
@@ -38,11 +39,19 @@ const PasskeyAuth: FC<AuthFlowComponentProps> = ({
     const publicKey = data.passkey?.registration?.publicKey;
 
     try {
-      const authResp = await startRegistration(publicKey);
+      publicKey.user.id = base64UrlEncode(publicKey.user.id);
+      const authResp = await startRegistration({ optionsJSON: publicKey });
       update(AuthFlow.Choice.PASSKEY, { registration: authResp });
-    } catch (_e) {
-      setStage("error");
-      console.debug("PASSKEY ERROR", _e);
+    } catch (err: any) {
+      if (err instanceof WebAuthnError) {
+        if (err.name !== "AbortError") {
+          setStage("error");
+          setErrorMsg(err.message);
+        }
+      } else {
+        setStage("error");
+        console.debug("PASSKEY ERROR:", err);
+      }
     }
   };
 
@@ -70,7 +79,13 @@ const PasskeyAuth: FC<AuthFlowComponentProps> = ({
   }
 
   if (stage === "error") {
-    return <PasskeyError label="Retry passkey" onClick={passkeyAuth} />;
+    return (
+      <PasskeyError
+        label="Retry passkey"
+        error={errorMsg}
+        onClick={passkeyAuth}
+      />
+    );
   }
 
   return (

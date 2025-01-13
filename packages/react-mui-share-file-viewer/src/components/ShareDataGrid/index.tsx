@@ -51,7 +51,9 @@ export const DEFAULT_COLUMN_ORDER = ["name", "size", "updated_at"];
 
 const ShareDataGrid: FC<ShareDataGridProps> = ({
   defaultVisibilityModel,
+  onVisibilityModelChange,
   defaultColumnOrder,
+  onOrderChange,
   customizations,
   includeIdColumn,
   virtualRoot,
@@ -258,7 +260,9 @@ const ShareDataGrid: FC<ShareDataGridProps> = ({
         }}
         ColumnCustomization={{
           visibilityModel,
+          onVisibilityModelChange,
           order: defaultColumnOrder ?? DEFAULT_COLUMN_ORDER,
+          onOrderChange,
           position: "inline",
           dynamicFlexColumn: true,
         }}

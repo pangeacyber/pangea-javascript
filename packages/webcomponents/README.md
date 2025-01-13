@@ -17,7 +17,7 @@
 
 ## Motivation
 
-This library wraps both the [Audit Log Viewer](../react-mui-audit-log-viewer) and [Store File Viewer](../react-mui-store-file-viewer) react components in [webcomponents](https://www.webcomponents.org/introduction) and renders them using [preact](https://preactjs.com/) so that these components can be used outside of a [react](https://react.dev/) and [mui](https://mui.com/) context.
+This library wraps both the [Audit Log Viewer](../react-mui-audit-log-viewer) and [Share File Viewer](../react-mui-share-file-viewer) react components in [webcomponents](https://www.webcomponents.org/introduction) and renders them using [preact](https://preactjs.com/) so that these components can be used outside of a [react](https://react.dev/) and [mui](https://mui.com/) context.
 
 ## Getting Started
 
@@ -82,9 +82,9 @@ You can install this by adding it to an `.html` file. You can copy paste the fol
         },
       });
     </script>
-    <script src="dist/browser/store-file-viewer.js"></script>
+    <script src="dist/browser/share-file-viewer.js"></script>
     <script>
-      registerStoreFileViewer({
+      registerShareFileViewer({
         props: {
           apiRef: function () {
             return {
@@ -109,7 +109,7 @@ You can install this by adding it to an `.html` file. You can copy paste the fol
   </head>
   <body>
     <audit-log-viewer id="1"></audit-log-viewer>
-    <store-file-viewer id="2"></store-file-viewer>
+    <share-file-viewer id="2"></share-file-viewer>
   </body>
 </html>
 ```
@@ -122,7 +122,7 @@ open index.html
 
 For further documentation regarding these wrapped components, visit their respective documentation pages:
 
-- [store-file-viewer](../react-mui-store-file-viewer)
+- [share-file-viewer](../react-mui-share-file-viewer)
 - [audit-log-viewer](../react-mui-audit-log-viewer)
 
 Note that each top level non-function prop becomes a function to allow customizability per tag eg.

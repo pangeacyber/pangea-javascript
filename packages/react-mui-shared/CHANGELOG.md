@@ -5,6 +5,33 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.0.3] - 2024-12-18
+
+### Added
+
+- Added callback support for onVisibilityModelChange and onOrderChange
+
+## [1.0.2] - 2024-11-14
+
+### Fixed
+
+- Configured table width, json-react-view default rendering
+
+## [1.0.1] - 2024-11-05
+
+### Added
+
+- Downgraded @mui/x-data-grid to 7.21.0. Version 7.22.0 has a bug throwing an exception when the list of data is cleared
+
+## [1.0.0] - 2024-11-04
+
+### Added
+
+- Upgrade material-ui packages to version 6
+- "@mui/icons-material": "^6.0.0",
+- "@mui/material": "^6.0.0",
+- "@mui/x-date-pickers": "^7.22.1",
+
 ## [0.0.67] - 2024-09-04
 
 ### Fixed

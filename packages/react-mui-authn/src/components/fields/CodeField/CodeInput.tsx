@@ -148,6 +148,23 @@ const CodeInput: FC<CodeInputProps> = ({
     nextInput?.focus();
   };
 
+  const handleInput = (e: any) => {
+    const value = e.target.value;
+    // Pasting from the native autofill suggestion on a mobile device can pass
+    // the pasted string as one long input to one of the cells. This ensures
+    // that we handle the full input and not just the first character.
+    if (value && value.length > 1 && value.length === length) {
+      e.preventDefault();
+
+      setTimeout(() => {
+        e.clipboardData = {
+          getData: () => value.trim(),
+        };
+        handlePaste(e);
+      });
+    }
+  };
+
   return (
     <Stack spacing={0.5} direction="row" alignItems="center">
       {inputs.map((inputId) => {
@@ -185,6 +202,7 @@ const CodeInput: FC<CodeInputProps> = ({
             onKeyDown={(e) => handleKeyDown(inputId, e)}
             onChange={(e) => handleChange(inputId, e)}
             onPaste={(e) => handlePaste(e)}
+            onInput={(e) => handleInput(e)}
             disabled={disabled}
           />
         );

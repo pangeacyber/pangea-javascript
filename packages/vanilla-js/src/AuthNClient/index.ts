@@ -19,10 +19,11 @@ export class AuthNClient {
     };
   }
 
-  /*
+  /**
     General AuthN functions
   */
 
+  /** Logs out the user for a given token */
   async logout(userToken: string): Promise<ClientResponse> {
     const path = "client/session/logout";
     const data = { token: userToken };
@@ -30,6 +31,7 @@ export class AuthNClient {
     return await this.post(path, data);
   }
 
+  /** Validate a user token */
   async validate(userToken: string): Promise<ClientResponse> {
     const path = "client/token/check";
     const payload = { token: userToken };
@@ -37,6 +39,7 @@ export class AuthNClient {
     return await this.post(path, payload);
   }
 
+  /** Exchange a code for active and session tokens */
   async userinfo(code: string): Promise<ClientResponse> {
     const path = "client/userinfo";
     const payload = { code: code };
@@ -44,6 +47,7 @@ export class AuthNClient {
     return await this.post(path, payload);
   }
 
+  /** Refresh a user token */
   async refresh(
     userToken: string,
     refreshToken: string
@@ -53,14 +57,23 @@ export class AuthNClient {
     return await this.post(path, payload);
   }
 
+  /** Fetch public JWKS information  */
   async jwks(): Promise<ClientResponse> {
     const path = "client/jwks";
     return await this.post(path, {});
   }
 
-  /*
+  /**
     API Request functions
   */
+
+  /**
+   * Performs a POST request to an AuthN endpoint
+   *
+   * @param endpoint the partial path of the API call
+   * @param payload a JSON data object
+   * @returns a promise that will return a `ClientResponse`
+   * */
   async post(endpoint: string, payload: any): Promise<ClientResponse> {
     try {
       let response: any = await fetch(this.getUrl(endpoint), {
@@ -82,7 +95,12 @@ export class AuthNClient {
     }
   }
 
-  // get request used only for async requests
+  /**
+   * Performs a GET request to an AuthN endpoint, used only for handling async requests
+   *
+   * @param endpoint the partial path of the API call
+   * @returns a Promise that will return a Response
+   * */
   async get(endpoint: string): Promise<Response> {
     try {
       const response: any = await fetch(this.getUrl(endpoint, undefined), {
@@ -96,6 +114,12 @@ export class AuthNClient {
     }
   }
 
+  /**
+   * Handle async retries
+   *
+   * @param response a Response from a previous call that returned a 202
+   * @returns a  Promise that will return a Response
+   * */
   async handleAsync(response: Response): Promise<Response> {
     const data = await response.json();
     const endpoint = `request/${data?.request_id}`;
@@ -114,6 +138,13 @@ export class AuthNClient {
     return response;
   }
 
+  /**
+   * Construct the URL to an AuthN service endpoint
+   *
+   * @param endpoint the partial path of the API call
+   * @param version (optional) an API version number, defaults to an empty string
+   * @returns a full URL to an API endpoint
+   * */
   getUrl(endpoint: string, version: string = ""): string {
     const protocol = this.config.domain.match(/^local\.?host(:\d{2,5})?$/)
       ? "http"
@@ -129,6 +160,11 @@ export class AuthNClient {
     return `${protocol}://authn.${this.config.domain}/${version_}${endpoint}`;
   }
 
+  /**
+   * Get HTTP request headers
+   *
+   * @returns an object containing Content-type and Authorization headers
+   * */
   getOptions(): any {
     const options = {
       headers: {
@@ -140,6 +176,12 @@ export class AuthNClient {
     return options;
   }
 
+  /**
+   * Return a formatted error message
+   *
+   * @param error an error object
+   * @returns an APIResponse object containing the error message
+   * */
   getError(error: any): APIResponse {
     const message = {
       status: "Error",
@@ -153,5 +195,3 @@ export class AuthNClient {
     return message;
   }
 }
-
-export default AuthNClient;

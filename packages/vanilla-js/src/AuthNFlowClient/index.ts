@@ -1,7 +1,7 @@
 import cloneDeep from "lodash/cloneDeep";
 import valuesIn from "lodash/valuesIn";
 
-import AuthNClient from "../AuthNClient";
+import { AuthNClient } from "../AuthNClient";
 
 import { APIResponse, ClientConfig, ClientResponse } from "../types";
 
@@ -50,6 +50,11 @@ export class AuthNFlowClient extends AuthNClient {
     this.error = null;
   }
 
+  /**
+   * Initialize the application state
+   *
+   * @param flowState an object containing the intial flow state
+   * */
   initState(flowState: Partial<AuthFlow.StateData>) {
     this.state = {
       ...this.state,
@@ -61,6 +66,12 @@ export class AuthNFlowClient extends AuthNClient {
     AuthN Flow state start and complete functions
   */
 
+  /**
+   * Start a new login/signup flow
+   *
+   * @param data parameters for the start call
+   * @returns a Promise that yields a ClientResponse object
+   * */
   async start(data?: AuthFlow.StartParams): Promise<ClientResponse> {
     const path = `${API_FLOW_BASE}/${AuthFlow.Endpoint.START}`;
     const flowTypes = [];
@@ -81,6 +92,12 @@ export class AuthNFlowClient extends AuthNClient {
     return await this._post(path, payload);
   }
 
+  /**
+   * Call restart for a flow choice
+   *
+   * @param data parameters for the restart call
+   * @returns a Promise that yields a ClientResponse object
+   * */
   async restart(
     choice: AuthFlow.RestartChoice,
     data?:
@@ -98,6 +115,12 @@ export class AuthNFlowClient extends AuthNClient {
     return await this._post(path, payload);
   }
 
+  /**
+   * Complete a login/signup flow
+   *
+   * @param device_id an optional string
+   * @returns a Promise that yields a ClientResponse object
+   * */
   async complete(device_id: string = ""): Promise<ClientResponse> {
     const path = `${API_FLOW_BASE}/${AuthFlow.Endpoint.COMPLETE}`;
     const payload: AuthFlow.CompleteRequest = {
@@ -115,7 +138,11 @@ export class AuthNFlowClient extends AuthNClient {
     AuthN Flow choice update functions
   */
 
-  // get the state of a flow_id
+  /**
+   * Get the current flow state from AuthN
+   *
+   * @returns a Promise that yields a ClientResponse object
+   * */
   async getFlowState(): Promise<ClientResponse> {
     const payload: AuthFlow.StatusRequest = {
       flow_id: this.state.flowId,
@@ -125,7 +152,12 @@ export class AuthNFlowClient extends AuthNClient {
     return await this._update(payload);
   }
 
-  // set the email associated with a flow_id
+  /**
+   * Set the email associated with a flow_id
+   *
+   * @param data parameters for the update call
+   * @returns a Promise that yields a ClientResponse object
+   * */
   async setEmail(data: AuthFlow.EmailParams): Promise<ClientResponse> {
     const payload: AuthFlow.SetEmailRequest = {
       flow_id: this.state.flowId,
@@ -136,6 +168,12 @@ export class AuthNFlowClient extends AuthNClient {
     return await this._update(payload);
   }
 
+  /**
+   * Set the username associated with a flow_id
+   *
+   * @param data parameters for the update call
+   * @returns a Promise that yields a ClientResponse object
+   * */
   async setUsername(data: AuthFlow.UsernameParams): Promise<ClientResponse> {
     const payload: AuthFlow.SetUsernameRequest = {
       flow_id: this.state.flowId,
@@ -146,6 +184,12 @@ export class AuthNFlowClient extends AuthNClient {
     return await this._update(payload);
   }
 
+  /**
+   * Set the phone number associated with a flow_id
+   *
+   * @param data parameters for the update call
+   * @returns a Promise that yields a ClientResponse object
+   * */
   async setPhone(data: AuthFlow.PhoneParams): Promise<ClientResponse> {
     const payload: AuthFlow.SetPhoneRequest = {
       flow_id: this.state.flowId,
@@ -156,6 +200,11 @@ export class AuthNFlowClient extends AuthNClient {
     return await this._update(payload);
   }
 
+  /**
+   * Call update to verify an email
+   *
+   * @returns a Promise that yields a ClientResponse object
+   * */
   async verifyEmail(): Promise<ClientResponse> {
     const payload: AuthFlow.VerifyEmailRequest = {
       flow_id: this.state.flowId,
@@ -166,6 +215,12 @@ export class AuthNFlowClient extends AuthNClient {
     return await this._update(payload);
   }
 
+  /**
+   * Call update to verify a social login
+   *
+   * @param data parameters for the update call
+   * @returns a Promise that yields a ClientResponse object
+   * */
   async verifySocial(data: AuthFlow.SocialParams): Promise<ClientResponse> {
     const payload: AuthFlow.SocialRequest = {
       flow_id: this.state.flowId,
@@ -176,6 +231,12 @@ export class AuthNFlowClient extends AuthNClient {
     return await this._update(payload);
   }
 
+  /**
+   * Call update to verify a SAML login
+   *
+   * @param data parameters for the update call
+   * @returns a Promise that yields a ClientResponse object
+   * */
   async verifySaml(data: AuthFlow.SamlParams): Promise<ClientResponse> {
     const payload: AuthFlow.SamlRequest = {
       flow_id: this.state.flowId,
@@ -186,6 +247,12 @@ export class AuthNFlowClient extends AuthNClient {
     return await this._update(payload);
   }
 
+  /**
+   * Call update to verify a password
+   *
+   * @param data parameters for the update call
+   * @returns a Promise that yields a ClientResponse object
+   * */
   async verifyPassword(data: AuthFlow.PasswordParams): Promise<ClientResponse> {
     const payload: AuthFlow.PasswordRequest = {
       flow_id: this.state.flowId,
@@ -196,6 +263,12 @@ export class AuthNFlowClient extends AuthNClient {
     return await this._update(payload);
   }
 
+  /**
+   * Call update to set a password
+   *
+   * @param data parameters for the update call
+   * @returns a Promise that yields a ClientResponse object
+   * */
   async setPassword(data: AuthFlow.PasswordParams): Promise<ClientResponse> {
     const payload: AuthFlow.SetPasswordRequest = {
       flow_id: this.state.flowId,
@@ -206,6 +279,11 @@ export class AuthNFlowClient extends AuthNClient {
     return await this._update(payload);
   }
 
+  /**
+   * Call update to start a password reset flow
+   *
+   * @returns a Promise that yields a ClientResponse object
+   * */
   async resetPassword(): Promise<ClientResponse> {
     const payload: AuthFlow.ResetPasswordRequest = {
       flow_id: this.state.flowId,
@@ -216,6 +294,12 @@ export class AuthNFlowClient extends AuthNClient {
     return await this._update(payload);
   }
 
+  /**
+   * Call update to verify a captcha
+   *
+   * @param data parameters for the update call
+   * @returns a Promise that yields a ClientResponse object
+   * */
   async verifyCaptcha(data: AuthFlow.CaptchaParams): Promise<ClientResponse> {
     const payload: AuthFlow.CaptchaRequest = {
       flow_id: this.state.flowId,
@@ -226,6 +310,12 @@ export class AuthNFlowClient extends AuthNClient {
     return await this._update(payload);
   }
 
+  /**
+   * Call update to verify an email OTP code
+   *
+   * @param data parameters for the update call
+   * @returns a Promise that yields a ClientResponse object
+   * */
   async emailOtp(data: AuthFlow.EmailOtpParams): Promise<ClientResponse> {
     const payload: AuthFlow.EmailOtpRequest = {
       flow_id: this.state.flowId,
@@ -236,6 +326,12 @@ export class AuthNFlowClient extends AuthNClient {
     return await this._update(payload);
   }
 
+  /**
+   * Call update to verify an SMS OTP code
+   *
+   * @param data parameters for the update call
+   * @returns a Promise that yields a ClientResponse object
+   * */
   async smsOtp(data: AuthFlow.SmsOtpParams): Promise<ClientResponse> {
     const payload: AuthFlow.SmsOtpRequest = {
       flow_id: this.state.flowId,
@@ -246,6 +342,12 @@ export class AuthNFlowClient extends AuthNClient {
     return await this._update(payload);
   }
 
+  /**
+   * Call update to verify a TOTP code
+   *
+   * @param data parameters for the update call
+   * @returns a Promise that yields a ClientResponse object
+   * */
   async totp(data: AuthFlow.TotpParams): Promise<ClientResponse> {
     const payload: AuthFlow.TotpRequest = {
       flow_id: this.state.flowId,
@@ -256,6 +358,12 @@ export class AuthNFlowClient extends AuthNClient {
     return await this._update(payload);
   }
 
+  /**
+   * Call update to accept an agreement
+   *
+   * @param data parameters for the update call
+   * @returns a Promise that yields a ClientResponse object
+   * */
   async acceptAgreement(
     data: AuthFlow.AgreementsParams
   ): Promise<ClientResponse> {
@@ -268,6 +376,12 @@ export class AuthNFlowClient extends AuthNClient {
     return await this._update(payload);
   }
 
+  /**
+   * Call update to set profile data
+   *
+   * @param data parameters for the update call
+   * @returns a Promise that yields a ClientResponse object
+   * */
   async updateProfile(data: AuthFlow.ProfileParams): Promise<ClientResponse> {
     const payload: AuthFlow.ProfileRequest = {
       flow_id: this.state.flowId,
@@ -278,6 +392,12 @@ export class AuthNFlowClient extends AuthNClient {
     return await this._update(payload);
   }
 
+  /**
+   * Call update to send a passkey
+   *
+   * @param data parameters for the update call
+   * @returns a Promise that yields a ClientResponse object
+   * */
   async sendPasskey(data: AuthFlow.PasswordParams): Promise<ClientResponse> {
     const payload: AuthFlow.PasskeyRequest = {
       flow_id: this.state.flowId,
@@ -288,6 +408,12 @@ export class AuthNFlowClient extends AuthNClient {
     return await this._update(payload);
   }
 
+  /**
+   * Call update to save OAuth consent
+   *
+   * @param data parameters for the update call
+   * @returns a Promise that yields a ClientResponse object
+   * */
   async oauthConsent(data: AuthFlow.ConsentParams): Promise<ClientResponse> {
     const payload: AuthFlow.ConsentRequest = {
       flow_id: this.state.flowId,
@@ -298,14 +424,16 @@ export class AuthNFlowClient extends AuthNClient {
     return await this._update(payload);
   }
 
-  // reset state to default
+  /**
+   * Reset internal state to default
+   * */
   reset() {
     this.state = {
       ...DEFAULT_FLOW_DATA,
     };
   }
 
-  // post wrapper to process response
+  /** @hidden */
   async _post(path: string, payload: any): Promise<ClientResponse> {
     const { response } = await this.post(path, payload);
 
@@ -314,17 +442,28 @@ export class AuthNFlowClient extends AuthNClient {
     return { success, response };
   }
 
-  // convienence method for update calls
+  /** @hidden */
   async _update(payload: any): Promise<ClientResponse> {
     const path = this.getUpdatePath();
 
     return await this._post(path, payload);
   }
 
+  /**
+   * Return the path for a flow API call
+   *
+   * @returns the path to the flow upate endpoint
+   * */
   getUpdatePath(): string {
     return `${API_FLOW_BASE}/${AuthFlow.Endpoint.UPDATE}`;
   }
 
+  /**
+   * Process the API Flow Response
+   *
+   * @param response an APIResponse object
+   * @returns a boolean success status
+   * */
   processResponse(response: APIResponse): boolean {
     let success = response.status === "Success";
 

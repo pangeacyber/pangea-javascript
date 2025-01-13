@@ -1,6 +1,6 @@
 import { ConfigOptions, ConfigEnv } from "./types.js";
 
-export const version = "4.2.0-beta.2";
+export const version = "4.3.0";
 
 /** Configuration for a Pangea service client. */
 class PangeaConfig {

@@ -414,6 +414,18 @@ export namespace Redact {
     rulesets?: string[];
     return_result?: boolean;
     redaction_method_overrides?: RedactionMethodOverrides;
+    vault_parameters?: VaultParameters;
+
+    /** Is this redact call going to be used in an LLM request? */
+    llm_request?: boolean;
+  }
+
+  export interface VaultParameters {
+    /** A vault key ID of an exportable key used to redact with FPE instead of using the service config default. */
+    fpe_key_id?: string;
+
+    /** A vault secret ID of a secret used to salt a hash instead of using the service config default. */
+    salt_secret_id?: string;
   }
 
   export interface TextOptions extends Options {}
@@ -548,7 +560,7 @@ export namespace Intel {
   }
 
   export interface CommonResult {
-    parameter?: Dictionary;
+    parameters?: Dictionary;
     raw_data?: Dictionary;
   }
 
@@ -764,8 +776,38 @@ export namespace Intel {
       breach_count: number;
     }
 
-    export interface BreachedResult extends Intel.CommonResult {
-      data: BreachedData;
+    export interface BreachRequest {
+      /** The ID of a breach returned by a provider. */
+      breach_id?: string;
+
+      /** Echo the API parameters in the response. */
+      verbose?: boolean;
+
+      /** Get breach data from this provider. */
+      provider?: string;
+
+      /** A token given in the raw response from SpyCloud. Post this back to paginate results. */
+      cursor?: string;
+
+      /** This parameter allows you to define the starting point for a date range query on the spycloud_publish_date field. */
+      start?: string;
+
+      /** This parameter allows you to define the ending point for a date range query on the spycloud_publish_date field. */
+      end?: string;
+
+      /** Filter for records that match one of the given severities. */
+      severity?: string[];
+    }
+
+    export interface BreachResult {
+      /** A flag indicating if the lookup was successful. */
+      found: boolean;
+
+      /** Breach details given by the provider. */
+      data?: object;
+
+      /** The parameters, which were passed in the request, echoed back. */
+      parameters?: Dictionary;
     }
 
     export interface BreachedBulkData {
@@ -778,8 +820,28 @@ export namespace Intel {
 
     export namespace User {
       export interface BreachedOptions extends Intel.Options {
+        /** Earliest date for search. */
         start?: string;
+
+        /** Latest date for search. */
         end?: string;
+
+        /** A token given in the raw response from SpyCloud. Post this back to paginate results. */
+        cursor?: string;
+
+        /** Filter for records that match one of the given severities. */
+        severity?: string[];
+      }
+
+      export interface BreachedBulkOptions extends Intel.Options {
+        /** Earliest date for search. */
+        start?: string;
+
+        /** Latest date for search. */
+        end?: string;
+
+        /** Filter for records that match one of the given severities. */
+        severity?: string[];
       }
 
       export interface BreachedEmailRequest extends BreachedOptions {
@@ -798,7 +860,9 @@ export namespace Intel {
         phone_number: string;
       }
 
-      export interface BreachedResult extends Intel.User.BreachedResult {}
+      export interface BreachedResult extends Intel.CommonResult {
+        data: BreachedData;
+      }
 
       export type BreachedRequest =
         | BreachedEmailRequest
@@ -806,23 +870,23 @@ export namespace Intel {
         | BreachedPhoneRequest
         | BreachedUsernameRequest;
 
-      export interface BreachedEmailBulkRequest extends BreachedOptions {
+      export interface BreachedEmailBulkRequest extends BreachedBulkOptions {
         emails: string[];
       }
 
-      export interface BreachedUsernameBulkRequest extends BreachedOptions {
+      export interface BreachedUsernameBulkRequest extends BreachedBulkOptions {
         usernames: string[];
       }
 
-      export interface BreachedDomainBulkRequest extends BreachedOptions {
+      export interface BreachedDomainBulkRequest extends BreachedBulkOptions {
         domains: string[];
       }
 
-      export interface BreachedIPBulkRequest extends BreachedOptions {
+      export interface BreachedIPBulkRequest extends BreachedBulkOptions {
         ips: string[];
       }
 
-      export interface BreachedPhoneBulkRequest extends BreachedOptions {
+      export interface BreachedPhoneBulkRequest extends BreachedBulkOptions {
         phone_numbers: string[];
       }
 
@@ -3208,6 +3272,21 @@ export namespace Share {
     /** The key in the external bucket that contains this file. */
     external_bucket_key: string;
 
+    /** The explicit file TTL setting for this object. */
+    file_ttl?: string;
+
+    /**
+     * The effective file TTL setting for this object, either explicitly set or
+     * inherited (see file_ttl_from_id.)
+     */
+    file_ttl_effective?: string;
+
+    /**
+     * The ID of the object the expiry / TTL is set from. Either a service
+     * configuration, the object itself, or a parent folder.
+     */
+    file_ttl_from_id?: string;
+
     /** The ID of a stored object. */
     id: string;
 
@@ -3314,6 +3393,9 @@ export namespace Share {
      */
     name?: string;
 
+    /** Duration until files within this folder are automatically deleted. */
+    file_ttl?: string;
+
     /**
      * A set of string-based key/value pairs used to provide additional data
      * about an object.
@@ -3413,6 +3495,9 @@ export namespace Share {
      */
     folder?: string;
 
+    /** The TTL before expiry for the file. */
+    file_ttl?: string;
+
     /** An optional password to protect the file with. Downloading the file will require this password. */
     password?: string;
 
@@ -3469,6 +3554,9 @@ export namespace Share {
      * exists.
      */
     add_tags?: Tags;
+
+    /** Set the file TTL. */
+    file_ttl?: string;
 
     /** The bucket to use, if not the default. */
     bucket_id?: string;

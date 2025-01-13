@@ -3,51 +3,55 @@
   "version": "1.0.0",
   "author": "Michael Combs <michael.combs@pangea.cloud>",
   "license": "MIT",
+  "type": "commonjs",
   "source": "src/main.ts",
-  "main": "dist/lib/main.js",
-  "module": "dist/lib/module.js",
+  "main": "dist/lib/main.cjs",
+  "module": "dist/lib/main.mjs",
   "types": "dist/lib/types.d.ts",
   "browser": {
     "audit-log-viewer": "dist/browser/audit-log-viewer.js",
-    "store-file-viewer": "dist/browser/store-file-viewer.js"
+    "share-file-viewer": "dist/browser/share-file-viewer.js"
   },
   "publishConfig": {
     "access": "public"
   },
-  "packageManager": "yarn@4.5.1",
+  "packageManager": "yarn@4.6.0",
   "scripts": {
-    "build": "parcel build"
+    "build": "parcel build",
+    "lint-publint": "publint",
+    "typecheck": "tsc --noEmit"
   },
   "devDependencies": {
     "@babel/core": "^7.26.0",
     "@babel/plugin-transform-runtime": "^7.25.9",
     "@babel/preset-env": "^7.26.0",
-    "@babel/preset-react": "^7.25.9",
+    "@babel/preset-react": "^7.26.3",
     "@babel/preset-typescript": "^7.26.0",
-    "@parcel/packager-ts": "2.12.0",
-    "@parcel/transformer-typescript-types": "2.12.0",
+    "@parcel/packager-ts": "2.13.3",
+    "@parcel/transformer-typescript-types": "2.13.3",
     "babel-loader": "^9.2.1",
     "css-loader": "^7.1.2",
-    "parcel": "^2.12.0",
+    "parcel": "^2.13.3",
     "process": "^0.11.10",
+    "publint": "0.2.12",
     "style-loader": "^4.0.0",
     "ts-node": "^10.9.2",
-    "typescript": "^5.6.3"
+    "typescript": "^5.7.3"
   },
   "dependencies": {
-    "@emotion/cache": "^11.13.1",
-    "@emotion/react": "^11.13.3",
-    "@emotion/styled": "^11.13.0",
-    "@mui/icons-material": "^5.16.7",
-    "@mui/material": "^5.16.7",
+    "@emotion/cache": "^11.14.0",
+    "@emotion/react": "^11.14.0",
+    "@emotion/styled": "^11.14.0",
+    "@mui/icons-material": "^6.1.6",
+    "@mui/material": "^6.1.6",
     "@mui/styled-engine-sc": "^6.1.5",
     "@mui/types": "^7.2.18",
-    "@pangeacyber/react-mui-audit-log-viewer": "^0.0.95",
-    "@pangeacyber/react-mui-branding": "0.0.18",
-    "@pangeacyber/react-mui-store-file-viewer": "^0.0.69",
+    "@pangeacyber/react-mui-audit-log-viewer": "^1.0.6",
+    "@pangeacyber/react-mui-branding": "^1.0.0",
+    "@pangeacyber/react-mui-share-file-viewer": "^1.0.3",
     "@preact/compat": "^18.3.1",
-    "preact": "^10.24.3",
-    "styled-components": "^6.1.13"
+    "preact": "^10.25.4",
+    "styled-components": "^6.1.14"
   },
   "alias": {
     "react": "preact/compat",
@@ -60,7 +64,7 @@
     "browsers": {
       "source": [
         "src/audit-log-viewer.tsx",
-        "src/store-file-viewer.tsx"
+        "src/share-file-viewer.tsx"
       ],
       "distDir": "dist/browser",
       "context": "browser",

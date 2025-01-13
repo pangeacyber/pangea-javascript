@@ -1,17 +1,11 @@
 .react_mui_audit_log_viewer_base:
-  image: node:20.18.0@sha256:a5e0ed56f2c20b9689e0f7dd498cac7e08d2a3a283e92d9304e7b9b83e3c6ff3
+  image: node:20.18.1@sha256:d17aaa2a2fd82e09bd6a6da7cc4a79741340d2a3e39d172d1b30f295b1a850ff
   before_script:
     - apt-get -qq update
     - apt-get install -y jq
     - corepack enable
     - cd packages/react-mui-audit-log-viewer
     - yarn install --immutable
-  cache:
-    - key:
-        files:
-          - yarn.lock
-      paths:
-        - node_modules
 
 publish_react_mui_audit_log_viewer:
   extends: .react_mui_audit_log_viewer_base

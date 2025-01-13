@@ -5,6 +5,7 @@ import { HourglassBottomRounded, VpnKeyRounded } from "@mui/icons-material";
 import {
   startAuthentication,
   browserSupportsWebAuthn,
+  WebAuthnError,
 } from "@simplewebauthn/browser";
 
 import { AuthFlow } from "@pangeacyber/vanilla-js";
@@ -12,9 +13,9 @@ import { AuthFlow } from "@pangeacyber/vanilla-js";
 import { AuthFlowComponentProps } from "@src/features/AuthFlow/types";
 import Button from "@src/components/core/Button";
 import PasskeyError from "@src/components/fields/PasskeyError";
+import { base64UrlDecode } from "@src/utils";
 
 const PasskeyAuth: FC<AuthFlowComponentProps> = ({
-  options,
   update,
   restart,
   data,
@@ -22,6 +23,7 @@ const PasskeyAuth: FC<AuthFlowComponentProps> = ({
 }) => {
   const theme = useTheme();
   const [stage, setStage] = useState<string>("start");
+  const [errorMsg, setErrorMsg] = useState<string>("");
   const passkeyEnabled = !!data?.passkey && browserSupportsWebAuthn();
 
   useEffect(() => {
@@ -45,10 +47,24 @@ const PasskeyAuth: FC<AuthFlowComponentProps> = ({
   const passkeyDiscovery = async () => {
     try {
       const publicKey = data.passkey?.authentication?.publicKey;
-      const authResp = await startAuthentication(publicKey, true);
+      const authResp = await startAuthentication({
+        optionsJSON: publicKey,
+        useBrowserAutofill: true,
+      });
+      authResp.response.userHandle = base64UrlDecode(
+        authResp.response.userHandle || ""
+      );
       update(AuthFlow.Choice.PASSKEY, { authentication: authResp });
-    } catch (_e) {
-      console.debug("PASSKEY ERROR", _e);
+    } catch (err: any) {
+      if (err instanceof WebAuthnError) {
+        if (err.name !== "AbortError") {
+          setStage("error");
+          setErrorMsg(err.message);
+        }
+      } else {
+        setStage("error");
+        console.debug("PASSKEY ERROR:", err);
+      }
     }
   };
 
@@ -56,14 +72,20 @@ const PasskeyAuth: FC<AuthFlowComponentProps> = ({
     setStage("wait");
     try {
       const publicKey = data.passkey?.authentication?.publicKey;
-      const authResp = await startAuthentication(publicKey);
+      const authResp = await startAuthentication({ optionsJSON: publicKey });
+      authResp.response.userHandle = base64UrlDecode(
+        authResp.response.userHandle || ""
+      );
       update(AuthFlow.Choice.PASSKEY, { authentication: authResp });
-    } catch (_e) {
-      setStage("error");
-
-      // @ts-ignore
-      if (window.PASSKEY_DEBUG) {
-        console.debug("PASSKEY ERROR", _e);
+    } catch (err) {
+      if (err instanceof WebAuthnError) {
+        if (err.name !== "AbortError") {
+          setStage("error");
+          setErrorMsg(err.message);
+        }
+      } else {
+        setStage("error");
+        console.debug("PASSKEY ERROR:", err);
       }
     }
   };
@@ -100,6 +122,7 @@ const PasskeyAuth: FC<AuthFlowComponentProps> = ({
     return (
       <PasskeyError
         label="Retry passkey"
+        error={errorMsg}
         showLock={true}
         onClick={passkeyAuth}
       />
