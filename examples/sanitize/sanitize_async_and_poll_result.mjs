@@ -15,7 +15,7 @@ const config = new PangeaConfig({ domain: process.env.PANGEA_DOMAIN });
 const client = new SanitizeService(token, config);
 
 // Set your own file path
-const filepath = "./ds11.pdf";
+const filepath = "./test-sanitize.txt";
 
 // Auxiliary function
 const delay = async (ms) =>
@@ -74,7 +74,6 @@ const delay = async (ms) =>
           "\tDefang data:",
           JSON.stringify(response.result.data.defang)
         );
-        console.log("\tCDR data:", JSON.stringify(response.result.data.cdr));
 
         if (response.result.data.malicious_file) {
           console.log("File IS malicious");
