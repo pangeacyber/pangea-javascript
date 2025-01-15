@@ -53,7 +53,7 @@ export class SanitizeService extends BaseService {
    * };
    * const response = await sanitize.sanitize(
    *   request,
-   *   { file: await readFile("/path/to/file.pdf"), name: "filename" }
+   *   { file: await readFile("/path/to/file.txt"), name: "filename" }
    * );
    * ```
    */
