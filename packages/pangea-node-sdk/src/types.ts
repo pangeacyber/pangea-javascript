@@ -2799,12 +2799,6 @@ export namespace Sanitize {
      * PII analysis engine results. Only works if redact is enabled.
      */
     redact_detect_only?: boolean;
-
-    /** Remove file attachments (PDF only). */
-    remove_attachments?: boolean;
-
-    /** Remove interactive content (PDF only). */
-    remove_interactive?: boolean;
   }
 
   export interface SanitizeShareOutput {
@@ -2913,14 +2907,6 @@ export namespace Sanitize {
     recognizer_results?: RedactRecognizerResult[];
   }
 
-  export interface CDR {
-    /** Number of file attachments removed. */
-    file_attachments_removed?: number;
-
-    /** Number of interactive content items removed. */
-    interactive_contents_removed?: number;
-  }
-
   export interface SanitizeData {
     /** Defang. */
     defang?: DefangData;
@@ -2930,9 +2916,6 @@ export namespace Sanitize {
 
     /** If the file scanned was malicious. */
     malicious_file?: boolean;
-
-    /** Content Disarm and Reconstruct. */
-    cdr?: CDR;
   }
 
   export interface SanitizeResult {
