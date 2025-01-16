@@ -48,7 +48,7 @@ import {
 } from "@pangeacyber/react-mui-audit-log-viewer";
 
 const MyComponent: React.FC = () => {
-  // IMPORTANT: 'api.searchAuditLogs' below is expected to call your *server* endpoint, 
+  // IMPORTANT: 'api.searchAuditLogs' below is expected to call your *server* endpoint,
   // which then contacts Pangea. Avoid embedding your Pangea service token directly in the client.
 
   const handleSearch = async (body: Audit.SearchRequest) => {
@@ -122,8 +122,12 @@ import { AuditLogViewer } from "@pangeacyber/react-mui-audit-log-viewer";
 const ExampleWithDownload = () => {
   return (
     <AuditLogViewer
-      onSearch={async (body) => { /* ... */ }}
-      onPageChange={async (body) => { /* ... */ }}
+      onSearch={async (body) => {
+        /* ... */
+      }}
+      onPageChange={async (body) => {
+        /* ... */
+      }}
       onDownload={async (body) => {
         // This function calls your server's /download_results endpoint
         // and returns a pre-signed URL or similar
@@ -148,8 +152,12 @@ import { AuditLogViewer } from "@pangeacyber/react-mui-audit-log-viewer";
 const ExampleWithVerification = () => {
   return (
     <AuditLogViewer
-      onSearch={async (body) => { /* ... */ }}
-      onPageChange={async (body) => { /* ... */ }}
+      onSearch={async (body) => {
+        /* ... */
+      }}
+      onPageChange={async (body) => {
+        /* ... */
+      }}
       verificationOptions={{
         onFetchRoot: async (body) => {
           // Call your /root endpoint to get the tamperproof root
@@ -177,9 +185,12 @@ import { AuditLogViewer } from "@pangeacyber/react-mui-audit-log-viewer";
 const ExampleWithConfig = () => {
   return (
     <AuditLogViewer
-      onSearch={async (body) => { /* ... */ }}
-      onPageChange={async (body) => { /* ... */ }}
-
+      onSearch={async (body) => {
+        /* ... */
+      }}
+      onPageChange={async (body) => {
+        /* ... */
+      }}
       // Use your project credentials to dynamically fetch the schema from the Pangea Console
       config={{
         clientToken: "pcl_...", // e.g., "pcl_your-client-token"
