@@ -157,4 +157,4 @@ STORYBOOK_SERVICE_DOMAIN = "{DOMAIN}"
 STORYBOOK_CONFIG_ID = "{AUDIT_CONFIG_ID}"
 ```
 
-Then the component can hit your configured Pangea Audit Log service for data and tamperproof verification.
+Then the component can hit your configured Pangea Audit Log service for audit logs and tamperproof verification.
