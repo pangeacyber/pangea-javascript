@@ -101,4 +101,4 @@ When these are unavailable, the stories will generally fall back to mock data or
 
 1. **New Stories**: Add a `.stories.tsx` file in this directory with a clear top-level JSDoc or markdown comment.
 2. **Describe Key Props**: In your story, describe any special props or features the story showcases.
-3. **Testing**: Run `npm run storybook` or your equivalent command to preview and ensure everything works as expected.
+3. **Testing**: Run `yarn storybook` to preview and ensure everything works as expected.

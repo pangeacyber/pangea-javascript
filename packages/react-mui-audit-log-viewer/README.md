@@ -146,7 +146,7 @@ yarn storybook
 
 This command starts a local Storybook server at [http://localhost:6060](http://localhost:6060).
 
-> **Note**: The [`stories` directory](./stories/README.md) includes various Storybook examples demonstrating advanced usage—such as custom schema overrides, theming with Material-UI, verification of tamper-proof logs, and more.
+> **Note**: The [`stories` directory](./src/stories/README.md) includes various Storybook examples demonstrating advanced usage—such as custom schema overrides, theming with Material-UI, verification of tamper-proof logs, and more.
 
 If you want to enable the `VerificationAuditLogViewer` example to fetch real logs and verify them, you’ll need to provide a `.env` file with your Pangea credentials:
 
