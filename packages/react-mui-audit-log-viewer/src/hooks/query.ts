@@ -45,7 +45,7 @@ export const useAuditQueryState = (
     // Handle optional range param in filters
     const { type, ...timeFields } = range ?? {};
     const active =
-      type === "relative" ? "since" : (type ?? queryObj?.active ?? "since");
+      type === "relative" ? "since" : type ?? queryObj?.active ?? "since";
 
     const newQuery = {
       since: "7day",

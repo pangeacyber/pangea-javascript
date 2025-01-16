@@ -65,7 +65,7 @@ export const ChangesTypography: FC<{
               span_
             );
           })
-        : (value ?? "-")}
+        : value ?? "-"}
     </Typography>
   );
 };
