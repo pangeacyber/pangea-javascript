@@ -3,28 +3,40 @@ title: Overview
 displayed_sidebar: react-mui-audit-log-viewer
 slug: /libraries/react-mui-audit-log-viewer/
 description: Learn how to use the Secure Audit Log Viewer components from Pangea in your app
-# image: /img/og/open-graph-redact.jpg # TODO
 ---
 
 import AuditLogViewer from "@src/components/PreviewComponents/AuditLogViewer";
 
 # Overview
 
-The Audit Log Viewer can be used to search, view, and verify tamperproofing of all logs stored by the Secure Audit Log service. It allows users to perform searches, navigate through pages of results, and interact with the audit log data.
+The **Audit Log Viewer** can be used to **search, view, and verify tamperproofing** of all logs stored by the Secure Audit Log service. It allows users to perform searches, navigate through pages of results, and interact with the audit log data.
 
-An application using the Pangea Audit Service may also require that the audit logs are presented in the end application, because of this we made the log viewer React component that Pangea uses within its Console available as an npm package, such that it could be embed directly into an app.
+If your application uses the Pangea Audit Service and needs to present logs within an end application, this viewer is for you. We provide the same component used within the Pangea Console as an npm package so it can be embedded directly into your React app.
 
-The AuditLogViewer component is a React component built using the Material-UI (MUI) component library. MUI was used because it is the same component used within the Pangea Console.
+The `AuditLogViewer` component is built with [Material-UI](https://mui.com/), consistent with the styling in the Pangea Console.
+
+---
+
+## GitHub Repository & Local Storybook
+
+All source code for this component is available on [GitHub](https://github.com/pangeacyber/pangea-javascript/tree/main/packages/react-mui-audit-log-viewer).  
+There, you can also run a local **Storybook** environment to explore **live examples** of the component in various configurations—such as verifying tamperproof logs, customizing the schema, or applying themed styling.
+
+---
 
 ## Pangea's Secure Audit Log
 
-The Secure Audit Log is a critical component of any system that requires accountability and transparency by providing an accurate and secure record of all system events. To learn more about integrating, configuring, and using Pangea’s Secure Audit Log Service, please take a look at our [Secure Audit Log Documentation](https://pangea.cloud/docs/audit).
+To learn more about integrating, configuring, and using Pangea's Secure Audit Log Service, see our [Secure Audit Log Documentation](https://pangea.cloud/docs/audit).
+
+---
 
 ## Demo
 
-This is an example demo rendering of the AuditLogViewer component. This demo is not connected to any Secure Audit Log APIs. To see the component in action check out it's usage from within the [Pangea Console](https://console.pangea.cloud/service/audit/logs).
+Below is a quick demo rendering of the `AuditLogViewer` component. This demo is **not** connected to any Secure Audit Log APIs. For a real-world demonstration, see how the component is used within the [Pangea Console](https://console.pangea.cloud/service/audit/logs).
 
 <AuditLogViewer />
+
+---
 
 ## Basic Usage
 
@@ -32,19 +44,21 @@ This is an example demo rendering of the AuditLogViewer component. This demo is 
 import React from "react";
 import {
   Audit,
-  AuditLogViewerProps,
   AuditLogViewer,
 } from "@pangeacyber/react-mui-audit-log-viewer";
 
 const MyComponent: React.FC = () => {
+  // IMPORTANT: 'api.searchAuditLogs' below is expected to call your *server* endpoint, 
+  // which then contacts Pangea. Avoid embedding your Pangea service token directly in the client.
+
   const handleSearch = async (body: Audit.SearchRequest) => {
-    // Perform search logic here
+    // POST 'body' to your server's /search proxy, not to Pangea directly
     const response = await api.searchAuditLogs(body);
     return response;
   };
 
   const handlePageChange = async (body: Audit.ResultRequest) => {
-    // Handle page change logic here
+    // Similarly, call your server's /results proxy
     const response = await api.getAuditLogResults(body);
     return response;
   };
@@ -59,9 +73,102 @@ const MyComponent: React.FC = () => {
 };
 ```
 
+> **Security Note**: You should **not** expose your Pangea service token in client-side code. Always route calls through your backend for proper token security.
+
+---
+
+## Advanced Examples
+
+Below are some short code snippets illustrating common configurations. For fully interactive demos, refer to the local Storybook in our [GitHub repo](https://github.com/pangeacyber/pangea-javascript/tree/main/packages/react-mui-audit-log-viewer).
+
+### 1. Using `initialQuery` and `filters`
+
+```js pangeaStyle=true
+import React from "react";
+import { AuditLogViewer } from "@pangeacyber/react-mui-audit-log-viewer";
+
+const ExampleWithFilters = () => {
+  // For 'filters', we can specify different range types (relative, between, etc.)
+  return (
+    <AuditLogViewer
+      initialQuery="actor:michael.scott"
+      filters={{
+        range: {
+          type: "relative",
+          since: "24hour", // logs from the last 24 hours
+        },
+      }}
+      onSearch={async (body) => {
+        // your server's /search endpoint
+      }}
+      onPageChange={async (body) => {
+        // your server's /results endpoint
+      }}
+    />
+  );
+};
+```
+
+In this example, logs will be filtered to show only those matching the actor `"michael.scott"` within the last 24 hours.
+
+---
+
+### 2. Adding the `onDownload` callback
+
+```js pangeaStyle=true
+import React from "react";
+import { AuditLogViewer } from "@pangeacyber/react-mui-audit-log-viewer";
+
+const ExampleWithDownload = () => {
+  return (
+    <AuditLogViewer
+      onSearch={async (body) => { /* ... */ }}
+      onPageChange={async (body) => { /* ... */ }}
+      onDownload={async (body) => {
+        // This function calls your server's /download_results
+        // endpoint and returns a URL or file data
+        const response = await api.downloadAuditLogs(body);
+        return response;
+      }}
+    />
+  );
+};
+```
+
+When `onDownload` is provided, a **“Download”** button appears, allowing users to export results.
+
+---
+
+### 3. Enabling Verification with `verificationOptions`
+
+```js pangeaStyle=true
+import React from "react";
+import { AuditLogViewer } from "@pangeacyber/react-mui-audit-log-viewer";
+
+const ExampleWithVerification = () => {
+  return (
+    <AuditLogViewer
+      onSearch={async (body) => { /* ... */ }}
+      onPageChange={async (body) => { /* ... */ }}
+      verificationOptions={{
+        onFetchRoot: async (body) => {
+          // Call your /root endpoint to get the tamperproof root
+          const response = await api.getAuditRoot(body);
+          return response;
+        },
+      }}
+    />
+  );
+};
+```
+
+When `verificationOptions.onFetchRoot` is supplied, the AuditLogViewer verifies each event’s `membership_proof` against the published root, and shows tamperproof verification statuses.
+
+---
+
 ## Format Preserving Encryption (FPE) Support
 
-To enable FPE highlighting set the `highlightRedaction` FPE option to `true`
+To highlight **Format Preserving Encryption** redactions, enable `highlightRedaction` in the `fpeOptions` prop:
 
 ```javascript pangeaStyle=true
 <AuditLogViewer
@@ -69,4 +176,13 @@ To enable FPE highlighting set the `highlightRedaction` FPE option to `true`
     highlightRedaction: true,
   }}
 />
+```
+
+With this, fields redacted via FPE (in your Secure Audit Log) will appear **visually distinct**, helping you identify which portions have been obscured.
+
+---
+
+Remember to explore [our GitHub repository](https://github.com/pangeacyber/pangea-javascript/tree/main/packages/react-mui-audit-log-viewer) for full Storybook examples and local testing instructions. If you have questions, check out our [Pangea Docs](https://pangea.cloud/docs/) or join our community on [Discourse](https://l.pangea.cloud/Jd4wlGs).
+
+If you have questions or suggestions for improvement please reach out, we are happy to make updates and improve the component for use by customers.
 ```
