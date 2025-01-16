@@ -339,13 +339,24 @@ export namespace PromptGuard {
   }
 
   export interface GuardRequest {
+    /** Prompt content and role array */
     messages: readonly Message[];
+
+    /** Specific analyzers to be used in the call */
+    analyzers?: readonly string[];
   }
 
   export interface GuardResult {
+    /** Boolean response for if the prompt was considered malicious or not */
     detected: boolean;
-    injection_type?: string;
-    detector?: string;
+
+    /** Type of analysis, either direct or indirect */
+    type?: "direct" | "indirect";
+
+    /** Prompt Analyzers for identifying and rejecting properties of prompts */
+    analyzer?: string;
+
+    /** Percent of confidence in the detection result, ranging from 0 to 100 */
     confidence: number;
   }
 }

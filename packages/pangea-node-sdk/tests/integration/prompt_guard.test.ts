@@ -21,7 +21,7 @@ const client = new PromptGuard(token, config);
 describe("Prompt Guard", () => {
   it("should guard messages", async () => {
     let response = await client.guard({
-      messages: [{ role: "user", content: "how are you?" }],
+      messages: [{ role: "user", content: "what was pangea?" }],
     });
     expect(response.status).toEqual("Success");
     expect(response.result.detected).toStrictEqual(false);
