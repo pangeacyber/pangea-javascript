@@ -1,232 +1,76 @@
-import React, { useState } from "react";
+import React from "react";
 import { ComponentStory, ComponentMeta } from "@storybook/react";
+import { Box } from "@mui/material";
 
 import AuditLogViewer, { AuditLogViewerProps } from "../AuditLogViewer";
-import { Box, Button } from "@mui/material";
 import PangeaThemeProvider from "./theme/pangea/provider";
-import { Audit } from "../types";
-import { handle202Response } from "./utils";
+import { TEST_SERVER } from "./server/api";
+import { getConfigProps } from "./utils";
 
 /**
+ * Demonstrates the AuditLogViewer’s built-in verification feature.
+ *
+ * - **verificationOptions**: Enables tamper-proofing by fetching published roots
+ *   via `onFetchRoot`. The component checks the logs’ `membership_proof` against
+ *   these published roots to ensure integrity.
+ *
+ * - **onFetchRoot**: Invoked when the viewer requires root data for verification.
+ *   It expects a function receiving `Audit.RootRequest` and returning a Promise of
+ *   `Audit.RootResponse`, typically calling your server’s `/root` endpoint.
+ *
+ * - **UI Changes**: When verification is enabled, the leftmost column shows
+ *   verification details instead of the usual expand/collapse indicator.
+ *
+ * Other required callbacks for retrieving logs and pagination:
+ * - **onSearch**: Called when a new search is performed.
+ * - **onPageChange**: Called when navigating between result pages.
+ *
+ * Optional environment variables for connecting to a real Audit Log service:
+ * - STORYBOOK_PANGEA_TOKEN = "pts_..."
+ * - STORYBOOK_SERVICE_DOMAIN = "aws.us.pangea.cloud"
+ * - STORYBOOK_CONFIG_ID = "pci_..."
+ * - STORYBOOK_CLIENT_TOKEN = "pcl_..."
+ *
  * @hidden
  */
 export default {
-  title: "AuditLogViewer",
+  title: "VerificationAuditLogViewer",
   component: AuditLogViewer,
   argTypes: {},
 } as ComponentMeta<typeof AuditLogViewer>;
 
-const AUDIT_SCHEMA: Audit.Schema = {
-  client_signable: true,
-  tamper_proofing: true,
-  fields: [
-    {
-      id: "received_at",
-      name: "Time",
-      type: "datetime",
-      ui_default_visible: true,
-    },
-    {
-      id: "actor",
-      name: "Actor",
-      type: "string",
-      size: 32766,
-    },
-    {
-      id: "action",
-      name: "Action",
-      type: "string",
-      size: 32766,
-      ui_default_visible: true,
-    },
-    {
-      id: "status",
-      name: "Status",
-      type: "string",
-      size: 32766,
-    },
-    {
-      id: "target",
-      name: "Target",
-      type: "string",
-      size: 32766,
-    },
-    {
-      id: "source",
-      name: "Source",
-      type: "string",
-      size: 32766,
-    },
-    {
-      id: "old",
-      name: "Old",
-      type: "string",
-      size: 32766,
-    },
-    {
-      id: "new",
-      name: "New",
-      type: "string",
-      size: 32766,
-    },
-    {
-      id: "message",
-      name: "Message",
-      type: "string",
-      size: 32766,
-      ui_default_visible: true,
-    },
-  ],
-};
+const Template: ComponentStory<typeof AuditLogViewer> = (args) => (
+  <PangeaThemeProvider>
+    <Box className="widget" sx={{ padding: 1 }}>
+      <AuditLogViewer {...args} />
+    </Box>
+  </PangeaThemeProvider>
+);
 
-const ThemeTemplate: ComponentStory<typeof AuditLogViewer> = (args) => {
-  const [query, setQuery] = useState("");
-
-  const [schema, setSchema] = React.useState<any>({
-    fields: [
-      {
-        id: "received_at",
-        name: "Time",
-        type: "datetime",
-        ui_default_visible: true,
-      },
-      {
-        id: "message",
-        name: "Message",
-        type: "string",
-        size: 32766,
-        description: "A free form text field describing the event",
-        ui_default_visible: true,
-        required: true,
-        redact: true,
-      },
-    ],
-  });
-
-  React.useEffect(() => {
-    setTimeout(() => {
-      setSchema(AUDIT_SCHEMA);
-    }, 1000);
-  }, []);
-
-  return (
-    <PangeaThemeProvider>
-      <Button onClick={() => setQuery("hi")}>Set query</Button>
-      <Button onClick={() => setQuery("")}>Set empty</Button>
-
-      <Box className="widget" sx={{ padding: 1 }}>
-        <AuditLogViewer {...args} initialQuery={query} />
-      </Box>
-    </PangeaThemeProvider>
-  );
-};
-
-export const VerificationAuditLogViewer: {
-  args: AuditLogViewerProps;
-} = ThemeTemplate.bind({});
-
+export const VerificationAuditLogViewer = Template.bind({});
 VerificationAuditLogViewer.args = {
+  // Turn off live searches on input or filter changes
   searchOnChange: false,
   searchOnMount: true,
   searchOnFilterChange: false,
+
+  // Example FPE options
   fpeOptions: {
     highlightRedaction: true,
   },
-  onSearch: async (body) => {
-    return fetch(
-      `https://audit.${import.meta.env.STORYBOOK_SERVICE_DOMAIN}/v1/search`,
-      {
-        method: "POST",
-        body: JSON.stringify({
-          ...body,
-          verify_signature: true,
-          ...(!!import.meta.env.STORYBOOK_CONFIG_ID && {
-            config_id: import.meta.env.STORYBOOK_CONFIG_ID,
-          }),
-        }),
-        headers: {
-          Authorization: `Bearer ${import.meta.env.STORYBOOK_PANGEA_TOKEN}`,
-        },
-      }
-    )
-      .then(async (res) =>
-        handle202Response(
-          await res.json(),
-          {
-            Authorization: `Bearer ${import.meta.env.STORYBOOK_PANGEA_TOKEN}`,
-          },
-          5
-        )
-      )
-      .then((response) => response?.result)
-      .catch((err) => {
-        console.log(err);
-        throw err;
-      });
-  },
-  onPageChange: async (body) => {
-    return fetch(
-      `https://audit.${import.meta.env.STORYBOOK_SERVICE_DOMAIN}/v1/results`,
-      {
-        method: "POST",
-        body: JSON.stringify({
-          ...body,
-          verify_signature: true,
-          ...(!!import.meta.env.STORYBOOK_CONFIG_ID && {
-            config_id: import.meta.env.STORYBOOK_CONFIG_ID,
-          }),
-        }),
-        headers: {
-          Authorization: `Bearer ${import.meta.env.STORYBOOK_PANGEA_TOKEN}`,
-        },
-      }
-    )
-      .then((res) => res.json())
-      .then((response) => response?.result)
-      .catch((err) => console.log(err));
-  },
-  onDownload: async (body) => {
-    return fetch(
-      `https://audit.${import.meta.env.STORYBOOK_SERVICE_DOMAIN}/v1/download_results`,
-      {
-        method: "POST",
-        body: JSON.stringify({
-          ...body,
-        }),
-        headers: {
-          Authorization: `Bearer ${import.meta.env.STORYBOOK_PANGEA_TOKEN}`,
-        },
-      }
-    )
-      .then((res) => res.json())
-      .then((response) => response?.result)
-      .catch((err) => console.log(err));
-  },
+
+  // Required callbacks for fetching data
+  onSearch: TEST_SERVER.onSearch,
+  onPageChange: TEST_SERVER.onPageChange,
+
+  // Enables download button
+  onDownload: TEST_SERVER.onDownload,
+
+  // Enables tamper-proof verification
   verificationOptions: {
-    onFetchRoot: async (body) => {
-      return fetch(
-        `https://audit.${import.meta.env.STORYBOOK_SERVICE_DOMAIN}/v1/root`,
-        {
-          method: "POST",
-          body: JSON.stringify({
-            ...body,
-            ...(!!import.meta.env.STORYBOOK_CONFIG_ID && {
-              config_id: import.meta.env.STORYBOOK_CONFIG_ID,
-            }),
-          }),
-          headers: {
-            Authorization: `Bearer ${import.meta.env.STORYBOOK_PANGEA_TOKEN}`,
-          },
-        }
-      )
-        .then((res) => res.json())
-        .then((response) => response?.result)
-        .catch((err) => console.log(err));
-    },
+    onFetchRoot: TEST_SERVER.onFetchRoot,
   },
-  config: {
-    domain: import.meta.env.STORYBOOK_SERVICE_DOMAIN ?? "",
-    clientToken: import.meta.env.STORYBOOK_CLIENT_TOKEN ?? "",
-    configId: import.meta.env.STORYBOOK_CONFIG_ID ?? "",
-  },
+
+  // Include environment-specific config if available
+  ...getConfigProps(),
 };
