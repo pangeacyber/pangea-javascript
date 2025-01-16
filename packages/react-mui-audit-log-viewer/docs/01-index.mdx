@@ -48,7 +48,7 @@ import {
 } from "@pangeacyber/react-mui-audit-log-viewer";
 
 const MyComponent: React.FC = () => {
-  // IMPORTANT: 'api.searchAuditLogs' below is expected to call your *server* endpoint,
+  // IMPORTANT: 'api.searchAuditLogs' below is expected to call your *server* endpoint, 
   // which then contacts Pangea. Avoid embedding your Pangea service token directly in the client.
 
   const handleSearch = async (body: Audit.SearchRequest) => {
@@ -122,15 +122,11 @@ import { AuditLogViewer } from "@pangeacyber/react-mui-audit-log-viewer";
 const ExampleWithDownload = () => {
   return (
     <AuditLogViewer
-      onSearch={async (body) => {
-        /* ... */
-      }}
-      onPageChange={async (body) => {
-        /* ... */
-      }}
+      onSearch={async (body) => { /* ... */ }}
+      onPageChange={async (body) => { /* ... */ }}
       onDownload={async (body) => {
-        // This function calls your server's /download_results
-        // endpoint and returns a URL or file data
+        // This function calls your server's /download_results endpoint
+        // and returns a pre-signed URL or similar
         const response = await api.downloadAuditLogs(body);
         return response;
       }}
@@ -152,12 +148,8 @@ import { AuditLogViewer } from "@pangeacyber/react-mui-audit-log-viewer";
 const ExampleWithVerification = () => {
   return (
     <AuditLogViewer
-      onSearch={async (body) => {
-        /* ... */
-      }}
-      onPageChange={async (body) => {
-        /* ... */
-      }}
+      onSearch={async (body) => { /* ... */ }}
+      onPageChange={async (body) => { /* ... */ }}
       verificationOptions={{
         onFetchRoot: async (body) => {
           // Call your /root endpoint to get the tamperproof root
@@ -170,7 +162,80 @@ const ExampleWithVerification = () => {
 };
 ```
 
-When `verificationOptions.onFetchRoot` is supplied, the AuditLogViewer verifies each event’s `membership_proof` against the published root, and shows tamperproof verification statuses.
+When `verificationOptions.onFetchRoot` is supplied, the AuditLogViewer verifies each event's `membership_proof` against the published root, and shows tamperproof verification statuses.
+
+---
+
+### 4. Providing `config` to dynamically fetch your custom schema
+
+By passing a `config` prop, the AuditLogViewer can automatically fetch your project's **custom Audit schema** from the Pangea Console. This way, the table's columns and fields update based on the configuration saved in your Pangea project.
+
+```js pangeaStyle=true
+import React from "react";
+import { AuditLogViewer } from "@pangeacyber/react-mui-audit-log-viewer";
+
+const ExampleWithConfig = () => {
+  return (
+    <AuditLogViewer
+      onSearch={async (body) => { /* ... */ }}
+      onPageChange={async (body) => { /* ... */ }}
+
+      // Use your project credentials to dynamically fetch the schema from the Pangea Console
+      config={{
+        clientToken: "pcl_...", // e.g., "pcl_your-client-token"
+        domain: "aws.us.pangea.cloud",
+        configId: "pci_...", // if your project uses multiple configurations
+      }}
+    />
+  );
+};
+```
+
+> **Note**: Your Pangea environment must be set up with matching tokens, domain, and config IDs. Ensure you call your **proxy endpoints** from the client side rather than embedding your service token directly.
+
+---
+
+### 5. Specifying a custom schema directly via `schema`
+
+If you prefer to define your schema manually, you can pass a `schema` object describing fields, types, and how they’re displayed:
+
+```js pangeaStyle=true
+import React from "react";
+import { AuditLogViewer, Audit } from "@pangeacyber/react-mui-audit-log-viewer";
+
+// Example custom schema (subset of standard Secure Audit Log schema)
+const MY_CUSTOM_SCHEMA: Audit.Schema = {
+  client_signable: true,
+  tamper_proofing: true,
+  fields: [
+    {
+      id: "received_at",
+      name: "Time",
+      type: "datetime",
+      ui_default_visible: true,
+    },
+    {
+      id: "actor",
+      name: "Actor",
+      type: "string",
+      ui_default_visible: true,
+    },
+    // Add more fields as needed
+  ],
+};
+
+const ExampleWithCustomSchema = () => {
+  return (
+    <AuditLogViewer
+      onSearch={async (body) => { /* ... */ }}
+      onPageChange={async (body) => { /* ... */ }}
+      schema={MY_CUSTOM_SCHEMA}
+    />
+  );
+};
+```
+
+The `schema` prop gives you full control over which columns appear and how they're defined, independent of any configuration in the Pangea Console.
 
 ---
 
@@ -191,5 +256,3 @@ With this, fields redacted via FPE (in your Secure Audit Log) will appear **visu
 ---
 
 Remember to explore [our GitHub repository](https://github.com/pangeacyber/pangea-javascript/tree/main/packages/react-mui-audit-log-viewer) for full Storybook examples and local testing instructions. If you have questions, check out our [Pangea Docs](https://pangea.cloud/docs/) or join our community on [Discourse](https://l.pangea.cloud/Jd4wlGs).
-
-If you have questions or suggestions for improvement please reach out, we are happy to make updates and improve the component for use by customers.
