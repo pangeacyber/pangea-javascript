@@ -338,6 +338,17 @@ export namespace PromptGuard {
     content: string;
   }
 
+  export interface Classification {
+    /** Classification category */
+    category: string;
+
+    /** Classification label */
+    label: string;
+
+    /** Confidence score for the classification */
+    confidence: number;
+  }
+
   export interface GuardRequest {
     /** Prompt content and role array */
     messages: readonly Message[];
@@ -358,6 +369,12 @@ export namespace PromptGuard {
 
     /** Percent of confidence in the detection result, ranging from 0 to 100 */
     confidence: number;
+
+    /** Extra information about the detection result */
+    info?: string;
+
+    /** List of classification results with labels and confidence scores */
+    classifications: Classification[];
   }
 }
 
