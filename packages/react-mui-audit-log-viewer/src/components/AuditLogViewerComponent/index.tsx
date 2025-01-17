@@ -11,10 +11,7 @@ import {
   usePagination,
   useAuditBody,
 } from "../../hooks/context";
-import {
-  LinedPangeaDataGrid,
-  PangeaDataGrid,
-} from "@pangeacyber/react-mui-shared";
+import { LinedPangeaDataGrid } from "@pangeacyber/react-mui-shared";
 import AuditPreviewRow from "../AuditPreviewRow";
 import { AuditSecureColumn } from "./secureColumn";
 import AuditTimeFilterButton from "./AuditTimeFilterButton";

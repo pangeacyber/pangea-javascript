@@ -17,10 +17,22 @@ echo "Published packaged version $LATEST_PACKAGE_VERSION"
 if [ "$PACKAGE_VERSION" != "$LATEST_PACKAGE_VERSION" ] ; then
     yarn build
 
-    if [[ "$PACKAGE_VERSION" == *"beta"* ]] ; then
-        yarn publish --new-version "$PACKAGE_VERSION" --tag beta
+    # yarn v4 uses `yarn npm publish`.
+    # yarn v1 uses `yarn publish`.
+    YARN_VERSION=$(yarn --version)
+    YARN_MAJOR_VERSION=$(echo "$YARN_VERSION" | cut -d. -f1)
+    if [ "$YARN_MAJOR_VERSION" -ge 4 ]; then
+        if [[ "$PACKAGE_VERSION" == *"beta"* ]] ; then
+            yarn npm publish --tag beta
+        else
+            yarn npm publish
+        fi
     else
-        yarn publish --new-version "$PACKAGE_VERSION"
+        if [[ "$PACKAGE_VERSION" == *"beta"* ]] ; then
+            yarn publish --new-version "$PACKAGE_VERSION" --tag beta
+        else
+            yarn publish --new-version "$PACKAGE_VERSION"
+        fi
     fi
 else
     echo "Package not updated. Skipping publish"
