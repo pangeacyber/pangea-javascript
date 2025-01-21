@@ -1,6 +1,6 @@
 {
   "name": "pangea-node-sdk",
-  "version": "4.4.0-beta.1",
+  "version": "4.4.0-beta.2",
   "type": "commonjs",
   "main": "./dist/commonjs/index.js",
   "types": "./dist/commonjs/index.d.ts",
