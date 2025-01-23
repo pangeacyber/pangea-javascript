@@ -7941,7 +7941,7 @@ rollup-pluginutils@^2.8.2:
   optionalDependencies:
     fsevents "~2.3.2"
 
-rollup@^4.23.0, rollup@^4.30.1:
+rollup@^4.23.0, rollup@^4.31.0:
   version "4.31.0"
   resolved "https://registry.yarnpkg.com/rollup/-/rollup-4.31.0.tgz#b84af969a0292cb047dce2c0ec5413a9457597a4"
   integrity sha512-9cCE8P4rZLx9+PjoyqHLs31V9a9Vpvfo4qNcs6JCiGWYhw2gijSetFbH6SSy1whnkgcefnUwr8sad7tgqsGvnw==
