@@ -1,6 +1,11 @@
 /* eslint-disable no-console */
 
-import { PangeaConfig, SanitizeService, TransferMethod } from "pangea-node-sdk";
+import {
+  PangeaConfig,
+  PangeaErrors,
+  SanitizeService,
+  TransferMethod,
+} from "pangea-node-sdk";
 
 // Load Pangea token and domain from environment variables
 const token = process.env.PANGEA_SANITIZE_TOKEN;
@@ -59,6 +64,13 @@ const filepath = "./test-sanitize.txt";
       console.log("File is NOT malicious");
     }
   } catch (e) {
+    if (e instanceof PangeaErrors.AcceptedRequestException) {
+      console.log(
+        `The result of request '${e.request_id}' took too long to be ready.`
+      );
+      process.exit(0);
+    }
+
     console.log(e.toString());
     process.exit(1);
   }
