@@ -294,16 +294,23 @@ export namespace Audit {
 }
 
 export namespace AIGuard {
+  type DetectorAction =
+    | "detected"
+    | "redacted"
+    | "defanged"
+    | "reported"
+    | "blocked";
+
   export interface MaliciousEntity {
     raw?: Record<string, unknown>;
-    redacted?: boolean;
+    action: DetectorAction;
     start_pos?: number;
     type: string;
     value: string;
   }
 
   export interface PIIEntity {
-    redacted?: boolean;
+    action: DetectorAction;
     start_pos?: number;
     type: string;
     value: string;
@@ -315,20 +322,36 @@ export namespace AIGuard {
   }
 
   export interface TextGuardRequest {
-    text: string;
+    /**
+     * Recipe key of a configuration of data types and settings defined in the
+     * Pangea User Console. It specifies the rules that are to be applied to the
+     * text, such as defang malicious URLs.
+     */
     recipe?: "pangea_prompt_guard" | (string & Record<never, never>);
+
+    /**
+     * Setting this value to true will provide a detailed analysis of the text
+     * data
+     */
     debug?: boolean;
   }
 
-  export interface TextGuardResult {
+  export interface TextGuardResult<T> {
+    /** Result of the recipe analyzing and input prompt. */
     detectors: {
       prompt_injection: Detector<{
+        action: DetectorAction;
         analyzer_responses: { analyzer: string; confidence: number }[];
       }>;
       pii_entity?: Detector<{ entities: PIIEntity[] }>;
       malicious_entity?: Detector<{ entities: MaliciousEntity[] }>;
     };
-    prompt: string;
+
+    /** Updated prompt text, if applicable. */
+    prompt_text?: string;
+
+    /** Updated structured prompt, if applicable. */
+    prompt_messages?: T;
   }
 }
 
