@@ -2728,7 +2728,7 @@ __metadata:
     typedoc: "npm:^0.27.6"
     typedoc-plugin-rename-defaults: "npm:^0.7.2"
     typescript: "npm:^5.7.3"
-    vite: "npm:^6.0.10"
+    vite: "npm:^6.0.11"
   peerDependencies:
     "@emotion/react": ^11.10.4
     "@emotion/styled": ^11.10.4
@@ -13580,7 +13580,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"vite@npm:^6.0.10":
+"vite@npm:^6.0.11":
   version: 6.0.11
   resolution: "vite@npm:6.0.11"
   dependencies:
