@@ -342,19 +342,30 @@ export namespace PromptGuard {
     /** Classification category */
     category: string;
 
-    /** Classification label */
-    label: string;
+    /** Classification detection result */
+    detected: boolean;
 
     /** Confidence score for the classification */
     confidence: number;
   }
 
   export interface GuardRequest {
-    /** Prompt content and role array */
+    /**
+     * Prompt content and role array. The content is the text that will be
+     * analyzed for redaction.
+     */
     messages: readonly Message[];
 
     /** Specific analyzers to be used in the call */
     analyzers?: readonly string[];
+
+    /** Boolean to enable classification of the content */
+    classify?: boolean;
+
+    /**
+     * Threshold for the confidence score to consider the prompt as malicious
+     */
+    threshold?: number;
   }
 
   export interface GuardResult {
