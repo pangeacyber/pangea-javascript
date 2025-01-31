@@ -252,7 +252,7 @@ it("log an event, local sign and verify", async () => {
 
 it(
   "log an event, local sign and tenant id",
-  async () => {
+  skipAccepted(async () => {
     const event: Audit.Event = {
       message: MSG_SIGNED_LOCAL,
       source: "Source",
@@ -283,7 +283,7 @@ it(
     expect(searchEvent?.envelope.public_key).toBe(
       String.raw`{"algorithm":"ED25519","key":"-----BEGIN PUBLIC KEY-----\nMCowBQYDK2VwAyEAlvOyDMpK2DQ16NI8G41yINl01wMHzINBahtDPoh4+mE=\n-----END PUBLIC KEY-----\n"}`
     );
-  },
+  }),
   2 * (config.pollResultTimeoutMs + 1000)
 );
 
