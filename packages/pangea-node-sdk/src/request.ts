@@ -515,7 +515,7 @@ class PangeaRequest {
     } else {
       const schema = this.config?.insecure === true ? "http://" : "https://";
 
-      if (this.config?.environment == ConfigEnv.LOCAL) {
+      if (this.config?.environment === ConfigEnv.LOCAL) {
         url = `${schema}${this.config.domain}/${path}`;
       } else {
         url = `${schema}${this.serviceName}.${this.config.domain}/${path}`;

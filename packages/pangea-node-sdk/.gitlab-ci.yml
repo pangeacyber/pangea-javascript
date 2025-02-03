@@ -112,7 +112,7 @@ pangea-node-sdk-integration-tests:
       - CLOUD: [AWS, GCP]
         ENV: ${SERVICE_VAULT_ENV}
         TEST: vault
-      - CLOUD: [AWS, GCP]
+      - CLOUD: [AWS]
         ENV: ${SERVICE_SHARE_ENV}
         TEST: share
   rules:

@@ -11,6 +11,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Prompt Guard: `classify` and `threshold` parameters.
 
+### Changed
+
+- Clarified what `PangeaConfig.environment` affects.
+
 ## 4.4.0-beta.2 - 2025-01-21
 
 ### Added

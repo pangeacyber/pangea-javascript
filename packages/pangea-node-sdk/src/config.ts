@@ -10,8 +10,9 @@ class PangeaConfig {
   /**
    * Pangea environment.
    *
-   * This is intended to facilitate SDK development and should not be touched in
-   * everyday usage.
+   * If set to `ConfigEnv.LOCAL`, then `domain` must be the full host (i.e.,
+   * hostname and port) for the Pangea service that this `PangeaConfig` will be
+   * used for.
    */
   environment: ConfigEnv = ConfigEnv.PRODUCTION;
 
