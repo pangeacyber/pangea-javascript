@@ -294,23 +294,16 @@ export namespace Audit {
 }
 
 export namespace AIGuard {
-  type DetectorAction =
-    | "detected"
-    | "redacted"
-    | "defanged"
-    | "reported"
-    | "blocked";
-
   export interface MaliciousEntity {
     raw?: Record<string, unknown>;
-    action: DetectorAction;
+    action: string;
     start_pos?: number;
     type: string;
     value: string;
   }
 
   export interface PIIEntity {
-    action: DetectorAction;
+    action: string;
     start_pos?: number;
     type: string;
     value: string;
@@ -340,7 +333,7 @@ export namespace AIGuard {
     /** Result of the recipe analyzing and input prompt. */
     detectors: {
       prompt_injection: Detector<{
-        action: DetectorAction;
+        action: string;
         analyzer_responses: { analyzer: string; confidence: number }[];
       }>;
       pii_entity?: Detector<{ entities: PIIEntity[] }>;
