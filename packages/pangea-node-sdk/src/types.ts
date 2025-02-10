@@ -384,11 +384,6 @@ export namespace PromptGuard {
 
     /** Boolean to enable classification of the content */
     classify?: boolean;
-
-    /**
-     * Threshold for the confidence score to consider the prompt as malicious
-     */
-    threshold?: number;
   }
 
   export interface GuardResult {
