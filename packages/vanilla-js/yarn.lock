@@ -312,7 +312,7 @@ __metadata:
     rollup-plugin-peer-deps-external: "npm:^2.2.4"
     rollup-plugin-polyfill-node: "npm:^0.13.0"
     tslib: "npm:^2.8.1"
-    typedoc: "npm:^0.27.6"
+    typedoc: "npm:^0.27.7"
     typedoc-plugin-rename-defaults: "npm:^0.7.2"
     typescript: "npm:^5.7.3"
   languageName: unknown
@@ -2070,7 +2070,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"typedoc@npm:^0.27.6":
+"typedoc@npm:^0.27.7":
   version: 0.27.7
   resolution: "typedoc@npm:0.27.7"
   dependencies:
