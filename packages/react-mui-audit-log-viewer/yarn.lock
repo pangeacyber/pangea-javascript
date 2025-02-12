@@ -2726,7 +2726,7 @@ __metadata:
     rollup-plugin-postcss: "npm:^4.0.2"
     storybook: "npm:^7.6.20"
     ts-jest: "npm:^29.2.5"
-    typedoc: "npm:^0.27.6"
+    typedoc: "npm:^0.27.7"
     typedoc-plugin-rename-defaults: "npm:^0.7.2"
     typescript: "npm:^5.7.3"
     vite: "npm:^6.1.0"
@@ -13154,7 +13154,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"typedoc@npm:^0.27.6":
+"typedoc@npm:^0.27.7":
   version: 0.27.7
   resolution: "typedoc@npm:0.27.7"
   dependencies:
