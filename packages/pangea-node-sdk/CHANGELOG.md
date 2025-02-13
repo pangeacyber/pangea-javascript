@@ -10,6 +10,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Changed
 
 - Clarified what `PangeaConfig.environment` affects.
+- AI Guard: updated to v1.
 
 ### Removed
 

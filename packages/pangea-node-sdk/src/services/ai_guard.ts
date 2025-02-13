@@ -25,10 +25,10 @@ export class AIGuardService extends BaseService {
   }
 
   /**
-   * @summary Text Guard for scanning LLM inputs and outputs (Beta)
+   * @summary Text Guard for scanning LLM inputs and outputs
    * @description Analyze and redact text to avoid manipulation of the model,
    *   addition of malicious content, and other undesirable data transfers.
-   * @operationId ai_guard_post_v1beta_text_guard
+   * @operationId ai_guard_post_v1_text_guard
    * @param request Request parameters.
    * @example
    * ```ts
@@ -42,10 +42,10 @@ export class AIGuardService extends BaseService {
   ): Promise<PangeaResponse<AIGuard.TextGuardResult<void>>>;
 
   /**
-   * @summary Text Guard for scanning LLM inputs and outputs (Beta)
+   * @summary Text Guard for scanning LLM inputs and outputs
    * @description Analyze and redact text to avoid manipulation of the model,
    *   addition of malicious content, and other undesirable data transfers.
-   * @operationId ai_guard_post_v1beta_text_guard
+   * @operationId ai_guard_post_v1_text_guard
    * @param request Request parameters.
    * @example
    * ```ts
@@ -61,16 +61,16 @@ export class AIGuardService extends BaseService {
   ): Promise<PangeaResponse<AIGuard.TextGuardResult<T>>>;
 
   /**
-   * @summary Text Guard for scanning LLM inputs and outputs (Beta)
+   * @summary Text Guard for scanning LLM inputs and outputs
    * @description Analyze and redact text to avoid manipulation of the model,
    *   addition of malicious content, and other undesirable data transfers.
-   * @operationId ai_guard_post_v1beta_text_guard
+   * @operationId ai_guard_post_v1_text_guard
    * @param request Request parameters.
    */
   guardText<T>(
     request: ({ text: string } | { messages: T }) & AIGuard.TextGuardRequest
   ): Promise<PangeaResponse<AIGuard.TextGuardResult<T>>> {
-    return this.post("v1beta/text/guard", request);
+    return this.post("v1/text/guard", request);
   }
 }
 
