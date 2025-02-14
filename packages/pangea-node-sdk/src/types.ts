@@ -384,7 +384,7 @@ export namespace PromptGuard {
     detected: boolean;
 
     /** Type of analysis, either direct or indirect */
-    type?: "direct" | "indirect";
+    type: "direct" | "indirect" | "";
 
     /** Prompt Analyzers for identifying and rejecting properties of prompts */
     analyzer?: string;
