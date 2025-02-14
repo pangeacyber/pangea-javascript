@@ -7,11 +7,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## Unreleased
 
+### Added
+
+- AI Guard and Prompt Guard services.
+
 ### Changed
 
 - Clarified what `PangeaConfig.environment` affects.
-- AI Guard: updated to v1.
-- Prompt Guard: updated to v1.
 
 ### Removed
 
