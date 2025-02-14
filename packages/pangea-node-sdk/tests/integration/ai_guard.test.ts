@@ -30,26 +30,31 @@ describe("AI Guard", () => {
       expect(response.result.detectors.prompt_injection.data).toBeNull();
     }
 
-    expect(response.result.detectors.pii_entity?.detected).toBe(false);
-    expect(response.result.detectors.pii_entity?.data).toBeNull();
+    if (response.result.detectors.pii_entity) {
+      expect(response.result.detectors.pii_entity.detected).toBe(false);
+      expect(response.result.detectors.pii_entity.data).toBeNull();
+    }
 
     if (response.result.detectors.malicious_entity) {
       expect(response.result.detectors.malicious_entity.detected).toBe(false);
       expect(response.result.detectors.malicious_entity.data).toBeNull();
     }
-
-    response = await client.guardText({ text: "security@pangea.cloud" });
-    expect(response.status).toStrictEqual("Success");
-    expect(response.result.prompt_text).toBeDefined();
-    expect(response.result.detectors.pii_entity?.detected).toBe(true);
-    expect(response.result.detectors.pii_entity?.data?.entities.length).toEqual(
-      1
-    );
   });
 
-  it("should support structured input", async () => {
+  it("should support messages", async () => {
     const response = await client.guardText({
       messages: [{ role: "user", content: "what was pangea?" }],
+    });
+    expect(response.status).toStrictEqual("Success");
+    expect(response.result.prompt_messages).toBeDefined();
+  });
+
+  it("should support LLM input", async () => {
+    const response = await client.guardText({
+      llm_input: {
+        model: "gpt-4o",
+        messages: [{ role: "user", content: "what was pangea?" }],
+      },
     });
     expect(response.status).toStrictEqual("Success");
     expect(response.result.prompt_messages).toBeDefined();

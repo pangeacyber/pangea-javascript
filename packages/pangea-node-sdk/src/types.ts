@@ -294,6 +294,24 @@ export namespace Audit {
 }
 
 export namespace AIGuard {
+  /** Additional fields to include in activity log */
+  export interface LogFields {
+    /** Origin or source application of the event */
+    citations?: string;
+
+    /** Stores supplementary details related to the event */
+    extra_info?: string;
+
+    /** Model used to perform the event */
+    model?: string;
+
+    /** IP address of user or app or agent */
+    source?: string;
+
+    /** Tools used to perform the event */
+    tools?: string;
+  }
+
   export interface MaliciousEntity {
     raw?: Record<string, unknown>;
     action: string;
@@ -327,6 +345,12 @@ export namespace AIGuard {
      * data
      */
     debug?: boolean;
+
+    /** Short string hint for the LLM Provider information */
+    llm_info?: string;
+
+    /** Additional fields to include in activity log */
+    log_fields?: LogFields;
   }
 
   export interface TextGuardResult<T> {
