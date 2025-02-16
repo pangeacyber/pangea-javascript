@@ -20,6 +20,7 @@ pangea-node-sdk-integration-tests:
   retry: 2
   variables:
     # Set each service test environment
+    SERVICE_AI_GUARD_ENV: LVE
     SERVICE_AUDIT_ENV: LVE
     SERVICE_AUTHN_ENV: LVE
     SERVICE_AUTHZ_ENV: LVE
@@ -30,6 +31,7 @@ pangea-node-sdk-integration-tests:
     SERVICE_URL_INTEL_ENV: LVE
     SERVICE_FILE_INTEL_ENV: LVE
     SERVICE_USER_INTEL_ENV: LVE
+    SERVICE_PROMPT_GUARD_ENV: LVE
     SERVICE_REDACT_ENV: LVE
     SERVICE_SANITIZE_ENV: LVE
     SERVICE_VAULT_ENV: LVE
@@ -65,6 +67,9 @@ pangea-node-sdk-integration-tests:
         - packages/pangea-node-sdk/node_modules
   parallel:
     matrix:
+      - CLOUD: [AWS]
+        ENV: ${SERVICE_AI_GUARD_ENV}
+        TEST: ai_guard
       - CLOUD: [AWS, GCP]
         ENV: ${SERVICE_AUDIT_ENV}
         TEST: audit
@@ -95,6 +100,9 @@ pangea-node-sdk-integration-tests:
       - CLOUD: [AWS, GCP]
         ENV: ${SERVICE_FILE_SCAN_ENV}
         TEST: file_scan
+      - CLOUD: [AWS]
+        ENV: ${SERVICE_PROMPT_GUARD_ENV}
+        TEST: prompt_guard
       - CLOUD: [AWS, GCP]
         ENV: ${SERVICE_REDACT_ENV}
         TEST: redact

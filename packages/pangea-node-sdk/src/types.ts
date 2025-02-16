@@ -293,6 +293,137 @@ export namespace Audit {
   }
 }
 
+export namespace AIGuard {
+  /** Additional fields to include in activity log */
+  export interface LogFields {
+    /** Origin or source application of the event */
+    citations?: string;
+
+    /** Stores supplementary details related to the event */
+    extra_info?: string;
+
+    /** Model used to perform the event */
+    model?: string;
+
+    /** IP address of user or app or agent */
+    source?: string;
+
+    /** Tools used to perform the event */
+    tools?: string;
+  }
+
+  export interface MaliciousEntity {
+    raw?: Record<string, unknown>;
+    action: string;
+    start_pos?: number;
+    type: string;
+    value: string;
+  }
+
+  export interface PIIEntity {
+    action: string;
+    start_pos?: number;
+    type: string;
+    value: string;
+  }
+
+  export interface Detector<T> {
+    detected: boolean;
+    data: T | null;
+  }
+
+  export interface TextGuardRequest {
+    /**
+     * Recipe key of a configuration of data types and settings defined in the
+     * Pangea User Console. It specifies the rules that are to be applied to the
+     * text, such as defang malicious URLs.
+     */
+    recipe?: "pangea_prompt_guard" | (string & Record<never, never>);
+
+    /**
+     * Setting this value to true will provide a detailed analysis of the text
+     * data
+     */
+    debug?: boolean;
+
+    /** Short string hint for the LLM Provider information */
+    llm_info?: string;
+
+    /** Additional fields to include in activity log */
+    log_fields?: LogFields;
+  }
+
+  export interface TextGuardResult<T> {
+    /** Result of the recipe analyzing and input prompt. */
+    detectors: {
+      prompt_injection: Detector<{
+        action: string;
+        analyzer_responses: { analyzer: string; confidence: number }[];
+      }>;
+      pii_entity?: Detector<{ entities: PIIEntity[] }>;
+      malicious_entity?: Detector<{ entities: MaliciousEntity[] }>;
+    };
+
+    /** Updated prompt text, if applicable. */
+    prompt_text?: string;
+
+    /** Updated structured prompt, if applicable. */
+    prompt_messages?: T;
+  }
+}
+
+export namespace PromptGuard {
+  export interface Message {
+    role: string;
+    content: string;
+  }
+
+  export interface Classification {
+    /** Classification category */
+    category: string;
+
+    /** Classification detection result */
+    detected: boolean;
+
+    /** Confidence score for the classification */
+    confidence: number;
+  }
+
+  export interface GuardRequest {
+    /**
+     * Prompt content and role array. The content is the text that will be
+     * analyzed for redaction.
+     */
+    messages: readonly Message[];
+
+    /** Specific analyzers to be used in the call */
+    analyzers?: readonly string[];
+
+    /** Boolean to enable classification of the content */
+    classify?: boolean;
+  }
+
+  export interface GuardResult {
+    /** Boolean response for if the prompt was considered malicious or not */
+    detected: boolean;
+
+    /** Type of analysis, either direct or indirect */
+    type: "direct" | "indirect" | "";
+
+    /** Prompt Analyzers for identifying and rejecting properties of prompts */
+    analyzer?: string;
+
+    /** Percent of confidence in the detection result, ranging from 0 to 100 */
+    confidence: number;
+
+    /** Extra information about the detection result */
+    info?: string;
+
+    /** List of classification results with labels and confidence scores */
+    classifications: Classification[];
+  }
+}
+
 export namespace Redact {
   export interface TextResult {
     redacted_text?: string;

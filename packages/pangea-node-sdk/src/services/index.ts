@@ -1,27 +1,31 @@
+import AIGuardService from "./ai_guard.js";
 import AuditService from "./audit.js";
 import AuthNService from "./authn/index.js";
 import AuthZService from "./authz.js";
-import EmbargoService from "./embargo.js";
 import BaseService from "./base.js";
-import RedactService from "./redact.js";
+import EmbargoService from "./embargo.js";
+import { FileScanService } from "./file_scan.js";
 import {
-  FileIntelService,
   DomainIntelService,
+  FileIntelService,
   IPIntelService,
   URLIntelService,
   UserIntelService,
 } from "./intel.js";
-import VaultService from "./vault.js";
-import { FileScanService } from "./file_scan.js";
+import PromptGuardService from "./prompt_guard.js";
+import RedactService from "./redact.js";
 import SanitizeService from "./sanitize.js";
 import ShareService from "./share.js";
+import VaultService from "./vault.js";
 
 export default {
+  AIGuardService,
   AuditService,
   AuthNService,
   AuthZService,
-  EmbargoService,
   BaseService,
+  EmbargoService,
+  PromptGuardService,
   RedactService,
   FileIntelService,
   DomainIntelService,
