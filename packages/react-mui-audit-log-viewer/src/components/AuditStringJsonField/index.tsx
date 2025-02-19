@@ -65,7 +65,7 @@ export const ChangesTypography: FC<{
               span_
             );
           })
-        : (value ?? "-")}
+        : value ?? "-"}
     </Typography>
   );
 };
@@ -118,9 +118,11 @@ export const BooleanField: FC<StringFieldProps> = ({ title, inRow, value }) => {
         {title}
       </Typography>
       <Container sx={{ padding: "4px!important" }}>
-        <Typography variant="body2" {...StringFieldTypographyProps}>
-          {`${value}`}
-        </Typography>
+        {value !== undefined && (
+          <Typography variant="body2" {...StringFieldTypographyProps}>
+            {`${value}`}
+          </Typography>
+        )}
       </Container>
     </Stack>
   );

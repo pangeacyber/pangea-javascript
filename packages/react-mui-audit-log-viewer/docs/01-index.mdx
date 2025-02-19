@@ -81,7 +81,7 @@ const MyComponent: React.FC = () => {
 
 Below are some short code snippets illustrating common configurations. For fully interactive demos, refer to the local Storybook in our [GitHub repo](https://github.com/pangeacyber/pangea-javascript/tree/main/packages/react-mui-audit-log-viewer).
 
-### 1. Using `initialQuery` and `filters`
+### Using `initialQuery` and `filters`
 
 ```js pangeaStyle=true
 import React from "react";
@@ -113,7 +113,7 @@ In this example, logs will be filtered to show only those matching the actor `"m
 
 ---
 
-### 2. Adding the `onDownload` callback
+### Adding the `onDownload` callback
 
 ```js pangeaStyle=true
 import React from "react";
@@ -143,7 +143,7 @@ When `onDownload` is provided, a **“Download”** button appears, allowing use
 
 ---
 
-### 3. Enabling Verification with `verificationOptions`
+### Enabling Verification with `verificationOptions`
 
 ```js pangeaStyle=true
 import React from "react";
@@ -174,7 +174,7 @@ When `verificationOptions.onFetchRoot` is supplied, the AuditLogViewer verifies 
 
 ---
 
-### 4. Providing `config` to dynamically fetch your custom schema
+### Providing `config` to dynamically fetch your custom schema
 
 By passing a `config` prop, the AuditLogViewer can automatically fetch your project's **custom Audit schema** from the Pangea Console. This way, the table's columns and fields update based on the configuration saved in your Pangea project.
 
@@ -206,7 +206,7 @@ const ExampleWithConfig = () => {
 
 ---
 
-### 5. Specifying a custom schema directly via `schema`
+### Specifying a custom schema directly via `schema`
 
 If you prefer to define your schema manually, you can pass a `schema` object describing fields, types, and how they’re displayed:
 
@@ -250,7 +250,7 @@ The `schema` prop gives you full control over which columns appear and how they'
 
 ---
 
-## Format Preserving Encryption (FPE) Support
+### Format Preserving Encryption (FPE) Support
 
 To highlight **Format Preserving Encryption** redactions, enable `highlightRedaction` in the `fpeOptions` prop:
 
