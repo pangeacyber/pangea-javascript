@@ -53,7 +53,7 @@
     "@types/react": "17.0.83",
     "@types/react-dom": "17.0.26",
     "babel-loader": "^9.2.1",
-    "postcss": "^8.5.2",
+    "postcss": "^8.5.3",
     "react": "17.0.2",
     "react-dom": "17.0.2",
     "rollup": "4.34.8",
