@@ -965,9 +965,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@pangeacyber/react-mui-audit-log-viewer@npm:1.0.6":
-  version: 1.0.6
-  resolution: "@pangeacyber/react-mui-audit-log-viewer@npm:1.0.6"
+"@pangeacyber/react-mui-audit-log-viewer@npm:1.0.7":
+  version: 1.0.7
+  resolution: "@pangeacyber/react-mui-audit-log-viewer@npm:1.0.7"
   dependencies:
     "@pangeacyber/react-mui-shared": "npm:1.0.3"
     crypto-js: "npm:^4.2.0"
@@ -982,7 +982,7 @@ __metadata:
     "@mui/material": ^6.0.0
     react: ^17.0.0 || ^18.0.0
     react-dom: ^17.0.0 || ^18.0.0
-  checksum: 10c0/e03890e9e653f9a42a0d9b7cb5ce3d269a56a7fed0210577ae97bd3c4ec383fc6caffcb996530d6f899b3c883b9f268d4c38482d6bf93a92fdd77b208ed94423
+  checksum: 10c0/5151c7b52896e4344e045bf82a492cf0db6ffebdcaab4df3b0bf0df67fcc3094c2db9d6d5b218d2c7098e82039f02c4d3e058f649820d81eabfaa76c742fca40
   languageName: node
   linkType: hard
 
@@ -4017,7 +4017,7 @@ __metadata:
     "@emotion/styled": "npm:11.14.0"
     "@mui/icons-material": "npm:^6.1.6"
     "@mui/material": "npm:^6.1.6"
-    "@pangeacyber/react-mui-audit-log-viewer": "npm:1.0.6"
+    "@pangeacyber/react-mui-audit-log-viewer": "npm:1.0.7"
     "@pangeacyber/react-mui-branding": "npm:1.0.0"
     "@testing-library/jest-dom": "npm:6.6.3"
     "@testing-library/react": "npm:15.0.7"
