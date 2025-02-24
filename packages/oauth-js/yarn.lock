@@ -1097,90 +1097,90 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@swc/core-darwin-arm64@npm:1.10.16":
-  version: 1.10.16
-  resolution: "@swc/core-darwin-arm64@npm:1.10.16"
+"@swc/core-darwin-arm64@npm:1.10.18":
+  version: 1.10.18
+  resolution: "@swc/core-darwin-arm64@npm:1.10.18"
   conditions: os=darwin & cpu=arm64
   languageName: node
   linkType: hard
 
-"@swc/core-darwin-x64@npm:1.10.16":
-  version: 1.10.16
-  resolution: "@swc/core-darwin-x64@npm:1.10.16"
+"@swc/core-darwin-x64@npm:1.10.18":
+  version: 1.10.18
+  resolution: "@swc/core-darwin-x64@npm:1.10.18"
   conditions: os=darwin & cpu=x64
   languageName: node
   linkType: hard
 
-"@swc/core-linux-arm-gnueabihf@npm:1.10.16":
-  version: 1.10.16
-  resolution: "@swc/core-linux-arm-gnueabihf@npm:1.10.16"
+"@swc/core-linux-arm-gnueabihf@npm:1.10.18":
+  version: 1.10.18
+  resolution: "@swc/core-linux-arm-gnueabihf@npm:1.10.18"
   conditions: os=linux & cpu=arm
   languageName: node
   linkType: hard
 
-"@swc/core-linux-arm64-gnu@npm:1.10.16":
-  version: 1.10.16
-  resolution: "@swc/core-linux-arm64-gnu@npm:1.10.16"
+"@swc/core-linux-arm64-gnu@npm:1.10.18":
+  version: 1.10.18
+  resolution: "@swc/core-linux-arm64-gnu@npm:1.10.18"
   conditions: os=linux & cpu=arm64 & libc=glibc
   languageName: node
   linkType: hard
 
-"@swc/core-linux-arm64-musl@npm:1.10.16":
-  version: 1.10.16
-  resolution: "@swc/core-linux-arm64-musl@npm:1.10.16"
+"@swc/core-linux-arm64-musl@npm:1.10.18":
+  version: 1.10.18
+  resolution: "@swc/core-linux-arm64-musl@npm:1.10.18"
   conditions: os=linux & cpu=arm64 & libc=musl
   languageName: node
   linkType: hard
 
-"@swc/core-linux-x64-gnu@npm:1.10.16":
-  version: 1.10.16
-  resolution: "@swc/core-linux-x64-gnu@npm:1.10.16"
+"@swc/core-linux-x64-gnu@npm:1.10.18":
+  version: 1.10.18
+  resolution: "@swc/core-linux-x64-gnu@npm:1.10.18"
   conditions: os=linux & cpu=x64 & libc=glibc
   languageName: node
   linkType: hard
 
-"@swc/core-linux-x64-musl@npm:1.10.16":
-  version: 1.10.16
-  resolution: "@swc/core-linux-x64-musl@npm:1.10.16"
+"@swc/core-linux-x64-musl@npm:1.10.18":
+  version: 1.10.18
+  resolution: "@swc/core-linux-x64-musl@npm:1.10.18"
   conditions: os=linux & cpu=x64 & libc=musl
   languageName: node
   linkType: hard
 
-"@swc/core-win32-arm64-msvc@npm:1.10.16":
-  version: 1.10.16
-  resolution: "@swc/core-win32-arm64-msvc@npm:1.10.16"
+"@swc/core-win32-arm64-msvc@npm:1.10.18":
+  version: 1.10.18
+  resolution: "@swc/core-win32-arm64-msvc@npm:1.10.18"
   conditions: os=win32 & cpu=arm64
   languageName: node
   linkType: hard
 
-"@swc/core-win32-ia32-msvc@npm:1.10.16":
-  version: 1.10.16
-  resolution: "@swc/core-win32-ia32-msvc@npm:1.10.16"
+"@swc/core-win32-ia32-msvc@npm:1.10.18":
+  version: 1.10.18
+  resolution: "@swc/core-win32-ia32-msvc@npm:1.10.18"
   conditions: os=win32 & cpu=ia32
   languageName: node
   linkType: hard
 
-"@swc/core-win32-x64-msvc@npm:1.10.16":
-  version: 1.10.16
-  resolution: "@swc/core-win32-x64-msvc@npm:1.10.16"
+"@swc/core-win32-x64-msvc@npm:1.10.18":
+  version: 1.10.18
+  resolution: "@swc/core-win32-x64-msvc@npm:1.10.18"
   conditions: os=win32 & cpu=x64
   languageName: node
   linkType: hard
 
 "@swc/core@npm:^1.7.26":
-  version: 1.10.16
-  resolution: "@swc/core@npm:1.10.16"
+  version: 1.10.18
+  resolution: "@swc/core@npm:1.10.18"
   dependencies:
-    "@swc/core-darwin-arm64": "npm:1.10.16"
-    "@swc/core-darwin-x64": "npm:1.10.16"
-    "@swc/core-linux-arm-gnueabihf": "npm:1.10.16"
-    "@swc/core-linux-arm64-gnu": "npm:1.10.16"
-    "@swc/core-linux-arm64-musl": "npm:1.10.16"
-    "@swc/core-linux-x64-gnu": "npm:1.10.16"
-    "@swc/core-linux-x64-musl": "npm:1.10.16"
-    "@swc/core-win32-arm64-msvc": "npm:1.10.16"
-    "@swc/core-win32-ia32-msvc": "npm:1.10.16"
-    "@swc/core-win32-x64-msvc": "npm:1.10.16"
+    "@swc/core-darwin-arm64": "npm:1.10.18"
+    "@swc/core-darwin-x64": "npm:1.10.18"
+    "@swc/core-linux-arm-gnueabihf": "npm:1.10.18"
+    "@swc/core-linux-arm64-gnu": "npm:1.10.18"
+    "@swc/core-linux-arm64-musl": "npm:1.10.18"
+    "@swc/core-linux-x64-gnu": "npm:1.10.18"
+    "@swc/core-linux-x64-musl": "npm:1.10.18"
+    "@swc/core-win32-arm64-msvc": "npm:1.10.18"
+    "@swc/core-win32-ia32-msvc": "npm:1.10.18"
+    "@swc/core-win32-x64-msvc": "npm:1.10.18"
     "@swc/counter": "npm:^0.1.3"
     "@swc/types": "npm:^0.1.17"
   peerDependencies:
@@ -1209,7 +1209,7 @@ __metadata:
   peerDependenciesMeta:
     "@swc/helpers":
       optional: true
-  checksum: 10c0/155f4a2db6e1342084fa205883a9628d34ee2c14e511125630f5531fead732de2c4569d40545cd7b8976072cfed0e5ddf5cd72067abd24ce81e237dd90d8ee69
+  checksum: 10c0/52a3d8e26b838855bb9ece737c756058d00e3635062e436a31651aefe59d6098ecf92c967bcf4a831b99975eb9c591f123db1291e35508d030216e9b936aa1e9
   languageName: node
   linkType: hard
 
@@ -1583,9 +1583,9 @@ __metadata:
   linkType: hard
 
 "electron-to-chromium@npm:^1.5.73":
-  version: 1.5.101
-  resolution: "electron-to-chromium@npm:1.5.101"
-  checksum: 10c0/9c6579e58b09cc27151ad135444253d241b8a354c2d1a122d280086549ce3c78a47388f6c37774d93ee73b353defdc1f215b702de2b18d34d53fcf8ed25e5f53
+  version: 1.5.103
+  resolution: "electron-to-chromium@npm:1.5.103"
+  checksum: 10c0/3b297311b9266ec3ad00eaa8566901603afedc2e19310a16ab9e7217e62f54dda83120ca5f2f75fe64a214d1ba6f6cbb52d7a1692e28de03fcba8bebf7bfc4d5
   languageName: node
   linkType: hard
 
