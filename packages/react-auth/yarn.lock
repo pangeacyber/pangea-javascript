@@ -22,7 +22,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@arethetypeswrong/cli@npm:^0.17.3":
+"@arethetypeswrong/cli@npm:^0.17.4":
   version: 0.17.4
   resolution: "@arethetypeswrong/cli@npm:0.17.4"
   dependencies:
@@ -468,7 +468,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@pangeacyber/react-auth@workspace:."
   dependencies:
-    "@arethetypeswrong/cli": "npm:^0.17.3"
+    "@arethetypeswrong/cli": "npm:^0.17.4"
     "@babel/core": "npm:^7.26.9"
     "@futureportal/parcel-transformer-package-version": "npm:^1.0.0"
     "@pangeacyber/vanilla-js": "npm:^0.1.11"
