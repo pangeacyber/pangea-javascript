@@ -77,6 +77,16 @@ const getThemeFromConfig = (config: any) => {
             input: {
               color: config?.input_text_color,
             },
+            "&.Mui-focused .MuiOutlinedInput-notchedOutline": {
+              borderColor: config?.input_border_color,
+            },
+
+            "&:hover .MuiOutlinedInput-notchedOutline": {
+              borderColor: config?.input_border_color,
+            },
+            fieldset: {
+              borderColor: config?.input_border_color,
+            },
           },
         },
       },
