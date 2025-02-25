@@ -2,8 +2,18 @@
 // Author: Pangea Cyber Corporation
 
 export namespace Audit {
+  /**
+   * A period of time.
+   *
+   * Regex: ^(\\d+)(d|da|day|days|h|hour|hr|hrs|hours|mi|min|mins|minute|minutes|mo|mon|month|months|s|sec|secs|second|seconds|w|week|weeks|y|year|years)$
+   * Examples: "7d", "1day", "120min", "2months"
+   */
+  export type TimeRangeString = string;
+
   export interface Config {
     id: string;
+
+    // FIXME: Remove the following fields
     retention: string;
     hotstorage: string;
   }
@@ -503,4 +513,38 @@ export interface AuthConfig {
 export interface SchemaOptions {
   /** An array of field keys to hide */
   hiddenFields?: string[];
+}
+
+export interface FieldFilterValueOption {
+  label: string;
+  value: string;
+}
+
+export interface FieldFilterOptions {
+  id: string;
+  valueOptions?: FieldFilterValueOption[];
+}
+
+/** Optional filtering options */
+export interface FilterOptions {
+  /**
+   * Provide optional hot storage range, if specified will produce a warning in the time filter popover if current search range is greater than the hot range.
+   * Additionally will automatically update quick time range filter option, unless quickTimeRanges is provided
+   *
+   * Example: "14day"
+   */
+  hotStorageRange?: Audit.TimeRangeString;
+
+  /**
+   * Optionally provide list of time ranges to be used for the quick time filter select options in the time filter popover.
+   *
+   * @defaultValue ["1day", "7day", "30day"]
+   */
+  quickTimeRanges?: Audit.TimeRangeString[];
+
+  /** An array of field keys to include as filterable. Defaults to include every field in the schema */
+  filterableFields?: string[];
+
+  /** An array of field keys to include as filterable */
+  fieldOptions?: FieldFilterOptions[];
 }

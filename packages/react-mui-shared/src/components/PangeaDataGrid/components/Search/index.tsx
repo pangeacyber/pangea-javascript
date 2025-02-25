@@ -21,6 +21,7 @@ import FiltersForm, { FilterFormProps } from "./FiltersForm";
 import FiltersBar from "./FiltersBar";
 import ColumnsPopout, { ColumnsPopoutProps } from "./ColumnsPopout";
 import { PDG } from "../../types";
+import { OptionComponentProps } from "../../../ConditionalAutocomplete/AutocompleteOptionComponent";
 
 export interface SearchProps<FiltersObj> {
   query?: string;
@@ -37,6 +38,9 @@ export interface SearchProps<FiltersObj> {
   StartBarComponent?: ReactNode;
   SearchButtonSx?: SxProps;
   SearchButtonProps?: Partial<ButtonProps>;
+  ConditionalAutocompleteProps?: {
+    OptionComponent?: FC<OptionComponentProps>;
+  };
 }
 
 const Search = <

@@ -2687,7 +2687,7 @@ __metadata:
     "@mui/material": "npm:^6.1.6"
     "@mui/types": "npm:^7.2.19"
     "@pangeacyber/react-mui-branding": "npm:1.0.0"
-    "@pangeacyber/react-mui-shared": "npm:1.0.3"
+    "@pangeacyber/react-mui-shared": ./pangeacyber-react-mui-shared-v1.0.4-beta.2.tgz
     "@rollup/plugin-commonjs": "npm:28.0.1"
     "@rollup/plugin-json": "npm:^6.1.0"
     "@rollup/plugin-node-resolve": "npm:^15.3.1"
@@ -2705,6 +2705,7 @@ __metadata:
     "@types/crypto-js": "npm:^4.2.2"
     "@types/diff": "npm:^6.0.0"
     "@types/jest": "npm:^29.5.14"
+    "@types/lodash": "npm:^4.17.15"
     "@types/react": "npm:17.0.83"
     "@types/react-beautiful-dnd": "npm:^13.1.8"
     "@types/react-dom": "npm:17.0.26"
@@ -2751,9 +2752,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@pangeacyber/react-mui-shared@npm:1.0.3":
-  version: 1.0.3
-  resolution: "@pangeacyber/react-mui-shared@npm:1.0.3"
+"@pangeacyber/react-mui-shared@file:./pangeacyber-react-mui-shared-v1.0.4-beta.2.tgz::locator=%40pangeacyber%2Freact-mui-audit-log-viewer%40workspace%3A.":
+  version: 1.0.4-beta.2
+  resolution: "@pangeacyber/react-mui-shared@file:./pangeacyber-react-mui-shared-v1.0.4-beta.2.tgz#./pangeacyber-react-mui-shared-v1.0.4-beta.2.tgz::hash=5c8169&locator=%40pangeacyber%2Freact-mui-audit-log-viewer%40workspace%3A."
   dependencies:
     "@loadable/component": "npm:^5.16.4"
     "@mui/x-data-grid": "npm:7.21.0"
@@ -2771,7 +2772,7 @@ __metadata:
     "@mui/material": ^6.0.0
     react: ^17.0.0 || ^18.0.0
     react-dom: ^17.0.0 || ^18.0.0
-  checksum: 10c0/edcee4a6f0d0ec0bffe4f21350d8d29890b6215873aef2066c9231bc5422b214473eb3bfcdc010c2b8c7133fc6a84198394423d40482f4a2be4351f014d4b616
+  checksum: 10c0/c52251c268b3bfa706b65901581395ad465fa120cf9d6178723c428772d9e2e3a4b999b1fd77180777b729e36bc897e78ea79f07ce3cc4425103f042697f9cd5
   languageName: node
   linkType: hard
 
@@ -5015,7 +5016,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/lodash@npm:^4.14.167":
+"@types/lodash@npm:^4.14.167, @types/lodash@npm:^4.17.15":
   version: 4.17.15
   resolution: "@types/lodash@npm:4.17.15"
   checksum: 10c0/2eb2dc6d231f5fb4603d176c08c8d7af688f574d09af47466a179cd7812d9f64144ba74bb32ca014570ffdc544eedc51b7a5657212bad083b6eecbd72223f9bb

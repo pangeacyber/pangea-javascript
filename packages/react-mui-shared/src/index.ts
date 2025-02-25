@@ -61,6 +61,19 @@ export { default as JsonViewer } from "./components/JsonViewer";
 export { default as ConditionalAutocomplete } from "./components/ConditionalAutocomplete";
 export { default as PopoutCard } from "./components/PopoutCard";
 export { default as TimeRangeSelect } from "./components/TimeRangeSelect";
+export { default as RelativeDateRangeField } from "./components/RelativeDateRangeField";
+export {
+  getDisplayDateRange,
+  getRelativeDateRange,
+  getHalfRelativeDateRange,
+  compareRelativeDateRanges,
+  getRelativeDate,
+} from "./components/RelativeDateRangeField/utils";
+export {
+  TimeRangeString,
+  RelativeRange,
+  RelativeRangeObject,
+} from "./components/RelativeDateRangeField/types";
 export { default as CopyButton } from "./components/IconButtons/CopyButton";
 
 /* Exported utils */

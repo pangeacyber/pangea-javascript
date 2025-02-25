@@ -1,9 +1,7 @@
 import { useState, forwardRef, useMemo, useRef, useEffect, FC } from "react";
 import find from "lodash/find";
 import isEmpty from "lodash/isEmpty";
-import startCase from "lodash/startCase";
 import keyBy from "lodash/keyBy";
-import get from "lodash/get";
 
 import {
   Autocomplete,
@@ -15,11 +13,10 @@ import {
 } from "@mui/material";
 import { determinedFocusedWordsOnCursorPosition } from "./utils";
 import { safeStringify } from "../../utils";
-
-export interface ConditionalOption {
-  match: (current: string, previous: string) => boolean;
-  options: { value: string; label: string; caption?: string }[];
-}
+import AutocompleteOptionComponent, {
+  OptionComponentProps,
+} from "./AutocompleteOptionComponent";
+import { ConditionalOption } from "./types";
 
 interface ConditionalAutocompleteProps {
   value: any;
@@ -31,6 +28,8 @@ interface ConditionalAutocompleteProps {
   hideMenu?: boolean;
   onOpen?: (open: boolean) => void;
   error?: string;
+
+  OptionComponent?: FC<OptionComponentProps>;
 }
 
 const HelperText: FC<{ error: any }> = ({ error }) => {
@@ -88,6 +87,8 @@ const ConditionalAutocomplete = forwardRef<any, ConditionalAutocompleteProps>(
       onOpen,
       hideMenu,
       error,
+
+      OptionComponent = AutocompleteOptionComponent,
     },
     ref
   ) => {
@@ -165,25 +166,13 @@ const ConditionalAutocomplete = forwardRef<any, ConditionalAutocompleteProps>(
 
             return displayOptions;
           }}
-          renderOption={(props, option) => {
-            // @ts-ignore
-            const optionValue: string = option;
-            return (
-              <ListItem {...props}>
-                <Stack direction="row" alignItems="center" spacing={1}>
-                  <Typography variant="body2">
-                    {startCase(optionValue.replace(":", ""))}
-                  </Typography>
-                  {!!get(optionsMap, optionValue, { value: undefined })
-                    .value && (
-                    <Typography variant="body2" color="textSecondary">
-                      {optionsMap[optionValue].value.replace(":", "")}
-                    </Typography>
-                  )}
-                </Stack>
-              </ListItem>
-            );
-          }}
+          renderOption={(props, option) => (
+            <OptionComponent
+              props={props}
+              option={option}
+              options={optionsMap}
+            />
+          )}
           renderInput={(params) => {
             return (
               <TextField

@@ -7,10 +7,13 @@ import {
   Stack,
   ChipProps,
 } from "@mui/material";
+import { ValueOptions } from "../../../PangeaFields/FieldsForm/types";
 
 interface FilterOption {
   label: string;
   type?: "string" | "csv";
+
+  valueOptions?: ValueOptions;
 }
 
 export interface FilterOptions<FiltersObj> {

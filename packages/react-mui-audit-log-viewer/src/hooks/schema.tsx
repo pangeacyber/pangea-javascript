@@ -8,10 +8,10 @@ import cloneDeep from "lodash/cloneDeep";
 import keyBy from "lodash/keyBy";
 import mapValues from "lodash/mapValues";
 
-import { Audit, AuthConfig, SchemaOptions } from "../types";
+import { Audit, AuthConfig, FilterOptions, SchemaOptions } from "../types";
 import { GridColDef } from "@mui/x-data-grid";
 import {
-  FilterOptions,
+  FilterOptions as FilterComponentOptions,
   PDG,
   useGridSchemaColumns,
 } from "@pangeacyber/react-mui-shared";
@@ -158,7 +158,7 @@ export const useSchema = (
   const schema = useMemo(() => {
     const schema = cloneDeep(schemaProp ?? schema_);
     schema.fields = schema.fields?.filter(
-      (f) =>
+      (f: Audit.SchemaField) =>
         !options?.hiddenFields?.length || !options?.hiddenFields?.includes(f.id)
     );
 
@@ -190,7 +190,7 @@ export const useAuditColumns = <Event,>(
     // @ts-ignore
     const defaultColumnDefinitions: PDG.GridSchemaFields<Event> = mapValues(
       keyBy(schemaFields, "id"),
-      (field) => {
+      (field: Audit.SchemaField) => {
         const isLarge =
           (field.type === "string" ||
             field.type === "string-unindexed" ||
@@ -240,7 +240,7 @@ export const useAuditColumns = <Event,>(
       defaultColumnDefinitions,
       pick(
         fields ?? {},
-        map(schemaFields, (f) => f.id)
+        map(schemaFields, (f: Audit.SchemaField) => f.id)
       )
     );
   }, [fields, fieldTypes, schema]);
@@ -271,7 +271,7 @@ export const useDefaultVisibility = <Event,>(schema: Audit.Schema) => {
 
     return mapValues(
       keyBy(schemaFields, "id"),
-      (field) => !!field.ui_default_visible
+      (field: Audit.SchemaField) => !!field.ui_default_visible
     );
   }, [schema]);
 
@@ -282,22 +282,28 @@ export const useDefaultOrder = <Event,>(schema: Audit.Schema) => {
   const order = useMemo(() => {
     const schemaFields = schema?.fields ?? [];
 
-    return map(schemaFields, (field) => field.id);
+    return map(schemaFields, (field: Audit.SchemaField) => field.id);
   }, [schema]);
 
   return order;
 };
 
-export const useAuditFilterFields = <Event,>(schema: Audit.Schema) => {
-  const fields: FilterOptions<Event> = useMemo(() => {
+export const useAuditFilterFields = <Event,>(
+  schema: Audit.Schema,
+  options: FilterOptions | undefined = undefined
+) => {
+  const fields: FilterComponentOptions<Event> = useMemo(() => {
     const filterableFields = (schema?.fields ?? []).filter(
-      (field) => field.type !== "string-unindexed"
+      (field) =>
+        field.type !== "string-unindexed" &&
+        (!options?.filterableFields ||
+          options?.filterableFields?.includes(field.id))
     );
 
     // @ts-ignore
-    const fields: FilterOptions<Event> = mapValues(
+    const fields: FilterComponentOptions<Event> = mapValues(
       keyBy(filterableFields, "id"),
-      (field) => {
+      (field: Audit.SchemaField) => {
         return {
           label: field.name ?? field.id,
         };
@@ -305,17 +311,23 @@ export const useAuditFilterFields = <Event,>(schema: Audit.Schema) => {
     );
 
     return fields;
-  }, [schema]);
+  }, [schema, options?.filterableFields]);
 
   return fields;
 };
 
 const operators = new Set(["AND", "OR"]);
 
-export const useAuditConditionalOptions = <Event,>(schema: Audit.Schema) => {
-  const options = useMemo(() => {
+export const useAuditConditionalOptions = <Event,>(
+  schema: Audit.Schema,
+  options: FilterOptions | undefined = undefined
+) => {
+  const autocomplete = useMemo(() => {
     const optionalFields = (schema?.fields ?? []).filter(
-      (field) => field.type !== "string-unindexed"
+      (field) =>
+        field.type !== "string-unindexed" &&
+        (!options?.filterableFields ||
+          options?.filterableFields?.includes(field.id))
     );
 
     return [
@@ -327,6 +339,22 @@ export const useAuditConditionalOptions = <Event,>(schema: Audit.Schema) => {
           label: field.name ?? field.id,
         })),
       },
+      ...(options?.fieldOptions ?? [])
+        .filter((fo) => !!fo.valueOptions?.length)
+        .map((fo) => {
+          return {
+            match: (current: string, previous: string) => {
+              return (
+                (!previous || operators.has(previous)) &&
+                current?.startsWith(`${fo.id}:`)
+              );
+            },
+            options: fo.valueOptions?.map((vo) => ({
+              value: `${fo.id}:${vo.value}`,
+              label: vo.label,
+            })),
+          };
+        }),
       {
         match: (current: string, previous: string) =>
           !operators.has(previous) && !current.includes(":"),
@@ -336,7 +364,9 @@ export const useAuditConditionalOptions = <Event,>(schema: Audit.Schema) => {
         ],
       },
     ];
-  }, [schema]);
+  }, [schema, options?.fieldOptions]);
 
-  return options;
+  console.log("AUTOCOMPLETE", autocomplete);
+
+  return autocomplete;
 };

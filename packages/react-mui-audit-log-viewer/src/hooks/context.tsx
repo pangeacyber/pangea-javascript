@@ -12,7 +12,7 @@ import React, {
 import get from "lodash/get";
 import isEmpty from "lodash/isEmpty";
 
-import { Audit } from "../types";
+import { Audit, FilterOptions } from "../types";
 import {
   verifyConsistencyProof,
   verifyMembershipProof,
@@ -69,6 +69,8 @@ interface AuditContextShape<Event = Audit.DefaultEvent> {
   setQueryObj: Dispatch<SetStateAction<AuditQuery | null>>;
 
   downloadResults?: (body: Audit.DownloadResultRequest) => Promise<void>;
+
+  filterOptions?: FilterOptions;
 }
 
 const AuditContext = createContext<AuditContextShape>({
@@ -124,6 +126,7 @@ interface AuditContextProviderProps<Event = Audit.DefaultEvent> {
   // Search state
   initialQuery?: string;
   filters?: PublicAuditQuery;
+  filterOptions?: FilterOptions;
 }
 
 const AuditContextProvider = <Event,>({
@@ -151,6 +154,7 @@ const AuditContextProvider = <Event,>({
   // Search state
   initialQuery,
   filters,
+  filterOptions,
 }: AuditContextProviderProps<Event>): JSX.Element => {
   const [offset, setOffset] = useState<number>(0);
   const [limit, setLimit] = useState<number>(
@@ -204,6 +208,9 @@ const AuditContextProvider = <Event,>({
 
         sort,
         setSort,
+
+        filterOptions,
+
         ...queryState,
       }}
     >
