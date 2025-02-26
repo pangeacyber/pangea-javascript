@@ -22,16 +22,18 @@ const AutocompleteOptionComponent: FC<OptionComponentProps> = ({
   props,
 }) => {
   const optionValue: string = option;
+  const optionSettings = optionsMap[optionValue];
 
+  if (!optionSettings) return null;
   return (
     <ListItem {...props}>
       <Stack direction="row" alignItems="center" spacing={1}>
         <Typography variant="body2">
-          {startCase(optionValue.replace(":", ""))}
+          {optionSettings?.label ?? startCase(optionValue)}
         </Typography>
-        {!!get(optionsMap, optionValue, { value: undefined }).value && (
+        {!!optionSettings.caption && (
           <Typography variant="body2" color="textSecondary">
-            {optionsMap[optionValue].value.replace(":", "")}
+            {optionSettings.caption}
           </Typography>
         )}
       </Stack>

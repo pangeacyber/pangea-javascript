@@ -11,9 +11,7 @@ import {
   SxProps,
   ButtonProps,
 } from "@mui/material";
-import ConditionalAutocomplete, {
-  ConditionalOption,
-} from "../../../ConditionalAutocomplete";
+import ConditionalAutocomplete from "../../../ConditionalAutocomplete";
 import PopoutCard from "../../../PopoutCard";
 
 import { useInternalState } from "../../../../utils/hooks";
@@ -22,6 +20,7 @@ import FiltersBar from "./FiltersBar";
 import ColumnsPopout, { ColumnsPopoutProps } from "./ColumnsPopout";
 import { PDG } from "../../types";
 import { OptionComponentProps } from "../../../ConditionalAutocomplete/AutocompleteOptionComponent";
+import { ConditionalOption } from "../../../ConditionalAutocomplete/types";
 
 export interface SearchProps<FiltersObj> {
   query?: string;

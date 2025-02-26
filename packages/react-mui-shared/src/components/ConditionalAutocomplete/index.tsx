@@ -128,7 +128,7 @@ const ConditionalAutocomplete = forwardRef<any, ConditionalAutocompleteProps>(
 
     useEffect(() => {
       setOpen(!!cursor && !isEmpty(autocompleteOptions));
-    }, [autocompleteOptions.length]);
+    }, [cursor, autocompleteOptions.length]);
 
     return (
       <Stack sx={{ flexGrow: 1 }}>
@@ -153,7 +153,11 @@ const ConditionalAutocomplete = forwardRef<any, ConditionalAutocompleteProps>(
           onChange={(_, autoCompleteValue) => {
             const start = value.substring(0, currentPosition[0] ?? 0);
             const end = value.substring(currentPosition[1] ?? 0);
-            onChange(`${start}${autoCompleteValue}${end}`);
+
+            const newValue = `${start}${autoCompleteValue}${end}`;
+            onChange(newValue);
+
+            setCursor(newValue.length);
             setOpen(false);
           }}
           sx={{
@@ -168,6 +172,7 @@ const ConditionalAutocomplete = forwardRef<any, ConditionalAutocompleteProps>(
           }}
           renderOption={(props, option) => (
             <OptionComponent
+              key={props.key}
               props={props}
               option={option}
               options={optionsMap}

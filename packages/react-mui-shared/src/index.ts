@@ -17,6 +17,11 @@ export {
   LinedPangeaDataGrid,
 } from "./components/PangeaDataGrid";
 export {
+  AutocompleteValueOption,
+  ConditionalOption,
+} from "./components/ConditionalAutocomplete/types";
+export { OptionComponentProps } from "./components/ConditionalAutocomplete/AutocompleteOptionComponent";
+export {
   FieldsPreview,
   FieldsPreviewProps,
   FieldsPreviewSchema,

@@ -58,8 +58,6 @@ FilterOptionsAuditLogViewer.args = {
   filterOptions: {
     hotStorageRange: "14day",
 
-    filterableFields: ["actor"],
-
     fieldOptions: [
       {
         id: "actor",

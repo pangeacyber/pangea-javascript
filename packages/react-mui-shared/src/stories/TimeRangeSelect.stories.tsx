@@ -17,7 +17,7 @@ export default {
   },
 } as Meta<typeof TimeRangeSelect>;
 
-export const CUSTOM_QUICK_TIME_RANGES = ["1day", "4week", "1year"];
+const CUSTOM_QUICK_TIME_RANGES = ["1day", "4week", "1year"];
 
 const Template: StoryFn<FC<Partial<TimeRangeSelectProps>>> = (args) => {
   const [filters, onFilterChange] = useState({});
