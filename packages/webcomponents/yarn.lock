@@ -1617,7 +1617,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@mui/icons-material@npm:^6.1.6":
+"@mui/icons-material@npm:^6.4.5":
   version: 6.4.5
   resolution: "@mui/icons-material@npm:6.4.5"
   dependencies:
@@ -1633,7 +1633,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@mui/material@npm:^6.1.6":
+"@mui/material@npm:^6.4.5":
   version: 6.4.5
   resolution: "@mui/material@npm:6.4.5"
   dependencies:
@@ -1686,7 +1686,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@mui/styled-engine-sc@npm:^6.1.5":
+"@mui/styled-engine-sc@npm:^6.4.3":
   version: 6.4.3
   resolution: "@mui/styled-engine-sc@npm:6.4.3"
   dependencies:
@@ -1752,7 +1752,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@mui/types@npm:^7.2.18, @mui/types@npm:^7.2.21":
+"@mui/types@npm:^7.2.21":
   version: 7.2.22
   resolution: "@mui/types@npm:7.2.22"
   peerDependencies:
@@ -1993,10 +1993,10 @@ __metadata:
     "@emotion/cache": "npm:^11.14.0"
     "@emotion/react": "npm:^11.14.0"
     "@emotion/styled": "npm:^11.14.0"
-    "@mui/icons-material": "npm:^6.1.6"
-    "@mui/material": "npm:^6.1.6"
-    "@mui/styled-engine-sc": "npm:^6.1.5"
-    "@mui/types": "npm:^7.2.18"
+    "@mui/icons-material": "npm:^6.4.5"
+    "@mui/material": "npm:^6.4.5"
+    "@mui/styled-engine-sc": "npm:^6.4.3"
+    "@mui/types": "npm:^7.2.21"
     "@pangeacyber/react-mui-audit-log-viewer": "npm:^1.0.7"
     "@pangeacyber/react-mui-branding": "npm:^1.0.0"
     "@pangeacyber/react-mui-share-file-viewer": "npm:^1.0.3"
