@@ -2,16 +2,20 @@ import { AuditFieldFilter } from "./FilterField";
 
 export const getAppliedFiltersQuery = (
   query: string,
-  filters: AuditFieldFilter[]
+  filters: AuditFieldFilter[],
+  operand: string = "OR"
 ): string => {
-  if (!filters.length) return query;
+  const validFilters = filters.filter(
+    (filter) => !!filter.id && !!filter.operator && !!filter.value
+  );
 
-  const formattedFilters = filters
-    .filter((filter) => !!filter.id && !!filter.operator && !!filter.value)
+  if (!validFilters.length) return query;
+
+  const formattedFilters = validFilters
     .map((filter) => `${filter.id}${filter.operator}${filter.value}`)
-    .join(" OR ");
+    .join(` ${operand} `);
   const filterString =
-    filters.length > 1 ? `(${formattedFilters})` : formattedFilters;
+    validFilters.length > 1 ? `(${formattedFilters})` : formattedFilters;
 
   // Ensure proper spacing and conjunction handling
   query = query.trim();

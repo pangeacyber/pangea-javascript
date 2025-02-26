@@ -1,9 +1,19 @@
-import { FC, useState, useEffect, useMemo, Fragment } from "react";
-import { Grid2 as Grid, Button, Stack } from "@mui/material";
+import { FC, useState, useMemo, Fragment } from "react";
+import {
+  Grid2 as Grid,
+  Button,
+  Stack,
+  IconButton,
+  Tooltip,
+  Typography,
+} from "@mui/material";
+import { lighten } from "@mui/material/styles";
 import { FilterOptions } from "@pangeacyber/react-mui-shared";
 import JoinDivider, { RemoveButton } from "./JoinDivider";
 
 import AddIcon from "@mui/icons-material/Add";
+import WarningAmberIcon from "@mui/icons-material/WarningAmber";
+
 import FilterField, { AuditFieldFilter } from "./FilterField";
 import JoinChip from "./JoinChip";
 import { useAuditContext } from "../../hooks/context";
@@ -26,6 +36,7 @@ const AuditLogViewerFiltersForm: FC<Props> = ({
 }) => {
   const { query, setQuery } = useAuditContext();
 
+  const [operand, setOperand] = useState("OR");
   const [values, setValues] = useState<AuditQueryFilters>({
     fields: [],
   });
@@ -44,6 +55,12 @@ const AuditLogViewerFiltersForm: FC<Props> = ({
 
     return values.fields;
   }, [values, options]);
+
+  const isValid = useMemo(() => {
+    return !!fields.filter(
+      (filter) => !!filter.id && !!filter.operator && !!filter.value
+    ).length;
+  }, [fields]);
 
   const handleAddCondition = () => {
     const options_ = Object.keys(options);
@@ -83,7 +100,7 @@ const AuditLogViewerFiltersForm: FC<Props> = ({
   };
 
   const handleSubmit = () => {
-    setQuery(getAppliedFiltersQuery(query, values.fields));
+    setQuery(getAppliedFiltersQuery(query, values.fields, operand));
     onFilterChange(filters);
   };
 
@@ -117,33 +134,54 @@ const AuditLogViewerFiltersForm: FC<Props> = ({
                 </Stack>
                 {idx < (fields?.length ?? 0) - 1 && (
                   <>
-                    <JoinChip label={"OR"} key={`condition-join-${idx}`} />
+                    <JoinChip
+                      value={operand}
+                      onValueChange={setOperand}
+                      key={`condition-join-${idx}`}
+                    />
                   </>
                 )}
               </Fragment>
             );
           })}
           {!!fields?.length && <JoinDivider />}
-          <Button
-            variant="contained"
-            startIcon={<AddIcon fontSize="small" />}
-            sx={{ backgroundColor: (theme) => theme.palette.secondary.main }}
+          <IconButton
+            sx={{
+              backgroundColor: (theme) => theme.palette.secondary.main,
+              color: (theme) => theme.palette.secondary.contrastText,
+              ":hover": {
+                backgroundColor: (theme) =>
+                  lighten(theme.palette.secondary.main, 0.2),
+              },
+            }}
             onClick={handleAddCondition}
           >
-            OR
+            <AddIcon fontSize="small" />
+          </IconButton>
+        </Stack>
+        <Stack marginLeft="auto!important" spacing={1} direction="row">
+          {!isValid && (
+            <Tooltip title="Must have at least one complete filter to apply filters appending to the existing query.">
+              <Stack direction="row" alignItems="center" spacing={1}>
+                <Typography color="warning" variant="body2">
+                  At least one complete filter required
+                </Typography>
+                <WarningAmberIcon color={"warning"} fontSize="small" />
+              </Stack>
+            </Tooltip>
+          )}
+          <Button
+            color="primary"
+            variant="contained"
+            type="submit"
+            disabled={!isValid}
+            sx={{
+              width: "fit-content",
+            }}
+          >
+            Apply Filters
           </Button>
         </Stack>
-        <Button
-          color="primary"
-          variant="contained"
-          type="submit"
-          sx={{
-            marginLeft: "auto!important",
-            width: "fit-content",
-          }}
-        >
-          Apply Filters
-        </Button>
       </Stack>
     </form>
   );
