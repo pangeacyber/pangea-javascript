@@ -70,7 +70,7 @@
     "vite": "^6.1.1"
   },
   "dependencies": {
-    "@pangeacyber/react-mui-shared": "./pangeacyber-react-mui-shared-v1.0.4-beta.4.tgz",
+    "@pangeacyber/react-mui-shared": "./pangeacyber-react-mui-shared-v1.0.4-beta.7.tgz",
     "crypto-js": "^4.2.0",
     "diff": "^5.2.0",
     "lodash": "^4.17.21",

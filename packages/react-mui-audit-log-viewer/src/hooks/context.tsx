@@ -33,6 +33,8 @@ const DEFAULT_MAX_RESULT_OPTIONS = [
 ];
 
 interface AuditContextShape<Event = Audit.DefaultEvent> {
+  schema: Audit.Schema;
+
   root?: Audit.Root;
   unpublishedRoot?: Audit.Root;
   visibilityModel?: Partial<Record<keyof Event, boolean>>;
@@ -74,6 +76,10 @@ interface AuditContextShape<Event = Audit.DefaultEvent> {
 }
 
 const AuditContext = createContext<AuditContextShape>({
+  schema: {
+    fields: [],
+  },
+
   offset: 0,
   setOffset: () => {},
   limit: 20,
@@ -102,6 +108,8 @@ const AuditContext = createContext<AuditContextShape>({
 });
 
 interface AuditContextProviderProps<Event = Audit.DefaultEvent> {
+  schema: Audit.Schema;
+
   total: number;
   loading?: boolean;
   resultsId: string | undefined;
@@ -130,6 +138,8 @@ interface AuditContextProviderProps<Event = Audit.DefaultEvent> {
 }
 
 const AuditContextProvider = <Event,>({
+  schema,
+
   children,
   total,
   loading,
@@ -174,6 +184,8 @@ const AuditContextProvider = <Event,>({
   return (
     <AuditContext.Provider
       value={{
+        schema,
+
         visibilityModel,
         offset,
         setOffset,

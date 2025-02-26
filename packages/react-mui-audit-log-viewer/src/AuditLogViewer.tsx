@@ -274,6 +274,7 @@ const AuditLogViewerWithProvider = <Event,>({
 
   return (
     <AuditContextProvider
+      schema={schema}
       total={count}
       loading={loading}
       resultsId={searchResponse?.id}

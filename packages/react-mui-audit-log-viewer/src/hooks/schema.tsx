@@ -375,7 +375,7 @@ const getFieldsOperationOptions = (fields: Audit.SchemaField[]) => {
   return options;
 };
 
-const getFieldValueOptions = (
+export const getFieldValueOptions = (
   field: Audit.SchemaField,
   options: FieldFilterOptions | undefined
 ) => {

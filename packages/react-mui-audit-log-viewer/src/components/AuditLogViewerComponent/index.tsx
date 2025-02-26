@@ -25,6 +25,7 @@ import {
 } from "../../hooks/schema";
 import { PublicAuditQuery } from "../../types/query";
 import DownloadButton from "./DownloadButton";
+import AuditLogViewerFiltersForm from "../AuditLogViewerFiltersForm";
 
 export interface ViewerProps<Event = Audit.DefaultEvent> {
   initialQuery?: string;
@@ -217,12 +218,22 @@ const AuditLogViewerComponent: FC<ViewerProps> = ({
           Filters: {
             // @ts-ignore
             filters: queryObj,
+            // Note: This doesn't have to accept the queryObj, and it doesn't have update the queryObj
+            // since the thinking to directly just "Apply Filters" then it would make more
+            // sense to have this callback directly feed into the query, and not mess with the current
+            // queryObj (only may be onFiltersChange wouldn't apply... currently that is default enabled)
             onFilterChange: (values) =>
               setQueryObj(
-                mapValues(values, (v) => (typeof v === "string" ? v.trim() : v))
+                mapValues(values, (v: any) =>
+                  typeof v === "string" ? v.trim() : v
+                )
               ),
+
             // @ts-ignore
             options: filterFields,
+
+            // @ts-ignore AuditFiltersObject is a different format than standard, that is okay
+            FiltersFormComponent: AuditLogViewerFiltersForm,
           },
           conditionalOptions,
           // @ts-ignore

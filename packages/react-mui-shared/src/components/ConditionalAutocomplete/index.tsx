@@ -7,7 +7,6 @@ import {
   Autocomplete,
   InputProps,
   TextField,
-  ListItem,
   Typography,
   Stack,
 } from "@mui/material";
@@ -92,7 +91,9 @@ const ConditionalAutocomplete = forwardRef<any, ConditionalAutocompleteProps>(
     },
     ref
   ) => {
-    const inputRef = useRef(null);
+    const inputRef = useRef<HTMLInputElement>(null);
+    const [isFocused, setIsFocused] = useState(false);
+
     const [cursor, setCursor] = useState(0);
     const [open, setOpen_] = useState(false);
 
@@ -127,8 +128,8 @@ const ConditionalAutocomplete = forwardRef<any, ConditionalAutocompleteProps>(
     }, [value, cursor, safeStringify(options)]);
 
     useEffect(() => {
-      setOpen(!!cursor && !isEmpty(autocompleteOptions));
-    }, [cursor, autocompleteOptions.length]);
+      setOpen(isFocused && !isEmpty(autocompleteOptions));
+    }, [cursor, isFocused, autocompleteOptions.length]);
 
     return (
       <Stack sx={{ flexGrow: 1 }}>
@@ -184,6 +185,8 @@ const ConditionalAutocomplete = forwardRef<any, ConditionalAutocompleteProps>(
                 ref={inputRef}
                 {...params}
                 error={!!error}
+                onFocus={() => setIsFocused(true)}
+                onBlur={() => setIsFocused(false)}
                 placeholder={placeholder}
                 InputProps={{
                   ...params?.InputProps,

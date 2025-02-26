@@ -35,6 +35,10 @@ export const getQuerySymbol = (operation: FieldFilter) => {
     return ">";
   }
 
+  if (operation === FieldFilter.Equal) {
+    return "=";
+  }
+
   return ":";
 };
 
