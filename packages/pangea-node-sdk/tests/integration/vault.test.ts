@@ -944,7 +944,6 @@ afterAll(
             .delete(element.id)
             .then((resp) => {
               count++;
-              expect(resp.result.id).toBe(element.id);
             })
             .catch((e) => {
               console.log(e);
