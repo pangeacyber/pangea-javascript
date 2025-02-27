@@ -9,7 +9,7 @@ export const RemoveButton: FC<ButtonProps> = (props) => {
       <IconButton {...props}>
         <RemoveCircleOutlineOutlinedIcon
           fontSize="small"
-          color={props?.color ?? props.disabled ? undefined : "action"}
+          color={props?.color ?? (props.disabled ? undefined : "action")}
         />
       </IconButton>
     </Tooltip>
