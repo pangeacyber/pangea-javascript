@@ -266,7 +266,6 @@ With this, fields redacted via FPE (in your Secure Audit Log) will appear **visu
 
 ---
 
-
 ### Using `filterOptions` for specifing hot storage warning and known field options for filterinng
 
 ```js pangeaStyle=true
@@ -276,24 +275,24 @@ import { AuditLogViewer } from "@pangeacyber/react-mui-audit-log-viewer";
 const ExampleWithFilterOptions = () => {
   return (
     <AuditLogViewer
-       filterOptions={{
-         hotStorageRange: "14day",
-         filterableFields: ["actor", "event_type"],
-         fieldOptions: [
-           {
-             id: "event_type",
-             valueOptions: [
-               { label: "Login", value: "login" },
-               { label: "Logout", value: "logout" },
-             ],
-           },
-         ],
-       }}
-       onSearch={async (body) => {
-         /* Call your search API */
-       }}
-       onPageChange={async (body) => {
-         /* Handle pagination */
+      filterOptions={{
+        hotStorageRange: "14day",
+        filterableFields: ["actor", "event_type"],
+        fieldOptions: [
+          {
+            id: "event_type",
+            valueOptions: [
+              { label: "Login", value: "login" },
+              { label: "Logout", value: "logout" },
+            ],
+          },
+        ],
+      }}
+      onSearch={async (body) => {
+        /* Call your search API */
+      }}
+      onPageChange={async (body) => {
+        /* Handle pagination */
       }}
     />
   );
