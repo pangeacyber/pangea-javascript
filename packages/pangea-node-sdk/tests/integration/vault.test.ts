@@ -920,8 +920,7 @@ it("export", async () => {
   );
 });
 
-it(
-  "list and delete",
+afterAll(
   async () => {
     let last = undefined;
     let count = 0;
