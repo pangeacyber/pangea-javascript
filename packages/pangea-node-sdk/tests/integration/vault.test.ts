@@ -932,7 +932,7 @@ afterAll(
           name__contains: ACTOR,
         },
         last: last,
-        size: 20,
+        size: 10,
       });
 
       listResp.result.items.forEach((element) => {
@@ -956,7 +956,7 @@ afterAll(
       if (listResp.result.items.length == 0) {
         break;
       }
-      await delay(2000);
+      await delay(5000);
     }
 
     console.log(`Deleted ${count} items`);
