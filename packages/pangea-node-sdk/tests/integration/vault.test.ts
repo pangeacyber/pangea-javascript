@@ -956,7 +956,7 @@ afterAll(
       if (listResp.result.items.length == 0) {
         break;
       }
-      await delay(1000);
+      await delay(2000);
     }
 
     console.log(`Deleted ${count} items`);
