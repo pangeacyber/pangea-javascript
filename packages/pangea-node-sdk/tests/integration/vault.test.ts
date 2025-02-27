@@ -14,7 +14,7 @@ import {
   strToB64,
   TestEnvironment,
 } from "../../src/utils/utils.js";
-import { loadTestEnvironment } from "./utils.js";
+import { loadTestEnvironment, delay } from "./utils.js";
 
 const environment = loadTestEnvironment("vault", TestEnvironment.LIVE);
 const token = getTestToken(environment);
@@ -932,6 +932,7 @@ afterAll(
           name__contains: ACTOR,
         },
         last: last,
+        size: 20,
       });
 
       listResp.result.items.forEach((element) => {
@@ -953,10 +954,12 @@ afterAll(
 
       last = listResp.result.last;
       if (listResp.result.items.length == 0) {
-        console.log(`Deleted ${count} items`);
         break;
       }
+      await delay(1000);
     }
+
+    console.log(`Deleted ${count} items`);
   },
   20 * 60 * 1000
 ); // 20 minutes

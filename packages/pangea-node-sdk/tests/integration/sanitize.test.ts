@@ -12,7 +12,7 @@ import {
   FileUploader,
 } from "../../src/index.js";
 import { Sanitize, TransferMethod } from "../../src/types.js";
-import { loadTestEnvironment, trySlowRequest } from "./utils.js";
+import { loadTestEnvironment, trySlowRequest, delay } from "./utils.js";
 
 const environment = loadTestEnvironment("sanitize", TestEnvironment.LIVE);
 
@@ -29,11 +29,6 @@ const client = new SanitizeService(token, config);
 
 const testfilePath = "./tests/testdata/test-sanitize.txt";
 jest.setTimeout(2 * config.pollResultTimeoutMs);
-
-const delay = async (ms: number) =>
-  new Promise((resolve) => {
-    setTimeout(resolve, ms);
-  });
 
 it("Sanitize and share", async () => {
   try {
