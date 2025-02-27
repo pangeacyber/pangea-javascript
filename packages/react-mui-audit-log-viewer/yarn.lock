@@ -2725,7 +2725,7 @@ __metadata:
     rollup-plugin-polyfill-node: "npm:^0.13.0"
     rollup-plugin-postcss: "npm:^4.0.2"
     storybook: "npm:^7.6.20"
-    ts-jest: "npm:^29.2.5"
+    ts-jest: "npm:^29.2.6"
     typedoc: "npm:^0.27.8"
     typedoc-plugin-rename-defaults: "npm:^0.7.2"
     typescript: "npm:^5.7.3"
@@ -13020,7 +13020,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"ts-jest@npm:^29.2.5":
+"ts-jest@npm:^29.2.6":
   version: 29.2.6
   resolution: "ts-jest@npm:29.2.6"
   dependencies:
