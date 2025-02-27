@@ -7,10 +7,12 @@ import { TEST_SERVER } from "./server/api";
 import { getConfigProps } from "./utils";
 
 /**
- * Demonstrates a rendering for the AuditLogViewer,
+ * Demonstrates a usage of filterOptions for the AuditLogViewer,
  * requiring the `onSearch` and `onPageChange` callbacks and providing the filterOptions prop.
  *
- * - **filterOptions.hotStorageRang**: Specifies the optional search window for searches and provides a warning when exceeded
+ * - **filterOptions.hotStorageRange**: Specifies the optional search window for searches and provides a warning when exceeded
+ * - **filterOptions.filterableFields**: Specifies exactly which field in the schema should appear as filterable
+ * - **filterOptions.fieldOptions**: Specifies known valueOptions for fields to improve auto-complete over the field filtering
  *
  * Required callback props for retrieving and paginating logs:
  * - `onSearch`: Receives an `Audit.SearchRequest`, returns a Promise of `Audit.SearchResponse`.
@@ -57,6 +59,9 @@ FilterOptionsAuditLogViewer.args = {
 
   filterOptions: {
     hotStorageRange: "14day",
+
+    // Enable if you wish to limit filterable fields (by default each indexed field in the schema is filterable)
+    // ex: filterableFields: ["actor"]
 
     fieldOptions: [
       {

@@ -54,7 +54,6 @@ export const AuditTimeWarning: FC<{
     if (!!filterOptions?.hotStorageRange) {
       const hotStorageDate = getRelativeDate(filterOptions.hotStorageRange);
       if (hotStorageDate.getTime() > filterDate.getTime()) {
-        // FIXME: Need info icon?
         return `Current time range exceeds optimal hot storage search window of the last ${getDisplayDateRange(filterOptions.hotStorageRange)}.`;
       }
     }
