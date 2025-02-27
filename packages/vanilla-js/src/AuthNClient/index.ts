@@ -103,7 +103,7 @@ export class AuthNClient {
    * */
   async get(endpoint: string): Promise<Response> {
     try {
-      const response: any = await fetch(this.getUrl(endpoint, undefined), {
+      const response: any = await fetch(this.getUrl(endpoint, ""), {
         method: "GET",
         ...this.getOptions(),
       });
@@ -145,16 +145,14 @@ export class AuthNClient {
    * @param version (optional) an API version number, defaults to an empty string
    * @returns a full URL to an API endpoint
    * */
-  getUrl(endpoint: string, version: string = ""): string {
+  getUrl(endpoint: string, version: string | undefined = undefined): string {
     const protocol = this.config.domain.match(/^local\.?host(:\d{2,5})?$/)
       ? "http"
       : "https";
 
     let version_ = `${API_VERSION}/`;
-    if (version) {
-      version_ = `${version}/`;
-    } else if (version === undefined) {
-      version_ = "";
+    if (version !== undefined) {
+      version_ = `${version}${!!version ? "/" : ""}`;
     }
 
     return `${protocol}://authn.${this.config.domain}/${version_}${endpoint}`;

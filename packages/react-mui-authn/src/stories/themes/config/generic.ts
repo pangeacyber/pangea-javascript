@@ -23,7 +23,7 @@ export const GENERIC: any = {
   header_font_weight: "600",
   id: "pro_qasx5ts6fhayj5kmt4rvgyceze2x66hj",
   input_bg_color: "#FFFFFF",
-  input_border_color: "",
+  input_border_color: "#14FF00",
   input_border_radius: "4px",
   input_text_color: "",
   link_color: "#0070ff",
