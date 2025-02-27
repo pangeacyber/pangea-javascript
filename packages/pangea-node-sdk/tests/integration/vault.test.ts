@@ -919,3 +919,44 @@ it("export", async () => {
     exportedPlain.result.private_key
   );
 });
+
+afterAll(
+  async () => {
+    let last = undefined;
+    let count = 0;
+
+    while (count < 500) {
+      // List
+      const listResp = await vault.list({
+        filter: {
+          name__contains: ACTOR,
+        },
+        last: last,
+      });
+
+      listResp.result.items.forEach((element) => {
+        if (
+          element.id != undefined &&
+          element.type != "folder" &&
+          element.folder != "/service-tokens/"
+        ) {
+          vault
+            .delete(element.id)
+            .then((resp) => {
+              count++;
+            })
+            .catch((e) => {
+              console.log(e);
+            });
+        }
+      });
+
+      last = listResp.result.last;
+      if (listResp.result.items.length == 0) {
+        console.log(`Deleted ${count} items`);
+        break;
+      }
+    }
+  },
+  20 * 60 * 1000
+); // 20 minutes
