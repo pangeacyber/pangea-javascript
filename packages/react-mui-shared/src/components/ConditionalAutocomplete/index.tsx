@@ -1,25 +1,21 @@
 import { useState, forwardRef, useMemo, useRef, useEffect, FC } from "react";
 import find from "lodash/find";
 import isEmpty from "lodash/isEmpty";
-import startCase from "lodash/startCase";
 import keyBy from "lodash/keyBy";
-import get from "lodash/get";
 
 import {
   Autocomplete,
   InputProps,
   TextField,
-  ListItem,
   Typography,
   Stack,
 } from "@mui/material";
 import { determinedFocusedWordsOnCursorPosition } from "./utils";
 import { safeStringify } from "../../utils";
-
-export interface ConditionalOption {
-  match: (current: string, previous: string) => boolean;
-  options: { value: string; label: string; caption?: string }[];
-}
+import AutocompleteOptionComponent, {
+  OptionComponentProps,
+} from "./AutocompleteOptionComponent";
+import { ConditionalOption } from "./types";
 
 interface ConditionalAutocompleteProps {
   value: any;
@@ -31,6 +27,8 @@ interface ConditionalAutocompleteProps {
   hideMenu?: boolean;
   onOpen?: (open: boolean) => void;
   error?: string;
+
+  OptionComponent?: FC<OptionComponentProps>;
 }
 
 const HelperText: FC<{ error: any }> = ({ error }) => {
@@ -88,10 +86,14 @@ const ConditionalAutocomplete = forwardRef<any, ConditionalAutocompleteProps>(
       onOpen,
       hideMenu,
       error,
+
+      OptionComponent = AutocompleteOptionComponent,
     },
     ref
   ) => {
-    const inputRef = useRef(null);
+    const inputRef = useRef<HTMLInputElement>(null);
+    const [isFocused, setIsFocused] = useState(false);
+
     const [cursor, setCursor] = useState(0);
     const [open, setOpen_] = useState(false);
 
@@ -126,8 +128,8 @@ const ConditionalAutocomplete = forwardRef<any, ConditionalAutocompleteProps>(
     }, [value, cursor, safeStringify(options)]);
 
     useEffect(() => {
-      setOpen(!!cursor && !isEmpty(autocompleteOptions));
-    }, [autocompleteOptions.length]);
+      setOpen(isFocused && !isEmpty(autocompleteOptions));
+    }, [cursor, isFocused, autocompleteOptions.length]);
 
     return (
       <Stack sx={{ flexGrow: 1 }}>
@@ -152,7 +154,11 @@ const ConditionalAutocomplete = forwardRef<any, ConditionalAutocompleteProps>(
           onChange={(_, autoCompleteValue) => {
             const start = value.substring(0, currentPosition[0] ?? 0);
             const end = value.substring(currentPosition[1] ?? 0);
-            onChange(`${start}${autoCompleteValue}${end}`);
+
+            const newValue = `${start}${autoCompleteValue}${end}`;
+            onChange(newValue);
+
+            setCursor(newValue.length);
             setOpen(false);
           }}
           sx={{
@@ -165,31 +171,22 @@ const ConditionalAutocomplete = forwardRef<any, ConditionalAutocompleteProps>(
 
             return displayOptions;
           }}
-          renderOption={(props, option) => {
-            // @ts-ignore
-            const optionValue: string = option;
-            return (
-              <ListItem {...props}>
-                <Stack direction="row" alignItems="center" spacing={1}>
-                  <Typography variant="body2">
-                    {startCase(optionValue.replace(":", ""))}
-                  </Typography>
-                  {!!get(optionsMap, optionValue, { value: undefined })
-                    .value && (
-                    <Typography variant="body2" color="textSecondary">
-                      {optionsMap[optionValue].value.replace(":", "")}
-                    </Typography>
-                  )}
-                </Stack>
-              </ListItem>
-            );
-          }}
+          renderOption={(props, option) => (
+            <OptionComponent
+              key={props.key}
+              props={props}
+              option={option}
+              options={optionsMap}
+            />
+          )}
           renderInput={(params) => {
             return (
               <TextField
                 ref={inputRef}
                 {...params}
                 error={!!error}
+                onFocus={() => setIsFocused(true)}
+                onBlur={() => setIsFocused(false)}
                 placeholder={placeholder}
                 InputProps={{
                   ...params?.InputProps,

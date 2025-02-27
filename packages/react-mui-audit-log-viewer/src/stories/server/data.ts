@@ -1,5 +1,69 @@
 import { Audit } from "../../types";
 
+export const EXAMPLE_AUDIT_SCHEMA: Audit.Schema = {
+  client_signable: true,
+  tamper_proofing: true,
+  fields: [
+    {
+      id: "received_at",
+      name: "Time",
+      type: "datetime",
+      ui_default_visible: true,
+    },
+    {
+      id: "actor",
+      name: "Actor",
+      type: "string",
+      size: 32766,
+      ui_default_visible: true,
+    },
+    {
+      id: "source",
+      name: "Source",
+      type: "string",
+      size: 128,
+      ui_default_visible: true,
+    },
+    {
+      id: "target",
+      name: "Target",
+      type: "string",
+      size: 128,
+      ui_default_visible: true,
+    },
+    {
+      id: "action",
+      name: "Action",
+      type: "string",
+      size: 128,
+      ui_default_visible: true,
+    },
+    {
+      id: "status",
+      name: "Status",
+      type: "string",
+      size: 32766,
+    },
+    {
+      id: "message",
+      name: "Message",
+      type: "string",
+      size: 32766,
+      ui_default_visible: true,
+    },
+    {
+      id: "amount",
+      name: "Amount",
+      type: "integer",
+    },
+    {
+      id: "allowed",
+      name: "Allowed",
+      type: "boolean",
+    },
+  ],
+};
+
 export const EXAMPLE_AUDIT_LOGS: Audit.AuditRecord[] = [
   {
     envelope: {
@@ -190,7 +254,7 @@ export const EXAMPLE_AUDIT_LOGS: Audit.AuditRecord[] = [
         action: "signed in",
         actor: "Dwight Schrute",
         message:
-          "Dwight Schrute signed in again to make sure he’s top salesman.",
+          "Dwight Schrute signed in again to make sure he's top salesman.",
         new: JSON.stringify({
           session: {
             context: {
@@ -221,6 +285,40 @@ export const EXAMPLE_AUDIT_LOGS: Audit.AuditRecord[] = [
         action: "signed in",
         actor: "Jim Halpert",
         message: "Jim Halpert signed in again, possibly to prank Dwight.",
+        new: JSON.stringify({
+          session: {
+            context: {
+              "Last-Login-City": "Scranton",
+              "Last-Login-Country": "United States",
+              "Last-Login-Time": "2025-01-16T01:37:05.203486Z",
+              "Login-From": "192.168.0.2",
+              "Login-Time": "2025-01-16T01:37:08.372832Z",
+              "User-Agent":
+                "Paper-OS/1.0 (Dunder; Mifflin) HeadlessChrome/131.0.0.0 Safari/537.36",
+            },
+            created_at: "2025-01-16T01:37:08.376148Z",
+            expires_at: "2025-01-18T01:37:08.372838Z",
+            id: "dfn_frontdesk_008",
+            user_id: "emp_jim",
+          },
+        }),
+      },
+    },
+    published: false,
+  },
+  {
+    envelope: {
+      received_at: "2025-01-16T01:38:09.496212Z",
+      event: {
+        source: "FrontDesk_001",
+        target: "Accounting_001",
+        action: "filled expense",
+        // @ts-ignore
+        allowed: false,
+        amount: 100,
+        actor: "Dwight Schrute",
+        message:
+          "Dwight Schrute filled expense for a new stapler, says it is Jim's fault.",
         new: JSON.stringify({
           session: {
             context: {

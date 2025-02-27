@@ -82,6 +82,11 @@ The `AuditLogViewer` component accepts the following props:
   - **hiddenFields** (optional): A list of field IDs to hide from both the table and filter UI.
 - **fpeOptions** (optional): Options for highlighting Format Preserving Encryption (FPE) fields.
   - **highlightRedaction** (optional): Whether to highlight logs redacted with FPE.
+- **filterOptions** (optional): An object defining optional filtering settings.
+  - **hotStorageRange** (optional): A string representing the maximum hot storage range, used for warnings in time filter popovers.
+  - **quickTimeRanges** (optional): A list of predefined time range options for quick selection.
+  - **filterableFields** (optional): An array of field keys that should be included as filterable fields. Defaults to all schema fields.
+  - **fieldOptions** (optional): An array of field filter options, defining available value options for specific fields.
 
 For a deeper dive into the prop interface, see the [source code](https://github.com/pangeacyber/pangea-javascript/blob/main/packages/react-mui-audit-log-viewer/src/AuditLogViewer.tsx).
 

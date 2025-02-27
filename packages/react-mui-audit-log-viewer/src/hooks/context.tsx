@@ -12,7 +12,7 @@ import React, {
 import get from "lodash/get";
 import isEmpty from "lodash/isEmpty";
 
-import { Audit } from "../types";
+import { Audit, FilterOptions } from "../types";
 import {
   verifyConsistencyProof,
   verifyMembershipProof,
@@ -33,6 +33,8 @@ const DEFAULT_MAX_RESULT_OPTIONS = [
 ];
 
 interface AuditContextShape<Event = Audit.DefaultEvent> {
+  schema: Audit.Schema;
+
   root?: Audit.Root;
   unpublishedRoot?: Audit.Root;
   visibilityModel?: Partial<Record<keyof Event, boolean>>;
@@ -69,9 +71,15 @@ interface AuditContextShape<Event = Audit.DefaultEvent> {
   setQueryObj: Dispatch<SetStateAction<AuditQuery | null>>;
 
   downloadResults?: (body: Audit.DownloadResultRequest) => Promise<void>;
+
+  filterOptions?: FilterOptions;
 }
 
 const AuditContext = createContext<AuditContextShape>({
+  schema: {
+    fields: [],
+  },
+
   offset: 0,
   setOffset: () => {},
   limit: 20,
@@ -100,6 +108,8 @@ const AuditContext = createContext<AuditContextShape>({
 });
 
 interface AuditContextProviderProps<Event = Audit.DefaultEvent> {
+  schema: Audit.Schema;
+
   total: number;
   loading?: boolean;
   resultsId: string | undefined;
@@ -124,9 +134,12 @@ interface AuditContextProviderProps<Event = Audit.DefaultEvent> {
   // Search state
   initialQuery?: string;
   filters?: PublicAuditQuery;
+  filterOptions?: FilterOptions;
 }
 
 const AuditContextProvider = <Event,>({
+  schema,
+
   children,
   total,
   loading,
@@ -151,6 +164,7 @@ const AuditContextProvider = <Event,>({
   // Search state
   initialQuery,
   filters,
+  filterOptions,
 }: AuditContextProviderProps<Event>): JSX.Element => {
   const [offset, setOffset] = useState<number>(0);
   const [limit, setLimit] = useState<number>(
@@ -170,6 +184,8 @@ const AuditContextProvider = <Event,>({
   return (
     <AuditContext.Provider
       value={{
+        schema,
+
         visibilityModel,
         offset,
         setOffset,
@@ -204,6 +220,9 @@ const AuditContextProvider = <Event,>({
 
         sort,
         setSort,
+
+        filterOptions,
+
         ...queryState,
       }}
     >

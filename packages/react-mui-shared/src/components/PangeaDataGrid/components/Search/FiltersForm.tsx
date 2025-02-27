@@ -1,16 +1,16 @@
 import { FC, useState, useEffect } from "react";
 import get from "lodash/get";
-import {
-  Grid2 as Grid,
-  TextField,
-  Button,
-  Stack,
-  ChipProps,
-} from "@mui/material";
+import { Grid2 as Grid, Button, Stack, ChipProps } from "@mui/material";
+import { ValueOptions } from "../../../PangeaFields/FieldsForm/types";
+import { StringField } from "../../../PangeaFields";
 
 interface FilterOption {
   label: string;
-  type?: "string" | "csv";
+  type?: "string" | "csv" | "date" | "number" | string;
+
+  valueOptions?: ValueOptions[];
+
+  [key: string]: any;
 }
 
 export interface FilterOptions<FiltersObj> {
@@ -73,19 +73,32 @@ const FiltersForm = <FiltersObj extends { [key: string]: string }>({
                 }}
                 key={`audit-field-${fieldName}`}
               >
-                <TextField
+                <StringField
                   value={field.type === "csv" ? value.join(",") : value}
-                  onChange={(event) => {
-                    const newValue = event.target.value;
+                  onValueChange={(newValue) => {
                     setValues((state) => ({
                       ...state,
                       [fieldName]:
                         field.type === "csv"
-                          ? newValue.split(",").map((v) => v.trim())
+                          ? newValue.split(",").map((v: string) => v.trim())
                           : newValue,
                     }));
                   }}
                   label={field.label}
+                  LabelProps={{
+                    placement: "top",
+                  }}
+                  FieldProps={{
+                    type:
+                      field.type === "date"
+                        ? "date"
+                        : field.type === "number"
+                          ? "number"
+                          : "text",
+                    options: {
+                      valueOptions: field.valueOptions,
+                    },
+                  }}
                   variant="outlined"
                   size="small"
                   sx={{
