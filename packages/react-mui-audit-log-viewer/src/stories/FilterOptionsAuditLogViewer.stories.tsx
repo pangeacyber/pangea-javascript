@@ -61,7 +61,7 @@ FilterOptionsAuditLogViewer.args = {
     hotStorageRange: "14day",
 
     // Enable if you wish to limit filterable fields (by default each indexed field in the schema is filterable)
-    // ex: filterableFields: ["actor"]
+    filterableFields: ["actor"],
 
     fieldOptions: [
       {
