@@ -97,8 +97,8 @@ const Search = <
             options={conditionalOptions}
             onChange={setQuery_}
             hideMenu={filterMenuOpen}
-            onOpen={() => {
-              setFilterMenuOpen(false);
+            onOpen={(open) => {
+              setFilterMenuOpen(filterMenuOpen ? !open : false);
             }}
             error={error?.message}
             size="small"
