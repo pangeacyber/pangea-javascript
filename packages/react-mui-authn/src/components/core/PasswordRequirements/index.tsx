@@ -50,7 +50,7 @@ const PasswordRequirements: FC<Props> = ({ value, policy }) => {
               )}
               <BodyText
                 sxProps={{
-                  color: error ? "initial" : theme.palette.success.main,
+                  color: error ? "textSecondary" : theme.palette.success.main,
                 }}
               >
                 {item.label}

@@ -27,6 +27,7 @@ import {
   genericTheme,
   pangeaTheme,
   browserflixTheme,
+  darkTheme,
 } from "../src/stories/themes";
 import { getBrandingData, getOptions } from "./utils";
 
@@ -79,6 +80,7 @@ export const decorators = [
       generic: genericTheme,
       pangea: pangeaTheme,
       browserflix: browserflixTheme,
+      dark: darkTheme,
     },
     defaultTheme: "generic",
     Provider: FlowThemeProvider,
