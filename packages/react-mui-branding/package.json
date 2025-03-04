@@ -46,7 +46,7 @@
     "rollup-plugin-polyfill-node": "^0.13.0",
     "rollup-plugin-postcss": "^4.0.2",
     "storybook": "^6.5.16",
-    "typescript": "^5.7.3"
+    "typescript": "^5.8.2"
   },
   "peerDependencies": {
     "@mui/icons-material": "^6.0.0",
