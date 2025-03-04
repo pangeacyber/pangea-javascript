@@ -72,14 +72,14 @@
     "react-dom": "^17.0.2 || ^18.2.0"
   },
   "dependencies": {
-    "@lexical/react": "^0.25.0",
+    "@lexical/react": "^0.26.0",
     "@mui/x-date-pickers": "^7.22.0",
     "@pangeacyber/vanilla-js": "0.1.12",
     "@simplewebauthn/browser": "11.0.0",
     "awesome-phonenumber": "^7.3.0",
     "dayjs": "^1.11.13",
     "formik": "^2.4.6",
-    "lexical": "^0.25.0",
+    "lexical": "^0.26.0",
     "react-google-recaptcha-enterprise": "^1.0.3",
     "yup": "1.5.0"
   },
