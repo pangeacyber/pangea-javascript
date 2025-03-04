@@ -1652,17 +1652,17 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@fontsource/kanit@npm:^5.1.1":
-  version: 5.1.1
-  resolution: "@fontsource/kanit@npm:5.1.1"
-  checksum: 10c0/5a944c764abc070279900f9f7dee1c3d78edc411f5a2ca6ddafab181aa020ad6575a6c99eb048cce193e8a57bbdc0d047e773e67b6bfcff4a5c5fcaa600ffba2
+"@fontsource/kanit@npm:^5.2.0":
+  version: 5.2.5
+  resolution: "@fontsource/kanit@npm:5.2.5"
+  checksum: 10c0/792dd10c63eda0fcf6655b49747fcaf36973d59f91d88de88716eb6391b46e7a277840e139f04f3a8dfd13b0f27e67046f7d5f29eca4c546b2cf45099c35714d
   languageName: node
   linkType: hard
 
-"@fontsource/roboto@npm:^5.1.1":
-  version: 5.1.1
-  resolution: "@fontsource/roboto@npm:5.1.1"
-  checksum: 10c0/913b254f3c64f6ede01c832051819e15d3bc3e6c9f0c778e92f63805d7a66179183ba036aaee994af22b4d3c21340a246c136a6bc6c569fd0e718e5e10e02789
+"@fontsource/roboto@npm:^5.2.0":
+  version: 5.2.5
+  resolution: "@fontsource/roboto@npm:5.2.5"
+  checksum: 10c0/b254985468a3ba78323d66b0725af1b2dc60dbacc82a907c0f67ccc659cc30c52b66bbadd3f2afdea53971ddae60c96e582efbcaee2db52886201c3f56b830a8
   languageName: node
   linkType: hard
 
@@ -2378,8 +2378,8 @@ __metadata:
     "@babel/core": "npm:7.26.9"
     "@emotion/react": "npm:^11.14.0"
     "@emotion/styled": "npm:^11.14.0"
-    "@fontsource/kanit": "npm:^5.1.1"
-    "@fontsource/roboto": "npm:^5.1.1"
+    "@fontsource/kanit": "npm:^5.2.0"
+    "@fontsource/roboto": "npm:^5.2.0"
     "@lexical/react": "npm:^0.25.0"
     "@mui/icons-material": "npm:^6.1.6"
     "@mui/material": "npm:^6.1.6"
