@@ -50,7 +50,7 @@
     "@pangeacyber/react-mui-branding": "^1.0.0",
     "@pangeacyber/react-mui-share-file-viewer": "^1.0.3",
     "@preact/compat": "^18.3.1",
-    "preact": "^10.26.2",
+    "preact": "^10.26.4",
     "styled-components": "^6.1.15"
   },
   "alias": {
