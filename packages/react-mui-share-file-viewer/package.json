@@ -46,7 +46,7 @@
     "@types/react-dom": "^18.3.5",
     "cross-env": "^7.0.3",
     "postcss": "^8.5.3",
-    "publint": "0.2.12",
+    "publint": "0.3.7",
     "react": "17.0.2",
     "react-dom": "17.0.2",
     "rimraf": "6.0.1",
