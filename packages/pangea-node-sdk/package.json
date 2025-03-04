@@ -24,7 +24,7 @@
   "engines": {
     "node": "18 || >=20"
   },
-  "packageManager": "yarn@4.6.0",
+  "packageManager": "yarn@4.7.0",
   "dependencies": {
     "@aws-crypto/crc32c": "^5.2.0",
     "crypto-js": "^4.2.0",
