@@ -61,7 +61,7 @@
     "@types/lodash": "^4.17.16",
     "@types/react": "19.0.10",
     "parcel": "^2.13.3",
-    "publint": "0.2.12",
+    "publint": "0.3.7",
     "react": "19.0.0",
     "typedoc": "^0.27.9",
     "typedoc-plugin-rename-defaults": "^0.7.2",
