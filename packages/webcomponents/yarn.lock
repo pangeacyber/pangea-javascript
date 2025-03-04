@@ -1904,11 +1904,11 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@pangeacyber/react-mui-audit-log-viewer@npm:^1.0.7":
-  version: 1.0.7
-  resolution: "@pangeacyber/react-mui-audit-log-viewer@npm:1.0.7"
+"@pangeacyber/react-mui-audit-log-viewer@npm:^1.0.9":
+  version: 1.0.9
+  resolution: "@pangeacyber/react-mui-audit-log-viewer@npm:1.0.9"
   dependencies:
-    "@pangeacyber/react-mui-shared": "npm:1.0.3"
+    "@pangeacyber/react-mui-shared": "npm:1.0.6"
     crypto-js: "npm:^4.2.0"
     diff: "npm:^5.2.0"
     lodash: "npm:^4.17.21"
@@ -1921,7 +1921,7 @@ __metadata:
     "@mui/material": ^6.0.0
     react: ^17.0.0 || ^18.0.0
     react-dom: ^17.0.0 || ^18.0.0
-  checksum: 10c0/5151c7b52896e4344e045bf82a492cf0db6ffebdcaab4df3b0bf0df67fcc3094c2db9d6d5b218d2c7098e82039f02c4d3e058f649820d81eabfaa76c742fca40
+  checksum: 10c0/9c043532754df409bcbb02629b758fd46e94bc2616aa23b90542825d3441e2286355a1d44943e1b3b5abd8e7a7a135b515740a3138fcbd4a7626ee9110ba4c84
   languageName: node
   linkType: hard
 
@@ -1981,6 +1981,30 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@pangeacyber/react-mui-shared@npm:1.0.6":
+  version: 1.0.6
+  resolution: "@pangeacyber/react-mui-shared@npm:1.0.6"
+  dependencies:
+    "@loadable/component": "npm:^5.16.4"
+    "@mui/x-data-grid": "npm:7.21.0"
+    "@mui/x-date-pickers": "npm:^7.22.1"
+    dayjs: "npm:^1.11.13"
+    formik: "npm:^2.4.6"
+    moment: "npm:^2.30.1"
+    react-beautiful-dnd: "npm:^13.1.1"
+    react-json-view: "npm:^1.21.3"
+    yup: "npm:^1.5.0"
+  peerDependencies:
+    "@emotion/react": ^11.10.4
+    "@emotion/styled": ^11.10.4
+    "@mui/icons-material": ^6.0.0
+    "@mui/material": ^6.0.0
+    react: ^17.0.0 || ^18.0.0
+    react-dom: ^17.0.0 || ^18.0.0
+  checksum: 10c0/20da251da50b9a0640412a72d838be85c47bf67ee0014483a2bb82697c340f6293b13fe54837ebe16902fabaeeb4683a8bf34b45adbefd60826a48be7edb5237
+  languageName: node
+  linkType: hard
+
 "@pangeacyber/webcomponents@workspace:.":
   version: 0.0.0-use.local
   resolution: "@pangeacyber/webcomponents@workspace:."
@@ -1997,7 +2021,7 @@ __metadata:
     "@mui/material": "npm:^6.1.6"
     "@mui/styled-engine-sc": "npm:^6.1.5"
     "@mui/types": "npm:^7.2.18"
-    "@pangeacyber/react-mui-audit-log-viewer": "npm:^1.0.7"
+    "@pangeacyber/react-mui-audit-log-viewer": "npm:^1.0.9"
     "@pangeacyber/react-mui-branding": "npm:^1.0.0"
     "@pangeacyber/react-mui-share-file-viewer": "npm:^1.0.3"
     "@parcel/packager-ts": "npm:2.13.3"
