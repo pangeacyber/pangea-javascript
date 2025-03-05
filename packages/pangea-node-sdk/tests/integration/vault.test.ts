@@ -943,7 +943,7 @@ afterAll(
         ) {
           vault
             .delete(element.id)
-            .then((resp) => {
+            .then(() => {
               count++;
             })
             .catch((e) => {

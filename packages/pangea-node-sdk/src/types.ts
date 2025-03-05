@@ -346,9 +346,6 @@ export namespace AIGuard {
      */
     debug?: boolean;
 
-    /** Short string hint for the LLM Provider information */
-    llm_info?: string;
-
     /** Additional fields to include in activity log */
     log_fields?: LogFields;
   }
