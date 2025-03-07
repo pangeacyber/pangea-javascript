@@ -3374,10 +3374,10 @@ available-typed-arrays@^1.0.7:
   dependencies:
     possible-typed-array-names "^1.0.0"
 
-awesome-phonenumber@^7.3.0:
-  version "7.3.0"
-  resolved "https://registry.yarnpkg.com/awesome-phonenumber/-/awesome-phonenumber-7.3.0.tgz#481552ff5d6907f1b85f9a8741be5737f8c3444f"
-  integrity sha512-TqJvLThV41da+03MoUTCM3U1iXQf03xwZBQ2LDOOgcR0F1D4zC5lqr+884JDJTA7jeQPwlVhlA+fwpT1QcKrbg==
+awesome-phonenumber@^7.4.0:
+  version "7.4.0"
+  resolved "https://registry.yarnpkg.com/awesome-phonenumber/-/awesome-phonenumber-7.4.0.tgz#4419d8607d17e4a50463a935b3a784c1fc8e0863"
+  integrity sha512-fRtS46x3DyzvnJHS+QCi6jNjdRAoIbZMgfUhjTwc6R/4CyYWBEH+oq4+GZC5SihHIz9LDcGGF4fs/VbMj95VCw==
 
 axios@^1.8.1:
   version "1.8.1"
