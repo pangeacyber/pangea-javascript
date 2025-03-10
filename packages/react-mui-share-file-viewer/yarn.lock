@@ -3379,7 +3379,7 @@ awesome-phonenumber@^7.4.0:
   resolved "https://registry.yarnpkg.com/awesome-phonenumber/-/awesome-phonenumber-7.4.0.tgz#4419d8607d17e4a50463a935b3a784c1fc8e0863"
   integrity sha512-fRtS46x3DyzvnJHS+QCi6jNjdRAoIbZMgfUhjTwc6R/4CyYWBEH+oq4+GZC5SihHIz9LDcGGF4fs/VbMj95VCw==
 
-axios@^1.8.1:
+axios@^1.8.2:
   version "1.8.2"
   resolved "https://registry.yarnpkg.com/axios/-/axios-1.8.2.tgz#fabe06e241dfe83071d4edfbcaa7b1c3a40f7979"
   integrity sha512-ls4GYBm5aig9vWx8AWDSGLpnpDQRtWAfrjU+EuytuODrFBkqesN2RkOQCBzrA1RQNHw1SmRMSDDDSwzNAYQ6Rg==
