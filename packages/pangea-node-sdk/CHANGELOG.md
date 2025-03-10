@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## Unreleased
 
+### Changed
+
+- Redact: corrected `redaction_method_overrides` types.
+
 ### Removed
 
 - AI Guard: `llm_info` and `llm_input`.
