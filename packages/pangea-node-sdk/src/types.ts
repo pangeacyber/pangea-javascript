@@ -423,21 +423,82 @@ export namespace PromptGuard {
 
 export namespace Redact {
   export interface TextResult {
+    /** The redacted text */
     redacted_text?: string;
+
+    /** Number of redactions present in the text */
     count: number;
+
+    /**
+     * If an FPE redaction method returned results, this will be the context
+     * passed to unredact.
+     */
+    fpe_context?: string;
   }
 
   export interface StructuredResult {
+    /** The redacted data */
     redacted_data?: object;
+
+    /** Number of redactions present in the data */
     count: number;
+
+    /**
+     * If an FPE redaction method returned results, this will be the context
+     * passed to unredact.
+     */
+    fpe_context?: string;
   }
 
   export interface Options {
+    /**
+     * Setting this value to true will provide a detailed analysis of the
+     * redacted data and the rules that caused redaction
+     */
     debug?: boolean;
+
+    /** An array of redact rule short names */
     rules?: string[];
+
+    /** An array of redact ruleset short names */
     rulesets?: string[];
+
+    /**
+     * Setting this value to false will omit the redacted result only returning
+     * count
+     */
     return_result?: boolean;
-    redaction_method_overrides?: RedactionMethodOverrides;
+
+    /**
+     * This field allows users to specify the redaction method per rule and its
+     * various parameters.
+     */
+    redaction_method_overrides?: {
+      [rule: string]:
+        | { redaction_type: "mask" | "detect_only" }
+        | { redaction_type: "replacement"; redaction_value: string }
+        | { redaction_type: "partial_masking"; partial_masking: PartialMasking }
+        | {
+            redaction_type: "hash";
+            hash?: {
+              /** The type of hashing algorithm */
+              hash_type: "md5" | "sha256";
+            };
+          }
+        | {
+            redaction_type: "fpe";
+            fpe_alphabet?:
+              | "numeric"
+              | "alphalower"
+              | "alphaupper"
+              | "alpha"
+              | "alphanumericlower"
+              | "alphanumericupper"
+              | "alphanumeric";
+            fpe_tweak_vault_secret_id?: string;
+            fpe_tweak?: string;
+          };
+    };
     vault_parameters?: VaultParameters;
 
     /** Is this redact call going to be used in an LLM request? */
@@ -466,21 +527,6 @@ export namespace Redact {
     data: Object;
   }
 
-  export enum RedactType {
-    MASK = "mask",
-    PARTIAL_MASKING = "partial_masking",
-    REPLACEMENT = "replacement",
-    DETECT_ONLY = "detect_only",
-    HASH = "hash",
-    FPE = "fpe",
-  }
-
-  export enum FPEAlphabet {
-    NUMERIC = "numeric",
-    ALPHANUMERICLOWER = "alphanumericlower",
-    ALPHANUMERIC = "alphanumeric",
-  }
-
   export enum MaskingType {
     MASK = "mask",
     UNMASK = "unmask",
@@ -496,20 +542,16 @@ export namespace Redact {
     masking_char?: string[];
   }
 
-  export interface RedactionMethodOverrides {
-    redaction_type: RedactType;
-    hash?: object;
-    fpe_alphabet?: FPEAlphabet;
-    partial_masking?: PartialMasking;
-    redaction_value?: string;
-  }
-
   export interface UnredactRequest<O = object> {
+    /** Data to unredact */
     redacted_data: O;
+
+    /** FPE context used to decrypt and unredact data */
     fpe_context?: string;
   }
 
   export interface UnredactResult<O = object> {
+    /** The unredacted data */
     data: O;
   }
 }
