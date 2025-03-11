@@ -321,6 +321,7 @@ export namespace AIGuard {
   }
 
   export interface PIIEntity {
+    /** The action taken on this Entity */
     action: string;
     start_pos?: number;
     type: string;
@@ -328,9 +329,31 @@ export namespace AIGuard {
   }
 
   export interface Detector<T> {
-    detected: boolean;
+    detected: boolean | null;
     data: T | null;
   }
+
+  // This is named "prompt injection" in the API spec even though it is also
+  // used for many other detectors.
+  export type PromptInjectionAction = "report" | "block";
+
+  export type MaliciousEntityAction =
+    | "report"
+    | "defang"
+    | "disabled"
+    | "block";
+
+  // This is named "PII entity" in the API spec even though it is also used for
+  // the secrets detector.
+  export type PiiEntityAction =
+    | "disabled"
+    | "report"
+    | "block"
+    | "mask"
+    | "partial_masking"
+    | "replacement"
+    | "hash"
+    | "fpe";
 
   export interface TextGuardRequest {
     /**
@@ -346,6 +369,85 @@ export namespace AIGuard {
      */
     debug?: boolean;
 
+    overrides?: {
+      code_detection?: { disabled?: boolean; action?: "report" | "block" };
+      language_detection?:
+        | { disabled: boolean }
+        | { allow: string[] }
+        | { block: string[] }
+        | { report: string[] };
+      prompt_injection?: { disabled?: boolean; action?: PromptInjectionAction };
+      selfharm?: { disabled?: boolean; action?: PromptInjectionAction };
+      gibberish?: { disabled?: boolean; action?: PromptInjectionAction };
+      roleplay?: { disabled?: boolean; action?: PromptInjectionAction };
+      sentiment?: { disabled?: boolean; action?: PromptInjectionAction };
+      malicious_entity?: {
+        disabled?: boolean;
+        ip_address?: MaliciousEntityAction;
+        url?: MaliciousEntityAction;
+        domain?: MaliciousEntityAction;
+      };
+      pii_entity?: {
+        disabled?: boolean;
+        email_address?: PiiEntityAction;
+        nrp?: PiiEntityAction;
+        location?: PiiEntityAction;
+        person?: PiiEntityAction;
+        phone_number?: PiiEntityAction;
+        date_time?: PiiEntityAction;
+        ip_address?: PiiEntityAction;
+        url?: PiiEntityAction;
+        money?: PiiEntityAction;
+        credit_card?: PiiEntityAction;
+        crypto?: PiiEntityAction;
+        iban_code?: PiiEntityAction;
+        us_bank_number?: PiiEntityAction;
+        nif?: PiiEntityAction;
+        "fin/nric"?: PiiEntityAction;
+        au_abn?: PiiEntityAction;
+        au_acn?: PiiEntityAction;
+        au_tfn?: PiiEntityAction;
+        medical_license?: PiiEntityAction;
+        uk_nhs?: PiiEntityAction;
+        au_medicare?: PiiEntityAction;
+        us_drivers_license?: PiiEntityAction;
+        us_itin?: PiiEntityAction;
+        us_passport?: PiiEntityAction;
+        us_ssn?: PiiEntityAction;
+      };
+      secrets_detection?: {
+        disabled?: boolean;
+        slack_token?: PiiEntityAction;
+        rsa_private_key?: PiiEntityAction;
+        ssh_dsa_private_key?: PiiEntityAction;
+        ssh_ec_private_key?: PiiEntityAction;
+        pgp_private_key_block?: PiiEntityAction;
+        amazon_aws_access_key_id?: PiiEntityAction;
+        amazon_aws_secret_access_key?: PiiEntityAction;
+        amazon_mws_auth_token?: PiiEntityAction;
+        facebook_access_token?: PiiEntityAction;
+        github_access_token?: PiiEntityAction;
+        jwt_token?: PiiEntityAction;
+        google_api_key?: PiiEntityAction;
+        google_cloud_platform_api_key?: PiiEntityAction;
+        google_drive_api_key?: PiiEntityAction;
+        google_cloud_platform_service_account?: PiiEntityAction;
+        google_gmail_api_key?: PiiEntityAction;
+        youtube_api_key?: PiiEntityAction;
+        mailchimp_api_key?: PiiEntityAction;
+        mailgun_api_key?: PiiEntityAction;
+        basic_auth?: PiiEntityAction;
+        picatic_api_key?: PiiEntityAction;
+        slack_webhook?: PiiEntityAction;
+        stripe_api_key?: PiiEntityAction;
+        stripe_restricted_api_key?: PiiEntityAction;
+        square_access_token?: PiiEntityAction;
+        square_oauth_secret?: PiiEntityAction;
+        twilio_api_key?: PiiEntityAction;
+        pangea_token?: PiiEntityAction;
+      };
+    };
+
     /** Additional fields to include in activity log */
     log_fields?: LogFields;
   }
@@ -354,11 +456,20 @@ export namespace AIGuard {
     /** Result of the recipe analyzing and input prompt. */
     detectors: {
       prompt_injection: Detector<{
+        /** The action taken by this Detector */
         action: string;
+
+        /** Triggered prompt injection analyzers. */
         analyzer_responses: { analyzer: string; confidence: number }[];
       }>;
-      pii_entity?: Detector<{ entities: PIIEntity[] }>;
-      malicious_entity?: Detector<{ entities: MaliciousEntity[] }>;
+      pii_entity?: Detector<{
+        /** Detected redaction rules. */
+        entities: PIIEntity[];
+      }>;
+      malicious_entity?: Detector<{
+        /** Detected harmful items. */
+        entities: MaliciousEntity[];
+      }>;
     };
 
     /** Updated prompt text, if applicable. */
@@ -366,6 +477,18 @@ export namespace AIGuard {
 
     /** Updated structured prompt, if applicable. */
     prompt_messages?: T;
+
+    /** Whether or not the prompt triggered a block detection. */
+    blocked: boolean;
+
+    /** The Recipe that was used. */
+    recipe: string;
+
+    /**
+     * If an FPE redaction method returned results, this will be the context
+     * passed to unredact.
+     */
+    fpe_context?: string;
   }
 }
 
