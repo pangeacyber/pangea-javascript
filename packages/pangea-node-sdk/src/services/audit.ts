@@ -50,10 +50,6 @@ class AuditService extends BaseService {
     tenantID?: string,
     configID?: string
   ) {
-    // FIXME: Temporary check to still support configID from PangeaConfig
-    if (!configID && config.configID) {
-      configID = config.configID;
-    }
     super("audit", token, config, configID);
     this.publishedRoots = {};
     this.publishedRoots = {};
