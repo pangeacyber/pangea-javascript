@@ -17,6 +17,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Removed
 
+- Deprecated APIs like `PangeaConfig.configID`, `Vault.AsymmetricAlgorithm.RSA`,
+  and `Vault.SymmetricAlgorithm.AES`.
 - AI Guard: `llm_info` and `llm_input`.
 
 ## 4.4.0 - 2025-02-16

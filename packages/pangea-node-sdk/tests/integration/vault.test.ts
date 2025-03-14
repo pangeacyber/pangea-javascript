@@ -44,7 +44,7 @@ const KEY_ED25519 = {
 };
 
 const KEY_AES = {
-  algorithm: Vault.SymmetricAlgorithm.AES,
+  algorithm: Vault.SymmetricAlgorithm.AES128_CFB,
   key: "oILlp2FUPHWiaqFXl4/1ww==",
 };
 

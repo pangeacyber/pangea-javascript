@@ -16,9 +16,6 @@ class PangeaConfig {
    */
   environment: ConfigEnv = ConfigEnv.PRODUCTION;
 
-  /** Config ID for multi-config projects. */
-  configID?: string;
-
   /**
    * Whether or not to perform requests via plain HTTP, as opposed to secure
    * HTTPS.
