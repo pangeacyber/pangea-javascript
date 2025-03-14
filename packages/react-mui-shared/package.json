@@ -16,7 +16,7 @@
   },
   "packageManager": "yarn@1.22.22",
   "devDependencies": {
-    "@babel/core": "^7.26.9",
+    "@babel/core": "^7.26.10",
     "@babel/preset-env": "^7.26.9",
     "@babel/preset-react": "^7.26.3",
     "@emotion/react": "^11.14.0",
