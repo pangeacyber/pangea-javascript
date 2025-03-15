@@ -40,7 +40,7 @@
   },
   "dependencies": {
     "@pangeacyber/vanilla-js": "^0.1.12",
-    "jose": "^6.0.8",
+    "jose": "^6.0.10",
     "lodash": "^4.17.21"
   },
   "peerDependencies": {
