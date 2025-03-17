@@ -35,7 +35,7 @@
     "happy-dom": "17.4.3",
     "start-server-and-test": "2.0.10",
     "typescript": "5.8.2",
-    "vite": "6.2.1",
+    "vite": "6.2.2",
     "vitest": "3.0.8"
   }
 }
