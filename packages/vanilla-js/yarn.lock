@@ -361,7 +361,7 @@ __metadata:
     rollup-plugin-polyfill-node: "npm:^0.13.0"
     tslib: "npm:^2.8.1"
     typedoc: "npm:^0.27.9"
-    typedoc-plugin-rename-defaults: "npm:^0.7.2"
+    typedoc-plugin-rename-defaults: "npm:^0.7.3"
     typescript: "npm:^5.8.2"
   languageName: unknown
   linkType: soft
@@ -2043,14 +2043,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"typedoc-plugin-rename-defaults@npm:^0.7.2":
-  version: 0.7.2
-  resolution: "typedoc-plugin-rename-defaults@npm:0.7.2"
+"typedoc-plugin-rename-defaults@npm:^0.7.3":
+  version: 0.7.3
+  resolution: "typedoc-plugin-rename-defaults@npm:0.7.3"
   dependencies:
     camelcase: "npm:^8.0.0"
   peerDependencies:
-    typedoc: ">=0.22.x <0.28.x"
-  checksum: 10c0/f50401df7d89f3d8c46570a0c15f2a208e3879eff8becd775e0d9eee2754fd8cd2fb0fd557be64232e9b93d4aed3967737556d479c93e6457fd6f1dc9b326d1d
+    typedoc: ">=0.22.x <0.29.x"
+  checksum: 10c0/964c9a008fd5ac9ae380891b3414eef46c99ec47ee27aa6e7d73ee9c32e0cf346ac2d7a42fe5c792b4e5cc2a0fca8862d425ccfc4d2ef44085b3d1df1a7b2b23
   languageName: node
   linkType: hard
 
