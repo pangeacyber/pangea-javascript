@@ -8,7 +8,7 @@ import { jest, it, expect } from "@jest/globals";
 import { PangeaErrors } from "../../src/errors.js";
 import {
   TestEnvironment,
-  getTestDomain,
+  getTestURLTemplate,
   getTestToken,
   getVaultSignatureTestToken,
   getCustomSchemaTestToken,
@@ -57,9 +57,9 @@ const tokenVault = getVaultSignatureTestToken(environment);
 const tokenCustomSchema = getCustomSchemaTestToken(environment);
 const tokenGeneral = getTestToken(environment);
 const tokenMultiConfig = getMultiConfigTestToken(environment);
-const domain = getTestDomain(environment);
+const urlTemplate = getTestURLTemplate(environment);
 const config = new PangeaConfig({
-  domain: domain,
+  baseURLTemplate: urlTemplate,
   customUserAgent: "sdk-test",
 });
 const auditGeneral = new AuditService(tokenGeneral, config);
@@ -877,7 +877,7 @@ it("fail bad auth token", async () => {
 it("log multi config 1. no verbose", async () => {
   const configID = getConfigID(environment, "audit", 1);
   const config = new PangeaConfig({
-    domain: domain,
+    baseURLTemplate: urlTemplate,
     customUserAgent: "sdk-test",
   });
   const audit = new AuditService(tokenMultiConfig, config, undefined, configID);
@@ -902,7 +902,7 @@ it("log multi config 1. no verbose", async () => {
 it("log multi config 2. no verbose", async () => {
   const configID = getConfigID(environment, "audit", 2);
   const config = new PangeaConfig({
-    domain: domain,
+    baseURLTemplate: urlTemplate,
     customUserAgent: "sdk-test",
   });
   const audit = new AuditService(tokenMultiConfig, config, undefined, configID);
@@ -926,7 +926,7 @@ it("log multi config 2. no verbose", async () => {
 
 it("log multi config token, without config id", async () => {
   const config = new PangeaConfig({
-    domain: domain,
+    baseURLTemplate: urlTemplate,
     customUserAgent: "sdk-test",
   });
   const audit = new AuditService(tokenMultiConfig, config);
@@ -1070,7 +1070,7 @@ it("log stream", async () => {
   };
   const configId = getConfigID(environment, "audit", 3);
   const config = new PangeaConfig({
-    domain: domain,
+    baseURLTemplate: urlTemplate,
     customUserAgent: "sdk-test",
   });
   const audit = new AuditService(tokenMultiConfig, config, undefined, configId);

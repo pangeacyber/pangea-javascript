@@ -6,7 +6,7 @@ import { PangeaConfig, VaultService, Vault } from "pangea-node-sdk";
 
 // Set up a Pangea Vault client.
 const token = process.env.PANGEA_VAULT_TOKEN;
-const config = new PangeaConfig({ domain: process.env.PANGEA_DOMAIN });
+const config = new PangeaConfig({ baseURLTemplate: process.env.PANGEA_URL_TEMPLATE });
 const vault = new VaultService(token, config);
 
 (async () => {

@@ -17,7 +17,7 @@ class EmbargoService extends BaseService {
    *
    * @example
    * ```js
-   * const config = new PangeaConfig({ domain: "pangea_domain" });
+   * const config = new PangeaConfig({ baseURLTemplate: "https://{SERVICE_NAME}/aws.us.pangea.cloud" });
    * const embargo = new EmbargoService("pangea_token", config);
    * ```
    *

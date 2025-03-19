@@ -4,7 +4,7 @@ import { PangeaConfig, RedactService, PangeaErrors } from "pangea-node-sdk";
 
 const token = process.env.PANGEA_REDACT_MULTICONFIG_TOKEN;
 const configId = process.env.PANGEA_REDACT_CONFIG_ID;
-const config = new PangeaConfig({ domain: process.env.PANGEA_DOMAIN });
+const config = new PangeaConfig({ baseURLTemplate: process.env.PANGEA_URL_TEMPLATE });
 
 // Set configId in service constructor
 const redact = new RedactService(token, config, { config_id: configId });

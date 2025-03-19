@@ -4,7 +4,7 @@ import { PangeaConfig, ShareService } from "pangea-node-sdk";
 
 // Load Pangea token and domain from environment variables
 const token = process.env.PANGEA_SHARE_TOKEN;
-const config = new PangeaConfig({ domain: process.env.PANGEA_DOMAIN });
+const config = new PangeaConfig({ baseURLTemplate: process.env.PANGEA_URL_TEMPLATE });
 
 // Create Share client
 const client = new ShareService(token, config);

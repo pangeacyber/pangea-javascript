@@ -9,7 +9,7 @@ import {
   kemDecryptExportResult,
 } from "../../src/utils/crypto.js";
 import {
-  getTestDomain,
+  getTestURLTemplate,
   getTestToken,
   strToB64,
   TestEnvironment,
@@ -18,9 +18,9 @@ import { loadTestEnvironment, delay } from "./utils.js";
 
 const environment = loadTestEnvironment("vault", TestEnvironment.LIVE);
 const token = getTestToken(environment);
-const testHost = getTestDomain(environment);
+const urlTemplate = getTestURLTemplate(environment);
 const config = new PangeaConfig({
-  domain: testHost,
+  baseURLTemplate: urlTemplate,
   customUserAgent: "sdk-test",
 });
 const vault = new VaultService(token, config);

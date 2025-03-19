@@ -4,7 +4,7 @@ import { it, expect, jest } from "@jest/globals";
 import { PangeaErrors } from "../../src/errors.js";
 import {
   TestEnvironment,
-  getTestDomain,
+  getTestURLTemplate,
   getTestToken,
 } from "../../src/utils/utils.js";
 import { AuthN } from "../../src/types.js";
@@ -12,9 +12,9 @@ import { loadTestEnvironment } from "./utils.js";
 
 const environment = loadTestEnvironment("authn", TestEnvironment.LIVE);
 const token = getTestToken(environment);
-const testHost = getTestDomain(environment);
+const urlTemplate = getTestURLTemplate(environment);
 
-const config = new PangeaConfig({ domain: testHost });
+const config = new PangeaConfig({ baseURLTemplate: urlTemplate });
 const authn = new AuthNService(token, config);
 
 const TIME = Math.round(Date.now() / 1000);

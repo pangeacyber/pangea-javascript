@@ -4,7 +4,7 @@ import {
   TestEnvironment,
   getCustomSchemaTestToken,
   getFileUploadParams,
-  getTestDomain,
+  getTestURLTemplate,
 } from "../../src/utils/utils.js";
 import {
   SanitizeService,
@@ -19,9 +19,9 @@ const environment = loadTestEnvironment("sanitize", TestEnvironment.LIVE);
 // The Sanitize config in the regular org was obsoleted by a breaking change,
 // so the custom schema org is used instead.
 const token = getCustomSchemaTestToken(environment);
-const testHost = getTestDomain(environment);
+const urlTemplate = getTestURLTemplate(environment);
 const config = new PangeaConfig({
-  domain: testHost,
+  baseURLTemplate: urlTemplate,
   customUserAgent: "sdk-test",
   pollResultTimeoutMs: 180000,
 });

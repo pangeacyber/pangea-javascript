@@ -6,7 +6,7 @@ import {
   PangeaErrors,
 } from "pangea-node-sdk";
 
-const domain = process.env.PANGEA_DOMAIN;
+const urlTemplate = process.env.PANGEA_URL_TEMPLATE;
 const token = process.env.PANGEA_INTEL_TOKEN;
 const config = new PangeaConfig({
   domain: domain,

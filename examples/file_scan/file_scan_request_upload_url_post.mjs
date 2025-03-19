@@ -9,7 +9,7 @@ import {
   FileScanUploader,
 } from "pangea-node-sdk";
 
-const domain = process.env.PANGEA_DOMAIN;
+const urlTemplate = process.env.PANGEA_URL_TEMPLATE;
 const token = process.env.PANGEA_FILE_SCAN_TOKEN;
 
 // To enable sync mode, set queuedRetryEnabled to true and set a timeout

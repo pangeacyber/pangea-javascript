@@ -23,7 +23,7 @@ export class SanitizeService extends BaseService {
    *
    * @example
    * ```js
-   * const config = new PangeaConfig({ domain: "pangea_domain" });
+   * const config = new PangeaConfig({ baseURLTemplate: "https://{SERVICE_NAME}/aws.us.pangea.cloud" });
    * const sanitize = new SanitizeService("pangea_token", config);
    * ```
    *

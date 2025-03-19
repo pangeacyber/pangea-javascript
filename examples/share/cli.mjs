@@ -79,7 +79,7 @@ const main = defineCommand({
     const share = new ShareService(
       // @ts-expect-error
       process.env.PANGEA_SHARE_TOKEN,
-      new PangeaConfig({ domain: process.env.PANGEA_DOMAIN })
+      new PangeaConfig({ baseURLTemplate: process.env.PANGEA_URL_TEMPLATE })
     );
 
     // Upload files.

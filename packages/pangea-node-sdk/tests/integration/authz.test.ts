@@ -3,7 +3,7 @@ import AuthZService from "../../src/services/authz.js";
 import { it, expect, jest } from "@jest/globals";
 import {
   TestEnvironment,
-  getTestDomain,
+  getTestURLTemplate,
   getTestToken,
 } from "../../src/utils/utils.js";
 import { loadTestEnvironment } from "./utils.js";
@@ -12,9 +12,9 @@ jest.setTimeout(30000);
 
 const environment = loadTestEnvironment("authz", TestEnvironment.LIVE);
 const token = getTestToken(environment);
-const domain = getTestDomain(environment);
+const urlTemplate = getTestURLTemplate(environment);
 const config = new PangeaConfig({
-  domain: domain,
+  baseURLTemplate: urlTemplate,
   customUserAgent: "sdk-test",
 });
 const authz = new AuthZService(token, config);

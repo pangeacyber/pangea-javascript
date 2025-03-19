@@ -93,8 +93,8 @@ function loadEnvVar(name: string) {
   return value;
 }
 
-export function getTestDomain(environment: string) {
-  const name = "PANGEA_INTEGRATION_DOMAIN_" + environment;
+export function getTestURLTemplate(environment: string) {
+  const name = "PANGEA_INTEGRATION_URL_TEMPLATE_" + environment;
   return loadEnvVar(name);
 }
 

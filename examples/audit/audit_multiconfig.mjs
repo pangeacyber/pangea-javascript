@@ -4,7 +4,7 @@ import { PangeaConfig, AuditService, PangeaErrors } from "pangea-node-sdk";
 
 const token = process.env.PANGEA_AUDIT_MULTICONFIG_TOKEN;
 const configId = process.env.PANGEA_AUDIT_CONFIG_ID;
-const config = new PangeaConfig({ domain: process.env.PANGEA_DOMAIN });
+const config = new PangeaConfig({ baseURLTemplate: process.env.PANGEA_URL_TEMPLATE });
 
 // Set configId in service constructor
 const audit = new AuditService(token, config, undefined, configId);

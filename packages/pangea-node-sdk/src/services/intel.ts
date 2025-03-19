@@ -23,9 +23,9 @@ const hashType = "sha256";
  * Examples:
  *    import { PangeaConfig, FileIntelService } from "node-pangea";
  *
- *    const domain = process.env.PANGEA_DOMAIN;
+ *    const urlTemplate = process.env.PANGEA_URL_TEMPLATE;
  *    const token = process.env.PANGEA_TOKEN;
- *    const config = new PangeaConfig({ domain });
+ *    const config = new PangeaConfig({ baseURLTemplate: urlTemplate });
  *
  *    const fileIntel = new FileIntelService(token, config);
  *    const options = { provider: "reversinglabs", verbose: true };
@@ -42,7 +42,7 @@ export class FileIntelService extends BaseService {
    *
    * @example
    * ```js
-   * const config = new PangeaConfig({ domain: "pangea_domain" });
+   * const config = new PangeaConfig({ baseURLTemplate: "https://{SERVICE_NAME}/aws.us.pangea.cloud" });
    * const fileIntel = new FileIntelService("pangea_token", config);
    * ```
    *
@@ -217,9 +217,9 @@ export class FileIntelService extends BaseService {
  * Examples:
  *  import { PangeaConfig, DomainIntelService } from "node-pangea";
  *
- *  const domain = process.env.PANGEA_DOMAIN;
+ *  const urlTemplate = process.env.PANGEA_URL_TEMPLATE;
  *  const token = process.env.PANGEA_TOKEN;
- *  const config = new PangeaConfig({ domain });
+ *  const config = new PangeaConfig({ baseURLTemplate: urlTemplate });
  *
  *  const domainIntel = new DomainIntelService(token, config);
  *  const options = { provider: "domaintools", verbose: true };
@@ -236,7 +236,7 @@ export class DomainIntelService extends BaseService {
    *
    * @example
    * ```js
-   * const config = new PangeaConfig({ domain: "pangea_domain" });
+   * const config = new PangeaConfig({ baseURLTemplate: "https://{SERVICE_NAME}/aws.us.pangea.cloud" });
    * const domainIntel = new DomainIntelService("pangea_token", config);
    * ```
    *
@@ -364,9 +364,9 @@ export class DomainIntelService extends BaseService {
  * Examples:
  *    import { PangeaConfig, IPIntelService } from "node-pangea";
  *
- *    const domain = process.env.PANGEA_DOMAIN;
+ *    const urlTemplate = process.env.PANGEA_URL_TEMPLATE;
  *    const token = process.env.PANGEA_IP_INTEL_TOKEN;
- *    const config = new PangeaConfig({ domain });
+ *    const config = new PangeaConfig({ baseURLTemplate: urlTemplate });
  *
  *    const ipIntel = new IPIntelService(token, config);
  *    const options = { provider: "crowdstrike", verbose: true };
@@ -383,7 +383,7 @@ export class IPIntelService extends BaseService {
    *
    * @example
    * ```js
-   * const config = new PangeaConfig({ domain: "pangea_domain" });
+   * const config = new PangeaConfig({ baseURLTemplate: "https://{SERVICE_NAME}/aws.us.pangea.cloud" });
    * const ipIntel = new IPIntelService("pangea_token", config);
    * ```
    *
@@ -768,9 +768,9 @@ export class IPIntelService extends BaseService {
  * Examples:
  *    import { PangeaConfig, URLIntelService } from "pangea-node-sdk";
  *
- *    const domain = process.env.PANGEA_DOMAIN;
+ *    const urlTemplate = process.env.PANGEA_URL_TEMPLATE;
  *    const token = process.env.PANGEA_TOKEN;
- *    const config = new PangeaConfig({ domain });
+ *    const config = new PangeaConfig({ baseURLTemplate: urlTemplate });
  *
  *    const urlIntel = new URLIntelService(token, config);
  *    const options = { provider: "crowdstrike", verbose: true };
@@ -787,7 +787,7 @@ export class URLIntelService extends BaseService {
    *
    * @example
    * ```js
-   * const config = new PangeaConfig({ domain: "pangea_domain" });
+   * const config = new PangeaConfig({ baseURLTemplate: "https://{SERVICE_NAME}/aws.us.pangea.cloud" });
    * const urlIntel = new URLIntelService("pangea_token", config);
    * ```
    *
@@ -886,9 +886,9 @@ export class URLIntelService extends BaseService {
  * Examples:
  *    import { PangeaConfig, UserIntelService } from "pangea-node-sdk";
  *
- *    const domain = process.env.PANGEA_DOMAIN;
+ *    const urlTemplate = process.env.PANGEA_URL_TEMPLATE;
  *    const token = process.env.PANGEA_TOKEN;
- *    const config = new PangeaConfig({ domain });
+ *    const config = new PangeaConfig({ baseURLTemplate: urlTemplate });
  *
  *    const userIntel = new UserIntelService(token, config);
  *    const options = { provider: "spycloud", verbose: true };
@@ -904,7 +904,7 @@ export class UserIntelService extends BaseService {
    *
    * @example
    * ```js
-   * const config = new PangeaConfig({ domain: "pangea_domain" });
+   * const config = new PangeaConfig({ baseURLTemplate: "https://{SERVICE_NAME}/aws.us.pangea.cloud" });
    * const userIntel = new UserIntelService("pangea_token", config);
    * ```
    *

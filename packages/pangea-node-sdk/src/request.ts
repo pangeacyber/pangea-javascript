@@ -8,13 +8,7 @@ import promiseRetry from "promise-retry";
 import PangeaConfig, { version } from "./config.js";
 import { PangeaErrors } from "./errors.js";
 import { AttachedFile, PangeaResponse } from "./response.js";
-import {
-  ConfigEnv,
-  FileData,
-  FileItems,
-  PostOptions,
-  TransferMethod,
-} from "./types.js";
+import { FileData, FileItems, PostOptions, TransferMethod } from "./types.js";
 import { getHeaderField } from "./utils/multipart.js";
 
 const delay = async (ms: number) =>
@@ -34,6 +28,7 @@ class PangeaRequest {
   private extraHeaders: Object;
   private configID?: string;
   private userAgent: string = "";
+  private baseURL: string;
 
   constructor(
     serviceName: string,
@@ -50,6 +45,10 @@ class PangeaRequest {
     this.setCustomUserAgent(config.customUserAgent);
     this.extraHeaders = {};
     this.configID = configID;
+    this.baseURL = this.config.baseURLTemplate.replace(
+      "{SERVICE_NAME}",
+      serviceName
+    );
   }
 
   private checkConfigID(data: Request) {
@@ -506,23 +505,7 @@ class PangeaRequest {
   }
 
   public getUrl(path: string): string {
-    let url: string;
-    if (
-      this.config.domain.startsWith("http://") ||
-      this.config.domain.startsWith("https://")
-    ) {
-      url = `${this.config.domain}/${path}`;
-    } else {
-      const schema = this.config?.insecure === true ? "http://" : "https://";
-
-      if (this.config?.environment === ConfigEnv.LOCAL) {
-        url = `${schema}${this.config.domain}/${path}`;
-      } else {
-        url = `${schema}${this.serviceName}.${this.config.domain}/${path}`;
-      }
-    }
-
-    return url;
+    return new URL(path, this.baseURL).toString();
   }
 
   private getHeaders(): Record<string, string> {

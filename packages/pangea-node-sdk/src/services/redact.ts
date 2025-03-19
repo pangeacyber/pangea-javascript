@@ -21,7 +21,7 @@ class RedactService extends BaseService {
    *
    * @example
    * ```js
-   * const config = new PangeaConfig({ domain: "pangea_domain" });
+   * const config = new PangeaConfig({ baseURLTemplate: "https://{SERVICE_NAME}/aws.us.pangea.cloud" });
    * const redact = new RedactService("pangea_token", config);
    * ```
    *

@@ -10,6 +10,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 
 - AI Guard: detector overrides.
+- PangeaConfig: `baseURLTemplate` in replace of `domain` and `environment`.
 
 ### Changed
 
@@ -18,6 +19,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Removed
 
 - AI Guard: `llm_info` and `llm_input`.
+- PangeaConfig: `domain` and `environment`. Use `baseURLTemplate` instead.
 
 ## 4.4.0 - 2025-02-16
 
