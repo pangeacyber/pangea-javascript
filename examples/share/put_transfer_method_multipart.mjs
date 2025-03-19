@@ -5,7 +5,9 @@ import * as fs from "fs";
 
 // Load Pangea token and domain from environment variables
 const token = process.env.PANGEA_SHARE_TOKEN;
-const config = new PangeaConfig({ baseURLTemplate: process.env.PANGEA_URL_TEMPLATE });
+const config = new PangeaConfig({
+  baseURLTemplate: process.env.PANGEA_URL_TEMPLATE,
+});
 
 // Create Share client
 const client = new ShareService(token, config);

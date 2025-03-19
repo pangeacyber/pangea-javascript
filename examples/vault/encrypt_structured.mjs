@@ -5,7 +5,9 @@ import process from "node:process";
 import { PangeaConfig, VaultService, Vault } from "pangea-node-sdk";
 
 const token = process.env.PANGEA_VAULT_TOKEN;
-const config = new PangeaConfig({ baseURLTemplate: process.env.PANGEA_URL_TEMPLATE });
+const config = new PangeaConfig({
+  baseURLTemplate: process.env.PANGEA_URL_TEMPLATE,
+});
 const vault = new VaultService(token, config);
 
 (async () => {

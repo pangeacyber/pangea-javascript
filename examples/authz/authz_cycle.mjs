@@ -4,7 +4,9 @@ import { PangeaConfig, AuthZService } from "pangea-node-sdk";
 
 // Load Pangea token and domain from environment variables
 const token = process.env.PANGEA_AUTHZ_TOKEN;
-const config = new PangeaConfig({ baseURLTemplate: process.env.PANGEA_URL_TEMPLATE });
+const config = new PangeaConfig({
+  baseURLTemplate: process.env.PANGEA_URL_TEMPLATE,
+});
 
 // Create AuthZ client
 const authz = new AuthZService(token, config);

@@ -3,7 +3,9 @@
 import { PangeaConfig, RedactService } from "pangea-node-sdk";
 
 const token = process.env.PANGEA_REDACT_TOKEN;
-const config = new PangeaConfig({ baseURLTemplate: process.env.PANGEA_URL_TEMPLATE });
+const config = new PangeaConfig({
+  baseURLTemplate: process.env.PANGEA_URL_TEMPLATE,
+});
 const redact = new RedactService(token, config);
 
 (async () => {

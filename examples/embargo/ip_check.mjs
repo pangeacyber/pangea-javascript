@@ -3,7 +3,9 @@
 import { PangeaConfig, EmbargoService, PangeaErrors } from "pangea-node-sdk";
 
 const token = process.env.PANGEA_EMBARGO_TOKEN;
-const config = new PangeaConfig({ baseURLTemplate: process.env.PANGEA_URL_TEMPLATE });
+const config = new PangeaConfig({
+  baseURLTemplate: process.env.PANGEA_URL_TEMPLATE,
+});
 const embargo = new EmbargoService(token, config);
 
 (async () => {

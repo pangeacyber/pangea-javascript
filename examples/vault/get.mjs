@@ -9,7 +9,9 @@ import {
 
 const token = process.env.PANGEA_VAULT_TOKEN;
 const audit_token_id = process.env.PANGEA_AUDIT_TOKEN_ID;
-const config = new PangeaConfig({ baseURLTemplate: process.env.PANGEA_URL_TEMPLATE });
+const config = new PangeaConfig({
+  baseURLTemplate: process.env.PANGEA_URL_TEMPLATE,
+});
 const vault = new VaultService(token, config);
 
 (async () => {

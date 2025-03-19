@@ -8,7 +8,9 @@ import {
 } from "pangea-node-sdk";
 
 const token = process.env.PANGEA_AUTHN_TOKEN;
-const config = new PangeaConfig({ baseURLTemplate: process.env.PANGEA_URL_TEMPLATE });
+const config = new PangeaConfig({
+  baseURLTemplate: process.env.PANGEA_URL_TEMPLATE,
+});
 const authn = new AuthNService(token, config);
 const RANDOM_VALUE = new Date().getTime().toString();
 const USER_EMAIL = `user.email+test${RANDOM_VALUE}@pangea.cloud`;

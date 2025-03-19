@@ -11,7 +11,9 @@ import * as fs from "fs";
 
 // Load Pangea token and domain from environment variables
 const token = process.env.PANGEA_SANITIZE_TOKEN;
-const config = new PangeaConfig({ baseURLTemplate: process.env.PANGEA_URL_TEMPLATE });
+const config = new PangeaConfig({
+  baseURLTemplate: process.env.PANGEA_URL_TEMPLATE,
+});
 
 // Create Sanitize client
 const client = new SanitizeService(token, config);
