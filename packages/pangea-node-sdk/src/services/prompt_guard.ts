@@ -14,7 +14,7 @@ export class PromptGuardService extends BaseService {
    *
    * @example
    * ```js
-   * const config = new PangeaConfig({ baseURLTemplate: "https://{SERVICE_NAME}/aws.us.pangea.cloud" });
+   * const config = new PangeaConfig({ baseURLTemplate: "https://{SERVICE_NAME}.aws.us.pangea.cloud" });
    * const promptGuard = new PromptGuardService("pangea_token", config);
    * ```
    *

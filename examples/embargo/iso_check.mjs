@@ -19,7 +19,7 @@ const embargo = new EmbargoService(token, config);
     if (e instanceof PangeaErrors.APIError) {
       console.log("Error", e.summary, e.errors);
     } else {
-      console.log("Error: ", e);
+      throw err;
     }
   }
 })();

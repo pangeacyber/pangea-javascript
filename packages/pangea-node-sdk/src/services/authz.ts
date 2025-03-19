@@ -17,7 +17,7 @@ class AuthZService extends BaseService {
    *
    * @example
    * ```js
-   * const config = new PangeaConfig({ baseURLTemplate: "https://{SERVICE_NAME}/aws.us.pangea.cloud" });
+   * const config = new PangeaConfig({ baseURLTemplate: "https://{SERVICE_NAME}.aws.us.pangea.cloud" });
    * const audit = new AuthZService("pangea_token", config);
    * ```
    *

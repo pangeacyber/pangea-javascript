@@ -14,7 +14,7 @@ export class AIGuardService extends BaseService {
    *
    * @example
    * ```js
-   * const config = new PangeaConfig({ baseURLTemplate: "https://{SERVICE_NAME}/aws.us.pangea.cloud" });
+   * const config = new PangeaConfig({ baseURLTemplate: "https://{SERVICE_NAME}.aws.us.pangea.cloud" });
    * const aiGuard = new AIGuardService("pangea_token", config);
    * ```
    *

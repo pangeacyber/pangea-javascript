@@ -45,6 +45,7 @@ examples-tests:
   script:
     - cd examples/${TEST_FOLDER}
     - yarn install --frozen-lockfile
+    - npm i ../../packages/pangea-node-sdk/package.tgz
     - bash ../../dev/run_all_examples.sh
   rules:
     - if: $CI_COMMIT_BRANCH

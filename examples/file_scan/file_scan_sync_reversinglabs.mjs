@@ -7,7 +7,7 @@ const token = process.env.PANGEA_FILE_SCAN_TOKEN;
 
 // To enable sync mode, set queuedRetryEnabled to true and set a timeout
 const config = new PangeaConfig({
-  domain: domain,
+  baseURLTemplate: urlTemplate,
   queuedRetryEnabled: true,
   pollResultTimeoutMs: 60 * 1000,
 });
@@ -26,7 +26,7 @@ const yourFilepath = "./testfile.pdf";
     if (e instanceof PangeaErrors.APIError) {
       console.log(e.toString());
     } else {
-      console.log("Error: ", e);
+      throw err;
     }
   }
 })();

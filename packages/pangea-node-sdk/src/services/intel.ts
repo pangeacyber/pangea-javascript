@@ -42,7 +42,7 @@ export class FileIntelService extends BaseService {
    *
    * @example
    * ```js
-   * const config = new PangeaConfig({ baseURLTemplate: "https://{SERVICE_NAME}/aws.us.pangea.cloud" });
+   * const config = new PangeaConfig({ baseURLTemplate: "https://{SERVICE_NAME}.aws.us.pangea.cloud" });
    * const fileIntel = new FileIntelService("pangea_token", config);
    * ```
    *
@@ -236,7 +236,7 @@ export class DomainIntelService extends BaseService {
    *
    * @example
    * ```js
-   * const config = new PangeaConfig({ baseURLTemplate: "https://{SERVICE_NAME}/aws.us.pangea.cloud" });
+   * const config = new PangeaConfig({ baseURLTemplate: "https://{SERVICE_NAME}.aws.us.pangea.cloud" });
    * const domainIntel = new DomainIntelService("pangea_token", config);
    * ```
    *
@@ -383,7 +383,7 @@ export class IPIntelService extends BaseService {
    *
    * @example
    * ```js
-   * const config = new PangeaConfig({ baseURLTemplate: "https://{SERVICE_NAME}/aws.us.pangea.cloud" });
+   * const config = new PangeaConfig({ baseURLTemplate: "https://{SERVICE_NAME}.aws.us.pangea.cloud" });
    * const ipIntel = new IPIntelService("pangea_token", config);
    * ```
    *
@@ -787,7 +787,7 @@ export class URLIntelService extends BaseService {
    *
    * @example
    * ```js
-   * const config = new PangeaConfig({ baseURLTemplate: "https://{SERVICE_NAME}/aws.us.pangea.cloud" });
+   * const config = new PangeaConfig({ baseURLTemplate: "https://{SERVICE_NAME}.aws.us.pangea.cloud" });
    * const urlIntel = new URLIntelService("pangea_token", config);
    * ```
    *
@@ -904,7 +904,7 @@ export class UserIntelService extends BaseService {
    *
    * @example
    * ```js
-   * const config = new PangeaConfig({ baseURLTemplate: "https://{SERVICE_NAME}/aws.us.pangea.cloud" });
+   * const config = new PangeaConfig({ baseURLTemplate: "https://{SERVICE_NAME}.aws.us.pangea.cloud" });
    * const userIntel = new UserIntelService("pangea_token", config);
    * ```
    *

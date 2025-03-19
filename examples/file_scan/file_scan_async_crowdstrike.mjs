@@ -7,7 +7,10 @@ const token = process.env.PANGEA_FILE_SCAN_TOKEN;
 
 // To enable async mode, set queuedRetryEnabled to false
 // When .fileScan() is called it will return an AcceptedError immediately when server returns a 202 response
-const config = new PangeaConfig({ domain: domain, queuedRetryEnabled: false });
+const config = new PangeaConfig({
+  baseURLTemplate: urlTemplate,
+  queuedRetryEnabled: false,
+});
 const client = new FileScanService(String(token), config);
 
 const yourFilepath = "./testfile.pdf";

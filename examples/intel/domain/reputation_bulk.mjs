@@ -9,7 +9,7 @@ import {
 const urlTemplate = process.env.PANGEA_URL_TEMPLATE;
 const token = process.env.PANGEA_INTEL_TOKEN;
 const config = new PangeaConfig({
-  domain: domain,
+  baseURLTemplate: urlTemplate,
   queuedRetryEnabled: true,
   pollResultTimeoutMs: 60 * 1000,
 });
@@ -45,7 +45,7 @@ function printBulkData(data) {
     if (e instanceof PangeaErrors.APIError) {
       console.log("Error:", e.summary, e.errors);
     } else {
-      console.log("Error: ", e);
+      throw err;
     }
   }
 })();

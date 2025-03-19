@@ -8,7 +8,7 @@ import {
 
 const urlTemplate = process.env.PANGEA_URL_TEMPLATE;
 const token = process.env.PANGEA_INTEL_TOKEN;
-const config = new PangeaConfig({ domain: domain });
+const config = new PangeaConfig({ baseURLTemplate: urlTemplate });
 const domainIntel = new DomainIntelService(String(token), config);
 
 function printData(indicator, data) {
@@ -32,7 +32,7 @@ function printData(indicator, data) {
     if (e instanceof PangeaErrors.APIError) {
       console.log("Error:", e.summary, e.errors);
     } else {
-      console.log("Error: ", e);
+      throw err;
     }
   }
 })();

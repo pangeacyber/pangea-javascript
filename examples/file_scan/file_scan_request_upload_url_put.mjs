@@ -5,7 +5,6 @@ import {
   FileScanService,
   PangeaErrors,
   TransferMethod,
-  getFileUploadParams,
   FileScanUploader,
 } from "pangea-node-sdk";
 
@@ -14,7 +13,7 @@ const token = process.env.PANGEA_FILE_SCAN_TOKEN;
 
 // To enable sync mode, set queuedRetryEnabled to true and set a timeout
 const config = new PangeaConfig({
-  domain: domain,
+  baseURLTemplate: urlTemplate,
   queuedRetryEnabled: true,
   pollResultTimeoutMs: 60 * 1000,
 });
@@ -81,7 +80,7 @@ const delay = async (ms) =>
     if (e instanceof PangeaErrors.APIError) {
       console.log(e.toString());
     } else {
-      console.log("Error: ", e);
+      throw err;
     }
   }
 })();

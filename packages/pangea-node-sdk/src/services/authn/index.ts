@@ -27,7 +27,7 @@ class AuthNService extends BaseService {
    *
    * @example
    * ```js
-   * const config = new PangeaConfig({ baseURLTemplate: "https://{SERVICE_NAME}/aws.us.pangea.cloud" });
+   * const config = new PangeaConfig({ baseURLTemplate: "https://{SERVICE_NAME}.aws.us.pangea.cloud" });
    * const authn = new AuthNService("pangea_token", config);
    * ```
    *
