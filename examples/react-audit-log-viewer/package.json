@@ -36,6 +36,6 @@
     "start-server-and-test": "2.0.11",
     "typescript": "5.8.2",
     "vite": "6.2.2",
-    "vitest": "3.0.8"
+    "vitest": "3.0.9"
   }
 }
