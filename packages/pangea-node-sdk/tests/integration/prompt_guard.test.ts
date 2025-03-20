@@ -2,7 +2,7 @@ import { expect, it } from "@jest/globals";
 import PangeaConfig from "../../src/config.js";
 import PromptGuard from "../../src/services/prompt_guard.js";
 import {
-  getTestDomain,
+  getTestURLTemplate,
   getTestToken,
   TestEnvironment,
 } from "../../src/utils/utils.js";
@@ -11,9 +11,9 @@ import { loadTestEnvironment } from "./utils.js";
 const environment = loadTestEnvironment("prompt-guard", TestEnvironment.LIVE);
 
 const token = getTestToken(environment);
-const testHost = getTestDomain(environment);
+const urlTemplate = getTestURLTemplate(environment);
 const config = new PangeaConfig({
-  domain: testHost,
+  baseURLTemplate: urlTemplate,
   customUserAgent: "sdk-test",
 });
 const client = new PromptGuard(token, config);

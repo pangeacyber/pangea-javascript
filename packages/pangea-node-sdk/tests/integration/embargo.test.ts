@@ -4,7 +4,7 @@ import { PangeaErrors } from "../../src/errors.js";
 import { it, expect } from "@jest/globals";
 import {
   TestEnvironment,
-  getTestDomain,
+  getTestURLTemplate,
   getTestToken,
 } from "../../src/utils/utils.js";
 import { loadTestEnvironment } from "./utils.js";
@@ -12,9 +12,9 @@ import { loadTestEnvironment } from "./utils.js";
 const environment = loadTestEnvironment("embargo", TestEnvironment.LIVE);
 
 const token = getTestToken(environment);
-const testHost = getTestDomain(environment);
+const urlTemplate = getTestURLTemplate(environment);
 const config = new PangeaConfig({
-  domain: testHost,
+  baseURLTemplate: urlTemplate,
   customUserAgent: "sdk-test",
 });
 const embargo = new EmbargoService(token, config);
@@ -108,7 +108,7 @@ it("wrong IP format fails. Out of range", async () => {
 });
 
 it("bad Auth token", async () => {
-  const config = new PangeaConfig({ domain: testHost });
+  const config = new PangeaConfig({ baseURLTemplate: urlTemplate });
   const badembargo = new EmbargoService("notavalidauthtoken", config);
 
   try {

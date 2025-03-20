@@ -5,7 +5,7 @@ import { it, expect, jest } from "@jest/globals";
 import {
   TestEnvironment,
   getFileUploadParams,
-  getTestDomain,
+  getTestURLTemplate,
   getTestToken,
 } from "../../src/utils/utils.js";
 import { FileScanService, PangeaErrors } from "../../src/index.js";
@@ -15,9 +15,9 @@ import { loadTestEnvironment, trySlowRequest } from "./utils.js";
 
 const environment = loadTestEnvironment("file-scan", TestEnvironment.LIVE);
 const token = getTestToken(environment);
-const testHost = getTestDomain(environment);
+const urlTemplate = getTestURLTemplate(environment);
 const config = new PangeaConfig({
-  domain: testHost,
+  baseURLTemplate: urlTemplate,
   customUserAgent: "sdk-test",
 });
 const fileScan = new FileScanService(token, config);

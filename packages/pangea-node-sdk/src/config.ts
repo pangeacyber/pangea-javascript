@@ -1,20 +1,11 @@
-import { ConfigOptions, ConfigEnv } from "./types.js";
+import { ConfigOptions } from "./types.js";
 
 export const version = "4.4.0";
 
 /** Configuration for a Pangea service client. */
 class PangeaConfig {
-  /** Pangea API domain. */
-  domain: string = "pangea.cloud";
-
-  /**
-   * Pangea environment.
-   *
-   * If set to `ConfigEnv.LOCAL`, then `domain` must be the full host (i.e.,
-   * hostname and port) for the Pangea service that this `PangeaConfig` will be
-   * used for.
-   */
-  environment: ConfigEnv = ConfigEnv.PRODUCTION;
+  /** Used to set Pangea domain and protocol and port if needed. It should include the SERVICE_NAME placeholder. */
+  baseURLTemplate: string = "https://{SERVICE_NAME}.aws.us.pangea.cloud";
 
   /** Config ID for multi-config projects. */
   configID?: string;

@@ -64,9 +64,11 @@ import process from "node:process";
 import { PangeaConfig, AuditService } from "pangea-node-sdk";
 
 // Load client configuration from environment variables `PANGEA_AUDIT_TOKEN` and
-// `PANGEA_DOMAIN`.
+// `PANGEA_URL_TEMPLATE`.
 const token = process.env.PANGEA_AUDIT_TOKEN;
-const config = new PangeaConfig({ domain: process.env.PANGEA_DOMAIN });
+const config = new PangeaConfig({
+  baseURLTemplate: process.env.PANGEA_URL_TEMPLATE,
+});
 
 // Create a Secure Audit Log client.
 const audit = new AuditService(token, config);

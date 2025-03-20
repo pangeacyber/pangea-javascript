@@ -2,7 +2,7 @@ import PangeaConfig from "../../src/config.js";
 import { jest, it, expect } from "@jest/globals";
 import {
   TestEnvironment,
-  getTestDomain,
+  getTestURLTemplate,
   getTestToken,
 } from "../../src/utils/utils.js";
 import { DomainIntelService } from "../../src/index.js";
@@ -11,9 +11,9 @@ import { loadTestEnvironment } from "./utils.js";
 const environment = loadTestEnvironment("domain-intel", TestEnvironment.LIVE);
 
 const token = getTestToken(environment);
-const testHost = getTestDomain(environment);
+const urlTemplate = getTestURLTemplate(environment);
 const config = new PangeaConfig({
-  domain: testHost,
+  baseURLTemplate: urlTemplate,
   customUserAgent: "sdk-test",
 });
 const domainIntel = new DomainIntelService(token, config);

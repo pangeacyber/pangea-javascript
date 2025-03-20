@@ -8,7 +8,9 @@ import {
 } from "pangea-node-sdk";
 
 const vaultToken = process.env.PANGEA_VAULT_TOKEN;
-const config = new PangeaConfig({ domain: process.env.PANGEA_DOMAIN });
+const config = new PangeaConfig({
+  baseURLTemplate: process.env.PANGEA_URL_TEMPLATE,
+});
 const auditTokenVaultId = process.env.PANGEA_AUDIT_TOKEN_VAULT_ID;
 
 (async () => {
