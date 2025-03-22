@@ -487,7 +487,7 @@ jobs:
         run: yarn install
 
       - name: Download locally built pangea-node-sdk
-        uses: actions/download-artifact@v4.1.9
+        uses: actions/download-artifact@v4.2.1
         with:
           name: pangea-node-sdk-package
           path: ./packages/pangea-node-sdk
