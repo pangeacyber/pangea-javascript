@@ -294,6 +294,18 @@ export namespace Audit {
 }
 
 export namespace AIGuard {
+  export interface RedactEntityResult {
+    /** Detected redaction rules. */
+    entities: {
+      /** The action taken on this Entity */
+      action: string;
+      redacted: boolean;
+      start_pos?: number;
+      type: string;
+      value: string;
+    }[];
+  }
+
   /** Additional fields to include in activity log */
   export interface LogFields {
     /** Origin or source application of the event */
@@ -314,14 +326,6 @@ export namespace AIGuard {
 
   export interface MaliciousEntity {
     raw?: Record<string, unknown>;
-    action: string;
-    start_pos?: number;
-    type: string;
-    value: string;
-  }
-
-  export interface PIIEntity {
-    /** The action taken on this Entity */
     action: string;
     start_pos?: number;
     type: string;
@@ -376,6 +380,7 @@ export namespace AIGuard {
         | { allow: string[] }
         | { block: string[] }
         | { report: string[] };
+      topic_detection?: { disabled: boolean } | { block_list: string[] };
       prompt_injection?: { disabled?: boolean; action?: PromptInjectionAction };
       selfharm?: { disabled?: boolean; action?: PromptInjectionAction };
       gibberish?: { disabled?: boolean; action?: PromptInjectionAction };
@@ -462,13 +467,27 @@ export namespace AIGuard {
         /** Triggered prompt injection analyzers. */
         analyzer_responses: { analyzer: string; confidence: number }[];
       }>;
-      pii_entity?: Detector<{
-        /** Detected redaction rules. */
-        entities: PIIEntity[];
-      }>;
+      pii_entity?: Detector<RedactEntityResult>;
       malicious_entity?: Detector<{
         /** Detected harmful items. */
         entities: MaliciousEntity[];
+      }>;
+      custom_entity?: Detector<RedactEntityResult>;
+      secrets_detection?: Detector<RedactEntityResult>;
+      profanity_and_toxicity?: Detector<RedactEntityResult>;
+      language_detection?: Detector<{
+        /** The action taken by this Detector */
+        action: string;
+        language: string;
+      }>;
+      topic_detection?: Detector<{
+        /** The action taken by this Detector */
+        action: string;
+      }>;
+      code_detection?: Detector<{
+        /** The action taken by this Detector */
+        action: string;
+        language: string;
       }>;
     };
 
