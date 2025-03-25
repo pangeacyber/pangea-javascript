@@ -1,7 +1,7 @@
 {
   "name": "@pangeacyber/react-auth",
   "description": "Pangea auth provider React component",
-  "version": "0.0.16",
+  "version": "0.0.17",
   "type": "commonjs",
   "source": "src/index.ts",
   "main": "dist/index.cjs",
@@ -39,7 +39,7 @@
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
-    "@pangeacyber/vanilla-js": "^0.1.12",
+    "@pangeacyber/vanilla-js": "^0.1.13",
     "jose": "^6.0.10",
     "lodash": "^4.17.21"
   },
