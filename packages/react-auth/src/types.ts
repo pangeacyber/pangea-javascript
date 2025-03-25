@@ -138,6 +138,11 @@ export interface AuthConfig {
    * Defaults to "pangea-session" if not set.
    */
   sessionKey?: string;
+
+  /**
+   * Use path-based API routing, for private cloud only.
+   */
+  usePathApi?: boolean;
 }
 
 /**
