@@ -155,6 +155,10 @@ export class AuthNClient {
       version_ = `${version}${!!version ? "/" : ""}`;
     }
 
+    if (!!this.config.usePathApi) {
+      return `${protocol}://${this.config.domain}/api/authn/${version_}${endpoint}`;
+    }
+
     return `${protocol}://authn.${this.config.domain}/${version_}${endpoint}`;
   }
 

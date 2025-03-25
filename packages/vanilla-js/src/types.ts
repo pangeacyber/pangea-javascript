@@ -14,6 +14,7 @@ export interface ClientConfig {
   domain: string;
   clientToken: string;
   callbackUri?: string;
+  usePathApi?: boolean;
 }
 
 /**
