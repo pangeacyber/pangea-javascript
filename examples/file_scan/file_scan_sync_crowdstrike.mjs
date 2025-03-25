@@ -2,12 +2,12 @@
 
 import { PangeaConfig, FileScanService, PangeaErrors } from "pangea-node-sdk";
 
-const domain = process.env.PANGEA_DOMAIN;
+const urlTemplate = process.env.PANGEA_URL_TEMPLATE;
 const token = process.env.PANGEA_FILE_SCAN_TOKEN;
 
 // To enable sync mode, set queuedRetryEnabled to true and set a timeout
 const config = new PangeaConfig({
-  domain: domain,
+  baseURLTemplate: urlTemplate,
   queuedRetryEnabled: true,
   pollResultTimeoutMs: 60 * 1000,
 });
@@ -26,7 +26,7 @@ const yourFilepath = "./testfile.pdf";
     if (e instanceof PangeaErrors.APIError) {
       console.log(e.toString());
     } else {
-      console.log("Error: ", e);
+      throw err;
     }
   }
 })();

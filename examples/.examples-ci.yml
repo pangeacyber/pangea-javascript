@@ -25,7 +25,7 @@ examples-tests:
     - export PANGEA_AUDIT_TOKEN="${PANGEA_INTEGRATION_TOKEN_LVE_AWS}"
     - export PANGEA_AUTHN_TOKEN="${PANGEA_INTEGRATION_TOKEN_LVE_AWS}"
     - export PANGEA_DOMAIN_INTEL_TOKEN="${PANGEA_INTEGRATION_TOKEN_LVE_AWS}"
-    - export PANGEA_DOMAIN="${PANGEA_INTEGRATION_DOMAIN_LVE_AWS}"
+    - export PANGEA_URL_TEMPLATE="${PANGEA_INTEGRATION_URL_TEMPLATE_LVE_AWS}"
     - export PANGEA_EMBARGO_TOKEN="${PANGEA_INTEGRATION_TOKEN_LVE_AWS}"
     - export PANGEA_FILE_INTEL_TOKEN="${PANGEA_INTEGRATION_TOKEN_LVE_AWS}"
     - export PANGEA_FILE_SCAN_TOKEN="${PANGEA_INTEGRATION_TOKEN_LVE_AWS}"
@@ -45,6 +45,7 @@ examples-tests:
   script:
     - cd examples/${TEST_FOLDER}
     - yarn install --frozen-lockfile
+    - npm i ../../packages/pangea-node-sdk/package.tgz
     - bash ../../dev/run_all_examples.sh
   rules:
     - if: $CI_COMMIT_BRANCH

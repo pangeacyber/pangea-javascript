@@ -4,16 +4,8 @@ import { Signer } from "./utils/signer.js";
  * PangeaConfig options
  */
 export interface ConfigOptions {
-  /** Pangea API domain. */
-  domain?: string;
-
-  /**
-   * Pangea environment.
-   *
-   * This is intended to facilitate SDK development and should not be touched in
-   * everyday usage.
-   */
-  environment?: ConfigEnv;
+  /** Used to set Pangea domain and protocol and port if needed. It should include the SERVICE_NAME placeholder. */
+  baseURLTemplate?: string;
 
   /** Config ID for multi-config projects. */
   configID?: string;
@@ -48,11 +40,6 @@ export type PangeaToken = string | ({ type: "pangea_token" } & Vault.GetResult);
 export interface PostOptions {
   pollResultSync?: boolean;
   files?: FileItems;
-}
-
-export enum ConfigEnv {
-  LOCAL = "local",
-  PRODUCTION = "production",
 }
 
 export enum TransferMethod {

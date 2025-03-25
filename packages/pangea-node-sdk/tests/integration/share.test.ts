@@ -3,7 +3,7 @@ import { it, expect, jest } from "@jest/globals";
 import {
   TestEnvironment,
   getFileUploadParams,
-  getTestDomain,
+  getTestURLTemplate,
   getTestToken,
 } from "../../src/utils/utils.js";
 import { ShareService, PangeaErrors } from "../../src/index.js";
@@ -13,9 +13,9 @@ import { loadTestEnvironment, delay } from "./utils.js";
 
 const environment = loadTestEnvironment("share", TestEnvironment.LIVE);
 const token = getTestToken(environment);
-const testHost = getTestDomain(environment);
+const urlTemplate = getTestURLTemplate(environment);
 const config = new PangeaConfig({
-  domain: testHost,
+  baseURLTemplate: urlTemplate,
   customUserAgent: "sdk-test",
 });
 const client = new ShareService(token, config);

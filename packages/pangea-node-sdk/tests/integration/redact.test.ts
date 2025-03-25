@@ -4,7 +4,7 @@ import RedactService from "../../src/services/redact.js";
 import { it, expect } from "@jest/globals";
 import {
   TestEnvironment,
-  getTestDomain,
+  getTestURLTemplate,
   getTestToken,
   getMultiConfigTestToken,
   getConfigID,
@@ -14,9 +14,9 @@ import { loadTestEnvironment } from "./utils.js";
 const environment = loadTestEnvironment("redact", TestEnvironment.LIVE);
 const token = getTestToken(environment);
 const tokenMultiConfig = getMultiConfigTestToken(environment);
-const domain = getTestDomain(environment);
+const urlTemplate = getTestURLTemplate(environment);
 const config = new PangeaConfig({
-  domain: domain,
+  baseURLTemplate: urlTemplate,
   customUserAgent: "sdk-test",
 });
 const redact = new RedactService(token, config);
@@ -90,7 +90,7 @@ it("bad token should fail", async () => {
 it("redact multi config 1", async () => {
   const configID = getConfigID(environment, "redact", 1);
   const config = new PangeaConfig({
-    domain: domain,
+    baseURLTemplate: urlTemplate,
     customUserAgent: "sdk-test",
   });
   const redactMultiConfig = new RedactService(tokenMultiConfig, config, {
@@ -108,7 +108,7 @@ it("redact multi config 1", async () => {
 it("redact multi config 2. no verbose", async () => {
   const configID = getConfigID(environment, "redact", 2);
   const config = new PangeaConfig({
-    domain: domain,
+    baseURLTemplate: urlTemplate,
     customUserAgent: "sdk-test",
   });
   const redactMultiConfig = new RedactService(tokenMultiConfig, config, {
@@ -125,7 +125,7 @@ it("redact multi config 2. no verbose", async () => {
 
 it("log multi config token, without config id", async () => {
   const config = new PangeaConfig({
-    domain: domain,
+    baseURLTemplate: urlTemplate,
     customUserAgent: "sdk-test",
   });
 

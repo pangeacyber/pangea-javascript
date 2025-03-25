@@ -4,7 +4,7 @@ import PangeaConfig from "../../src/config.js";
 import AIGuardService from "../../src/services/ai_guard.js";
 import {
   TestEnvironment,
-  getTestDomain,
+  getTestURLTemplate,
   getTestToken,
 } from "../../src/utils/utils.js";
 import { loadTestEnvironment } from "./utils.js";
@@ -12,9 +12,9 @@ import { loadTestEnvironment } from "./utils.js";
 const environment = loadTestEnvironment("ai-guard", TestEnvironment.LIVE);
 
 const token = getTestToken(environment);
-const testHost = getTestDomain(environment);
+const urlTemplate = getTestURLTemplate(environment);
 const config = new PangeaConfig({
-  domain: testHost,
+  baseURLTemplate: urlTemplate,
   customUserAgent: "sdk-test",
 });
 const client = new AIGuardService(token, config);
