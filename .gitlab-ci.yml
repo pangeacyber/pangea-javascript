@@ -1,7 +1,22 @@
+variables:
+  YARN_CACHE_FOLDER: "${CI_PROJECT_DIR}/.yarn/cache/"
+
+  # Helps yarn not go OOM.
+  KUBERNETES_CPU_REQUEST: 3
+  KUBERNETES_CPU_LIMIT: 4
+  KUBERNETES_MEMORY_REQUEST: "7Gi"
+  KUBERNETES_MEMORY_LIMIT: "16Gi"
+
 default:
   image: node:18.20.7@sha256:7f6bcd8e08a1f81bfbb29f5948de5c5507624788ddb50cadb94ddd439426b7c4
   tags:
     - pangea-internal
+  cache:
+    key:
+      files:
+        - yarn.lock
+    paths:
+      - ${YARN_CACHE_FOLDER}
 
 stages:
   - build

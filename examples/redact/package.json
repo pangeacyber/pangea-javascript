@@ -1,12 +1,12 @@
 {
-  "name": "redact_examples",
+  "name": "@pangeacyber/redact-examples",
   "version": "0.0.0-development",
   "description": "Pangea Redact examples",
   "private": true,
   "author": "Pangea",
   "license": "MIT",
-  "packageManager": "yarn@1.22.22",
+  "packageManager": "yarn@4.5.1",
   "dependencies": {
-    "pangea-node-sdk": "file:../../packages/pangea-node-sdk"
+    "pangea-node-sdk": "workspace:^"
   }
 }

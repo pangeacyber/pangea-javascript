@@ -1,6 +1,6 @@
 {
-  "name": "react-audit-log-viewer",
-  "version": "0.1.0",
+  "name": "@pangeacyber/react-audit-log-viewer-example",
+  "version": "0.0.0-development",
   "private": true,
   "type": "module",
   "packageManager": "yarn@4.7.0",
