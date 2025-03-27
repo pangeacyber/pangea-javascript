@@ -472,18 +472,18 @@ __metadata:
     "@babel/core": "npm:^7.26.10"
     "@futureportal/parcel-transformer-package-version": "npm:^1.0.0"
     "@pangeacyber/vanilla-js": "npm:^0.1.13"
-    "@parcel/config-default": "npm:^2.14.1"
-    "@parcel/packager-ts": "npm:^2.14.1"
-    "@parcel/plugin": "npm:^2.14.1"
+    "@parcel/config-default": "npm:^2.14.2"
+    "@parcel/packager-ts": "npm:^2.14.2"
+    "@parcel/plugin": "npm:^2.14.2"
     "@parcel/source-map": "npm:^2.1.1"
-    "@parcel/transformer-typescript-types": "npm:^2.14.1"
-    "@parcel/utils": "npm:^2.14.1"
+    "@parcel/transformer-typescript-types": "npm:^2.14.2"
+    "@parcel/utils": "npm:^2.14.2"
     "@tsconfig/strictest": "npm:^2.0.5"
     "@types/lodash": "npm:^4.17.16"
     "@types/react": "npm:19.0.12"
     jose: "npm:^6.0.10"
     lodash: "npm:^4.17.21"
-    parcel: "npm:^2.14.1"
+    parcel: "npm:^2.14.2"
     publint: "npm:0.3.8"
     react: "npm:19.0.0"
     typedoc: "npm:^0.28.1"
@@ -550,7 +550,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@parcel/config-default@npm:2.14.2, @parcel/config-default@npm:^2.14.1":
+"@parcel/config-default@npm:2.14.2, @parcel/config-default@npm:^2.14.2":
   version: 2.14.2
   resolution: "@parcel/config-default@npm:2.14.2"
   dependencies:
@@ -879,7 +879,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@parcel/packager-ts@npm:^2.14.1":
+"@parcel/packager-ts@npm:^2.14.2":
   version: 2.14.2
   resolution: "@parcel/packager-ts@npm:2.14.2"
   dependencies:
@@ -897,7 +897,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@parcel/plugin@npm:2.14.2, @parcel/plugin@npm:^2.14.1, @parcel/plugin@npm:^2.3.2":
+"@parcel/plugin@npm:2.14.2, @parcel/plugin@npm:^2.14.2, @parcel/plugin@npm:^2.3.2":
   version: 2.14.2
   resolution: "@parcel/plugin@npm:2.14.2"
   dependencies:
@@ -1201,7 +1201,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@parcel/transformer-typescript-types@npm:^2.14.1":
+"@parcel/transformer-typescript-types@npm:^2.14.2":
   version: 2.14.2
   resolution: "@parcel/transformer-typescript-types@npm:2.14.2"
   dependencies:
@@ -1250,7 +1250,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@parcel/utils@npm:2.14.2, @parcel/utils@npm:^2.14.1":
+"@parcel/utils@npm:2.14.2, @parcel/utils@npm:^2.14.2":
   version: 2.14.2
   resolution: "@parcel/utils@npm:2.14.2"
   dependencies:
@@ -3134,7 +3134,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"parcel@npm:^2.14.1":
+"parcel@npm:^2.14.2":
   version: 2.14.2
   resolution: "parcel@npm:2.14.2"
   dependencies:
