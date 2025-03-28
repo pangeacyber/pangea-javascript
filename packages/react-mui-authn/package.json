@@ -74,7 +74,7 @@
   "dependencies": {
     "@lexical/react": "^0.25.0",
     "@mui/x-date-pickers": "^7.22.0",
-    "@pangeacyber/vanilla-js": "0.1.12",
+    "@pangeacyber/vanilla-js": "0.1.13",
     "@simplewebauthn/browser": "11.0.0",
     "awesome-phonenumber": "^7.4.0",
     "dayjs": "^1.11.13",
