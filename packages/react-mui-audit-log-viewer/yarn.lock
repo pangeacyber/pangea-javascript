@@ -2740,7 +2740,7 @@ __metadata:
     "@types/diff": "npm:^6.0.0"
     "@types/jest": "npm:^29.5.14"
     "@types/lodash": "npm:^4.17.16"
-    "@types/react": "npm:17.0.84"
+    "@types/react": "npm:17.0.85"
     "@types/react-beautiful-dnd": "npm:^13.1.8"
     "@types/react-dom": "npm:17.0.26"
     babel-loader: "npm:^10.0.0"
@@ -5070,14 +5070,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/react@npm:17.0.84":
-  version: 17.0.84
-  resolution: "@types/react@npm:17.0.84"
+"@types/react@npm:17.0.85":
+  version: 17.0.85
+  resolution: "@types/react@npm:17.0.85"
   dependencies:
     "@types/prop-types": "npm:*"
     "@types/scheduler": "npm:^0.16"
     csstype: "npm:^3.0.2"
-  checksum: 10c0/58fd9608e3d315fe72adc6554dd7b89715c597449211345108a4fc2c261004f7770f99473ba0e82fde4e97b16c8c3bc9d3b3757d9230ef8a347f5b1d40870c93
+  checksum: 10c0/543e7c1a746e6cabd09b231be2040f8d228c3c25c67832bba536f03cb614d68495328d547b0e6f78d92cdc3b32c0560bdb39235c3bd100a141cb5a7a482f10ba
   languageName: node
   linkType: hard
 
