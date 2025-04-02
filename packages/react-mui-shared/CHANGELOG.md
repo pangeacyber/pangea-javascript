@@ -9,7 +9,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Fixed
 
-- Don't close autocomplete search menu on re-click of an empty search box
+- Keep the autocomplete search menu open on re-click even if the search box is empty
 
 ## [1.0.6] - 2025-02-27
 
