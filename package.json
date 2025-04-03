@@ -17,5 +17,5 @@
   "lint-staged": {
     "*.{js,jsx,ts,tsx,css,md}": "npx prettier --write"
   },
-  "packageManager": "yarn@4.7.0"
+  "packageManager": "yarn@4.8.1"
 }
