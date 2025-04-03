@@ -101,7 +101,19 @@ const AuditLogViewerFiltersForm: FC<Props> = ({
 
   const handleSubmit = () => {
     setQuery(getAppliedFiltersQuery(query, values.fields, operand));
-    onFilterChange(filters);
+
+    const updated: any = {};
+    const timeKeys = ["since", "before", "after", "active"];
+
+    // Filter component directly updates the query, remove filters from query object
+    Object.keys(filters).forEach((key) => {
+      if (timeKeys.indexOf(key) !== -1) {
+        // @ts-ignore
+        updated[key] = filters[key];
+      }
+    });
+
+    onFilterChange(updated);
   };
 
   return (

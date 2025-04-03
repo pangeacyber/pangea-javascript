@@ -2721,7 +2721,7 @@ __metadata:
     "@mui/material": "npm:^6.1.6"
     "@mui/types": "npm:^7.2.19"
     "@pangeacyber/react-mui-branding": "npm:1.0.0"
-    "@pangeacyber/react-mui-shared": "npm:1.0.6"
+    "@pangeacyber/react-mui-shared": "npm:1.0.7"
     "@rollup/plugin-commonjs": "npm:28.0.3"
     "@rollup/plugin-json": "npm:^6.1.0"
     "@rollup/plugin-node-resolve": "npm:^15.3.1"
@@ -2786,9 +2786,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@pangeacyber/react-mui-shared@npm:1.0.6":
-  version: 1.0.6
-  resolution: "@pangeacyber/react-mui-shared@npm:1.0.6"
+"@pangeacyber/react-mui-shared@npm:1.0.7":
+  version: 1.0.7
+  resolution: "@pangeacyber/react-mui-shared@npm:1.0.7"
   dependencies:
     "@loadable/component": "npm:^5.16.4"
     "@mui/x-data-grid": "npm:7.21.0"
@@ -2806,7 +2806,7 @@ __metadata:
     "@mui/material": ^6.0.0
     react: ^17.0.0 || ^18.0.0
     react-dom: ^17.0.0 || ^18.0.0
-  checksum: 10c0/20da251da50b9a0640412a72d838be85c47bf67ee0014483a2bb82697c340f6293b13fe54837ebe16902fabaeeb4683a8bf34b45adbefd60826a48be7edb5237
+  checksum: 10c0/696c49496f8ba26e9f63ccc0eceac62a0b896a6a6b755a01bdb4acc9b94263685241b1305382ff84de68bd71a0785c7023cd8a67b202d6bb56f7531f8d0655b5
   languageName: node
   linkType: hard
 

@@ -139,9 +139,6 @@ const ConditionalAutocomplete = forwardRef<any, ConditionalAutocompleteProps>(
           freeSolo
           options={autocompleteOptions.map((option) => option.value)}
           open={open}
-          onClose={(e) => {
-            setOpen(false);
-          }}
           size={size}
           value={value}
           onSelect={(e) => {

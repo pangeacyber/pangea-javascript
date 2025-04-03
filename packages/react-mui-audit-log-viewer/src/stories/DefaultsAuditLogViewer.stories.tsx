@@ -60,7 +60,9 @@ const Template: ComponentStory<typeof AuditLogViewer> = (args) => {
   const [beforeValue, setBeforeValue] = useState<string>("");
 
   // The filters state that we'll pass to the AuditLogViewer
-  const [filters, setFilters] = useState<PublicAuditQuery>({});
+  const [filters, setFilters] = useState<PublicAuditQuery>({
+    query: { type: "object", citations: "prompt-guard" },
+  });
 
   const handleApply = () => {
     let range;
