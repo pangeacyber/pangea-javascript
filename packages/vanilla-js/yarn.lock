@@ -308,7 +308,7 @@ __metadata:
     lodash: "npm:^4.17.21"
     publint: "npm:0.3.8"
     rimraf: "npm:6.0.1"
-    rollup: "npm:^4.37.0"
+    rollup: "npm:^4.38.0"
     rollup-plugin-dts: "npm:6.2.1"
     rollup-plugin-peer-deps-external: "npm:^2.2.4"
     rollup-plugin-polyfill-node: "npm:^0.13.0"
@@ -1714,7 +1714,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"rollup@npm:^4.37.0":
+"rollup@npm:^4.38.0":
   version: 4.39.0
   resolution: "rollup@npm:4.39.0"
   dependencies:
