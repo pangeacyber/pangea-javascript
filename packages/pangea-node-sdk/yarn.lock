@@ -5602,7 +5602,7 @@ __metadata:
     merkle-tools: "npm:^1.4.1"
     promise-retry: "npm:^2.0.1"
     ts-node: "npm:^10.9.2"
-    tsc-alias: "npm:^1.8.11"
+    tsc-alias: "npm:^1.8.13"
     tshy: "npm:2.0.1"
     typedoc: "npm:^0.28.1"
     typescript: "npm:5.8.2"
@@ -6781,7 +6781,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"tsc-alias@npm:^1.8.11":
+"tsc-alias@npm:^1.8.13":
   version: 1.8.13
   resolution: "tsc-alias@npm:1.8.13"
   dependencies:
