@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "type": "module",
-  "packageManager": "yarn@4.7.0",
+  "packageManager": "yarn@4.8.1",
   "scripts": {
     "start": "vite",
     "start:ci": "npm start -- --port 8080",
