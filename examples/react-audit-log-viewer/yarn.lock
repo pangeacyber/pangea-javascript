@@ -999,11 +999,11 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@pangeacyber/react-mui-audit-log-viewer@npm:1.0.9":
-  version: 1.0.9
-  resolution: "@pangeacyber/react-mui-audit-log-viewer@npm:1.0.9"
+"@pangeacyber/react-mui-audit-log-viewer@npm:1.0.10":
+  version: 1.0.10
+  resolution: "@pangeacyber/react-mui-audit-log-viewer@npm:1.0.10"
   dependencies:
-    "@pangeacyber/react-mui-shared": "npm:1.0.6"
+    "@pangeacyber/react-mui-shared": "npm:1.0.7"
     crypto-js: "npm:^4.2.0"
     diff: "npm:^5.2.0"
     lodash: "npm:^4.17.21"
@@ -1016,7 +1016,7 @@ __metadata:
     "@mui/material": ^6.0.0
     react: ^17.0.0 || ^18.0.0
     react-dom: ^17.0.0 || ^18.0.0
-  checksum: 10c0/9c043532754df409bcbb02629b758fd46e94bc2616aa23b90542825d3441e2286355a1d44943e1b3b5abd8e7a7a135b515740a3138fcbd4a7626ee9110ba4c84
+  checksum: 10c0/572954e5563123dbc7c20de01b396208c2b63ba10ef28de9aa359f284d5a2969703e1d410f2482b264eb3698e33bca73d5d26e2158baea21f993beb632f78853
   languageName: node
   linkType: hard
 
@@ -1032,9 +1032,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@pangeacyber/react-mui-shared@npm:1.0.6":
-  version: 1.0.6
-  resolution: "@pangeacyber/react-mui-shared@npm:1.0.6"
+"@pangeacyber/react-mui-shared@npm:1.0.7":
+  version: 1.0.7
+  resolution: "@pangeacyber/react-mui-shared@npm:1.0.7"
   dependencies:
     "@loadable/component": "npm:^5.16.4"
     "@mui/x-data-grid": "npm:7.21.0"
@@ -1052,7 +1052,7 @@ __metadata:
     "@mui/material": ^6.0.0
     react: ^17.0.0 || ^18.0.0
     react-dom: ^17.0.0 || ^18.0.0
-  checksum: 10c0/20da251da50b9a0640412a72d838be85c47bf67ee0014483a2bb82697c340f6293b13fe54837ebe16902fabaeeb4683a8bf34b45adbefd60826a48be7edb5237
+  checksum: 10c0/696c49496f8ba26e9f63ccc0eceac62a0b896a6a6b755a01bdb4acc9b94263685241b1305382ff84de68bd71a0785c7023cd8a67b202d6bb56f7531f8d0655b5
   languageName: node
   linkType: hard
 
@@ -4085,7 +4085,7 @@ __metadata:
     "@emotion/styled": "npm:11.14.0"
     "@mui/icons-material": "npm:^6.1.6"
     "@mui/material": "npm:^6.1.6"
-    "@pangeacyber/react-mui-audit-log-viewer": "npm:1.0.9"
+    "@pangeacyber/react-mui-audit-log-viewer": "npm:1.0.10"
     "@pangeacyber/react-mui-branding": "npm:1.0.0"
     "@testing-library/jest-dom": "npm:6.6.3"
     "@testing-library/react": "npm:15.0.7"

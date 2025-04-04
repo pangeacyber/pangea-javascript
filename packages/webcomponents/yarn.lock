@@ -1938,7 +1938,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@pangeacyber/react-mui-audit-log-viewer@npm:^1.0.9":
+"@pangeacyber/react-mui-audit-log-viewer@npm:^1.0.10":
   version: 1.0.10
   resolution: "@pangeacyber/react-mui-audit-log-viewer@npm:1.0.10"
   dependencies:
@@ -2055,7 +2055,7 @@ __metadata:
     "@mui/material": "npm:^6.1.6"
     "@mui/styled-engine-sc": "npm:^6.1.5"
     "@mui/types": "npm:^7.2.18"
-    "@pangeacyber/react-mui-audit-log-viewer": "npm:^1.0.9"
+    "@pangeacyber/react-mui-audit-log-viewer": "npm:^1.0.10"
     "@pangeacyber/react-mui-branding": "npm:^1.0.0"
     "@pangeacyber/react-mui-share-file-viewer": "npm:^1.0.3"
     "@parcel/packager-ts": "npm:2.14.4"
