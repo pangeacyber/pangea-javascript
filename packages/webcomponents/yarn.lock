@@ -2067,7 +2067,7 @@ __metadata:
     preact: "npm:^10.26.4"
     publint: "npm:0.3.8"
     style-loader: "npm:^4.0.0"
-    styled-components: "npm:^6.1.16"
+    styled-components: "npm:^6.1.17"
     ts-node: "npm:^10.9.2"
     typescript: "npm:^5.8.2"
   languageName: unknown
@@ -6016,7 +6016,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"styled-components@npm:^6.1.16":
+"styled-components@npm:^6.1.17":
   version: 6.1.17
   resolution: "styled-components@npm:6.1.17"
   dependencies:
