@@ -374,18 +374,17 @@ export namespace AIGuard {
     debug?: boolean;
 
     overrides?: {
+      /** Bypass existing Recipe content and create an on-the-fly Recipe. */
+      ignore_recipe?: boolean;
+
       code_detection?: { disabled?: boolean; action?: "report" | "block" };
+      competitors?: { disabled?: boolean; action?: PromptInjectionAction };
+      gibberish?: { disabled?: boolean; action?: PromptInjectionAction };
       language_detection?:
         | { disabled: boolean }
         | { allow: string[] }
         | { block: string[] }
         | { report: string[] };
-      topic_detection?: { disabled: boolean } | { block_list: string[] };
-      prompt_injection?: { disabled?: boolean; action?: PromptInjectionAction };
-      selfharm?: { disabled?: boolean; action?: PromptInjectionAction };
-      gibberish?: { disabled?: boolean; action?: PromptInjectionAction };
-      roleplay?: { disabled?: boolean; action?: PromptInjectionAction };
-      sentiment?: { disabled?: boolean; action?: PromptInjectionAction };
       malicious_entity?: {
         disabled?: boolean;
         ip_address?: MaliciousEntityAction;
@@ -420,6 +419,8 @@ export namespace AIGuard {
         us_passport?: PiiEntityAction;
         us_ssn?: PiiEntityAction;
       };
+      prompt_injection?: { disabled?: boolean; action?: PromptInjectionAction };
+      roleplay?: { disabled?: boolean; action?: PromptInjectionAction };
       secrets_detection?: {
         disabled?: boolean;
         slack_token?: PiiEntityAction;
@@ -451,6 +452,17 @@ export namespace AIGuard {
         twilio_api_key?: PiiEntityAction;
         pangea_token?: PiiEntityAction;
       };
+      selfharm?: {
+        disabled?: boolean;
+        action?: PromptInjectionAction;
+        threshold?: number;
+      };
+      sentiment?: {
+        disabled?: boolean;
+        action?: PromptInjectionAction;
+        threshold?: number;
+      };
+      topic_detection?: { disabled: boolean } | { block: string[] };
     };
 
     /** Additional fields to include in activity log */
