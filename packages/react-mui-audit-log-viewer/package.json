@@ -64,7 +64,7 @@
     "rollup-plugin-postcss": "^4.0.2",
     "storybook": "^7.6.20",
     "ts-jest": "^29.3.1",
-    "typedoc": "^0.28.1",
+    "typedoc": "^0.28.2",
     "typedoc-plugin-rename-defaults": "^0.7.3",
     "typescript": "^5.8.3",
     "vite": "^6.2.5"
