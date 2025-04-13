@@ -2419,7 +2419,7 @@ __metadata:
     "@mui/material": "npm:^6.1.6"
     "@mui/types": "npm:^7.2.19"
     "@mui/x-date-pickers": "npm:^7.22.0"
-    "@pangeacyber/vanilla-js": "npm:0.1.13"
+    "@pangeacyber/vanilla-js": "npm:0.1.14"
     "@rollup/plugin-babel": "npm:6.0.4"
     "@rollup/plugin-commonjs": "npm:28.0.3"
     "@rollup/plugin-json": "npm:6.1.0"
@@ -2469,12 +2469,12 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@pangeacyber/vanilla-js@npm:0.1.13":
-  version: 0.1.13
-  resolution: "@pangeacyber/vanilla-js@npm:0.1.13"
+"@pangeacyber/vanilla-js@npm:0.1.14":
+  version: 0.1.14
+  resolution: "@pangeacyber/vanilla-js@npm:0.1.14"
   dependencies:
     lodash: "npm:^4.17.21"
-  checksum: 10c0/4179dcaea39eb08ce684492d67f5cfff5dfca94dbb3f25fdaa92f72e33f877ff0c0666f55adc05e6d2829a8fec5977e02f3c1befad1b01556d20a7371d85c7fc
+  checksum: 10c0/4915900d1cd3cf657c499f65228e696703b73a568c440809678e6fd287322d65fbea8360b40fe7e939439bc659d38f4f7e6c99a0283cdaa3e48331ef9372d37c
   languageName: node
   linkType: hard
 
