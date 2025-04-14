@@ -294,6 +294,18 @@ export namespace Audit {
 }
 
 export namespace AIGuard {
+  export interface RedactEntityResult {
+    /** Detected redaction rules. */
+    entities: {
+      /** The action taken on this Entity */
+      action: string;
+      redacted: boolean;
+      start_pos?: number;
+      type: string;
+      value: string;
+    }[];
+  }
+
   /** Additional fields to include in activity log */
   export interface LogFields {
     /** Origin or source application of the event */
@@ -320,17 +332,32 @@ export namespace AIGuard {
     value: string;
   }
 
-  export interface PIIEntity {
-    action: string;
-    start_pos?: number;
-    type: string;
-    value: string;
-  }
-
   export interface Detector<T> {
-    detected: boolean;
+    detected: boolean | null;
     data: T | null;
   }
+
+  // This is named "prompt injection" in the API spec even though it is also
+  // used for many other detectors.
+  export type PromptInjectionAction = "report" | "block";
+
+  export type MaliciousEntityAction =
+    | "report"
+    | "defang"
+    | "disabled"
+    | "block";
+
+  // This is named "PII entity" in the API spec even though it is also used for
+  // the secrets detector.
+  export type PiiEntityAction =
+    | "disabled"
+    | "report"
+    | "block"
+    | "mask"
+    | "partial_masking"
+    | "replacement"
+    | "hash"
+    | "fpe";
 
   export interface TextGuardRequest {
     /**
@@ -346,8 +373,97 @@ export namespace AIGuard {
      */
     debug?: boolean;
 
-    /** Short string hint for the LLM Provider information */
-    llm_info?: string;
+    overrides?: {
+      /** Bypass existing Recipe content and create an on-the-fly Recipe. */
+      ignore_recipe?: boolean;
+
+      code_detection?: { disabled?: boolean; action?: "report" | "block" };
+      competitors?: { disabled?: boolean; action?: PromptInjectionAction };
+      gibberish?: { disabled?: boolean; action?: PromptInjectionAction };
+      language_detection?:
+        | { disabled: boolean }
+        | { allow: string[] }
+        | { block: string[] }
+        | { report: string[] };
+      malicious_entity?: {
+        disabled?: boolean;
+        ip_address?: MaliciousEntityAction;
+        url?: MaliciousEntityAction;
+        domain?: MaliciousEntityAction;
+      };
+      pii_entity?: {
+        disabled?: boolean;
+        email_address?: PiiEntityAction;
+        nrp?: PiiEntityAction;
+        location?: PiiEntityAction;
+        person?: PiiEntityAction;
+        phone_number?: PiiEntityAction;
+        date_time?: PiiEntityAction;
+        ip_address?: PiiEntityAction;
+        url?: PiiEntityAction;
+        money?: PiiEntityAction;
+        credit_card?: PiiEntityAction;
+        crypto?: PiiEntityAction;
+        iban_code?: PiiEntityAction;
+        us_bank_number?: PiiEntityAction;
+        nif?: PiiEntityAction;
+        "fin/nric"?: PiiEntityAction;
+        au_abn?: PiiEntityAction;
+        au_acn?: PiiEntityAction;
+        au_tfn?: PiiEntityAction;
+        medical_license?: PiiEntityAction;
+        uk_nhs?: PiiEntityAction;
+        au_medicare?: PiiEntityAction;
+        us_drivers_license?: PiiEntityAction;
+        us_itin?: PiiEntityAction;
+        us_passport?: PiiEntityAction;
+        us_ssn?: PiiEntityAction;
+      };
+      prompt_injection?: { disabled?: boolean; action?: PromptInjectionAction };
+      roleplay?: { disabled?: boolean; action?: PromptInjectionAction };
+      secrets_detection?: {
+        disabled?: boolean;
+        slack_token?: PiiEntityAction;
+        rsa_private_key?: PiiEntityAction;
+        ssh_dsa_private_key?: PiiEntityAction;
+        ssh_ec_private_key?: PiiEntityAction;
+        pgp_private_key_block?: PiiEntityAction;
+        amazon_aws_access_key_id?: PiiEntityAction;
+        amazon_aws_secret_access_key?: PiiEntityAction;
+        amazon_mws_auth_token?: PiiEntityAction;
+        facebook_access_token?: PiiEntityAction;
+        github_access_token?: PiiEntityAction;
+        jwt_token?: PiiEntityAction;
+        google_api_key?: PiiEntityAction;
+        google_cloud_platform_api_key?: PiiEntityAction;
+        google_drive_api_key?: PiiEntityAction;
+        google_cloud_platform_service_account?: PiiEntityAction;
+        google_gmail_api_key?: PiiEntityAction;
+        youtube_api_key?: PiiEntityAction;
+        mailchimp_api_key?: PiiEntityAction;
+        mailgun_api_key?: PiiEntityAction;
+        basic_auth?: PiiEntityAction;
+        picatic_api_key?: PiiEntityAction;
+        slack_webhook?: PiiEntityAction;
+        stripe_api_key?: PiiEntityAction;
+        stripe_restricted_api_key?: PiiEntityAction;
+        square_access_token?: PiiEntityAction;
+        square_oauth_secret?: PiiEntityAction;
+        twilio_api_key?: PiiEntityAction;
+        pangea_token?: PiiEntityAction;
+      };
+      selfharm?: {
+        disabled?: boolean;
+        action?: PromptInjectionAction;
+        threshold?: number;
+      };
+      sentiment?: {
+        disabled?: boolean;
+        action?: PromptInjectionAction;
+        threshold?: number;
+      };
+      topic_detection?: { disabled: boolean } | { block: string[] };
+    };
 
     /** Additional fields to include in activity log */
     log_fields?: LogFields;
@@ -357,11 +473,34 @@ export namespace AIGuard {
     /** Result of the recipe analyzing and input prompt. */
     detectors: {
       prompt_injection: Detector<{
+        /** The action taken by this Detector */
         action: string;
+
+        /** Triggered prompt injection analyzers. */
         analyzer_responses: { analyzer: string; confidence: number }[];
       }>;
-      pii_entity?: Detector<{ entities: PIIEntity[] }>;
-      malicious_entity?: Detector<{ entities: MaliciousEntity[] }>;
+      pii_entity?: Detector<RedactEntityResult>;
+      malicious_entity?: Detector<{
+        /** Detected harmful items. */
+        entities: MaliciousEntity[];
+      }>;
+      custom_entity?: Detector<RedactEntityResult>;
+      secrets_detection?: Detector<RedactEntityResult>;
+      profanity_and_toxicity?: Detector<RedactEntityResult>;
+      language_detection?: Detector<{
+        /** The action taken by this Detector */
+        action: string;
+        language: string;
+      }>;
+      topic_detection?: Detector<{
+        /** The action taken by this Detector */
+        action: string;
+      }>;
+      code_detection?: Detector<{
+        /** The action taken by this Detector */
+        action: string;
+        language: string;
+      }>;
     };
 
     /** Updated prompt text, if applicable. */
@@ -369,6 +508,18 @@ export namespace AIGuard {
 
     /** Updated structured prompt, if applicable. */
     prompt_messages?: T;
+
+    /** Whether or not the prompt triggered a block detection. */
+    blocked: boolean;
+
+    /** The Recipe that was used. */
+    recipe: string;
+
+    /**
+     * If an FPE redaction method returned results, this will be the context
+     * passed to unredact.
+     */
+    fpe_context?: string;
   }
 }
 
@@ -426,21 +577,82 @@ export namespace PromptGuard {
 
 export namespace Redact {
   export interface TextResult {
+    /** The redacted text */
     redacted_text?: string;
+
+    /** Number of redactions present in the text */
     count: number;
+
+    /**
+     * If an FPE redaction method returned results, this will be the context
+     * passed to unredact.
+     */
+    fpe_context?: string;
   }
 
   export interface StructuredResult {
+    /** The redacted data */
     redacted_data?: object;
+
+    /** Number of redactions present in the data */
     count: number;
+
+    /**
+     * If an FPE redaction method returned results, this will be the context
+     * passed to unredact.
+     */
+    fpe_context?: string;
   }
 
   export interface Options {
+    /**
+     * Setting this value to true will provide a detailed analysis of the
+     * redacted data and the rules that caused redaction
+     */
     debug?: boolean;
+
+    /** An array of redact rule short names */
     rules?: string[];
+
+    /** An array of redact ruleset short names */
     rulesets?: string[];
+
+    /**
+     * Setting this value to false will omit the redacted result only returning
+     * count
+     */
     return_result?: boolean;
-    redaction_method_overrides?: RedactionMethodOverrides;
+
+    /**
+     * This field allows users to specify the redaction method per rule and its
+     * various parameters.
+     */
+    redaction_method_overrides?: {
+      [rule: string]:
+        | { redaction_type: "mask" | "detect_only" }
+        | { redaction_type: "replacement"; redaction_value: string }
+        | { redaction_type: "partial_masking"; partial_masking: PartialMasking }
+        | {
+            redaction_type: "hash";
+            hash?: {
+              /** The type of hashing algorithm */
+              hash_type: "md5" | "sha256";
+            };
+          }
+        | {
+            redaction_type: "fpe";
+            fpe_alphabet?:
+              | "numeric"
+              | "alphalower"
+              | "alphaupper"
+              | "alpha"
+              | "alphanumericlower"
+              | "alphanumericupper"
+              | "alphanumeric";
+            fpe_tweak_vault_secret_id?: string;
+            fpe_tweak?: string;
+          };
+    };
     vault_parameters?: VaultParameters;
 
     /** Is this redact call going to be used in an LLM request? */
@@ -469,21 +681,6 @@ export namespace Redact {
     data: Object;
   }
 
-  export enum RedactType {
-    MASK = "mask",
-    PARTIAL_MASKING = "partial_masking",
-    REPLACEMENT = "replacement",
-    DETECT_ONLY = "detect_only",
-    HASH = "hash",
-    FPE = "fpe",
-  }
-
-  export enum FPEAlphabet {
-    NUMERIC = "numeric",
-    ALPHANUMERICLOWER = "alphanumericlower",
-    ALPHANUMERIC = "alphanumeric",
-  }
-
   export enum MaskingType {
     MASK = "mask",
     UNMASK = "unmask",
@@ -499,20 +696,16 @@ export namespace Redact {
     masking_char?: string[];
   }
 
-  export interface RedactionMethodOverrides {
-    redaction_type: RedactType;
-    hash?: object;
-    fpe_alphabet?: FPEAlphabet;
-    partial_masking?: PartialMasking;
-    redaction_value?: string;
-  }
-
   export interface UnredactRequest<O = object> {
+    /** Data to unredact */
     redacted_data: O;
+
+    /** FPE context used to decrypt and unredact data */
     fpe_context?: string;
   }
 
   export interface UnredactResult<O = object> {
+    /** The unredacted data */
     data: O;
   }
 }
@@ -983,7 +1176,6 @@ export namespace Vault {
     RSA3072_PSS_SHA256 = "RSA-PSS-3072-SHA256",
     RSA4096_PSS_SHA256 = "RSA-PSS-4096-SHA256",
     RSA4096_PSS_SHA512 = "RSA-PSS-4096-SHA512",
-    RSA = "RSA-PKCS1V15-2048-SHA256", // deprecated, use RSA2048_PKCS1V15_SHA256 instead
     Ed25519_DILITHIUM2_BETA = "ED25519-DILITHIUM2-BETA",
     Ed448_DILITHIUM3_BETA = "ED448-DILITHIUM3-BETA",
     SPHINCSPLUS_128F_SHAKE256_SIMPLE_BETA = "SPHINCSPLUS-128F-SHAKE256-SIMPLE-BETA",
@@ -1010,7 +1202,6 @@ export namespace Vault {
     AES256_GCM = "AES-GCM-256",
     AES128_CBC = "AES-CBC-128",
     AES256_CBC = "AES-CBC-256",
-    AES = "AES-CFB-128", // deprecated, use AES128_CFB instead
 
     /** 128-bit encryption using the FF3-1 algorithm. Beta feature. */
     AES128_FF3_1 = "AES-FF3-1-128-BETA",

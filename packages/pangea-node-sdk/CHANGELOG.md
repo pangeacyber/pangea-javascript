@@ -9,9 +9,25 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
-- Prompt Guard: `classify` parameter.
-- AI Guard: support for structured input.
-- AI Guard: support for `llm_input`, `llm_info`, and `log_fields`.
+- AI Guard: detector overrides.
+- AI Guard: topic detector.
+- AI Guard: `ignore_recipe` in detector overrides.
+
+### Changed
+
+- Redact: corrected `redaction_method_overrides` types.
+
+### Removed
+
+- Deprecated APIs like `PangeaConfig.configID`, `Vault.AsymmetricAlgorithm.RSA`,
+  and `Vault.SymmetricAlgorithm.AES`.
+- AI Guard: `llm_info` and `llm_input`.
+
+## 4.4.0 - 2025-02-16
+
+### Added
+
+- AI Guard and Prompt Guard services.
 
 ### Changed
 

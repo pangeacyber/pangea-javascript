@@ -2,6 +2,7 @@ import { createTheme } from "@mui/material/styles";
 import { GENERIC } from "./config/generic";
 import { PANGEA } from "./config/pangea";
 import { BROWSERFLIX } from "./config/browserflix";
+import { DARK } from "./config/dark";
 
 const getThemeFromConfig = (config: any) => {
   const theme = createTheme({
@@ -76,6 +77,16 @@ const getThemeFromConfig = (config: any) => {
             backgroundColor: config?.input_bg_color,
             input: {
               color: config?.input_text_color,
+            },
+            "&.Mui-focused .MuiOutlinedInput-notchedOutline": {
+              borderColor: config?.input_border_color,
+            },
+
+            "&:hover .MuiOutlinedInput-notchedOutline": {
+              borderColor: config?.input_border_color,
+            },
+            fieldset: {
+              borderColor: config?.input_border_color,
             },
           },
         },
@@ -222,3 +233,4 @@ const getThemeFromConfig = (config: any) => {
 export const genericTheme = getThemeFromConfig(GENERIC);
 export const pangeaTheme = getThemeFromConfig(PANGEA);
 export const browserflixTheme = getThemeFromConfig(BROWSERFLIX);
+export const darkTheme = getThemeFromConfig(DARK);

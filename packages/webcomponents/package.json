@@ -15,28 +15,27 @@
   "publishConfig": {
     "access": "public"
   },
-  "packageManager": "yarn@4.6.0",
+  "packageManager": "yarn@4.9.0",
   "scripts": {
     "build": "parcel build",
     "lint-publint": "publint",
     "typecheck": "tsc --noEmit"
   },
   "devDependencies": {
-    "@babel/core": "^7.26.7",
-    "@babel/plugin-transform-runtime": "^7.25.9",
-    "@babel/preset-env": "^7.26.7",
+    "@babel/core": "^7.26.10",
+    "@babel/plugin-transform-runtime": "^7.26.10",
+    "@babel/preset-env": "^7.26.9",
     "@babel/preset-react": "^7.26.3",
-    "@babel/preset-typescript": "^7.26.0",
-    "@parcel/packager-ts": "2.13.3",
-    "@parcel/transformer-typescript-types": "2.13.3",
-    "babel-loader": "^9.2.1",
+    "@babel/preset-typescript": "^7.27.0",
+    "@parcel/packager-ts": "2.14.4",
+    "@parcel/transformer-typescript-types": "2.14.4",
+    "babel-loader": "^10.0.0",
     "css-loader": "^7.1.2",
-    "parcel": "^2.13.3",
-    "process": "^0.11.10",
-    "publint": "0.2.12",
+    "parcel": "2.14.4",
+    "publint": "0.3.8",
     "style-loader": "^4.0.0",
     "ts-node": "^10.9.2",
-    "typescript": "^5.7.3"
+    "typescript": "^5.8.3"
   },
   "dependencies": {
     "@emotion/cache": "^11.14.0",
@@ -46,12 +45,12 @@
     "@mui/material": "^6.1.6",
     "@mui/styled-engine-sc": "^6.1.5",
     "@mui/types": "^7.2.18",
-    "@pangeacyber/react-mui-audit-log-viewer": "^1.0.6",
+    "@pangeacyber/react-mui-audit-log-viewer": "^1.0.10",
     "@pangeacyber/react-mui-branding": "^1.0.0",
     "@pangeacyber/react-mui-share-file-viewer": "^1.0.3",
     "@preact/compat": "^18.3.1",
-    "preact": "^10.25.4",
-    "styled-components": "^6.1.15"
+    "preact": "^10.26.5",
+    "styled-components": "^6.1.17"
   },
   "alias": {
     "react": "preact/compat",

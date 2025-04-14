@@ -48,15 +48,4 @@ describe("AI Guard", () => {
     expect(response.status).toStrictEqual("Success");
     expect(response.result.prompt_messages).toBeDefined();
   });
-
-  it("should support LLM input", async () => {
-    const response = await client.guardText({
-      llm_input: {
-        model: "gpt-4o",
-        messages: [{ role: "user", content: "what was pangea?" }],
-      },
-    });
-    expect(response.status).toStrictEqual("Success");
-    expect(response.result.prompt_messages).toBeDefined();
-  });
 });

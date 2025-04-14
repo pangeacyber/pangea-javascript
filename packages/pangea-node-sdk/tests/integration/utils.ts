@@ -39,3 +39,7 @@ export function skipAccepted(fn: () => Promise<void>): () => Promise<void> {
     await trySlowRequest(fn);
   };
 }
+
+export const delay = (ms: number) => {
+  return new Promise((resolve) => setTimeout(resolve, ms));
+};

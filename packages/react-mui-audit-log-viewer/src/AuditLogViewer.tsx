@@ -6,7 +6,7 @@ import { DataGridProps, GridColDef } from "@mui/x-data-grid";
 
 import AuditLogViewerComponent from "./components/AuditLogViewerComponent";
 
-import { Audit, AuthConfig, SchemaOptions } from "./types";
+import { Audit, AuthConfig, FilterOptions, SchemaOptions } from "./types";
 import AuditContextProvider from "./hooks/context";
 import { usePublishedRoots } from "./hooks/root";
 import { DEFAULT_AUDIT_SCHEMA, useSchema } from "./hooks/schema";
@@ -108,6 +108,9 @@ export interface AuditLogViewerProps<Event = Audit.DefaultEvent> {
 
   /** Options of mutating the audit schema the component uses */
   schemaOptions?: SchemaOptions;
+
+  /** Optional filtering options */
+  filterOptions?: FilterOptions;
 }
 
 /**
@@ -124,6 +127,7 @@ const AuditLogViewerWithProvider = <Event,>({
   initialQuery,
   filters,
   fpeOptions,
+  filterOptions,
   ...props
 }: AuditLogViewerProps<Event>): JSX.Element => {
   const { schema } = useSchema(config, schemaProp, schemaOptions);
@@ -270,6 +274,7 @@ const AuditLogViewerWithProvider = <Event,>({
 
   return (
     <AuditContextProvider
+      schema={schema}
       total={count}
       loading={loading}
       resultsId={searchResponse?.id}
@@ -287,6 +292,7 @@ const AuditLogViewerWithProvider = <Event,>({
       rowToLeafIndex={rowToLeafIndex}
       initialQuery={initialQuery}
       filters={filters}
+      filterOptions={filterOptions}
     >
       <AuditLogViewerComponent
         schema={schema}

@@ -1,4 +1,4 @@
-import { FC, useState, useRef, useEffect } from "react";
+import { FC, useState, useRef, useEffect, ReactNode } from "react";
 import { Button, ButtonProps, Stack } from "@mui/material";
 import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
 import { useTheme } from "@mui/material/styles";
@@ -6,13 +6,14 @@ import { useTheme } from "@mui/material/styles";
 import BasicTabs, { BasicTab } from "../BasicTabs";
 
 import PopperCard from "../PopoutCard";
-import RelativeDateRangeField, {
-  getRelativeDateRange,
-  getDisplayDateRange,
-  RelativeRange,
-} from "../RelativeDateRangeField";
+import RelativeDateRangeField from "../RelativeDateRangeField";
+import { getDisplayDateRange } from "../RelativeDateRangeField/utils";
 import QuickTimeRanges from "./QuickTimeRanges";
 import DateTimeField from "./DateTimeField";
+import {
+  RelativeRange,
+  TimeRangeString,
+} from "../RelativeDateRangeField/types";
 
 /**
  * FIXME: Cleanup - Hard coded "between" | "after" | "before" values
@@ -38,7 +39,7 @@ export const getDisplayValue = (value: TimeRangeObject): string => {
     return `Before: ${new Date(value?.before ?? "").toDateString()}`;
   }
 
-  return "";
+  return "0 day";
 };
 
 const TimeRangeTab: FC<{
@@ -79,6 +80,15 @@ export interface TimeRangeObject {
 export interface TimeRangeSelectProps {
   value: TimeRangeObject;
   setValue: (value: TimeRangeObject) => void;
+
+  children?: ReactNode;
+  EndAdornment?: FC<{
+    value: TimeRangeObject;
+    setValue: (value: TimeRangeObject) => void;
+  }>;
+
+  quickTimeRanges?: TimeRangeString[];
+
   ButtonProps?: Partial<ButtonProps>;
 }
 
@@ -86,6 +96,11 @@ const TimeRangeSelect: FC<TimeRangeSelectProps> = ({
   value: parentValue,
   setValue,
   ButtonProps = {},
+
+  children,
+  EndAdornment,
+
+  quickTimeRanges,
 }) => {
   const theme = useTheme();
   const [open, setOpen] = useState(false);
@@ -134,6 +149,7 @@ const TimeRangeSelect: FC<TimeRangeSelectProps> = ({
               setValue({ ...value, since: newValue, active: "since" });
               setOpen(false);
             }}
+            ranges={quickTimeRanges}
           />
           <BasicTabs defaultTab={parentValue.active ?? "since"}>
             <TimeRangeTab
@@ -147,7 +163,7 @@ const TimeRangeSelect: FC<TimeRangeSelectProps> = ({
                 name="since"
                 label="From the last"
                 autoFocus
-                value={value["since"] ?? ""}
+                value={value["since"] ?? "0day"}
                 setValue={(newValue) =>
                   setInternalValue({ ...value, since: newValue })
                 }
@@ -217,6 +233,10 @@ const TimeRangeSelect: FC<TimeRangeSelectProps> = ({
               </Stack>
             </TimeRangeTab>
           </BasicTabs>
+          {!!EndAdornment && (
+            <EndAdornment value={value} setValue={setInternalValue} />
+          )}
+          {children}
         </Stack>
       </PopperCard>
     </>

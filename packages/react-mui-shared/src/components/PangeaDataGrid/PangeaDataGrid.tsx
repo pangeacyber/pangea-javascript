@@ -37,7 +37,6 @@ import Pagination from "./components/Pagination";
 import ResultsBar from "./components/Results";
 import SearchBar from "./components/Search";
 
-import { ConditionalOption } from "../ConditionalAutocomplete";
 import { PreviewPanel } from "./components/PreviewPanel";
 import { FilterFormProps } from "./components/Search/FiltersForm";
 import {
@@ -47,6 +46,8 @@ import {
 import ColumnHeaders from "./components/ColumnHeaders";
 import { PDG } from "./types";
 import { getModelFromVisibility, getVisibilityFromModel } from "./utils";
+import { OptionComponentProps } from "../ConditionalAutocomplete/AutocompleteOptionComponent";
+import { ConditionalOption } from "../ConditionalAutocomplete/types";
 
 export interface PangeaDataGridProps<
   DataType extends GridValidRowModel,
@@ -98,6 +99,9 @@ export interface PangeaDataGridProps<
     onChange: (query: string) => void;
     conditionalOptions?: ConditionalOption[];
     Filters?: FilterFormProps<FiltersObj>;
+    ConditionalAutocompleteProps?: {
+      OptionComponent?: FC<OptionComponentProps>;
+    };
     EndFilterButton?: FC<FilterFormProps<FiltersObj>>;
     StartBarComponent?: ReactNode;
     EndBarComponent?: ReactNode;

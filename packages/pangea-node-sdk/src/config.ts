@@ -1,6 +1,6 @@
 import { ConfigOptions, ConfigEnv } from "./types.js";
 
-export const version = "4.4.0-beta.2";
+export const version = "4.4.0";
 
 /** Configuration for a Pangea service client. */
 class PangeaConfig {
@@ -15,9 +15,6 @@ class PangeaConfig {
    * used for.
    */
   environment: ConfigEnv = ConfigEnv.PRODUCTION;
-
-  /** Config ID for multi-config projects. */
-  configID?: string;
 
   /**
    * Whether or not to perform requests via plain HTTP, as opposed to secure

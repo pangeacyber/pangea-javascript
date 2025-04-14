@@ -7,6 +7,6 @@
   "license": "MIT",
   "packageManager": "yarn@1.22.22",
   "dependencies": {
-    "pangea-node-sdk": "4.3.0"
+    "pangea-node-sdk": "4.4.0"
   }
 }

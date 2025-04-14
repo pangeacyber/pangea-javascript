@@ -3,15 +3,24 @@ import merge from "lodash/merge";
 import pick from "lodash/pick";
 import map from "lodash/map";
 import get from "lodash/get";
-import some from "lodash/some";
 import cloneDeep from "lodash/cloneDeep";
 import keyBy from "lodash/keyBy";
 import mapValues from "lodash/mapValues";
+import find from "lodash/find";
+import some from "lodash/some";
 
-import { Audit, AuthConfig, SchemaOptions } from "../types";
+import {
+  Audit,
+  AuthConfig,
+  FieldFilterOptions,
+  FilterOptions,
+  SchemaOptions,
+} from "../types";
 import { GridColDef } from "@mui/x-data-grid";
 import {
-  FilterOptions,
+  AutocompleteValueOption,
+  ConditionalOption,
+  FilterOptions as FilterComponentOptions,
   PDG,
   useGridSchemaColumns,
 } from "@pangeacyber/react-mui-shared";
@@ -158,7 +167,7 @@ export const useSchema = (
   const schema = useMemo(() => {
     const schema = cloneDeep(schemaProp ?? schema_);
     schema.fields = schema.fields?.filter(
-      (f) =>
+      (f: Audit.SchemaField) =>
         !options?.hiddenFields?.length || !options?.hiddenFields?.includes(f.id)
     );
 
@@ -190,7 +199,7 @@ export const useAuditColumns = <Event,>(
     // @ts-ignore
     const defaultColumnDefinitions: PDG.GridSchemaFields<Event> = mapValues(
       keyBy(schemaFields, "id"),
-      (field) => {
+      (field: Audit.SchemaField) => {
         const isLarge =
           (field.type === "string" ||
             field.type === "string-unindexed" ||
@@ -240,7 +249,7 @@ export const useAuditColumns = <Event,>(
       defaultColumnDefinitions,
       pick(
         fields ?? {},
-        map(schemaFields, (f) => f.id)
+        map(schemaFields, (f: Audit.SchemaField) => f.id)
       )
     );
   }, [fields, fieldTypes, schema]);
@@ -271,7 +280,7 @@ export const useDefaultVisibility = <Event,>(schema: Audit.Schema) => {
 
     return mapValues(
       keyBy(schemaFields, "id"),
-      (field) => !!field.ui_default_visible
+      (field: Audit.SchemaField) => !!field.ui_default_visible
     );
   }, [schema]);
 
@@ -282,61 +291,245 @@ export const useDefaultOrder = <Event,>(schema: Audit.Schema) => {
   const order = useMemo(() => {
     const schemaFields = schema?.fields ?? [];
 
-    return map(schemaFields, (field) => field.id);
+    return map(schemaFields, (field: Audit.SchemaField) => field.id);
   }, [schema]);
 
   return order;
 };
 
-export const useAuditFilterFields = <Event,>(schema: Audit.Schema) => {
-  const fields: FilterOptions<Event> = useMemo(() => {
+export const useAuditFilterFields = <Event,>(
+  schema: Audit.Schema,
+  options: FilterOptions | undefined = undefined
+) => {
+  const fields: FilterComponentOptions<Event> = useMemo(() => {
     const filterableFields = (schema?.fields ?? []).filter(
-      (field) => field.type !== "string-unindexed"
+      (field) =>
+        field.type !== "string-unindexed" &&
+        (!options?.filterableFields ||
+          options?.filterableFields?.includes(field.id))
     );
 
     // @ts-ignore
-    const fields: FilterOptions<Event> = mapValues(
+    const fields: FilterComponentOptions<Event> = mapValues(
       keyBy(filterableFields, "id"),
-      (field) => {
+      (field: Audit.SchemaField) => {
         return {
           label: field.name ?? field.id,
+          valueOptions: find(options?.fieldOptions, (fo) => fo.id === field.id)
+            ?.valueOptions,
         };
       }
     );
 
     return fields;
-  }, [schema]);
+  }, [schema, options?.filterableFields]);
 
   return fields;
 };
 
 const operators = new Set(["AND", "OR"]);
+const fieldOperatorsList = [":", "=", ">", "<"];
+const fieldOperators = new Set(fieldOperatorsList);
 
-export const useAuditConditionalOptions = <Event,>(schema: Audit.Schema) => {
-  const options = useMemo(() => {
+const getFieldsOperationOptions = (fields: Audit.SchemaField[]) => {
+  const options: AutocompleteValueOption[] = [];
+
+  fields.forEach((field) => {
+    if (field.type === "boolean") {
+      options.push({
+        value: `${field.id}=`,
+        label: `${field.name ?? field.id}`,
+        caption: "is",
+      });
+    } else if (field.type === "integer" || field.type === "datetime") {
+      options.push({
+        value: `${field.id}=`,
+        label: `${field.name ?? field.id}`,
+        caption: "is",
+      });
+      options.push({
+        value: `${field.id}<`,
+        label: `${field.name ?? field.id}`,
+        caption: "less than",
+      });
+      options.push({
+        value: `${field.id}>`,
+        label: `${field.name ?? field.id}`,
+        caption: "greater than",
+      });
+    } else {
+      options.push({
+        value: `${field.id}=`,
+        label: `${field.name ?? field.id}`,
+        caption: "is",
+      });
+
+      options.push({
+        value: `${field.id}:`,
+        label: `${field.name ?? field.id}`,
+        caption: "contains",
+      });
+    }
+  });
+
+  return options;
+};
+
+export const getFieldValueOptions = (
+  field: Audit.SchemaField,
+  options: FieldFilterOptions | undefined
+) => {
+  const valueOptions: AutocompleteValueOption[] = [];
+
+  if (options?.valueOptions) {
+    return options.valueOptions;
+  }
+
+  if (field.type === "boolean") {
+    return [
+      {
+        label: "True",
+        value: "true",
+      },
+      {
+        label: "False",
+        value: "false",
+      },
+    ] as AutocompleteValueOption[];
+  }
+
+  if (field.type === "datetime") {
+    const today = new Date();
+
+    const yesterday = new Date();
+    yesterday.setDate(new Date().getDate() - 1);
+
+    const anHourAgo = new Date(today.getTime() - 60 * 60 * 1000);
+
+    return [
+      {
+        label: "Today",
+        value: `"${today.toISOString().split("T")[0]}"`,
+        caption: today.toLocaleString(undefined, {
+          year: "numeric",
+          month: "2-digit",
+          day: "2-digit",
+          hour: undefined,
+          minute: undefined,
+          second: undefined,
+        }),
+      },
+      {
+        label: "Current time",
+        value: `"${today.toISOString()}"`,
+        caption: today.toLocaleString(undefined, {
+          year: "numeric",
+          month: "2-digit",
+          day: "2-digit",
+          hour: "2-digit",
+          minute: "2-digit",
+          second: "2-digit",
+        }),
+      },
+      {
+        label: "An hour ago",
+        value: `"${anHourAgo.toISOString()}"`,
+        caption: anHourAgo.toLocaleString(undefined, {
+          year: "numeric",
+          month: "2-digit",
+          day: "2-digit",
+          hour: "2-digit",
+          minute: "2-digit",
+          second: "2-digit",
+        }),
+      },
+      {
+        label: "Yesterday",
+        value: `"${yesterday.toISOString().split("T")[0]}"`,
+        caption: yesterday.toLocaleString(undefined, {
+          year: "numeric",
+          month: "2-digit",
+          day: "2-digit",
+          hour: undefined,
+          minute: undefined,
+          second: undefined,
+        }),
+      },
+    ] as AutocompleteValueOption[];
+  }
+
+  return valueOptions;
+};
+
+const getFieldsConditionalOptions = (
+  fields: Audit.SchemaField[],
+  filterOptions: FieldFilterOptions[]
+) => {
+  const options: ConditionalOption[] = [];
+
+  fields.forEach((field) => {
+    const fieldFilterOptions = find(filterOptions, (fo) => fo.id === field.id);
+    const valueOptions = getFieldValueOptions(field, fieldFilterOptions);
+
+    if (!valueOptions?.length) {
+      return; // continue, no value options for field
+    }
+
+    fieldOperators.forEach((operator) => {
+      options.push({
+        match: (current: string, previous: string) => {
+          return (
+            (!previous || operators.has(previous)) &&
+            current?.startsWith(`${field.id}${operator}`)
+          );
+        },
+        options: valueOptions?.map((vo) => ({
+          ...vo,
+          value: `${field.id}${operator}${vo.value} `,
+        })),
+      });
+    });
+  });
+
+  return options;
+};
+
+export const useAuditConditionalOptions = <Event,>(
+  schema: Audit.Schema,
+  options: FilterOptions | undefined = undefined
+) => {
+  const autocomplete = useMemo(() => {
     const optionalFields = (schema?.fields ?? []).filter(
-      (field) => field.type !== "string-unindexed"
+      (field) =>
+        field.type !== "string-unindexed" &&
+        (!options?.filterableFields ||
+          options?.filterableFields?.includes(field.id))
     );
 
     return [
       {
-        match: (current: string, previous: string) =>
-          (!previous || operators.has(previous)) && !current.includes(":"),
-        options: optionalFields.map((field) => ({
-          value: `${field.id}:`,
-          label: field.name ?? field.id,
-        })),
+        match: (current: string, previous: string) => {
+          return (
+            (!previous || operators.has(previous)) &&
+            !some(fieldOperatorsList, (v: string) => current.includes(v))
+          );
+        },
+        options: getFieldsOperationOptions(optionalFields),
       },
+      ...getFieldsConditionalOptions(
+        optionalFields,
+        options?.fieldOptions ?? []
+      ),
       {
         match: (current: string, previous: string) =>
           !operators.has(previous) && !current.includes(":"),
         options: [
-          { value: "AND", label: "And" },
-          { value: "OR", label: "Or" },
+          { value: "AND ", label: "AND" },
+          { value: "OR ", label: "OR" },
         ],
       },
     ];
-  }, [schema]);
+  }, [schema, options?.fieldOptions]);
 
-  return options;
+  return autocomplete;
 };

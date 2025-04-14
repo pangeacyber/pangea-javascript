@@ -5,7 +5,7 @@ import { Box } from "@mui/material";
 import { SxProps } from "@mui/system";
 import { DataGridProps, GridColDef, GridSortModel } from "@mui/x-data-grid";
 
-import { Audit } from "../../types";
+import { Audit, FilterOptions } from "../../types";
 import {
   useAuditContext,
   usePagination,
@@ -25,6 +25,7 @@ import {
 } from "../../hooks/schema";
 import { PublicAuditQuery } from "../../types/query";
 import DownloadButton from "./DownloadButton";
+import AuditLogViewerFiltersForm from "../AuditLogViewerFiltersForm";
 
 export interface ViewerProps<Event = Audit.DefaultEvent> {
   initialQuery?: string;
@@ -94,6 +95,8 @@ const AuditLogViewerComponent: FC<ViewerProps> = ({
     setQuery,
     setQueryObj,
     setSort,
+
+    filterOptions,
   } = useAuditContext();
   const { body, bodyWithoutQuery } = useAuditBody(limit, maxResults);
   const pagination = usePagination();
@@ -102,8 +105,8 @@ const AuditLogViewerComponent: FC<ViewerProps> = ({
 
   const schemaColumns = useAuditColumns(schema, fields, fieldTypes);
   const columns = useAuditColumnsWithErrors(schemaColumns, logs);
-  const filterFields = useAuditFilterFields(schema);
-  const conditionalOptions = useAuditConditionalOptions(schema);
+  const filterFields = useAuditFilterFields(schema, filterOptions);
+  const conditionalOptions = useAuditConditionalOptions(schema, filterOptions);
 
   const hasMountedRef = useRef<string | undefined>(undefined);
 
@@ -217,10 +220,17 @@ const AuditLogViewerComponent: FC<ViewerProps> = ({
             filters: queryObj,
             onFilterChange: (values) =>
               setQueryObj(
-                mapValues(values, (v) => (typeof v === "string" ? v.trim() : v))
+                mapValues(values, (v: any) =>
+                  typeof v === "string" ? v.trim() : v
+                )
               ),
+
             // @ts-ignore
             options: filterFields,
+
+            // @ts-ignore AuditFiltersObject is a different format than standard, that is okay,
+            // It directly uses the log viewer context to update the query
+            FiltersFormComponent: AuditLogViewerFiltersForm,
           },
           conditionalOptions,
           // @ts-ignore

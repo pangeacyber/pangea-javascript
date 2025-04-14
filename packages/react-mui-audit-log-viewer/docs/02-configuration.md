@@ -49,4 +49,3 @@ Want to apply your Pangea branding to your end application? Check out the `@pang
 - Learn more about the properties and options available to you with the [Secure Audit Log Viewer API Reference Documentation](./api-reference)
 - Check out our [Admin Guide](https://pangea.cloud/docs/admin-guide/) if you have a specific task you would like to complete
 - If you are feeling confident, you can browse our [APIs](https://pangea.cloud/docs/api/) or explore our [GitHub repo](https://github.com/pangeacyber), which has libraries for supported languages, SDKs, sample apps, etc
-- For any questions, you can connect with our [Pangea Discourse for Builders](https://l.pangea.cloud/Jd4wlGs)

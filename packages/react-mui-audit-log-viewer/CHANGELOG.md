@@ -5,6 +5,37 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.0.10] - 2025-04-01
+
+### Fixed
+
+- Updated to "@pangeacyber/react-mui-shared": "1.0.7" to fix filter menu closing on multiple click, with empty input
+- Fixed filter component not updating the query with the filters prop passed
+
+## [1.0.9] - 2025-02-27
+
+### Fixed
+
+- Updated to "@pangeacyber/react-mui-shared": "1.0.6" to fix filter menu closing on first click
+
+## [1.0.8] - 2025-02-25
+
+### Added
+
+- Updated to "@pangeacyber/react-mui-shared": "1.0.4"
+- Added support for filterOptions.hotStorageRange to support warning users searching outside of hot storage
+- Added support for filterOptions.quickTimeRanges to allow direct control over quick search time range buttons
+- Added support for filterOptions.filterableFields to be able to control and limit which fields in the schema should appear as filter selectable fields
+- Added support for filterOptions.fieldOptions to specify known existing valueOptions for fields, to improve field autocomplete searching
+- Updated AuditLogViewer query autocomplete logic to include all supported operands (":", "=", ">", "<")
+- Fixed AuditLogViewer filter menu to build query conditions, leveraging with AND or OR joiners. The filter menu now simply appends to the existing query instead of overriding the query
+
+## [1.0.7] - 2025-02-19
+
+### Fixed
+
+- Boolean field rendering displaying undefined when empty, now displays nothing
+
 ## [1.0.6] - 2024-12-18
 
 ### Added

@@ -66,30 +66,9 @@ export class AIGuardService extends BaseService {
    *   addition of malicious content, and other undesirable data transfers.
    * @operationId ai_guard_post_v1_text_guard
    * @param request Request parameters.
-   * @example
-   * ```ts
-   * const response = await aiGuard.guardText({
-   *   llm_input: {
-   *     model: "gpt-4o",
-   *     messages: [{ role: "user", content: "what was pangea?" }],
-   *   },
-   * });
-   * ```
    */
   guardText<T>(
-    request: { llm_input: T } & AIGuard.TextGuardRequest
-  ): Promise<PangeaResponse<AIGuard.TextGuardResult<T>>>;
-
-  /**
-   * @summary Text Guard for scanning LLM inputs and outputs
-   * @description Analyze and redact text to avoid manipulation of the model,
-   *   addition of malicious content, and other undesirable data transfers.
-   * @operationId ai_guard_post_v1_text_guard
-   * @param request Request parameters.
-   */
-  guardText<T>(
-    request: ({ text: string } | { messages: T } | { llm_input: T }) &
-      AIGuard.TextGuardRequest
+    request: ({ text: string } | { messages: T }) & AIGuard.TextGuardRequest
   ): Promise<PangeaResponse<AIGuard.TextGuardResult<T>>> {
     return this.post("v1/text/guard", request);
   }

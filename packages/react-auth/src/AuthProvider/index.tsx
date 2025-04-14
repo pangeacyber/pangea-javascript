@@ -12,7 +12,11 @@ import {
   useState,
 } from "react";
 
-import { AuthNClient, APIResponse } from "@pangeacyber/vanilla-js";
+import {
+  AuthNClient,
+  APIResponse,
+  ClientConfig,
+} from "@pangeacyber/vanilla-js";
 
 import { toUrlEncoded, generateBase58 } from "../shared/utils";
 import {
@@ -166,7 +170,13 @@ export const AuthProvider: FC<AuthProviderProps> = ({
   const [user, setUser] = useState<AuthUser>();
 
   const client = useMemo(() => {
-    return new AuthNClient(config);
+    const clientConfig: ClientConfig = {
+      domain: config.domain,
+      clientToken: config.clientToken,
+      callbackUri: config.callbackUri,
+      usePathApi: config.usePathApi,
+    };
+    return new AuthNClient(clientConfig);
   }, [config]);
 
   /** For local development, use port 4000 for API and 4001 for hosted UI */

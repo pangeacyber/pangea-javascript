@@ -9,7 +9,7 @@ import {
 import { ShareService, PangeaErrors } from "../../src/index.js";
 import { Share, TransferMethod } from "../../src/types.js";
 import { FileUploader } from "../../src/file_uploader.js";
-import { loadTestEnvironment } from "./utils.js";
+import { loadTestEnvironment, delay } from "./utils.js";
 
 const environment = loadTestEnvironment("share", TestEnvironment.LIVE);
 const token = getTestToken(environment);
@@ -31,11 +31,6 @@ const ADD_TAGS = ["tag3"];
 const testFilePath = "./tests/testdata/testfile.pdf";
 const zeroBytesFilePath = "./tests/testdata/zerobytes.txt";
 jest.setTimeout(120000);
-
-const delay = async (ms: number) =>
-  new Promise((resolve) => {
-    setTimeout(resolve, ms);
-  });
 
 it("Folder create/delete", async () => {
   const respCreate = await client.folderCreate({ folder: FOLDER_DELETE });

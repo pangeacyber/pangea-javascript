@@ -2,10 +2,10 @@ import { Stack, Typography } from "@mui/material";
 import { FC, useMemo } from "react";
 import { PreviewFieldValueProps } from "./types";
 import CopyButton from "../../IconButtons/CopyButton";
-import { getDisplayDateRange } from "../../RelativeDateRangeField";
 import JsonViewer from "../../JsonViewer";
 import { DateCell, DateTimeCell } from "../../PangeaDataGrid/cells";
 import ListCell from "../ListCell";
+import { getDisplayDateRange } from "../../RelativeDateRangeField/utils";
 
 export const StringPreviewField: FC<PreviewFieldValueProps> = ({ value }) => {
   return (

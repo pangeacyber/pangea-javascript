@@ -11,6 +11,7 @@ This directory contains multiple Storybook examples demonstrating how to use and
   - [BrandedAuditLogViewer.stories.tsx (Themed Example)](#brandedauditlogviewerstoriestsx-themed-example)
   - [DefaultsAuditLogViewer.stories.tsx](#defaultsauditlogviewerstoriestsx)
   - [VerificationAuditLogViewer.stories.tsx](#verificationauditlogviewerstoriestsx)
+  - [FilterOptionsAuditLogViewer.stories.tsx](#filteroptionsauditlogviewerstoriestsx)
   - [Environment Variables](#environment-variables)
   - [Contributing](#contributing)
 
@@ -76,6 +77,24 @@ Use this example to see a more advanced user-experience pattern where the UI upd
   - `verificationOptions.onFetchRoot`: Fetches the published root from your server’s `/root` endpoint so that `AuditLogViewer` can verify the logs’ `membership_proof`.
 - **UI Change**:
   - The leftmost column displays verification results instead of the normal expand/collapse arrow.
+- **Other Callbacks**:
+  - `onSearch`, `onPageChange` for retrieving log data and pagination.
+  - `onDownload` for exporting logs if desired.
+
+This example is crucial if you want to ensure tamper-proof integrity in your logs and display verification statuses directly in the UI.
+
+---
+
+## FilterOptionsAuditLogViewer.stories.tsx
+
+**Purpose**: Demonstrates a usage of filterOptions for the AuditLogViewer.
+
+- **Key Prop**:
+
+  - `filterOptions.hotStorageRange`: Specifies the optional search window for searches and provides a warning when exceeded
+  - `filterOptions.filterableFields`: Specifies exactly which field in the schema should appear as filterable
+  - `filterOptions.fieldOptions`: Specifies known valueOptions for fields to improve auto-complete over the field filtering
+
 - **Other Callbacks**:
   - `onSearch`, `onPageChange` for retrieving log data and pagination.
   - `onDownload` for exporting logs if desired.

@@ -13,6 +13,8 @@ import {
 } from "../components/PangeaDataGrid";
 import { Show, SHOWS } from "./data/television";
 import { SingleSelectCell, TextCell } from "../components/PangeaDataGrid/cells";
+import { FieldFilterOptions } from "../../../react-mui-audit-log-viewer/src/types";
+import { ConditionalOption } from "../components/ConditionalAutocomplete/types";
 
 export default {
   title: "LinedPangeaDataGrid",
@@ -23,6 +25,69 @@ export default {
     },
   },
 } as Meta<typeof LinedPangeaDataGrid>;
+
+const operators = new Set(["AND", "OR"]);
+
+const schemaFileds = [
+  {
+    id: "cheese",
+    name: "Cheese",
+  },
+];
+
+const fieldOptions: FieldFilterOptions[] = [
+  {
+    id: "cheese",
+    valueOptions: [
+      {
+        value: "true",
+        label: "Hello",
+      },
+    ],
+  },
+];
+
+const getConditionOptions = (): ConditionalOption[] => {
+  return [
+    {
+      match: (current: string, previous: string) => {
+        return (
+          (!previous || operators.has(previous.toUpperCase())) &&
+          !current.includes(":")
+        );
+      },
+      options: schemaFileds.map((field) => ({
+        value: `${field.id}:`,
+        label: field.name ?? field.id,
+      })),
+    },
+    ...((fieldOptions ?? [])
+      .filter((fo) => !!fo.valueOptions?.length)
+      .map((fo) => {
+        return {
+          match: (current: string, previous: string) => {
+            return (
+              (!previous || operators.has(previous.toUpperCase())) &&
+              current?.startsWith(`${fo.id}:`)
+            );
+          },
+          options: fo.valueOptions?.map((vo) => ({
+            value: `${fo.id}:${vo.value} `,
+            label: vo.label,
+          })),
+        };
+      }) as ConditionalOption[]),
+    {
+      match: (current: string, previous: string) => {
+        return !operators.has(previous.toUpperCase()) && !current.includes(":");
+      },
+      options: [
+        { value: "AND ", label: "AND" },
+        { value: "OR ", label: "OR" },
+      ],
+    },
+  ];
+};
 
 const PreviewPanel = ({ data, onClose }) => {
   return (
@@ -125,20 +190,14 @@ const Template: StoryFn<typeof LinedPangeaDataGrid> = (args) => {
                   label: "Tags",
                   type: "csv",
                 },
+                who: {
+                  label: "Who",
+                  type: "csv",
+                },
               },
               showFilterChips: true,
             },
-            conditionalOptions: [
-              {
-                match: () => true,
-                options: [
-                  {
-                    value: "cheese:",
-                    label: "Cheesy",
-                  },
-                ],
-              },
-            ],
+            conditionalOptions: getConditionOptions(),
           }}
           PreviewPanel={{
             component: PreviewPanel,

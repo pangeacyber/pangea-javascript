@@ -77,6 +77,9 @@ const LinedPangeaDataGrid = <
           {
             borderBottom: "none",
           },
+        ".MuiDataGrid-scrollbar": {
+          zIndex: 1,
+        },
         ...(props?.sx ?? {}),
       }}
     />
