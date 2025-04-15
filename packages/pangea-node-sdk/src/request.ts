@@ -4,6 +4,7 @@ import { FormDataEncoder } from "form-data-encoder";
 import { File, FormData } from "formdata-node";
 import { fileFromPath } from "formdata-node/file-from-path";
 import promiseRetry from "promise-retry";
+import * as qs from "neoqs/legacy";
 
 import PangeaConfig, { version } from "./config.js";
 import { PangeaErrors } from "./errors.js";
@@ -59,6 +60,50 @@ class PangeaRequest {
   }
 
   /**
+   * `DELETE` request.
+   *
+   * @param endpoint Endpoint path.
+   * @returns A `Promise` of the response.
+   */
+  public async delete(endpoint: string): Promise<Response> {
+    const url = this.getUrl(endpoint);
+    return await this.httpRequest(url, {
+      method: "DELETE",
+      headers: this.getHeaders(),
+    });
+  }
+
+  /**
+   * `POST` request.
+   *
+   * @template R Result type.
+   * @param endpoint Endpoint path.
+   * @param data Request body.
+   * @param options Additional options.
+   * @returns A `Promise` of the response.
+   */
+  public async post<R>(
+    endpoint: string,
+    data: Request,
+    options?: PostOptions & { pangeaResponse?: true }
+  ): Promise<PangeaResponse<R>>;
+
+  /**
+   * `POST` request.
+   *
+   * @template R Result type.
+   * @param endpoint Endpoint path.
+   * @param data Request body.
+   * @param options Additional options.
+   * @returns A `Promise` of the response.
+   */
+  public async post<R>(
+    endpoint: string,
+    data: Request,
+    options: PostOptions & { pangeaResponse: false }
+  ): Promise<R>;
+
+  /**
    * `POST` request.
    *
    * @template R Result type.
@@ -71,7 +116,9 @@ class PangeaRequest {
     endpoint: string,
     data: Request,
     options: PostOptions = {}
-  ): Promise<PangeaResponse<R>> {
+  ): Promise<PangeaResponse<R> | R> {
+    options = Object.assign({ pangeaResponse: true }, options);
+
     const url = this.getUrl(endpoint);
     this.checkConfigID(data);
 
@@ -93,6 +140,10 @@ class PangeaRequest {
         responseType: responseType,
       };
       response = await this.httpPost(url, request);
+
+      if (responseType === "json" && !options.pangeaResponse) {
+        return (await response.json()) as R;
+      }
     }
 
     return this.handleHttpResponse(response, options);
@@ -382,10 +433,16 @@ class PangeaRequest {
     options: {
       body?: AsyncIterable<Uint8Array> | Buffer | FormData | string;
       headers?: Record<string, string>;
-      method: "GET" | "POST" | "PUT";
+      method: "DELETE" | "GET" | "POST" | "PUT";
+      query?: Record<string, unknown>;
       retry?: { limit: number };
     }
   ): Promise<Response> {
+    const parsedUrl = new URL(url);
+    if (options.query) {
+      parsedUrl.search = qs.stringify(options.query);
+    }
+
     const fetchOptions: RequestInit = {
       duplex: "half",
       method: options.method,
@@ -395,7 +452,7 @@ class PangeaRequest {
 
     return await promiseRetry(
       async (retry, _attempt) => {
-        const response = await fetch(url, fetchOptions);
+        const response = await fetch(parsedUrl, fetchOptions);
 
         // Retry on GET HTTP/404 because the existing result-polling code
         // depends on it. Note that the previous HTTP client, got, did not retry
@@ -429,19 +486,56 @@ class PangeaRequest {
 
   public async get<T>(
     endpoint: string,
-    checkResponse: boolean = true
-  ): Promise<PangeaResponse<T>> {
+    options?: {
+      query?: Record<string, unknown>;
+      checkResponse?: boolean;
+      /** Whether or not the response body follows Pangea's standard response schema */
+      pangeaResponse?: true;
+    }
+  ): Promise<PangeaResponse<T>>;
+
+  public async get<T>(
+    endpoint: string,
+    options: {
+      query?: Record<string, unknown>;
+      checkResponse?: boolean;
+      /** Whether or not the response body follows Pangea's standard response schema */
+      pangeaResponse: false;
+    }
+  ): Promise<T>;
+
+  public async get<T>(
+    endpoint: string,
+    options?: {
+      query?: Record<string, unknown>;
+      checkResponse?: boolean;
+      /** Whether or not the response body follows Pangea's standard response schema */
+      pangeaResponse?: boolean;
+    }
+  ): Promise<PangeaResponse<T> | T> {
+    options = Object.assign(
+      { checkResponse: true, pangeaResponse: true },
+      options
+    );
+
     const url = this.getUrl(endpoint);
     const response = await this.httpRequest(url, {
       headers: this.getHeaders(),
       method: "GET",
       retry: { limit: this.config.requestRetries },
     });
+
+    if (!options.pangeaResponse) {
+      return (await response.json()) as T;
+    }
+
     const pangeaResponse = new PangeaResponse<T>(
       response,
       await response.arrayBuffer()
     );
-    return checkResponse ? this.checkResponse(pangeaResponse) : pangeaResponse;
+    return options.checkResponse
+      ? this.checkResponse(pangeaResponse)
+      : pangeaResponse;
   }
 
   private getDelay(retryCount: number, start: number): number {
@@ -464,8 +558,7 @@ class PangeaRequest {
     checkResponse: boolean = true
   ): Promise<PangeaResponse<R>> {
     const path = `request/${requestId}`;
-    // eslint-disable-next-line no-await-in-loop
-    return await this.get(path, checkResponse);
+    return await this.get(path, { checkResponse });
   }
 
   private async handleAsync(

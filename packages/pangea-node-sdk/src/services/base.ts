@@ -77,7 +77,10 @@ class BaseService {
     data: object,
     options: PostOptions = {}
   ): Promise<PangeaResponse<R>> {
-    return await this.request.post(endpoint, data, options);
+    return await this.request.post(endpoint, data, {
+      ...options,
+      pangeaResponse: true,
+    });
   }
 
   async downloadFile(url: string): Promise<AttachedFile> {
