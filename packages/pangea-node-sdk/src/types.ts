@@ -48,6 +48,9 @@ export type PangeaToken = string | ({ type: "pangea_token" } & Vault.GetResult);
 export interface PostOptions {
   pollResultSync?: boolean;
   files?: FileItems;
+
+  /** Whether or not the response body follows Pangea's standard response schema */
+  pangeaResponse?: boolean;
 }
 
 export enum ConfigEnv {
@@ -291,6 +294,274 @@ export namespace Audit {
      */
     verbose?: boolean;
   }
+
+  export type FieldType =
+    | "boolean"
+    | "datetime"
+    | "integer"
+    | "string"
+    | "string-unindexed"
+    | "text";
+
+  export interface SchemaField {
+    /** Prefix name / identity for the field. */
+    id: string;
+
+    /** The data type for the field. */
+    type: FieldType;
+
+    /** Human display description of the field. */
+    description?: string;
+
+    /** Human display name/title of the field. */
+    name?: string;
+
+    /** If true, redaction is performed against this field (if configured.) Only valid for string type. */
+    redact?: boolean;
+
+    /** If true, this field is required to exist in all logged events. */
+    required?: boolean;
+
+    /** The maximum size of the field. Only valid for strings, which limits number of UTF-8 characters. */
+    size?: number;
+
+    /** If true, this field is visible by default in audit UIs. */
+    ui_default_visible?: boolean;
+  }
+
+  export interface Schema {
+    /** If true, records contain fields to support client/vault signing. */
+    client_signable?: boolean;
+
+    /** Save (or reject) malformed AuditEvents. */
+    save_malformed?: string;
+
+    /** If true, records contain fields to support tamper-proofing. */
+    tamper_proofing?: boolean;
+
+    /** List of field definitions. */
+    fields?: SchemaField[];
+  }
+
+  export interface ForwardingConfiguration {
+    /** Type of forwarding configuration. */
+    type: string;
+
+    /** Whether forwarding is enabled. */
+    forwarding_enabled?: boolean;
+
+    /** URL where events will be written to. Must use HTTPS. */
+    event_url?: string;
+
+    /** If indexer acknowledgement is required, this must be provided along with a 'channel_id'. */
+    ack_url?: string;
+
+    /** An optional splunk channel included in each request if indexer acknowledgement is required. */
+    channel_id?: string;
+
+    /** Public certificate if a self signed TLS cert is being used. */
+    public_cert?: string;
+
+    /** Optional splunk index passed in the record bodies. */
+    index?: string;
+
+    /** The vault config used to store the HEC token. */
+    vault_config_id?: string;
+
+    /** The secret ID where the HEC token is stored in vault. */
+    vault_secret_id?: string;
+  }
+
+  export interface ServiceConfigV1 {
+    /** The config ID */
+    id?: string;
+
+    /** Version of the service config. */
+    version: 1;
+
+    /** The DB timestamp when this config was created. Ignored when submitted. */
+    created_at?: string;
+
+    /** The DB timestamp when this config was last updated at */
+    updated_at?: string;
+
+    /** Configuration name */
+    name?: string;
+
+    /** Retention window to store audit logs. */
+    retention?: string;
+
+    /** Retention window for cold query result / state information. */
+    cold_query_result_retention?: string;
+
+    /** Retention window to keep audit logs in hot storage. */
+    hot_storage?: string;
+
+    /** Length of time to preserve server-side query result caching. */
+    query_result_retention?: string;
+
+    /** A redact service config that will be used to redact PII from logs. */
+    redact_service_config_id?: string;
+
+    /** Fields to perform redaction against. */
+    redaction_fields?: string[];
+
+    /** A vault service config that will be used to sign logs. */
+    vault_service_config_id?: string;
+
+    /** ID of the Vault key used for signing. If missing, use a default Audit key */
+    vault_key_id?: string;
+
+    /** Enable/disable event signing */
+    vault_sign?: boolean;
+  }
+
+  export interface ServiceConfigV2 {
+    /** Audit log field configuration. Only settable at create time. */
+    audit_schema: Schema;
+
+    /** Version of the service config. */
+    version: 2;
+
+    /** Retention window for cold query result / state information. */
+    cold_query_result_retention?: string;
+
+    /** The DB timestamp when this config was created. Ignored when submitted. */
+    created_at?: string;
+
+    /** Retention window to keep audit logs in hot storage. */
+    hot_storage?: string;
+
+    /** The config ID */
+    id?: string;
+
+    /** Configuration name */
+    name?: string;
+
+    /** Length of time to preserve server-side query result caching. */
+    query_result_retention?: string;
+
+    /** A redact service config that will be used to redact PII from logs. */
+    redact_service_config_id?: string;
+
+    /** Retention window to store audit logs. */
+    retention?: string;
+
+    /** The DB timestamp when this config was last updated at */
+    updated_at?: string;
+
+    /** ID of the Vault key used for signing. If missing, use a default Audit key */
+    vault_key_id?: string;
+
+    /** A vault service config that will be used to sign logs. */
+    vault_service_config_id?: string;
+
+    /** Enable/disable event signing */
+    vault_sign?: boolean;
+
+    /** Configuration for forwarding audit logs to external systems. */
+    forwarding_configuration?: ForwardingConfiguration;
+  }
+
+  export interface ServiceConfigV3 {
+    /** Audit log field configuration. Only settable at create time. */
+    audit_schema: Schema;
+
+    /** Version of the service config. */
+    version: 3;
+
+    /** Retention window for logs in cold storage. Deleted afterwards. */
+    cold_storage?: string;
+
+    /** The DB timestamp when this config was created. Ignored when submitted. */
+    created_at?: string;
+
+    /** Configuration for forwarding audit logs to external systems. */
+    forwarding_configuration?: ForwardingConfiguration;
+
+    /** Retention window for logs in hot storage. Migrated to warm, cold, or deleted afterwards. */
+    hot_storage?: string;
+
+    /** The config ID */
+    id?: string;
+
+    /** Configuration name */
+    name?: string;
+
+    /** A redact service config that will be used to redact PII from logs. */
+    redact_service_config_id?: string;
+
+    /** The DB timestamp when this config was last updated at */
+    updated_at?: string;
+
+    /** ID of the Vault key used for signing. If missing, use a default Audit key */
+    vault_key_id?: string;
+
+    /** A vault service config that will be used to sign logs. */
+    vault_service_config_id?: string;
+
+    /** Enable/disable event signing */
+    vault_sign?: boolean;
+
+    /** Retention window for logs in warm storage. Migrated to cold or deleted afterwards. */
+    warm_storage?: string;
+  }
+
+  export type ServiceConfig =
+    | ServiceConfigV1
+    | ServiceConfigV2
+    | ServiceConfigV3;
+
+  export interface ServiceConfigFilter {
+    /** Only records where id equals this value. */
+    id?: string;
+
+    /** Only records where id includes each substring. */
+    id__contains?: string[];
+
+    /** Only records where id equals one of the provided substrings. */
+    id__in?: string[];
+
+    /** Only records where created_at equals this value. */
+    created_at?: string;
+
+    /** Only records where created_at is greater than this value. */
+    created_at__gt?: string;
+
+    /** Only records where created_at is greater than or equal to this value. */
+    created_at__gte?: string;
+
+    /** Only records where created_at is less than this value. */
+    created_at__lt?: string;
+
+    /** Only records where created_at is less than or equal to this value. */
+    created_at__lte?: string;
+
+    /** Only records where updated_at equals this value. */
+    updated_at?: string;
+
+    /** Only records where updated_at is greater than this value. */
+    updated_at__gt?: string;
+
+    /** Only records where updated_at is greater than or equal to this value. */
+    updated_at__gte?: string;
+
+    /** Only records where updated_at is less than this value. */
+    updated_at__lt?: string;
+
+    /** Only records where updated_at is less than or equal to this value. */
+    updated_at__lte?: string;
+  }
+
+  export interface ServiceConfigListResult {
+    /** The total number of service configs matched by the list request. */
+    count: number;
+
+    /** Used to fetch the next page of the current listing when provided in a repeated request's last parameter. */
+    last: string;
+
+    items: ServiceConfig[];
+  }
 }
 
 export namespace AIGuard {
@@ -523,6 +794,146 @@ export namespace AIGuard {
   }
 }
 
+export namespace Management {
+  export interface Organization {
+    id: string;
+    name: string;
+    owner: string;
+    owner_email?: string;
+    created_at: string;
+    updated_at: string;
+    csp: string;
+  }
+
+  export interface Project {
+    id: string;
+    name: string;
+    org: string;
+    created_at: string;
+    updated_at: string;
+    /** The geographical region for the project. */
+    geo: "us" | "eu";
+    /** The region for the project. */
+    region: "us-west-1" | "us-east-1" | "eu-central-1";
+  }
+
+  export interface ListProjectsFilter {
+    search?: string;
+    geo?: string;
+    region?: string;
+  }
+
+  export interface ListProjectsResult {
+    /** A list of projects */
+    results: Project[];
+    count: number;
+    offset?: number;
+  }
+
+  export type AccessClientTokenAuth =
+    | "client_secret_basic"
+    | "client_secret_post";
+
+  export interface AccessClientInfo {
+    /** An ID for a service account */
+    client_id: string;
+    /** A time in ISO-8601 format */
+    created_at: string;
+    /** A time in ISO-8601 format */
+    updated_at: string;
+    client_name: string;
+    /** A list of space separated scope */
+    scope: string;
+    /** The authentication method for the token endpoint. */
+    token_endpoint_auth_method: AccessClientTokenAuth;
+    /** A list of allowed redirect URIs for the client. */
+    redirect_uris: string[];
+    /** A list of OAuth grant types that the client can use. */
+    grant_types: string[];
+    /** A list of OAuth response types that the client can use. */
+    response_types: (string | null)[];
+    /** A positive time duration in seconds or null */
+    client_token_expires_in?: number | null;
+    owner_id: string;
+    owner_username: string;
+    creator_id: string;
+    client_class: string;
+  }
+
+  export interface AccessClientCreateInfo extends AccessClientInfo {
+    /** An secret for an API Client */
+    client_secret: string;
+    /** A time in ISO-8601 format */
+    client_secret_expires_at: string;
+    client_secret_name: string;
+    client_secret_description: string;
+  }
+
+  export type AccessRegistryGroup =
+    | "ai-guard-edge"
+    | "redact-edge"
+    | "private-cloud";
+
+  export interface AccessRole {
+    role: string;
+    type: string;
+    id: string | AccessRegistryGroup;
+    service?: string;
+    /** An ID for a service config */
+    service_config_id?: string;
+  }
+
+  export interface AccessClientListResult {
+    clients: AccessClientInfo[];
+    count: number;
+    last?: string;
+  }
+
+  export interface AccessClientSecretInfo {
+    /** An ID for a service account */
+    client_id: string;
+    /** An ID for an API Client secret */
+    client_secret_id: string;
+    /** An secret for an API Client */
+    client_secret: string;
+    /** A time in ISO-8601 format */
+    client_secret_expires_at: string;
+    client_secret_name?: string;
+    client_secret_description?: string;
+  }
+
+  export interface AccessClientSecretMetadata {
+    source_ip: string;
+    user_agent: string;
+    creator: string;
+    creator_id: string;
+    creator_type: string;
+  }
+
+  export interface AccessClientSecretInfoWithMetadata {
+    client_id: string;
+    client_secret_id: string;
+    client_secret_expires_at: string;
+    client_secret_name: string;
+    client_secret_description: string;
+    created_at: string;
+    updated_at: string;
+    client_secret_metadata: AccessClientSecretMetadata;
+  }
+
+  export interface AccessClientSecretInfoListResult {
+    "client-secrets": AccessClientSecretInfoWithMetadata[];
+    count: number;
+    last?: string;
+  }
+
+  export interface AccessRolesListResult {
+    roles: AccessRole[];
+    count: number;
+    last?: string;
+  }
+}
+
 export namespace PromptGuard {
   export interface Message {
     role: string;
@@ -576,6 +987,90 @@ export namespace PromptGuard {
 }
 
 export namespace Redact {
+  export type MatcherType =
+    | "CREDIT_CARD"
+    | "CRYPTO"
+    | "DATE_TIME"
+    | "EMAIL_ADDRESS"
+    | "IBAN_CODE"
+    | "IP_ADDRESS"
+    | "NRP"
+    | "LOCATION"
+    | "PERSON"
+    | "PHONE_NUMBER"
+    | "MEDICAL_LICENSE"
+    | "URL"
+    | "US_BANK_NUMBER"
+    | "US_DRIVER_LICENSE"
+    | "US_ITIN"
+    | "US_PASSPORT"
+    | "US_SSN"
+    | "UK_NHS"
+    | "NIF"
+    | "FIN/NRIC"
+    | "AU_ABN"
+    | "AU_ACN"
+    | "AU_TFN"
+    | "AU_MEDICARE"
+    | "FIREBASE_URL"
+    | "RSA_PRIVATE_KEY"
+    | "SSH_DSA_PRIVATE_KEY"
+    | "SSH_EC_PRIVATE_KEY"
+    | "PGP_PRIVATE_KEY_BLOCK"
+    | "AMAZON_AWS_ACCESS_KEY_ID"
+    | "AMAZON_AWS_SECRET_ACCESS_KEY"
+    | "AMAZON_MWS_AUTH_TOKEN"
+    | "FACEBOOK_ACCESS_TOKEN"
+    | "GITHUB_ACCESS_TOKEN"
+    | "JWT_TOKEN"
+    | "GOOGLE_API_KEY"
+    | "GOOGLE_CLOUD_PLATFORM_API_KEY"
+    | "GOOGLE_DRIVE_API_KEY"
+    | "GOOGLE_CLOUD_PLATFORM_SERVICE_ACCOUNT"
+    | "GOOGLE_GMAIL_API_KEY"
+    | "YOUTUBE_API_KEY"
+    | "MAILCHIMP_API_KEY"
+    | "MAILGUN_API_KEY"
+    | "MONEY"
+    | "BASIC_AUTH"
+    | "PICATIC_API_KEY"
+    | "SLACK_TOKEN"
+    | "SLACK_WEBHOOK"
+    | "STRIPE_API_KEY"
+    | "STRIPE_RESTRICTED_API_KEY"
+    | "SQUARE_ACCESS_TOKEN"
+    | "SQUARE_OAUTH_SECRET"
+    | "TWILIO_API_KEY"
+    | "PANGEA_TOKEN"
+    | "PROFANITY";
+
+  export type Redaction =
+    | { redaction_type: "mask" | "detect_only" }
+    | { redaction_type: "replacement"; redaction_value: string }
+    | { redaction_type: "partial_masking"; partial_masking: PartialMasking }
+    | {
+        redaction_type: "hash";
+        hash?: {
+          /** The type of hashing algorithm */
+          hash_type: "md5" | "sha256";
+        };
+      }
+    | {
+        redaction_type: "fpe";
+        fpe_alphabet?:
+          | "numeric"
+          | "alphalower"
+          | "alphaupper"
+          | "alpha"
+          | "alphanumericlower"
+          | "alphanumericupper"
+          | "alphanumeric";
+        fpe_tweak_vault_secret_id?: string;
+        fpe_tweak?: string;
+      };
+
+  export type RedactionMethodOverrides = Redaction;
+
   export interface TextResult {
     /** The redacted text */
     redacted_text?: string;
@@ -627,32 +1122,7 @@ export namespace Redact {
      * This field allows users to specify the redaction method per rule and its
      * various parameters.
      */
-    redaction_method_overrides?: {
-      [rule: string]:
-        | { redaction_type: "mask" | "detect_only" }
-        | { redaction_type: "replacement"; redaction_value: string }
-        | { redaction_type: "partial_masking"; partial_masking: PartialMasking }
-        | {
-            redaction_type: "hash";
-            hash?: {
-              /** The type of hashing algorithm */
-              hash_type: "md5" | "sha256";
-            };
-          }
-        | {
-            redaction_type: "fpe";
-            fpe_alphabet?:
-              | "numeric"
-              | "alphalower"
-              | "alphaupper"
-              | "alpha"
-              | "alphanumericlower"
-              | "alphanumericupper"
-              | "alphanumeric";
-            fpe_tweak_vault_secret_id?: string;
-            fpe_tweak?: string;
-          };
-    };
+    redaction_method_overrides?: { [rule: string]: RedactionMethodOverrides };
     vault_parameters?: VaultParameters;
 
     /** Is this redact call going to be used in an LLM request? */
@@ -693,7 +1163,7 @@ export namespace Redact {
     masked_from_left?: number;
     masked_from_right?: number;
     chars_to_ignore?: string[];
-    masking_char?: string[];
+    masking_char?: string;
   }
 
   export interface UnredactRequest<O = object> {
@@ -707,6 +1177,132 @@ export namespace Redact {
   export interface UnredactResult<O = object> {
     /** The unredacted data */
     data: O;
+  }
+
+  export interface Matcher {
+    match_type: string;
+    match_value: string;
+    match_score: number;
+  }
+
+  export interface RuleV1 {
+    entity_name: string;
+    matchers: MatcherType | MatcherType[];
+    ruleset: string;
+    match_threshold?: number;
+    context_values?: string[];
+    name?: string;
+    description?: string;
+  }
+
+  export interface RuleV2 {
+    entity_name: string;
+    matchers: MatcherType | MatcherType[];
+    match_threshold?: number;
+    context_values?: string[];
+    negative_context_values?: string[];
+    name?: string;
+    description?: string;
+  }
+
+  export interface RulesetV1 {
+    name?: string;
+    description?: string;
+    rules: string[];
+  }
+
+  export interface RulesetV2 {
+    name?: string;
+    description?: string;
+  }
+
+  export interface ServiceConfigV1 {
+    version: "1.0.0";
+    id: string;
+    name: string;
+    updated_at: string;
+    enabled_rules: string[];
+
+    redactions?: { [key: string]: Redaction };
+    /** Service config used to create the secret */
+    vault_service_config_id?: string;
+    /** Pangea only allows hashing to be done using a salt value to prevent brute-force attacks. */
+    salt_vault_secret_id?: string;
+    rules?: { [key: string]: RuleV1 };
+    rulesets?: { [key: string]: RulesetV1 };
+    supported_languages?: "en"[];
+  }
+
+  export interface ServiceConfigV2 {
+    version: "2.0.0";
+    id: string;
+    name: string;
+    updated_at: string;
+    enabled_rules: string[];
+
+    /** Always run service config enabled rules across all redact calls regardless of flags? */
+    enforce_enabled_rules?: boolean;
+    redactions?: { [key: string]: Redaction };
+    /** Service config used to create the secret */
+    vault_service_config_id?: string;
+    /** Pangea only allows hashing to be done using a salt value to prevent brute-force attacks. */
+    salt_vault_secret_id?: string;
+    rules?: { [key: string]: RuleV2 };
+    rulesets?: { [key: string]: RulesetV2 };
+    supported_languages?: "en"[];
+  }
+
+  export type ServiceConfigResult = ServiceConfigV1 | ServiceConfigV2;
+
+  export interface ServiceConfigFilter {
+    /** Only records where id equals this value. */
+    id?: string;
+
+    /** Only records where id includes each substring. */
+    id__contains?: string[];
+
+    /** Only records where id equals one of the provided substrings. */
+    id__in?: string[];
+
+    /** Only records where created_at equals this value. */
+    created_at?: string;
+
+    /** Only records where created_at is greater than this value. */
+    created_at__gt?: string;
+
+    /** Only records where created_at is greater than or equal to this value. */
+    created_at__gte?: string;
+
+    /** Only records where created_at is less than this value. */
+    created_at__lt?: string;
+
+    /** Only records where created_at is less than or equal to this value. */
+    created_at__lte?: string;
+
+    /** Only records where updated_at equals this value. */
+    updated_at?: string;
+
+    /** Only records where updated_at is greater than this value. */
+    updated_at__gt?: string;
+
+    /** Only records where updated_at is greater than or equal to this value. */
+    updated_at__gte?: string;
+
+    /** Only records where updated_at is less than this value. */
+    updated_at__lt?: string;
+
+    /** Only records where updated_at is less than or equal to this value. */
+    updated_at__lte?: string;
+  }
+
+  export interface ServiceConfigListResult {
+    /** The total number of service configs matched by the list request. */
+    count: number;
+
+    /** Used to fetch the next page of the current listing when provided in a repeated request's last parameter. */
+    last: string;
+
+    items: ServiceConfigResult[];
   }
 }
 

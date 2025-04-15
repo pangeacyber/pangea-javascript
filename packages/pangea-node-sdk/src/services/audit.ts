@@ -514,6 +514,147 @@ class AuditService extends BaseService {
     return this.post("v1/download_results", request);
   }
 
+  /**
+   * @summary Get a service config.
+   * @description Get a service config.
+   * @operationId audit_post_v1beta_config
+   * @param configId The config ID
+   */
+  async getServiceConfig(
+    configId: string
+  ): Promise<PangeaResponse<Audit.ServiceConfig>> {
+    return await this.post("v1beta/config", { config_id: configId });
+  }
+
+  /**
+   * @summary Create a service config
+   * @description Create a service config with the specified version and parameters
+   * @operationId audit_post_v1beta_config_create
+   * @param version The version of the service config to create (1, 2, or 3)
+   * @param name Configuration name
+   * @param options Configuration options
+   */
+  async createServiceConfig(
+    version: 1 | 2 | 3,
+    name: string,
+    options: {
+      /** Retention window for cold query result / state information. */
+      cold_query_result_retention?: string;
+      /** Retention window for logs in cold storage. Deleted afterwards. */
+      cold_storage?: string;
+      /** Configuration for forwarding audit logs to external systems. */
+      forwarding_configuration?: Audit.ForwardingConfiguration;
+      /** Retention window to keep audit logs in hot storage. */
+      hot_storage?: string;
+      /** Length of time to preserve server-side query result caching. */
+      query_result_retention?: string;
+      /** A redact service config that will be used to redact PII from logs. */
+      redact_service_config_id?: string;
+      /** Fields to perform redaction against. */
+      redaction_fields?: string[];
+      /** Retention window to store audit logs. */
+      retention?: string;
+      /** Audit log field configuration. Only settable at create time. */
+      schema?: Audit.Schema;
+      /** ID of the Vault key used for signing. If missing, use a default Audit key. */
+      vault_key_id?: string;
+      /** A vault service config that will be used to sign logs. */
+      vault_service_config_id?: string;
+      /** Enable/disable event signing. */
+      vault_sign?: boolean;
+      /** Retention window for logs in warm storage. Migrated to cold or deleted afterwards. */
+      warm_storage?: string;
+    } = {}
+  ): Promise<PangeaResponse<Audit.ServiceConfig>> {
+    return await this.post("v1beta/config/create", {
+      version,
+      name,
+      ...options,
+    });
+  }
+
+  /**
+   * @summary Update a service config
+   * @description Update an existing service config with new parameters
+   * @operationId audit_post_v1beta_config_update
+   * @param id The config ID
+   * @param name Configuration name
+   * @param updated_at The DB timestamp when this config was last updated at
+   * @param options Configuration options to update
+   */
+  async updateServiceConfig(
+    id: string,
+    name: string,
+    updated_at: Date,
+    options: {
+      /** Retention window for cold query result / state information. */
+      cold_query_result_retention?: string;
+      /** Retention window for logs in cold storage. Deleted afterwards. */
+      cold_storage?: string;
+      /** Configuration for forwarding audit logs to external systems. */
+      forwarding_configuration?: Audit.ForwardingConfiguration;
+      /** Retention window to keep audit logs in hot storage. */
+      hot_storage?: string;
+      /** Length of time to preserve server-side query result caching. */
+      query_result_retention?: string;
+      /** A redact service config that will be used to redact PII from logs. */
+      redact_service_config_id?: string;
+      /** Retention window to store audit logs. */
+      retention?: string;
+      /** Audit log field configuration. */
+      schema?: Audit.Schema;
+      /** ID of the Vault key used for signing. If missing, use a default Audit key. */
+      vault_key_id?: string;
+      /** A vault service config that will be used to sign logs. */
+      vault_service_config_id?: string;
+      /** Enable/disable event signing. */
+      vault_sign?: boolean;
+      /** Retention window for logs in warm storage. Migrated to cold or deleted afterwards. */
+      warm_storage?: string;
+    } = {}
+  ): Promise<PangeaResponse<Audit.ServiceConfig>> {
+    return await this.post("v1beta/config/update", {
+      id,
+      name,
+      updated_at,
+      ...options,
+    });
+  }
+
+  /**
+   * @summary Delete a service config
+   * @description Delete an existing service config
+   * @operationId audit_post_v1beta_config_delete
+   * @param id The config ID
+   */
+  async deleteServiceConfig(
+    id: string
+  ): Promise<PangeaResponse<Audit.ServiceConfig>> {
+    return await this.post("v1beta/config/delete", { id });
+  }
+
+  /**
+   * @summary List service configs
+   * @description List existing service configs with optional filtering and pagination
+   * @operationId audit_post_v1beta_config_list
+   */
+  async listServiceConfigs(
+    options: {
+      /** Filter criteria for the list */
+      filter?: Audit.ServiceConfigFilter;
+      /** Reflected value from a previous response to obtain the next page of results */
+      last?: string;
+      /** Order results asc(ending) or desc(ending) */
+      order?: "asc" | "desc";
+      /** Which field to order results by */
+      order_by?: "id" | "created_at" | "updated_at";
+      /** Maximum results to include in the response */
+      size?: number;
+    } = {}
+  ): Promise<PangeaResponse<Audit.ServiceConfigListResult>> {
+    return await this.post("v1beta/config/list", options);
+  }
+
   async processSearchResponse(
     response: PangeaResponse<Audit.SearchResponse>,
     options: Audit.SearchOptions

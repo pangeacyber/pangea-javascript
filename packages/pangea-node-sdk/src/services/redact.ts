@@ -116,6 +116,212 @@ class RedactService extends BaseService {
   ): Promise<PangeaResponse<Redact.UnredactResult<O>>> {
     return this.post("v1/unredact", request);
   }
+
+  /**
+   * @summary Get a service config.
+   * @description Get a service config.
+   * @operationId redact_post_v1beta_config
+   * @param configId Configuration ID.
+   */
+  async getServiceConfig(
+    configId: string
+  ): Promise<PangeaResponse<Redact.ServiceConfigResult>> {
+    return await this.post("v1beta/config", { id: configId });
+  }
+
+  /**
+   * @summary Create a v1.0.0 service config
+   * @description Create a v1.0.0 service config
+   * @operationId redact_post_v1beta_config_create
+   * @param options.vault_service_config_id Service config used to create the secret
+   * @param options.salt_vault_secret_id Pangea only allows hashing to be done using a salt value to prevent brute-force attacks
+   */
+  createServiceConfig(
+    name: string,
+    options: {
+      version?: "1.0.0";
+      enabled_rules?: string[];
+      redactions?: { [key: string]: Redact.Redaction };
+      vault_service_config_id?: string;
+      salt_vault_secret_id?: string;
+      fpe_vault_secret_id?: string;
+      rules?: { [key: string]: Redact.RuleV1 };
+      rulesets?: { [key: string]: Redact.RulesetV1 };
+      supported_languages?: "en"[];
+    }
+  ): Promise<PangeaResponse<Redact.ServiceConfigV1>>;
+
+  /**
+   * @summary Create a v2.0.0 service config
+   * @description Create a v2.0.0 service config
+   * @operationId redact_post_v1beta_config_create
+   * @param options.enforce_enabled_rules Always run service config enabled rules across all redact calls regardless of flags?
+   * @param options.vault_service_config_id Service config used to create the secret
+   * @param options.salt_vault_secret_id Pangea only allows hashing to be done using a salt value to prevent brute-force attacks
+   * @param options.fpe_vault_secret_id The ID of the key used by FF3 Encryption algorithms for FPE
+   */
+  createServiceConfig(
+    name: string,
+    options: {
+      version?: "2.0.0";
+      enabled_rules?: string[];
+      enforce_enabled_rules?: boolean;
+      redactions?: { [key: string]: Redact.Redaction };
+      vault_service_config_id?: string;
+      salt_vault_secret_id?: string;
+      fpe_vault_secret_id?: string;
+      rules?: { [key: string]: Redact.RuleV2 };
+      rulesets?: { [key: string]: Redact.RulesetV2 };
+      supported_languages?: "en"[];
+    }
+  ): Promise<PangeaResponse<Redact.ServiceConfigV2>>;
+
+  /**
+   * @summary Create a service config
+   * @description Create a service config with the specified version and parameters
+   * @operationId redact_post_v1beta_config_create
+   * @param name Configuration name
+   * @param options Configuration options
+   */
+  async createServiceConfig(
+    name: string,
+    options: {
+      version?: "1.0.0" | "2.0.0";
+      enabled_rules?: string[];
+      enforce_enabled_rules?: boolean;
+      redactions?: { [key: string]: Redact.Redaction };
+      vault_service_config_id?: string;
+      salt_vault_secret_id?: string;
+      fpe_vault_secret_id?: string;
+      rules?:
+        | { [key: string]: Redact.RuleV1 }
+        | { [key: string]: Redact.RuleV2 };
+      rulesets?:
+        | { [key: string]: Redact.RulesetV1 }
+        | { [key: string]: Redact.RulesetV2 };
+      supported_languages?: "en"[];
+    } = {}
+  ): Promise<PangeaResponse<Redact.ServiceConfigResult>> {
+    return await this.post("v1beta/config/create", { name, ...options });
+  }
+
+  /**
+   * @summary Update a v1.0.0 service config
+   * @description Update a v1.0.0 service config
+   * @operationId redact_post_v1beta_config_update
+   * @param options.vault_service_config_id Service config used to create the secret
+   * @param options.salt_vault_secret_id Pangea only allows hashing to be done using a salt value to prevent brute-force attacks
+   */
+  updateServiceConfig(
+    configId: string,
+    options: {
+      version?: "1.0.0";
+      name: string;
+      updated_at: string;
+      enabled_rules?: string[];
+      redactions?: { [key: string]: Redact.Redaction };
+      vault_service_config_id?: string;
+      salt_vault_secret_id?: string;
+      rules?: { [key: string]: Redact.RuleV1 };
+      rulesets?: { [key: string]: Redact.RulesetV1 };
+      supported_languages?: "en"[];
+    }
+  ): Promise<PangeaResponse<Redact.ServiceConfigV1>>;
+
+  /**
+   * @summary Update a v2.0.0 service config
+   * @description Update a v2.0.0 service config
+   * @operationId redact_post_v1beta_config_update
+   * @param options.enforce_enabled_rules Always run service config enabled rules across all redact calls regardless of flags?
+   * @param options.vault_service_config_id Service config used to create the secret
+   * @param options.salt_vault_secret_id Pangea only allows hashing to be done using a salt value to prevent brute-force attacks
+   * @param options.fpe_vault_secret_id The ID of the key used by FF3 Encryption algorithms for FPE
+   */
+  updateServiceConfig(
+    configId: string,
+    options: {
+      version?: "2.0.0";
+      name: string;
+      updated_at: string;
+      enabled_rules?: string[];
+      enforce_enabled_rules?: boolean;
+      redactions?: { [key: string]: Redact.Redaction };
+      vault_service_config_id?: string;
+      salt_vault_secret_id?: string;
+      fpe_vault_secret_id?: string;
+      rules?: { [key: string]: Redact.RuleV2 };
+      rulesets?: { [key: string]: Redact.RulesetV2 };
+      supported_languages?: "en"[];
+    }
+  ): Promise<PangeaResponse<Redact.ServiceConfigV2>>;
+
+  /**
+   * @summary Update a service config
+   * @description Update a service config with the specified version and parameters
+   * @operationId redact_post_v1beta_config_update
+   * @param configId The ID of the config to update
+   * @param options Configuration options
+   */
+  async updateServiceConfig(
+    configId: string,
+    options: {
+      version?: "1.0.0" | "2.0.0";
+      name: string;
+      updated_at: string;
+      enabled_rules?: string[];
+      enforce_enabled_rules?: boolean;
+      redactions?: { [key: string]: Redact.Redaction };
+      vault_service_config_id?: string;
+      salt_vault_secret_id?: string;
+      fpe_vault_secret_id?: string;
+      rules?:
+        | { [key: string]: Redact.RuleV1 }
+        | { [key: string]: Redact.RuleV2 };
+      rulesets?:
+        | { [key: string]: Redact.RulesetV1 }
+        | { [key: string]: Redact.RulesetV2 };
+      supported_languages?: "en"[];
+    }
+  ): Promise<PangeaResponse<Redact.ServiceConfigResult>> {
+    return await this.post("v1beta/config/update", {
+      id: configId,
+      ...options,
+    });
+  }
+
+  /**
+   * @summary Delete a service config
+   * @description Delete a service config
+   * @operationId redact_post_v1beta_config_delete
+   * @param configId An ID for a service config
+   */
+  async deleteServiceConfig(
+    configId: string
+  ): Promise<PangeaResponse<Redact.ServiceConfigResult>> {
+    return await this.post("v1beta/config/delete", { id: configId });
+  }
+
+  /**
+   * @summary List service configs
+   * @description List service configs
+   * @operationId redact_post_v1beta_config_list
+   * @param options.filter Filter criteria for the list
+   * @param options.last Reflected value from a previous response to obtain the next page of results
+   * @param options.order Order results asc(ending) or desc(ending)
+   * @param options.order_by Which field to order results by
+   * @param options.size Maximum results to include in the response
+   */
+  async listServiceConfigs(
+    options: {
+      filter?: Redact.ServiceConfigFilter;
+      last?: string;
+      order?: "asc" | "desc";
+      order_by?: "id" | "created_at" | "updated_at";
+      size?: number;
+    } = {}
+  ): Promise<PangeaResponse<Redact.ServiceConfigListResult>> {
+    return await this.post("v1beta/config/list", options);
+  }
 }
 
 export default RedactService;
