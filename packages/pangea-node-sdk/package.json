@@ -18,11 +18,11 @@
       }
     }
   },
-  "repository": "git@github.com:pangeacyber/pangea-javascript.git",
+  "repository": "github:pangeacyber/pangea-javascript",
   "author": "Glenn Gallien <glenn.gallien@pangea.cloud>",
   "license": "MIT",
   "engines": {
-    "node": "18 || >=20"
+    "node": "20 || >=22"
   },
   "packageManager": "yarn@4.9.1",
   "dependencies": {
@@ -41,7 +41,7 @@
     "@tsconfig/node18": "18.2.4",
     "@types/crypto-js": "^4.2.2",
     "@types/jest": "29.5.14",
-    "@types/node": "18.19.86",
+    "@types/node": "20.17.30",
     "@types/promise-retry": "1.1.6",
     "@typescript-eslint/eslint-plugin": "8.30.1",
     "@typescript-eslint/parser": "8.30.1",
