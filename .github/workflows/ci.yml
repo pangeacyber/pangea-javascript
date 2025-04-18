@@ -287,7 +287,7 @@ jobs:
           cache-dependency-path: ./packages/react-mui-share-file-viewer/yarn.lock
 
       - name: Install dependencies
-        run: yarn install --frozen-lockfile
+        run: yarn
 
       - name: Build
         run: yarn build

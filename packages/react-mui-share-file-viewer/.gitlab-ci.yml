@@ -9,8 +9,9 @@ build_react_mui_share_file_viewer:
       - job_execution_timeout
       - stuck_or_timeout_failure
   script:
+    - corepack enable
     - cd packages/react-mui-share-file-viewer
-    - yarn install --frozen-lockfile
+    - yarn
     - yarn build
   artifacts:
     paths: ["packages/react-mui-share-file-viewer/dist"]
@@ -28,7 +29,7 @@ publish_react_mui_share_file_viewer:
     # Install jq for the publish script.
     - apt-get -qq update
     - apt-get install -y jq
-
+    - corepack enable
     - cd packages/react-mui-share-file-viewer
     - cp ../../scripts/publish.sh .
     - echo "${NPMRC}" > .npmrc && ./publish.sh && rm .npmrc
