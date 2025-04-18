@@ -380,6 +380,8 @@ class PangeaRequest {
     const fetchOptions: RequestInit = {
       duplex: "half",
       method: options.method,
+      // @ts-expect-error difference in `FormData` types between undici-types
+      // and formdata-node.
       body: options.body,
       headers: options.headers,
     };
