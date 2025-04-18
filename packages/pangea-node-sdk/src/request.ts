@@ -8,13 +8,7 @@ import promiseRetry from "promise-retry";
 import PangeaConfig, { version } from "./config.js";
 import { PangeaErrors } from "./errors.js";
 import { AttachedFile, PangeaResponse } from "./response.js";
-import {
-  ConfigEnv,
-  FileData,
-  FileItems,
-  PostOptions,
-  TransferMethod,
-} from "./types.js";
+import { FileData, FileItems, PostOptions, TransferMethod } from "./types.js";
 import { getHeaderField } from "./utils/multipart.js";
 
 const delay = async (ms: number) =>
@@ -112,11 +106,11 @@ class PangeaRequest {
     return getHeaderField(contentDisposition, "filename", null);
   }
 
-  private getFilenameFromURL(url: string): string | undefined {
-    return new URL(url).pathname.split("/").pop();
+  private getFilenameFromURL(url: URL): string | undefined {
+    return url.pathname.split("/").pop();
   }
 
-  public async downloadFile(url: string): Promise<AttachedFile> {
+  public async downloadFile(url: URL): Promise<AttachedFile> {
     const response = await this.httpRequest(url, {
       method: "GET",
       retry: { limit: this.config.requestRetries },
@@ -214,7 +208,7 @@ class PangeaRequest {
     const presigned_url = response.accepted_result.post_url;
     const file_details = response.accepted_result?.post_form_data;
 
-    this.postPresignedURL(presigned_url, {
+    this.postPresignedURL(new URL(presigned_url), {
       file: fileData.file,
       file_details: file_details,
       name: "file",
@@ -222,10 +216,7 @@ class PangeaRequest {
     return response;
   }
 
-  public async postPresignedURL(
-    url: string,
-    fileData: FileData
-  ): Promise<void> {
+  public async postPresignedURL(url: URL, fileData: FileData): Promise<void> {
     if (!fileData.file_details) {
       throw new PangeaErrors.PangeaError(
         "file_details should be defined to do a post"
@@ -255,7 +246,7 @@ class PangeaRequest {
     }
   }
 
-  public async putPresignedURL(url: string, fileData: FileData): Promise<void> {
+  public async putPresignedURL(url: URL, fileData: FileData): Promise<void> {
     if (fileData.file_details) {
       throw new PangeaErrors.PangeaError(
         "file_details should be undefined to do a put"
@@ -351,7 +342,7 @@ class PangeaRequest {
 
   /** Wrapper around `fetch()` POST with got-like options. */
   private async httpPost(
-    url: string,
+    url: URL,
     options: {
       body: AsyncIterable<Uint8Array> | FormData | string;
       headers?: Record<string, string>;
@@ -378,7 +369,7 @@ class PangeaRequest {
   }
 
   private async httpRequest(
-    url: string,
+    url: URL,
     options: {
       body?: AsyncIterable<Uint8Array> | Buffer | FormData | string;
       headers?: Record<string, string>;
@@ -505,24 +496,11 @@ class PangeaRequest {
     }
   }
 
-  public getUrl(path: string): string {
-    let url: string;
-    if (
-      this.config.domain.startsWith("http://") ||
-      this.config.domain.startsWith("https://")
-    ) {
-      url = `${this.config.domain}/${path}`;
-    } else {
-      const schema = this.config?.insecure === true ? "http://" : "https://";
-
-      if (this.config?.environment === ConfigEnv.LOCAL) {
-        url = `${schema}${this.config.domain}/${path}`;
-      } else {
-        url = `${schema}${this.serviceName}.${this.config.domain}/${path}`;
-      }
-    }
-
-    return url;
+  public getUrl(path: string): URL {
+    return new URL(
+      path,
+      this.config.baseUrlTemplate.replace("{SERVICE_NAME}", this.serviceName)
+    );
   }
 
   private getHeaders(): Record<string, string> {
@@ -555,7 +533,7 @@ class PangeaRequest {
       case "ValidationError":
         throw new PangeaErrors.ValidationError(response.summary, response);
       case "TooManyRequests":
-        throw new PangeaErrors.RateLimiteError(response.summary, response);
+        throw new PangeaErrors.RateLimitError(response.summary, response);
       case "NoCredit":
         throw new PangeaErrors.NoCreditError(response.summary, response);
       case "Unauthorized":

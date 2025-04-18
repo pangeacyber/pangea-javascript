@@ -197,7 +197,7 @@ it("get url and put upload", async () => {
     throw e;
   }
 
-  const url = response.accepted_result?.put_url || "";
+  const url = new URL(response.accepted_result?.put_url || "");
 
   const uploader = new FileUploader();
   await uploader.uploadFile(
@@ -253,7 +253,7 @@ it("get url and post upload", async () => {
 
   const uploader = new FileUploader();
   await uploader.uploadFile(
-    url,
+    new URL(url),
     {
       file: testFilePath,
       name: name,
@@ -379,7 +379,7 @@ it("Item life cycle", async () => {
 
   // Download file
   const url = respGetArchive2.result.dest_url ?? "";
-  let downloadedFile = await client.downloadFile(url);
+  let downloadedFile = await client.downloadFile(new URL(url));
   downloadedFile.save("./download/");
   expect(downloadedFile.file.byteLength).toBeGreaterThan(0);
 

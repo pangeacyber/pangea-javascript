@@ -23,7 +23,7 @@ export class FileUploader {
 
   // TODO: Docs
   public async uploadFile(
-    url: string,
+    url: URL,
     fileData: FileData,
     options: {
       transfer_method?: TransferMethod;

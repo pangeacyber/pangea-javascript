@@ -1044,7 +1044,9 @@ it(
     expect(downloadResp.status).toBe("Success");
     expect(downloadResp.result.dest_url).toBeDefined();
 
-    const file = await auditGeneral.downloadFile(downloadResp.result.dest_url);
+    const file = await auditGeneral.downloadFile(
+      new URL(downloadResp.result.dest_url)
+    );
 
     file.save("./");
   }),

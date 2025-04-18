@@ -91,10 +91,10 @@ export namespace PangeaErrors {
   }
 
   //Too many requests were made
-  export class RateLimiteError extends APIError {
+  export class RateLimitError extends APIError {
     constructor(message: string, response: PangeaResponse<any>) {
       super(message, response);
-      this.name = "RateLimiteError";
+      this.name = "RateLimitError";
     }
   }
 
