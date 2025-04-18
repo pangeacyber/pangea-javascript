@@ -8,13 +8,13 @@
   "files": [
     "dist"
   ],
-  "repository": "https://github.com/pangeacyber/pangea-javascript.git",
+  "repository": "github:pangeacyber/pangea-javascript",
   "author": "Pangea (https://pangea.cloud)",
   "license": "MIT",
   "publishConfig": {
     "access": "public"
   },
-  "packageManager": "yarn@1.22.22",
+  "packageManager": "yarn@4.9.1",
   "scripts": {
     "clean": "rimraf dist",
     "storybook": "storybook dev -p 6006",
