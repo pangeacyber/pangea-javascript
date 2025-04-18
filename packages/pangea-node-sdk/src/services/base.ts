@@ -80,7 +80,7 @@ class BaseService {
     return await this.request.post(endpoint, data, options);
   }
 
-  async downloadFile(url: string): Promise<AttachedFile> {
+  async downloadFile(url: URL): Promise<AttachedFile> {
     return await this.request.downloadFile(url);
   }
 

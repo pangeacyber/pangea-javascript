@@ -8,8 +8,8 @@
 
 # Pangea Node.js SDK
 
-A Node.js SDK for integrating with Pangea services. Supports Node.js v18 and
-v20.
+A Node.js SDK for integrating with Pangea services. Supports Node.js v20 and
+v22.
 
 ## Installation
 
