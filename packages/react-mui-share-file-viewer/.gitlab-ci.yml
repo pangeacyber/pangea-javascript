@@ -8,16 +8,10 @@ build_react_mui_share_file_viewer:
     when:
       - job_execution_timeout
       - stuck_or_timeout_failure
-  variables:
-    # Helps yarn not go OOM.
-    KUBERNETES_CPU_REQUEST: 3
-    KUBERNETES_CPU_LIMIT: 4
-    KUBERNETES_MEMORY_REQUEST: "7Gi"
-    KUBERNETES_MEMORY_LIMIT: "16Gi"
   script:
     - corepack enable
     - cd packages/react-mui-share-file-viewer
-    - yarn
+    - yarn install --frozen-lockfile
     - yarn build
   artifacts:
     paths: ["packages/react-mui-share-file-viewer/dist"]
