@@ -187,3 +187,24 @@ it("AuthZ cycle", async () => {
   expect(rListSubjects.result).toBeDefined();
   expect(rListSubjects.result.subjects.length).toBe(1);
 });
+
+it("expiring tuples", async () => {
+  const response = await authz.tupleCreate({
+    tuples: [
+      {
+        resource: {
+          type: TYPE_FOLDER,
+          id: FOLDER_1,
+        },
+        relation: RELATION_READER,
+        subject: {
+          type: TYPE_USER,
+          id: USER_1,
+        },
+        expires_at: "2999-09-21T17:24:33.105Z",
+      },
+    ],
+  });
+  expect(response).toBeDefined();
+  expect(response.success).toStrictEqual(true);
+});

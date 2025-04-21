@@ -2939,6 +2939,9 @@ export namespace AuthZ {
     resource: Resource;
     relation: string;
     subject: Subject;
+
+    /** A time in ISO-8601 format */
+    expires_at?: string;
   }
 
   export interface TupleCreateRequest {
@@ -2948,24 +2951,52 @@ export namespace AuthZ {
   export interface TupleCreateResult {}
 
   export interface TupleListFilter {
+    /** Only records where resource type equals this value. */
     resource_type?: string;
+    /** Only records where resource type includes each substring. */
     resource_type__contains?: string[];
+    /** Only records where resource type equals one of the provided substrings. */
     resource_type__in?: string[];
+    /** Only records where resource id equals this value. */
     resource_id?: string;
+    /** Only records where resource id includes each substring. */
     resource_id__contains?: string[];
+    /** Only records where resource id equals one of the provided substrings. */
     resource_id__in?: string[];
+    /** Only records where relation equals this value. */
     relation?: string;
+    /** Only records where relation includes each substring. */
     relation__contains?: string[];
+    /** Only records where relation equals one of the provided substrings. */
     relation__in?: string[];
+    /** Only records where subject type equals this value. */
     subject_type?: string;
+    /** Only records where subject type includes each substring. */
     subject_type__contains?: string[];
+    /** Only records where subject type equals one of the provided substrings. */
     subject_type__in?: string[];
+    /** Only records where subject id equals this value. */
     subject_id?: string;
+    /** Only records where subject id includes each substring. */
     subject_id__contains?: string[];
+    /** Only records where subject id equals one of the provided substrings. */
     subject_id__in?: string[];
+    /** Only records where subject action equals this value. */
     subject_action?: string;
+    /** Only records where subject action includes each substring. */
     subject_action__contains?: string[];
+    /** Only records where subject action equals one of the provided substrings. */
     subject_action__in?: string[];
+    /** Only records where expires_at equals this value. */
+    expires_at?: string;
+    /** Only records where expires_at is greater than this value. */
+    expires_at__gt?: string;
+    /** Only records where expires_at is greater than or equal to this value. */
+    expires_at__gte?: string;
+    /** Only records where expires_at is less than this value. */
+    expires_at__lt?: string;
+    /** Only records where expires_at is less than or equal to this value. */
+    expires_at__lte?: string;
   }
 
   export interface TupleListRequest {
