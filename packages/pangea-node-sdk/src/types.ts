@@ -728,7 +728,9 @@ export namespace Intel {
   export interface ReputationData {
     category: string[];
     score: number;
-    verdict: string;
+
+    /** The verdict, given by the Pangea service, for the indicator */
+    verdict: "malicious" | "suspicious" | "unknown" | "benign";
   }
 
   export interface CommonResult {
