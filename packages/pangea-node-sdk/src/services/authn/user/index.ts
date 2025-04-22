@@ -1,15 +1,17 @@
-import PangeaResponse from "@src/response.js";
+import type PangeaResponse from "@src/response.js";
 import BaseService from "@src/services/base.js";
-import PangeaConfig from "@src/config.js";
-import { AuthN, PangeaToken } from "@src/types.js";
+import type PangeaConfig from "@src/config.js";
+import type { AuthN, PangeaToken } from "@src/types.js";
 import UserProfile from "./profile.js";
 import UserAuthenticators from "./authenticators.js";
 import UserInvites from "./invites.js";
+import { UserGroup } from "./group.js";
 
 export default class User extends BaseService {
   profile: UserProfile;
   authenticators: UserAuthenticators;
   invites: UserInvites;
+  group: UserGroup;
 
   constructor(token: PangeaToken, config: PangeaConfig) {
     super("authn", token, config);
@@ -17,6 +19,7 @@ export default class User extends BaseService {
     this.profile = new UserProfile(token, config);
     this.authenticators = new UserAuthenticators(token, config);
     this.invites = new UserInvites(token, config);
+    this.group = new UserGroup(token, config);
   }
 
   /**
