@@ -1,4 +1,4 @@
-import { Signer } from "./utils/signer.js";
+import type { Signer } from "./utils/signer.js";
 
 export type PangeaToken = string | ({ type: "pangea_token" } & Vault.GetResult);
 
@@ -2909,6 +2909,79 @@ export namespace AuthN {
     }
 
     export interface UpdateResult extends UserItem {}
+  }
+
+  /** A group and its information */
+  export interface GroupInfo {
+    id: string;
+    name: string;
+    type: string;
+
+    description?: string;
+    attributes?: Record<string, string>;
+    created_at?: string;
+    updated_at?: string;
+  }
+
+  /** Search filter for groups */
+  export interface GroupsFilter {
+    /** Only records where created_at equals this value. */
+    created_at?: string;
+    /** Only records where created_at is greater than this value. */
+    created_at__gt?: string;
+    /** Only records where created_at is greater than or equal to this value. */
+    created_at__gte?: string;
+    /** Only records where created_at is less than this value. */
+    created_at__lt?: string;
+    /** Only records where created_at is less than or equal to this value. */
+    created_at__lte?: string;
+    /** Only records where created_at includes this value. */
+    created_at__contains?: string;
+    /** Only records where id equals this value. */
+    id?: string;
+    /** Only records where id includes each substring. */
+    id__contains?: string[];
+    /** Only records where id equals one of the provided substrings. */
+    id__in?: string[];
+    /** Only records where name equals this value. */
+    name?: string;
+    /** Only records where name includes each substring. */
+    name__contains?: string[];
+    /** Only records where name equals one of the provided substrings. */
+    name__in?: string[];
+    /** Only records where type equals this value. */
+    type?: string;
+    /** Only records where type includes each substring. */
+    type__contains?: string[];
+    /** Only records where type equals one of the provided substrings. */
+    type__in?: string[];
+    /** Only records where updated_at equals this value. */
+    updated_at?: string;
+    /** Only records where updated_at is greater than this value. */
+    updated_at__gt?: string;
+    /** Only records where updated_at is greater than or equal to this value. */
+    updated_at__gte?: string;
+    /** Only records where updated_at is less than this value. */
+    updated_at__lt?: string;
+    /** Only records where updated_at is less than or equal to this value. */
+    updated_at__lte?: string;
+    /** Only records where updated_at includes this value. */
+    updated_at__contains?: string;
+  }
+
+  export interface GroupList {
+    /** List of matching groups */
+    groups: GroupInfo[];
+    count: number;
+
+    last?: string;
+  }
+
+  export interface GroupUserList {
+    users: UserItem[];
+    count: number;
+
+    last?: string;
   }
 }
 
