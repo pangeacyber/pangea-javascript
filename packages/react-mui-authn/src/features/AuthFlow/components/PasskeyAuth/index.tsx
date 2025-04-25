@@ -80,8 +80,17 @@ const PasskeyAuth: FC<AuthFlowComponentProps> = ({
     } catch (err) {
       if (err instanceof WebAuthnError) {
         if (err.name !== "AbortError") {
-          setStage("error");
-          setErrorMsg(err.message);
+          // Show a custom message when passkey support is not allowed
+          // by document Permissions Policy. Occurs in Cypress iframes.
+          const regex = /feature is not enabled in this document/i;
+          if (regex.test(err.message)) {
+            setStage("start");
+            setErrorMsg("Passkeys not allowed by Permissions Policy");
+            console.debug("PASSKEY ERROR:", err);
+          } else {
+            setStage("error");
+            setErrorMsg(err.message);
+          }
         }
       } else {
         setStage("error");
