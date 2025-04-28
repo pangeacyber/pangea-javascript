@@ -1,26 +1,23 @@
-import { ConfigOptions, ConfigEnv } from "./types.js";
-
-export const version = "4.4.0";
+export const version = "5.1.0";
 
 /** Configuration for a Pangea service client. */
 class PangeaConfig {
-  /** Pangea API domain. */
-  domain: string = "pangea.cloud";
+  /**
+   * Template for constructing the base URL for API requests. The placeholder
+   * `{SERVICE_NAME}` will be replaced with the service name slug. This is a
+   * more powerful version of `domain` that allows for setting more than just
+   * the host of the API server. Defaults to
+   * `https://{SERVICE_NAME}.aws.us.pangea.cloud`.
+   */
+  baseUrlTemplate: string = "https://{SERVICE_NAME}.aws.us.pangea.cloud";
 
   /**
-   * Pangea environment.
-   *
-   * If set to `ConfigEnv.LOCAL`, then `domain` must be the full host (i.e.,
-   * hostname and port) for the Pangea service that this `PangeaConfig` will be
-   * used for.
+   * Base domain for API requests. This is a weaker version of `baseUrlTemplate`
+   * that only allows for setting the host of the API server. Use
+   * BaseURLTemplate for more control over the URL, such as setting
+   * service-specific paths. Defaults to `aws.us.pangea.cloud`.
    */
-  environment: ConfigEnv = ConfigEnv.PRODUCTION;
-
-  /**
-   * Whether or not to perform requests via plain HTTP, as opposed to secure
-   * HTTPS.
-   */
-  insecure: boolean = false;
+  domain: string = "aws.us.pangea.cloud";
 
   /** How many times a request should be retried on failure. */
   requestRetries: number = 3;
@@ -45,7 +42,17 @@ class PangeaConfig {
    *
    * @param options Configuration options.
    */
-  constructor(options?: ConfigOptions) {
+  constructor(options?: Partial<PangeaConfig>) {
+    options = options || {};
+
+    if (!options.baseUrlTemplate && !options.domain) {
+      options.baseUrlTemplate = "https://{SERVICE_NAME}.aws.us.pangea.cloud";
+    }
+
+    if (!options.baseUrlTemplate && options.domain) {
+      options.baseUrlTemplate = `https://{SERVICE_NAME}.${options.domain}`;
+    }
+
     Object.assign(this, options);
   }
 }

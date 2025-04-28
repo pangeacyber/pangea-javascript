@@ -11,6 +11,8 @@ const getErrorTitle = (status: string): string => {
   switch (status) {
     case "DisabledUser":
       return "Account Disabled";
+    case "TravelDistanceExceeded":
+      return "Login Blocked";
     default:
       return "Something went wrong";
   }

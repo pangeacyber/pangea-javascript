@@ -1,5 +1,5 @@
 .react_mui_audit_log_viewer_base:
-  image: node:20.19.0@sha256:a5fb035ac1dff34a4ecaea85f90f7321185695d3fd22c12ba12f4535a4647cc5
+  image: node:20.19.1@sha256:2b925d94e306faa9f9eca22852d2f0f79bc9192ce778e1cd435928e6a44f9164
   before_script:
     - apt-get -qq update
     - apt-get install -y jq

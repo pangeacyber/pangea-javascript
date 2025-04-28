@@ -6,7 +6,7 @@ examples-tests:
     - pangea-node-sdk-integration-tests
   parallel:
     matrix:
-      - NODE_VERSION: [18, 20]
+      - NODE_VERSION: [20, 22]
         TEST_FOLDER:
           - "audit"
           - "authn"

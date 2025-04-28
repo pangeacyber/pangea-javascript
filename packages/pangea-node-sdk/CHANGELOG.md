@@ -9,12 +9,28 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
-- AI Guard: detector overrides.
-- AI Guard: topic detector.
-- AI Guard: `ignore_recipe` in detector overrides.
 - Management: new API client.
 - Redact: config APIs.
 - Secure Audit Log: config APIs.
+
+## 5.1.0 - 2025-04-25
+
+### Added
+
+- AuthZ: `expires_at` to tuples.
+- AuthN: groups.
+
+## 5.0.0 - 2025-04-21
+
+### Added
+
+- AI Guard: detector overrides.
+- AI Guard: topic detector.
+- AI Guard: `ignore_recipe` in detector overrides.
+- `baseUrlTemplate` has been added to `PangeaConfig` to allow for greater
+  control over the complete API URL. This option may be a full URL with the
+  optional `{SERVICE_NAME}` placeholder, which will be replaced by the slug of
+  the respective service name. This supersedes `environment` and `insecure`.
 
 ### Changed
 
@@ -22,6 +38,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Removed
 
+- Support for Node.js v18. The minimum supported version is now Node.js v20.
 - Deprecated APIs like `PangeaConfig.configID`, `Vault.AsymmetricAlgorithm.RSA`,
   and `Vault.SymmetricAlgorithm.AES`.
 - AI Guard: `llm_info` and `llm_input`.

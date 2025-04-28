@@ -1,47 +1,4 @@
-import { Signer } from "./utils/signer.js";
-
-/**
- * PangeaConfig options
- */
-export interface ConfigOptions {
-  /** Pangea API domain. */
-  domain?: string;
-
-  /**
-   * Pangea environment.
-   *
-   * This is intended to facilitate SDK development and should not be touched in
-   * everyday usage.
-   */
-  environment?: ConfigEnv;
-
-  /** Config ID for multi-config projects. */
-  configID?: string;
-
-  /**
-   * Whether or not to perform requests via plain HTTP, as opposed to secure
-   * HTTPS.
-   */
-  insecure?: boolean;
-
-  /** How many times a request should be retried on failure. */
-  requestRetries?: number;
-
-  /** Maximum allowed time (in milliseconds) for a request to complete. */
-  requestTimeout?: number;
-
-  /** Whether or not queued request retries are enabled. */
-  queuedRetryEnabled?: boolean;
-
-  /** Timeout for polling results after a HTTP/202 (in milliseconds). */
-  pollResultTimeoutMs?: number;
-
-  /** How many queued request retries there should be on failure. */
-  queuedRetries?: number;
-
-  /** User-Agent string to append to the default one. */
-  customUserAgent?: string;
-}
+import type { Signer } from "./utils/signer.js";
 
 export type PangeaToken = string | ({ type: "pangea_token" } & Vault.GetResult);
 
@@ -51,11 +8,6 @@ export interface PostOptions {
 
   /** Whether or not the response body follows Pangea's standard response schema */
   pangeaResponse?: boolean;
-}
-
-export enum ConfigEnv {
-  LOCAL = "local",
-  PRODUCTION = "production",
 }
 
 export enum TransferMethod {
@@ -1372,7 +1324,9 @@ export namespace Intel {
   export interface ReputationData {
     category: string[];
     score: number;
-    verdict: string;
+
+    /** The verdict, given by the Pangea service, for the indicator */
+    verdict: "malicious" | "suspicious" | "unknown" | "benign";
   }
 
   export interface CommonResult {
@@ -3552,6 +3506,79 @@ export namespace AuthN {
 
     export interface UpdateResult extends UserItem {}
   }
+
+  /** A group and its information */
+  export interface GroupInfo {
+    id: string;
+    name: string;
+    type: string;
+
+    description?: string;
+    attributes?: Record<string, string>;
+    created_at?: string;
+    updated_at?: string;
+  }
+
+  /** Search filter for groups */
+  export interface GroupsFilter {
+    /** Only records where created_at equals this value. */
+    created_at?: string;
+    /** Only records where created_at is greater than this value. */
+    created_at__gt?: string;
+    /** Only records where created_at is greater than or equal to this value. */
+    created_at__gte?: string;
+    /** Only records where created_at is less than this value. */
+    created_at__lt?: string;
+    /** Only records where created_at is less than or equal to this value. */
+    created_at__lte?: string;
+    /** Only records where created_at includes this value. */
+    created_at__contains?: string;
+    /** Only records where id equals this value. */
+    id?: string;
+    /** Only records where id includes each substring. */
+    id__contains?: string[];
+    /** Only records where id equals one of the provided substrings. */
+    id__in?: string[];
+    /** Only records where name equals this value. */
+    name?: string;
+    /** Only records where name includes each substring. */
+    name__contains?: string[];
+    /** Only records where name equals one of the provided substrings. */
+    name__in?: string[];
+    /** Only records where type equals this value. */
+    type?: string;
+    /** Only records where type includes each substring. */
+    type__contains?: string[];
+    /** Only records where type equals one of the provided substrings. */
+    type__in?: string[];
+    /** Only records where updated_at equals this value. */
+    updated_at?: string;
+    /** Only records where updated_at is greater than this value. */
+    updated_at__gt?: string;
+    /** Only records where updated_at is greater than or equal to this value. */
+    updated_at__gte?: string;
+    /** Only records where updated_at is less than this value. */
+    updated_at__lt?: string;
+    /** Only records where updated_at is less than or equal to this value. */
+    updated_at__lte?: string;
+    /** Only records where updated_at includes this value. */
+    updated_at__contains?: string;
+  }
+
+  export interface GroupList {
+    /** List of matching groups */
+    groups: GroupInfo[];
+    count: number;
+
+    last?: string;
+  }
+
+  export interface GroupUserList {
+    users: UserItem[];
+    count: number;
+
+    last?: string;
+  }
 }
 
 export namespace AuthZ {
@@ -3583,6 +3610,9 @@ export namespace AuthZ {
     resource: Resource;
     relation: string;
     subject: Subject;
+
+    /** A time in ISO-8601 format */
+    expires_at?: string;
   }
 
   export interface TupleCreateRequest {
@@ -3592,24 +3622,52 @@ export namespace AuthZ {
   export interface TupleCreateResult {}
 
   export interface TupleListFilter {
+    /** Only records where resource type equals this value. */
     resource_type?: string;
+    /** Only records where resource type includes each substring. */
     resource_type__contains?: string[];
+    /** Only records where resource type equals one of the provided substrings. */
     resource_type__in?: string[];
+    /** Only records where resource id equals this value. */
     resource_id?: string;
+    /** Only records where resource id includes each substring. */
     resource_id__contains?: string[];
+    /** Only records where resource id equals one of the provided substrings. */
     resource_id__in?: string[];
+    /** Only records where relation equals this value. */
     relation?: string;
+    /** Only records where relation includes each substring. */
     relation__contains?: string[];
+    /** Only records where relation equals one of the provided substrings. */
     relation__in?: string[];
+    /** Only records where subject type equals this value. */
     subject_type?: string;
+    /** Only records where subject type includes each substring. */
     subject_type__contains?: string[];
+    /** Only records where subject type equals one of the provided substrings. */
     subject_type__in?: string[];
+    /** Only records where subject id equals this value. */
     subject_id?: string;
+    /** Only records where subject id includes each substring. */
     subject_id__contains?: string[];
+    /** Only records where subject id equals one of the provided substrings. */
     subject_id__in?: string[];
+    /** Only records where subject action equals this value. */
     subject_action?: string;
+    /** Only records where subject action includes each substring. */
     subject_action__contains?: string[];
+    /** Only records where subject action equals one of the provided substrings. */
     subject_action__in?: string[];
+    /** Only records where expires_at equals this value. */
+    expires_at?: string;
+    /** Only records where expires_at is greater than this value. */
+    expires_at__gt?: string;
+    /** Only records where expires_at is greater than or equal to this value. */
+    expires_at__gte?: string;
+    /** Only records where expires_at is less than this value. */
+    expires_at__lt?: string;
+    /** Only records where expires_at is less than or equal to this value. */
+    expires_at__lte?: string;
   }
 
   export interface TupleListRequest {

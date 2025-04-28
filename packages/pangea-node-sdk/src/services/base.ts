@@ -83,7 +83,7 @@ class BaseService {
     });
   }
 
-  async downloadFile(url: string): Promise<AttachedFile> {
+  async downloadFile(url: URL): Promise<AttachedFile> {
     return await this.request.downloadFile(url);
   }
 

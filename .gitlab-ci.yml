@@ -1,5 +1,5 @@
 default:
-  image: node:18.20.8@sha256:df9fa4e0e39c9b97e30240b5bb1d99bdb861573a82002b2c52ac7d6b8d6d773e
+  image: node:20.19.1@sha256:2b925d94e306faa9f9eca22852d2f0f79bc9192ce778e1cd435928e6a44f9164
   tags:
     - pangea-internal
 

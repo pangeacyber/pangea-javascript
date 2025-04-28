@@ -8,7 +8,7 @@
   "files": [
     "dist"
   ],
-  "repository": "https://github.com/pangeacyber/pangea-javascript.git",
+  "repository": "github:pangeacyber/pangea-javascript",
   "author": "Pangea (https://pangea.cloud)",
   "license": "MIT",
   "publishConfig": {
@@ -50,21 +50,21 @@
     "react": "17.0.2",
     "react-dom": "17.0.2",
     "rimraf": "6.0.1",
-    "rollup": "4.39.0",
+    "rollup": "4.40.0",
     "rollup-plugin-dts": "6.2.1",
     "rollup-plugin-peer-deps-external": "^2.2.4",
     "rollup-plugin-polyfill-node": "^0.13.0",
     "rollup-plugin-postcss": "^4.0.2",
     "storybook": "^7.6.20",
-    "typedoc": "0.28.2",
+    "typedoc": "0.28.3",
     "typedoc-plugin-rename-defaults": "0.7.3",
     "typescript": "^5.8.3",
-    "vite": "6.2.6"
+    "vite": "6.3.3"
   },
   "dependencies": {
     "@pangeacyber/react-mui-shared": "1.0.7",
     "awesome-phonenumber": "^7.4.0",
-    "axios": "^1.8.4",
+    "axios": "^1.9.0",
     "lodash": "^4.17.21",
     "zustand": "^4.5.6"
   },

@@ -1,5 +1,6 @@
-import PangeaConfig from "../../src/config.js";
 import { it, expect, jest } from "@jest/globals";
+
+import PangeaConfig from "../../src/config.js";
 import {
   TestEnvironment,
   getCustomSchemaTestToken,
@@ -147,7 +148,9 @@ it("Sanitize no share", async () => {
     expect(response.result.data.malicious_file).toBeFalsy();
 
     if (response.result.dest_url) {
-      const attachedFile = await client.downloadFile(response.result.dest_url);
+      const attachedFile = await client.downloadFile(
+        new URL(response.result.dest_url)
+      );
       attachedFile.save("./");
     }
   } catch (e) {
@@ -189,7 +192,9 @@ it("Sanitize all defaults", async () => {
   }
   expect(response.result.data.malicious_file).toBeFalsy();
   if (response.result.dest_url) {
-    const attachedFile = await client.downloadFile(response.result.dest_url);
+    const attachedFile = await client.downloadFile(
+      new URL(response.result.dest_url)
+    );
     attachedFile.save("./");
   }
 });
@@ -246,7 +251,9 @@ it("Sanitize multipart upload", async () => {
   expect(response.result.data.malicious_file).toBeFalsy();
 
   if (response.result.dest_url) {
-    const attachedFile = await client.downloadFile(response.result.dest_url);
+    const attachedFile = await client.downloadFile(
+      new URL(response.result.dest_url)
+    );
     attachedFile.save("./");
   }
 });
@@ -307,7 +314,7 @@ it("Sanitize async and poll result", async () => {
       expect(response.result.data.malicious_file).toBeFalsy();
       if (response.result.dest_url) {
         const attachedFile = await client.downloadFile(
-          response.result.dest_url
+          new URL(response.result.dest_url)
         );
         attachedFile.save("./");
       }
@@ -342,7 +349,7 @@ it("Sanitize get url and put upload", async () => {
 
   const uploader = new FileUploader();
   await uploader.uploadFile(
-    url,
+    new URL(url),
     {
       file: testfilePath,
       name: "file",
@@ -377,7 +384,7 @@ it("Sanitize get url and put upload", async () => {
       expect(response.result.data.malicious_file).toBeFalsy();
       if (response.result.dest_url) {
         const attachedFile = await client.downloadFile(
-          response.result.dest_url
+          new URL(response.result.dest_url)
         );
         attachedFile.save("./");
       }
@@ -417,7 +424,7 @@ it("Sanitize get url and post upload", async () => {
 
   const uploader = new FileUploader();
   await uploader.uploadFile(
-    url,
+    new URL(url),
     {
       file: testfilePath,
       name: "file",
@@ -453,7 +460,7 @@ it("Sanitize get url and post upload", async () => {
       expect(response.result.data.malicious_file).toBeFalsy();
       if (response.result.dest_url) {
         const attachedFile = await client.downloadFile(
-          response.result.dest_url
+          new URL(response.result.dest_url)
         );
         attachedFile.save("./");
       }

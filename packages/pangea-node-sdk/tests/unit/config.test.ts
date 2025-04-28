@@ -1,68 +1,36 @@
-import PangeaConfig from "@src/config.js";
-import { ConfigEnv } from "@src/types.js";
 import { it, expect } from "@jest/globals";
+
+import PangeaConfig from "@src/config.js";
 import PangeaRequest from "@src/request.js";
 
 const token = "faketoken";
-const domain = "domain.test";
-const path = "path";
 const serviceName = "serviceName";
 
-it("insecure true, environment local", async () => {
+it("should be able to set base URL template", () => {
   const config = new PangeaConfig({
-    domain: domain,
-    insecure: true,
-    environment: ConfigEnv.LOCAL,
-  });
-  const request = new PangeaRequest(serviceName, token, config, undefined);
-  const url = request.getUrl(path);
-  expect(url).toBe("http://" + domain + "/" + path);
-});
-
-it("insecure false, environment local", async () => {
-  const config = new PangeaConfig({
-    domain: domain,
-    insecure: false,
-    environment: ConfigEnv.LOCAL,
+    baseUrlTemplate: "https://example.org/{SERVICE_NAME}",
   });
   const request = new PangeaRequest(serviceName, token, config);
-  const url = request.getUrl(path);
-  expect(url).toBe("https://" + domain + "/" + path);
+  expect(request.getUrl("api")).toStrictEqual(
+    new URL("https://example.org/serviceName/api")
+  );
 });
 
-it("insecure true, environment production", async () => {
+it("should be able to set domain", () => {
+  const config = new PangeaConfig({ domain: "example.org" });
+  const request = new PangeaRequest(serviceName, token, config);
+  expect(request.getUrl("api")).toStrictEqual(
+    new URL("https://servicename.example.org/api")
+  );
+});
+
+it("should prefer base URL template over domain", () => {
   const config = new PangeaConfig({
-    domain: domain,
-    insecure: true,
-    environment: ConfigEnv.PRODUCTION,
+    baseUrlTemplate: "https://example.org/{SERVICE_NAME}",
+    domain: "example.net",
   });
   const request = new PangeaRequest(serviceName, token, config);
-  const url = request.getUrl(path);
-  expect(url).toBe("http://" + serviceName + "." + domain + "/" + path);
-});
-
-it("insecure false, environment production", async () => {
-  const config = new PangeaConfig({
-    domain: domain,
-    insecure: false,
-    environment: ConfigEnv.PRODUCTION,
-  });
-  const request = new PangeaRequest(serviceName, token, config);
-  const url = request.getUrl(path);
-  expect(url).toBe("https://" + serviceName + "." + domain + "/" + path);
-});
-
-it("insecure default, environment default", async () => {
-  const config = new PangeaConfig({ domain: domain });
-  const request = new PangeaRequest(serviceName, token, config);
-  const url = request.getUrl(path);
-  expect(url).toBe("https://" + serviceName + "." + domain + "/" + path);
-});
-
-it("url domain", async () => {
-  const urlDomain = "https://myurldomain.net";
-  const config = new PangeaConfig({ domain: urlDomain });
-  const request = new PangeaRequest(serviceName, token, config);
-  const url = request.getUrl(path);
-  expect(url).toBe(urlDomain + "/" + path);
+  expect(request.getUrl("api")).toStrictEqual(
+    new URL("https://example.org/serviceName/api")
+  );
 });

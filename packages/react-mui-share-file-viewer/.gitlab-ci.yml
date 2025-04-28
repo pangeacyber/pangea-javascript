@@ -1,7 +1,7 @@
 build_react_mui_share_file_viewer:
   needs: []
   stage: build
-  image: node:20.19.0@sha256:a5fb035ac1dff34a4ecaea85f90f7321185695d3fd22c12ba12f4535a4647cc5
+  image: node:20.19.1@sha256:2b925d94e306faa9f9eca22852d2f0f79bc9192ce778e1cd435928e6a44f9164
   timeout: 10m
   retry:
     max: 2
@@ -9,6 +9,7 @@ build_react_mui_share_file_viewer:
       - job_execution_timeout
       - stuck_or_timeout_failure
   script:
+    - corepack enable
     - cd packages/react-mui-share-file-viewer
     - yarn install --frozen-lockfile
     - yarn build
@@ -23,12 +24,12 @@ build_react_mui_share_file_viewer:
 publish_react_mui_share_file_viewer:
   needs: [build_react_mui_share_file_viewer]
   stage: publish
-  image: node:20.19.0@sha256:a5fb035ac1dff34a4ecaea85f90f7321185695d3fd22c12ba12f4535a4647cc5
+  image: node:20.19.1@sha256:2b925d94e306faa9f9eca22852d2f0f79bc9192ce778e1cd435928e6a44f9164
   script:
     # Install jq for the publish script.
     - apt-get -qq update
     - apt-get install -y jq
-
+    - corepack enable
     - cd packages/react-mui-share-file-viewer
     - cp ../../scripts/publish.sh .
     - echo "${NPMRC}" > .npmrc && ./publish.sh && rm .npmrc
