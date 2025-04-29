@@ -73,7 +73,7 @@ export class FileIntelService extends BaseService {
    */
   hashReputation(
     fileHash: string,
-    hashType: string,
+    hashType: "sha256" | "sha" | "md5",
     options?: Intel.File.ReputationOptions
   ): Promise<PangeaResponse<Intel.File.ReputationResult>> {
     const data: Intel.File.ReputationRequest = {
@@ -114,8 +114,8 @@ export class FileIntelService extends BaseService {
    * ```
    */
   hashReputationBulk(
-    hashes: string[],
-    hashType: string,
+    hashes: readonly string[],
+    hashType: "sha256" | "sha" | "md5",
     options?: Intel.File.ReputationOptions
   ): Promise<PangeaResponse<Intel.File.ReputationBulkResult>> {
     const data: Intel.File.ReputationRequest = {

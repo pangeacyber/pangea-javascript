@@ -743,11 +743,14 @@ export namespace Intel {
   }
 
   export namespace File {
-    interface Options extends Intel.Options {}
+    interface Options extends Intel.Options {
+      provider?: "crowdstrike" | "reversinglabs";
+    }
+
     interface Params {
       hash?: string;
-      hashes?: string[];
-      hash_type: string;
+      hashes?: readonly string[];
+      hash_type: "sha256" | "sha" | "md5";
     }
 
     export interface ReputationOptions extends Options {}
