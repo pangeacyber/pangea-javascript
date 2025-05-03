@@ -1384,7 +1384,16 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/react-dom@npm:18.3.6, @types/react-dom@npm:^18.0.0":
+"@types/react-dom@npm:18.3.7":
+  version: 18.3.7
+  resolution: "@types/react-dom@npm:18.3.7"
+  peerDependencies:
+    "@types/react": ^18.0.0
+  checksum: 10c0/8bd309e2c3d1604a28a736a24f96cbadf6c05d5288cfef8883b74f4054c961b6b3a5e997fd5686e492be903c8f3380dba5ec017eff3906b1256529cd2d39603e
+  languageName: node
+  linkType: hard
+
+"@types/react-dom@npm:^18.0.0":
   version: 18.3.6
   resolution: "@types/react-dom@npm:18.3.6"
   peerDependencies:
@@ -4082,7 +4091,7 @@ __metadata:
     "@testing-library/react": "npm:15.0.7"
     "@tsconfig/cypress": "npm:1.0.2"
     "@tsconfig/vite-react": "npm:3.4.0"
-    "@types/react-dom": "npm:18.3.6"
+    "@types/react-dom": "npm:18.3.7"
     "@vitejs/plugin-react": "npm:4.4.1"
     cypress: "npm:14.3.2"
     happy-dom: "npm:17.4.4"
