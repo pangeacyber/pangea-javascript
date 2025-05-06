@@ -47,7 +47,7 @@ export default class ClientSession extends BaseService {
    *   - size (integer): Maximum results to include in the response. Minimum is `1`.
    * @returns {Promise<PangeaResponse<AuthN.Session.ListResult>>} - A promise
    * representing an async call to the endpoint. Available response fields can be found in our
-   * [API Documentation](https://pangea.cloud/docs/api/authn/session#/v2/client/session/list).
+   * [API Documentation](https://pangea.cloud/docs/api/authn/session#/v2/client/session/list-post).
    * @example
    * ```js
    * const response = await authn.client.session.list(
@@ -94,7 +94,7 @@ export default class ClientSession extends BaseService {
    *   - user_token (string): A user token value
    * @returns {Promise<PangeaResponse<AuthN.Client.Session.RefreshResult>>} - A promise
    * representing an async call to the endpoint. Available response fields can be found in our
-   * [API Documentation](https://pangea.cloud/docs/api/authn/session#/v2/client/session/refresh).
+   * [API Documentation](https://pangea.cloud/docs/api/authn/session#/v2/client/session/refresh-post).
    * @example
    * ```js
    * const response = await authn.client.session.refresh(
