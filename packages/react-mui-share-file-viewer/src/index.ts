@@ -1,7 +1,7 @@
 export {
   default as ShareFileViewer,
   ShareDownloadFileViewer,
-  ShareFileViewerProps,
+  type ShareFileViewerProps,
 } from "./ShareFileViewer";
 export type {
   ShareDataGridColumns,
