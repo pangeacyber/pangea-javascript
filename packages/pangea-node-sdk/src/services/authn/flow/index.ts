@@ -15,7 +15,7 @@ export default class Flow extends BaseService {
    * @param {String} flowID - An ID for a login or signup flow
    * @returns {Promise<PangeaResponse<AuthN.Flow.CompleteResult>>} - A promise
    * representing an async call to the endpoint. Available response fields can be found in our
-   * [API Documentation](https://pangea.cloud/docs/api/authn/flow#/v2/flow/complete).
+   * [API Documentation](https://pangea.cloud/docs/api/authn/flow#/v2/flow/complete-post).
    * @example
    * ```js
    * const response = await authn.flow.complete(
@@ -37,7 +37,7 @@ export default class Flow extends BaseService {
    * @param {AuthN.Flow.StartRequest} request
    * @returns {Promise<PangeaResponse<AuthN.Flow.StartResult>>} - A promise
    * representing an async call to the endpoint. Available response fields can be found in our
-   * [API Documentation](https://pangea.cloud/docs/api/authn/flow#/v2/flow/start).
+   * [API Documentation](https://pangea.cloud/docs/api/authn/flow#/v2/flow/start-post).
    * @example
    * ```js
    * const response = await authn.flow.start({
@@ -64,7 +64,7 @@ export default class Flow extends BaseService {
    * @param {AuthN.Flow.RestartRequest} request
    * @returns {Promise<PangeaResponse<AuthN.Flow.RestartResult>>} - A promise
    * representing an async call to the endpoint. Available response fields can be found in our
-   * [API Documentation](https://pangea.cloud/docs/api/authn/flow#/v2/flow/restart).
+   * [API Documentation](https://pangea.cloud/docs/api/authn/flow#/v2/flow/restart-post).
    * @example
    * ```js
    * const response = await authn.flow.restart({
@@ -87,7 +87,7 @@ export default class Flow extends BaseService {
    * @param {AuthN.Flow.UpdateRequest} request
    * @returns {Promise<PangeaResponse<AuthN.Flow.UpdateResult>>} - A promise
    * representing an async call to the endpoint. Available response fields can be found in our
-   * [API Documentation](https://pangea.cloud/docs/api/authn/flow#/v2/flow/update).
+   * [API Documentation](https://pangea.cloud/docs/api/authn/flow#/v2/flow/update-post).
    * @example
    * ```js
    * const response = await authn.flow.update({

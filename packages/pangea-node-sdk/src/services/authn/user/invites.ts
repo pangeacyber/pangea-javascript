@@ -21,7 +21,7 @@ export default class UserInvites extends BaseService {
    *   - size (number): Maximum results to include in the response.
    * @returns {Promise<PangeaResponse<AuthN.User.Invite.ListResult>>} - A list of pending user invitations.
    * Available response fields can be found in our
-   * [API Documentation](https://pangea.cloud/docs/api/authn/invite#/v2/user/invite/list).
+   * [API Documentation](https://pangea.cloud/docs/api/authn/invite#/v2/user/invite/list-post).
    * @example
    * ```js
    * const response = await authn.user.invites.list(
