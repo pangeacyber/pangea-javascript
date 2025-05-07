@@ -12,6 +12,7 @@
   },
   "scripts": {
     "lint": "npx prettier --check .",
+    "prettier": "npx prettier --write .",
     "prepare": "husky"
   },
   "lint-staged": {
