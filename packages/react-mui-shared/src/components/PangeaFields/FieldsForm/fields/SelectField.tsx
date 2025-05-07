@@ -139,7 +139,7 @@ export const UnControlledSelectField: FC<SelectFieldProps> = ({
   });
   const isSearchable = searchable && valueOptions.length >= minSearchOptions;
 
-  let currentValues = value || (isMulti ? [] : value ?? "");
+  let currentValues = value || (isMulti ? [] : (value ?? ""));
 
   const displayedOptions = useMemo(
     () =>
