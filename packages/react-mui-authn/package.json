@@ -25,7 +25,7 @@
     "@babel/core": "7.27.1",
     "@emotion/react": "^11.14.0",
     "@emotion/styled": "^11.14.0",
-    "@fontsource/kanit": "^5.2.5",
+    "@fontsource/kanit": "^5.2.6",
     "@fontsource/roboto": "^5.2.5",
     "@mui/icons-material": "^6.1.6",
     "@mui/material": "^6.1.6",
