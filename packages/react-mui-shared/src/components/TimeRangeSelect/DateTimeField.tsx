@@ -46,7 +46,7 @@ const DateTimeField: FC<DateTimeFieldProps> = ({ value, setValue, label }) => {
             <DesktopDateTimePicker
               value={adaptDate}
               onChange={(newValue) => {
-                setAdaptDate(newValue);
+                setAdaptDate(newValue as Moment);
               }}
               slots={{
                 textField: SmallTextField,

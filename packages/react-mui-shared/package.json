@@ -1,6 +1,6 @@
 {
   "name": "@pangeacyber/react-mui-shared",
-  "version": "2.0.0-beta.0",
+  "version": "2.0.1",
   "description": "Pangea shared Material-UI React library",
   "main": "dist/cjs/index.js",
   "module": "dist/esm/index.js",
@@ -58,8 +58,8 @@
   },
   "dependencies": {
     "@loadable/component": "^5.16.4",
-    "@mui/x-data-grid": "7.21.0",
-    "@mui/x-date-pickers": "^7.22.1",
+    "@mui/x-data-grid": "8.2.0",
+    "@mui/x-date-pickers": "8.2.0",
     "dayjs": "^1.11.13",
     "formik": "^2.4.6",
     "moment": "^2.30.1",

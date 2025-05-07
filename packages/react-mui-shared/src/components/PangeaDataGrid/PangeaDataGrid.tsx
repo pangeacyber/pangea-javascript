@@ -25,6 +25,7 @@ import {
   MuiEvent,
   GridColumnHeaderParams,
   GridSortModel,
+  GridRowSelectionModel,
 } from "@mui/x-data-grid";
 import {
   useTheme,
@@ -349,6 +350,20 @@ const PangeaDataGrid = <
     }
   }, [data, previewId]);
 
+  const rowSelectionModel = useMemo<GridRowSelectionModel>(() => {
+    if (!preview?.row?.id) {
+      return {
+        type: "include",
+        ids: new Set(),
+      };
+    }
+
+    return {
+      type: "include",
+      ids: new Set([preview?.row?.id]),
+    };
+  }, [preview?.row?.id]);
+
   const modify = mode === "dark" ? darken : lighten;
   return (
     <Box sx={sx}>
@@ -401,7 +416,7 @@ const PangeaDataGrid = <
               )}
               hideFooterSelectedRowCount
               hideFooterPagination={!ServerPagination}
-              rowSelectionModel={preview?.row?.id ?? []}
+              rowSelectionModel={rowSelectionModel}
               onRowClick={(params, event) => {
                 if (!isRowClickable || event.defaultPrevented) return;
                 if (!!onRowClick) {
