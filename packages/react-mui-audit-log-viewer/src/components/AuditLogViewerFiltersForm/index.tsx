@@ -1,12 +1,5 @@
 import { FC, useState, useMemo, Fragment } from "react";
-import {
-  Grid2 as Grid,
-  Button,
-  Stack,
-  IconButton,
-  Tooltip,
-  Typography,
-} from "@mui/material";
+import { Button, Stack, IconButton, Tooltip, Typography } from "@mui/material";
 import { lighten } from "@mui/material/styles";
 import { FilterOptions } from "@pangeacyber/react-mui-shared";
 import JoinDivider, { RemoveButton } from "./JoinDivider";
@@ -159,11 +152,13 @@ const AuditLogViewerFiltersForm: FC<Props> = ({
           {!!fields?.length && <JoinDivider />}
           <IconButton
             sx={{
-              backgroundColor: (theme) => theme.palette.secondary.main,
-              color: (theme) => theme.palette.secondary.contrastText,
+              backgroundColor: (theme) =>
+                (theme.vars || theme).palette.secondary.main,
+              color: (theme) =>
+                (theme.vars || theme).palette.secondary.contrastText,
               ":hover": {
                 backgroundColor: (theme) =>
-                  lighten(theme.palette.secondary.main, 0.2),
+                  lighten((theme.vars || theme).palette.secondary.main, 0.2),
               },
             }}
             onClick={handleAddCondition}

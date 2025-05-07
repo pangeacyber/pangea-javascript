@@ -1,7 +1,12 @@
 import { FC } from "react";
 
 import { Tooltip, Typography, Chip, Stack } from "@mui/material";
-import { lighten, darken, useTheme } from "@mui/material/styles";
+import {
+  lighten,
+  darken,
+  useTheme,
+  useColorScheme,
+} from "@mui/material/styles";
 import { PDG } from "../types";
 import { limitCharacters } from "../../../utils";
 import CopyButton from "../../IconButtons/CopyButton";
@@ -29,8 +34,7 @@ export const TextWithCopyCell: FC<PDG.CellProps> = ({ params, color }) => {
   return (
     <Stack
       direction="row"
-      alignItems="center"
-      sx={{ width: "100%", overflow: "hidden" }}
+      sx={{ alignItems: "center", width: "100%", overflow: "hidden" }}
     >
       <Tooltip title={value ?? ""} placement="bottom-start">
         <Typography
@@ -94,8 +98,9 @@ export const SingleSelectCell: FC<PDG.CellProps> = ({ params, color }) => {
 export const MultiSelectCell: FC<PDG.CellProps> = ({ params }) => {
   const { value } = params;
   const theme = useTheme();
+  const { mode } = useColorScheme();
 
-  const modify = theme.palette.mode === "dark" ? darken : lighten;
+  const modify = mode === "dark" ? darken : lighten;
   if (Array.isArray(value)) {
     return (
       <Stack
@@ -114,7 +119,10 @@ export const MultiSelectCell: FC<PDG.CellProps> = ({ params }) => {
               className={"PangeaDataGrid-Chip"}
               sx={{
                 color: "text.secondary",
-                backgroundColor: modify(theme.palette.primary.main, 0.2),
+                backgroundColor: modify(
+                  (theme.vars || theme).palette.primary.main,
+                  0.2
+                ),
               }}
               label={v}
             />

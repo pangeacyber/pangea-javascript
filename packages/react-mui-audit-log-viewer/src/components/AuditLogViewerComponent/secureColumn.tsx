@@ -364,7 +364,7 @@ export const AuditSecureColumn: GridColDef = {
         <Box
           sx={{
             backgroundColor: isConsistentWithPrevious
-              ? theme.palette.success.main
+              ? (theme.vars || theme).palette.success.main
               : "transparent",
             width: "1px",
             display: "flex",
@@ -387,7 +387,7 @@ export const AuditSecureColumn: GridColDef = {
         <Box
           sx={{
             backgroundColor: isConsistentWithNext
-              ? theme.palette.success.main
+              ? (theme.vars || theme).palette.success.main
               : "transparent",
             width: "1px",
             display: "flex",

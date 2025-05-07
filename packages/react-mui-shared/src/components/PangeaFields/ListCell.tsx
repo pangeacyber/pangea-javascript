@@ -107,7 +107,7 @@ const ListCell: FC<ListCellProps> = ({
             key={`${name}-chip-${v}-${i}`}
             sx={{
               color: "text.secondary",
-              backgroundColor: `${theme.palette.secondary.light}`,
+              backgroundColor: `${(theme.vars || theme).palette.secondary.light}`,
             }}
             label={label}
           />
@@ -119,7 +119,7 @@ const ListCell: FC<ListCellProps> = ({
             size="small"
             sx={{
               color: "text.secondary",
-              backgroundColor: `${theme.palette.secondary.light}`,
+              backgroundColor: `${(theme.vars || theme).palette.secondary.light}`,
             }}
             label={`+${overflowCount} more`}
           />

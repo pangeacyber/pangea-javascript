@@ -130,7 +130,7 @@ const FileDropBox: FC<Props> = ({ children, BoxSx }) => {
     }
   };
 
-  const main = theme.palette.info.main;
+  const main = (theme.vars || theme).palette.info.main;
   return (
     <>
       {
@@ -225,7 +225,7 @@ const FileDropBox: FC<Props> = ({ children, BoxSx }) => {
                     </Typography>
                     <Typography
                       variant="body2"
-                      sx={{ color: theme.palette.info.main }}
+                      sx={{ color: (theme.vars || theme).palette.info.main }}
                     >
                       or choose a file
                     </Typography>

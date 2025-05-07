@@ -50,7 +50,7 @@ const DeleteFileButton: FC<Props> = ({
           <IconButton onClick={props.onClick}>
             <DeleteIcon
               fontSize="small"
-              sx={{ color: theme.palette.text.primary }}
+              sx={{ color: (theme.vars || theme).palette.text.primary }}
             />
           </IconButton>
         ) : (

@@ -139,7 +139,7 @@ export const UnControlledSelectField: FC<SelectFieldProps> = ({
   });
   const isSearchable = searchable && valueOptions.length >= minSearchOptions;
 
-  let currentValues = value || (isMulti ? [] : (value ?? ""));
+  let currentValues = value || (isMulti ? [] : value ?? "");
 
   const displayedOptions = useMemo(
     () =>
@@ -221,7 +221,7 @@ export const UnControlledSelectField: FC<SelectFieldProps> = ({
           }
 
           return (
-            <Stack direction="row" spacing={1} alignItems="center">
+            <Stack direction="row" spacing={1} sx={{ alignItems: "center" }}>
               <Typography
                 sx={{
                   textOverflow: "ellipsis",
@@ -345,7 +345,11 @@ export const UnControlledSelectField: FC<SelectFieldProps> = ({
               }}
             >
               <Stack>
-                <Stack direction="row" spacing={1} alignItems="center">
+                <Stack
+                  direction="row"
+                  spacing={1}
+                  sx={{ alignItems: "center" }}
+                >
                   {isMulti && (
                     <Stack>
                       <CheckBoxIcon

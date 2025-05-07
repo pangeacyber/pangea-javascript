@@ -21,7 +21,7 @@ import Button from "@mui/material/Button";
 import {
   ButtonProps,
   Divider,
-  Grid2 as Grid,
+  Grid,
   Stack,
   SxProps,
   Tooltip,
@@ -212,7 +212,7 @@ const FieldsForm: FC<FieldsFormProps> = ({
       const name = field.name ?? field.label;
 
       values[name] =
-        !!object && name in object ? object[name] : (field?.default ?? "");
+        !!object && name in object ? object[name] : field?.default ?? "";
     });
 
     return values;
@@ -289,7 +289,7 @@ const FieldsForm: FC<FieldsFormProps> = ({
   const isSaveDisabled =
     (disabled ?? (!canSave && !isEmpty(formik.errors))) || isSubmitting;
   const numGroups = Object.keys(groups).length;
-  const fieldWidth = multiColumn ? "50%" : (fieldWidthProp ?? "100%");
+  const fieldWidth = multiColumn ? "50%" : fieldWidthProp ?? "100%";
 
   useEffect(() => {
     if (!onIsChanged) return;
@@ -359,6 +359,10 @@ const FieldsForm: FC<FieldsFormProps> = ({
             <Stack
               direction={{ xs: "column", sm: "row" }}
               sx={{
+                alignItems: "center",
+                justifyContent: "end",
+                marginLeft: "auto",
+                marginTop: 2,
                 ...(isSmall && {
                   width: "100%",
                   "button, span": {
@@ -367,10 +371,6 @@ const FieldsForm: FC<FieldsFormProps> = ({
                 }),
               }}
               spacing={1}
-              marginTop={2}
-              alignItems="center"
-              justifyContent="end"
-              marginLeft="auto"
             >
               {!!caption && (
                 <Typography variant="body2" color="info.main">

@@ -1,6 +1,11 @@
 import { FC } from "react";
 import { Stack, Typography } from "@mui/material";
-import { useTheme, darken, lighten } from "@mui/material/styles";
+import {
+  useTheme,
+  darken,
+  lighten,
+  useColorScheme,
+} from "@mui/material/styles";
 import { PangeaModal } from "@pangeacyber/react-mui-shared";
 
 import CopyPasswordButton from "../../PasswordCopyButton";
@@ -13,7 +18,8 @@ interface Props {
 
 const CopyPasswordModal: FC<Props> = ({ password, open, onClose }) => {
   const theme = useTheme();
-  const modify = theme.palette.mode === "dark" ? darken : lighten;
+  const { mode } = useColorScheme();
+  const modify = mode === "dark" ? darken : lighten;
 
   return (
     <PangeaModal
@@ -33,10 +39,10 @@ const CopyPasswordModal: FC<Props> = ({ password, open, onClose }) => {
           variant="contained"
           disableElevation
           sx={{
-            bgcolor: modify(theme.palette.info.main, 0.9),
-            color: theme.palette.info.main,
+            bgcolor: modify((theme.vars || theme).palette.info.main, 0.9),
+            color: (theme.vars || theme).palette.info.main,
             ":hover": {
-              bgcolor: modify(theme.palette.info.main, 0.8),
+              bgcolor: modify((theme.vars || theme).palette.info.main, 0.8),
             },
             paddingLeft: "0",
             paddingRight: "0",

@@ -40,9 +40,9 @@ export const UnControlledStringArrayField: FC<
   };
 
   return (
-    <Stack spacing={1} width="100%">
+    <Stack spacing={1} sx={{ width: "100%" }}>
       {!props.disabled && (
-        <Stack direction="row" spacing={1} width="100%">
+        <Stack direction="row" spacing={1} sx={{ width: "100%" }}>
           <UnControlledAutocompleteStringField
             value={newValue}
             name={props.name}

@@ -59,7 +59,7 @@ const CreateNewButton: FC<Props> = ({
           <CreateNewFolderButton
             ButtonProps={{
               sx: {
-                color: theme.palette.text.primary,
+                color: (theme.vars || theme).palette.text.primary,
                 width: "100%",
                 paddingLeft: 2,
                 justifyContent: "start",
@@ -73,7 +73,7 @@ const CreateNewButton: FC<Props> = ({
           <CreateNewFileButton
             ButtonProps={{
               sx: {
-                color: theme.palette.text.primary,
+                color: (theme.vars || theme).palette.text.primary,
                 width: "100%",
                 paddingLeft: 2,
                 justifyContent: "start",
@@ -87,7 +87,7 @@ const CreateNewButton: FC<Props> = ({
             <CreateNewProtectedFileButton
               ButtonProps={{
                 sx: {
-                  color: theme.palette.text.primary,
+                  color: (theme.vars || theme).palette.text.primary,
                   width: "100%",
                   paddingLeft: 2,
                   justifyContent: "start",

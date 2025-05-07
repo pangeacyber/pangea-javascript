@@ -260,7 +260,7 @@ const UnControlledShareAuthenticatorField: FC<
               <Stack>
                 <Typography
                   variant="subtitle1"
-                  sx={{ color: theme.palette.info.main }}
+                  sx={{ color: (theme.vars || theme).palette.info.main }}
                 >
                   Generate Password
                 </Typography>

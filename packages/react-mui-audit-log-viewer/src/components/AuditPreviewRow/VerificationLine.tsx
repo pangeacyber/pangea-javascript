@@ -15,7 +15,7 @@ const VerificationLine: FC<{
     <Box
       sx={{
         backgroundColor: isConsistentWithNext
-          ? theme.palette.success.main
+          ? (theme.vars || theme).palette.success.main
           : "transparent",
         width: "1px!important",
         display: "flex",

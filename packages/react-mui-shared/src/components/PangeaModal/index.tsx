@@ -49,7 +49,7 @@ const PangeaModal: FC<PangeaModalProps> = ({
     large: "800px",
     xl: "90%",
     page: "calc(100% - 32px)",
-  }[isSmall ? "page" : (size ?? "default")];
+  }[isSmall ? "page" : size ?? "default"];
 
   return (
     <MUIModal
@@ -98,7 +98,7 @@ const PangeaModal: FC<PangeaModalProps> = ({
         >
           <Stack spacing={1}>
             {(!!header || !!displayCloseIcon) && (
-              <Stack direction="row" justifyContent="space-between">
+              <Stack direction="row" sx={{ justifyContent: "space-between" }}>
                 {!!header ? (
                   <>{header}</>
                 ) : (
@@ -158,8 +158,8 @@ const PangeaModal: FC<PangeaModalProps> = ({
               <Stack
                 direction={{ xs: "column", sm: "row" }}
                 spacing={1}
-                alignSelf="end"
                 sx={{
+                  alignSelf: "end",
                   ...(isSmall && {
                     width: "100%",
                     button: {

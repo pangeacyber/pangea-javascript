@@ -60,12 +60,15 @@ const ResultsBar: FC<ResultsBarProps> = ({
   return (
     <Stack
       direction="row"
-      width="100%"
-      justifyContent="space-between"
-      alignItems="center"
-      sx={{ p: 0.5, pt: 0 }}
+      sx={{
+        width: "100%",
+        justifyContent: "space-between",
+        alignItems: "center",
+        p: 0.5,
+        pt: 0,
+      }}
     >
-      <Stack direction="row" spacing={1} alignItems="center">
+      <Stack direction="row" spacing={1} sx={{ alignItems: "center" }}>
         <Box>
           {total > 0 && (
             <Typography variant="body2" color="textSecondary">
@@ -85,8 +88,7 @@ const ResultsBar: FC<ResultsBarProps> = ({
               <Stack
                 direction="row"
                 spacing={0.5}
-                alignItems="center"
-                sx={{ color: "text.secondary" }}
+                sx={{ color: "text.secondary", alignItems: "center" }}
               >
                 <Typography variant="body2" color="textSecondary">
                   Limit:
@@ -119,8 +121,7 @@ const ResultsBar: FC<ResultsBarProps> = ({
         <Stack
           direction="row"
           spacing={0.5}
-          alignItems="center"
-          sx={{ color: "text.secondary" }}
+          sx={{ color: "text.secondary", alignItems: "center" }}
         >
           <Typography variant="body2" color="textSecondary">
             Rows per page:

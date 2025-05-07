@@ -10,7 +10,7 @@ import { validatePassword } from "./utils";
 
 const StackStyle = styled(Stack)(({ theme }) => ({
   padding: "12px",
-  backgroundColor: theme.palette.primary.contrastText,
+  backgroundColor: (theme.vars || theme).palette.primary.contrastText,
   borderRadius: "8px",
   boxShadow: "0px 4px 16px -5px rgba(0, 0, 0, 0.2)",
   zIndex: "500",
@@ -24,7 +24,7 @@ const StackStyle = styled(Stack)(({ theme }) => ({
     width: 0,
     position: "absolute",
     pointerEvents: "none",
-    borderRightColor: theme.palette.primary.contrastText,
+    borderRightColor: (theme.vars || theme).palette.primary.contrastText,
     borderWidth: "8px",
     marginTop: "-8px",
   },
@@ -70,8 +70,8 @@ const PasswordRequirementDisplay: FC<Props> = ({ value, policy }) => {
                 direction="row"
                 sx={{
                   color: error
-                    ? theme.palette.error.main
-                    : theme.palette.success.main,
+                    ? (theme.vars || theme).palette.error.main
+                    : (theme.vars || theme).palette.success.main,
                   paddingBottom: "4px",
                 }}
               >

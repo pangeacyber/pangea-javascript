@@ -122,11 +122,11 @@ const TimeRangeSelect: FC<TimeRangeSelectProps> = ({
         endIcon={<ArrowDropDownIcon />}
         {...ButtonProps}
         sx={{
-          borderColor: theme.palette.divider,
+          borderColor: (theme.vars || theme).palette.divider,
           ...ButtonProps.sx,
           ...(open
             ? {
-                borderColor: theme.palette.divider,
+                borderColor: (theme.vars || theme).palette.divider,
                 borderLeft: "solid",
                 marginLeft: "-1px",
               }
@@ -185,7 +185,7 @@ const TimeRangeSelect: FC<TimeRangeSelectProps> = ({
               setValue={setValue}
               setOpen={setOpen}
             >
-              <Stack direction="row" spacing={2} alignItems="center">
+              <Stack direction="row" spacing={2} sx={{ alignItems: "center" }}>
                 <DateTimeField
                   name="beginning"
                   label="Beginning"
