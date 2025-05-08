@@ -26,7 +26,7 @@ const PasskeyError: FC<Props> = ({
         variant="text"
         fullWidth
         sx={{
-          color: theme.palette.error.main,
+          color: (theme.vars || theme).palette.error.main,
           cursor: "default",
           borderBottomLeftRadius: 0,
           borderBottomRightRadius: 0,
