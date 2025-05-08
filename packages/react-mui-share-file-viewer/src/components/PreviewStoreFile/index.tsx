@@ -101,7 +101,7 @@ const PreviewStoreFile: FC<PreviewFileProps> = ({ data, onClose }) => {
         >
           <FileOptions object={object} onClose={() => {}} />
           <IconButton onClick={onClose}>
-            <CloseIcon fontSize="small" />
+            <CloseIcon data-testid="CloseIcon" fontSize="small" />
           </IconButton>
         </Stack>
       </Stack>

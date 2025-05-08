@@ -5,12 +5,7 @@ import some from "lodash/some";
 import find from "lodash/find";
 
 import { Stack } from "@mui/material";
-import {
-  useTheme,
-  lighten,
-  darken,
-  useColorScheme,
-} from "@mui/material/styles";
+import { useTheme, lighten, darken } from "@mui/material/styles";
 
 import { Audit } from "../../types";
 
@@ -28,6 +23,7 @@ import {
   useFpeContext,
 } from "../../hooks/fpe";
 import { Change } from "../../hooks/diff";
+import { useMode } from "../../hooks";
 
 interface Props {
   record: Audit.FlattenedAuditRecord;
@@ -63,7 +59,7 @@ const AuditPreviewRow: FC<Props> = ({
   isVerificationCheckEnabled = true,
   schema,
 }) => {
-  const { mode } = useColorScheme();
+  const mode = useMode();
   const theme = useTheme();
 
   const fields = useMemo(() => {

@@ -49,7 +49,7 @@ const PangeaModal: FC<PangeaModalProps> = ({
     large: "800px",
     xl: "90%",
     page: "calc(100% - 32px)",
-  }[isSmall ? "page" : (size ?? "default")];
+  }[isSmall ? "page" : size ?? "default"];
 
   return (
     <MUIModal
@@ -121,7 +121,7 @@ const PangeaModal: FC<PangeaModalProps> = ({
                     size="small"
                     data-testid="Modal-Close-Btn"
                   >
-                    <CloseIcon fontSize="small" />
+                    <CloseIcon data-testid="CloseIcon" fontSize="small" />
                   </IconButton>
                 )}
               </Stack>

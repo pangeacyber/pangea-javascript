@@ -1,3 +1,4 @@
+import { useColorScheme, useTheme } from "@mui/material/styles";
 import { useState, useEffect, useRef } from "react";
 
 function useDebounce(value: any, delay: any) {
@@ -38,4 +39,11 @@ export const useInternalState = (value: any, setValue: any) => {
   }, [debouncedValue]);
 
   return [value_, setValue_];
+};
+
+export const useMode = () => {
+  const { mode } = useColorScheme();
+  const theme = useTheme();
+
+  return mode ?? theme.palette.mode;
 };
