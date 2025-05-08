@@ -69,7 +69,7 @@ const JoinChip: FC<Props> = ({ value, onValueChange, ...props }) => {
                       <ArrowDropDownIcon
                         sx={{
                           color: (theme) =>
-                            `${theme.palette.secondary.contrastText}!important`,
+                            `${(theme.vars || theme).palette.secondary.contrastText}!important`,
                         }}
                         fontSize="small"
                       />
@@ -79,11 +79,16 @@ const JoinChip: FC<Props> = ({ value, onValueChange, ...props }) => {
                       margin: "auto!important",
                       width: "100%",
                       alignSelf: "center",
-                      backgroundColor: (theme) => theme.palette.secondary.main,
-                      color: (theme) => theme.palette.secondary.contrastText,
+                      backgroundColor: (theme) =>
+                        (theme.vars || theme).palette.secondary.main,
+                      color: (theme) =>
+                        (theme.vars || theme).palette.secondary.contrastText,
                       ":hover": {
                         backgroundColor: (theme) =>
-                          lighten(theme.palette.secondary.main, 0.2),
+                          lighten(
+                            (theme.vars || theme).palette.secondary.main,
+                            0.2
+                          ),
                       },
                     }}
                   />

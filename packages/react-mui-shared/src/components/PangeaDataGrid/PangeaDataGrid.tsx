@@ -11,12 +11,11 @@ import {
 import cloneDeep from "lodash/cloneDeep";
 import keyBy from "lodash/keyBy";
 import mapValues from "lodash/mapValues";
-import get from "lodash/get";
 import find from "lodash/find";
 import findLast from "lodash/findLast";
 import isEmpty from "lodash/isEmpty";
 
-import Grid from "@mui/material/Grid2";
+import { Grid } from "@mui/material";
 import {
   DataGrid,
   GridColDef,
@@ -26,8 +25,15 @@ import {
   MuiEvent,
   GridColumnHeaderParams,
   GridSortModel,
+  GridRowSelectionModel,
 } from "@mui/x-data-grid";
-import { useTheme, lighten, darken, SxProps } from "@mui/material/styles";
+import {
+  useTheme,
+  lighten,
+  darken,
+  SxProps,
+  useColorScheme,
+} from "@mui/material/styles";
 
 import { Box, ButtonProps, Stack, StackProps } from "@mui/material";
 
@@ -162,6 +168,8 @@ const PangeaDataGrid = <
   components = {},
 }: PangeaDataGridProps<DataType, FiltersObj>): JSX.Element => {
   const theme = useTheme();
+  const { mode } = useColorScheme();
+
   const { DataGridParentStack = Stack } = components;
 
   const [preview, setPreview_] = useState<GridRowParams<DataType> | null>(null);
@@ -342,10 +350,24 @@ const PangeaDataGrid = <
     }
   }, [data, previewId]);
 
-  const modify = theme.palette.mode === "dark" ? darken : lighten;
+  const rowSelectionModel = useMemo<GridRowSelectionModel>(() => {
+    if (!preview?.row?.id) {
+      return {
+        type: "include",
+        ids: new Set(),
+      };
+    }
+
+    return {
+      type: "include",
+      ids: new Set([preview?.row?.id]),
+    };
+  }, [preview?.row?.id]);
+
+  const modify = mode === "dark" ? darken : lighten;
   return (
     <Box sx={sx}>
-      <Stack direction="row" width="100%" sx={{ overflow: "hidden" }}>
+      <Stack direction="row" sx={{ width: "100%", overflow: "hidden" }}>
         <Grid
           sx={{
             maxWidth: "100%",
@@ -369,8 +391,7 @@ const PangeaDataGrid = <
             {!!header && (
               <Stack
                 direction="row"
-                width="100%"
-                sx={{ p: 0.5, pt: 0, alignItems: "center" }}
+                sx={{ width: "100%", p: 0.5, pt: 0, alignItems: "center" }}
               >
                 {header}
               </Stack>
@@ -395,7 +416,7 @@ const PangeaDataGrid = <
               )}
               hideFooterSelectedRowCount
               hideFooterPagination={!ServerPagination}
-              rowSelectionModel={preview?.row?.id ?? []}
+              rowSelectionModel={rowSelectionModel}
               onRowClick={(params, event) => {
                 if (!isRowClickable || event.defaultPrevented) return;
                 if (!!onRowClick) {
@@ -451,17 +472,21 @@ const PangeaDataGrid = <
                 lineHeight: "22px",
                 letterSpacing: "0.1px",
                 border: "none",
-                color: theme.palette.text.secondary,
+                color: (theme.vars || theme).palette.text.secondary,
                 ".MuiDataGrid-columnHeaders.PangeaDataGrid-Pinned-Right, .MuiDataGrid-cell.PangeaDataGrid-Pinned-Right":
                   {
                     position: "sticky",
                     right: "0px",
                     float: "right",
-                    backgroundColor: theme.palette.background.paper,
+                    backgroundColor: (theme.vars || theme).palette.background
+                      .paper,
                   },
                 ".MuiDataGrid-columnHeaders": {
-                  color: theme.palette.text.secondary,
-                  backgroundColor: modify(theme.palette.secondary.main, 0.9),
+                  color: (theme.vars || theme).palette.text.secondary,
+                  backgroundColor: modify(
+                    (theme.vars || theme).palette.secondary.main,
+                    0.9
+                  ),
                   textTransform: "uppercase",
                   fontFamily: "Kanit",
                   fontSize: "12px",
@@ -491,15 +516,24 @@ const PangeaDataGrid = <
                     borderBottomLeftRadius: 0,
                     borderBottomRightRadius: 0,
                   }),
-                  backgroundColor: modify(theme.palette.secondary.main, 0.9),
+                  backgroundColor: modify(
+                    (theme.vars || theme).palette.secondary.main,
+                    0.9
+                  ),
                   ".PangeaDataGrid-Pinned-Right": {
-                    backgroundColor: modify(theme.palette.secondary.main, 0.9),
+                    backgroundColor: modify(
+                      (theme.vars || theme).palette.secondary.main,
+                      0.9
+                    ),
                   },
                   ":hover": {
-                    backgroundColor: modify(theme.palette.secondary.main, 0.9),
+                    backgroundColor: modify(
+                      (theme.vars || theme).palette.secondary.main,
+                      0.9
+                    ),
                     ".PangeaDataGrid-Pinned-Right": {
                       backgroundColor: modify(
-                        theme.palette.secondary.main,
+                        (theme.vars || theme).palette.secondary.main,
                         0.9
                       ),
                     },
@@ -514,7 +548,7 @@ const PangeaDataGrid = <
                   minHeight: "8px",
                 },
                 ".columnPrimary": {
-                  color: theme.palette.text.primary,
+                  color: (theme.vars || theme).palette.text.primary,
                 },
                 ".MuiDataGrid-virtualScrollerRenderZone, .MuiDataGrid-virtualScrollerContent":
                   {
@@ -532,7 +566,7 @@ const PangeaDataGrid = <
                         ":hover": {
                           cursor: "pointer",
                           backgroundColor: modify(
-                            theme.palette.secondary.main,
+                            (theme.vars || theme).palette.secondary.main,
                             0.85
                           ),
                         },

@@ -1,5 +1,5 @@
 import { FC } from "react";
-import { Divider, Grid2 as Grid } from "@mui/material";
+import { Divider, Grid } from "@mui/material";
 
 import FieldComponent from "./FieldComponent";
 import { FieldFormSchema, FormFieldLabelProps } from "./types";

@@ -1,4 +1,9 @@
-import { useTheme, lighten, darken } from "@mui/material/styles";
+import {
+  useTheme,
+  lighten,
+  darken,
+  useColorScheme,
+} from "@mui/material/styles";
 import PangeaDataGrid, { PangeaDataGridProps } from "../PangeaDataGrid";
 import { GridValidRowModel } from "@mui/x-data-grid";
 
@@ -8,9 +13,10 @@ const LinedPangeaDataGrid = <
 >(
   props: PangeaDataGridProps<DataType, FiltersObj>
 ): JSX.Element => {
+  const { mode } = useColorScheme();
   const theme = useTheme();
 
-  const modify = theme.palette.mode === "dark" ? darken : lighten;
+  const modify = mode === "dark" ? darken : lighten;
   return (
     <PangeaDataGrid
       {...props}
@@ -35,7 +41,7 @@ const LinedPangeaDataGrid = <
             fontWeight: "400",
             fontSize: "14px",
             borderBottom: "1px solid rgba(224, 224, 224, 1)",
-            color: theme.palette.text.primary,
+            color: (theme.vars || theme).palette.text.primary,
             ".MuiDataGrid-columnHeaderTitle": {
               fontWeight: "400",
             },
@@ -45,7 +51,7 @@ const LinedPangeaDataGrid = <
           },
         ".LinedPangeaDataGrid-root.MuiDataGrid-root .MuiDataGrid-columnHeaders.PangeaDataGrid-Pinned-Right":
           {
-            backgroundColor: theme.palette.background.paper,
+            backgroundColor: (theme.vars || theme).palette.background.paper,
           },
         ".MuiDataGrid-root .MuiDataGrid-cell": {
           borderBottom: "1px solid rgba(224, 224, 224, 1)",
@@ -54,22 +60,37 @@ const LinedPangeaDataGrid = <
           borderRadius: "0px",
         },
         ".MuiDataGrid-root .MuiDataGrid-row.Mui-selected": {
-          backgroundColor: modify(theme.palette.info.main, 0.9),
+          backgroundColor: modify((theme.vars || theme).palette.info.main, 0.9),
           ".PangeaDataGrid-Pinned-Right": {
-            backgroundColor: modify(theme.palette.info.main, 0.9),
+            backgroundColor: modify(
+              (theme.vars || theme).palette.info.main,
+              0.9
+            ),
           },
           ":hover": {
-            backgroundColor: modify(theme.palette.info.main, 0.85),
+            backgroundColor: modify(
+              (theme.vars || theme).palette.info.main,
+              0.85
+            ),
             ".PangeaDataGrid-Pinned-Right": {
-              backgroundColor: modify(theme.palette.info.main, 0.85),
+              backgroundColor: modify(
+                (theme.vars || theme).palette.info.main,
+                0.85
+              ),
             },
           },
         },
         ".MuiDataGrid-root .MuiDataGrid-row": {
           ":hover": {
-            backgroundColor: modify(theme.palette.info.main, 0.85),
+            backgroundColor: modify(
+              (theme.vars || theme).palette.info.main,
+              0.85
+            ),
             ".PangeaDataGrid-Pinned-Right": {
-              backgroundColor: modify(theme.palette.info.main, 0.85),
+              backgroundColor: modify(
+                (theme.vars || theme).palette.info.main,
+                0.85
+              ),
             },
           },
         },

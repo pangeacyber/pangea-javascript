@@ -64,7 +64,7 @@ const JsonViewer: FC<JsonViewerProps> = ({
         ".expanded-icon > svg, .collapsed-icon > svg": {
           verticalAlign: "middle!important",
           marginTop: "-2px",
-          color: `${theme.palette.info.main}!important`,
+          color: `${(theme.vars || theme).palette.info.main}!important`,
         },
         ".variable-value.PangeaHighlight-highlight": {
           div: {
@@ -81,25 +81,26 @@ const JsonViewer: FC<JsonViewerProps> = ({
           div: {
             padding: "0 2px",
             color: (theme) =>
-              `${colors.successBackground ?? theme.palette.success.main}!important`,
+              `${colors.successBackground ?? (theme.vars || theme).palette.success.main}!important`,
           },
         },
         ".string-value.PangeaHighlight-success": {
           color: (theme) =>
-            `${colors.successBackground ?? theme.palette.success.main}!important`,
+            `${colors.successBackground ?? (theme.vars || theme).palette.success.main}!important`,
         },
         ".variable-value.PangeaHighlight-error": {
           div: {
             backgroundColor: (theme) =>
-              colors.errorBackground ?? theme.palette.error.main,
+              colors.errorBackground ??
+              (theme.vars || theme).palette.error.main,
             padding: "0 2px",
             color: (theme) =>
-              `${colors.errorBackground ?? theme.palette.error.main}!important`,
+              `${colors.errorBackground ?? (theme.vars || theme).palette.error.main}!important`,
           },
         },
         ".string-value.PangeaHighlight-error": {
           color: (theme) =>
-            `${colors.errorBackground ?? theme.palette.error.main}!important`,
+            `${colors.errorBackground ?? (theme.vars || theme).palette.error.main}!important`,
         },
         span: {
           opacity: `1!important`,

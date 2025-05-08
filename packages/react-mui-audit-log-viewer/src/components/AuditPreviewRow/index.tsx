@@ -5,7 +5,12 @@ import some from "lodash/some";
 import find from "lodash/find";
 
 import { Stack } from "@mui/material";
-import { useTheme, lighten, darken } from "@mui/material/styles";
+import {
+  useTheme,
+  lighten,
+  darken,
+  useColorScheme,
+} from "@mui/material/styles";
 
 import { Audit } from "../../types";
 
@@ -58,6 +63,7 @@ const AuditPreviewRow: FC<Props> = ({
   isVerificationCheckEnabled = true,
   schema,
 }) => {
+  const { mode } = useColorScheme();
   const theme = useTheme();
 
   const fields = useMemo(() => {
@@ -87,7 +93,7 @@ const AuditPreviewRow: FC<Props> = ({
 
   const context = useFpeContext(record);
 
-  const modify = theme.palette.mode === "dark" ? darken : lighten;
+  const modify = mode === "dark" ? darken : lighten;
   return (
     <Stack
       padding={1}
@@ -98,7 +104,10 @@ const AuditPreviewRow: FC<Props> = ({
         display: "grid",
         borderBottomLeftRadius: "4px",
         borderBottomRightRadius: "4px",
-        backgroundColor: modify(theme.palette.secondary.main, 0.9),
+        backgroundColor: modify(
+          (theme.vars || theme).palette.secondary.main,
+          0.9
+        ),
       }}
     >
       <Stack pl={"0px"} direction="row" sx={{ width: "100%" }}>

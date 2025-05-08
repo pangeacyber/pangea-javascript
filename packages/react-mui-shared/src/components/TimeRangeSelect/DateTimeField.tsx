@@ -44,9 +44,10 @@ const DateTimeField: FC<DateTimeFieldProps> = ({ value, setValue, label }) => {
         <FormControlLabel
           control={
             <DesktopDateTimePicker
+              enableAccessibleFieldDOMStructure={false}
               value={adaptDate}
               onChange={(newValue) => {
-                setAdaptDate(newValue);
+                setAdaptDate(newValue as Moment);
               }}
               slots={{
                 textField: SmallTextField,

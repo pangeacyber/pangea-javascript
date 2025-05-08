@@ -61,7 +61,7 @@ const _PasswordBadge: FC<any> = (props) => {
         borderRadius: "8px",
         zIndex: 1,
         transition: "transform 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms",
-        backgroundColor: theme.palette.background.paper,
+        backgroundColor: (theme.vars || theme).palette.background.paper,
         bottom: "14%",
         right: "14%",
         transform: "scale(1) translate(50%, 50%)",

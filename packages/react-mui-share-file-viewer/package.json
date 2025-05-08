@@ -1,6 +1,6 @@
 {
   "name": "@pangeacyber/react-mui-share-file-viewer",
-  "version": "1.0.3",
+  "version": "2.0.0",
   "description": "An extension of material ui data-grid for Pangea share file objects",
   "main": "dist/cjs/index.js",
   "module": "dist/esm/index.js",
@@ -26,9 +26,9 @@
   "devDependencies": {
     "@emotion/react": "^11.14.0",
     "@emotion/styled": "^11.14.0",
-    "@mui/icons-material": "^6.1.6",
-    "@mui/material": "^6.1.6",
-    "@mui/types": "^7.2.19",
+    "@mui/icons-material": "^7.1.0",
+    "@mui/material": "^7.1.0",
+    "@mui/types": "^7.4.2",
     "@pangeacyber/react-mui-branding": "1.0.0",
     "@rollup/plugin-commonjs": "28.0.3",
     "@rollup/plugin-json": "^6.1.0",
@@ -65,7 +65,7 @@
     "vite": "6.3.4"
   },
   "dependencies": {
-    "@pangeacyber/react-mui-shared": "1.0.7",
+    "@pangeacyber/react-mui-shared": "2.0.1",
     "awesome-phonenumber": "^7.4.0",
     "axios": "^1.9.0",
     "lodash": "^4.17.21",
@@ -74,8 +74,8 @@
   "peerDependencies": {
     "@emotion/react": "^11.11.3",
     "@emotion/styled": "^11.10.4",
-    "@mui/icons-material": "^6.0.0",
-    "@mui/material": "^6.0.0",
+    "@mui/icons-material": "^7.0.0",
+    "@mui/material": "^7.0.0",
     "react": "^17.0.0 || ^18.0.0",
     "react-dom": "^17.0.0 || ^18.0.0"
   },

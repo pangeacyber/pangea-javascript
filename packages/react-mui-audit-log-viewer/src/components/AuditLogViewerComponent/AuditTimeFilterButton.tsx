@@ -122,13 +122,14 @@ const AuditTimeFilterButton: FC<FilterFormProps<AuditQuery>> = ({
           borderLeft: "none",
           borderLeftStyle: "solid",
           borderLeftWidth: 1,
-          borderLeftColor: theme.palette.secondary.dark,
+          borderLeftColor: (theme.vars || theme).palette.secondary.dark,
           borderBottomLeftRadius: "0!important",
           borderTopLeftRadius: "0!important",
-          borderColor: theme.palette.secondary.dark,
+          borderColor: (theme.vars || theme).palette.secondary.dark,
           ":hover": {
-            borderColor: theme.palette.secondary.contrastText,
-            borderLeftColor: theme.palette.secondary.contrastText,
+            borderColor: (theme.vars || theme).palette.secondary.contrastText,
+            borderLeftColor: (theme.vars || theme).palette.secondary
+              .contrastText,
             borderLeft: "none",
             borderLeftStyle: "solid",
             borderLeftWidth: 1,
@@ -137,7 +138,7 @@ const AuditTimeFilterButton: FC<FilterFormProps<AuditQuery>> = ({
             borderLeft: "none",
             borderLeftStyle: "solid",
             borderLeftWidth: 1,
-            borderLeftColor: theme.palette.secondary.dark,
+            borderLeftColor: (theme.vars || theme).palette.secondary.dark,
           },
         },
       }}

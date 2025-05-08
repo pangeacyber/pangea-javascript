@@ -5,6 +5,25 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.0.2] - 2025-05-08
+
+### Fixed
+
+- Fix DateTimeField component from throwing uncaught error
+
+## [2.0.1] - 2025-05-07
+
+### Fixed
+
+- Upgrade @mui/x-data-grid to version 8
+- Upgrade @mui/x-date-pickers to version 8
+
+## [2.0.0] - 2025-05-07
+
+### Fixed
+
+- Upgrade Material-UI to version 7
+
 ## [1.0.7] - 2025-04-01
 
 ### Fixed

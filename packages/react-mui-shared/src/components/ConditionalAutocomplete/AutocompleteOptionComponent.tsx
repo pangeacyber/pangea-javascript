@@ -27,7 +27,7 @@ const AutocompleteOptionComponent: FC<OptionComponentProps> = ({
   if (!optionSettings) return null;
   return (
     <ListItem {...props}>
-      <Stack direction="row" alignItems="center" spacing={1}>
+      <Stack direction="row" sx={{ alignItems: "center" }} spacing={1}>
         <Typography variant="body2">
           {optionSettings?.label ?? startCase(optionValue)}
         </Typography>

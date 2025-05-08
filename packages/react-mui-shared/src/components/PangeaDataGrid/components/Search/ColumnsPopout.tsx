@@ -96,7 +96,7 @@ export const ColumnsPopoutHeader: FC<{
   children: ReactNode;
 }> = ({ columnsPopoutProps, children }) => {
   return (
-    <Stack direction="row" alignItems="center" spacing={2}>
+    <Stack direction="row" spacing={2} sx={{ alignItems: "center" }}>
       {children}
       <ColumnsPopout {...columnsPopoutProps} />
     </Stack>
@@ -144,7 +144,7 @@ const ColumnsPopout: FC<ColumnsPopoutProps> = ({
   };
 
   return (
-    <Stack alignItems="center" justifyContent="center">
+    <Stack sx={{ alignItems: "center", justifyContent: "center" }}>
       <IconButton ref={buttonRef} onClick={() => setOpen(!open)}>
         <SettingsOutlinedIcon fontSize="small" />
       </IconButton>
@@ -201,7 +201,7 @@ const ColumnsPopout: FC<ColumnsPopoutProps> = ({
                                     <Stack
                                       direction="row"
                                       spacing={0.5}
-                                      alignItems="center"
+                                      sx={{ alignItems: "center" }}
                                     >
                                       <ListItemIcon
                                         className="drag-handle"
@@ -226,8 +226,8 @@ const ColumnsPopout: FC<ColumnsPopoutProps> = ({
                                           sx={{
                                             padding: "8px",
                                             "&.MuiCheckbox-root": {
-                                              color:
-                                                theme.palette.action.active,
+                                              color: (theme.vars || theme)
+                                                .palette.action.active,
                                             },
                                           }}
                                           checked={
@@ -265,7 +265,7 @@ const ColumnsPopout: FC<ColumnsPopoutProps> = ({
               </List>
             </Stack>
           </Stack>
-          <Stack spacing={1} direction="row" alignSelf="end">
+          <Stack spacing={1} direction="row" sx={{ alignSelf: "end" }}>
             <Button
               variant="contained"
               color="secondary"

@@ -1,6 +1,6 @@
 import { FC } from "react";
 import startCase from "lodash/startCase";
-import { Stack, Grid2 as Grid } from "@mui/material";
+import { Stack, Grid } from "@mui/material";
 
 import { FormObject } from "../types";
 import {

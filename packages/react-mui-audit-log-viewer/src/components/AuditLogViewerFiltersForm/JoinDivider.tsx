@@ -20,7 +20,7 @@ const JoinDivider: FC = () => {
   return (
     <Divider
       sx={{
-        borderColor: (theme) => theme.palette.divider,
+        borderColor: (theme) => (theme.vars || theme).palette.divider,
         height: "8px",
         borderWidth: "1.5px",
       }}

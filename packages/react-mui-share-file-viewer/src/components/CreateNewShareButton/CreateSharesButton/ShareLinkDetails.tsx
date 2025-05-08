@@ -1,6 +1,11 @@
 import { FC } from "react";
 import { LinearProgress, Stack, Typography } from "@mui/material";
-import { useTheme, darken, lighten } from "@mui/material/styles";
+import {
+  useTheme,
+  darken,
+  lighten,
+  useColorScheme,
+} from "@mui/material/styles";
 
 import CopyLinkButton from "../SendShareViaEmailButton/CopyLinkButton";
 import CopyPasswordButton from "../../PasswordCopyButton";
@@ -8,11 +13,13 @@ import { useCreateShareContext } from "../../../hooks/context";
 
 const ShareLinkDetails = () => {
   const theme = useTheme();
+  const { mode } = useColorScheme();
   const { password, loading, shareLink: share } = useCreateShareContext();
   const shareType = share?.authenticators?.length
     ? share.authenticators[0]?.auth_type
     : "";
-  const modify = theme.palette.mode === "dark" ? darken : lighten;
+
+  const modify = mode === "dark" ? darken : lighten;
 
   if (loading) {
     return <LinearProgress color="info" />;
@@ -21,7 +28,10 @@ const ShareLinkDetails = () => {
 
   return (
     <Stack gap={1}>
-      <Typography variant="subtitle1" sx={{ color: theme.palette.info.main }}>
+      <Typography
+        variant="subtitle1"
+        sx={{ color: (theme.vars || theme).palette.info.main }}
+      >
         Your Generated Link
       </Typography>
       <Typography variant="body2" color="textSecondary">
@@ -38,10 +48,10 @@ const ShareLinkDetails = () => {
         variant="contained"
         disableElevation
         sx={{
-          bgcolor: modify(theme.palette.info.main, 0.9),
-          color: theme.palette.info.main,
+          bgcolor: modify((theme.vars || theme).palette.info.main, 0.9),
+          color: (theme.vars || theme).palette.info.main,
           ":hover": {
-            bgcolor: modify(theme.palette.info.main, 0.8),
+            bgcolor: modify((theme.vars || theme).palette.info.main, 0.8),
           },
           textWrap: "nowrap",
         }}
@@ -61,10 +71,10 @@ const ShareLinkDetails = () => {
             variant="contained"
             disableElevation
             sx={{
-              bgcolor: modify(theme.palette.info.main, 0.9),
-              color: theme.palette.info.main,
+              bgcolor: modify((theme.vars || theme).palette.info.main, 0.9),
+              color: (theme.vars || theme).palette.info.main,
               ":hover": {
-                bgcolor: modify(theme.palette.info.main, 0.8),
+                bgcolor: modify((theme.vars || theme).palette.info.main, 0.8),
               },
               paddingLeft: "0",
               paddingRight: "0",

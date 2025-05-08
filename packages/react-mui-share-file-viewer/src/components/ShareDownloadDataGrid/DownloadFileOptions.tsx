@@ -47,11 +47,13 @@ const DownloadFileOptions: FC<VaultItemOptionsProps> = ({ data }) => {
       <Tooltip title={error}>
         <IconButton onClick={handleDownloadFile}>
           {downloading ? (
-            <DownloadingIcon sx={{ color: theme.palette.text.primary }} />
+            <DownloadingIcon
+              sx={{ color: (theme.vars || theme).palette.text.primary }}
+            />
           ) : (
             <DownloadIcon
               color={!!error ? "error" : undefined}
-              sx={{ color: theme.palette.text.primary }}
+              sx={{ color: (theme.vars || theme).palette.text.primary }}
             />
           )}
         </IconButton>

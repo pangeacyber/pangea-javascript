@@ -26,6 +26,7 @@ const UnControlledDateTimeField: FC<
   return (
     <LocalizationProvider dateAdapter={AdapterDayjs}>
       <DateTimePicker
+        enableAccessibleFieldDOMStructure={false}
         value={dayjs(value ?? "")}
         onChange={(newValue) => {
           onValueChange(getISO(newValue));
@@ -34,6 +35,7 @@ const UnControlledDateTimeField: FC<
           textField: DateTextField,
         }}
         disablePast
+        /* @ts-ignore Material-UI documentation states maxDate is still an allowed prop */
         maxDate={FieldProps?.maxDate}
       />
     </LocalizationProvider>

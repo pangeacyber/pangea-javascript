@@ -127,9 +127,10 @@ const Search = <
                     size: "small",
                     sx: {
                       flexGrow: 1,
-                      "&.MuiInputBase-root.MuiOutlinedInput-root": {
-                        paddingRight: "8px",
-                      },
+                      "&.MuiInputBase-root.MuiOutlinedInput-root.MuiInputBase-adornedEnd":
+                        {
+                          paddingRight: "8px",
+                        },
                       ...(!!EndFilterButton
                         ? {
                             borderBottomRightRadius: "0!important",

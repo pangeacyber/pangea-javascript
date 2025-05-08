@@ -1,4 +1,9 @@
-import { useTheme, lighten, darken } from "@mui/material/styles";
+import {
+  useTheme,
+  lighten,
+  darken,
+  useColorScheme,
+} from "@mui/material/styles";
 import Box from "@mui/material/Box";
 import Popper from "@mui/material/Popper";
 import {
@@ -14,7 +19,7 @@ import {
   Tooltip,
   Typography,
 } from "@mui/material";
-import { FC, useEffect, useMemo, useState } from "react";
+import { useEffect, useState } from "react";
 
 import ExpandLessIcon from "@mui/icons-material/ExpandLess";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
@@ -22,12 +27,7 @@ import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 import CloseIcon from "@mui/icons-material/Close";
 import ErrorIcon from "@mui/icons-material/Error";
 
-import {
-  FileUpload,
-  UploadPopoverStore,
-  setUploadState,
-  useUploadPopover,
-} from "./hooks";
+import { FileUpload, setUploadState, useUploadPopover } from "./hooks";
 import StoreObjectIcon from "../StoreObjectIcon";
 import { createMultipartUploadForm } from "../../utils/file";
 import { useFileViewerContext } from "../../hooks/context";
@@ -38,6 +38,7 @@ import { alertOnError } from "../AlertSnackbar/hooks";
 
 export default function UploadPopover() {
   const theme = useTheme();
+  const { mode } = useColorScheme();
 
   const { apiRef, reload, parent, bucketId } = useFileViewerContext();
   const uploads = useUploadPopover((state) => state.uploads);
@@ -161,7 +162,7 @@ export default function UploadPopover() {
     (u) => u.state === "uploading" || u.state === "waiting"
   );
 
-  const modify = theme.palette.mode === "dark" ? darken : lighten;
+  const modify = mode === "dark" ? darken : lighten;
   return (
     <div>
       <Popper
@@ -185,7 +186,10 @@ export default function UploadPopover() {
                 boxShadow: "0px 0px 24px rgba(40, 48, 94, 0.12)",
                 borderRadius: "8px 8px 0px 0px",
                 borderBottom: "none",
-                borderColor: modify(theme.palette.secondary.dark, 0.5),
+                borderColor: modify(
+                  (theme.vars || theme).palette.secondary.dark,
+                  0.5
+                ),
                 bgcolor: "background.paper",
                 width: "400px",
               }}
@@ -209,12 +213,16 @@ export default function UploadPopover() {
                     >
                       {collaspabled ? (
                         <ExpandLessIcon
-                          sx={{ color: theme.palette.text.primary }}
+                          sx={{
+                            color: (theme.vars || theme).palette.text.primary,
+                          }}
                           fontSize="small"
                         />
                       ) : (
                         <ExpandMoreIcon
-                          sx={{ color: theme.palette.text.primary }}
+                          sx={{
+                            color: (theme.vars || theme).palette.text.primary,
+                          }}
                           fontSize="small"
                         />
                       )}
@@ -227,7 +235,9 @@ export default function UploadPopover() {
                       }}
                     >
                       <CloseIcon
-                        sx={{ color: theme.palette.text.primary }}
+                        sx={{
+                          color: (theme.vars || theme).palette.text.primary,
+                        }}
                         fontSize="small"
                       />
                     </IconButton>
@@ -240,7 +250,10 @@ export default function UploadPopover() {
                         direction="row"
                         sx={{
                           padding: 1,
-                          bgcolor: modify(theme.palette.info.light, 0.8),
+                          bgcolor: modify(
+                            (theme.vars || theme).palette.info.light,
+                            0.8
+                          ),
                         }}
                       >
                         <Typography variant="body2">

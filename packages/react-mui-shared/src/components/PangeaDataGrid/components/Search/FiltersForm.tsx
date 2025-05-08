@@ -1,6 +1,6 @@
 import { FC, useState, useEffect } from "react";
 import get from "lodash/get";
-import { Grid2 as Grid, Button, Stack, ChipProps } from "@mui/material";
+import { Grid, Button, Stack, ChipProps } from "@mui/material";
 import { ValueOptions } from "../../../PangeaFields/FieldsForm/types";
 import { StringField } from "../../../PangeaFields";
 
