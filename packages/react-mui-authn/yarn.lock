@@ -2611,7 +2611,7 @@ __metadata:
     "@storybook/testing-library": "npm:0.2.2"
     "@types/react": "npm:17.0.85"
     "@types/react-dom": "npm:17.0.26"
-    awesome-phonenumber: "npm:^7.4.0"
+    awesome-phonenumber: "npm:^7.5.0"
     babel-loader: "npm:^10.0.0"
     dayjs: "npm:^1.11.13"
     formik: "npm:^2.4.6"
@@ -6041,10 +6041,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"awesome-phonenumber@npm:^7.4.0":
-  version: 7.4.0
-  resolution: "awesome-phonenumber@npm:7.4.0"
-  checksum: 10c0/294fe6c291799198ecd30f386da6702e61b804b68635bccc762f41a6f7da6b84bda3ba8722b164b3aa3e255c746554f705d2f8b300e4436041dddf613f9aa2f0
+"awesome-phonenumber@npm:^7.5.0":
+  version: 7.5.0
+  resolution: "awesome-phonenumber@npm:7.5.0"
+  checksum: 10c0/ec11a86f06db88ccb7592f7d326f77678aab2dbc7e3b59419c8b8c77d18eb13ccc51f55b1c41fed0068f340004fc9f3ffbc0f2d5dcc339396cb8f4ad00a270b7
   languageName: node
   linkType: hard
 
