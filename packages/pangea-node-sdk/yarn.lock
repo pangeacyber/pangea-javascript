@@ -3006,7 +3006,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"eslint-plugin-prettier@npm:^5.3.1":
+"eslint-plugin-prettier@npm:^5.4.0":
   version: 5.4.0
   resolution: "eslint-plugin-prettier@npm:5.4.0"
   dependencies:
@@ -5644,7 +5644,7 @@ __metadata:
     eslint-config-prettier: "npm:^10.1.2"
     eslint-plugin-jest: "npm:28.11.0"
     eslint-plugin-node: "npm:^11.1.0"
-    eslint-plugin-prettier: "npm:^5.3.1"
+    eslint-plugin-prettier: "npm:^5.4.0"
     form-data-encoder: "npm:^4.0.2"
     formdata-node: "npm:^6.0.3"
     jest: "npm:29.7.0"
