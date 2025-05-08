@@ -43,7 +43,10 @@ const PasskeyError: FC<Props> = ({
           justifyContent="center"
         >
           <WarningRounded
-            sx={{ fontSize: "20px", color: theme.palette.error.main }}
+            sx={{
+              fontSize: "20px",
+              color: (theme.vars || theme).palette.error.main,
+            }}
           />
           Authentication failed
         </Stack>

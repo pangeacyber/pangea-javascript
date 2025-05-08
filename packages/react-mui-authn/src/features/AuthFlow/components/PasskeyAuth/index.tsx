@@ -110,7 +110,7 @@ const PasskeyAuth: FC<AuthFlowComponentProps> = ({
         variant="text"
         fullWidth
         sx={{
-          color: theme.palette.text.primary,
+          color: (theme.vars || theme).palette.text.primary,
           cursor: "default",
         }}
       >
