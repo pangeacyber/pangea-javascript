@@ -9,6 +9,7 @@ import {
   getShareTooltip,
 } from "./utils";
 import ShareOptions from "./ShareOptions";
+import { useMode } from "../../hooks/utils";
 
 interface Props {
   object: ObjectStore.ShareObjectResponse;
@@ -17,6 +18,7 @@ interface Props {
 
 const ShareObject: FC<Props> = ({ object, onDelete }) => {
   const theme = useTheme();
+  const mode = useMode();
   const remainingViews =
     object?.max_access_count || 0 - (object.access_count ?? 0);
 
@@ -47,7 +49,10 @@ const ShareObject: FC<Props> = ({ object, onDelete }) => {
             height="36px"
             sx={{
               borderRadius: "50%",
-              backgroundColor: (theme.vars || theme).palette.grey[100],
+              backgroundColor:
+                mode === "dark"
+                  ? undefined
+                  : (theme.vars || theme).palette.grey[100],
             }}
           >
             <LinkIcon

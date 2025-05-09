@@ -1,10 +1,5 @@
-import { Box, IconButton, Select, Stack, Typography } from "@mui/material";
-import {
-  useTheme,
-  lighten,
-  darken,
-  useColorScheme,
-} from "@mui/material/styles";
+import { IconButton, Stack, Typography } from "@mui/material";
+import { useTheme, lighten, darken } from "@mui/material/styles";
 import {
   FieldComponentProps,
   FieldControl,
@@ -20,6 +15,7 @@ import DownloadIcon from "@mui/icons-material/Download";
 import BorderColorIcon from "@mui/icons-material/BorderColor";
 
 import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
+import { useMode } from "../../../hooks/utils";
 
 interface FieldProps {
   options?: {
@@ -32,7 +28,7 @@ const ShareLinkAccess: FC<{
   labels: string[];
 }> = ({ labels, value }) => {
   const theme = useTheme();
-  const { mode } = useColorScheme();
+  const mode = useMode();
 
   const modify = mode === "dark" ? darken : lighten;
   return (

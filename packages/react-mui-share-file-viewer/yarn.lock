@@ -604,10 +604,10 @@
   resolved "https://registry.yarnpkg.com/@pangeacyber/react-mui-branding/-/react-mui-branding-1.0.0.tgz#1da5d4bdf87a54066880ec892b69867c72954f61"
   integrity sha512-0R2SIeiZYm9BIA3x3aIjbfMlcP/zRLomN2N0zyz2m9k2pYzxgC57S96YnbkQCBztvq5nao3PsXHZVFD7SrWDug==
 
-"@pangeacyber/react-mui-shared@2.0.1":
-  version "2.0.1"
-  resolved "https://registry.yarnpkg.com/@pangeacyber/react-mui-shared/-/react-mui-shared-2.0.1.tgz#f31aa871de1e32a84de29666435637e17e300192"
-  integrity sha512-cyuC51KAk9c5Gb3EY5rCUyaYgzoJo+4UakvgWKpl7I19+jBu+6yLebJm8ibhuRiQuQRfOKdADqsf6qToVO1VDA==
+"@pangeacyber/react-mui-shared@2.0.3":
+  version "2.0.3"
+  resolved "https://registry.yarnpkg.com/@pangeacyber/react-mui-shared/-/react-mui-shared-2.0.3.tgz#7fd5efcfd1b0fce26a30fda78a2a25f423bef6fa"
+  integrity sha512-5Ozeio36MsZdqkcioMGzvHZW0iil81GMUzlyYJ1/tfZ02POVJ1biMNnbiBWlFSK5o3mBtxKk0dSc79obbM+qWQ==
   dependencies:
     "@loadable/component" "^5.16.4"
     "@mui/x-data-grid" "8.2.0"

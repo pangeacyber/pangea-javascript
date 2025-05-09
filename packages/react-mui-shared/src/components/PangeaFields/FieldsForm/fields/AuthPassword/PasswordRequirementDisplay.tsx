@@ -76,7 +76,10 @@ const PasswordRequirementDisplay: FC<Props> = ({ value, policy }) => {
                 }}
               >
                 {error ? (
-                  <CloseIcon sx={{ height: "16px", width: "16px" }} />
+                  <CloseIcon
+                    data-testid="CloseIcon"
+                    sx={{ height: "16px", width: "16px" }}
+                  />
                 ) : (
                   <CheckIcon sx={{ height: "16px", width: "16px" }} />
                 )}

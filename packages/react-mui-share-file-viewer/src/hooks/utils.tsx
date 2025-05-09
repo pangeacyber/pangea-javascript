@@ -1,5 +1,6 @@
 import { useMemo } from "react";
 import { PangeaResponse, ShareProxyApiRef } from "../types";
+import { useColorScheme, useTheme } from "@mui/material/styles";
 
 const wrapFunctionWithBucket = <T extends { [key: string]: any }, R>(
   func: ((data: T) => Promise<PangeaResponse<R>>) | undefined,
@@ -43,4 +44,11 @@ export const useBucketAwareApiRef = (
   );
 
   return apiRefWithBucket;
+};
+
+export const useMode = () => {
+  const { mode } = useColorScheme();
+  const theme = useTheme();
+
+  return mode ?? theme.palette.mode;
 };

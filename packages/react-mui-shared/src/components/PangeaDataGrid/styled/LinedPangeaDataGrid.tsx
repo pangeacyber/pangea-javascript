@@ -1,11 +1,7 @@
-import {
-  useTheme,
-  lighten,
-  darken,
-  useColorScheme,
-} from "@mui/material/styles";
+import { useTheme, lighten, darken } from "@mui/material/styles";
 import PangeaDataGrid, { PangeaDataGridProps } from "../PangeaDataGrid";
 import { GridValidRowModel } from "@mui/x-data-grid";
+import { useMode } from "../../../utils/hooks";
 
 const LinedPangeaDataGrid = <
   DataType extends GridValidRowModel = { id: string },
@@ -13,7 +9,7 @@ const LinedPangeaDataGrid = <
 >(
   props: PangeaDataGridProps<DataType, FiltersObj>
 ): JSX.Element => {
-  const { mode } = useColorScheme();
+  const mode = useMode();
   const theme = useTheme();
 
   const modify = mode === "dark" ? darken : lighten;
