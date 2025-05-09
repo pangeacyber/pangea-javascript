@@ -1326,7 +1326,7 @@
   dependencies:
     csstype "^3.0.2"
 
-"@types/react@^18.3.20":
+"@types/react@^18.3.21":
   version "18.3.21"
   resolved "https://registry.yarnpkg.com/@types/react/-/react-18.3.21.tgz#ba9bdc8833ceaf2b5edabbbabfbf9a84040df89a"
   integrity sha512-gXLBtmlcRJeT09/sI4PxVwyrku6SaNUj/6cMubjE6T6XdY1fDmBL7r0nX0jbSZPU/Xr0KuwLLZh6aOYY5d91Xw==
