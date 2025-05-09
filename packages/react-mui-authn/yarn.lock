@@ -2462,9 +2462,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@mui/x-date-pickers@npm:^7.22.0":
-  version: 7.29.0
-  resolution: "@mui/x-date-pickers@npm:7.29.0"
+"@mui/x-date-pickers@npm:^7.29.2":
+  version: 7.29.3
+  resolution: "@mui/x-date-pickers@npm:7.29.3"
   dependencies:
     "@babel/runtime": "npm:^7.25.7"
     "@mui/utils": "npm:^5.16.6 || ^6.0.0 || ^7.0.0"
@@ -2506,7 +2506,7 @@ __metadata:
       optional: true
     moment-jalaali:
       optional: true
-  checksum: 10c0/3c9d32488fd166c3086794dd43f1eca7b3f06fb2a32fa43492658a861f238615c1687e3ba43377bd3a07352deed40fdb77ba8ff0cd1da3facde5477fc632fea8
+  checksum: 10c0/514046a33853c4fd2c29a4a3c1640adc02e5dd8bf0f6300f15d271e28de1b44dd74c1ad6f7453fd50e8ddafa0f70738df240b6719638ed6bcabc58c4814d3ab3
   languageName: node
   linkType: hard
 
@@ -2595,7 +2595,7 @@ __metadata:
     "@mui/icons-material": "npm:^7.1.0"
     "@mui/material": "npm:^7.1.0"
     "@mui/types": "npm:^7.4.2"
-    "@mui/x-date-pickers": "npm:^7.22.0"
+    "@mui/x-date-pickers": "npm:^7.29.2"
     "@pangeacyber/vanilla-js": "npm:0.1.14"
     "@rollup/plugin-babel": "npm:6.0.4"
     "@rollup/plugin-commonjs": "npm:28.0.3"

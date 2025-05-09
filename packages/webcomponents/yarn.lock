@@ -1311,6 +1311,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@babel/runtime@npm:^7.27.1":
+  version: 7.27.1
+  resolution: "@babel/runtime@npm:7.27.1"
+  checksum: 10c0/530a7332f86ac5a7442250456823a930906911d895c0b743bf1852efc88a20a016ed4cd26d442d0ca40ae6d5448111e02a08dd638a4f1064b47d080e2875dc05
+  languageName: node
+  linkType: hard
+
 "@babel/template@npm:^7.27.0":
   version: 7.27.0
   resolution: "@babel/template@npm:7.27.0"
@@ -1767,7 +1774,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@mui/icons-material@npm:^6.1.6":
+"@mui/icons-material@npm:^6.4.11":
   version: 6.4.11
   resolution: "@mui/icons-material@npm:6.4.11"
   dependencies:
@@ -1783,7 +1790,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@mui/material@npm:^6.1.6":
+"@mui/material@npm:^6.4.11":
   version: 6.4.11
   resolution: "@mui/material@npm:6.4.11"
   dependencies:
@@ -1836,7 +1843,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@mui/styled-engine-sc@npm:^6.1.5":
+"@mui/styled-engine-sc@npm:^6.4.9":
   version: 6.4.9
   resolution: "@mui/styled-engine-sc@npm:6.4.9"
   dependencies:
@@ -1902,7 +1909,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@mui/types@npm:^7.2.18, @mui/types@npm:^7.4.1":
+"@mui/types@npm:^7.4.1":
   version: 7.4.1
   resolution: "@mui/types@npm:7.4.1"
   dependencies:
@@ -1913,6 +1920,20 @@ __metadata:
     "@types/react":
       optional: true
   checksum: 10c0/958a1dd29956b4646058c7bf5615cb5211736568b9997e8baac4698b02189cdfd7aa880fa935c59138dfa9e9163549ca6c509142da28add835abeff3c68d6ccf
+  languageName: node
+  linkType: hard
+
+"@mui/types@npm:^7.4.2":
+  version: 7.4.2
+  resolution: "@mui/types@npm:7.4.2"
+  dependencies:
+    "@babel/runtime": "npm:^7.27.1"
+  peerDependencies:
+    "@types/react": ^17.0.0 || ^18.0.0 || ^19.0.0
+  peerDependenciesMeta:
+    "@types/react":
+      optional: true
+  checksum: 10c0/9401abf306c5c993e7b21136684f80d4aefe28e00d435fccb963611bf009af71dfcf65e509c1db720a0c7d5bf9a364706aa38bd8c0a3b47718aca60f7063aac7
   languageName: node
   linkType: hard
 
@@ -2201,10 +2222,10 @@ __metadata:
     "@emotion/cache": "npm:^11.14.0"
     "@emotion/react": "npm:^11.14.0"
     "@emotion/styled": "npm:^11.14.0"
-    "@mui/icons-material": "npm:^6.1.6"
-    "@mui/material": "npm:^6.1.6"
-    "@mui/styled-engine-sc": "npm:^6.1.5"
-    "@mui/types": "npm:^7.2.18"
+    "@mui/icons-material": "npm:^6.4.11"
+    "@mui/material": "npm:^6.4.11"
+    "@mui/styled-engine-sc": "npm:^6.4.9"
+    "@mui/types": "npm:^7.4.2"
     "@pangeacyber/react-mui-audit-log-viewer": "npm:^1.0.10"
     "@pangeacyber/react-mui-branding": "npm:^1.0.0"
     "@pangeacyber/react-mui-share-file-viewer": "npm:^1.0.3"
