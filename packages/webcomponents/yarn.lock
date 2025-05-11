@@ -1332,6 +1332,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@babel/runtime@npm:^7.27.1":
+  version: 7.27.1
+  resolution: "@babel/runtime@npm:7.27.1"
+  checksum: 10c0/530a7332f86ac5a7442250456823a930906911d895c0b743bf1852efc88a20a016ed4cd26d442d0ca40ae6d5448111e02a08dd638a4f1064b47d080e2875dc05
+  languageName: node
+  linkType: hard
+
 "@babel/template@npm:^7.27.0":
   version: 7.27.0
   resolution: "@babel/template@npm:7.27.0"
@@ -1937,6 +1944,20 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@mui/types@npm:^7.4.2":
+  version: 7.4.2
+  resolution: "@mui/types@npm:7.4.2"
+  dependencies:
+    "@babel/runtime": "npm:^7.27.1"
+  peerDependencies:
+    "@types/react": ^17.0.0 || ^18.0.0 || ^19.0.0
+  peerDependenciesMeta:
+    "@types/react":
+      optional: true
+  checksum: 10c0/9401abf306c5c993e7b21136684f80d4aefe28e00d435fccb963611bf009af71dfcf65e509c1db720a0c7d5bf9a364706aa38bd8c0a3b47718aca60f7063aac7
+  languageName: node
+  linkType: hard
+
 "@mui/types@npm:~7.2.24":
   version: 7.2.24
   resolution: "@mui/types@npm:7.2.24"
@@ -1989,6 +2010,26 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@mui/utils@npm:^7.0.2":
+  version: 7.1.0
+  resolution: "@mui/utils@npm:7.1.0"
+  dependencies:
+    "@babel/runtime": "npm:^7.27.1"
+    "@mui/types": "npm:^7.4.2"
+    "@types/prop-types": "npm:^15.7.14"
+    clsx: "npm:^2.1.1"
+    prop-types: "npm:^15.8.1"
+    react-is: "npm:^19.1.0"
+  peerDependencies:
+    "@types/react": ^17.0.0 || ^18.0.0 || ^19.0.0
+    react: ^17.0.0 || ^18.0.0 || ^19.0.0
+  peerDependenciesMeta:
+    "@types/react":
+      optional: true
+  checksum: 10c0/1fa21c44c54161b2239207c1900f3960a1cea5c7a3fda5f830308c8a08b05a46c7bc2dbb467baf5c2d3742677b2b19be1508d17a1dff388c9226d3663460ad08
+  languageName: node
+  linkType: hard
+
 "@mui/x-data-grid@npm:7.21.0":
   version: 7.21.0
   resolution: "@mui/x-data-grid@npm:7.21.0"
@@ -2012,6 +2053,81 @@ __metadata:
     "@emotion/styled":
       optional: true
   checksum: 10c0/725220ccd3856fd87ed500925ee5a3644a05a765549ea6e20af7c92721fcf685945f83f117a014142238039f598169fb335977f5e910032093481588434a8605
+  languageName: node
+  linkType: hard
+
+"@mui/x-data-grid@npm:8.2.0":
+  version: 8.2.0
+  resolution: "@mui/x-data-grid@npm:8.2.0"
+  dependencies:
+    "@babel/runtime": "npm:^7.27.0"
+    "@mui/utils": "npm:^7.0.2"
+    "@mui/x-internals": "npm:8.2.0"
+    clsx: "npm:^2.1.1"
+    prop-types: "npm:^15.8.1"
+    reselect: "npm:^5.1.1"
+    use-sync-external-store: "npm:^1.5.0"
+  peerDependencies:
+    "@emotion/react": ^11.9.0
+    "@emotion/styled": ^11.8.1
+    "@mui/material": ^5.15.14 || ^6.0.0 || ^7.0.0
+    "@mui/system": ^5.15.14 || ^6.0.0 || ^7.0.0
+    react: ^17.0.0 || ^18.0.0 || ^19.0.0
+    react-dom: ^17.0.0 || ^18.0.0 || ^19.0.0
+  peerDependenciesMeta:
+    "@emotion/react":
+      optional: true
+    "@emotion/styled":
+      optional: true
+  checksum: 10c0/22fb4977650c393972557057d3933eaa9353f7905db69c4d4c071b71d7d613ad1710277d24ca2299b17a55c488cb3b360a30febeebe3434813f6124bea95f743
+  languageName: node
+  linkType: hard
+
+"@mui/x-date-pickers@npm:8.2.0":
+  version: 8.2.0
+  resolution: "@mui/x-date-pickers@npm:8.2.0"
+  dependencies:
+    "@babel/runtime": "npm:^7.27.0"
+    "@mui/utils": "npm:^7.0.2"
+    "@mui/x-internals": "npm:8.2.0"
+    "@types/react-transition-group": "npm:^4.4.12"
+    clsx: "npm:^2.1.1"
+    prop-types: "npm:^15.8.1"
+    react-transition-group: "npm:^4.4.5"
+  peerDependencies:
+    "@emotion/react": ^11.9.0
+    "@emotion/styled": ^11.8.1
+    "@mui/material": ^5.15.14 || ^6.0.0 || ^7.0.0
+    "@mui/system": ^5.15.14 || ^6.0.0 || ^7.0.0
+    date-fns: ^2.25.0 || ^3.2.0 || ^4.0.0
+    date-fns-jalali: ^2.13.0-0 || ^3.2.0-0 || ^4.0.0-0
+    dayjs: ^1.10.7
+    luxon: ^3.0.2
+    moment: ^2.29.4
+    moment-hijri: ^2.1.2 || ^3.0.0
+    moment-jalaali: ^0.7.4 || ^0.8.0 || ^0.9.0 || ^0.10.0
+    react: ^17.0.0 || ^18.0.0 || ^19.0.0
+    react-dom: ^17.0.0 || ^18.0.0 || ^19.0.0
+  peerDependenciesMeta:
+    "@emotion/react":
+      optional: true
+    "@emotion/styled":
+      optional: true
+    date-fns:
+      optional: true
+    date-fns-jalali:
+      optional: true
+    dayjs:
+      optional: true
+    luxon:
+      optional: true
+    moment:
+      optional: true
+    moment-hijri:
+      optional: true
+    moment-jalaali:
+      optional: true
+  checksum: 10c0/ee9d0a2a0edcb181a6300a3323687db171632fc822158764c4bb103fd4cd2d2d8e671e2726431f813b26448cc67575088bfda18d6f28f69d96464b998b2c3ce2
   languageName: node
   linkType: hard
 
@@ -2087,6 +2203,18 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@mui/x-internals@npm:8.2.0":
+  version: 8.2.0
+  resolution: "@mui/x-internals@npm:8.2.0"
+  dependencies:
+    "@babel/runtime": "npm:^7.27.0"
+    "@mui/utils": "npm:^7.0.2"
+  peerDependencies:
+    react: ^17.0.0 || ^18.0.0 || ^19.0.0
+  checksum: 10c0/de3beb8eb4048df138683e77fa37d724999491266e5cffd9474e50139f11cbec9532948a22a3b9271d98eb72911fe45d4a9aca8677bd4998bfb50bf9ab579f56
+  languageName: node
+  linkType: hard
+
 "@npmcli/agent@npm:^3.0.0":
   version: 3.0.0
   resolution: "@npmcli/agent@npm:3.0.0"
@@ -2142,47 +2270,23 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@pangeacyber/react-mui-share-file-viewer@npm:^1.0.3":
-  version: 1.0.3
-  resolution: "@pangeacyber/react-mui-share-file-viewer@npm:1.0.3"
+"@pangeacyber/react-mui-share-file-viewer@npm:^2.0.2":
+  version: 2.0.2
+  resolution: "@pangeacyber/react-mui-share-file-viewer@npm:2.0.2"
   dependencies:
-    "@pangeacyber/react-mui-shared": "npm:1.0.3"
-    awesome-phonenumber: "npm:^7.2.0"
-    axios: "npm:^1.7.9"
+    "@pangeacyber/react-mui-shared": "npm:2.0.3"
+    awesome-phonenumber: "npm:^7.4.0"
+    axios: "npm:^1.9.0"
     lodash: "npm:^4.17.21"
-    zustand: "npm:^4.5.5"
+    zustand: "npm:^4.5.6"
   peerDependencies:
     "@emotion/react": ^11.11.3
     "@emotion/styled": ^11.10.4
-    "@mui/icons-material": ^6.0.0
-    "@mui/material": ^6.0.0
+    "@mui/icons-material": ^7.0.0
+    "@mui/material": ^7.0.0
     react: ^17.0.0 || ^18.0.0
     react-dom: ^17.0.0 || ^18.0.0
-  checksum: 10c0/76841658cfac16e135165de6838841837a385b2cfdc4c902c2477115d86ba8ff38264c456774c32f8f88afe43e9343f3c15e7ff5e7e8e12b50c5dc73b7f77409
-  languageName: node
-  linkType: hard
-
-"@pangeacyber/react-mui-shared@npm:1.0.3":
-  version: 1.0.3
-  resolution: "@pangeacyber/react-mui-shared@npm:1.0.3"
-  dependencies:
-    "@loadable/component": "npm:^5.16.4"
-    "@mui/x-data-grid": "npm:7.21.0"
-    "@mui/x-date-pickers": "npm:^7.22.1"
-    dayjs: "npm:^1.11.13"
-    formik: "npm:^2.4.6"
-    moment: "npm:^2.30.1"
-    react-beautiful-dnd: "npm:^13.1.1"
-    react-json-view: "npm:^1.21.3"
-    yup: "npm:^1.5.0"
-  peerDependencies:
-    "@emotion/react": ^11.10.4
-    "@emotion/styled": ^11.10.4
-    "@mui/icons-material": ^6.0.0
-    "@mui/material": ^6.0.0
-    react: ^17.0.0 || ^18.0.0
-    react-dom: ^17.0.0 || ^18.0.0
-  checksum: 10c0/edcee4a6f0d0ec0bffe4f21350d8d29890b6215873aef2066c9231bc5422b214473eb3bfcdc010c2b8c7133fc6a84198394423d40482f4a2be4351f014d4b616
+  checksum: 10c0/d02e643af7ea4f0728ff6592bec6e9f52dd483038139b6a3a157c4680e335257e7bdc5b6dc6a9f33903c282c9c4b01764bd7456af0bbf86c292fc8b070d937b4
   languageName: node
   linkType: hard
 
@@ -2210,6 +2314,30 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@pangeacyber/react-mui-shared@npm:2.0.3":
+  version: 2.0.3
+  resolution: "@pangeacyber/react-mui-shared@npm:2.0.3"
+  dependencies:
+    "@loadable/component": "npm:^5.16.4"
+    "@mui/x-data-grid": "npm:8.2.0"
+    "@mui/x-date-pickers": "npm:8.2.0"
+    dayjs: "npm:^1.11.13"
+    formik: "npm:^2.4.6"
+    moment: "npm:^2.30.1"
+    react-beautiful-dnd: "npm:^13.1.1"
+    react-json-view: "npm:^1.21.3"
+    yup: "npm:^1.5.0"
+  peerDependencies:
+    "@emotion/react": ^11.10.4
+    "@emotion/styled": ^11.10.4
+    "@mui/icons-material": ^7.0.0
+    "@mui/material": ^7.0.0
+    react: ^17.0.0 || ^18.0.0
+    react-dom: ^17.0.0 || ^18.0.0
+  checksum: 10c0/5413f5e248d458af12dab48a1e272dfdb5401afc1bf4a6ae84eeeb66522573cbf2b528831c841b0f86c9578ab3eb2b76eb82232fe66e45de32b45a25ed4bd54e
+  languageName: node
+  linkType: hard
+
 "@pangeacyber/webcomponents@workspace:.":
   version: 0.0.0-use.local
   resolution: "@pangeacyber/webcomponents@workspace:."
@@ -2228,7 +2356,7 @@ __metadata:
     "@mui/types": "npm:^7.2.18"
     "@pangeacyber/react-mui-audit-log-viewer": "npm:^1.0.10"
     "@pangeacyber/react-mui-branding": "npm:^1.0.0"
-    "@pangeacyber/react-mui-share-file-viewer": "npm:^1.0.3"
+    "@pangeacyber/react-mui-share-file-viewer": "npm:^2.0.2"
     "@parcel/packager-ts": "npm:2.14.4"
     "@parcel/transformer-typescript-types": "npm:2.14.4"
     "@preact/compat": "npm:^18.3.1"
@@ -3516,21 +3644,21 @@ __metadata:
   languageName: node
   linkType: hard
 
-"awesome-phonenumber@npm:^7.2.0":
-  version: 7.4.0
-  resolution: "awesome-phonenumber@npm:7.4.0"
-  checksum: 10c0/294fe6c291799198ecd30f386da6702e61b804b68635bccc762f41a6f7da6b84bda3ba8722b164b3aa3e255c746554f705d2f8b300e4436041dddf613f9aa2f0
+"awesome-phonenumber@npm:^7.4.0":
+  version: 7.5.0
+  resolution: "awesome-phonenumber@npm:7.5.0"
+  checksum: 10c0/ec11a86f06db88ccb7592f7d326f77678aab2dbc7e3b59419c8b8c77d18eb13ccc51f55b1c41fed0068f340004fc9f3ffbc0f2d5dcc339396cb8f4ad00a270b7
   languageName: node
   linkType: hard
 
-"axios@npm:^1.7.9":
-  version: 1.8.4
-  resolution: "axios@npm:1.8.4"
+"axios@npm:^1.9.0":
+  version: 1.9.0
+  resolution: "axios@npm:1.9.0"
   dependencies:
     follow-redirects: "npm:^1.15.6"
     form-data: "npm:^4.0.0"
     proxy-from-env: "npm:^1.1.0"
-  checksum: 10c0/450993c2ba975ffccaf0d480b68839a3b2435a5469a71fa2fb0b8a55cdb2c2ae47e609360b9c1e2b2534b73dfd69e2733a1cf9f8215bee0bcd729b72f801b0ce
+  checksum: 10c0/9371a56886c2e43e4ff5647b5c2c3c046ed0a3d13482ef1d0135b994a628c41fbad459796f101c655e62f0c161d03883454474d2e435b2e021b1924d9f24994c
   languageName: node
   linkType: hard
 
@@ -6506,7 +6634,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"use-sync-external-store@npm:^1.2.2":
+"use-sync-external-store@npm:^1.2.2, use-sync-external-store@npm:^1.5.0":
   version: 1.5.0
   resolution: "use-sync-external-store@npm:1.5.0"
   peerDependencies:
@@ -6658,7 +6786,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"zustand@npm:^4.5.5":
+"zustand@npm:^4.5.6":
   version: 4.5.6
   resolution: "zustand@npm:4.5.6"
   dependencies:
