@@ -63,25 +63,27 @@ async function kemDecrypt(input: {
   iterationCount: number;
   hashAlgorithm: string;
 }): Promise<string> {
-  if (input.symmetricAlgorithm != KEMSymmetricAlgorithm.AES256_GCM) {
-    throw Error(`Unsupported symmetric algorithm: ${input.symmetricAlgorithm}`);
+  if (input.symmetricAlgorithm !== KEMSymmetricAlgorithm.AES256_GCM) {
+    throw new Error(
+      `Unsupported symmetric algorithm: ${input.symmetricAlgorithm}`
+    );
   }
 
   if (
-    input.asymmetricAlgorithm !=
+    input.asymmetricAlgorithm !==
     Vault.ExportEncryptionAlgorithm.RSA4096_NO_PADDING_KEM
   ) {
-    throw Error(
+    throw new Error(
       `Unsupported asymmetric algorithm: ${input.asymmetricAlgorithm}`
     );
   }
 
-  if (input.kdf != KEMkdf.PBKDF2) {
-    throw Error(`Unsupported kdf: ${input.kdf}`);
+  if (input.kdf !== KEMkdf.PBKDF2) {
+    throw new Error(`Unsupported kdf: ${input.kdf}`);
   }
 
-  if (input.hashAlgorithm != KEMHashAlgorithm.SHA512) {
-    throw Error(`Unsupported hash algorithm: ${input.hashAlgorithm}`);
+  if (input.hashAlgorithm !== KEMHashAlgorithm.SHA512) {
+    throw new Error(`Unsupported hash algorithm: ${input.hashAlgorithm}`);
   }
 
   const salt = crypto.privateDecrypt(
@@ -132,10 +134,10 @@ export enum KEMkdf {
 }
 
 function getKeyLength(algorithm: string): number {
-  if (algorithm == KEMSymmetricAlgorithm.AES256_GCM) {
+  if (algorithm === KEMSymmetricAlgorithm.AES256_GCM) {
     return 32;
   }
-  throw Error(`Unsupported algorithm: ${algorithm}`);
+  throw new Error(`Unsupported algorithm: ${algorithm}`);
 }
 
 export async function kemDecryptExportResult(
@@ -148,7 +150,7 @@ export async function kemDecryptExportResult(
     cipherEncoded = result.key;
   }
   if (!cipherEncoded) {
-    throw TypeError("`private_key` or `key` should be set.");
+    throw new TypeError("`private_key` or `key` should be set.");
   }
 
   const cipherWithIV = Buffer.from(cipherEncoded, "base64");

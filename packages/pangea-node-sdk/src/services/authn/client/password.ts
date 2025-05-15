@@ -15,8 +15,7 @@ export default class ClientPassword extends BaseService {
    * @param {String} token - An user token value
    * @param {String} oldPassword - The old password
    * @param {String} newPassword - The new password
-   * @returns {Promise<PangeaResponse<{}>>} - A promise representing an async call to the endpoint.
-   * Contains an empty object.
+   * @returns A Pangea response.
    * @example
    * ```js
    * await authn.client.password.change(

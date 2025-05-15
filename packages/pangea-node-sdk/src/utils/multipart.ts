@@ -36,6 +36,7 @@ type Input = {
   data: Buffer;
 };
 
+// biome-ignore lint/style/useEnumInitializers: TODO
 enum ParsingState {
   INIT,
   READING_HEADERS,
@@ -62,10 +63,12 @@ export function parse(multipartBodyBuffer: Buffer, boundary: string): Input[] {
     const newLineDetected: boolean = oneByte === 0x0a && prevByte === 0x0d;
     const newLineChar: boolean = oneByte === 0x0a || oneByte === 0x0d;
 
-    if (!newLineChar) lastLine += String.fromCharCode(oneByte);
+    if (!newLineChar) {
+      lastLine += String.fromCharCode(oneByte);
+    }
     if (ParsingState.INIT === state && newLineDetected) {
       // searching for boundary
-      if ("--" + boundary === lastLine) {
+      if (`--${boundary}` === lastLine) {
         state = ParsingState.READING_HEADERS; // found boundary. start reading headers
       }
       lastLine = "";
@@ -91,7 +94,7 @@ export function parse(multipartBodyBuffer: Buffer, boundary: string): Input[] {
       if (lastLine.length > boundary.length + 4) {
         lastLine = ""; // mem save
       }
-      if ("--" + boundary === lastLine) {
+      if (`--${boundary}` === lastLine) {
         const j = buffer.length - lastLine.length;
         const part = buffer.slice(0, j - 1);
 
@@ -110,10 +113,11 @@ export function parse(multipartBodyBuffer: Buffer, boundary: string): Input[] {
       if (newLineDetected) {
         lastLine = "";
       }
-    } else if (ParsingState.READING_PART_SEPARATOR === state) {
-      if (newLineDetected) {
-        state = ParsingState.READING_HEADERS;
-      }
+    } else if (
+      ParsingState.READING_PART_SEPARATOR === state &&
+      newLineDetected
+    ) {
+      state = ParsingState.READING_HEADERS;
     }
   }
   return allParts;
@@ -125,11 +129,14 @@ export function parse(multipartBodyBuffer: Buffer, boundary: string): Input[] {
 export function getBoundary(header: string): string {
   const items = header.split(";");
   if (items) {
+    // biome-ignore lint/style/useForOf: TODO
     for (let i = 0; i < items.length; i++) {
-      const item = new String(items[i]).trim();
+      const item = String(items[i]).trim();
       if (item.indexOf("boundary") >= 0) {
         const k = item.split("=");
-        return new String(k[1]).trim().replace(/^["']|["']$/g, "");
+        return String(k[1])
+          .trim()
+          .replace(/^["']|["']$/g, "");
       }
     }
   }
@@ -137,7 +144,7 @@ export function getBoundary(header: string): string {
 }
 
 function process(part: Part): Input {
-  let input = {};
+  const input = {};
 
   const filename = getHeaderField(
     part.contentDispositionHeader,
@@ -154,7 +161,7 @@ function process(part: Part): Input {
   }
 
   const parts = part.contentTypeHeader.split(":");
-  const contentType = parts && parts[1] ? parts[1].trim() : "";
+  const contentType = parts[1]?.trim() ?? "";
   if (contentType) {
     Object.defineProperty(input, "type", {
       value: contentType,
@@ -191,7 +198,7 @@ export function getHeaderField(
   field: string,
   defaultValue: string | null
 ): string | null {
-  const parts = header.split(field + "=");
+  const parts = header.split(`${field}=`);
   if (parts.length > 1 && parts[1]) {
     const valueParts = parts[1].split(";");
     if (valueParts[0] !== undefined) {

@@ -1,8 +1,9 @@
-import PangeaConfig from "@src/config.js";
-import AuthNService from "@src/services/authn/index.js";
 import { it, expect } from "@jest/globals";
 
-it("is really a test", async () => {
+import PangeaConfig from "@src/config.js";
+import AuthNService from "@src/services/authn/index.js";
+
+it("is really a test", () => {
   const config = new PangeaConfig({});
   const authn = new AuthNService("TEST_TOKEN", config);
 

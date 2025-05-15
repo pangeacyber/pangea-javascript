@@ -30,8 +30,7 @@ export default class User extends BaseService {
    *   - email (string): An email address.
    *   - id (string): The identity of a user or a service.
    *   - username (string): A username.
-   * @returns A promise representing an async call to the endpoint. Contains an
-   * empty object.
+   * @returns A Pangea response.
    * @example
    * await authn.user.delete({
    *   id: "pui_xpkhwpnz2cmegsws737xbsqnmnuwtbm5",

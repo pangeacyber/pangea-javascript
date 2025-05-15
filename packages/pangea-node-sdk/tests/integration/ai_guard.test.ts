@@ -1,4 +1,4 @@
-import { expect, it } from "@jest/globals";
+import { describe, expect, it } from "@jest/globals";
 
 import PangeaConfig from "../../src/config.js";
 import AIGuardService from "../../src/services/ai_guard.js";
@@ -21,7 +21,7 @@ const client = new AIGuardService(token, config);
 
 describe("AI Guard", () => {
   it("should guard text", async () => {
-    let response = await client.guardText({ text: "what was pangea?" });
+    const response = await client.guardText({ text: "what was pangea?" });
     expect(response.status).toStrictEqual("Success");
     expect(response.result.prompt_text).toBeDefined();
 

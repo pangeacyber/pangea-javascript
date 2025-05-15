@@ -143,11 +143,11 @@ export namespace Audit {
   }
 
   export interface SearchRestriction {
-    actor?: Array<string>;
-    action?: Array<string>;
-    source?: Array<string>;
-    status?: Array<string>;
-    target?: Array<string>;
+    actor?: string[];
+    action?: string[];
+    source?: string[];
+    status?: string[];
+    target?: string[];
   }
 
   export interface SearchParamsOptions {
@@ -1092,9 +1092,9 @@ export namespace Intel {
       }
 
       export enum PasswordStatus {
-        BREACHED,
-        UNBREACHED,
-        INCONCLUSIVE,
+        BREACHED = 0,
+        UNBREACHED = 1,
+        INCONCLUSIVE = 2,
       }
     }
   }
@@ -2227,8 +2227,6 @@ export namespace AuthN {
       id: string;
     }
 
-    export interface DeleteResult {}
-
     export enum AgreementListOrderBy {
       ID = "id",
       CREATED_AT = "created_at",
@@ -2561,9 +2559,7 @@ export namespace AuthN {
   }
 
   export namespace User {
-    export interface CreateOptions {}
-
-    export interface CreateRequest extends CreateOptions {
+    export interface CreateRequest {
       /** An email address. */
       email: string;
 
@@ -3026,8 +3022,6 @@ export namespace AuthZ {
     tuples: Tuple[];
   }
 
-  export interface TupleCreateResult {}
-
   export interface TupleListFilter {
     /** Only records where resource type equals this value. */
     resource_type?: string;
@@ -3094,8 +3088,6 @@ export namespace AuthZ {
   export interface TupleDeleteRequest {
     tuples: Tuple[];
   }
-
-  export interface TupleDeleteResult {}
 
   export interface CheckRequest {
     resource: Resource;

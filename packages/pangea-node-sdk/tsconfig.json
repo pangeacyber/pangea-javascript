@@ -1,6 +1,6 @@
 {
   "$schema": "https://json.schemastore.org/tsconfig",
-  "extends": "@tsconfig/node18/tsconfig.json",
+  "extends": "@tsconfig/node20/tsconfig.json",
   "compilerOptions": {
     "outDir": "dist",
     "moduleDetection": "force",
@@ -28,10 +28,5 @@
     }
   },
   "types": ["@types/jest"],
-  "include": ["src", "tests", "jest.config.ts"],
-  "ts-node": {
-    "transpileOnly": true,
-    "files": true,
-    "experimentalResolver": true
-  }
+  "include": ["src", "tests", "jest.config.ts"]
 }
