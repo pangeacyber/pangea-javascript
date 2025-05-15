@@ -121,7 +121,7 @@ pangea-node-sdk-integration-tests:
         - examples/**/*
         - packages/pangea-node-sdk/**/*
   script:
-    - npx jest --testPathPattern=tests/integration/${TEST}.test.ts
+    - yarn test tests/integration/${TEST}.test.ts
 
 pangea-node-sdk-build:
   extends: .pangea-node-sdk-base

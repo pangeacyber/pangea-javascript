@@ -27,6 +27,6 @@
       "@src/*": ["./src/*"]
     }
   },
-  "types": ["@types/jest"],
-  "include": ["src", "tests", "jest.config.ts"]
+  "types": [],
+  "include": ["src", "tests"]
 }

@@ -1,6 +1,6 @@
 import PangeaConfig from "../../src/config.js";
 import AuthZService from "../../src/services/authz.js";
-import { it, expect, jest } from "@jest/globals";
+import { vi, it, expect } from "vitest";
 import {
   TestEnvironment,
   getTestDomain,
@@ -8,7 +8,7 @@ import {
 } from "../../src/utils/utils.js";
 import { loadTestEnvironment } from "./utils.js";
 
-jest.setTimeout(30000);
+vi.setConfig({ testTimeout: 30000 });
 
 const environment = loadTestEnvironment("authz", TestEnvironment.LIVE);
 const token = getTestToken(environment);
