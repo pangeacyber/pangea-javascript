@@ -100,7 +100,7 @@ export namespace PangeaErrors {
 
   export class NotFound extends APIError {
     constructor(url: string, response: PangeaResponse<any>) {
-      super("Resource " + url + " not found", response);
+      super(`Resource ${url} not found`, response);
       this.name = "NotFound";
     }
   }
@@ -116,7 +116,7 @@ export namespace PangeaErrors {
   //User is not authorized to access a given resource
   export class UnauthorizedError extends APIError {
     constructor(serviceName: string, response: PangeaResponse<any>) {
-      let message = "User is not authorized to access service " + serviceName;
+      const message = `User is not authorized to access service ${serviceName}`;
       super(message, response);
       this.name = "UnauthorizedError";
     }
@@ -125,9 +125,7 @@ export namespace PangeaErrors {
   // Service not enabled
   export class ServiceNotEnabledError extends APIError {
     constructor(serviceName: string, response: PangeaResponse<any>) {
-      let message =
-        String(serviceName) +
-        " is not enabled. Go to console.pangea.cloud/service/{service_name} to enable";
+      const message = `${serviceName} is not enabled. Go to console.pangea.cloud/service/{service_name} to enable`;
       super(message, response);
       this.name = "ServiceNotEnabledError";
     }
@@ -136,10 +134,7 @@ export namespace PangeaErrors {
   // No config ID was provided in either token scopes or explicitly
   export class MissingConfigID extends APIError {
     constructor(serviceName: string, response: PangeaResponse<any>) {
-      let message =
-        "Token did not contain a config scope for service " +
-        serviceName +
-        ". Create a new token or provide a config ID explicitly in the service base";
+      const message = `Token did not contain a config scope for service ${serviceName}. Create a new token or provide a config ID explicitly in the service base`;
       super(message, response);
       this.name = "ServiceNotEnabledError";
     }
@@ -203,9 +198,9 @@ export namespace PangeaErrors {
     ret += `request_id: ${response.request_id}\n`;
     ret += `request_time: ${response.request_time}\n`;
     ret += `response_time: ${response.response_time}\n`;
-    (response.result?.errors || []).forEach((ef) => {
+    for (const ef of response.result?.errors || []) {
       ret += `\t${ef.source} ${ef.code}: ${ef.detail}\n`;
-    });
+    }
     return ret;
   }
 }

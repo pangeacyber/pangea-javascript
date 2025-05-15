@@ -63,7 +63,7 @@ it("File Scan crowdstrike async", async () => {
 });
 
 it("File Scan crowdstrike async and poll result", async () => {
-  let exception;
+  let exception: PangeaErrors.AcceptedRequestException;
   try {
     const request = { verbose: true, raw: true, provider: "crowdstrike" };
     await fileScan.fileScan(request, testfilePath, { pollResultSync: false });

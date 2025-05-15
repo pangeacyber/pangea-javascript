@@ -56,13 +56,13 @@ export class PangeaResponse<M> extends ResponseObject<M> {
 
   constructor(response: Response, body: ArrayBuffer) {
     let jsonResp = {};
-    let attachedFilesTemp: AttachedFile[] = [];
+    const attachedFilesTemp: AttachedFile[] = [];
     const contentType = response.headers.get("content-type");
-    if (contentType && contentType.includes("multipart")) {
+    if (contentType?.includes("multipart")) {
       const boundary = getBoundary(contentType);
       const parts = parse(Buffer.from(body), boundary);
       parts.forEach((part, index) => {
-        if (index == 0) {
+        if (index === 0) {
           jsonResp = JSON.parse(part.data.toString("utf-8"));
         } else {
           attachedFilesTemp.push(
@@ -101,7 +101,7 @@ function parseJSONfields(key: string, value: any) {
     try {
       const obj = JSON.parse(value);
       return obj;
-    } catch (e) {
+    } catch (_) {
       return value;
     }
   } else {

@@ -44,8 +44,7 @@ export default class UserInvites extends BaseService {
    * @description Delete a user invitation.
    * @operationId authn_post_v2_user_invite_delete
    * @param {String} id - A one-time ticket
-   * @returns {Promise<PangeaResponse<{}>>} - A promise
-   * representing an async call to the endpoint. Contains an empty object.
+   * @returns A Pangea response.
    * @example
    * ```js
    * await authn.user.invites.delete(

@@ -1,4 +1,5 @@
-import { expect, it } from "@jest/globals";
+import { describe, expect, it } from "@jest/globals";
+
 import PangeaConfig from "../../src/config.js";
 import PromptGuard from "../../src/services/prompt_guard.js";
 import {

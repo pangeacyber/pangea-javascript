@@ -72,7 +72,7 @@ export class SanitizeService extends BaseService {
       );
     }
 
-    let files: FileItems | undefined = undefined;
+    let files: FileItems | undefined;
 
     if (fileData) {
       files = {

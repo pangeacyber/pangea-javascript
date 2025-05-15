@@ -36,8 +36,7 @@ export default class Agreements extends BaseService {
    * @description Delete an agreement.
    * @operationId authn_post_v2_agreements_delete
    * @param {AuthN.Agreements.DeleteRequest} request
-   * @returns {Promise<PangeaResponse<AuthN.Agreements.DeleteResult>>} - A PangeaResponse
-   * with an empty object.
+   * @returns A PangeaResponse with an empty object.
    * @example
    * ```js
    * await authn.agreements.delete({
@@ -46,9 +45,7 @@ export default class Agreements extends BaseService {
    * });
    * ```
    */
-  delete(
-    request: AuthN.Agreements.DeleteRequest
-  ): Promise<PangeaResponse<AuthN.Agreements.DeleteResult>> {
+  delete(request: AuthN.Agreements.DeleteRequest): Promise<PangeaResponse<{}>> {
     return this.post("v2/agreements/delete", request);
   }
 

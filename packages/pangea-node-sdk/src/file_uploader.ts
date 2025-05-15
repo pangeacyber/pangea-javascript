@@ -6,8 +6,6 @@ export class FileUploader {
   protected serviceName: string = "FileUploader";
   protected request_: PangeaRequest | undefined = undefined;
 
-  constructor() {}
-
   private get request(): PangeaRequest {
     if (this.request_) {
       return this.request_;

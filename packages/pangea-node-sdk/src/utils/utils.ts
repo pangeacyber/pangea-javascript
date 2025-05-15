@@ -13,13 +13,13 @@ export function eventOrderAndStringifySubfields(obj: Object) {
   const orderedEntries = Object.entries(obj).sort((a, b) =>
     a[0].localeCompare(b[0])
   );
-  orderedEntries.forEach((value) => {
+  for (const value of orderedEntries) {
     if (value[1] instanceof Date) {
       value[1] = value[1].toISOString();
     } else if (value[1] instanceof Object) {
       value[1] = canonicalize(value[1]); // This is to stringify JSON objects in the same way server do
     }
-  });
+  }
   return Object.fromEntries(orderedEntries);
 }
 
@@ -48,19 +48,19 @@ export function b64toStr(data: string) {
 }
 
 export function hashSHA256(data: string): string {
-  var sha256 = CryptoJS.algo.SHA256.create();
+  const sha256 = CryptoJS.algo.SHA256.create();
   sha256.update(data);
   return sha256.finalize().toString();
 }
 
 export function hashSHA1(data: string): string {
-  var sha1 = CryptoJS.algo.SHA1.create();
+  const sha1 = CryptoJS.algo.SHA1.create();
   sha1.update(data);
   return sha1.finalize().toString();
 }
 
 export function hashSHA512(data: string): string {
-  var sha512 = CryptoJS.algo.SHA512.create();
+  const sha512 = CryptoJS.algo.SHA512.create();
   sha512.update(data);
   return sha512.finalize().toString();
 }
@@ -94,22 +94,22 @@ function loadEnvVar(name: string) {
 }
 
 export function getTestDomain(environment: string) {
-  const name = "PANGEA_INTEGRATION_DOMAIN_" + environment;
+  const name = `PANGEA_INTEGRATION_DOMAIN_${environment}`;
   return loadEnvVar(name);
 }
 
 export function getTestToken(environment: string) {
-  const name = "PANGEA_INTEGRATION_TOKEN_" + environment;
+  const name = `PANGEA_INTEGRATION_TOKEN_${environment}`;
   return loadEnvVar(name);
 }
 
 export function getVaultSignatureTestToken(environment: string) {
-  const name = "PANGEA_INTEGRATION_VAULT_TOKEN_" + environment;
+  const name = `PANGEA_INTEGRATION_VAULT_TOKEN_${environment}`;
   return loadEnvVar(name);
 }
 
 export function getMultiConfigTestToken(environment: string) {
-  const name = "PANGEA_INTEGRATION_MULTI_CONFIG_TOKEN_" + environment;
+  const name = `PANGEA_INTEGRATION_MULTI_CONFIG_TOKEN_${environment}`;
   return loadEnvVar(name);
 }
 
@@ -118,13 +118,12 @@ export function getConfigID(
   service: string,
   configNumber: number
 ): string {
-  const name =
-    `PANGEA_${service.toUpperCase()}_CONFIG_ID_${configNumber}_` + environment;
+  const name = `PANGEA_${service.toUpperCase()}_CONFIG_ID_${configNumber}_${environment}`;
   return loadEnvVar(name);
 }
 
 export function getCustomSchemaTestToken(environment: string) {
-  const name = "PANGEA_INTEGRATION_CUSTOM_SCHEMA_TOKEN_" + environment;
+  const name = `PANGEA_INTEGRATION_CUSTOM_SCHEMA_TOKEN_${environment}`;
   return process.env[name] || "";
 }
 

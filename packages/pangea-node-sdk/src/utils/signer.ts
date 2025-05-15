@@ -5,7 +5,8 @@ import {
   sign,
   verify,
 } from "node:crypto";
-import fs from "fs";
+import fs from "node:fs";
+
 import { Vault } from "@src/types.js";
 import { PangeaErrors } from "@src/errors.js";
 
@@ -81,7 +82,7 @@ export class Verifier {
    * const result = verifier.verify("")
    */
   verify(data: string, signB64: string, publicKeyInput: string): boolean {
-    let pubKey;
+    let pubKey: KeyObject | undefined;
     const bytes = Buffer.from(data);
     const signBytes = Buffer.from(signB64, "base64");
 
@@ -108,6 +109,8 @@ export class Verifier {
       }
     }
 
-    return pubKey != undefined ? verify(null, bytes, pubKey, signBytes) : false;
+    return pubKey !== undefined
+      ? verify(null, bytes, pubKey, signBytes)
+      : false;
   }
 }

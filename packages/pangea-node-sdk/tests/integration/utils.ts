@@ -5,16 +5,19 @@ export function loadTestEnvironment(serviceName: string, def: string) {
   serviceName = serviceName.replace("-", "_").toUpperCase();
   const name = `SERVICE_${serviceName}_ENV`;
   const value = process.env[name];
+
   if (value === undefined) {
     console.log(
       `Environment variable "${name}" is not set. Return default test environment value: ${def}`
     );
     return def;
-  } else if (Object.values(TestEnvironment).includes(value)) {
-    return value;
-  } else {
-    throw new Error(`${name} not allowed value: ${value}`);
   }
+
+  if (Object.values(TestEnvironment).includes(value)) {
+    return value;
+  }
+
+  throw new Error(`${name} not allowed value: ${value}`);
 }
 
 export async function trySlowRequest<T>(
@@ -35,7 +38,7 @@ export async function trySlowRequest<T>(
 }
 
 export function skipAccepted(fn: () => Promise<void>): () => Promise<void> {
-  return async function () {
+  return async () => {
     await trySlowRequest(fn);
   };
 }

@@ -27,7 +27,7 @@ const PROFILE_NEW = { first_name: "NameUpdate" };
 const EMAIL_INVITE_DELETE = `user.email+invite_del${TIME}@pangea.cloud`;
 const EMAIL_INVITE_KEEP = `user.email+invite_keep${TIME}@pangea.cloud`;
 const CB_URI = "https://someurl.com/callbacklink";
-let USER_ID; // Will be set once user is created
+let USER_ID: string | undefined; // Will be set once user is created
 
 async function flowHandlePasswordPhase(
   authn: AuthNService,
@@ -63,14 +63,15 @@ async function flowHandleAgreementsPhase(
   result: AuthN.Flow.UpdateResult,
   flow_id: string
 ): Promise<AuthN.Flow.UpdateResult> {
-  let agreed: string[] = [];
+  const agreed: string[] = [];
+  // biome-ignore lint/complexity/noForEach: TODO
   result.flow_choices.forEach((fc) => {
-    if (fc.choice == AuthN.Flow.Choice.AGREEMENTS) {
+    if (fc.choice === AuthN.Flow.Choice.AGREEMENTS) {
       const agreements =
-        typeof fc.data["agreements"] === "object" ? fc.data["agreements"] : {};
-      for (let [_, value] of Object.entries(agreements)) {
-        if (typeof value === "object" && typeof value["id"] === "string") {
-          agreed.push(value["id"]);
+        typeof fc.data.agreements === "object" ? fc.data.agreements : {};
+      for (const [_, value] of Object.entries(agreements)) {
+        if (typeof value === "object" && typeof value.id === "string") {
+          agreed.push(value.id);
         }
       }
     }
@@ -91,10 +92,7 @@ function choiceIsAvailable(
   result: AuthN.Flow.UpdateResult,
   choice: string
 ): boolean {
-  let filter = result.flow_choices.filter(function (fc) {
-    return fc.choice === choice;
-  });
-
+  const filter = result.flow_choices.filter((fc) => fc.choice === choice);
   return filter.length > 0;
 }
 
@@ -133,7 +131,7 @@ async function createAndLogin(
   const flow_id = startResp.result.flow_id;
   let result = startResp.result;
 
-  while (result.flow_phase != "phase_completed") {
+  while (result.flow_phase !== "phase_completed") {
     if (choiceIsAvailable(result, AuthN.Flow.Choice.PASSWORD)) {
       result = await flowHandlePasswordPhase(authn, flow_id, password);
     } else if (choiceIsAvailable(result, AuthN.Flow.Choice.PROFILE)) {
@@ -180,7 +178,7 @@ it("User actions test", async () => {
   expect(updateResp.status).toBe("Success");
   expect(updateResp.result.id).toBe(USER_ID);
   expect(updateResp.result.email).toBe(EMAIL_TEST);
-  let finalProfile = { ...PROFILE_OLD };
+  const finalProfile = { ...PROFILE_OLD };
   Object.assign(finalProfile, PROFILE_NEW);
   expect(updateResp.result.profile).toStrictEqual(finalProfile);
 
@@ -230,6 +228,7 @@ it("User actions test", async () => {
   expect(listSessionsResp.result.sessions.length).toBeGreaterThan(0);
 
   // Invalidate sessions
+  // biome-ignore lint/complexity/noForEach: TODO
   listSessionsResp.result.sessions.forEach((session) => {
     try {
       authn.session.invalidate(session.id);
@@ -253,7 +252,7 @@ it("User actions test", async () => {
   expect(listSessionsResp.result.sessions.length).toBeGreaterThan(0);
 
   // Invalidate sessions
-  listSessionsResp.result.sessions.forEach((session) => {
+  for (const session of listSessionsResp.result.sessions) {
     try {
       authn.client.session.invalidate(userToken, session.id);
     } catch (e) {
@@ -264,7 +263,7 @@ it("User actions test", async () => {
         ? console.log(e.toString())
         : console.log(e);
     }
-  });
+  }
 
   // Expire password.
   const expireResp = await authn.client.password.expire(USER_ID);
@@ -276,16 +275,16 @@ it("User actions test", async () => {
   expect(listResp.result.users.length).toBeGreaterThan(0);
 
   // Delete users
-  listResp.result.users.forEach((user) => {
+  for (const user of listResp.result.users) {
     try {
       authn.user.delete({ id: user.id });
     } catch (e) {
-      console.log("Failed to delete user id: ", user.id);
+      console.log(`Failed to delete user id: ${user.id}`);
       e instanceof PangeaErrors.APIError
         ? console.log(e.toString())
         : console.log(e);
     }
-  });
+  }
 });
 
 it("Invite actions test", async () => {

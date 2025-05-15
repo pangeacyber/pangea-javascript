@@ -1,8 +1,9 @@
-import { Signer, Verifier } from "@src/utils/signer.js";
 import { it, expect } from "@jest/globals";
+
+import { Signer, Verifier } from "@src/utils/signer.js";
 import { Vault } from "@src/types.js";
 
-it("Signer sign and verify successful", async () => {
+it("Signer sign and verify successful", () => {
   const privateKeyFilename = "./tests/testdata/privkey";
   const s = new Signer(privateKeyFilename);
 
@@ -24,7 +25,7 @@ it("Signer sign and verify successful", async () => {
   expect(result).toBe(true);
 });
 
-it("Verify old public key format successful", async () => {
+it("Verify old public key format successful", () => {
   const pubKey = "lvOyDMpK2DQ16NI8G41yINl01wMHzINBahtDPoh4+mE=";
   const data = "Hello signed world";
   const signature =

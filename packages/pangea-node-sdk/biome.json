@@ -1,0 +1,50 @@
+{
+  "$schema": "./node_modules/@biomejs/biome/configuration_schema.json",
+  "extends": ["ultracite"],
+  "organizeImports": { "enabled": false },
+  "formatter": { "enabled": false },
+  "linter": {
+    "rules": {
+      "complexity": {
+        "noBannedTypes": "off",
+        "noExcessiveCognitiveComplexity": "off"
+      },
+      "nursery": {
+        "noEnum": "off",
+        "useConsistentMemberAccessibility": "off"
+      },
+      "style": {
+        "useImportType": "off",
+        "noInferrableTypes": "off",
+        "noNamespace": "off",
+        "noNonNullAssertion": "off",
+        "noParameterAssign": "off",
+        "useFilenamingConvention": "off"
+      },
+      "suspicious": {
+        "noExplicitAny": "off"
+      }
+    }
+  },
+  "overrides": [
+    {
+      "include": ["tests/**"],
+      "linter": {
+        "rules": {
+          "suspicious": {
+            "noConsole": "off",
+            "noConsoleLog": "off"
+          }
+        }
+      }
+    },
+    {
+      "include": ["tsconfig.json"],
+      "json": {
+        "parser": {
+          "allowComments": true
+        }
+      }
+    }
+  ]
+}
