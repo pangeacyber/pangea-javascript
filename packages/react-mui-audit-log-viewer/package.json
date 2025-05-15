@@ -46,7 +46,7 @@
     "@testing-library/jest-dom": "6.6.3",
     "@testing-library/react": "12.1.5",
     "@types/crypto-js": "^4.2.2",
-    "@types/diff": "^6.0.0",
+    "@types/diff": "^7.0.2",
     "@types/jest": "^29.5.14",
     "@types/lodash": "^4.17.16",
     "@types/react": "17.0.85",
