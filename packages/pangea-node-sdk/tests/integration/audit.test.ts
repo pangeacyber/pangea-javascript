@@ -1,10 +1,11 @@
 import { setTimeout } from "node:timers/promises";
 
+import { it, expect, vi } from "vitest";
+
 import PangeaConfig from "../../src/config.js";
 import AuditService from "../../src/services/audit.js";
 import { Audit } from "../../src/types.js";
 import { Signer } from "../../src/utils/signer.js";
-import { jest, it, expect } from "@jest/globals";
 import { PangeaErrors } from "../../src/errors.js";
 import {
   TestEnvironment,
@@ -67,7 +68,7 @@ const auditVault = new AuditService(tokenVault, config);
 const auditWithTenantId = new AuditService(tokenGeneral, config, "mytenantid");
 const auditCustomSchema = new AuditService(tokenCustomSchema, config);
 
-jest.setTimeout(2 * config.pollResultTimeoutMs);
+vi.setConfig({ testTimeout: 2 * config.pollResultTimeoutMs });
 
 it("log an audit event. no verbose", async () => {
   const event: Audit.Event = {

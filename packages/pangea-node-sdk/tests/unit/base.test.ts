@@ -1,4 +1,4 @@
-import { it, expect } from "@jest/globals";
+import { it, expect } from "vitest";
 
 import PangeaConfig from "@src/config.js";
 import BaseService from "@src/services/base.js";

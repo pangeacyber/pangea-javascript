@@ -1,4 +1,4 @@
-import { it, expect, jest } from "@jest/globals";
+import { it, expect, vi } from "vitest";
 
 import PangeaConfig from "../../src/config.js";
 import {
@@ -29,7 +29,7 @@ const config = new PangeaConfig({
 const client = new SanitizeService(token, config);
 
 const testfilePath = "./tests/testdata/test-sanitize.txt";
-jest.setTimeout(2 * config.pollResultTimeoutMs);
+vi.setConfig({ testTimeout: 2 * config.pollResultTimeoutMs });
 
 it("Sanitize and share", async () => {
   const file_scan: Sanitize.SanitizeFile = { scan_provider: "crowdstrike" };

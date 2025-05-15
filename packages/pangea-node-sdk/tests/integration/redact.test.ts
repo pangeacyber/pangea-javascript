@@ -1,7 +1,7 @@
 import PangeaConfig from "../../src/config.js";
 import { PangeaErrors } from "../../src/errors.js";
 import RedactService from "../../src/services/redact.js";
-import { it, expect } from "@jest/globals";
+import { it, expect } from "vitest";
 import {
   TestEnvironment,
   getTestDomain,

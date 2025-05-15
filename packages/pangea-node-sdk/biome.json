@@ -33,7 +33,8 @@
         "rules": {
           "suspicious": {
             "noConsole": "off",
-            "noConsoleLog": "off"
+            "noConsoleLog": "off",
+            "noMisplacedAssertion": "off"
           }
         }
       }

@@ -1,7 +1,7 @@
 import PangeaConfig from "../../src/config.js";
 import EmbargoService from "../../src/services/embargo.js";
 import { PangeaErrors } from "../../src/errors.js";
-import { it, expect } from "@jest/globals";
+import { it, expect } from "vitest";
 import {
   TestEnvironment,
   getTestDomain,

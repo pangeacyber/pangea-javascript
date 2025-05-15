@@ -1,4 +1,4 @@
-import { expect, it, jest, afterAll } from "@jest/globals";
+import { expect, it, afterAll, vi } from "vitest";
 
 import PangeaConfig from "../../src/config.js";
 import { PangeaErrors } from "../../src/errors.js";
@@ -57,7 +57,7 @@ function getName(name: string) {
   return `${TIME}_${ACTOR}_${name}_${getRandomID()}`;
 }
 
-jest.setTimeout(120000);
+vi.setConfig({ testTimeout: 120_000 });
 it("Secret life cycle", async () => {
   const name = getName("SecretLifeCycle");
   // Store

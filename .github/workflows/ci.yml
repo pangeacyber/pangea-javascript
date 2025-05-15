@@ -80,6 +80,12 @@ jobs:
           name: pangea-node-sdk-package
           path: ./packages/pangea-node-sdk/package.tgz
 
+      - name: publint
+        run: yarn publint
+
+      - name: arethetypeswrong
+        run: yarn attw
+
   build-react-auth:
     runs-on: ubuntu-latest
     defaults:
@@ -451,7 +457,7 @@ jobs:
         run: yarn install --immutable
 
       - name: Unit test
-        run: yarn test:unit --ci --coverage
+        run: yarn test:unit
 
   docs:
     needs: [build-pangea-node-sdk]

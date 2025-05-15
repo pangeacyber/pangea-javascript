@@ -1,9 +1,12 @@
 import { Buffer } from "node:buffer";
 import fs from "node:fs";
+import { URL } from "node:url";
+
 import { FormDataEncoder } from "form-data-encoder";
 import { File, FormData } from "formdata-node";
 import { fileFromPath } from "formdata-node/file-from-path";
 import promiseRetry from "promise-retry";
+import urlJoin from "proper-url-join";
 
 import PangeaConfig, { version } from "./config.js";
 import { PangeaErrors } from "./errors.js";
@@ -503,8 +506,10 @@ class PangeaRequest {
 
   public getUrl(path: string): URL {
     return new URL(
-      path,
-      this.config.baseUrlTemplate.replace("{SERVICE_NAME}", this.serviceName)
+      urlJoin(
+        this.config.baseUrlTemplate.replace("{SERVICE_NAME}", this.serviceName),
+        path
+      )
     );
   }
 

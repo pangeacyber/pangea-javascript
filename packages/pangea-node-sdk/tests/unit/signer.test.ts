@@ -1,4 +1,4 @@
-import { it, expect } from "@jest/globals";
+import { it, expect } from "vitest";
 
 import { Signer, Verifier } from "@src/utils/signer.js";
 import { Vault } from "@src/types.js";
@@ -38,5 +38,5 @@ it("Verify old public key format successful", () => {
 
 it("Signer file does not exist", () => {
   const privateKeyFilename = "./this/is/not/a/file";
-  expect(() => new Signer(privateKeyFilename)).toThrowErrorMatchingSnapshot();
+  expect(() => new Signer(privateKeyFilename)).toThrow("ENOENT");
 });

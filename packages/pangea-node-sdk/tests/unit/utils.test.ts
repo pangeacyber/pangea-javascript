@@ -1,6 +1,6 @@
 import fs from "node:fs/promises";
 
-import { it, expect } from "@jest/globals";
+import { it, expect } from "vitest";
 
 import {
   hashSHA1,

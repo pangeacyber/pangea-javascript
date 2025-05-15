@@ -1,6 +1,6 @@
 import PangeaConfig from "../../src/config.js";
 import AuthNService from "../../src/services/authn/index.js";
-import { it, expect, jest } from "@jest/globals";
+import { it, expect, vi } from "vitest";
 import { PangeaErrors } from "../../src/errors.js";
 import {
   TestEnvironment,
@@ -148,7 +148,7 @@ async function createAndLogin(
   return completeResp.result;
 }
 
-jest.setTimeout(60000);
+vi.setConfig({ testTimeout: 60000 });
 it("User actions test", async () => {
   let loginResult = await createAndLogin(EMAIL_TEST, PASSWORD_OLD);
   expect(loginResult.active_token).toBeDefined();

@@ -1,5 +1,5 @@
 import PangeaConfig from "../../src/config.js";
-import { it, expect, jest } from "@jest/globals";
+import { it, expect, vi } from "vitest";
 import {
   TestEnvironment,
   getFileUploadParams,
@@ -30,7 +30,7 @@ const ADD_TAGS = ["tag3"];
 
 const testFilePath = "./tests/testdata/testfile.pdf";
 const zeroBytesFilePath = "./tests/testdata/zerobytes.txt";
-jest.setTimeout(120000);
+vi.setConfig({ testTimeout: 120_000 });
 
 it("Folder create/delete", async () => {
   const respCreate = await client.folderCreate({ folder: FOLDER_DELETE });
