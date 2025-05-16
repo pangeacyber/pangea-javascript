@@ -459,6 +459,35 @@ jobs:
       - name: Unit test
         run: yarn test:unit
 
+  test-integration:
+    needs: [build-pangea-node-sdk]
+    runs-on: ubuntu-24.04
+    strategy:
+      matrix:
+        node-version: [20, 22]
+    defaults:
+      run:
+        working-directory: ./packages/pangea-node-sdk
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4.2.2
+
+      - name: Enable Corepack
+        run: corepack enable
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4.4.0
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: yarn
+          cache-dependency-path: ./packages/pangea-node-sdk/yarn.lock
+
+      - name: Install dependencies
+        run: yarn install --immutable
+
+      - name: Integration test
+        run: bash ./scripts/test.sh
+
   docs:
     needs: [build-pangea-node-sdk]
     runs-on: ubuntu-latest
