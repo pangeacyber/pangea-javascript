@@ -518,6 +518,7 @@ class PangeaRequest {
     const pangeaHeaders = {
       "User-Agent": this.userAgent,
       Authorization: `Bearer ${this.token}`,
+      "Content-Type": "application/json",
     };
 
     if (Object.keys(this.extraHeaders).length > 0) {
