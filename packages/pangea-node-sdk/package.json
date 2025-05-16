@@ -38,6 +38,7 @@
   "devDependencies": {
     "@arethetypeswrong/cli": "0.18.1",
     "@biomejs/biome": "1.9.4",
+    "@stoplight/prism-cli": "5.14.2",
     "@tsconfig/node20": "20.1.5",
     "@types/crypto-js": "^4.2.2",
     "@types/node": "20.17.46",
@@ -45,6 +46,7 @@
     "@types/proper-url-join": "2.1.5",
     "cross-env": "^7.0.3",
     "publint": "0.3.12",
+    "start-server-and-test": "2.0.12",
     "tsdown": "0.11.9",
     "typedoc": "^0.28.4",
     "typescript": "5.8.3",

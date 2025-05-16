@@ -1,5 +1,6 @@
-import PangeaConfig from "../../src/config.js";
 import { it, expect, vi } from "vitest";
+
+import PangeaConfig from "../../src/config.js";
 import {
   TestEnvironment,
   getFileUploadParams,
