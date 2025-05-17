@@ -2251,7 +2251,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@mui/x-date-pickers@npm:^7.22.0":
+"@mui/x-date-pickers@npm:^7.29.3":
   version: 7.29.3
   resolution: "@mui/x-date-pickers@npm:7.29.3"
   dependencies:
@@ -2384,7 +2384,7 @@ __metadata:
     "@mui/icons-material": "npm:^7.1.0"
     "@mui/material": "npm:^7.1.0"
     "@mui/types": "npm:^7.4.2"
-    "@mui/x-date-pickers": "npm:^7.22.0"
+    "@mui/x-date-pickers": "npm:^7.29.3"
     "@pangeacyber/vanilla-js": "npm:0.1.14"
     "@rollup/plugin-babel": "npm:6.0.4"
     "@rollup/plugin-commonjs": "npm:28.0.3"
