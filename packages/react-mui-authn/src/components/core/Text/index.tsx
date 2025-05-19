@@ -13,7 +13,7 @@ export const BodyText: FC<Props> = ({ sxProps = {}, children }) => {
     <Typography
       variant="body2"
       sx={{
-        color: theme.palette.text.secondary,
+        color: (theme.vars || theme).palette.text.secondary,
         ...sxProps,
       }}
     >

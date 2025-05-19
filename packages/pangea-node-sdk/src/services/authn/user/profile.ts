@@ -17,7 +17,7 @@ export default class UserProfile extends BaseService {
    *   - id (string): The identity of a user or a service.
    *   - username (string): A username.
    * @returns A promise representing an async call to the endpoint. Available
-   * response fields can be found in our [API Documentation](https://pangea.cloud/docs/api/authn/user#/v2/user/profile/get).
+   * response fields can be found in our [API Documentation](https://pangea.cloud/docs/api/authn/user#/v2/user/profile/get-post).
    * @example
    * ```js
    * const response = await authn.user.profile.getProfile(
@@ -46,7 +46,7 @@ export default class UserProfile extends BaseService {
    *   - username (string): A username.
    *   - profile (object): Updates to a user profile.
    * @returns A promise representing an async call to the endpoint. Available
-   * response fields can be found in our [API Documentation](https://pangea.cloud/docs/api/authn/user#/v2/user/profile/update).
+   * response fields can be found in our [API Documentation](https://pangea.cloud/docs/api/authn/user#/v2/user/profile/update-post).
    * @example
    * ```js
    * const response = await authn.user.profile.update(

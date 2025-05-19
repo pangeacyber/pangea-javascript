@@ -1,5 +1,6 @@
+import { it, expect, vi } from "vitest";
+
 import PangeaConfig from "../../src/config.js";
-import { it, expect, jest } from "@jest/globals";
 import {
   TestEnvironment,
   getFileUploadParams,
@@ -21,8 +22,8 @@ const config = new PangeaConfig({
 const client = new ShareService(token, config);
 
 const TIME = Math.round(Date.now() / 1000);
-const FOLDER_DELETE = "/sdk_tests/node/delete/" + TIME;
-const FOLDER_FILES = "/sdk_tests/node/files/" + TIME;
+const FOLDER_DELETE = `/sdk_tests/node/delete/${TIME}`;
+const FOLDER_FILES = `/sdk_tests/node/files/${TIME}`;
 const METADATA = { field1: "value1", field2: "value2" };
 const ADD_METADATA = { field3: "value3" };
 const TAGS = ["tag1", "tag2"];
@@ -30,7 +31,7 @@ const ADD_TAGS = ["tag3"];
 
 const testFilePath = "./tests/testdata/testfile.pdf";
 const zeroBytesFilePath = "./tests/testdata/zerobytes.txt";
-jest.setTimeout(120000);
+vi.setConfig({ testTimeout: 120_000 });
 
 it("Folder create/delete", async () => {
   const respCreate = await client.folderCreate({ folder: FOLDER_DELETE });
@@ -49,7 +50,7 @@ it("Folder create/delete", async () => {
 
 it("Put file. Multipart transfer_method", async () => {
   try {
-    const name = TIME + "_file_multipart";
+    const name = `${TIME}_file_multipart`;
     const respPut = await client.put(
       {
         name: name,
@@ -91,7 +92,7 @@ it("Put file. Multipart transfer_method", async () => {
 
 it("Put zero bytes file. Multipart transfer_method", async () => {
   try {
-    const name = TIME + "_file_zero_bytes_multipart";
+    const name = `${TIME}_file_zero_bytes_multipart`;
     const respPut = await client.put(
       {
         name: name,
@@ -132,7 +133,7 @@ it("Put zero bytes file. Multipart transfer_method", async () => {
 });
 
 it("Put file. post-url transfer_method", async () => {
-  const name = TIME + "_file_post_url";
+  const name = `${TIME}_file_post_url`;
   const respPut = await client.put(
     {
       name: name,
@@ -167,7 +168,7 @@ it("Put file. post-url transfer_method", async () => {
 });
 
 it("Put zero bytes file. post-url transfer_method", async () => {
-  const name = TIME + "_file_zero_bytes_post_url";
+  const name = `${TIME}_file_zero_bytes_post_url`;
   const respPut = await client.put(
     {
       name: name,
@@ -182,8 +183,8 @@ it("Put zero bytes file. post-url transfer_method", async () => {
 });
 
 it("get url and put upload", async () => {
-  let response;
-  const name = TIME + "_file_split_put_url";
+  let response: any;
+  const name = `${TIME}_file_split_put_url`;
   try {
     const request: Share.PutRequest = {
       transfer_method: TransferMethod.PUT_URL,
@@ -227,8 +228,8 @@ it("get url and put upload", async () => {
 });
 
 it("get url and post upload", async () => {
-  let response;
-  const name = TIME + "_file_split_post_url";
+  let response: any;
+  const name = `${TIME}_file_split_post_url`;
   try {
     const params = getFileUploadParams(testFilePath);
 
@@ -286,7 +287,7 @@ it("Item life cycle", async () => {
   const folderID = respCreate.result.object.id;
 
   // # Upload a file with path as unique param
-  const path1 = FOLDER_FILES + "/" + TIME + "_file_multipart_1";
+  const path1 = `${FOLDER_FILES}/${TIME}_file_multipart_1`;
   const respPutPath = await client.put(
     {
       folder: path1,
@@ -306,7 +307,7 @@ it("Item life cycle", async () => {
   expect(respPutPath.result.object.sha256).toBeDefined();
 
   // Upload a file with parent id and name
-  const name2 = TIME + "_file_multipart_2";
+  const name2 = `${TIME}_file_multipart_2`;
   const respPutId = await client.put(
     {
       parent_id: folderID,
@@ -364,9 +365,9 @@ it("Item life cycle", async () => {
   expect(respGetArchive1.success).toBeTruthy();
   expect(respGetArchive1.result.dest_url).toBeUndefined();
   expect(respGetArchive1.attachedFiles.length).toBe(1);
-  respGetArchive1.attachedFiles.forEach((file) => {
+  for (const file of respGetArchive1.attachedFiles) {
     file.save("./download/");
-  });
+  }
 
   const respGetArchive2 = await client.getArchive({
     ids: [folderID],
@@ -379,7 +380,7 @@ it("Item life cycle", async () => {
 
   // Download file
   const url = respGetArchive2.result.dest_url ?? "";
-  let downloadedFile = await client.downloadFile(new URL(url));
+  const downloadedFile = await client.downloadFile(new URL(url));
   downloadedFile.save("./download/");
   expect(downloadedFile.file.byteLength).toBeGreaterThan(0);
 

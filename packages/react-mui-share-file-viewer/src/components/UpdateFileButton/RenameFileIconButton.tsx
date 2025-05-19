@@ -64,7 +64,7 @@ const RenameFileIconButton: FC<Props> = ({
   return (
     <>
       <IconButton {...ButtonProps} onClick={() => setOpen(true)}>
-        <EditIcon sx={{ color: theme.palette.text.primary }} />
+        <EditIcon sx={{ color: (theme.vars || theme).palette.text.primary }} />
       </IconButton>
       <PangeaModal
         open={open}

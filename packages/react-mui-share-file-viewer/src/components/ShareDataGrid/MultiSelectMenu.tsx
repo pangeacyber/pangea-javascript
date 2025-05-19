@@ -155,7 +155,7 @@ const MultiSelectMenu: FC<Props> = ({
                 onClick={handleDownload}
                 disabled={downloading || loading}
                 sx={{
-                  color: theme.palette.text.primary,
+                  color: (theme.vars || theme).palette.text.primary,
                   width: "100%",
                   paddingLeft: 2,
                   justifyContent: "start",
@@ -169,7 +169,7 @@ const MultiSelectMenu: FC<Props> = ({
                   object={objects[0]}
                   ButtonProps={{
                     sx: {
-                      color: theme.palette.text.primary,
+                      color: (theme.vars || theme).palette.text.primary,
                       width: "100%",
                       paddingLeft: 2,
                       justifyContent: "start",
@@ -184,7 +184,7 @@ const MultiSelectMenu: FC<Props> = ({
                   <CreateSharesButton
                     ButtonProps={{
                       sx: {
-                        color: theme.palette.text.primary,
+                        color: (theme.vars || theme).palette.text.primary,
                         width: "100%",
                         paddingLeft: 2,
                         justifyContent: "start",
@@ -207,7 +207,7 @@ const MultiSelectMenu: FC<Props> = ({
                 disabled={downloading}
                 startIcon={<DownloadIcon fontSize="small" />}
                 sx={{
-                  color: theme.palette.text.primary,
+                  color: (theme.vars || theme).palette.text.primary,
                   width: "100%",
                   paddingLeft: 2,
                   justifyContent: "start",
@@ -220,7 +220,7 @@ const MultiSelectMenu: FC<Props> = ({
                   selected={selected}
                   ButtonProps={{
                     sx: {
-                      color: theme.palette.text.primary,
+                      color: (theme.vars || theme).palette.text.primary,
                       width: "100%",
                       paddingLeft: 2,
                       justifyContent: "start",

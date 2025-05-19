@@ -30,8 +30,7 @@ export default class User extends BaseService {
    *   - email (string): An email address.
    *   - id (string): The identity of a user or a service.
    *   - username (string): A username.
-   * @returns A promise representing an async call to the endpoint. Contains an
-   * empty object.
+   * @returns A Pangea response.
    * @example
    * await authn.user.delete({
    *   id: "pui_xpkhwpnz2cmegsws737xbsqnmnuwtbm5",
@@ -53,7 +52,7 @@ export default class User extends BaseService {
    * @param {AuthN.User.CreateRequest} request
    * @returns {Promise<PangeaResponse<AuthN.User.CreateResult>>} - A promise
    * representing an async call to the endpoint. Available response fields can be found in our
-   * [API Documentation](https://pangea.cloud/docs/api/authn/user#/v2/user/create).
+   * [API Documentation](https://pangea.cloud/docs/api/authn/user#/v2/user/create-post).
    * @example
    * ```js
    * const response = await authn.user.create({
@@ -84,7 +83,7 @@ export default class User extends BaseService {
    *   - size (number): Maximum results to include in the response.
    * @returns {Promise<PangeaResponse<AuthN.User.ListResult>>} - A promise
    * representing an async call to the endpoint. Available response fields can be found in our
-   * [API Documentation](https://pangea.cloud/docs/api/authn/user#/v2/user/list).
+   * [API Documentation](https://pangea.cloud/docs/api/authn/user#/v2/user/list-post).
    * @example
    * ```js
    * const response = await authn.user.list(
@@ -113,7 +112,7 @@ export default class User extends BaseService {
    *   - disabled (boolean): Disabling a user account will prevent them from logging in.
    *   - unlock (boolean): Unlock a user account if it has been locked out due to failed authentication attempts.
    * @returns A promise representing an async call to the endpoint. Available
-   * response fields can be found in our [API Documentation](https://pangea.cloud/docs/api/authn/user#/v2/user/update).
+   * response fields can be found in our [API Documentation](https://pangea.cloud/docs/api/authn/user#/v2/user/update-post).
    * @example
    * ```js
    * const response = await authn.user.update(
@@ -140,7 +139,7 @@ export default class User extends BaseService {
    * @param {AuthN.User.InviteRequest} request
    * @returns {Promise<PangeaResponse<AuthN.User.InviteResult>>} - A promise
    * representing an async call to the endpoint. Available response fields can be found in our
-   * [API Documentation](https://pangea.cloud/docs/api/authn/invite#/v2/user/invite).
+   * [API Documentation](https://pangea.cloud/docs/api/authn/invite#/v2/user/invite-post).
    * @example
    * ```js
    * const response = await authn.user.invite({

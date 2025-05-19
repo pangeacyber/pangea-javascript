@@ -27,7 +27,7 @@ export default class Client extends BaseService {
    * @param {String} code - Login code returned by the login callback
    * @returns {Promise<PangeaResponse<AuthN.Client.UserinfoResult>>} - A promise
    * representing an async call to the endpoint. Available response fields can be found in our
-   * [API Documentation](https://pangea.cloud/docs/api/authn/user#/v2/client/userinfo).
+   * [API Documentation](https://pangea.cloud/docs/api/authn/user#/v2/client/userinfo-post).
    * @example
    * ```js
    * const response = await authn.client.userinfo(
@@ -48,7 +48,7 @@ export default class Client extends BaseService {
    * @operationId authn_post_v2_client_jwks
    * @returns {Promise<PangeaResponse<AuthN.Client.JWKSResult>>} - A promise
    * representing an async call to the endpoint. Available response fields can be found in our
-   * [API Documentation](https://pangea.cloud/docs/api/authn/jwt#/v2/client/jwks).
+   * [API Documentation](https://pangea.cloud/docs/api/authn/jwt#/v2/client/jwks-post).
    * @example
    * ```js
    * const response = await authn.client.jwks();

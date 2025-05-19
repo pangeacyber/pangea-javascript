@@ -1,7 +1,7 @@
 import PangeaConfig from "../../src/config.js";
 import { PangeaErrors } from "../../src/errors.js";
 import RedactService from "../../src/services/redact.js";
-import { it, expect } from "@jest/globals";
+import { it, expect } from "vitest";
 import {
   TestEnvironment,
   getTestDomain,
@@ -64,7 +64,7 @@ it("plain redact with object should fail", async () => {
 
   try {
     // @ts-expect-error
-    const response = await redact.redact(data);
+    await redact.redact(data);
     expect(false).toBeTruthy();
   } catch (e) {
     expect(e).toBeInstanceOf(PangeaErrors.ValidationError);
@@ -81,7 +81,7 @@ it("bad token should fail", async () => {
 
   try {
     // @ts-expect-error
-    const response = await badredact.redact(data);
+    await badredact.redact(data);
   } catch (e) {
     expect(e).toBeInstanceOf(PangeaErrors.UnauthorizedError);
   }

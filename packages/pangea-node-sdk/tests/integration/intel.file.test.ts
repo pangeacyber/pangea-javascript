@@ -1,5 +1,6 @@
+import { it, expect, vi } from "vitest";
+
 import PangeaConfig from "../../src/config.js";
-import { it, expect, jest } from "@jest/globals";
 import {
   TestEnvironment,
   getTestDomain,
@@ -16,14 +17,17 @@ const config = new PangeaConfig({
   customUserAgent: "sdk-test",
 });
 const fileIntel = new FileIntelService(token, config);
-jest.setTimeout(60000);
+vi.setConfig({ testTimeout: 60_000 });
 
 it("file hash reputation should succeed", async () => {
-  const options = { provider: "reversinglabs", verbose: true, raw: true };
   const response = await fileIntel.hashReputation(
     "142b638c6a60b60c7f9928da4fb85a5a8e1422a9ffdc9ee49e17e56ccca9cf6e",
     "sha256",
-    options
+    {
+      provider: "reversinglabs",
+      verbose: true,
+      raw: true,
+    }
   );
 
   expect(response.status).toBe("Success");
@@ -32,16 +36,17 @@ it("file hash reputation should succeed", async () => {
 });
 
 it("file hash reputation bulk should succeed", async () => {
-  const options = { provider: "reversinglabs", verbose: true, raw: true };
-  const hashes = [
-    "142b638c6a60b60c7f9928da4fb85a5a8e1422a9ffdc9ee49e17e56ccca9cf6e",
-    "179e2b8a4162372cd9344b81793cbf74a9513a002eda3324e6331243f3137a63",
-  ];
-
   const response = await fileIntel.hashReputationBulk(
-    hashes,
+    [
+      "142b638c6a60b60c7f9928da4fb85a5a8e1422a9ffdc9ee49e17e56ccca9cf6e",
+      "179e2b8a4162372cd9344b81793cbf74a9513a002eda3324e6331243f3137a63",
+    ],
     "sha256",
-    options
+    {
+      provider: "reversinglabs",
+      verbose: true,
+      raw: true,
+    }
   );
 
   expect(response.status).toBe("Success");
@@ -50,17 +55,23 @@ it("file hash reputation bulk should succeed", async () => {
 });
 
 it("file filepathReputation with filepath should succeed", async () => {
-  const options = { provider: "reversinglabs", verbose: true, raw: true };
-  const response = await fileIntel.filepathReputation("./README.md", options);
+  const response = await fileIntel.filepathReputation("./README.md", {
+    provider: "reversinglabs",
+    verbose: true,
+    raw: true,
+  });
   expect(response.status).toBe("Success");
   expect(response.result.data).toBeDefined();
 });
 
 it("file filepathReputationBulk with filepath should succeed", async () => {
-  const options = { provider: "reversinglabs", verbose: true, raw: true };
   const response = await fileIntel.filepathReputationBulk(
     ["./README.md", "./CHANGELOG.md"],
-    options
+    {
+      provider: "reversinglabs",
+      verbose: true,
+      raw: true,
+    }
   );
   expect(response.status).toBe("Success");
   expect(response.result.data).toBeDefined();
@@ -68,16 +79,18 @@ it("file filepathReputationBulk with filepath should succeed", async () => {
 });
 
 it("file reputation with filepath should fail", async () => {
-  const options = { provider: "reversinglabs", verbose: true, raw: true };
-
   try {
     const response = await fileIntel.filepathReputation(
       "./not/a/real/path/file.txt",
-      options
+      {
+        provider: "reversinglabs",
+        verbose: true,
+        raw: true,
+      }
     );
     expect(response).toBeFalsy();
   } catch (e: unknown) {
-    // @ts-ignore
+    // @ts-expect-error
     expect(e.code).toBe("ENOENT");
   }
 });

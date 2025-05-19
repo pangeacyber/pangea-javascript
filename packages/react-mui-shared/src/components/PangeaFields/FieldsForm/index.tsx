@@ -21,7 +21,7 @@ import Button from "@mui/material/Button";
 import {
   ButtonProps,
   Divider,
-  Grid2 as Grid,
+  Grid,
   Stack,
   SxProps,
   Tooltip,
@@ -359,6 +359,10 @@ const FieldsForm: FC<FieldsFormProps> = ({
             <Stack
               direction={{ xs: "column", sm: "row" }}
               sx={{
+                alignItems: "center",
+                justifyContent: "end",
+                marginLeft: "auto",
+                marginTop: 2,
                 ...(isSmall && {
                   width: "100%",
                   "button, span": {
@@ -367,10 +371,6 @@ const FieldsForm: FC<FieldsFormProps> = ({
                 }),
               }}
               spacing={1}
-              marginTop={2}
-              alignItems="center"
-              justifyContent="end"
-              marginLeft="auto"
             >
               {!!caption && (
                 <Typography variant="body2" color="info.main">

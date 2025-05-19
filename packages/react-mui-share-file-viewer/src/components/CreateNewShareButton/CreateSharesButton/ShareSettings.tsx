@@ -127,7 +127,7 @@ const ShareSettings: FC<Props> = ({
               width: "220px",
               height: "468px",
               bgcolor: "#23315A",
-              color: theme.palette.primary.contrastText,
+              color: (theme.vars || theme).palette.primary.contrastText,
               position: "absolute",
               padding: 1,
               top: "24px",
@@ -135,7 +135,7 @@ const ShareSettings: FC<Props> = ({
               borderRadius: "0px 12px 12px 0px",
               ".MuiTypography-root, .MuiStack-root > .MuiIconButton-root > .MuiSvgIcon-root":
                 {
-                  color: theme.palette.primary.contrastText,
+                  color: (theme.vars || theme).palette.primary.contrastText,
                 },
             }}
           >

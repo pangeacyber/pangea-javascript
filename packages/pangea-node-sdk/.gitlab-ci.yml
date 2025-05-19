@@ -121,7 +121,7 @@ pangea-node-sdk-integration-tests:
         - examples/**/*
         - packages/pangea-node-sdk/**/*
   script:
-    - npx jest --testPathPattern=tests/integration/${TEST}.test.ts
+    - yarn test tests/integration/${TEST}.test.ts
 
 pangea-node-sdk-build:
   extends: .pangea-node-sdk-base
@@ -141,12 +141,6 @@ pangea-node-sdk-pack:
   artifacts:
     paths: ["packages/pangea-node-sdk/package.tgz"]
     when: on_success
-
-pangea-node-sdk-lint:
-  extends: .pangea-node-sdk-base
-  stage: lint
-  script:
-    - yarn lint
 
 pangea-node-sdk-publish:
   needs: [pangea-node-sdk-build, pangea-node-sdk-pack]

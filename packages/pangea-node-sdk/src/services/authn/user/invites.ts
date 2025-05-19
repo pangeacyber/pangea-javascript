@@ -21,7 +21,7 @@ export default class UserInvites extends BaseService {
    *   - size (number): Maximum results to include in the response.
    * @returns {Promise<PangeaResponse<AuthN.User.Invite.ListResult>>} - A list of pending user invitations.
    * Available response fields can be found in our
-   * [API Documentation](https://pangea.cloud/docs/api/authn/invite#/v2/user/invite/list).
+   * [API Documentation](https://pangea.cloud/docs/api/authn/invite#/v2/user/invite/list-post).
    * @example
    * ```js
    * const response = await authn.user.invites.list(
@@ -44,8 +44,7 @@ export default class UserInvites extends BaseService {
    * @description Delete a user invitation.
    * @operationId authn_post_v2_user_invite_delete
    * @param {String} id - A one-time ticket
-   * @returns {Promise<PangeaResponse<{}>>} - A promise
-   * representing an async call to the endpoint. Contains an empty object.
+   * @returns A Pangea response.
    * @example
    * ```js
    * await authn.user.invites.delete(

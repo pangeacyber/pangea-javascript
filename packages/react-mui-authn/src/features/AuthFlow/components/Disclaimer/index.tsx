@@ -61,7 +61,7 @@ const Disclaimer: FC<Props> = ({ content }) => {
       sx={{
         fontFamily: theme.typography.fontFamily,
         fontSize: "0.75em",
-        color: theme.palette.text.secondary,
+        color: (theme.vars || theme).palette.text.secondary,
         "& a": {
           cursor: "pointer",
           // @ts-ignore

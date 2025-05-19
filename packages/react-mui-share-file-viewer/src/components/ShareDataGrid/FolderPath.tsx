@@ -56,7 +56,7 @@ const FolderPath: FC<Props> = ({ defaultHidden, virtualRoot }) => {
           <HomeIcon
             fontSize="small"
             color="inherit"
-            sx={{ color: theme.palette.text.primary }}
+            sx={{ color: (theme.vars || theme).palette.text.primary }}
           />
         </IconButton>
         {folders.map((f, idx) => {

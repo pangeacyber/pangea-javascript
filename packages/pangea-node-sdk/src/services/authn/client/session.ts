@@ -14,8 +14,7 @@ export default class ClientSession extends BaseService {
    * @operationId authn_post_v2_client_session_invalidate
    * @param {String} token - A user token value
    * @param {String} sessionID - An ID for a token
-   * @returns {Promise<PangeaResponse<{}>>} - A promise
-   * representing an async call to the endpoint. Contains an empty object.
+   * @returns A Pangea response.
    * @example
    * ```js
    * await authn.client.session.invalidate(
@@ -47,7 +46,7 @@ export default class ClientSession extends BaseService {
    *   - size (integer): Maximum results to include in the response. Minimum is `1`.
    * @returns {Promise<PangeaResponse<AuthN.Session.ListResult>>} - A promise
    * representing an async call to the endpoint. Available response fields can be found in our
-   * [API Documentation](https://pangea.cloud/docs/api/authn/session#/v2/client/session/list).
+   * [API Documentation](https://pangea.cloud/docs/api/authn/session#/v2/client/session/list-post).
    * @example
    * ```js
    * const response = await authn.client.session.list(
@@ -72,8 +71,7 @@ export default class ClientSession extends BaseService {
    * @description Log out the current user's session.
    * @operationId authn_post_v2_client_session_logout
    * @param {String} token - A user token value
-   * @returns {Promise<PangeaResponse<{}>>} - A promise
-   * representing an async call to the endpoint. Contains an empty object.
+   * @returns A Pangea response.
    * @example
    * ```js
    * await authn.client.session.logout(
@@ -94,7 +92,7 @@ export default class ClientSession extends BaseService {
    *   - user_token (string): A user token value
    * @returns {Promise<PangeaResponse<AuthN.Client.Session.RefreshResult>>} - A promise
    * representing an async call to the endpoint. Available response fields can be found in our
-   * [API Documentation](https://pangea.cloud/docs/api/authn/session#/v2/client/session/refresh).
+   * [API Documentation](https://pangea.cloud/docs/api/authn/session#/v2/client/session/refresh-post).
    * @example
    * ```js
    * const response = await authn.client.session.refresh(
@@ -111,7 +109,9 @@ export default class ClientSession extends BaseService {
       refresh_token: refreshToken,
     };
 
-    if (user_token) data.user_token = user_token;
+    if (user_token) {
+      data.user_token = user_token;
+    }
 
     return this.post("v2/client/session/refresh", data);
   }

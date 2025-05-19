@@ -44,9 +44,10 @@ const PageButton: FC<{
         height: "26px",
         ...(page !== currentPage && {
           backgroundColor: "transparent",
-          color: (theme) => theme.palette.text.primary,
+          color: (theme) => (theme.vars || theme).palette.text.primary,
           ":hover": {
-            color: (theme) => theme.palette.secondary.contrastText,
+            color: (theme) =>
+              (theme.vars || theme).palette.secondary.contrastText,
           },
         }),
       }}
@@ -105,8 +106,7 @@ const PageSelector: FC<PaginationProps> = ({
   return (
     <Stack
       direction="row"
-      sx={{ color: "text.primary" }}
-      alignItems="center"
+      sx={{ color: "text.primary", alignItems: "center" }}
       spacing={0.5}
     >
       <PageIconButton

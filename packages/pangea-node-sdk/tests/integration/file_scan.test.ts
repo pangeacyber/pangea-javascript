@@ -1,7 +1,7 @@
 import { setTimeout } from "node:timers/promises";
 
 import PangeaConfig from "../../src/config.js";
-import { it, expect, jest } from "@jest/globals";
+import { it, expect, vi } from "vitest";
 import {
   TestEnvironment,
   getFileUploadParams,
@@ -26,7 +26,7 @@ const testfilePath = "./tests/testdata/testfile.pdf";
 
 // Polling should finish before the test times out, so set the test timeout to
 // the polling duration plus some buffer.
-jest.setTimeout(1.05 * config.pollResultTimeoutMs);
+vi.setConfig({ testTimeout: 1.05 * config.pollResultTimeoutMs });
 
 it("File Scan crowdstrike", async () => {
   const request = { verbose: true, raw: true, provider: "crowdstrike" };
@@ -63,7 +63,7 @@ it("File Scan crowdstrike async", async () => {
 });
 
 it("File Scan crowdstrike async and poll result", async () => {
-  let exception;
+  let exception: PangeaErrors.AcceptedRequestException;
   try {
     const request = { verbose: true, raw: true, provider: "crowdstrike" };
     await fileScan.fileScan(request, testfilePath, { pollResultSync: false });

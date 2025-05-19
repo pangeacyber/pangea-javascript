@@ -13,8 +13,7 @@ export default class Session extends BaseService {
    * @description Invalidate a session by session ID.
    * @operationId authn_post_v2_session_invalidate
    * @param {String} sessionID - An ID for a token
-   * @returns {Promise} - A promise representing an async call to
-   * the invalidate session endpoint. Contains an empty object.
+   * @returns A Pangea response.
    * @example
    * ```js
    * await authn.session.invalidate(

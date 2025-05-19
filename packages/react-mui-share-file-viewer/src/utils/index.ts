@@ -73,7 +73,6 @@ export function passwordGenerator(len: number) {
   var punctuation = "!@#$%^&*()_+~`|}{[]:;?><,./-=";
   var password = "";
   var character = "";
-  var crunch = true;
   while (password.length < length) {
     let entity1 = Math.ceil(string.length * Math.random() * Math.random());
     let entity2 = Math.ceil(numeric.length * Math.random() * Math.random());

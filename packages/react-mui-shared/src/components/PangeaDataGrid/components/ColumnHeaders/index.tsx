@@ -39,10 +39,12 @@ const ColumnHeaders = forwardRef<any, Props>((props, ref) => {
       >
         <Stack
           direction="row"
-          alignItems="center"
-          justifyContent="end"
-          width="100%"
-          height="100%"
+          sx={{
+            width: "100%",
+            height: "100%",
+            alignItems: "center",
+            justifyContent: "end",
+          }}
         >
           <div
             className="MuiDataGrid-columnHeaderTitleContainer"

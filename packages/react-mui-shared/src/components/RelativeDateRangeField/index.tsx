@@ -71,8 +71,11 @@ const RelativeDateRangeField: FC<RelativeDateRangeFieldProps> = ({
       >
         <FormControlLabel
           control={
-            <Stack spacing={1} alignSelf="start" sx={{ margin: "auto", ml: 1 }}>
-              <Stack direction="row" spacing={1} alignSelf="start">
+            <Stack
+              spacing={1}
+              sx={{ alignSelf: "start", margin: "auto", ml: 1 }}
+            >
+              <Stack direction="row" spacing={1} sx={{ alignSelf: "start" }}>
                 <TextField
                   id={name ?? "relative-number-field"}
                   name={name ?? "relative-number-field"}

@@ -60,9 +60,9 @@ const PangeaDeleteModal: FC<PangeaDeleteModalProps> = ({
           <Stack
             direction={{ xs: "column", sm: "row" }}
             spacing={1}
-            marginLeft="auto"
-            alignSelf="end"
             sx={{
+              marginLeft: "auto",
+              alignSelf: "end",
               ...(isSmall && {
                 width: "100%",
                 paddingTop: 1,

@@ -153,7 +153,7 @@ const ShareOptions: FC<Props> = ({ object, onDelete }) => {
             paddingLeft: 2,
           },
           ".MuiButton-textPrimary": {
-            color: (theme) => theme.palette.text.primary,
+            color: (theme) => (theme.vars || theme).palette.text.primary,
           },
         }}
       >

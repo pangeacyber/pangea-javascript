@@ -15,7 +15,7 @@ export default class Agreements extends BaseService {
    * @param {AuthN.Agreements.CreateRequest} request
    * @returns {Promise<PangeaResponse<AuthN.Agreements.CreateResult>>} - A promise
    * representing an async call to the endpoint. Available response fields can be found in our
-   * [API Documentation](https://pangea.cloud/docs/api/authn/agreements#/v2/agreements/create).
+   * [API Documentation](https://pangea.cloud/docs/api/authn/agreements#/v2/agreements/create-post).
    * @example
    * ```js
    * const response = await authn.agreements.create({
@@ -36,8 +36,7 @@ export default class Agreements extends BaseService {
    * @description Delete an agreement.
    * @operationId authn_post_v2_agreements_delete
    * @param {AuthN.Agreements.DeleteRequest} request
-   * @returns {Promise<PangeaResponse<AuthN.Agreements.DeleteResult>>} - A PangeaResponse
-   * with an empty object.
+   * @returns A PangeaResponse with an empty object.
    * @example
    * ```js
    * await authn.agreements.delete({
@@ -46,9 +45,7 @@ export default class Agreements extends BaseService {
    * });
    * ```
    */
-  delete(
-    request: AuthN.Agreements.DeleteRequest
-  ): Promise<PangeaResponse<AuthN.Agreements.DeleteResult>> {
+  delete(request: AuthN.Agreements.DeleteRequest): Promise<PangeaResponse<{}>> {
     return this.post("v2/agreements/delete", request);
   }
 
@@ -59,7 +56,7 @@ export default class Agreements extends BaseService {
    * @param {AuthN.Agreements.UpdateRequest} request
    * @returns {Promise<PangeaResponse<AuthN.Agreements.UpdateRequest>>} - A promise
    * representing an async call to the endpoint. Available response fields can be found in our
-   * [API Documentation](https://pangea.cloud/docs/api/authn/agreements#/v2/agreements/update).
+   * [API Documentation](https://pangea.cloud/docs/api/authn/agreements#/v2/agreements/update-post).
    * @example
    * ```js
    * const response = await authn.agreements.update({
@@ -83,7 +80,7 @@ export default class Agreements extends BaseService {
    * @param {AuthN.Agreements.ListRequest} request
    * @returns {Promise<PangeaResponse<AuthN.Agreements.ListResult>>} - A promise
    * representing an async call to the endpoint. Available response fields can be found in our
-   * [API Documentation](https://pangea.cloud/docs/api/authn/agreements#/v2/agreements/list).
+   * [API Documentation](https://pangea.cloud/docs/api/authn/agreements#/v2/agreements/list-post).
    * @example
    * ```js
    * const response = await authn.agreements.list();

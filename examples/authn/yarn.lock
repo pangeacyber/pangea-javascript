@@ -21,9 +21,9 @@
     tslib "^2.6.2"
 
 "@aws-sdk/types@^3.222.0":
-  version "3.775.0"
-  resolved "https://registry.yarnpkg.com/@aws-sdk/types/-/types-3.775.0.tgz#09863a9e68c080947db7c3d226d1c56b8f0f5150"
-  integrity sha512-ZoGKwa4C9fC9Av6bdfqcW6Ix5ot05F/S4VxWR2nHuMv7hzfmAjTOcUiWT7UR4hM/U0whf84VhDtXN/DWAk52KA==
+  version "3.804.0"
+  resolved "https://registry.yarnpkg.com/@aws-sdk/types/-/types-3.804.0.tgz#b70a734fa721450cf8a513cec0c276001a5d154f"
+  integrity sha512-A9qnsy9zQ8G89vrPPlNG9d1d8QcKRGqJKqwyGgS0dclJpwy6d1EWgQLIolKPl6vcFpLoe6avLOLxr+h8ur5wpg==
   dependencies:
     "@smithy/types" "^4.2.0"
     tslib "^2.6.2"
@@ -95,10 +95,10 @@ merkle-tools@^1.4.1:
   dependencies:
     js-sha3 "^0.8.0"
 
-pangea-node-sdk@4.4.0:
-  version "4.4.0"
-  resolved "https://registry.yarnpkg.com/pangea-node-sdk/-/pangea-node-sdk-4.4.0.tgz#064ce7dda3b4bac352e1e686a32c46c9de669cd7"
-  integrity sha512-MLBsKZkHvn7pWBFHrdqxYguKXW6zMuSe/B8D2yL5mnA0LsMBvuow1QMNSIZh5h7TJZuaICgVTQH9l7sfX/pm0g==
+pangea-node-sdk@5.1.0:
+  version "5.1.0"
+  resolved "https://registry.yarnpkg.com/pangea-node-sdk/-/pangea-node-sdk-5.1.0.tgz#d7292c0c799fee617c42fb815405d4dd25227363"
+  integrity sha512-bacW3Y6Nqlx1GqDX0P13qaAIXkyW7Fr1xpBhSsgpg0Xyj+DOPpd4OpAiXR5PwV/u1XmvLfiONxannhR0EZ3T4w==
   dependencies:
     "@aws-crypto/crc32c" "^5.2.0"
     crypto-js "^4.2.0"

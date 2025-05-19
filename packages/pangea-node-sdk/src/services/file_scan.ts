@@ -62,8 +62,8 @@ export class FileScanService extends BaseService {
       );
     }
 
-    let postFile: FileData | undefined = undefined;
-    let files: FileItems | undefined = undefined;
+    let postFile: FileData | undefined;
+    let files: FileItems | undefined;
 
     if (typeof file === "string") {
       postFile = {
@@ -133,8 +133,6 @@ export class FileScanService extends BaseService {
 export class FileScanUploader {
   protected serviceName: string = "FileScanFileUploader";
   protected request_: PangeaRequest | undefined = undefined;
-
-  constructor() {}
 
   private get request(): PangeaRequest {
     if (this.request_) {

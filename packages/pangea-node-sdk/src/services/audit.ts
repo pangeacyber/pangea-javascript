@@ -94,7 +94,7 @@ class AuditService extends BaseService {
     event: Audit.Event,
     options: Audit.LogOptions = {}
   ): Promise<PangeaResponse<Audit.LogResponse>> {
-    let data = this.getLogEvent(event, options) as Audit.LogData;
+    const data = this.getLogEvent(event, options) as Audit.LogData;
     this.setRequestFields(data, options);
     const response: PangeaResponse<Audit.LogResponse> = await this.post(
       "v1/log",
@@ -125,12 +125,13 @@ class AuditService extends BaseService {
     events: Audit.Event[],
     options: Audit.LogOptions = {}
   ): Promise<PangeaResponse<Audit.LogBulkResponse>> {
-    let logEvents: Audit.LogEvent[] = [];
+    const logEvents: Audit.LogEvent[] = [];
+    // biome-ignore lint/complexity/noForEach: TODO
     events.forEach((event) => {
       logEvents.push(this.getLogEvent(event, options));
     });
 
-    let data: Audit.LogBulkRequest = {
+    const data: Audit.LogBulkRequest = {
       events: logEvents,
       verbose: options.verbose,
     };
@@ -140,6 +141,7 @@ class AuditService extends BaseService {
       "v2/log",
       data
     );
+    // biome-ignore lint/complexity/noForEach: TODO
     response.result.results.forEach((result) => {
       this.processLogResponse(result, options);
     });
@@ -167,12 +169,13 @@ class AuditService extends BaseService {
     events: Audit.Event[],
     options: Audit.LogOptions = {}
   ): Promise<PangeaResponse<Audit.LogBulkResponse>> {
-    let logEvents: Audit.LogEvent[] = [];
+    const logEvents: Audit.LogEvent[] = [];
+    // biome-ignore lint/complexity/noForEach: TODO
     events.forEach((event) => {
       logEvents.push(this.getLogEvent(event, options));
     });
 
-    let data: Audit.LogBulkRequest = {
+    const data: Audit.LogBulkRequest = {
       events: logEvents,
       verbose: options.verbose,
     };
@@ -188,12 +191,12 @@ class AuditService extends BaseService {
       if (e instanceof PangeaErrors.AcceptedRequestException) {
         // TODO: bad type cast
         return e.pangeaResponse as unknown as PangeaResponse<Audit.LogBulkResponse>;
-      } else {
-        throw e;
       }
+      throw e;
     }
 
     options.verify = false; // Bulk API does not verify
+    // biome-ignore lint/complexity/noForEach: TODO
     response.result.results.forEach((result) => {
       this.processLogResponse(result, options);
     });
@@ -215,12 +218,12 @@ class AuditService extends BaseService {
       const pubKey = signer.getPublicKey();
       const algorithm = signer.getAlgorithm();
 
-      let publicKeyInfo: { [key: string]: any } = {};
+      const publicKeyInfo: { [key: string]: any } = {};
       if (options.publicKeyInfo) {
         Object.assign(publicKeyInfo, options.publicKeyInfo);
       }
-      publicKeyInfo["key"] = pubKey;
-      publicKeyInfo["algorithm"] = algorithm;
+      publicKeyInfo.key = pubKey;
+      publicKeyInfo.algorithm = algorithm;
 
       data.signature = signature;
       data.public_key = JSON.stringify(publicKeyInfo);
@@ -235,14 +238,14 @@ class AuditService extends BaseService {
 
     if (options?.verify) {
       data.verbose = true;
-      if (this.prevUnpublishedRootHash != undefined) {
+      if (this.prevUnpublishedRootHash) {
         data.prev_root = this.prevUnpublishedRootHash;
       }
     }
   }
 
   processLogResponse(result: Audit.LogResponse, options: Audit.LogOptions) {
-    let newUnpublishedRootHash = result.unpublished_root;
+    const newUnpublishedRootHash = result.unpublished_root;
 
     if (!options?.skipEventVerification) {
       this.verifyHash(result.envelope, result.hash);
@@ -277,7 +280,7 @@ class AuditService extends BaseService {
 
     if (!verifyLogHash(envelope, hash)) {
       throw new PangeaErrors.AuditEventError(
-        "Error: Fail event hash verification. Hash: " + hash,
+        `Error: Fail event hash verification. Hash: ${hash}`,
         envelope
       );
     }
@@ -370,7 +373,7 @@ class AuditService extends BaseService {
     id: string,
     limit = 20,
     offset = 0,
-    options: Audit.SearchOptions,
+    options: Audit.SearchOptions = {},
     queryOptions: Audit.ResultOptions = {}
   ): Promise<PangeaResponse<Audit.ResultResponse>> {
     if (!id) {
@@ -671,7 +674,7 @@ class AuditService extends BaseService {
 
     const fixConsistencyProof = async (treeSize: number) => {
       // we can only fix if the root has been downloaded
-      let pubRoot: Audit.Root | undefined = this.publishedRoots[treeSize];
+      const pubRoot: Audit.Root | undefined = this.publishedRoots[treeSize];
       if (pubRoot === undefined) {
         return;
       }
@@ -688,6 +691,7 @@ class AuditService extends BaseService {
     };
 
     if (!options?.skipEventVerification) {
+      // biome-ignore lint/complexity/noForEach: TODO
       response.result.events.forEach((record: Audit.AuditRecord) => {
         this.verifyHash(record.envelope, record.hash);
         record.signature_verification = verifySignature(record.envelope);
@@ -701,6 +705,7 @@ class AuditService extends BaseService {
         const treeSizes = new Set<number>();
         treeSizes.add(root?.size ?? 0);
 
+        // biome-ignore lint/complexity/noForEach: TODO
         response.result.events.forEach((record: Audit.AuditRecord) => {
           if (record.leaf_index !== undefined) {
             const idx = Number(record.leaf_index);
@@ -720,6 +725,7 @@ class AuditService extends BaseService {
 
       const pending: Promise<void>[] = [];
 
+      // biome-ignore lint/complexity/noForEach: TODO
       response.result.events.forEach((record: Audit.AuditRecord) => {
         record.membership_verification = verifyRecordMembershipProof({
           root: record.published ? root : response.result.unpublished_root,
@@ -736,14 +742,14 @@ class AuditService extends BaseService {
           record.leaf_index !== undefined
         ) {
           pending.push(
-            fixConsistencyProof(parseInt(record.leaf_index, 10) + 1).then(
-              () => {
-                record.consistency_verification = verifyRecordConsistencyProof({
-                  publishedRoots: this.publishedRoots,
-                  record: record,
-                });
-              }
-            )
+            fixConsistencyProof(
+              Number.parseInt(record.leaf_index, 10) + 1
+            ).then(() => {
+              record.consistency_verification = verifyRecordConsistencyProof({
+                publishedRoots: this.publishedRoots,
+                record: record,
+              });
+            })
           );
         }
       });

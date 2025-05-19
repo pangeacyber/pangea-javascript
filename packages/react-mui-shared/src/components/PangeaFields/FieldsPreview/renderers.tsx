@@ -29,8 +29,7 @@ export const StringWithCopyPreviewField: FC<PreviewFieldValueProps> = ({
   return (
     <Stack
       direction="row"
-      alignItems="center"
-      sx={{ width: "100%", overflow: "hidden" }}
+      sx={{ alignItems: "center", width: "100%", overflow: "hidden" }}
     >
       <Typography
         variant="body2"

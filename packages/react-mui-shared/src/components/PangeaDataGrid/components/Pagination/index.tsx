@@ -15,10 +15,14 @@ const Pagination: FC<PaginationProps> = (props) => {
   return (
     <Stack
       direction="row"
-      width="100%"
-      justifyContent="space-between"
-      sx={{ color: "text.primary", p: 0.5, pb: 2 }}
-      alignItems="center"
+      sx={{
+        width: "100%",
+        justifyContent: "space-between",
+        alignItems: "center",
+        color: "text.primary",
+        p: 0.5,
+        pb: 2,
+      }}
       spacing={0.5}
     >
       <PageSelector {...props} />

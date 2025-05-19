@@ -33,13 +33,13 @@
     "build": "rm -rf .parcel-cache && parcel build"
   },
   "devDependencies": {
-    "@parcel/core": "^2.14.4",
-    "@parcel/packager-ts": "^2.14.4",
-    "@parcel/transformer-typescript-types": "2.14.4",
+    "@parcel/core": "^2.15.0",
+    "@parcel/packager-ts": "^2.15.0",
+    "@parcel/transformer-typescript-types": "2.15.0",
     "@tsconfig/strictest": "^2.0.5",
-    "@types/react": "^18.3.20",
-    "@types/react-dom": "^18.3.6",
-    "parcel": "^2.14.4",
+    "@types/react": "^18.3.21",
+    "@types/react-dom": "^18.3.7",
+    "parcel": "^2.15.0",
     "parcel-optimizer-react-use-client": "^1.0.0",
     "react": "^18.3.1",
     "typescript": "^5.8.3"

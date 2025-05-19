@@ -47,13 +47,13 @@ const ShareObject: FC<Props> = ({ object, onDelete }) => {
             height="36px"
             sx={{
               borderRadius: "50%",
-              backgroundColor: theme.palette.grey[100],
+              backgroundColor: (theme.vars || theme).palette.grey[100],
             }}
           >
             <LinkIcon
               fontSize="small"
               sx={{
-                color: theme.palette.text.primary,
+                color: (theme.vars || theme).palette.text.primary,
               }}
             />
           </Stack>

@@ -21,7 +21,7 @@ export const constructActionColumn = <T extends any = any>(
     renderCell: (params) => {
       const object: T = params.row;
       return (
-        <Stack justifyContent="end" direction="row" sx={{ width: "100%" }}>
+        <Stack direction="row" sx={{ width: "100%", justifyContent: "end" }}>
           {renderActions(object)}
         </Stack>
       );

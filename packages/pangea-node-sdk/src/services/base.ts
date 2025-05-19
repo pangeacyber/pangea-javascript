@@ -24,33 +24,41 @@ class BaseService {
     config: PangeaConfig,
     configID?: string
   ) {
-    if (!serviceName) throw new Error("A serviceName is required");
-    if (!token) throw new Error("A token is required");
+    if (!serviceName) {
+      throw new Error("A serviceName is required");
+    }
+    if (!token) {
+      throw new Error("A token is required");
+    }
 
     this.serviceName = serviceName;
     if (typeof token === "string") {
       this.token = token;
     } else {
-      if (token.type !== "pangea_token")
+      if (token.type !== "pangea_token") {
         throw new Error(
           `Token passed as vault secret is not of type 'pangea_token', but of type '${token.type}'`
         );
-      if (!token.enabled)
+      }
+      if (!token.enabled) {
         throw new Error(
           "Token passed as vault secret is not currently enabled"
         );
-
+      }
       const currentVersion = token.item_versions[0];
-      if (!currentVersion)
+      if (!currentVersion) {
         throw new Error(
           "Token passed as vault secret does not have a current version"
         );
-      if (currentVersion.state !== "active")
+      }
+      if (currentVersion.state !== "active") {
         throw new Error("Token passed as vault secret is not currently active");
-      if (!currentVersion.secret)
+      }
+      if (!currentVersion.secret) {
         throw new Error(
           "Vault secret field is not populated, cannot pass as token"
         );
+      }
       this.token = currentVersion.secret;
     }
     this.configID = configID;

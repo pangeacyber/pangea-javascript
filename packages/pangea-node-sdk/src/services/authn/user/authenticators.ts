@@ -13,8 +13,7 @@ export default class UserAuthenticators extends BaseService {
    * @description Delete a user's authenticator.
    * @operationId authn_post_v2_user_authenticators_delete
    * @param request
-   * @returns A promise representing an async call to the endpoint. Contains an
-   * empty object.
+   * @returns A Pangea response.
    * @example
    * ```js
    * await authn.authenticators.delete({
@@ -39,7 +38,7 @@ export default class UserAuthenticators extends BaseService {
    * @param {AuthN.User.Authenticators.ListRequest} request
    * @returns {Promise<PangeaResponse<AuthN.User.Authenticators.ListResult>>} - A promise
    * representing an async call to the endpoint. Available response fields can be found in our
-   * [API Documentation](https://pangea.cloud/docs/api/authn/user#/v2/user/authenticators/list).
+   * [API Documentation](https://pangea.cloud/docs/api/authn/user#/v2/user/authenticators/list-post).
    * @example
    * ```js
    * const response = await authn.user.authenticators.list({

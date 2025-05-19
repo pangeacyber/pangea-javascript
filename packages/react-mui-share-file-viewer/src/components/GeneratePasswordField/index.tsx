@@ -82,7 +82,7 @@ const UnControlledGeneratePasswordField: FC<
           }}
           disabled={disabled}
           sx={{
-            color: theme.palette.primary.main,
+            color: (theme.vars || theme).palette.primary.main,
             borderBottomLeftRadius: "0!important",
             borderTopLeftRadius: "0!important",
             boxShadow: "none",

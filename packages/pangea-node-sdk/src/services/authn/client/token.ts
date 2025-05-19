@@ -15,7 +15,7 @@ export default class ClientToken extends BaseService {
    * @param {String} token - A token value
    * @returns {Promise<PangeaResponse<AuthN.Client.Token.CheckResult>>} - A promise
    * representing an async call to the endpoint. Available response fields can be found in our
-   * [API Documentation](https://pangea.cloud/docs/api/authn/flow#/v2/client/token/check).
+   * [API Documentation](https://pangea.cloud/docs/api/authn/flow#/v2/client/token/check-post).
    * @example
    * ```js
    * const response = await authn.client.clientToken.check(

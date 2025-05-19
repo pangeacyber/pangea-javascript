@@ -30,7 +30,7 @@ export const ChangesTypography: FC<{
           color: "#000",
         },
         ".PangeaHighlight-success": {
-          color: (theme) => theme.palette.success.main,
+          color: (theme) => (theme.vars || theme).palette.success.main,
         },
       }}
       {...TypographyProps}

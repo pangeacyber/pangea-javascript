@@ -39,7 +39,7 @@ const PageInputSelector: FC<PaginationProps> = ({
   if (paginationRowCount !== undefined) return null;
 
   return (
-    <Stack direction="row" spacing={0.5} alignItems="center">
+    <Stack direction="row" spacing={0.5} sx={{ alignItems: "center" }}>
       <Typography variant="body2" color="textSecondary">
         Page
       </Typography>

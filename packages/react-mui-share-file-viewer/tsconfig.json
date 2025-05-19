@@ -1,14 +1,15 @@
 {
+  "extends": "@tsconfig/vite-react/tsconfig.json",
   "compilerOptions": {
     "target": "es5",
-    "module": "esnext",
-    "jsx": "react-jsx",
+    "lib": ["ES2022", "DOM", "DOM.Iterable"],
     "sourceMap": false,
     "strict": true,
+    "noUnusedLocals": false,
+    "noUnusedParameters": false,
     "moduleResolution": "node",
     "allowSyntheticDefaultImports": true,
     "esModuleInterop": true,
-    "skipLibCheck": true,
     "forceConsistentCasingInFileNames": true
   },
   "exclude": ["src/stories", "**/*.stories.tsx", "vite.config.mts"]

@@ -1,6 +1,6 @@
 import PangeaConfig from "../../src/config.js";
 import AuthZService from "../../src/services/authz.js";
-import { it, expect, jest } from "@jest/globals";
+import { vi, it, expect } from "vitest";
 import {
   TestEnvironment,
   getTestDomain,
@@ -8,7 +8,7 @@ import {
 } from "../../src/utils/utils.js";
 import { loadTestEnvironment } from "./utils.js";
 
-jest.setTimeout(30000);
+vi.setConfig({ testTimeout: 30000 });
 
 const environment = loadTestEnvironment("authz", TestEnvironment.LIVE);
 const token = getTestToken(environment);
@@ -22,10 +22,10 @@ const authz = new AuthZService(token, config);
 const CURRENT_TIME_IN_SECONDS = Math.round(Date.now() / 1000);
 const TYPE_FOLDER = "folder";
 const TYPE_USER = "user";
-const FOLDER_1 = "folder_1_" + CURRENT_TIME_IN_SECONDS;
-const FOLDER_2 = "folder_2_" + CURRENT_TIME_IN_SECONDS;
-const USER_1 = "user_1_" + CURRENT_TIME_IN_SECONDS;
-const USER_2 = "user_2_" + CURRENT_TIME_IN_SECONDS;
+const FOLDER_1 = `folder_1_${CURRENT_TIME_IN_SECONDS}`;
+const FOLDER_2 = `folder_2_${CURRENT_TIME_IN_SECONDS}`;
+const USER_1 = `user_1_${CURRENT_TIME_IN_SECONDS}`;
+const USER_2 = `user_2_${CURRENT_TIME_IN_SECONDS}`;
 const RELATION_OWNER = "owner";
 const RELATION_EDITOR = "editor";
 const RELATION_READER = "reader";
