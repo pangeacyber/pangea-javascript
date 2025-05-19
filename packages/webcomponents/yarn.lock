@@ -1543,15 +1543,15 @@ __metadata:
   linkType: hard
 
 "@loadable/component@npm:^5.16.4":
-  version: 5.16.4
-  resolution: "@loadable/component@npm:5.16.4"
+  version: 5.16.7
+  resolution: "@loadable/component@npm:5.16.7"
   dependencies:
     "@babel/runtime": "npm:^7.12.18"
     hoist-non-react-statics: "npm:^3.3.1"
     react-is: "npm:^16.12.0"
   peerDependencies:
-    react: ^16.3.0 || ^17.0.0 || ^18.0.0
-  checksum: 10c0/5d12056178232773e5fdd9ef218858991b97ff6cfece5902a0fa7243580f964545c9c013053c61bcdb8aaab0b54ac0075e55a900d976671679d76872c559f4a4
+    react: ^16.3.0 || ^17.0.0 || ^18.0.0 || ^19.0.0
+  checksum: 10c0/0f854babddb26b51a4081098ec4d8942940ef101f2a2ac294348faf8e683a3c675f2b7a2d1f0bba6e7420ea0df475a0a046b323a76a6014b9ac46e32103651fa
   languageName: node
   linkType: hard
 
@@ -3265,11 +3265,11 @@ __metadata:
   linkType: hard
 
 "@types/react@npm:*":
-  version: 19.1.3
-  resolution: "@types/react@npm:19.1.3"
+  version: 19.1.4
+  resolution: "@types/react@npm:19.1.4"
   dependencies:
     csstype: "npm:^3.0.2"
-  checksum: 10c0/f158f88871b8df1eeed637942d3e6142abcf505b617e4921ef3763b6d4f22241b9a883d864878dd2b6a2bdc8f4e7f871f24ef88f633d144a63257f4764b9478d
+  checksum: 10c0/501350d4f9cef13c5dd1b1496fa70ebaff52f6fa359b623b51c9d817e5bc4333fa3c8b7a6a4cbc88c643385052d66a243c3ceccfd6926062f917a2dd0535f6b3
   languageName: node
   linkType: hard
 
@@ -3540,9 +3540,9 @@ __metadata:
   linkType: hard
 
 "caniuse-lite@npm:^1.0.30001716":
-  version: 1.0.30001717
-  resolution: "caniuse-lite@npm:1.0.30001717"
-  checksum: 10c0/6c0bb1e5182fd578ebe97ee2203250849754a4e17d985839fab527ad27e125a4c4ffce3ece5505217fedf30ea0bbc17ac9f93e9ac525c0389ccba61c6e8345dc
+  version: 1.0.30001718
+  resolution: "caniuse-lite@npm:1.0.30001718"
+  checksum: 10c0/67f9ad09bc16443e28d14f265d6e468480cd8dc1900d0d8b982222de80c699c4f2306599c3da8a3fa7139f110d4b30d49dbac78f215470f479abb6ffe141d5d3
   languageName: node
   linkType: hard
 
@@ -3761,14 +3761,14 @@ __metadata:
   linkType: hard
 
 "debug@npm:4, debug@npm:^4.1.0, debug@npm:^4.1.1, debug@npm:^4.3.1, debug@npm:^4.3.4":
-  version: 4.4.0
-  resolution: "debug@npm:4.4.0"
+  version: 4.4.1
+  resolution: "debug@npm:4.4.1"
   dependencies:
     ms: "npm:^2.1.3"
   peerDependenciesMeta:
     supports-color:
       optional: true
-  checksum: 10c0/db94f1a182bf886f57b4755f85b3a74c39b5114b9377b7ab375dc2cfa3454f09490cc6c30f829df3fc8042bc8b8995f6567ce5cd96f3bc3688bd24027197d9de
+  checksum: 10c0/d2b44bc1afd912b49bb7ebb0d50a860dc93a4dd7d946e8de94abc957bb63726b7dd5aa48c18c2386c379ec024c46692e15ed3ed97d481729f929201e671fcd55
   languageName: node
   linkType: hard
 
@@ -3861,9 +3861,9 @@ __metadata:
   linkType: hard
 
 "electron-to-chromium@npm:^1.5.149":
-  version: 1.5.152
-  resolution: "electron-to-chromium@npm:1.5.152"
-  checksum: 10c0/99c58dc8fc6b22ea64f118599663a0d336aa28693fbd275d06f3e2c1d1a6c954fcb88f5b2390223267bb3487940d3e587b6acac8b1b2ebc4dc65c44cd7739c7c
+  version: 1.5.155
+  resolution: "electron-to-chromium@npm:1.5.155"
+  checksum: 10c0/aee32a0b03282e488352370f6a910de37788b814031020a0e244943450e844e8a41f741d6e5ec70d553dfa4382ef80088034ddc400b48f45de95de331b9ec178
   languageName: node
   linkType: hard
 
@@ -4897,14 +4897,14 @@ __metadata:
   linkType: hard
 
 "msgpackr@npm:^1.11.2, msgpackr@npm:^1.9.5":
-  version: 1.11.2
-  resolution: "msgpackr@npm:1.11.2"
+  version: 1.11.4
+  resolution: "msgpackr@npm:1.11.4"
   dependencies:
     msgpackr-extract: "npm:^3.0.2"
   dependenciesMeta:
     msgpackr-extract:
       optional: true
-  checksum: 10c0/7d2e81ca82c397b2352d470d6bc8f4a967fe4fe14f8fc1fc9906b23009fdfb543999b1ad29c700b8861581e0b6bf903d6f0fefb69a09375cbca6d4d802e6c906
+  checksum: 10c0/171f6e15b628e91969cbb715c076e218886dc505fdac9ce31aa9e8641877cb5cf52d89fe0ca2930520711b1bbc9f792e10d0a9fc08806ad5d543c50abfab322c
   languageName: node
   linkType: hard
 
@@ -6082,14 +6082,14 @@ __metadata:
   linkType: hard
 
 "use-isomorphic-layout-effect@npm:^1.1.1":
-  version: 1.2.0
-  resolution: "use-isomorphic-layout-effect@npm:1.2.0"
+  version: 1.2.1
+  resolution: "use-isomorphic-layout-effect@npm:1.2.1"
   peerDependencies:
     react: ^16.8.0 || ^17.0.0 || ^18.0.0 || ^19.0.0
   peerDependenciesMeta:
     "@types/react":
       optional: true
-  checksum: 10c0/2e4bdee68d65893b37e716ebdcc111550775189c80e662eda87d6f5b54dc431d3383a18914ea01a893ee5478902a878012713eaebcacbb6611ab88c463accb83
+  checksum: 10c0/4d3c1124d630fbe09c1d2a16af0cd78ac2fe1d22eb24a178363e3d84a897659cc04e8e8cd71f66ff78ff75ef8287fa72e746cb213b96c1097e70e4b4ed69f63f
   languageName: node
   linkType: hard
 
@@ -6269,8 +6269,8 @@ __metadata:
   linkType: hard
 
 "zustand@npm:^4.5.6":
-  version: 4.5.6
-  resolution: "zustand@npm:4.5.6"
+  version: 4.5.7
+  resolution: "zustand@npm:4.5.7"
   dependencies:
     use-sync-external-store: "npm:^1.2.2"
   peerDependencies:
@@ -6284,6 +6284,6 @@ __metadata:
       optional: true
     react:
       optional: true
-  checksum: 10c0/5b39aff2ef57e5a8ada647261ec1115697d397be311c51461d9ea81b5b63c6d2c498b960477ad2db72dc21db6aa229a92bdf644f6a8ecf7b1d71df5b4a5e95d3
+  checksum: 10c0/55559e37a82f0c06cadc61cb08f08314c0fe05d6a93815e41e3376130c13db22a5017cbb0cd1f018c82f2dad0051afe3592561d40f980bd4082e32005e8a950c
   languageName: node
   linkType: hard
