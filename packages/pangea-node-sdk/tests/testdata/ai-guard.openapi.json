@@ -142,7 +142,7 @@
           "content": {
             "application/json": {
               "schema": {
-                "required": ["id", "name", "updated_at"],
+                "required": ["id", "name"],
                 "$ref": "#/components/schemas/ai-guard-service-config"
               }
             }

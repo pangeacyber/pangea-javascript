@@ -744,6 +744,235 @@ export namespace AIGuard {
      */
     fpe_context?: string;
   }
+
+  export type AuditDataActivityConfig = {
+    enabled: boolean;
+    audit_service_config_id: string;
+    areas: {
+      text_guard: boolean;
+    };
+  };
+
+  export type ConnectionsConfig = {
+    prompt_guard?: {
+      enabled?: boolean;
+      config_id?: string;
+      confidence_threshold?: number;
+    };
+    ip_intel?: {
+      enabled?: boolean;
+      config_id?: string;
+      reputation_provider?: string;
+      risk_threshold?: number;
+    };
+    user_intel?: {
+      enabled?: boolean;
+      config_id?: string;
+      breach_provider?: string;
+    };
+    url_intel?: {
+      enabled?: boolean;
+      config_id?: string;
+      reputation_provider?: string;
+      risk_threshold?: number;
+    };
+    domain_intel?: {
+      enabled?: boolean;
+      config_id?: string;
+      reputation_provider?: string;
+      risk_threshold?: number;
+    };
+    file_scan?: {
+      enabled?: boolean;
+      config_id?: string;
+      scan_provider?: string;
+      risk_threshold?: number;
+    };
+    redact?: {
+      enabled?: boolean;
+      config_id?: string;
+    };
+    vault?: {
+      config_id?: string;
+    };
+    lingua?: {
+      enabled?: boolean;
+    };
+    code?: {
+      enabled?: boolean;
+    };
+  };
+
+  export type RuleRedactionConfig = (
+    | {
+        redaction_type?: "mask" | "detect_only";
+      }
+    | {
+        redaction_type?: "replacement";
+      }
+    | {
+        redaction_type?: "partial_masking";
+      }
+    | {
+        hash: {
+          [key: string]: unknown;
+        };
+        redaction_type?: "hash";
+      }
+    | {
+        fpe_alphabet: string;
+        redaction_type?: "fpe";
+      }
+  ) & {
+    redaction_type:
+      | "mask"
+      | "partial_masking"
+      | "replacement"
+      | "hash"
+      | "detect_only"
+      | "fpe";
+    redaction_value?: string;
+    partial_masking?: {
+      masking_type?: "unmask" | "mask";
+      unmasked_from_left?: number;
+      unmasked_from_right?: number;
+      masked_from_left?: number;
+      masked_from_right?: number;
+      chars_to_ignore?: string[];
+      masking_char?: string;
+    };
+    hash?: {
+      /** The type of hashing algorithm */
+      hash_type: "md5" | "sha256";
+    } | null;
+    fpe_alphabet?:
+      | "numeric"
+      | "alphalower"
+      | "alphaupper"
+      | "alpha"
+      | "alphanumericlower"
+      | "alphanumericupper"
+      | "alphanumeric"
+      | null;
+  };
+
+  export type DetectorSettings = Array<{
+    detector_name: string;
+    state: "disabled" | "enabled";
+    settings: {
+      rules?: Array<{
+        redact_rule_id: string;
+        redaction: RuleRedactionConfig;
+        block?: boolean;
+        disabled?: boolean;
+        reputation_check?: boolean;
+        transform_if_malicious?: boolean;
+      }>;
+    };
+  }>;
+
+  export type RecipeConfig = {
+    name: string;
+    description: string;
+    version?: string;
+    /** Setting for Detectors */
+    detectors?: DetectorSettings;
+    connector_settings?: {
+      redact?: {
+        fpe_tweak_vault_secret_id?: string;
+      };
+    };
+  };
+
+  export type ServiceConfig = {
+    id?: string;
+    name?: string;
+    audit_data_activity?: AuditDataActivityConfig;
+    connections?: ConnectionsConfig;
+    recipes?: { [key: string]: RecipeConfig };
+  };
+
+  /** List or filter/search records. */
+  export type ServiceConfigListParams = {
+    filter?: {
+      /**
+       * Only records where id equals this value.
+       */
+      id?: string;
+      /**
+       * Only records where id includes each substring.
+       */
+      id__contains?: string[];
+      /**
+       * Only records where id equals one of the provided substrings.
+       */
+      id__in?: string[];
+      /**
+       * Only records where created_at equals this value.
+       */
+      created_at?: string;
+      /**
+       * Only records where created_at is greater than this value.
+       */
+      created_at__gt?: string;
+      /**
+       * Only records where created_at is greater than or equal to this value.
+       */
+      created_at__gte?: string;
+      /**
+       * Only records where created_at is less than this value.
+       */
+      created_at__lt?: string;
+      /**
+       * Only records where created_at is less than or equal to this value.
+       */
+      created_at__lte?: string;
+      /**
+       * Only records where updated_at equals this value.
+       */
+      updated_at?: string;
+      /**
+       * Only records where updated_at is greater than this value.
+       */
+      updated_at__gt?: string;
+      /**
+       * Only records where updated_at is greater than or equal to this value.
+       */
+      updated_at__gte?: string;
+      /**
+       * Only records where updated_at is less than this value.
+       */
+      updated_at__lt?: string;
+      /**
+       * Only records where updated_at is less than or equal to this value.
+       */
+      updated_at__lte?: string;
+    };
+    /**
+     * Reflected value from a previous response to obtain the next page of results.
+     */
+    last?: string;
+    /**
+     * Order results asc(ending) or desc(ending).
+     */
+    order?: "asc" | "desc";
+    /**
+     * Which field to order results by.
+     */
+    order_by?: "id" | "created_at" | "updated_at";
+    /**
+     * Maximum results to include in the response.
+     */
+    size?: number;
+  };
+
+  export type ServiceConfigListResult = {
+    /** The total number of service configs matched by the list request. */
+    count?: number;
+    /** Used to fetch the next page of the current listing when provided in a repeated request's last parameter. */
+    last?: string;
+    items?: ServiceConfig[];
+  };
 }
 
 export namespace Management {
