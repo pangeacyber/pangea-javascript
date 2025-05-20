@@ -1655,6 +1655,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"birpc@npm:^2.3.0":
+  version: 2.3.0
+  resolution: "birpc@npm:2.3.0"
+  checksum: 10c0/82489bcfa1c0a669bf4e5a15fa72691e8bda35abeac8860044eeffdcbc05da200b4349711a4beccdb2d0b90c40d752b0c7fcf01462bcfcb38ae9bd2b034ed339
+  languageName: node
+  linkType: hard
+
 "bluebird@npm:*, bluebird@npm:3.7.2":
   version: 3.7.2
   resolution: "bluebird@npm:3.7.2"
@@ -2046,7 +2053,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"diff@npm:^8.0.0":
+"diff@npm:^8.0.1":
   version: 8.0.1
   resolution: "diff@npm:8.0.1"
   checksum: 10c0/43ebbe63881d34067d77d7b9d16220f1efb8013e04be58c7748ab296d2a9637f49424c69477e36c81a53f2c347b396956966e708e1b5b4dde3620f2b4bb93d02
@@ -3701,7 +3708,7 @@ __metadata:
     proper-url-join: "npm:^2.1.2"
     publint: "npm:0.3.12"
     start-server-and-test: "npm:2.0.12"
-    tsdown: "npm:0.11.9"
+    tsdown: "npm:0.11.11"
     typedoc: "npm:^0.28.4"
     typescript: "npm:5.8.3"
     ultracite: "npm:4.2.5"
@@ -4063,19 +4070,20 @@ __metadata:
   languageName: node
   linkType: hard
 
-"rolldown-plugin-dts@npm:^0.12.1":
-  version: 0.12.3
-  resolution: "rolldown-plugin-dts@npm:0.12.3"
+"rolldown-plugin-dts@npm:^0.13.1":
+  version: 0.13.3
+  resolution: "rolldown-plugin-dts@npm:0.13.3"
   dependencies:
     "@babel/generator": "npm:^7.27.1"
     "@babel/parser": "npm:^7.27.2"
     "@babel/types": "npm:^7.27.1"
     ast-kit: "npm:^2.0.0"
+    birpc: "npm:^2.3.0"
     debug: "npm:^4.4.1"
     dts-resolver: "npm:^2.0.1"
     get-tsconfig: "npm:^4.10.0"
   peerDependencies:
-    rolldown: ^1.0.0-beta.8-commit.2a5c6a6
+    rolldown: ^1.0.0-beta.9
     typescript: ^5.0.0
     vue-tsc: ~2.2.0
   peerDependenciesMeta:
@@ -4083,7 +4091,7 @@ __metadata:
       optional: true
     vue-tsc:
       optional: true
-  checksum: 10c0/5214fb4658c9be1d3ab9a73efd63515d708df3fee3d3a9bf02d48b30ccb480a985d718c33d1108b8f418d9cdd810cdfe254aff2da7dbd70657f9a84dd938bf26
+  checksum: 10c0/d8e2b60fac180e6cc3b00a67c562b15b1f81df25a8ccac7e61a69de5829d43484d78628dd7906fa260de633b658179ff2b1a65ce4c9139af03fc05dfec21c3fc
   languageName: node
   linkType: hard
 
@@ -4682,19 +4690,19 @@ __metadata:
   languageName: node
   linkType: hard
 
-"tsdown@npm:0.11.9":
-  version: 0.11.9
-  resolution: "tsdown@npm:0.11.9"
+"tsdown@npm:0.11.11":
+  version: 0.11.11
+  resolution: "tsdown@npm:0.11.11"
   dependencies:
     ansis: "npm:^4.0.0"
     cac: "npm:^6.7.14"
     chokidar: "npm:^4.0.3"
-    debug: "npm:^4.4.0"
-    diff: "npm:^8.0.0"
+    debug: "npm:^4.4.1"
+    diff: "npm:^8.0.1"
     empathic: "npm:^1.1.0"
     hookable: "npm:^5.5.3"
     rolldown: "npm:1.0.0-beta.8-commit.d95f99e"
-    rolldown-plugin-dts: "npm:^0.12.1"
+    rolldown-plugin-dts: "npm:^0.13.1"
     semver: "npm:^7.7.2"
     tinyexec: "npm:^1.0.1"
     tinyglobby: "npm:^0.2.13"
@@ -4715,7 +4723,7 @@ __metadata:
       optional: true
   bin:
     tsdown: dist/run.js
-  checksum: 10c0/a5330b063a514079c16262f3498228b44ffca7c96d8de67c76feb093e465794c7d3083ba8f4a8111d4097cc3a241e0e1ac0f93287a4d291e1c55a0def0c169f6
+  checksum: 10c0/243e6cf21d6fc63a55b5760812d7c70569b730b53f75569464093ee469ac38baa81353f64b65a53c5eac1ce8fe4db4be1567af71bd606a05b24a831392b59653
   languageName: node
   linkType: hard
 
