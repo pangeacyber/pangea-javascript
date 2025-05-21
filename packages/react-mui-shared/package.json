@@ -57,7 +57,7 @@
     "vite": "^6.3.5"
   },
   "dependencies": {
-    "@loadable/component": "^5.16.4",
+    "@loadable/component": "^5.16.7",
     "@mui/x-data-grid": "8.2.0",
     "@mui/x-date-pickers": "8.2.0",
     "dayjs": "^1.11.13",
