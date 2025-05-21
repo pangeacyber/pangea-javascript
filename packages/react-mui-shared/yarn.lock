@@ -1684,7 +1684,7 @@
   resolved "https://registry.yarnpkg.com/@juggle/resize-observer/-/resize-observer-3.4.0.tgz#08d6c5e20cf7e4cc02fd181c4b0c225cd31dbb60"
   integrity sha512-dfLbk+PwWvFzSxwk3n5ySL0hfBog779o8h68wK/7/APo/7cgyWp5jcXockbxdk5kFRkbeXWm4Fbi9FrdN381sA==
 
-"@loadable/component@^5.16.4":
+"@loadable/component@^5.16.7":
   version "5.16.7"
   resolved "https://registry.yarnpkg.com/@loadable/component/-/component-5.16.7.tgz#22de0bf3c037bc5bdf3d8dc3ef6b301732c2a8e5"
   integrity sha512-XvkFixLUOTEaj8lI7uwc4nf8Wmq3IulYG7SZHCWcPm/Li5gjJDFfIkgWOLPnD7jqPJVtAG9bEz4SCek+SpHYYg==
