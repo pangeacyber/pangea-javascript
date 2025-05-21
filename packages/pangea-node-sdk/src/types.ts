@@ -1165,6 +1165,111 @@ export namespace PromptGuard {
     /** List of classification results with labels and confidence scores */
     classifications: Classification[];
   }
+
+  export type AuditDataActivityConfig = {
+    enabled: boolean;
+    audit_service_config_id: string;
+    areas: {
+      malicious_prompt?: boolean;
+      benign_prompt?: boolean;
+    };
+  };
+
+  export type ServiceConfig = {
+    id?: string;
+    version?: string;
+    analyzers?: {
+      [key: string]: boolean;
+    };
+    malicious_detection_threshold?: number | null;
+    benign_detection_threshold?: number | null;
+    audit_data_activity?: AuditDataActivityConfig;
+  };
+
+  export type ServiceConfigListParams = {
+    filter?: {
+      /**
+       * Only records where id equals this value.
+       */
+      id?: string;
+      /**
+       * Only records where id includes each substring.
+       */
+      id__contains?: string[];
+      /**
+       * Only records where id equals one of the provided substrings.
+       */
+      id__in?: string[];
+      /**
+       * Only records where created_at equals this value.
+       */
+      created_at?: string;
+      /**
+       * Only records where created_at is greater than this value.
+       */
+      created_at__gt?: string;
+      /**
+       * Only records where created_at is greater than or equal to this value.
+       */
+      created_at__gte?: string;
+      /**
+       * Only records where created_at is less than this value.
+       */
+      created_at__lt?: string;
+      /**
+       * Only records where created_at is less than or equal to this value.
+       */
+      created_at__lte?: string;
+      /**
+       * Only records where updated_at equals this value.
+       */
+      updated_at?: string;
+      /**
+       * Only records where updated_at is greater than this value.
+       */
+      updated_at__gt?: string;
+      /**
+       * Only records where updated_at is greater than or equal to this value.
+       */
+      updated_at__gte?: string;
+      /**
+       * Only records where updated_at is less than this value.
+       */
+      updated_at__lt?: string;
+      /**
+       * Only records where updated_at is less than or equal to this value.
+       */
+      updated_at__lte?: string;
+    };
+    /**
+     * Reflected value from a previous response to obtain the next page of results.
+     */
+    last?: string;
+    /**
+     * Order results asc(ending) or desc(ending).
+     */
+    order?: "asc" | "desc";
+    /**
+     * Which field to order results by.
+     */
+    order_by?: "id" | "created_at" | "updated_at";
+    /**
+     * Maximum results to include in the response.
+     */
+    size?: number;
+  };
+
+  export type ServiceConfigListResult = {
+    /**
+     * The total number of service configs matched by the list request.
+     */
+    count?: number;
+    /**
+     * Used to fetch the next page of the current listing when provided in a repeated request's last parameter.
+     */
+    last?: string;
+    items?: ServiceConfig[];
+  };
 }
 
 export namespace Redact {
