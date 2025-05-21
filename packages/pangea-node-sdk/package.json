@@ -56,8 +56,8 @@
   },
   "scripts": {
     "test": "cross-env NODE_OPTIONS=--openssl-legacy-provider vitest run",
-    "test:unit": "yarn test tests/unit",
-    "test:integration": "yarn test tests/integration",
+    "test:unit": "yarn test tests/unit/",
+    "test:integration": "yarn test tests/integration/",
     "lint": "biome check .",
     "typecheck": "tsc --noEmit",
     "attw": "attw --pack",
