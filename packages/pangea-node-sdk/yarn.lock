@@ -1300,12 +1300,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/node@npm:20.17.47":
-  version: 20.17.47
-  resolution: "@types/node@npm:20.17.47"
+"@types/node@npm:20.17.48":
+  version: 20.17.48
+  resolution: "@types/node@npm:20.17.48"
   dependencies:
     undici-types: "npm:~6.19.2"
-  checksum: 10c0/df336ed7897177214d1c0f2c7e2f94bbc19da28bffd150ad67dfdb373ca55167479a266c836f99450ab6b6a71799a53583b3f4f159c5424255e9f3851cc9d431
+  checksum: 10c0/fc7031f9cdee25b3ff9a0e7cbb97d58b9e19107ce28ffa8c22f1bbb2d84e8328e08343d261784160c9b7f01174c39fe1c31207451815824745c500f2934a86d3
   languageName: node
   linkType: hard
 
@@ -1652,6 +1652,13 @@ __metadata:
   version: 2.3.0
   resolution: "binary-extensions@npm:2.3.0"
   checksum: 10c0/75a59cafc10fb12a11d510e77110c6c7ae3f4ca22463d52487709ca7f18f69d886aa387557cc9864fbdb10153d0bdb4caacabf11541f55e89ed6e18d12ece2b5
+  languageName: node
+  linkType: hard
+
+"birpc@npm:^2.3.0":
+  version: 2.3.0
+  resolution: "birpc@npm:2.3.0"
+  checksum: 10c0/82489bcfa1c0a669bf4e5a15fa72691e8bda35abeac8860044eeffdcbc05da200b4349711a4beccdb2d0b90c40d752b0c7fcf01462bcfcb38ae9bd2b034ed339
   languageName: node
   linkType: hard
 
@@ -2058,7 +2065,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"diff@npm:^8.0.0":
+"diff@npm:^8.0.1":
   version: 8.0.1
   resolution: "diff@npm:8.0.1"
   checksum: 10c0/43ebbe63881d34067d77d7b9d16220f1efb8013e04be58c7748ab296d2a9637f49424c69477e36c81a53f2c347b396956966e708e1b5b4dde3620f2b4bb93d02
@@ -3707,7 +3714,7 @@ __metadata:
     "@stoplight/prism-cli": "npm:5.14.2"
     "@tsconfig/node20": "npm:20.1.5"
     "@types/crypto-js": "npm:^4.2.2"
-    "@types/node": "npm:20.17.47"
+    "@types/node": "npm:20.17.48"
     "@types/promise-retry": "npm:1.1.6"
     "@types/proper-url-join": "npm:2.1.5"
     cross-env: "npm:^7.0.3"
@@ -3721,10 +3728,10 @@ __metadata:
     proper-url-join: "npm:^2.1.2"
     publint: "npm:0.3.12"
     start-server-and-test: "npm:2.0.12"
-    tsdown: "npm:0.11.9"
+    tsdown: "npm:0.11.11"
     typedoc: "npm:^0.28.4"
     typescript: "npm:5.8.3"
-    ultracite: "npm:4.2.4"
+    ultracite: "npm:4.2.5"
     vite-tsconfig-paths: "npm:5.1.4"
     vitest: "npm:3.1.3"
   languageName: unknown
@@ -4083,19 +4090,20 @@ __metadata:
   languageName: node
   linkType: hard
 
-"rolldown-plugin-dts@npm:^0.12.1":
-  version: 0.12.3
-  resolution: "rolldown-plugin-dts@npm:0.12.3"
+"rolldown-plugin-dts@npm:^0.13.1":
+  version: 0.13.3
+  resolution: "rolldown-plugin-dts@npm:0.13.3"
   dependencies:
     "@babel/generator": "npm:^7.27.1"
     "@babel/parser": "npm:^7.27.2"
     "@babel/types": "npm:^7.27.1"
     ast-kit: "npm:^2.0.0"
+    birpc: "npm:^2.3.0"
     debug: "npm:^4.4.1"
     dts-resolver: "npm:^2.0.1"
     get-tsconfig: "npm:^4.10.0"
   peerDependencies:
-    rolldown: ^1.0.0-beta.8-commit.2a5c6a6
+    rolldown: ^1.0.0-beta.9
     typescript: ^5.0.0
     vue-tsc: ~2.2.0
   peerDependenciesMeta:
@@ -4103,7 +4111,7 @@ __metadata:
       optional: true
     vue-tsc:
       optional: true
-  checksum: 10c0/5214fb4658c9be1d3ab9a73efd63515d708df3fee3d3a9bf02d48b30ccb480a985d718c33d1108b8f418d9cdd810cdfe254aff2da7dbd70657f9a84dd938bf26
+  checksum: 10c0/d8e2b60fac180e6cc3b00a67c562b15b1f81df25a8ccac7e61a69de5829d43484d78628dd7906fa260de633b658179ff2b1a65ce4c9139af03fc05dfec21c3fc
   languageName: node
   linkType: hard
 
@@ -4702,19 +4710,19 @@ __metadata:
   languageName: node
   linkType: hard
 
-"tsdown@npm:0.11.9":
-  version: 0.11.9
-  resolution: "tsdown@npm:0.11.9"
+"tsdown@npm:0.11.11":
+  version: 0.11.11
+  resolution: "tsdown@npm:0.11.11"
   dependencies:
     ansis: "npm:^4.0.0"
     cac: "npm:^6.7.14"
     chokidar: "npm:^4.0.3"
-    debug: "npm:^4.4.0"
-    diff: "npm:^8.0.0"
+    debug: "npm:^4.4.1"
+    diff: "npm:^8.0.1"
     empathic: "npm:^1.1.0"
     hookable: "npm:^5.5.3"
     rolldown: "npm:1.0.0-beta.8-commit.d95f99e"
-    rolldown-plugin-dts: "npm:^0.12.1"
+    rolldown-plugin-dts: "npm:^0.13.1"
     semver: "npm:^7.7.2"
     tinyexec: "npm:^1.0.1"
     tinyglobby: "npm:^0.2.13"
@@ -4735,7 +4743,7 @@ __metadata:
       optional: true
   bin:
     tsdown: dist/run.js
-  checksum: 10c0/a5330b063a514079c16262f3498228b44ffca7c96d8de67c76feb093e465794c7d3083ba8f4a8111d4097cc3a241e0e1ac0f93287a4d291e1c55a0def0c169f6
+  checksum: 10c0/243e6cf21d6fc63a55b5760812d7c70569b730b53f75569464093ee469ac38baa81353f64b65a53c5eac1ce8fe4db4be1567af71bd606a05b24a831392b59653
   languageName: node
   linkType: hard
 
@@ -4820,14 +4828,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"ultracite@npm:4.2.4":
-  version: 4.2.4
-  resolution: "ultracite@npm:4.2.4"
+"ultracite@npm:4.2.5":
+  version: 4.2.5
+  resolution: "ultracite@npm:4.2.5"
   dependencies:
     commander: "npm:^12.1.0"
   bin:
     ultracite: scripts/run.mjs
-  checksum: 10c0/cfaeaa059f007efe499df2954962382b19c4c60c05b9dffb19c461e3fa725057726adfa41b837e0ef7e80480db580de4573e53edc46e96ad1bd1eee2993a7878
+  checksum: 10c0/2c9e3f3026e177ac3cca705d1b60ac1146367adcf629e4ad6e975f39b92b7193bbfe9ae0597b069614dd16e3a358ed1c9ed07b3c10f6b97214d2e7ddf5eb1a78
   languageName: node
   linkType: hard
 
