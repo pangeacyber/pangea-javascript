@@ -1276,10 +1276,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@tsconfig/vite-react@npm:3.4.0":
-  version: 3.4.0
-  resolution: "@tsconfig/vite-react@npm:3.4.0"
-  checksum: 10c0/9bd1516f1553903a231d3d4fa06c4f6d28998f50b80d16dd54c05ed8440221a5b1c2d521ab60020ead0b5d98f8be8e1285883292f68d4bb5c2bf9771d8aba4b1
+"@tsconfig/vite-react@npm:6.3.5":
+  version: 6.3.5
+  resolution: "@tsconfig/vite-react@npm:6.3.5"
+  checksum: 10c0/7c6edf6171464934a57a908181199da36b55542bd0b21c405c752733f14d575954ad18df83c1b428d7c27ea9fe7026cef8fa28f8a72aa417261038e24956aecc
   languageName: node
   linkType: hard
 
@@ -4076,7 +4076,7 @@ __metadata:
     "@testing-library/jest-dom": "npm:6.6.3"
     "@testing-library/react": "npm:15.0.7"
     "@tsconfig/cypress": "npm:1.0.2"
-    "@tsconfig/vite-react": "npm:3.4.0"
+    "@tsconfig/vite-react": "npm:6.3.5"
     "@types/react-dom": "npm:18.3.7"
     "@vitejs/plugin-react": "npm:4.5.0"
     cypress: "npm:14.4.0"
