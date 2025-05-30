@@ -2407,7 +2407,7 @@ __metadata:
     "@storybook/react-webpack5": "npm:7.6.20"
     "@storybook/test": "npm:^7.6.20"
     "@storybook/testing-library": "npm:0.2.2"
-    "@types/react": "npm:17.0.86"
+    "@types/react": "npm:17.0.87"
     "@types/react-dom": "npm:17.0.26"
     awesome-phonenumber: "npm:^7.5.0"
     babel-loader: "npm:^10.0.0"
@@ -5167,14 +5167,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/react@npm:17.0.86":
-  version: 17.0.86
-  resolution: "@types/react@npm:17.0.86"
+"@types/react@npm:17.0.87":
+  version: 17.0.87
+  resolution: "@types/react@npm:17.0.87"
   dependencies:
     "@types/prop-types": "npm:*"
     "@types/scheduler": "npm:^0.16"
     csstype: "npm:^3.0.2"
-  checksum: 10c0/c4c3286103f137ff4109887b2f4d05a3e2ec038b412f500bc1fd5d75b279d83ae358280dbbaefbd2ee5396e4e48c4369cf7729b85b73a89b67db90dd8351fefe
+  checksum: 10c0/42efa9d1fa7c6c5422ef1add693c23e35dab0df68265fd403a1c13193acdd972ed03cd5f1cea8e6b378503abb70f25da04ff24f4ef0468d2b8e25db6bd394363
   languageName: node
   linkType: hard
 
