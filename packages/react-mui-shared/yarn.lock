@@ -1037,7 +1037,7 @@
     pirates "^4.0.6"
     source-map-support "^0.5.16"
 
-"@babel/runtime@^7.12.18", "@babel/runtime@^7.12.5", "@babel/runtime@^7.13.10", "@babel/runtime@^7.15.4", "@babel/runtime@^7.17.8", "@babel/runtime@^7.18.3", "@babel/runtime@^7.20.13", "@babel/runtime@^7.27.0", "@babel/runtime@^7.27.1", "@babel/runtime@^7.5.5", "@babel/runtime@^7.8.7", "@babel/runtime@^7.9.2":
+"@babel/runtime@^7.12.18", "@babel/runtime@^7.12.5", "@babel/runtime@^7.13.10", "@babel/runtime@^7.15.4", "@babel/runtime@^7.17.8", "@babel/runtime@^7.18.3", "@babel/runtime@^7.20.13", "@babel/runtime@^7.27.1", "@babel/runtime@^7.5.5", "@babel/runtime@^7.8.7", "@babel/runtime@^7.9.2":
   version "7.27.1"
   resolved "https://registry.yarnpkg.com/@babel/runtime/-/runtime-7.27.1.tgz#9fce313d12c9a77507f264de74626e87fd0dc541"
   integrity sha512-1x3D2xEk2fRo3PAhwQwu5UubzgiVWSXTBfWpVd2Mx2AzRqJuDJCsgaDVZ7HB5iGzDW1Hl1sWN2mFyKjmR9uAog==
@@ -1862,38 +1862,38 @@
     prop-types "^15.8.1"
     react-is "^19.1.0"
 
-"@mui/x-data-grid@8.2.0":
-  version "8.2.0"
-  resolved "https://registry.yarnpkg.com/@mui/x-data-grid/-/x-data-grid-8.2.0.tgz#6a23814901b53271339753d3dbf39e7e131ae0b4"
-  integrity sha512-nTjvYsRbuDA1YC3paG2Z0S+vLvyYis8FDIdD5dSBjZwpB5wxAmAerjmcOkN+k3ZBsCg/5Jz4Zj/cK6WqMD3GzA==
+"@mui/x-data-grid@8.4.0":
+  version "8.4.0"
+  resolved "https://registry.yarnpkg.com/@mui/x-data-grid/-/x-data-grid-8.4.0.tgz#cef56df7c1c1b40278ca55dae112b9aaece0e8c5"
+  integrity sha512-c0fgMhvQTjCSo3LgRK1Mdk2msktCl9uwMYUYlP6bbqJ7I03IvS+1aZ+s3nSLmaq1aVh7sE2Bnuz63OnVerTLJA==
   dependencies:
-    "@babel/runtime" "^7.27.0"
+    "@babel/runtime" "^7.27.1"
     "@mui/utils" "^7.0.2"
-    "@mui/x-internals" "8.2.0"
+    "@mui/x-internals" "8.4.0"
     clsx "^2.1.1"
     prop-types "^15.8.1"
     reselect "^5.1.1"
     use-sync-external-store "^1.5.0"
 
-"@mui/x-date-pickers@8.2.0":
-  version "8.2.0"
-  resolved "https://registry.yarnpkg.com/@mui/x-date-pickers/-/x-date-pickers-8.2.0.tgz#06850c0fc94711b1f7c24cf2b917075a3dbd63e4"
-  integrity sha512-nkFzKkaDr4a9uto4pSOsNBMh+M2YQWiW9iYyBDOi5wOa983e2xMeb7zFjHGJ0xaycg1kfxNcbvJd7tm4Ub+RhA==
+"@mui/x-date-pickers@8.4.0":
+  version "8.4.0"
+  resolved "https://registry.yarnpkg.com/@mui/x-date-pickers/-/x-date-pickers-8.4.0.tgz#ae1da45c760258d59c842a92333a28dfceab009a"
+  integrity sha512-x7jI7JnKK25xL3yjD2Z1r86gAWtabKj9ogI2WDKd/v9WwE1VxmDD/NTiXprEZFo9psPOoqr+juPGDz5Cb2v7jw==
   dependencies:
-    "@babel/runtime" "^7.27.0"
+    "@babel/runtime" "^7.27.1"
     "@mui/utils" "^7.0.2"
-    "@mui/x-internals" "8.2.0"
+    "@mui/x-internals" "8.4.0"
     "@types/react-transition-group" "^4.4.12"
     clsx "^2.1.1"
     prop-types "^15.8.1"
     react-transition-group "^4.4.5"
 
-"@mui/x-internals@8.2.0":
-  version "8.2.0"
-  resolved "https://registry.yarnpkg.com/@mui/x-internals/-/x-internals-8.2.0.tgz#f464525aa52d1a1498aa29981fecfb38c5a5bf80"
-  integrity sha512-qV4Qr+m4sAPBSuqu8/Ofi5m+nMMvIybGno6cp757bHSmwxkqrn5SKaGyFnH5kB58fOhYA9hG1UivFp7mO1dE4A==
+"@mui/x-internals@8.4.0":
+  version "8.4.0"
+  resolved "https://registry.yarnpkg.com/@mui/x-internals/-/x-internals-8.4.0.tgz#593b36cab7050fe1e4ca8dc3ce455349a3edae5d"
+  integrity sha512-Z7FCahC4MLfTVzEwnKOB7P1fiR9DzFuMzHOPRNaMXc/rsS7unbtBKAG94yvsRzReCyjzZUVA7h37lnQ1DoPKJw==
   dependencies:
-    "@babel/runtime" "^7.27.0"
+    "@babel/runtime" "^7.27.1"
     "@mui/utils" "^7.0.2"
 
 "@ndelangen/get-tarball@^3.0.7":
