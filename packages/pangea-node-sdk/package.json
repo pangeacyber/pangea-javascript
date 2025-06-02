@@ -47,7 +47,7 @@
     "cross-env": "^7.0.3",
     "publint": "0.3.12",
     "start-server-and-test": "2.0.12",
-    "tsdown": "0.12.4",
+    "tsdown": "0.12.5",
     "typedoc": "^0.28.5",
     "typescript": "5.8.3",
     "ultracite": "4.2.5",
