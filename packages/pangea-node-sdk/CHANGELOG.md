@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## Unreleased
 
+### Added
+
+- AuthN: missing `group` service.
+
 ### Changed
 
 - File Intel: improved `hash_type` typing.
