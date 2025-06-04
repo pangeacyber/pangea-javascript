@@ -13,6 +13,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
+- AI Guard: `messages` parameter is no longer a generic. It should now be a
+  `{ role: string; content: string }[]`.
 - File Intel: improved `hash_type` typing.
 
 ## 5.1.0 - 2025-04-25

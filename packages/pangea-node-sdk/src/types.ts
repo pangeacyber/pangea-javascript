@@ -421,7 +421,7 @@ export namespace AIGuard {
     log_fields?: LogFields;
   }
 
-  export interface TextGuardResult<T> {
+  export interface TextGuardResult {
     /** Result of the recipe analyzing and input prompt. */
     detectors: {
       prompt_injection: Detector<{
@@ -459,7 +459,7 @@ export namespace AIGuard {
     prompt_text?: string;
 
     /** Updated structured prompt, if applicable. */
-    prompt_messages?: T;
+    prompt_messages?: { [key: string]: unknown };
 
     /** Whether or not the prompt triggered a block detection. */
     blocked: boolean;
