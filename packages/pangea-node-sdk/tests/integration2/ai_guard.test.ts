@@ -26,7 +26,7 @@ describe("AI Guard", () => {
 
   it("guardText: messages", async () => {
     const response = await client.guardText({
-      text: "what was pangea?",
+      messages: [{ role: "user", content: "what was pangea?" }],
       recipe: "my_recipe",
       debug: true,
       log_fields: {
