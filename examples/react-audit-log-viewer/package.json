@@ -17,8 +17,8 @@
   "dependencies": {
     "@emotion/react": "11.14.0",
     "@emotion/styled": "11.14.0",
-    "@mui/icons-material": "^6.1.6",
-    "@mui/material": "^6.1.6",
+    "@mui/icons-material": "^7.1.1",
+    "@mui/material": "^7.1.1",
     "@pangeacyber/react-mui-audit-log-viewer": "2.0.2",
     "@pangeacyber/react-mui-branding": "1.0.0",
     "react": "18.3.1",
