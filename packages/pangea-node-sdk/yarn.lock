@@ -1903,10 +1903,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"commander@npm:^12.1.0":
-  version: 12.1.0
-  resolution: "commander@npm:12.1.0"
-  checksum: 10c0/6e1996680c083b3b897bfc1cfe1c58dfbcd9842fd43e1aaf8a795fbc237f65efcc860a3ef457b318e73f29a4f4a28f6403c3d653d021d960e4632dd45bde54a9
+"commander@npm:^14.0.0":
+  version: 14.0.0
+  resolution: "commander@npm:14.0.0"
+  checksum: 10c0/73c4babfa558077868d84522b11ef56834165d472b9e86a634cd4c3ae7fc72d59af6377d8878e06bd570fe8f3161eced3cbe383c38f7093272bb65bd242b595b
   languageName: node
   linkType: hard
 
@@ -3677,7 +3677,7 @@ __metadata:
     tsdown: "npm:0.12.5"
     typedoc: "npm:^0.28.5"
     typescript: "npm:5.8.3"
-    ultracite: "npm:4.2.5"
+    ultracite: "npm:4.2.8"
     vite-tsconfig-paths: "npm:5.1.4"
     vitest: "npm:3.1.4"
   languageName: unknown
@@ -4770,14 +4770,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"ultracite@npm:4.2.5":
-  version: 4.2.5
-  resolution: "ultracite@npm:4.2.5"
+"ultracite@npm:4.2.8":
+  version: 4.2.8
+  resolution: "ultracite@npm:4.2.8"
   dependencies:
-    commander: "npm:^12.1.0"
+    commander: "npm:^14.0.0"
   bin:
     ultracite: scripts/run.mjs
-  checksum: 10c0/2c9e3f3026e177ac3cca705d1b60ac1146367adcf629e4ad6e975f39b92b7193bbfe9ae0597b069614dd16e3a358ed1c9ed07b3c10f6b97214d2e7ddf5eb1a78
+  checksum: 10c0/7c01a9b20a171d6357ba8f65b1f6d9b532755648f7284b5e6c00f6216199f3aff3dd58cc645a0baa3f9823aab299e8fc06b331317f08c6541195e78a764c0750
   languageName: node
   linkType: hard
 
