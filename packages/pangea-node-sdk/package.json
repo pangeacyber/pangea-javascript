@@ -28,7 +28,7 @@
   "dependencies": {
     "@aws-crypto/crc32c": "^5.2.0",
     "crypto-js": "^4.2.0",
-    "form-data-encoder": "^4.0.2",
+    "form-data-encoder": "^4.1.0",
     "formdata-node": "^6.0.3",
     "json-canon": "^1.0.1",
     "merkle-tools": "^1.4.1",
