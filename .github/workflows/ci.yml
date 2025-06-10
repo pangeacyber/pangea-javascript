@@ -237,9 +237,6 @@ jobs:
       - name: Build
         run: yarn build
 
-      - name: Storybook
-        run: yarn build-storybook
-
   build-react-mui-shared:
     runs-on: ubuntu-latest
     defaults:

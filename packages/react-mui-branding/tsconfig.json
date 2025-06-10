@@ -1,6 +1,7 @@
 {
   "compilerOptions": {
     "target": "es5",
+    "lib": ["ES2020", "DOM", "DOM.Iterable"],
     "module": "esnext",
     "jsx": "react-jsx",
     "sourceMap": false,
@@ -16,6 +17,5 @@
     "paths": {
       "@src/*": ["./src/*"]
     }
-  },
-  "exclude": ["src/stories", "**/*.stories.tsx"]
+  }
 }
