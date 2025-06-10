@@ -1,39 +1,11 @@
-import type { StorybookConfig } from "@storybook/react-webpack5";
-import path from "path";
+import type { StorybookConfig } from "@storybook/react-vite";
 
 const config: StorybookConfig = {
-  framework: {
-    name: "@storybook/react-webpack5",
-    options: {
-      builder: {
-        useSWC: true,
-      },
-    },
-  },
-  swc: () => ({
-    jsc: {
-      transform: {
-        react: {
-          runtime: "automatic",
-        },
-      },
-    },
-  }),
+  framework: "@storybook/react-vite",
   stories: ["../src/**/*.mdx", "../src/**/*.stories.@(js|jsx|mjs|ts|tsx)"],
-  addons: [
-    "@storybook/addon-links",
-    "@storybook/addon-essentials",
-    "@storybook/addon-interactions",
-    "@storybook/addon-themes",
-  ],
-  async webpackFinal(config, { configType }) {
-    if (config?.resolve) {
-      config.resolve.alias = {
-        ...config.resolve.alias,
-        "@src": path.resolve(__dirname, "../src"),
-      };
-    }
-    return config;
+  addons: ["@storybook/addon-links", "@storybook/addon-themes"],
+  core: {
+    builder: "@storybook/builder-vite",
   },
   typescript: {
     reactDocgen: "react-docgen-typescript",
