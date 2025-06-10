@@ -40,7 +40,6 @@
     "@storybook/addon-essentials": "7.6.20",
     "@storybook/addon-interactions": "7.6.20",
     "@storybook/addon-links": "7.6.20",
-    "@storybook/addon-onboarding": "^1.0.11",
     "@storybook/addon-styling": "^1.3.7",
     "@storybook/addon-themes": "7.6.20",
     "@storybook/addons": "7.6.17",
