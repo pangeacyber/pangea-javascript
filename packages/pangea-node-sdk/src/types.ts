@@ -582,6 +582,120 @@ export namespace AIGuard {
     | "hash"
     | "fpe";
 
+  export type GuardOverrides = {
+    /**
+     * Bypass existing Recipe content and create an on-the-fly Recipe.
+     */
+    ignore_recipe?: boolean;
+    code_detection?: {
+      disabled?: boolean;
+      action?: "report" | "block";
+    };
+    language_detection?: {
+      disabled?: boolean;
+      action?: "" | "report" | "allow" | "block";
+      languages?: string[];
+      threshold?: number;
+    };
+    topic?: {
+      disabled?: boolean;
+      action?: "" | "report" | "block";
+      topics?: string[];
+      threshold?: number;
+    };
+    prompt_injection?: {
+      disabled?: boolean;
+      action?: PromptInjectionAction;
+    };
+    selfharm?: {
+      disabled?: boolean;
+      action?: PromptInjectionAction;
+      threshold?: number;
+    };
+    gibberish?: {
+      disabled?: boolean;
+      action?: PromptInjectionAction;
+    };
+    roleplay?: {
+      disabled?: boolean;
+      action?: PromptInjectionAction;
+    };
+    sentiment?: {
+      disabled?: boolean;
+      action?: PromptInjectionAction;
+      threshold?: number;
+    };
+    malicious_entity?: {
+      disabled?: boolean;
+      ip_address?: MaliciousEntityAction;
+      url?: MaliciousEntityAction;
+      domain?: MaliciousEntityAction;
+    };
+    competitors?: {
+      disabled?: boolean;
+      action?: "report" | "block";
+    };
+    pii_entity?: {
+      disabled?: boolean;
+      email_address?: PiiEntityAction;
+      nrp?: PiiEntityAction;
+      location?: PiiEntityAction;
+      person?: PiiEntityAction;
+      phone_number?: PiiEntityAction;
+      date_time?: PiiEntityAction;
+      ip_address?: PiiEntityAction;
+      url?: PiiEntityAction;
+      money?: PiiEntityAction;
+      credit_card?: PiiEntityAction;
+      crypto?: PiiEntityAction;
+      iban_code?: PiiEntityAction;
+      us_bank_number?: PiiEntityAction;
+      nif?: PiiEntityAction;
+      "fin/nric"?: PiiEntityAction;
+      au_abn?: PiiEntityAction;
+      au_acn?: PiiEntityAction;
+      au_tfn?: PiiEntityAction;
+      medical_license?: PiiEntityAction;
+      uk_nhs?: PiiEntityAction;
+      au_medicare?: PiiEntityAction;
+      us_drivers_license?: PiiEntityAction;
+      us_itin?: PiiEntityAction;
+      us_passport?: PiiEntityAction;
+      us_ssn?: PiiEntityAction;
+    };
+    secrets_detection?: {
+      disabled?: boolean;
+      slack_token?: PiiEntityAction;
+      rsa_private_key?: PiiEntityAction;
+      ssh_dsa_private_key?: PiiEntityAction;
+      ssh_ec_private_key?: PiiEntityAction;
+      pgp_private_key_block?: PiiEntityAction;
+      amazon_aws_access_key_id?: PiiEntityAction;
+      amazon_aws_secret_access_key?: PiiEntityAction;
+      amazon_mws_auth_token?: PiiEntityAction;
+      facebook_access_token?: PiiEntityAction;
+      github_access_token?: PiiEntityAction;
+      jwt_token?: PiiEntityAction;
+      google_api_key?: PiiEntityAction;
+      google_cloud_platform_api_key?: PiiEntityAction;
+      google_drive_api_key?: PiiEntityAction;
+      google_cloud_platform_service_account?: PiiEntityAction;
+      google_gmail_api_key?: PiiEntityAction;
+      youtube_api_key?: PiiEntityAction;
+      mailchimp_api_key?: PiiEntityAction;
+      mailgun_api_key?: PiiEntityAction;
+      basic_auth?: PiiEntityAction;
+      picatic_api_key?: PiiEntityAction;
+      slack_webhook?: PiiEntityAction;
+      stripe_api_key?: PiiEntityAction;
+      stripe_restricted_api_key?: PiiEntityAction;
+      square_access_token?: PiiEntityAction;
+      square_oauth_secret?: PiiEntityAction;
+      twilio_api_key?: PiiEntityAction;
+      pangea_token?: PiiEntityAction;
+    };
+  };
+
   export interface TextGuardRequest {
     /**
      * Recipe key of a configuration of data types and settings defined in the
@@ -596,102 +710,7 @@ export namespace AIGuard {
      */
     debug?: boolean;
 
-    overrides?: {
-      /** Bypass existing Recipe content and create an on-the-fly Recipe. */
-      ignore_recipe?: boolean;
-
-      code_detection?: { disabled?: boolean; action?: "report" | "block" };
-      competitors?: { disabled?: boolean; action?: PromptInjectionAction };
-      gibberish?: { disabled?: boolean; action?: PromptInjectionAction };
-      language_detection?:
-        | { disabled: boolean }
-        | { allow: string[] }
-        | { block: string[] }
-        | { report: string[] };
-      malicious_entity?: {
-        disabled?: boolean;
-        ip_address?: MaliciousEntityAction;
-        url?: MaliciousEntityAction;
-        domain?: MaliciousEntityAction;
-      };
-      pii_entity?: {
-        disabled?: boolean;
-        email_address?: PiiEntityAction;
-        nrp?: PiiEntityAction;
-        location?: PiiEntityAction;
-        person?: PiiEntityAction;
-        phone_number?: PiiEntityAction;
-        date_time?: PiiEntityAction;
-        ip_address?: PiiEntityAction;
-        url?: PiiEntityAction;
-        money?: PiiEntityAction;
-        credit_card?: PiiEntityAction;
-        crypto?: PiiEntityAction;
-        iban_code?: PiiEntityAction;
-        us_bank_number?: PiiEntityAction;
-        nif?: PiiEntityAction;
-        "fin/nric"?: PiiEntityAction;
-        au_abn?: PiiEntityAction;
-        au_acn?: PiiEntityAction;
-        au_tfn?: PiiEntityAction;
-        medical_license?: PiiEntityAction;
-        uk_nhs?: PiiEntityAction;
-        au_medicare?: PiiEntityAction;
-        us_drivers_license?: PiiEntityAction;
-        us_itin?: PiiEntityAction;
-        us_passport?: PiiEntityAction;
-        us_ssn?: PiiEntityAction;
-      };
-      prompt_injection?: { disabled?: boolean; action?: PromptInjectionAction };
-      roleplay?: { disabled?: boolean; action?: PromptInjectionAction };
-      secrets_detection?: {
-        disabled?: boolean;
-        slack_token?: PiiEntityAction;
-        rsa_private_key?: PiiEntityAction;
-        ssh_dsa_private_key?: PiiEntityAction;
-        ssh_ec_private_key?: PiiEntityAction;
-        pgp_private_key_block?: PiiEntityAction;
-        amazon_aws_access_key_id?: PiiEntityAction;
-        amazon_aws_secret_access_key?: PiiEntityAction;
-        amazon_mws_auth_token?: PiiEntityAction;
-        facebook_access_token?: PiiEntityAction;
-        github_access_token?: PiiEntityAction;
-        jwt_token?: PiiEntityAction;
-        google_api_key?: PiiEntityAction;
-        google_cloud_platform_api_key?: PiiEntityAction;
-        google_drive_api_key?: PiiEntityAction;
-        google_cloud_platform_service_account?: PiiEntityAction;
-        google_gmail_api_key?: PiiEntityAction;
-        youtube_api_key?: PiiEntityAction;
-        mailchimp_api_key?: PiiEntityAction;
-        mailgun_api_key?: PiiEntityAction;
-        basic_auth?: PiiEntityAction;
-        picatic_api_key?: PiiEntityAction;
-        slack_webhook?: PiiEntityAction;
-        stripe_api_key?: PiiEntityAction;
-        stripe_restricted_api_key?: PiiEntityAction;
-        square_access_token?: PiiEntityAction;
-        square_oauth_secret?: PiiEntityAction;
-        twilio_api_key?: PiiEntityAction;
-        pangea_token?: PiiEntityAction;
-      };
-      selfharm?: {
-        disabled?: boolean;
-        action?: PromptInjectionAction;
-        threshold?: number;
-      };
-      sentiment?: {
-        disabled?: boolean;
-        action?: PromptInjectionAction;
-        threshold?: number;
-      };
-      topic?: {
-        disabled?: boolean;
-        action?: "" | "report" | "block";
-        topics?: string[];
-        threshold?: number;
-      };
-    };
+    overrides?: GuardOverrides;
 
     /** Additional fields to include in activity log */
     log_fields?: LogFields;
@@ -755,6 +774,78 @@ export namespace AIGuard {
      */
     fpe_context?: string;
   }
+
+  export type MultimodalGuardRequest = {
+    /**
+     * Prompt content and role array in JSON format. The `content` is the
+     * multimodal text or image input that will be analyzed.
+     */
+    messages: {
+      role: string;
+      content:
+        | string
+        | (
+            | { type: "text"; text: string }
+            | { type: "image"; image_src: string }
+          )[];
+    }[];
+    /**
+     * Recipe key of a configuration of data types and settings defined in the
+     * Pangea User Console. It specifies the rules that are to be applied to the
+     * text, such as defang malicious URLs.
+     */
+    recipe?: string;
+    /**
+     * Setting this value to true will provide a detailed analysis of the text
+     * data
+     */
+    debug?: boolean;
+    overrides?: GuardOverrides;
+    /**
+     * Name of source application.
+     */
+    app_name?: string;
+    /**
+     * Underlying LLM.  Example: 'OpenAI'.
+     */
+    llm_provider?: string;
+    /**
+     * Model used to perform the event. Example: 'gpt'.
+     */
+    model?: string;
+    /**
+     * Model version used to perform the event. Example: '3.5'.
+     */
+    model_version?: string;
+    /**
+     * Number of tokens in the request.
+     */
+    request_token_count?: number;
+    /**
+     * Number of tokens in the response.
+     */
+    response_token_count?: number;
+    /**
+     * IP address of user or app or agent.
+     */
+    source_ip?: string;
+    /**
+     * Location of user or app or agent.
+     */
+    source_location?: string;
+    /**
+     * For gateway-like integrations with multi-tenant support.
+     */
+    tenant_id?: string;
+    /**
+     * (AIDR) sensor mode.
+     */
+    sensor_mode?: string;
+    /**
+     * (AIDR) Logging schema.
+     */
+    context?: { [key: string]: unknown };
+  };
 
   export type AuditDataActivityConfig = {
     enabled: boolean;
