@@ -45,13 +45,21 @@ const PasskeyAuth: FC<AuthFlowComponentProps> = ({
     } catch (err: any) {
       if (err instanceof WebAuthnError) {
         if (err.name !== "AbortError") {
-          setStage("error");
-          setErrorMsg(err.message);
+          // Show a custom message when passkey support is not allowed
+          // by document Permissions Policy. Occurs in Cypress iframes.
+          const regex = /feature is not enabled in this document/i;
+          if (regex.test(err.message)) {
+            setStage("start");
+            setErrorMsg("Passkeys not allowed by Permissions Policy");
+          } else {
+            setStage("error");
+            setErrorMsg(err.message);
+          }
         }
       } else {
         setStage("error");
-        console.debug("PASSKEY ERROR:", err);
       }
+      console.warn("PASSKEY ERROR:", err);
     }
   };
 
@@ -61,7 +69,7 @@ const PasskeyAuth: FC<AuthFlowComponentProps> = ({
         variant="text"
         fullWidth
         sx={{
-          color: theme.palette.text.primary,
+          color: (theme.vars || theme).palette.text.primary,
           cursor: "default",
         }}
       >

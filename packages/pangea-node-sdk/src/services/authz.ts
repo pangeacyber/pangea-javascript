@@ -34,7 +34,7 @@ class AuthZService extends BaseService {
    * @operationId authz_post_v1_tuple_create
    * @param {AuthZ.TupleCreateRequest} request - An object representing the request to create tuples.
    *    - {AuthZ.Tuple[]} request.tuples - List of tuples to be created.
-   * @returns {Promise} - A promise representing an async call to the tuple create endpoint.
+   * @returns A Pangea response.
    * @example
    * ```typescript
    * const response = await authz.tupleCreate({
@@ -49,9 +49,7 @@ class AuthZService extends BaseService {
    * });
    * ```
    */
-  tupleCreate(
-    request: AuthZ.TupleCreateRequest
-  ): Promise<PangeaResponse<AuthZ.TupleCreateResult>> {
+  tupleCreate(request: AuthZ.TupleCreateRequest): Promise<PangeaResponse<{}>> {
     return this.post("v1/tuple/create", request);
   }
 
@@ -91,7 +89,7 @@ class AuthZService extends BaseService {
    * @operationId authz_post_v1_tuple_delete
    * @param {AuthZ.TupleDeleteRequest} request - An object representing the request to delete tuples.
    *    - {AuthZ.Tuple[]} request.tuples - List of tuples to be deleted.
-   * @returns {Promise} - A promise representing an async call to the tuple delete endpoint.
+   * @returns A Pangea response.
    * @example
    * ```typescript
    * const response = await authz.tupleDelete({
@@ -106,9 +104,7 @@ class AuthZService extends BaseService {
    * });
    * ```
    */
-  tupleDelete(
-    request: AuthZ.TupleDeleteRequest
-  ): Promise<PangeaResponse<AuthZ.TupleDeleteResult>> {
+  tupleDelete(request: AuthZ.TupleDeleteRequest): Promise<PangeaResponse<{}>> {
     return this.post("v1/tuple/delete", request);
   }
 

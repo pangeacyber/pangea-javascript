@@ -2,7 +2,7 @@ import { FC, useEffect, useState, useRef } from "react";
 import omit from "lodash/omit";
 import { useFormik } from "formik";
 import * as yup from "yup";
-import { Stack, Typography } from "@mui/material";
+import { Stack } from "@mui/material";
 
 import { AuthFlow } from "@pangeacyber/vanilla-js";
 
@@ -68,7 +68,11 @@ const AuthPassword: FC<AuthFlowComponentProps> = (props) => {
 
       if (data.setPassword) {
         update(AuthFlow.Choice.SET_PASSWORD, payload);
-      } else if (!!data.captcha && options.compactSignup) {
+      } else if (
+        !!data.captcha &&
+        options.compactSignup &&
+        data?.flowType.includes("signup")
+      ) {
         // pass captcha code as extra param for combined password/captcha view
         update(AuthFlow.Choice.PASSWORD, payload, captcha);
       } else {

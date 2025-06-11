@@ -13,8 +13,7 @@ export default class UserAuthenticators extends BaseService {
    * @description Delete a user's authenticator.
    * @operationId authn_post_v2_user_authenticators_delete
    * @param request
-   * @returns A promise representing an async call to the endpoint. Contains an
-   * empty object.
+   * @returns A Pangea response.
    * @example
    * ```js
    * await authn.authenticators.delete({

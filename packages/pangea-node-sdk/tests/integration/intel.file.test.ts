@@ -1,4 +1,4 @@
-import { it, expect, jest } from "@jest/globals";
+import { it, expect, vi } from "vitest";
 
 import PangeaConfig from "../../src/config.js";
 import {
@@ -17,7 +17,7 @@ const config = new PangeaConfig({
   customUserAgent: "sdk-test",
 });
 const fileIntel = new FileIntelService(token, config);
-jest.setTimeout(60000);
+vi.setConfig({ testTimeout: 60_000 });
 
 it("file hash reputation should succeed", async () => {
   const response = await fileIntel.hashReputation(

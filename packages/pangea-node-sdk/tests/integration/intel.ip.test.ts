@@ -1,5 +1,6 @@
+import { it, expect, vi } from "vitest";
+
 import PangeaConfig from "../../src/config.js";
-import { it, expect, jest } from "@jest/globals";
 import {
   TestEnvironment,
   getTestDomain,
@@ -16,7 +17,7 @@ const config = new PangeaConfig({
   customUserAgent: "sdk-test",
 });
 const ipIntel = new IPIntelService(token, config);
-jest.setTimeout(60000);
+vi.setConfig({ testTimeout: 60_000 });
 
 it("IP geolocate should succeed", async () => {
   const options = { provider: "digitalelement", verbose: true, raw: true };

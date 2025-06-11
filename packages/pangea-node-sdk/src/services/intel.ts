@@ -81,9 +81,15 @@ export class FileIntelService extends BaseService {
       hash_type: hashType,
     };
 
-    if (options?.provider) data.provider = options.provider;
-    if (options?.verbose) data.verbose = options.verbose;
-    if (options?.raw) data.raw = options.raw;
+    if (options?.provider) {
+      data.provider = options.provider;
+    }
+    if (options?.verbose) {
+      data.verbose = options.verbose;
+    }
+    if (options?.raw) {
+      data.raw = options.raw;
+    }
 
     return this.post("v1/reputation", data);
   }
@@ -123,9 +129,15 @@ export class FileIntelService extends BaseService {
       hash_type: hashType,
     };
 
-    if (options?.provider) data.provider = options.provider;
-    if (options?.verbose) data.verbose = options.verbose;
-    if (options?.raw) data.raw = options.raw;
+    if (options?.provider) {
+      data.provider = options.provider;
+    }
+    if (options?.verbose) {
+      data.verbose = options.verbose;
+    }
+    if (options?.raw) {
+      data.raw = options.raw;
+    }
 
     return this.post("v2/reputation", data);
   }
@@ -161,9 +173,15 @@ export class FileIntelService extends BaseService {
       hash_type: hashType,
     };
 
-    if (options?.provider) data.provider = options.provider;
-    if (options?.verbose) data.verbose = options.verbose;
-    if (options?.raw) data.raw = options.raw;
+    if (options?.provider) {
+      data.provider = options.provider;
+    }
+    if (options?.verbose) {
+      data.verbose = options.verbose;
+    }
+    if (options?.raw) {
+      data.raw = options.raw;
+    }
 
     return this.post("v1/reputation", data);
   }
@@ -190,13 +208,13 @@ export class FileIntelService extends BaseService {
     filepaths: string[],
     options?: Intel.File.ReputationOptions
   ): Promise<PangeaResponse<Intel.File.ReputationBulkResult>> {
-    let hashes: string[] = [];
+    const hashes: string[] = [];
 
-    filepaths.forEach((filepath) => {
+    for (const filepath of filepaths) {
       const content = readFileSync(filepath);
       const fileHash = createHash(hashType).update(content).digest("hex");
       hashes.push(fileHash);
-    });
+    }
 
     return this.hashReputationBulk(hashes, "sha256", options);
   }
@@ -272,9 +290,15 @@ export class DomainIntelService extends BaseService {
       domain: domain,
     };
 
-    if (options?.provider) data.provider = options.provider;
-    if (options?.verbose) data.verbose = options.verbose;
-    if (options?.raw) data.raw = options.raw;
+    if (options?.provider) {
+      data.provider = options.provider;
+    }
+    if (options?.verbose) {
+      data.verbose = options.verbose;
+    }
+    if (options?.raw) {
+      data.raw = options.raw;
+    }
 
     return this.post("v1/reputation", data);
   }
@@ -305,9 +329,15 @@ export class DomainIntelService extends BaseService {
       domains: domains,
     };
 
-    if (options?.provider) data.provider = options.provider;
-    if (options?.verbose) data.verbose = options.verbose;
-    if (options?.raw) data.raw = options.raw;
+    if (options?.provider) {
+      data.provider = options.provider;
+    }
+    if (options?.verbose) {
+      data.verbose = options.verbose;
+    }
+    if (options?.raw) {
+      data.raw = options.raw;
+    }
 
     return this.post("v2/reputation", data);
   }
@@ -342,9 +372,15 @@ export class DomainIntelService extends BaseService {
       domain,
     };
 
-    if (options?.provider) data.provider = options.provider;
-    if (options?.verbose) data.verbose = options.verbose;
-    if (options?.raw) data.raw = options.raw;
+    if (options?.provider) {
+      data.provider = options.provider;
+    }
+    if (options?.verbose) {
+      data.verbose = options.verbose;
+    }
+    if (options?.raw) {
+      data.raw = options.raw;
+    }
 
     return this.post("v1/whois", data);
   }
@@ -422,9 +458,15 @@ export class IPIntelService extends BaseService {
       ip,
     };
 
-    if (options?.provider) data.provider = options.provider;
-    if (options?.verbose) data.verbose = options.verbose;
-    if (options?.raw) data.raw = options.raw;
+    if (options?.provider) {
+      data.provider = options.provider;
+    }
+    if (options?.verbose) {
+      data.verbose = options.verbose;
+    }
+    if (options?.raw) {
+      data.raw = options.raw;
+    }
 
     return this.post("v1/reputation", data);
   }
@@ -458,9 +500,15 @@ export class IPIntelService extends BaseService {
       ips,
     };
 
-    if (options?.provider) data.provider = options.provider;
-    if (options?.verbose) data.verbose = options.verbose;
-    if (options?.raw) data.raw = options.raw;
+    if (options?.provider) {
+      data.provider = options.provider;
+    }
+    if (options?.verbose) {
+      data.verbose = options.verbose;
+    }
+    if (options?.raw) {
+      data.raw = options.raw;
+    }
 
     return this.post("v2/reputation", data);
   }
@@ -494,9 +542,15 @@ export class IPIntelService extends BaseService {
       ip,
     };
 
-    if (options?.provider) data.provider = options.provider;
-    if (options?.verbose) data.verbose = options.verbose;
-    if (options?.raw) data.raw = options.raw;
+    if (options?.provider) {
+      data.provider = options.provider;
+    }
+    if (options?.verbose) {
+      data.verbose = options.verbose;
+    }
+    if (options?.raw) {
+      data.raw = options.raw;
+    }
 
     return this.post("v1/geolocate", data);
   }
@@ -530,9 +584,15 @@ export class IPIntelService extends BaseService {
       ips,
     };
 
-    if (options?.provider) data.provider = options.provider;
-    if (options?.verbose) data.verbose = options.verbose;
-    if (options?.raw) data.raw = options.raw;
+    if (options?.provider) {
+      data.provider = options.provider;
+    }
+    if (options?.verbose) {
+      data.verbose = options.verbose;
+    }
+    if (options?.raw) {
+      data.raw = options.raw;
+    }
 
     return this.post("v2/geolocate", data);
   }
@@ -566,9 +626,15 @@ export class IPIntelService extends BaseService {
       ip,
     };
 
-    if (options?.provider) data.provider = options.provider;
-    if (options?.verbose) data.verbose = options.verbose;
-    if (options?.raw) data.raw = options.raw;
+    if (options?.provider) {
+      data.provider = options.provider;
+    }
+    if (options?.verbose) {
+      data.verbose = options.verbose;
+    }
+    if (options?.raw) {
+      data.raw = options.raw;
+    }
 
     return this.post("v1/domain", data);
   }
@@ -602,9 +668,15 @@ export class IPIntelService extends BaseService {
       ips,
     };
 
-    if (options?.provider) data.provider = options.provider;
-    if (options?.verbose) data.verbose = options.verbose;
-    if (options?.raw) data.raw = options.raw;
+    if (options?.provider) {
+      data.provider = options.provider;
+    }
+    if (options?.verbose) {
+      data.verbose = options.verbose;
+    }
+    if (options?.raw) {
+      data.raw = options.raw;
+    }
 
     return this.post("v2/domain", data);
   }
@@ -638,9 +710,15 @@ export class IPIntelService extends BaseService {
       ip,
     };
 
-    if (options?.provider) data.provider = options.provider;
-    if (options?.verbose) data.verbose = options.verbose;
-    if (options?.raw) data.raw = options.raw;
+    if (options?.provider) {
+      data.provider = options.provider;
+    }
+    if (options?.verbose) {
+      data.verbose = options.verbose;
+    }
+    if (options?.raw) {
+      data.raw = options.raw;
+    }
 
     return this.post("v1/vpn", data);
   }
@@ -674,9 +752,15 @@ export class IPIntelService extends BaseService {
       ips,
     };
 
-    if (options?.provider) data.provider = options.provider;
-    if (options?.verbose) data.verbose = options.verbose;
-    if (options?.raw) data.raw = options.raw;
+    if (options?.provider) {
+      data.provider = options.provider;
+    }
+    if (options?.verbose) {
+      data.verbose = options.verbose;
+    }
+    if (options?.raw) {
+      data.raw = options.raw;
+    }
 
     return this.post("v2/vpn", data);
   }
@@ -710,9 +794,15 @@ export class IPIntelService extends BaseService {
       ip,
     };
 
-    if (options?.provider) data.provider = options.provider;
-    if (options?.verbose) data.verbose = options.verbose;
-    if (options?.raw) data.raw = options.raw;
+    if (options?.provider) {
+      data.provider = options.provider;
+    }
+    if (options?.verbose) {
+      data.verbose = options.verbose;
+    }
+    if (options?.raw) {
+      data.raw = options.raw;
+    }
 
     return this.post("v1/proxy", data);
   }
@@ -746,9 +836,15 @@ export class IPIntelService extends BaseService {
       ips,
     };
 
-    if (options?.provider) data.provider = options.provider;
-    if (options?.verbose) data.verbose = options.verbose;
-    if (options?.raw) data.raw = options.raw;
+    if (options?.provider) {
+      data.provider = options.provider;
+    }
+    if (options?.verbose) {
+      data.verbose = options.verbose;
+    }
+    if (options?.raw) {
+      data.raw = options.raw;
+    }
 
     return this.post("v2/proxy", data);
   }
@@ -826,9 +922,15 @@ export class URLIntelService extends BaseService {
       url: url,
     };
 
-    if (options?.provider) data.provider = options.provider;
-    if (options?.verbose) data.verbose = options.verbose;
-    if (options?.raw) data.raw = options.raw;
+    if (options?.provider) {
+      data.provider = options.provider;
+    }
+    if (options?.verbose) {
+      data.verbose = options.verbose;
+    }
+    if (options?.raw) {
+      data.raw = options.raw;
+    }
 
     return this.post("v1/reputation", data);
   }
@@ -862,9 +964,15 @@ export class URLIntelService extends BaseService {
       urls: urls,
     };
 
-    if (options?.provider) data.provider = options.provider;
-    if (options?.verbose) data.verbose = options.verbose;
-    if (options?.raw) data.raw = options.raw;
+    if (options?.provider) {
+      data.provider = options.provider;
+    }
+    if (options?.verbose) {
+      data.verbose = options.verbose;
+    }
+    if (options?.raw) {
+      data.raw = options.raw;
+    }
 
     return this.post("v2/reputation", data);
   }
@@ -1064,16 +1172,17 @@ export class UserIntelService extends BaseService {
     }
 
     const hashData = response.result.raw_data[hash];
-    if (hashData != undefined) {
+    if (hashData) {
       // If hash is present in raw data, it's because it was breached
       return Intel.User.Password.PasswordStatus.BREACHED;
-    } else if (Object.keys(response.result.raw_data).length >= 1000) {
+    }
+    if (Object.keys(response.result.raw_data).length >= 1000) {
       // If it's not present, should check if I have all breached hash
       // Server will return a maximum of 1000 hash, so if breached count is greater than that,
       // I can't conclude is password is or is not breached
       return Intel.User.Password.PasswordStatus.INCONCLUSIVE;
-    } else {
-      return Intel.User.Password.PasswordStatus.UNBREACHED;
     }
+
+    return Intel.User.Password.PasswordStatus.UNBREACHED;
   }
 }

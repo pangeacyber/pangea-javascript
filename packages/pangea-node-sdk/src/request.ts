@@ -1,9 +1,12 @@
 import { Buffer } from "node:buffer";
 import fs from "node:fs";
+import { URL } from "node:url";
+
 import { FormDataEncoder } from "form-data-encoder";
 import { File, FormData } from "formdata-node";
 import { fileFromPath } from "formdata-node/file-from-path";
 import promiseRetry from "promise-retry";
+import urlJoin from "proper-url-join";
 
 import PangeaConfig, { version } from "./config.js";
 import { PangeaErrors } from "./errors.js";
@@ -35,8 +38,12 @@ class PangeaRequest {
     config: PangeaConfig,
     configID?: string
   ) {
-    if (!serviceName) throw new Error("A serviceName is required");
-    if (!token) throw new Error("A token is required");
+    if (!serviceName) {
+      throw new Error("A serviceName is required");
+    }
+    if (!token) {
+      throw new Error("A token is required");
+    }
 
     this.serviceName = serviceName;
     this.token = token;
@@ -152,7 +159,7 @@ class PangeaRequest {
         type: "application/json",
       })
     );
-    for (let [name, fileData] of Object.entries(files)) {
+    for (const [name, fileData] of Object.entries(files)) {
       form.append(name, await this.getFileToForm(fileData.file));
     }
 
@@ -282,10 +289,10 @@ class PangeaRequest {
         pollResultSync: false,
       });
     } catch (error) {
-      if (!(error instanceof PangeaErrors.AcceptedRequestException)) {
-        throw error;
-      } else {
+      if (error instanceof PangeaErrors.AcceptedRequestException) {
         acceptedError = error;
+      } else {
+        throw error;
       }
     }
 
@@ -306,7 +313,7 @@ class PangeaRequest {
     let loopResponse = response;
 
     const requestId = loopResponse.request_id;
-    let loopError: Error = new RangeError();
+    let loopError: Error = new RangeError("Loop error");
 
     while (
       !loopResponse.accepted_result?.post_url &&
@@ -321,11 +328,11 @@ class PangeaRequest {
         loopResponse = await this.pollResult(requestId, false);
         throw new PangeaErrors.PangeaError("This call should return 202");
       } catch (error) {
-        if (!(error instanceof PangeaErrors.AcceptedRequestException)) {
-          throw error;
-        } else {
+        if (error instanceof PangeaErrors.AcceptedRequestException) {
           loopError = error;
           loopResponse = error.pangeaResponse;
+        } else {
+          throw error;
         }
       }
     }
@@ -335,9 +342,8 @@ class PangeaRequest {
       loopResponse.accepted_result?.put_url
     ) {
       return loopResponse;
-    } else {
-      throw loopError;
     }
+    throw loopError;
   }
 
   /** Wrapper around `fetch()` POST with got-like options. */
@@ -355,7 +361,7 @@ class PangeaRequest {
       headers: options.headers,
     });
 
-    if (response && response.ok) {
+    if (response?.ok) {
       return response;
     }
 
@@ -500,8 +506,10 @@ class PangeaRequest {
 
   public getUrl(path: string): URL {
     return new URL(
-      path,
-      this.config.baseUrlTemplate.replace("{SERVICE_NAME}", this.serviceName)
+      urlJoin(
+        this.config.baseUrlTemplate.replace("{SERVICE_NAME}", this.serviceName),
+        path
+      )
     );
   }
 
@@ -510,6 +518,7 @@ class PangeaRequest {
     const pangeaHeaders = {
       "User-Agent": this.userAgent,
       Authorization: `Bearer ${this.token}`,
+      "Content-Type": "application/json",
     };
 
     if (Object.keys(this.extraHeaders).length > 0) {

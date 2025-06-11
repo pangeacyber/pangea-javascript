@@ -175,11 +175,14 @@ const CodeInput: FC<CodeInputProps> = ({
               inputRefs.current[inputId] = ref;
             }}
             name={`otp-input-${inputName}`}
-            inputProps={{
-              autoComplete: "one-time-code",
-              inputMode: "numeric",
-              form: {
+            slotProps={{
+              htmlInput: {
+                "data-testid": `opt-input-${inputId}`,
                 autoComplete: "one-time-code",
+                inputMode: "numeric",
+                form: {
+                  autoComplete: "one-time-code",
+                },
               },
             }}
             sx={{

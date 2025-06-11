@@ -16,10 +16,10 @@ export function verifyLogHash(
   envelope: Audit.EventEnvelope,
   hash: string
 ): boolean {
-  var sha256 = CryptoJS.algo.SHA256.create();
+  const sha256 = CryptoJS.algo.SHA256.create();
   sha256.update(canonicalizeEnvelope(envelope));
   const calcHash = sha256.finalize().toString();
-  return calcHash == hash;
+  return calcHash === hash;
 }
 
 const decodeHash = (value: string): CryptoJS.lib.WordArray => {
@@ -30,7 +30,7 @@ const hashPair = (
   hash1: CryptoJS.lib.WordArray | string,
   hash2: CryptoJS.lib.WordArray | string
 ): string => {
-  var sha256 = CryptoJS.algo.SHA256.create();
+  const sha256 = CryptoJS.algo.SHA256.create();
 
   sha256.update(hash1);
   sha256.update(hash2);
@@ -53,10 +53,11 @@ interface LeftProof {
 
 const decodeProof = (data: string): ProofItem[] => {
   const proof: ProofItem[] = [];
+  // biome-ignore lint/complexity/noForEach: TODO
   data.split(",").forEach((item) => {
     const parts = item.split(":");
     proof.push({
-      side: parts[0] == "l" ? "left" : "right",
+      side: parts[0] === "l" ? "left" : "right",
       nodeHash: decodeHash(parts[1] || ""),
     });
   });
@@ -72,7 +73,7 @@ const constructProof = (data: string): (LeftProof | RightProof)[] => {
   const proofs: (LeftProof | RightProof)[] = data.split(",").map((item) => {
     const parts = item.split(":");
     if (parts.length >= 2) {
-      const side = parts[0] == "l" ? "left" : "right";
+      const side = parts[0] === "l" ? "left" : "right";
       return {
         [side]: parts[1],
       };
@@ -89,6 +90,7 @@ interface RootProofItem {
 
 const decodeRootProof = (data: string[]): RootProofItem[] => {
   const rootProof: RootProofItem[] = [];
+  // biome-ignore lint/complexity/noForEach: TODO
   data.forEach((item) => {
     const [nodeHash, ...proofData] = item.split(",");
 
@@ -106,6 +108,7 @@ const verifyLogProof = (
   proofs: ProofItem[]
 ): boolean => {
   let nodeHash = initialNodeHash;
+  // biome-ignore lint/style/useForOf: TODO
   for (let idx = 0; idx < proofs.length; idx++) {
     const proofHash = proofs[idx]?.nodeHash || "";
 
@@ -216,7 +219,9 @@ const verifyConsistencyProof = ({
 
   let rootHash = proofs[0]?.nodeHash || "";
   proofs.forEach((rootProof, idx) => {
-    if (idx === 0) return;
+    if (idx === 0) {
+      return;
+    }
     rootHash = decodeHash(hashPair(rootProof.nodeHash, rootHash));
   });
 
@@ -224,7 +229,8 @@ const verifyConsistencyProof = ({
     return false;
   }
 
-  for (var idx = 0; idx < proofs.length; idx++) {
+  // biome-ignore lint/style/useForOf: TODO
+  for (let idx = 0; idx < proofs.length; idx++) {
     const rootProof = proofs[idx];
 
     if (
@@ -254,7 +260,7 @@ export const verifyRecordConsistencyProof = ({
   const newRoot = publishedRoots[leafIndex + 1];
   const prevRoot = publishedRoots[leafIndex];
 
-  if (leafIndex == 0) {
+  if (leafIndex === 0) {
     return "pass";
   }
 
@@ -289,16 +295,16 @@ export const verifySignature = (
     // Try to parse json for new public_key struct
     // @ts-ignore
     const obj = JSON.parse(pubKey);
-    pubKey = obj["key"];
+    pubKey = obj.key;
     if (pubKey === undefined) {
       return "fail";
     }
-  } catch (e) {
+  } catch (_) {
     // If fails to parse, it's old format (just public key as string)
     pubKey = envelope.public_key;
   }
 
   const v = new Verifier();
-  var data = canonicalizeEvent(envelope.event);
+  const data = canonicalizeEvent(envelope.event);
   return v.verify(data, envelope.signature, pubKey) ? "pass" : "fail";
 };

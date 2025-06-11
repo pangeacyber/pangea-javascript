@@ -80,6 +80,12 @@ jobs:
           name: pangea-node-sdk-package
           path: ./packages/pangea-node-sdk/package.tgz
 
+      - name: publint
+        run: yarn publint
+
+      - name: arethetypeswrong
+        run: yarn attw
+
   build-react-auth:
     runs-on: ubuntu-latest
     defaults:
@@ -204,7 +210,7 @@ jobs:
         uses: actions/upload-artifact@v4.6.2
         with:
           name: react-mui-authn-package
-          path: ./packages/react-mui-authn/pangeacyber-react-mui-authn-v*.tgz
+          path: ./packages/react-mui-authn/package.tgz
 
   build-react-mui-branding:
     runs-on: ubuntu-24.04
@@ -230,9 +236,6 @@ jobs:
 
       - name: Build
         run: yarn build
-
-      - name: Storybook
-        run: yarn build-storybook
 
   build-react-mui-shared:
     runs-on: ubuntu-latest
@@ -399,6 +402,31 @@ jobs:
 
       - uses: pre-commit/action@v3.0.1
 
+  lint-pangea-node-sdk:
+    runs-on: ubuntu-24.04
+    defaults:
+      run:
+        working-directory: ./packages/pangea-node-sdk
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4.2.2
+
+      - name: Enable Corepack
+        run: corepack enable
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4.4.0
+        with:
+          node-version: 20
+          cache: yarn
+          cache-dependency-path: ./packages/pangea-node-sdk/yarn.lock
+
+      - name: Install dependencies
+        run: yarn install --immutable
+
+      - name: Lint
+        run: yarn lint
+
   test-unit:
     needs: [build-pangea-node-sdk]
     runs-on: ubuntu-latest
@@ -426,7 +454,36 @@ jobs:
         run: yarn install --immutable
 
       - name: Unit test
-        run: yarn test:unit --ci --coverage
+        run: yarn test:unit
+
+  test-integration:
+    needs: [build-pangea-node-sdk]
+    runs-on: ubuntu-24.04
+    strategy:
+      matrix:
+        node-version: [20, 22]
+    defaults:
+      run:
+        working-directory: ./packages/pangea-node-sdk
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4.2.2
+
+      - name: Enable Corepack
+        run: corepack enable
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4.4.0
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: yarn
+          cache-dependency-path: ./packages/pangea-node-sdk/yarn.lock
+
+      - name: Install dependencies
+        run: yarn install --immutable
+
+      - name: Integration test
+        run: bash ./scripts/test.sh
 
   docs:
     needs: [build-pangea-node-sdk]
@@ -525,7 +582,7 @@ jobs:
         run: yarn test
 
       - name: Cypress run
-        uses: cypress-io/github-action@v6.9.0
+        uses: cypress-io/github-action@v6.10.0
         with:
           start: yarn start:ci
           working-directory: ./examples/react-audit-log-viewer

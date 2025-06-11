@@ -1,10 +1,11 @@
 import { setTimeout } from "node:timers/promises";
 
+import { it, expect, vi } from "vitest";
+
 import PangeaConfig from "../../src/config.js";
 import AuditService from "../../src/services/audit.js";
 import { Audit } from "../../src/types.js";
 import { Signer } from "../../src/utils/signer.js";
-import { jest, it, expect } from "@jest/globals";
 import { PangeaErrors } from "../../src/errors.js";
 import {
   TestEnvironment,
@@ -67,7 +68,7 @@ const auditVault = new AuditService(tokenVault, config);
 const auditWithTenantId = new AuditService(tokenGeneral, config, "mytenantid");
 const auditCustomSchema = new AuditService(tokenCustomSchema, config);
 
-jest.setTimeout(2 * config.pollResultTimeoutMs);
+vi.setConfig({ testTimeout: 2 * config.pollResultTimeoutMs });
 
 it("log an audit event. no verbose", async () => {
   const event: Audit.Event = {
@@ -188,7 +189,7 @@ it(
     expect(typeof response.result?.envelope?.event?.new).toBe("object");
     expect(typeof response.result?.envelope?.event?.old).toBe("object");
 
-    const query = "message:" + MSG_JSON + " status:" + STATUS_NO_SIGNED;
+    const query = `message:${MSG_JSON} status:${STATUS_NO_SIGNED}`;
     const searchOptions: Audit.SearchOptions = {
       verifyConsistency: true,
     };
@@ -208,11 +209,11 @@ it(
     }
     expect(respSearch.result.count).toBe(maxResults);
 
-    respSearch.result.events.forEach((record) => {
+    for (const record of respSearch.result.events) {
       expect(record.membership_verification).toBe("pass");
       expect(record.signature_verification).toBe("none");
       expect(record.consistency_verification).toBe("none");
-    });
+    }
   },
   2 * (config.pollResultTimeoutMs + 1000)
 );
@@ -236,7 +237,7 @@ it("log an event, local sign and verify", async () => {
   expect(respLog.status).toBe("Success");
   expect(typeof respLog.result.hash).toBe("string");
 
-  const query = "message:" + MSG_SIGNED_LOCAL + " actor:" + ACTOR;
+  const query = `message:${MSG_SIGNED_LOCAL} actor:${ACTOR}`;
   const queryOptions: Audit.SearchParamsOptions = {
     limit: 1,
     max_results: 1,
@@ -271,7 +272,7 @@ it(
     expect(respLog.status).toBe("Success");
     expect(typeof respLog.result.hash).toBe("string");
 
-    const query = "message:" + MSG_SIGNED_LOCAL + " actor:" + ACTOR;
+    const query = `message:${MSG_SIGNED_LOCAL} actor:${ACTOR}`;
     const queryOptions: Audit.SearchParamsOptions = {
       limit: 1,
       max_results: 1,
@@ -327,8 +328,7 @@ it(
     expect(typeof respLog.result.hash).toBe("string");
     expect(respLog.result.signature_verification).toBe("pass");
 
-    const query =
-      "message:" + MSG_JSON + " actor:" + ACTOR + " status:" + STATUS_SIGNED;
+    const query = `message:${MSG_JSON} actor:${ACTOR} status:${STATUS_SIGNED}`;
     const queryOptions: Audit.SearchParamsOptions = {
       limit: 1,
       max_results: 1,
@@ -369,8 +369,7 @@ it(
       }
     }
 
-    const query =
-      "message:" + MSG_JSON + " actor:" + ACTOR + " status:" + STATUS_SIGNED;
+    const query = `message:${MSG_JSON} actor:${ACTOR} status:${STATUS_SIGNED}`;
     const queryOptions: Audit.SearchParamsOptions = {
       limit: 1,
       max_results: 1,
@@ -491,7 +490,7 @@ it("custom schema log an audit event in JSON format", async () => {
     }
   }
 
-  const query = "message:" + JSON_CUSTOM_SCHEMA_NO_SIGNED;
+  const query = `message:${JSON_CUSTOM_SCHEMA_NO_SIGNED}`;
   const searchOptions: Audit.SearchOptions = {
     verifyConsistency: true,
   };
@@ -510,11 +509,11 @@ it("custom schema log an audit event in JSON format", async () => {
   );
   expect(respSearch.result.count).toBe(maxResults);
 
-  respSearch.result.events.forEach((record) => {
+  for (const record of respSearch.result.events) {
     expect(record.membership_verification).toBe("pass");
     expect(record.signature_verification).toBe("none");
     expect(record.consistency_verification).toBe("none");
-  });
+  }
 });
 
 it("custom log an event, local sign and verify", async () => {
@@ -535,7 +534,7 @@ it("custom log an event, local sign and verify", async () => {
     }
   }
 
-  const query = "message:" + MSG_CUSTOM_SCHEMA_SIGNED_LOCAL;
+  const query = `message:${MSG_CUSTOM_SCHEMA_SIGNED_LOCAL}`;
   const queryOptions: Audit.SearchParamsOptions = {
     limit: 1,
     max_results: 1,
@@ -585,7 +584,7 @@ it(
       }
     }
 
-    const query = "message:" + JSON_CUSTOM_SCHEMA_SIGNED_LOCAL;
+    const query = `message:${JSON_CUSTOM_SCHEMA_SIGNED_LOCAL}`;
     const searchOptions: Audit.SearchOptions = {
       verifyConsistency: true,
     };
@@ -604,17 +603,17 @@ it(
     );
     expect(respSearch.result.count).toBe(maxResults);
 
-    respSearch.result.events.forEach((record) => {
+    for (const record of respSearch.result.events) {
       expect(record.membership_verification).toBe("pass");
       expect(record.signature_verification).toBe("none");
       expect(record.consistency_verification).toBe("none");
-    });
+    }
   },
   2 * (config.pollResultTimeoutMs + 1000)
 );
 
 it("search audit log and verify signature", async () => {
-  const query = "message:" + MSG_SIGNED_LOCAL + " status:" + STATUS_SIGNED;
+  const query = `message:${MSG_SIGNED_LOCAL} status:${STATUS_SIGNED}`;
   const limit = 2;
 
   const queryOptions: Audit.SearchParamsOptions = {
@@ -627,9 +626,9 @@ it("search audit log and verify signature", async () => {
 
   expect(response.status).toBe("Success");
   expect(response.result.events.length).toBeLessThanOrEqual(limit);
-  response.result.events.forEach((record) => {
+  for (const record of response.result.events) {
     expect(record.signature_verification).toBe("pass");
-  });
+  }
 });
 
 it(
@@ -642,7 +641,7 @@ it(
       verifyConsistency: true,
     };
 
-    let queryOptions: Audit.SearchParamsOptions = {
+    const queryOptions: Audit.SearchParamsOptions = {
       limit: limit,
       order: "asc", // Oldest events should have consistency proofs
       max_results: maxResults,
@@ -652,10 +651,10 @@ it(
     let response = await auditGeneral.search(query, queryOptions, options);
     expect(response.status).toBe("Success");
     expect(response.result.events.length).toBeLessThanOrEqual(limit);
-    response.result.events.forEach((record) => {
+    for (const record of response.result.events) {
       expect(record.consistency_verification).toBe("pass"); // Oldest events should pass
       expect(record.membership_verification).toBe("pass");
-    });
+    }
 
     queryOptions.order = "desc"; // Newest events should not pass consistency proof
 
@@ -663,16 +662,16 @@ it(
 
     expect(response.status).toBe("Success");
     expect(response.result.events.length).toBeLessThanOrEqual(limit);
-    response.result.events.forEach((record) => {
+    for (const record of response.result.events) {
       expect(record.consistency_verification).toBe("none"); // Newest events should not pass
       expect(record.membership_verification).toBe("pass");
-    });
+    }
   }),
   2 * (config.pollResultTimeoutMs + 1000)
 );
 
 it("search audit log and skip consistency verification", async () => {
-  const query = "message:" + MSG_SIGNED_LOCAL;
+  const query = `message:${MSG_SIGNED_LOCAL}`;
   const limit = 2;
 
   const queryOptions: Audit.SearchParamsOptions = {
@@ -685,15 +684,15 @@ it("search audit log and skip consistency verification", async () => {
 
   expect(response.status).toBe("Success");
   expect(response.result.events.length).toBeLessThanOrEqual(limit);
-  response.result.events.forEach((record) => {
+  for (const record of response.result.events) {
     expect(record.membership_verification).toBeUndefined(); // If not set verifyConsistency this remain undefined
     expect(record.consistency_verification).toBeUndefined();
     expect(record.signature_verification).toBe("pass");
-  });
+  }
 });
 
 it("results audit log with search verbose", async () => {
-  const query = "message:" + MSG_SIGNED_LOCAL;
+  const query = `message:${MSG_SIGNED_LOCAL}`;
   const searchLimit = 2;
   const searchMaxResults = 6;
 
@@ -709,13 +708,13 @@ it("results audit log with search verbose", async () => {
   expect(searchResponse.status).toBe("Success");
   expect(searchResponse.result.events.length).toBeLessThanOrEqual(searchLimit);
   expect(searchResponse.result.count).toBeLessThanOrEqual(searchMaxResults);
-  searchResponse.result.events.forEach((record) => {
+  for (const record of searchResponse.result.events) {
     expect(record.membership_verification).toBeUndefined(); // If not set verifyConsistency this remain undefined
     expect(record.consistency_verification).toBeUndefined();
-  });
+  }
 
   // Let's paginate.
-  let resultsOptions: Audit.SearchOptions = {
+  const resultsOptions: Audit.SearchOptions = {
     verifyConsistency: true, // First we'll check consistency
   };
   const resultsLimit = 2;
@@ -728,10 +727,10 @@ it("results audit log with search verbose", async () => {
   );
   expect(resultsResponse.status).toBe("Success");
   expect(resultsResponse.result.events.length).toEqual(resultsLimit);
-  resultsResponse.result.events.forEach((record) => {
+  for (const record of resultsResponse.result.events) {
     expect(record.membership_verification).toBe("pass");
     expect(record.consistency_verification).toBe("pass");
-  });
+  }
 
   // Now we are going to skip consistency verification
   resultsOptions.verifyConsistency = false;
@@ -744,10 +743,10 @@ it("results audit log with search verbose", async () => {
   );
   expect(resultsResponse.status).toBe("Success");
   expect(resultsResponse.result.events.length).toEqual(resultsLimit);
-  resultsResponse.result.events.forEach((record) => {
+  for (const record of resultsResponse.result.events) {
     expect(record.membership_verification).toBeUndefined();
     expect(record.consistency_verification).toBeUndefined();
-  });
+  }
 });
 
 it("results audit log with search no verbose", async () => {
@@ -766,13 +765,13 @@ it("results audit log with search no verbose", async () => {
   const searchResponse = await auditGeneral.search(query, queryOptions, {});
   expect(searchResponse.status).toBe("Success");
   expect(searchResponse.result.events.length).toBeLessThanOrEqual(searchLimit);
-  searchResponse.result.events.forEach((record) => {
+  for (const record of searchResponse.result.events) {
     expect(record.membership_verification).toBeUndefined(); // If not set verifyConsistency this remain undefined
     expect(record.consistency_verification).toBeUndefined();
-  });
+  }
 
   // Let's paginate.
-  let resultsOptions: Audit.SearchOptions = {
+  const resultsOptions: Audit.SearchOptions = {
     verifyConsistency: true, // First we'll try to check consistency
   };
   const resultsLimit = 2;
@@ -785,10 +784,10 @@ it("results audit log with search no verbose", async () => {
   );
   expect(resultsResponse.status).toBe("Success");
   expect(resultsResponse.result.events.length).toEqual(resultsLimit);
-  resultsResponse.result.events.forEach((record) => {
-    expect(record.membership_verification).toBe("none"); // It should be none because it does not have enought information
+  for (const record of resultsResponse.result.events) {
+    expect(record.membership_verification).toBe("none"); // It should be none because it does not have enough information
     expect(record.consistency_verification).toBe("none");
-  });
+  }
 
   // Now we are going to skip consistency verification
   resultsOptions.verifyConsistency = false;
@@ -801,10 +800,10 @@ it("results audit log with search no verbose", async () => {
   );
   expect(resultsResponse.status).toBe("Success");
   expect(resultsResponse.result.events.length).toEqual(resultsLimit);
-  resultsResponse.result.events.forEach((record) => {
+  for (const record of resultsResponse.result.events) {
     expect(record.membership_verification).toBeUndefined();
     expect(record.consistency_verification).toBeUndefined();
-  });
+  }
 });
 
 it("get audit root", async () => {
@@ -959,7 +958,7 @@ it("log an audit event bulk. verbose", async () => {
   const response = await auditGeneral.logBulk([event, event], options);
 
   expect(response.status).toBe("Success");
-  response.result.results.forEach((result) => {
+  for (const result of response.result.results) {
     expect(typeof result.hash).toBe("string");
     expect(result.envelope).toBeDefined();
     expect(result.consistency_proof).toBeUndefined();
@@ -967,7 +966,7 @@ it("log an audit event bulk. verbose", async () => {
     expect(result.consistency_verification).toBeUndefined();
     expect(result.membership_verification).toBeUndefined();
     expect(result.signature_verification).toBe("none");
-  });
+  }
 });
 
 it("log an audit event bulk. verbose and sign", async () => {
@@ -985,7 +984,7 @@ it("log an audit event bulk. verbose and sign", async () => {
   const response = await auditGeneral.logBulk([event, event], options);
 
   expect(response.status).toBe("Success");
-  response.result.results.forEach((result) => {
+  for (const result of response.result.results) {
     expect(typeof result.hash).toBe("string");
     expect(result.envelope).toBeDefined();
     expect(result.consistency_proof).toBeUndefined();
@@ -996,7 +995,7 @@ it("log an audit event bulk. verbose and sign", async () => {
     expect(result.envelope.public_key).toBe(
       String.raw`{"algorithm":"ED25519","key":"-----BEGIN PUBLIC KEY-----\nMCowBQYDK2VwAyEAlvOyDMpK2DQ16NI8G41yINl01wMHzINBahtDPoh4+mE=\n-----END PUBLIC KEY-----\n"}`
     );
-  });
+  }
 });
 
 it("log an audit event bulk async", async () => {

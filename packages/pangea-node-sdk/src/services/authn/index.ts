@@ -6,6 +6,7 @@ import Client from "./client/index.js";
 import Session from "./session.js";
 import Agreements from "./agreements/index.js";
 import { PangeaToken } from "@src/types.js";
+import { Group } from "./group.js";
 
 /**
  * AuthnService class provides methods for interacting with the AuthN Service
@@ -17,6 +18,7 @@ class AuthNService extends BaseService {
   client: Client;
   session: Session;
   agreements: Agreements;
+  group: Group;
 
   /**
    * Creates a new `AuthNService` with the given Pangea API token and
@@ -41,6 +43,7 @@ class AuthNService extends BaseService {
     this.client = new Client(token, config);
     this.session = new Session(token, config);
     this.agreements = new Agreements(token, config);
+    this.group = new Group(token, config);
   }
 }
 

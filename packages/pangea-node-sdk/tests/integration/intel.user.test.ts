@@ -1,5 +1,6 @@
+import { it, expect, vi } from "vitest";
+
 import PangeaConfig from "../../src/config.js";
-import { it, expect, jest } from "@jest/globals";
 import {
   TestEnvironment,
   getHashPrefix,
@@ -20,7 +21,7 @@ const config = new PangeaConfig({
 });
 const userIntel = new UserIntelService(token, config);
 
-jest.setTimeout(60000);
+vi.setConfig({ testTimeout: 60_000 });
 it("User breached by phone should succeed", async () => {
   const request = {
     phone_number: "8005550123",

@@ -1,5 +1,5 @@
 import PangeaConfig from "../../src/config.js";
-import { it, expect, jest } from "@jest/globals";
+import { it, expect, vi } from "vitest";
 import {
   TestEnvironment,
   getTestDomain,
@@ -16,7 +16,7 @@ const config = new PangeaConfig({
   customUserAgent: "sdk-test",
 });
 const urlIntel = new URLIntelService(token, config);
-jest.setTimeout(60000);
+vi.setConfig({ testTimeout: 60_000 });
 
 it("URL reputation should succeed", async () => {
   const options = { provider: "crowdstrike", verbose: true, raw: true };

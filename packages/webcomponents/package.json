@@ -15,23 +15,23 @@
   "publishConfig": {
     "access": "public"
   },
-  "packageManager": "yarn@4.9.1",
+  "packageManager": "yarn@4.9.2",
   "scripts": {
     "build": "parcel build",
     "lint-publint": "publint",
     "typecheck": "tsc --noEmit"
   },
   "devDependencies": {
-    "@babel/core": "^7.27.1",
-    "@babel/plugin-transform-runtime": "^7.27.1",
-    "@babel/preset-env": "^7.27.1",
+    "@babel/core": "^7.27.4",
+    "@babel/plugin-transform-runtime": "^7.27.4",
+    "@babel/preset-env": "^7.27.2",
     "@babel/preset-react": "^7.27.1",
     "@babel/preset-typescript": "^7.27.1",
-    "@parcel/packager-ts": "2.14.4",
-    "@parcel/transformer-typescript-types": "2.14.4",
+    "@parcel/packager-ts": "2.15.2",
+    "@parcel/transformer-typescript-types": "2.15.2",
     "babel-loader": "^10.0.0",
     "css-loader": "^7.1.2",
-    "parcel": "2.14.4",
+    "parcel": "2.15.2",
     "publint": "0.3.12",
     "style-loader": "^4.0.0",
     "ts-node": "^10.9.2",
@@ -45,12 +45,12 @@
     "@mui/material": "^6.1.6",
     "@mui/styled-engine-sc": "^6.1.5",
     "@mui/types": "^7.2.18",
-    "@pangeacyber/react-mui-audit-log-viewer": "^1.0.10",
+    "@pangeacyber/react-mui-audit-log-viewer": "^2.0.2",
     "@pangeacyber/react-mui-branding": "^1.0.0",
-    "@pangeacyber/react-mui-share-file-viewer": "^1.0.3",
+    "@pangeacyber/react-mui-share-file-viewer": "^2.0.2",
     "@preact/compat": "^18.3.1",
-    "preact": "^10.26.5",
-    "styled-components": "^6.1.17"
+    "preact": "^10.26.8",
+    "styled-components": "^6.1.18"
   },
   "alias": {
     "react": "preact/compat",

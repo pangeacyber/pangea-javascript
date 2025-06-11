@@ -1,4 +1,5 @@
-import { expect, it, jest } from "@jest/globals";
+import { expect, it, afterAll, vi } from "vitest";
+
 import PangeaConfig from "../../src/config.js";
 import { PangeaErrors } from "../../src/errors.js";
 import VaultService from "../../src/services/vault.js";
@@ -25,7 +26,7 @@ const config = new PangeaConfig({
 });
 const vault = new VaultService(token, config);
 const TIME = Math.round(Date.now() / 1000);
-const FOLDER_VALUE = "/test_key_folder_" + TIME + "/";
+const FOLDER_VALUE = `/test_key_folder_${TIME}/`;
 const METADATA_VALUE = { test: "true", field1: "value1", field2: "value2" };
 const TAGS_VALUE = ["test", "symmetric"];
 const ROTATION_FREQUENCY_VALUE = "1d";
@@ -56,7 +57,7 @@ function getName(name: string) {
   return `${TIME}_${ACTOR}_${name}_${getRandomID()}`;
 }
 
-jest.setTimeout(120000);
+vi.setConfig({ testTimeout: 120_000 });
 it("Secret life cycle", async () => {
   const name = getName("SecretLifeCycle");
   // Store
@@ -365,7 +366,7 @@ async function encryptingCycle(id: string) {
   });
   expect(decDefaultResp.result.plain_text).toBe(dataB64);
 
-  let f = async () => {
+  const f = async () => {
     await vault.decrypt({
       id: "notandid",
       cipher_text: enc2Resp.result.cipher_text,
@@ -633,7 +634,7 @@ it("Asymmetric signing life cycle", async () => {
       const id = await asymGenerateDefault(algorithm, purpose);
       await asymSigningCycle(id);
       await vault.delete(id);
-    } catch (e) {
+    } catch (_) {
       console.log(
         `Failed asymmetric signing life cycle with ${algorithm} and ${purpose}`
       );
@@ -732,7 +733,7 @@ it("JWT symmetric signing life cycle", async () => {
 });
 
 it("Folder endpoint", async () => {
-  const FOLDER_PARENT = "test_parent_folder_" + TIME;
+  const FOLDER_PARENT = `test_parent_folder_${TIME}`;
   const FOLDER_NAME = "test_folder_name";
   const FOLDER_NAME_NEW = "test_folder_name_new";
 
@@ -848,7 +849,7 @@ it("export", async () => {
   });
 
   // Export in plain
-  var exportedPlain = await vault.export({
+  const exportedPlain = await vault.export({
     id: generated.result.id,
   });
 
@@ -922,7 +923,7 @@ it("export", async () => {
 
 afterAll(
   async () => {
-    let last = undefined;
+    let last: string | undefined;
     let count = 0;
 
     while (count < 500) {
@@ -935,11 +936,12 @@ afterAll(
         size: 10,
       });
 
+      // biome-ignore lint/complexity/noForEach: TODO
       listResp.result.items.forEach((element) => {
         if (
-          element.id != undefined &&
-          element.type != "folder" &&
-          element.folder != "/service-tokens/"
+          element.id &&
+          element.type !== "folder" &&
+          element.folder !== "/service-tokens/"
         ) {
           vault
             .delete(element.id)
@@ -953,7 +955,7 @@ afterAll(
       });
 
       last = listResp.result.last;
-      if (listResp.result.items.length == 0) {
+      if (!listResp.result.items.length) {
         break;
       }
       await delay(5000);

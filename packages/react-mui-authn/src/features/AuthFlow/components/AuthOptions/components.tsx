@@ -97,8 +97,8 @@ export const AuthOptionsNav: FC<AuthOptionsNavProps> = ({
       {authChoices.map((provider: string) => {
         const iconBackground =
           provider === active
-            ? theme.palette.primary.main
-            : theme.palette.secondary.main;
+            ? (theme.vars || theme).palette.primary.main
+            : (theme.vars || theme).palette.secondary.main;
         return (
           <Stack gap={1} alignItems="center">
             <IconButton

@@ -17,15 +17,18 @@ const AgreementView: FC<AuthFlowComponentProps> = ({
 }) => {
   const [disable, setDisable] = useState<boolean>(true);
   const theme = useTheme();
-  const darkMode = useMemo(() => !isDark(theme.palette.text.primary), [theme]);
+  const darkMode = useMemo(
+    () => !isDark((theme.vars || theme).palette.text.primary),
+    [theme]
+  );
   const content = data?.agreements[0].text || "";
 
   // FIXME: workaround for missing palette.action.disabledBackground and palette.action.disabled
   const buttonStyle: SxProps =
     darkMode && disable
       ? {
-          color: `${theme.palette.text.primary}!important`,
-          backgroundColor: `${theme.palette.primary.main}!important`,
+          color: `${(theme.vars || theme).palette.text.primary}!important`,
+          backgroundColor: `${(theme.vars || theme).palette.primary.main}!important`,
           opacity: "0.5",
         }
       : {};
@@ -88,7 +91,7 @@ const AgreementView: FC<AuthFlowComponentProps> = ({
           textAlign: "initial",
           // @ts-ignore
           fontSize: theme.typography.fontSize || "0.825em",
-          fontColor: theme.palette.text.primary,
+          fontColor: (theme.vars || theme).palette.text.primary,
           "& :focus-visible": {
             outline: "none",
           },
