@@ -9,6 +9,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+- AI Guard: multimodal guard.
 - AuthN: missing `group` service.
 
 ## 5.2.0-beta.2 - 2025-05-22

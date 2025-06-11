@@ -37,6 +37,25 @@ describe("AI Guard", () => {
     expect(response.result).toBeDefined();
   });
 
+  it("guard", async () => {
+    const response = await client.guard({
+      messages: [
+        {
+          role: "user",
+          content: [
+            { type: "text", text: "what was pangea?" },
+            { type: "image", image_src: "https://example.com/image.png" },
+            { type: "image", image_src: "data:image/jpeg;base64,000000" },
+          ],
+        },
+      ],
+      recipe: "my_recipe",
+      debug: true,
+    });
+    expect(response.status).toStrictEqual("Success");
+    expect(response.result).toBeDefined();
+  });
+
   it("getServiceConfig", async () => {
     const response = await client.getServiceConfig(
       "pci_jbj5hyxscdnagp5xga6e4g37iynplwcg"

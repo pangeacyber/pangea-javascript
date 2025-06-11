@@ -3,6 +3,8 @@ import PangeaResponse from "../response.js";
 import { AIGuard } from "../types.js";
 import BaseService from "./base.js";
 
+type Simplify<T> = { [KeyType in keyof T]: T[KeyType] } & {};
+
 /** AI Guard API client. */
 export class AIGuardService extends BaseService {
   /**
@@ -73,6 +75,19 @@ export class AIGuardService extends BaseService {
     request: ({ text: string } | { messages: T }) & AIGuard.TextGuardRequest
   ): Promise<PangeaResponse<AIGuard.TextGuardResult>> {
     return this.post("v1/text/guard", request);
+  }
+
+  /**
+   * @summary Guard LLM input and output
+   * @description Analyze and redact content to avoid manipulation of the model,
+   *  addition of malicious content, and other undesirable data transfers.
+   * @operationId ai_guard_post_v1beta_guard
+   * @param request Request parameters.
+   */
+  async guard(
+    request: Simplify<AIGuard.MultimodalGuardRequest>
+  ): Promise<PangeaResponse<AIGuard.TextGuardResult>> {
+    return await this.post("v1beta/guard", request);
   }
 
   /**
