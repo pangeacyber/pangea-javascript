@@ -1,5 +1,11 @@
 {
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
   "extends": ["local>pangeacyber/.github:renovate-config"],
-  "ignorePaths": []
+  "ignorePaths": [],
+  "packageRules": [
+    {
+      "extends": ["monorepo:material-ui"],
+      "enabled": false
+    }
+  ]
 }
