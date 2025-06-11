@@ -38,7 +38,9 @@ describe("AI Guard", () => {
   });
 
   it("getServiceConfig", async () => {
-    const response = await client.getServiceConfig("my_service_config");
+    const response = await client.getServiceConfig(
+      "pci_jbj5hyxscdnagp5xga6e4g37iynplwcg"
+    );
     expect(response.status).toStrictEqual("Success");
     expect(response.result).toBeDefined();
     expect(response.result.audit_data_activity).toBeTypeOf("object");
@@ -70,7 +72,7 @@ describe("AI Guard", () => {
 
   it("updateServiceConfig", async () => {
     const response = await client.updateServiceConfig({
-      id: "my_service_config",
+      id: "pci_jbj5hyxscdnagp5xga6e4g37iynplwcg",
       name: "my_service_config",
       audit_data_activity: {
         enabled: true,
@@ -90,7 +92,9 @@ describe("AI Guard", () => {
   });
 
   it("deleteServiceConfig", async () => {
-    const response = await client.deleteServiceConfig("my_service_config");
+    const response = await client.deleteServiceConfig(
+      "pci_jbj5hyxscdnagp5xga6e4g37iynplwcg"
+    );
     expect(response.status).toStrictEqual("Success");
     expect(response.result).toBeDefined();
     expect(response.result.audit_data_activity).toBeTypeOf("object");
