@@ -414,7 +414,12 @@ export namespace AIGuard {
         action?: PromptInjectionAction;
         threshold?: number;
       };
-      topic_detection?: { disabled: boolean } | { block: string[] };
+      topic?: {
+        disabled?: boolean;
+        action?: "" | "report" | "block";
+        topics?: string[];
+        threshold?: number;
+      };
     };
 
     /** Additional fields to include in activity log */
@@ -447,6 +452,12 @@ export namespace AIGuard {
       topic_detection?: Detector<{
         /** The action taken by this Detector */
         action: string;
+      }>;
+      topic?: Detector<{
+        /** The action taken by this Detector */
+        action?: string;
+        /** List of topics detected */
+        topics?: { topic: string; confidence: number }[];
       }>;
       code_detection?: Detector<{
         /** The action taken by this Detector */
