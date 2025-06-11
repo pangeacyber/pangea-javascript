@@ -1,9 +1,4 @@
-import {
-  useTheme,
-  lighten,
-  darken,
-  useColorScheme,
-} from "@mui/material/styles";
+import { useTheme, lighten, darken } from "@mui/material/styles";
 import Box from "@mui/material/Box";
 import Popper from "@mui/material/Popper";
 import {
@@ -35,10 +30,11 @@ import { parseErrorFromPangea } from "../../utils";
 import { PangeaModal } from "@pangeacyber/react-mui-shared";
 import { ObjectStore } from "../../types";
 import { alertOnError } from "../AlertSnackbar/hooks";
+import { useMode } from "../../hooks/utils";
 
 export default function UploadPopover() {
   const theme = useTheme();
-  const { mode } = useColorScheme();
+  const mode = useMode();
 
   const { apiRef, reload, parent, bucketId } = useFileViewerContext();
   const uploads = useUploadPopover((state) => state.uploads);
@@ -235,6 +231,7 @@ export default function UploadPopover() {
                       }}
                     >
                       <CloseIcon
+                        data-testid="CloseIcon"
                         sx={{
                           color: (theme.vars || theme).palette.text.primary,
                         }}

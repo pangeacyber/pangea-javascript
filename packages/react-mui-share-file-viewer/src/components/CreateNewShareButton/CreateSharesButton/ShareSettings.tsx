@@ -97,7 +97,11 @@ const ShareSettings: FC<Props> = ({
                 size="small"
                 data-testid="Settings-Close-Btn"
               >
-                <CloseIcon fontSize="small" color="inherit" />
+                <CloseIcon
+                  data-testid="CloseIcon"
+                  fontSize="small"
+                  color="inherit"
+                />
               </IconButton>
             </Stack>
             <FieldsForm
@@ -152,7 +156,11 @@ const ShareSettings: FC<Props> = ({
                 size="small"
                 data-testid="Settings-Close-Btn"
               >
-                <CloseIcon fontSize="small" color="inherit" />
+                <CloseIcon
+                  data-testid="CloseIcon"
+                  fontSize="small"
+                  color="inherit"
+                />
               </IconButton>
             </Stack>
             <FieldsForm

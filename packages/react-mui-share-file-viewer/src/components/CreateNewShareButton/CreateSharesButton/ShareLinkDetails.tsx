@@ -1,19 +1,15 @@
 import { FC } from "react";
 import { LinearProgress, Stack, Typography } from "@mui/material";
-import {
-  useTheme,
-  darken,
-  lighten,
-  useColorScheme,
-} from "@mui/material/styles";
+import { useTheme, darken, lighten } from "@mui/material/styles";
 
 import CopyLinkButton from "../SendShareViaEmailButton/CopyLinkButton";
 import CopyPasswordButton from "../../PasswordCopyButton";
 import { useCreateShareContext } from "../../../hooks/context";
+import { useMode } from "../../../hooks/utils";
 
 const ShareLinkDetails = () => {
   const theme = useTheme();
-  const { mode } = useColorScheme();
+  const mode = useMode();
   const { password, loading, shareLink: share } = useCreateShareContext();
   const shareType = share?.authenticators?.length
     ? share.authenticators[0]?.auth_type

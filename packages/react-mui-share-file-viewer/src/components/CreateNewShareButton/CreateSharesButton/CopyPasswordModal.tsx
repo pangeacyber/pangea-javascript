@@ -1,14 +1,10 @@
 import { FC } from "react";
 import { Stack, Typography } from "@mui/material";
-import {
-  useTheme,
-  darken,
-  lighten,
-  useColorScheme,
-} from "@mui/material/styles";
+import { useTheme, darken, lighten } from "@mui/material/styles";
 import { PangeaModal } from "@pangeacyber/react-mui-shared";
 
 import CopyPasswordButton from "../../PasswordCopyButton";
+import { useMode } from "../../../hooks/utils";
 
 interface Props {
   password: string;
@@ -18,7 +14,7 @@ interface Props {
 
 const CopyPasswordModal: FC<Props> = ({ password, open, onClose }) => {
   const theme = useTheme();
-  const { mode } = useColorScheme();
+  const mode = useMode();
   const modify = mode === "dark" ? darken : lighten;
 
   return (
