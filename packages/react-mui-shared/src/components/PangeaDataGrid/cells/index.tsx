@@ -1,15 +1,11 @@
 import { FC } from "react";
 
 import { Tooltip, Typography, Chip, Stack } from "@mui/material";
-import {
-  lighten,
-  darken,
-  useTheme,
-  useColorScheme,
-} from "@mui/material/styles";
+import { lighten, darken, useTheme } from "@mui/material/styles";
 import { PDG } from "../types";
 import { limitCharacters } from "../../../utils";
 import CopyButton from "../../IconButtons/CopyButton";
+import { useMode } from "../../../utils/hooks";
 
 export const TextCell: FC<PDG.CellProps> = ({ params, color }) => {
   const { value } = params;
@@ -98,7 +94,7 @@ export const SingleSelectCell: FC<PDG.CellProps> = ({ params, color }) => {
 export const MultiSelectCell: FC<PDG.CellProps> = ({ params }) => {
   const { value } = params;
   const theme = useTheme();
-  const { mode } = useColorScheme();
+  const mode = useMode();
 
   const modify = mode === "dark" ? darken : lighten;
   if (Array.isArray(value)) {

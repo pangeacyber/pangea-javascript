@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## Unreleased
 
+### Added
+
+- AuthN: missing `group` service.
+
 ## 5.2.0-beta.2 - 2025-05-22
 
 ### Added
@@ -16,6 +20,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
+- AI Guard: `messages` parameter is no longer a generic. It should now be a
+  `{ role: string; content: string }[]`.
+- AI Guard: renamed topic detector.
 - File Intel: improved `hash_type` typing.
 
 ## 5.2.0-beta.1 - 2025-04-28

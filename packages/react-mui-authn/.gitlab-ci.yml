@@ -1,5 +1,5 @@
 .react_mui_authn_base:
-  image: node:20.19.2@sha256:4f8a144afc2dd9d7145b4847e6d4c04ffc7eacff500610a53cf81bb86d1c1bd1
+  image: node:20.19.2@sha256:de635ae9fc28a5d16adc2c6259013f0a21dd7ea00c2872b6c22e1d8276f3d036
   before_script:
     - cd packages/react-mui-authn
     - corepack enable

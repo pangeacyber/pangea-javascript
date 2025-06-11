@@ -685,14 +685,19 @@ export namespace AIGuard {
         action?: PromptInjectionAction;
         threshold?: number;
       };
-      topic_detection?: { disabled: boolean } | { block: string[] };
+      topic?: {
+        disabled?: boolean;
+        action?: "" | "report" | "block";
+        topics?: string[];
+        threshold?: number;
+      };
     };
 
     /** Additional fields to include in activity log */
     log_fields?: LogFields;
   }
 
-  export interface TextGuardResult<T> {
+  export interface TextGuardResult {
     /** Result of the recipe analyzing and input prompt. */
     detectors: {
       prompt_injection: Detector<{
@@ -719,6 +724,12 @@ export namespace AIGuard {
         /** The action taken by this Detector */
         action: string;
       }>;
+      topic?: Detector<{
+        /** The action taken by this Detector */
+        action?: string;
+        /** List of topics detected */
+        topics?: { topic: string; confidence: number }[];
+      }>;
       code_detection?: Detector<{
         /** The action taken by this Detector */
         action: string;
@@ -730,7 +741,7 @@ export namespace AIGuard {
     prompt_text?: string;
 
     /** Updated structured prompt, if applicable. */
-    prompt_messages?: T;
+    prompt_messages?: { [key: string]: unknown };
 
     /** Whether or not the prompt triggered a block detection. */
     blocked: boolean;

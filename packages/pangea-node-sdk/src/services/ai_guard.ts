@@ -39,7 +39,7 @@ export class AIGuardService extends BaseService {
    */
   guardText(
     request: { text: string } & AIGuard.TextGuardRequest
-  ): Promise<PangeaResponse<AIGuard.TextGuardResult<void>>>;
+  ): Promise<PangeaResponse<AIGuard.TextGuardResult>>;
 
   /**
    * @summary Text Guard for scanning LLM inputs and outputs
@@ -57,8 +57,10 @@ export class AIGuardService extends BaseService {
    * ```
    */
   guardText<T>(
-    request: { messages: T } & AIGuard.TextGuardRequest
-  ): Promise<PangeaResponse<AIGuard.TextGuardResult<T>>>;
+    request: {
+      messages: { role: string; content: string }[];
+    } & AIGuard.TextGuardRequest
+  ): Promise<PangeaResponse<AIGuard.TextGuardResult>>;
 
   /**
    * @summary Text Guard for scanning LLM inputs and outputs
@@ -69,7 +71,7 @@ export class AIGuardService extends BaseService {
    */
   guardText<T>(
     request: ({ text: string } | { messages: T }) & AIGuard.TextGuardRequest
-  ): Promise<PangeaResponse<AIGuard.TextGuardResult<T>>> {
+  ): Promise<PangeaResponse<AIGuard.TextGuardResult>> {
     return this.post("v1/text/guard", request);
   }
 

@@ -14,7 +14,7 @@
   "publishConfig": {
     "access": "public"
   },
-  "packageManager": "yarn@4.9.1",
+  "packageManager": "yarn@4.9.2",
   "scripts": {
     "build": "rm -rf dist && rollup -c",
     "build-docs": "typedoc --plugin typedoc-plugin-rename-defaults",
@@ -24,22 +24,22 @@
     "lodash": "^4.17.21"
   },
   "devDependencies": {
-    "@babel/core": "^7.27.1",
+    "@babel/core": "^7.27.4",
     "@rollup/plugin-babel": "^6.0.4",
     "@rollup/plugin-commonjs": "^28.0.3",
     "@rollup/plugin-json": "^6.1.0",
     "@rollup/plugin-node-resolve": "^15.3.1",
     "@rollup/plugin-terser": "^0.4.4",
     "@rollup/plugin-typescript": "12.1.2",
-    "@types/lodash": "^4.17.16",
+    "@types/lodash": "^4.17.17",
     "publint": "0.3.12",
     "rimraf": "6.0.1",
-    "rollup": "^4.41.0",
+    "rollup": "^4.42.0",
     "rollup-plugin-dts": "6.2.1",
     "rollup-plugin-peer-deps-external": "^2.2.4",
     "rollup-plugin-polyfill-node": "^0.13.0",
     "tslib": "^2.8.1",
-    "typedoc": "^0.28.4",
+    "typedoc": "^0.28.5",
     "typedoc-plugin-rename-defaults": "^0.7.3",
     "typescript": "^5.8.3"
   }

@@ -1,9 +1,4 @@
-import {
-  useTheme,
-  lighten,
-  darken,
-  useColorScheme,
-} from "@mui/material/styles";
+import { useTheme, lighten, darken } from "@mui/material/styles";
 import { Stack, Typography, Popper, Fade } from "@mui/material";
 import { FC } from "react";
 
@@ -11,6 +6,7 @@ import StoreObjectIcon from "../StoreObjectIcon";
 import { ObjectStore } from "../../types";
 
 import HomeIcon from "@mui/icons-material/Home";
+import { useMode } from "../../hooks/utils";
 interface Props {
   open: boolean;
   parent: ObjectStore.ObjectResponse | undefined;
@@ -18,7 +14,7 @@ interface Props {
 
 const TargetPopper: FC<Props> = ({ open, parent }) => {
   const theme = useTheme();
-  const { mode } = useColorScheme();
+  const mode = useMode();
 
   const modify = mode === "dark" ? darken : lighten;
   return (

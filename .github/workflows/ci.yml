@@ -210,7 +210,7 @@ jobs:
         uses: actions/upload-artifact@v4.6.2
         with:
           name: react-mui-authn-package
-          path: ./packages/react-mui-authn/pangeacyber-react-mui-authn-v*.tgz
+          path: ./packages/react-mui-authn/package.tgz
 
   build-react-mui-branding:
     runs-on: ubuntu-24.04
@@ -236,9 +236,6 @@ jobs:
 
       - name: Build
         run: yarn build
-
-      - name: Storybook
-        run: yarn build-storybook
 
   build-react-mui-shared:
     runs-on: ubuntu-latest
@@ -585,7 +582,7 @@ jobs:
         run: yarn test
 
       - name: Cypress run
-        uses: cypress-io/github-action@v6.9.2
+        uses: cypress-io/github-action@v6.10.0
         with:
           start: yarn start:ci
           working-directory: ./examples/react-audit-log-viewer

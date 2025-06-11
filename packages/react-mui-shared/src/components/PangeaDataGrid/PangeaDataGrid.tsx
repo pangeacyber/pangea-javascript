@@ -27,13 +27,7 @@ import {
   GridSortModel,
   GridRowSelectionModel,
 } from "@mui/x-data-grid";
-import {
-  useTheme,
-  lighten,
-  darken,
-  SxProps,
-  useColorScheme,
-} from "@mui/material/styles";
+import { useTheme, lighten, darken, SxProps } from "@mui/material/styles";
 
 import { Box, ButtonProps, Stack, StackProps } from "@mui/material";
 
@@ -54,6 +48,7 @@ import { PDG } from "./types";
 import { getModelFromVisibility, getVisibilityFromModel } from "./utils";
 import { OptionComponentProps } from "../ConditionalAutocomplete/AutocompleteOptionComponent";
 import { ConditionalOption } from "../ConditionalAutocomplete/types";
+import { useMode } from "../../utils/hooks";
 
 export interface PangeaDataGridProps<
   DataType extends GridValidRowModel,
@@ -168,7 +163,7 @@ const PangeaDataGrid = <
   components = {},
 }: PangeaDataGridProps<DataType, FiltersObj>): JSX.Element => {
   const theme = useTheme();
-  const { mode } = useColorScheme();
+  const mode = useMode();
 
   const { DataGridParentStack = Stack } = components;
 

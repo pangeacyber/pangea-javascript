@@ -30,7 +30,7 @@ const PreviewPanel = ({ data, onClose }) => {
       <Stack direction="row">
         <Typography variant="h5">{data.title}</Typography>
         <IconButton onClick={onClose} sx={{ marginLeft: "auto!important" }}>
-          <CloseIcon fontSize="small" />
+          <CloseIcon data-testid="CloseIcon" fontSize="small" />
         </IconButton>
       </Stack>
       <Stack>

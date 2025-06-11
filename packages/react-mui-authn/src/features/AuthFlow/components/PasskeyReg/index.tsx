@@ -51,7 +51,6 @@ const PasskeyAuth: FC<AuthFlowComponentProps> = ({
           if (regex.test(err.message)) {
             setStage("start");
             setErrorMsg("Passkeys not allowed by Permissions Policy");
-            console.debug("PASSKEY ERROR:", err);
           } else {
             setStage("error");
             setErrorMsg(err.message);
@@ -59,8 +58,8 @@ const PasskeyAuth: FC<AuthFlowComponentProps> = ({
         }
       } else {
         setStage("error");
-        console.debug("PASSKEY ERROR:", err);
       }
+      console.warn("PASSKEY ERROR:", err);
     }
   };
 

@@ -33,13 +33,13 @@
     "build": "rm -rf .parcel-cache && parcel build"
   },
   "devDependencies": {
-    "@parcel/core": "^2.15.1",
-    "@parcel/packager-ts": "^2.15.1",
-    "@parcel/transformer-typescript-types": "2.15.1",
+    "@parcel/core": "^2.15.2",
+    "@parcel/packager-ts": "^2.15.2",
+    "@parcel/transformer-typescript-types": "2.15.2",
     "@tsconfig/strictest": "^2.0.5",
-    "@types/react": "^18.3.21",
+    "@types/react": "^18.3.23",
     "@types/react-dom": "^18.3.7",
-    "parcel": "^2.15.1",
+    "parcel": "^2.15.2",
     "parcel-optimizer-react-use-client": "^1.0.0",
     "react": "^18.3.1",
     "typescript": "^5.8.3"
@@ -47,7 +47,7 @@
   "peerDependencies": {
     "react": ">=17"
   },
-  "packageManager": "yarn@4.9.1",
+  "packageManager": "yarn@4.9.2",
   "dependencies": {
     "@pangeacyber/oauth-js": "0.0.3-beta"
   }

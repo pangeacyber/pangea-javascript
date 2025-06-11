@@ -121,7 +121,7 @@ const PangeaModal: FC<PangeaModalProps> = ({
                     size="small"
                     data-testid="Modal-Close-Btn"
                   >
-                    <CloseIcon fontSize="small" />
+                    <CloseIcon data-testid="CloseIcon" fontSize="small" />
                   </IconButton>
                 )}
               </Stack>
