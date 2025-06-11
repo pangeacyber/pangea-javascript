@@ -894,7 +894,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@mui/icons-material@npm:^7.1.0":
+"@mui/icons-material@npm:^7.1.1":
   version: 7.1.1
   resolution: "@mui/icons-material@npm:7.1.1"
   dependencies:
@@ -910,7 +910,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@mui/material@npm:^7.1.0":
+"@mui/material@npm:^7.1.1":
   version: 7.1.1
   resolution: "@mui/material@npm:7.1.1"
   dependencies:
@@ -1014,7 +1014,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@mui/types@npm:^7.4.2, @mui/types@npm:^7.4.3":
+"@mui/types@npm:^7.4.3":
   version: 7.4.3
   resolution: "@mui/types@npm:7.4.3"
   dependencies:
@@ -1048,7 +1048,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@mui/x-date-pickers@npm:^7.22.0":
+"@mui/x-date-pickers@npm:^7.29.4":
   version: 7.29.4
   resolution: "@mui/x-date-pickers@npm:7.29.4"
   dependencies:
@@ -1139,10 +1139,10 @@ __metadata:
     "@fontsource/kanit": "npm:^5.2.6"
     "@fontsource/roboto": "npm:^5.2.6"
     "@lexical/react": "npm:^0.25.0"
-    "@mui/icons-material": "npm:^7.1.0"
-    "@mui/material": "npm:^7.1.0"
-    "@mui/types": "npm:^7.4.2"
-    "@mui/x-date-pickers": "npm:^7.22.0"
+    "@mui/icons-material": "npm:^7.1.1"
+    "@mui/material": "npm:^7.1.1"
+    "@mui/types": "npm:^7.4.3"
+    "@mui/x-date-pickers": "npm:^7.29.4"
     "@pangeacyber/vanilla-js": "npm:0.1.14"
     "@rollup/plugin-commonjs": "npm:28.0.3"
     "@rollup/plugin-json": "npm:6.1.0"

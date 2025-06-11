@@ -684,7 +684,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@mui/icons-material@npm:^6.1.6":
+"@mui/icons-material@npm:^6.4.12":
   version: 6.4.12
   resolution: "@mui/icons-material@npm:6.4.12"
   dependencies:
@@ -700,7 +700,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@mui/material@npm:^6.1.6":
+"@mui/material@npm:^6.4.12":
   version: 6.4.12
   resolution: "@mui/material@npm:6.4.12"
   dependencies:
@@ -4235,8 +4235,8 @@ __metadata:
   dependencies:
     "@emotion/react": "npm:11.14.0"
     "@emotion/styled": "npm:11.14.0"
-    "@mui/icons-material": "npm:^6.1.6"
-    "@mui/material": "npm:^6.1.6"
+    "@mui/icons-material": "npm:^6.4.12"
+    "@mui/material": "npm:^6.4.12"
     "@pangeacyber/react-mui-audit-log-viewer": "npm:2.0.2"
     "@pangeacyber/react-mui-branding": "npm:1.0.0"
     "@testing-library/jest-dom": "npm:6.6.3"

@@ -1140,7 +1140,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@mui/icons-material@npm:^7.1.0":
+"@mui/icons-material@npm:^7.1.1":
   version: 7.1.1
   resolution: "@mui/icons-material@npm:7.1.1"
   dependencies:
@@ -1156,7 +1156,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@mui/material@npm:^7.1.0":
+"@mui/material@npm:^7.1.1":
   version: 7.1.1
   resolution: "@mui/material@npm:7.1.1"
   dependencies:
@@ -1260,7 +1260,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@mui/types@npm:^7.4.2, @mui/types@npm:^7.4.3":
+"@mui/types@npm:^7.4.3":
   version: 7.4.3
   resolution: "@mui/types@npm:7.4.3"
   dependencies:
@@ -1410,9 +1410,9 @@ __metadata:
     "@emotion/react": "npm:^11.14.0"
     "@emotion/styled": "npm:^11.14.0"
     "@happy-dom/jest-environment": "npm:17.6.3"
-    "@mui/icons-material": "npm:^7.1.0"
-    "@mui/material": "npm:^7.1.0"
-    "@mui/types": "npm:^7.4.2"
+    "@mui/icons-material": "npm:^7.1.1"
+    "@mui/material": "npm:^7.1.1"
+    "@mui/types": "npm:^7.4.3"
     "@pangeacyber/react-mui-branding": "npm:1.0.0"
     "@pangeacyber/react-mui-shared": "npm:2.0.3"
     "@rollup/plugin-commonjs": "npm:28.0.3"

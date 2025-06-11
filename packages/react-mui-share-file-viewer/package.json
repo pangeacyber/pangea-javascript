@@ -26,9 +26,9 @@
   "devDependencies": {
     "@emotion/react": "^11.14.0",
     "@emotion/styled": "^11.14.0",
-    "@mui/icons-material": "^7.1.0",
-    "@mui/material": "^7.1.0",
-    "@mui/types": "^7.4.2",
+    "@mui/icons-material": "^7.1.1",
+    "@mui/material": "^7.1.1",
+    "@mui/types": "^7.4.3",
     "@pangeacyber/react-mui-branding": "1.0.0",
     "@rollup/plugin-commonjs": "28.0.3",
     "@rollup/plugin-json": "^6.1.0",

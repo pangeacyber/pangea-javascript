@@ -16,9 +16,9 @@
     "build": "rollup -c"
   },
   "devDependencies": {
-    "@mui/icons-material": "^6.1.6",
-    "@mui/material": "^6.1.6",
-    "@mui/types": "^7.2.19",
+    "@mui/icons-material": "^6.4.12",
+    "@mui/material": "^6.4.12",
+    "@mui/types": "^7.4.3",
     "@rollup/plugin-commonjs": "28.0.3",
     "@rollup/plugin-json": "^6.1.0",
     "@rollup/plugin-node-resolve": "^15.3.1",
