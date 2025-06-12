@@ -36,7 +36,7 @@
     "proper-url-join": "^2.1.2"
   },
   "devDependencies": {
-    "@arethetypeswrong/cli": "0.18.1",
+    "@arethetypeswrong/cli": "0.18.2",
     "@biomejs/biome": "1.9.4",
     "@stoplight/prism-cli": "5.14.2",
     "@tsconfig/node20": "20.1.5",
