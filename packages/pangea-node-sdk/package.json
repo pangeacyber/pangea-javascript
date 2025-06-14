@@ -50,7 +50,7 @@
     "tsdown": "0.12.7",
     "typedoc": "^0.28.5",
     "typescript": "5.8.3",
-    "ultracite": "4.2.8",
+    "ultracite": "4.2.10",
     "vite-tsconfig-paths": "5.1.4",
     "vitest": "3.2.3"
   },
