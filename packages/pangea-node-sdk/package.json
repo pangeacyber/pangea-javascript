@@ -39,7 +39,7 @@
     "@arethetypeswrong/cli": "0.18.2",
     "@biomejs/biome": "1.9.4",
     "@stoplight/prism-cli": "5.14.2",
-    "@tsconfig/node20": "20.1.5",
+    "@tsconfig/node20": "20.1.6",
     "@types/crypto-js": "^4.2.2",
     "@types/node": "20.19.0",
     "@types/promise-retry": "1.1.6",
