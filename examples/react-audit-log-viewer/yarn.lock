@@ -1409,10 +1409,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@tsconfig/cypress@npm:1.0.2":
-  version: 1.0.2
-  resolution: "@tsconfig/cypress@npm:1.0.2"
-  checksum: 10c0/5624bbbd70f3c052f4638ca2378b3f6c319e382da29b79cac8fd6f362a915805f7877a578ce3b688bdca3baeda9bcb34077009e5b5d004598a92b7d51a768e3d
+"@tsconfig/cypress@npm:1.0.3":
+  version: 1.0.3
+  resolution: "@tsconfig/cypress@npm:1.0.3"
+  checksum: 10c0/108a7620447bb4923dd048afda8557e7db05cb95f8d5e3ef681f50b89942480d986501e1b848e9c47ceaee3544bcbb3a722e48742223154641ecbb30d0772a9b
   languageName: node
   linkType: hard
 
@@ -4257,7 +4257,7 @@ __metadata:
     "@pangeacyber/react-mui-branding": "npm:1.0.0"
     "@testing-library/jest-dom": "npm:6.6.3"
     "@testing-library/react": "npm:15.0.7"
-    "@tsconfig/cypress": "npm:1.0.2"
+    "@tsconfig/cypress": "npm:1.0.3"
     "@tsconfig/vite-react": "npm:3.4.0"
     "@types/react-dom": "npm:18.3.7"
     "@vitejs/plugin-react": "npm:4.5.2"
