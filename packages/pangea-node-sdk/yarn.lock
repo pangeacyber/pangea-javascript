@@ -3753,7 +3753,7 @@ __metadata:
     tsdown: "npm:0.12.8"
     typedoc: "npm:^0.28.5"
     typescript: "npm:5.8.3"
-    ultracite: "npm:4.2.10"
+    ultracite: "npm:4.2.11"
     vite-tsconfig-paths: "npm:5.1.4"
     vitest: "npm:3.2.3"
   languageName: unknown
@@ -4861,14 +4861,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"ultracite@npm:4.2.10":
-  version: 4.2.10
-  resolution: "ultracite@npm:4.2.10"
+"ultracite@npm:4.2.11":
+  version: 4.2.11
+  resolution: "ultracite@npm:4.2.11"
   dependencies:
     commander: "npm:^14.0.0"
   bin:
     ultracite: scripts/run.mjs
-  checksum: 10c0/3f1ee3c26d8219bc86b915c1c7422c52366d50d75559451870fc7572c70f6d8c954a3346e52e374ada1e4fa00723a216601d4ce028bb124ef9fa1adbcf3e2dbe
+  checksum: 10c0/666bdecdc2b3d2e229a0c7179821ad000eccc582a47972e626564d9b94a2ad030711fecbd10df62a3e09a1b0b9d789604425450325055426e97a37ad1b874998
   languageName: node
   linkType: hard
 
