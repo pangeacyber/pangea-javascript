@@ -16,7 +16,7 @@
   },
   "dependencies": {
     "@emotion/react": "11.14.0",
-    "@emotion/styled": "11.14.0",
+    "@emotion/styled": "11.14.1",
     "@mui/icons-material": "^6.1.6",
     "@mui/material": "^6.1.6",
     "@pangeacyber/react-mui-audit-log-viewer": "2.0.2",
