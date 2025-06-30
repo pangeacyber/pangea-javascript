@@ -60,7 +60,7 @@ const tokenGeneral = getTestToken(environment);
 const tokenMultiConfig = getMultiConfigTestToken(environment);
 const domain = getTestDomain(environment);
 const config = new PangeaConfig({
-  domain: domain,
+  domain,
   customUserAgent: "sdk-test",
 });
 const auditGeneral = new AuditService(tokenGeneral, config);
@@ -197,7 +197,7 @@ it(
     const limit = 1;
     const maxResults = 1;
     const queryOptions: Audit.SearchParamsOptions = {
-      limit: limit,
+      limit,
       max_results: maxResults,
     };
 
@@ -232,7 +232,7 @@ it("log an event, local sign and verify", async () => {
 
   const respLog = await auditGeneral.log(event, {
     verbose: true,
-    signer: signer,
+    signer,
   });
   expect(respLog.status).toBe("Success");
   expect(typeof respLog.result.hash).toBe("string");
@@ -267,7 +267,7 @@ it(
 
     const respLog = await auditWithTenantId.log(event, {
       verbose: true,
-      signer: signer,
+      signer,
     });
     expect(respLog.status).toBe("Success");
     expect(typeof respLog.result.hash).toBe("string");
@@ -322,7 +322,7 @@ it(
 
     const respLog = await auditGeneral.log(event, {
       verbose: true,
-      signer: signer,
+      signer,
     });
     expect(respLog.status).toBe("Success");
     expect(typeof respLog.result.hash).toBe("string");
@@ -498,7 +498,7 @@ it("custom schema log an audit event in JSON format", async () => {
   const limit = 1;
   const maxResults = 1;
   const queryOptions: Audit.SearchParamsOptions = {
-    limit: limit,
+    limit,
     max_results: maxResults,
   };
 
@@ -523,7 +523,7 @@ it("custom log an event, local sign and verify", async () => {
   try {
     const respLog = await auditCustomSchema.log(event, {
       verbose: true,
-      signer: signer,
+      signer,
     });
     expect(respLog.status).toBe("Success");
     expect(typeof respLog.result.hash).toBe("string");
@@ -592,7 +592,7 @@ it(
     const limit = 1;
     const maxResults = 1;
     const queryOptions: Audit.SearchParamsOptions = {
-      limit: limit,
+      limit,
       max_results: maxResults,
     };
 
@@ -617,7 +617,7 @@ it("search audit log and verify signature", async () => {
   const limit = 2;
 
   const queryOptions: Audit.SearchParamsOptions = {
-    limit: limit,
+    limit,
     order: "asc",
     start: "7d",
   };
@@ -642,7 +642,7 @@ it(
     };
 
     const queryOptions: Audit.SearchParamsOptions = {
-      limit: limit,
+      limit,
       order: "asc", // Oldest events should have consistency proofs
       max_results: maxResults,
       start: "30d",
@@ -675,7 +675,7 @@ it("search audit log and skip consistency verification", async () => {
   const limit = 2;
 
   const queryOptions: Audit.SearchParamsOptions = {
-    limit: limit,
+    limit,
     order: "asc",
     start: "7d",
   };
@@ -876,7 +876,7 @@ it("fail bad auth token", async () => {
 it("log multi config 1. no verbose", async () => {
   const configID = getConfigID(environment, "audit", 1);
   const config = new PangeaConfig({
-    domain: domain,
+    domain,
     customUserAgent: "sdk-test",
   });
   const audit = new AuditService(tokenMultiConfig, config, undefined, configID);
@@ -901,7 +901,7 @@ it("log multi config 1. no verbose", async () => {
 it("log multi config 2. no verbose", async () => {
   const configID = getConfigID(environment, "audit", 2);
   const config = new PangeaConfig({
-    domain: domain,
+    domain,
     customUserAgent: "sdk-test",
   });
   const audit = new AuditService(tokenMultiConfig, config, undefined, configID);
@@ -925,7 +925,7 @@ it("log multi config 2. no verbose", async () => {
 
 it("log multi config token, without config id", async () => {
   const config = new PangeaConfig({
-    domain: domain,
+    domain,
     customUserAgent: "sdk-test",
   });
   const audit = new AuditService(tokenMultiConfig, config);
@@ -978,7 +978,7 @@ it("log an audit event bulk. verbose and sign", async () => {
 
   const options: Audit.LogOptions = {
     verbose: true, // set verbose to true
-    signer: signer,
+    signer,
   };
 
   const response = await auditGeneral.logBulk([event, event], options);
@@ -1071,7 +1071,7 @@ it("log stream", async () => {
   };
   const configId = getConfigID(environment, "audit", 3);
   const config = new PangeaConfig({
-    domain: domain,
+    domain,
     customUserAgent: "sdk-test",
   });
   const audit = new AuditService(tokenMultiConfig, config, undefined, configId);

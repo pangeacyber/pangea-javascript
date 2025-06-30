@@ -135,18 +135,18 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@biomejs/biome@npm:1.9.4":
-  version: 1.9.4
-  resolution: "@biomejs/biome@npm:1.9.4"
+"@biomejs/biome@npm:2.0.5":
+  version: 2.0.5
+  resolution: "@biomejs/biome@npm:2.0.5"
   dependencies:
-    "@biomejs/cli-darwin-arm64": "npm:1.9.4"
-    "@biomejs/cli-darwin-x64": "npm:1.9.4"
-    "@biomejs/cli-linux-arm64": "npm:1.9.4"
-    "@biomejs/cli-linux-arm64-musl": "npm:1.9.4"
-    "@biomejs/cli-linux-x64": "npm:1.9.4"
-    "@biomejs/cli-linux-x64-musl": "npm:1.9.4"
-    "@biomejs/cli-win32-arm64": "npm:1.9.4"
-    "@biomejs/cli-win32-x64": "npm:1.9.4"
+    "@biomejs/cli-darwin-arm64": "npm:2.0.5"
+    "@biomejs/cli-darwin-x64": "npm:2.0.5"
+    "@biomejs/cli-linux-arm64": "npm:2.0.5"
+    "@biomejs/cli-linux-arm64-musl": "npm:2.0.5"
+    "@biomejs/cli-linux-x64": "npm:2.0.5"
+    "@biomejs/cli-linux-x64-musl": "npm:2.0.5"
+    "@biomejs/cli-win32-arm64": "npm:2.0.5"
+    "@biomejs/cli-win32-x64": "npm:2.0.5"
   dependenciesMeta:
     "@biomejs/cli-darwin-arm64":
       optional: true
@@ -166,62 +166,62 @@ __metadata:
       optional: true
   bin:
     biome: bin/biome
-  checksum: 10c0/b5655c5aed9a6fffe24f7d04f15ba4444389d0e891c9ed9106fab7388ac9b4be63185852cc2a937b22940dac3e550b71032a4afd306925cfea436c33e5646b3e
+  checksum: 10c0/850b5bbcdf4f4d964c25785f2eb8121657873acd57bc4d943663a402faf74f6c2c2be3e8d3c6cd4b67a0d63211980c35ebcde7ecd3e7b86866f32234bde80fd1
   languageName: node
   linkType: hard
 
-"@biomejs/cli-darwin-arm64@npm:1.9.4":
-  version: 1.9.4
-  resolution: "@biomejs/cli-darwin-arm64@npm:1.9.4"
+"@biomejs/cli-darwin-arm64@npm:2.0.5":
+  version: 2.0.5
+  resolution: "@biomejs/cli-darwin-arm64@npm:2.0.5"
   conditions: os=darwin & cpu=arm64
   languageName: node
   linkType: hard
 
-"@biomejs/cli-darwin-x64@npm:1.9.4":
-  version: 1.9.4
-  resolution: "@biomejs/cli-darwin-x64@npm:1.9.4"
+"@biomejs/cli-darwin-x64@npm:2.0.5":
+  version: 2.0.5
+  resolution: "@biomejs/cli-darwin-x64@npm:2.0.5"
   conditions: os=darwin & cpu=x64
   languageName: node
   linkType: hard
 
-"@biomejs/cli-linux-arm64-musl@npm:1.9.4":
-  version: 1.9.4
-  resolution: "@biomejs/cli-linux-arm64-musl@npm:1.9.4"
+"@biomejs/cli-linux-arm64-musl@npm:2.0.5":
+  version: 2.0.5
+  resolution: "@biomejs/cli-linux-arm64-musl@npm:2.0.5"
   conditions: os=linux & cpu=arm64 & libc=musl
   languageName: node
   linkType: hard
 
-"@biomejs/cli-linux-arm64@npm:1.9.4":
-  version: 1.9.4
-  resolution: "@biomejs/cli-linux-arm64@npm:1.9.4"
+"@biomejs/cli-linux-arm64@npm:2.0.5":
+  version: 2.0.5
+  resolution: "@biomejs/cli-linux-arm64@npm:2.0.5"
   conditions: os=linux & cpu=arm64 & libc=glibc
   languageName: node
   linkType: hard
 
-"@biomejs/cli-linux-x64-musl@npm:1.9.4":
-  version: 1.9.4
-  resolution: "@biomejs/cli-linux-x64-musl@npm:1.9.4"
+"@biomejs/cli-linux-x64-musl@npm:2.0.5":
+  version: 2.0.5
+  resolution: "@biomejs/cli-linux-x64-musl@npm:2.0.5"
   conditions: os=linux & cpu=x64 & libc=musl
   languageName: node
   linkType: hard
 
-"@biomejs/cli-linux-x64@npm:1.9.4":
-  version: 1.9.4
-  resolution: "@biomejs/cli-linux-x64@npm:1.9.4"
+"@biomejs/cli-linux-x64@npm:2.0.5":
+  version: 2.0.5
+  resolution: "@biomejs/cli-linux-x64@npm:2.0.5"
   conditions: os=linux & cpu=x64 & libc=glibc
   languageName: node
   linkType: hard
 
-"@biomejs/cli-win32-arm64@npm:1.9.4":
-  version: 1.9.4
-  resolution: "@biomejs/cli-win32-arm64@npm:1.9.4"
+"@biomejs/cli-win32-arm64@npm:2.0.5":
+  version: 2.0.5
+  resolution: "@biomejs/cli-win32-arm64@npm:2.0.5"
   conditions: os=win32 & cpu=arm64
   languageName: node
   linkType: hard
 
-"@biomejs/cli-win32-x64@npm:1.9.4":
-  version: 1.9.4
-  resolution: "@biomejs/cli-win32-x64@npm:1.9.4"
+"@biomejs/cli-win32-x64@npm:2.0.5":
+  version: 2.0.5
+  resolution: "@biomejs/cli-win32-x64@npm:2.0.5"
   conditions: os=win32 & cpu=x64
   languageName: node
   linkType: hard
@@ -230,6 +230,27 @@ __metadata:
   version: 1.1.1
   resolution: "@braidai/lang@npm:1.1.1"
   checksum: 10c0/b015403fa0326b06dd6cd8b0f08f0f1c02d6eb1c58afdfa28c19d4f3f35752734e02e005daeea2834e257a4b07dcb86b24c4cfcb79c4e54a191e2734d919171d
+  languageName: node
+  linkType: hard
+
+"@clack/core@npm:0.5.0":
+  version: 0.5.0
+  resolution: "@clack/core@npm:0.5.0"
+  dependencies:
+    picocolors: "npm:^1.0.0"
+    sisteransi: "npm:^1.0.5"
+  checksum: 10c0/ef55dce4b0a4802171b71fe595865a6452c7cf823d162df7fa9afe2ea5a594b9d97e0b8e2880c2a805f2ce1d2f782cb1637d9f8d2ab8b99010af3a20816fae5a
+  languageName: node
+  linkType: hard
+
+"@clack/prompts@npm:^0.11.0":
+  version: 0.11.0
+  resolution: "@clack/prompts@npm:0.11.0"
+  dependencies:
+    "@clack/core": "npm:0.5.0"
+    picocolors: "npm:^1.0.0"
+    sisteransi: "npm:^1.0.5"
+  checksum: 10c0/4c573f2adec3b9109fe861e36312be8ae7cc6e80a5128aa784b9aeafeda5001b23f66c08eca50f4491119b435d9587ec9862956be8c5be472ec3373275003ba8
   languageName: node
   linkType: hard
 
@@ -2074,6 +2095,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"deepmerge@npm:^4.3.1":
+  version: 4.3.1
+  resolution: "deepmerge@npm:4.3.1"
+  checksum: 10c0/e53481aaf1aa2c4082b5342be6b6d8ad9dfe387bc92ce197a66dea08bd4265904a087e75e464f14d1347cf2ac8afe1e4c16b266e0561cc5df29382d3c5f80044
+  languageName: node
+  linkType: hard
+
 "defu@npm:^6.1.4":
   version: 6.1.4
   resolution: "defu@npm:6.1.4"
@@ -3128,6 +3156,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"jsonc-parser@npm:^3.3.1":
+  version: 3.3.1
+  resolution: "jsonc-parser@npm:3.3.1"
+  checksum: 10c0/269c3ae0a0e4f907a914bf334306c384aabb9929bd8c99f909275ebd5c2d3bc70b9bcd119ad794f339dec9f24b6a4ee9cd5a8ab2e6435e730ad4075388fc2ab6
+  languageName: node
+  linkType: hard
+
 "jsonc-parser@npm:~2.2.1":
   version: 2.2.1
   resolution: "jsonc-parser@npm:2.2.1"
@@ -3740,7 +3775,7 @@ __metadata:
   dependencies:
     "@arethetypeswrong/cli": "npm:0.18.2"
     "@aws-crypto/crc32c": "npm:^5.2.0"
-    "@biomejs/biome": "npm:1.9.4"
+    "@biomejs/biome": "npm:2.0.5"
     "@stoplight/prism-cli": "npm:5.14.2"
     "@tsconfig/node20": "npm:20.1.6"
     "@types/crypto-js": "npm:^4.2.2"
@@ -3760,7 +3795,7 @@ __metadata:
     tsdown: "npm:0.12.9"
     typedoc: "npm:^0.28.5"
     typescript: "npm:5.8.3"
-    ultracite: "npm:4.2.13"
+    ultracite: "npm:5.0.25"
     vite-tsconfig-paths: "npm:5.1.4"
     vitest: "npm:3.2.4"
   languageName: unknown
@@ -3862,7 +3897,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"picocolors@npm:^1.1.1":
+"picocolors@npm:^1.0.0, picocolors@npm:^1.1.1":
   version: 1.1.1
   resolution: "picocolors@npm:1.1.1"
   checksum: 10c0/e2e3e8170ab9d7c7421969adaa7e1b31434f789afb9b3f115f6b96d91945041ac3ceb02e9ec6fe6510ff036bcc0bf91e69a1772edc0b707e12b19c0f2d6bcf58
@@ -4378,6 +4413,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"sisteransi@npm:^1.0.5":
+  version: 1.0.5
+  resolution: "sisteransi@npm:1.0.5"
+  checksum: 10c0/230ac975cca485b7f6fe2b96a711aa62a6a26ead3e6fb8ba17c5a00d61b8bed0d7adc21f5626b70d7c33c62ff4e63933017a6462942c719d1980bb0b1207ad46
+  languageName: node
+  linkType: hard
+
 "skin-tone@npm:^2.0.0":
   version: 2.0.0
   resolution: "skin-tone@npm:2.0.0"
@@ -4868,14 +4910,18 @@ __metadata:
   languageName: node
   linkType: hard
 
-"ultracite@npm:4.2.13":
-  version: 4.2.13
-  resolution: "ultracite@npm:4.2.13"
+"ultracite@npm:5.0.25":
+  version: 5.0.25
+  resolution: "ultracite@npm:5.0.25"
   dependencies:
+    "@clack/prompts": "npm:^0.11.0"
     commander: "npm:^14.0.0"
+    deepmerge: "npm:^4.3.1"
+    jsonc-parser: "npm:^3.3.1"
+    vitest: "npm:^3.2.4"
   bin:
-    ultracite: scripts/run.mjs
-  checksum: 10c0/161800c06ca95f45d517c77949523563cbda8b7c42f037828d55b29931829a82aa7e472fbc0cce23b2385b4c4aa798ca9738170feb772e331a3917eabc59c776
+    ultracite: dist/index.js
+  checksum: 10c0/228d6564b72ab933cd513ebd344167ed42de7a0437cb5e80a9d804dac752e3e5c607fb6929b0a4f2f24a7ef58a4d99e2a8be9e47f99e66cab581c759529e4e49
   languageName: node
   linkType: hard
 
@@ -5086,7 +5132,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"vitest@npm:3.2.4":
+"vitest@npm:3.2.4, vitest@npm:^3.2.4":
   version: 3.2.4
   resolution: "vitest@npm:3.2.4"
   dependencies:

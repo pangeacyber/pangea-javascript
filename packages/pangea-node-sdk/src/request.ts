@@ -91,7 +91,7 @@ class PangeaRequest {
         headers: this.getHeaders(),
         body: JSON.stringify(data),
         retry: { limit: this.config.requestRetries },
-        responseType: responseType,
+        responseType,
       };
       response = await this.httpPost(url, request);
     }
@@ -217,7 +217,7 @@ class PangeaRequest {
 
     this.postPresignedURL(new URL(presigned_url), {
       file: fileData.file,
-      file_details: file_details,
+      file_details,
       name: "file",
     });
     return response;

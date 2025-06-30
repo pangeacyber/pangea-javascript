@@ -1345,7 +1345,6 @@ export namespace Vault {
     /** Whether the key is exportable or not. */
     exportable?: boolean;
 
-    /** */
     client_id?: string;
 
     /** For settings that inherit a value from a parent folder, the full path of the folder where the value is set */

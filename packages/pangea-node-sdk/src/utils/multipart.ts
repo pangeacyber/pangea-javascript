@@ -129,7 +129,6 @@ export function parse(multipartBodyBuffer: Buffer, boundary: string): Input[] {
 export function getBoundary(header: string): string {
   const items = header.split(";");
   if (items) {
-    // biome-ignore lint/style/useForOf: TODO
     for (let i = 0; i < items.length; i++) {
       const item = String(items[i]).trim();
       if (item.indexOf("boundary") >= 0) {

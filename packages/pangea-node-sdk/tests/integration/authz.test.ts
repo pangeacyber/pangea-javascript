@@ -14,7 +14,7 @@ const environment = loadTestEnvironment("authz", TestEnvironment.LIVE);
 const token = getTestToken(environment);
 const domain = getTestDomain(environment);
 const config = new PangeaConfig({
-  domain: domain,
+  domain,
   customUserAgent: "sdk-test",
 });
 const authz = new AuthZService(token, config);

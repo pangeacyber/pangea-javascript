@@ -43,7 +43,7 @@ it("Folder create/delete", async () => {
   expect(respCreate.result.object.updated_at).toBeDefined();
 
   const id = respCreate.result.object.id;
-  const respDelete = await client.delete({ id: id });
+  const respDelete = await client.delete({ id });
   expect(respDelete.success).toBeTruthy();
   expect(respDelete.result.count).toBe(1);
 });
@@ -53,12 +53,12 @@ it("Put file. Multipart transfer_method", async () => {
     const name = `${TIME}_file_multipart`;
     const respPut = await client.put(
       {
-        name: name,
+        name,
         transfer_method: TransferMethod.MULTIPART,
       },
       {
         file: testFilePath,
-        name: name,
+        name,
       }
     );
     expect(respPut.success).toBeTruthy();
@@ -95,12 +95,12 @@ it("Put zero bytes file. Multipart transfer_method", async () => {
     const name = `${TIME}_file_zero_bytes_multipart`;
     const respPut = await client.put(
       {
-        name: name,
+        name,
         transfer_method: TransferMethod.MULTIPART,
       },
       {
         file: zeroBytesFilePath,
-        name: name,
+        name,
       }
     );
     expect(respPut.success).toBeTruthy();
@@ -136,12 +136,12 @@ it("Put file. post-url transfer_method", async () => {
   const name = `${TIME}_file_post_url`;
   const respPut = await client.put(
     {
-      name: name,
+      name,
       transfer_method: TransferMethod.POST_URL,
     },
     {
       file: testFilePath,
-      name: name,
+      name,
     }
   );
   expect(respPut.success).toBeTruthy();
@@ -171,12 +171,12 @@ it("Put zero bytes file. post-url transfer_method", async () => {
   const name = `${TIME}_file_zero_bytes_post_url`;
   const respPut = await client.put(
     {
-      name: name,
+      name,
       transfer_method: TransferMethod.POST_URL,
     },
     {
       file: zeroBytesFilePath,
-      name: name,
+      name,
     }
   );
   expect(respPut.success).toBeTruthy();
@@ -188,7 +188,7 @@ it("get url and put upload", async () => {
   try {
     const request: Share.PutRequest = {
       transfer_method: TransferMethod.PUT_URL,
-      name: name,
+      name,
     };
     response = await client.requestUploadURL(request);
   } catch (e) {
@@ -205,7 +205,7 @@ it("get url and put upload", async () => {
     url,
     {
       file: testFilePath,
-      name: name,
+      name,
     },
     {
       transfer_method: TransferMethod.PUT_URL,
@@ -235,7 +235,7 @@ it("get url and post upload", async () => {
 
     const request: Share.PutRequest = {
       transfer_method: TransferMethod.POST_URL,
-      name: name,
+      name,
       crc32c: params.crc32c,
       sha256: params.sha256,
       size: params.size,
@@ -257,8 +257,8 @@ it("get url and post upload", async () => {
     new URL(url),
     {
       file: testFilePath,
-      name: name,
-      file_details: file_details,
+      name,
+      file_details,
     },
     {
       transfer_method: TransferMethod.POST_URL,
@@ -392,7 +392,7 @@ it("Item life cycle", async () => {
       targets: [folderID],
       link_type: Share.LinkType.EDITOR,
       max_access_count: 3,
-      authenticators: authenticators,
+      authenticators,
     },
   ];
 

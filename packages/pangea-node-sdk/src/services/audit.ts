@@ -210,7 +210,7 @@ class AuditService extends BaseService {
     }
 
     event = eventOrderAndStringifySubfields(event);
-    const data: Audit.LogEvent = { event: event };
+    const data: Audit.LogEvent = { event };
 
     if (options.signer) {
       const signer = options.signer;
@@ -255,7 +255,7 @@ class AuditService extends BaseService {
     if (options?.verify) {
       result.membership_verification = verifyLogMembershipProof({
         log: result,
-        newUnpublishedRootHash: newUnpublishedRootHash,
+        newUnpublishedRootHash,
       });
 
       result.consistency_verification = verifyLogConsistencyProof({
@@ -588,12 +588,12 @@ class AuditService extends BaseService {
       response.result.events.forEach((record: Audit.AuditRecord) => {
         record.membership_verification = verifyRecordMembershipProof({
           root: record.published ? root : response.result.unpublished_root,
-          record: record,
+          record,
         });
 
         record.consistency_verification = verifyRecordConsistencyProof({
           publishedRoots: this.publishedRoots,
-          record: record,
+          record,
         });
 
         if (
@@ -606,7 +606,7 @@ class AuditService extends BaseService {
             ).then(() => {
               record.consistency_verification = verifyRecordConsistencyProof({
                 publishedRoots: this.publishedRoots,
-                record: record,
+                record,
               });
             })
           );

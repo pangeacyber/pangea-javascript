@@ -25,7 +25,7 @@ export default class ClientSession extends BaseService {
    */
   invalidate(token: string, sessionID: string): Promise<PangeaResponse<{}>> {
     const data: AuthN.Client.Session.InvalidateRequest = {
-      token: token,
+      token,
       session_id: sessionID,
     };
 

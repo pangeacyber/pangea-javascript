@@ -57,12 +57,12 @@ export class Signer {
     return String(pem);
   }
 
-  getAlgorithm(): string | undefined {
+  getAlgorithm(): string | null {
     switch (this.privateKey.asymmetricKeyType) {
       case "ed25519":
         return Vault.AsymmetricAlgorithm.Ed25519;
       default:
-        return undefined;
+        return null;
     }
   }
 }

@@ -63,7 +63,6 @@ export const getArweavePublishedRoots = async (
   const body: any = await response.json();
   const edges = body?.data?.transactions?.edges ?? [];
 
-  // biome-ignore lint/style/useForOf: TODO
   for (let idx = 0; idx < edges.length; idx++) {
     const edge = edges[idx];
 
@@ -92,14 +91,12 @@ export const getArweavePublishedRoots = async (
     };
   }
 
-  // biome-ignore lint/style/useForOf: TODO
   for (let idx = 0; idx < treeSizes.length; idx++) {
     const treeSize = treeSizes[idx];
 
     if (treeSize && !(treeSize in publishedRoots)) {
       const root = await fetchRoot(treeSize).catch((err) => {
         // biome-ignore lint/suspicious/noConsole: TODO
-        // biome-ignore lint/suspicious/noConsoleLog: TODO
         console.log("Failed to fetch server roots", err);
       });
 

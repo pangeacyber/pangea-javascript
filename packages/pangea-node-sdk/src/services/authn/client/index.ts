@@ -37,7 +37,7 @@ export default class Client extends BaseService {
    */
   userinfo(code: string): Promise<PangeaResponse<AuthN.Client.UserinfoResult>> {
     const data: AuthN.Client.UserinfoRequest = {
-      code: code,
+      code,
     };
     return this.post("v2/client/userinfo", data);
   }
