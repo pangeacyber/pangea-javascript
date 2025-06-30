@@ -90,7 +90,6 @@ This example is crucial if you want to ensure tamper-proof integrity in your log
 **Purpose**: Demonstrates a usage of filterOptions for the AuditLogViewer.
 
 - **Key Prop**:
-
   - `filterOptions.hotStorageRange`: Specifies the optional search window for searches and provides a warning when exceeded
   - `filterOptions.filterableFields`: Specifies exactly which field in the schema should appear as filterable
   - `filterOptions.fieldOptions`: Specifies known valueOptions for fields to improve auto-complete over the field filtering
