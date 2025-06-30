@@ -49,8 +49,8 @@ it("Sanitize and share", async () => {
   const request: Sanitize.SanitizeRequest = {
     transfer_method: TransferMethod.POST_URL,
     file: file_scan,
-    content: content,
-    share_output: share_output,
+    content,
+    share_output,
     uploaded_file_name: "uploaded_file",
   };
   const response = await trySlowRequest(
@@ -101,8 +101,8 @@ it("Sanitize no share", async () => {
   const request: Sanitize.SanitizeRequest = {
     transfer_method: TransferMethod.POST_URL,
     file: file_scan,
-    content: content,
-    share_output: share_output,
+    content,
+    share_output,
     uploaded_file_name: "uploaded_file",
   };
   const response = await trySlowRequest(
@@ -198,8 +198,8 @@ it("Sanitize multipart upload", async () => {
   const request: Sanitize.SanitizeRequest = {
     transfer_method: TransferMethod.MULTIPART,
     file: file_scan,
-    content: content,
-    share_output: share_output,
+    content,
+    share_output,
     uploaded_file_name: "uploaded_file",
   };
   const response = await trySlowRequest(
@@ -396,7 +396,7 @@ it("Sanitize get url and post upload", async () => {
     {
       file: testfilePath,
       name: "file",
-      file_details: file_details,
+      file_details,
     },
     {
       transfer_method: TransferMethod.POST_URL,

@@ -214,7 +214,7 @@ it("File Scan get url and post upload", async () => {
 
   let response = await trySlowRequest(() =>
     fileScan.requestUploadURL(request, {
-      params: params,
+      params,
     })
   );
   if (!response) {
@@ -230,7 +230,7 @@ it("File Scan get url and post upload", async () => {
     {
       file: testfilePath,
       name: "file",
-      file_details: file_details,
+      file_details,
     },
     {
       transfer_method: TransferMethod.POST_URL,

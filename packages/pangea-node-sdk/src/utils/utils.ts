@@ -147,7 +147,7 @@ export function getFileUploadParams(
   return {
     sha256: sha256hex,
     crc32c: crcValue.toString(16).padStart(8, "0"),
-    size: size,
+    size,
   };
 }
 

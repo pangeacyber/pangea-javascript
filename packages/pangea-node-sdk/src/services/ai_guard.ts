@@ -56,7 +56,7 @@ export class AIGuardService extends BaseService {
    * });
    * ```
    */
-  guardText<T>(
+  guardText(
     request: {
       messages: { role: string; content: string }[];
     } & AIGuard.TextGuardRequest

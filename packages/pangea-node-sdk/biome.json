@@ -1,25 +1,36 @@
 {
   "$schema": "./node_modules/@biomejs/biome/configuration_schema.json",
   "extends": ["ultracite"],
-  "organizeImports": { "enabled": false },
+  "assist": {
+    "actions": {
+      "source": {
+        "organizeImports": "off"
+      }
+    }
+  },
   "formatter": { "enabled": false },
   "linter": {
     "rules": {
       "complexity": {
         "noBannedTypes": "off",
-        "noExcessiveCognitiveComplexity": "off"
+        "noExcessiveCognitiveComplexity": "off",
+        "useSimplifiedLogicExpression": "off"
       },
       "nursery": {
-        "noEnum": "off",
-        "useConsistentMemberAccessibility": "off"
+        "noAwaitInLoop": "off",
+        "noShadow": "off",
+        "useNumericSeparators": "off"
       },
       "style": {
-        "useImportType": "off",
+        "noEnum": "off",
         "noInferrableTypes": "off",
         "noNamespace": "off",
         "noNonNullAssertion": "off",
         "noParameterAssign": "off",
-        "useFilenamingConvention": "off"
+        "useConsistentMemberAccessibility": "off",
+        "useFilenamingConvention": "off",
+        "useForOf": "off",
+        "useImportType": "off"
       },
       "suspicious": {
         "noExplicitAny": "off"
@@ -28,19 +39,18 @@
   },
   "overrides": [
     {
-      "include": ["tests/**"],
+      "includes": ["tests/**"],
       "linter": {
         "rules": {
           "suspicious": {
             "noConsole": "off",
-            "noConsoleLog": "off",
             "noMisplacedAssertion": "off"
           }
         }
       }
     },
     {
-      "include": ["tsconfig.json"],
+      "includes": ["tsconfig.json"],
       "json": {
         "parser": {
           "allowComments": true
