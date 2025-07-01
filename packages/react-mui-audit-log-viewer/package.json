@@ -1,6 +1,6 @@
 {
   "name": "@pangeacyber/react-mui-audit-log-viewer",
-  "version": "2.0.2",
+  "version": "2.0.3",
   "description": "An extension of material ui data-grid for Pangea audit log records",
   "main": "dist/cjs/index.js",
   "module": "dist/esm/index.js",
@@ -15,7 +15,7 @@
     "dist"
   ],
   "scripts": {
-    "storybook": "storybook dev -p 6006",
+    "storybook": "NODE_OPTIONS=--experimental-vm-modules storybook dev -p 6006",
     "build-storybook": "storybook build",
     "build-docs": "typedoc --plugin typedoc-plugin-rename-defaults",
     "build": "NODE_ENV=production rollup -c && yarn build-docs",
@@ -62,7 +62,7 @@
     "typedoc": "^0.28.6",
     "typedoc-plugin-rename-defaults": "^0.7.3",
     "typescript": "^5.8.3",
-    "vite": "^7.0.0"
+    "vite": "6.3.5"
   },
   "dependencies": {
     "@pangeacyber/react-mui-shared": "2.0.3",

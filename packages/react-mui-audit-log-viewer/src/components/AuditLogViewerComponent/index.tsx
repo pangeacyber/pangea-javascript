@@ -51,6 +51,8 @@ export interface ViewerProps<Event = Audit.DefaultEvent> {
   visibilityModel?: Partial<Record<keyof Event, boolean>>;
   onVisibilityModelChange?: (visibilityModel: Record<any, boolean>) => void;
 
+  columnCustomizationPosition?: "inline";
+
   order?: string[];
   onOrderChange?: (order: string[]) => void;
 
@@ -79,6 +81,7 @@ const AuditLogViewerComponent: FC<ViewerProps> = ({
   initialQuery = "",
 
   onVisibilityModelChange,
+  columnCustomizationPosition,
 
   order,
   onOrderChange,
@@ -188,11 +191,21 @@ const AuditLogViewerComponent: FC<ViewerProps> = ({
           visibilityModel: visibilityModel ?? defaultVisibility,
           onVisibilityModelChange,
 
+          position: columnCustomizationPosition,
+
           order: order ?? defaultOrder,
           onOrderChange,
 
           dynamicFlexColumn: true,
         }}
+        ActionColumn={
+          columnCustomizationPosition === "inline"
+            ? {
+                render: () => null,
+                isPinned: true,
+              }
+            : undefined
+        }
         ExpansionRow={{
           render: (object: any, open: boolean) => {
             if (!open) return null;
