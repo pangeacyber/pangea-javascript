@@ -1,7 +1,7 @@
 build_react_mui_share_file_viewer:
   needs: []
   stage: build
-  image: node:20.19.3@sha256:6a4de97365bb291992222c4f27cafc338773989712259e809632a873ff45a6ff
+  image: node:20.19.3@sha256:691ef3fccb415741c5f5ecb39cc5f5a9b8122b84c5ffda53cf68f4a4963f45ff
   timeout: 10m
   retry:
     max: 2
@@ -24,7 +24,7 @@ build_react_mui_share_file_viewer:
 publish_react_mui_share_file_viewer:
   needs: [build_react_mui_share_file_viewer]
   stage: publish
-  image: node:20.19.3@sha256:6a4de97365bb291992222c4f27cafc338773989712259e809632a873ff45a6ff
+  image: node:20.19.3@sha256:691ef3fccb415741c5f5ecb39cc5f5a9b8122b84c5ffda53cf68f4a4963f45ff
   script:
     # Install jq for the publish script.
     - apt-get -qq update
