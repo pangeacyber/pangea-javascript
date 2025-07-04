@@ -58,7 +58,7 @@
     "@parcel/transformer-typescript-types": "^2.15.4",
     "@parcel/utils": "^2.15.4",
     "@tsconfig/strictest": "^2.0.5",
-    "@types/lodash": "^4.17.19",
+    "@types/lodash": "^4.17.20",
     "@types/react": "19.1.8",
     "parcel": "^2.15.4",
     "publint": "0.3.12",
