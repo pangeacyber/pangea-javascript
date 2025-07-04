@@ -24,7 +24,7 @@
     "@rollup/plugin-node-resolve": "^15.3.1",
     "@rollup/plugin-terser": "^0.4.4",
     "@rollup/plugin-typescript": "12.1.4",
-    "@types/lodash": "4.17.19",
+    "@types/lodash": "4.17.20",
     "@types/react": "17.0.87",
     "@types/react-dom": "17.0.26",
     "postcss": "8.5.6",
