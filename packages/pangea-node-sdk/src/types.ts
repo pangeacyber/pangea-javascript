@@ -782,74 +782,77 @@ export namespace AIGuard {
 
   export type MultimodalGuardRequest = {
     /**
-     * Prompt content and role array in JSON format. The `content` is the
-     * multimodal text or image input that will be analyzed.
+     * 'messages' (required) contains Prompt content and role array in JSON
+     * format. The `content` is the multimodal text or image input that will be
+     * analyzed. Additional properties such as 'tools' may be provided for
+     * analysis.
      */
-    messages: {
-      role: string;
-      content:
-        | string
-        | (
-            | { type: "text"; text: string }
-            | { type: "image"; image_src: string }
-          )[];
-    }[];
+    input: {
+      [key: string]: unknown;
+    };
     /**
      * Recipe key of a configuration of data types and settings defined in the
      * Pangea User Console. It specifies the rules that are to be applied to the
-     * text, such as defang malicious URLs.
+     * text, such as defang malicious URLs. Note: This parameter has no effect
+     * when the request is made by AIDR.
      */
     recipe?: string;
     /**
      * Setting this value to true will provide a detailed analysis of the text
-     * data
+     * data.
      */
     debug?: boolean;
     overrides?: GuardOverrides;
-    /**
-     * Name of source application.
-     */
+    /** Name of source application. */
     app_name?: string;
-    /**
-     * Underlying LLM.  Example: 'OpenAI'.
-     */
+    /** Id of source application. */
+    app_id?: string;
+    /** User/Service account id. */
+    actor_id?: string;
+    /** Underlying LLM.  Example: 'OpenAI'. */
     llm_provider?: string;
-    /**
-     * Model used to perform the event. Example: 'gpt'.
-     */
+    /** Model used to perform the event. Example: 'gpt'. */
     model?: string;
-    /**
-     * Model version used to perform the event. Example: '3.5'.
-     */
+    /** Model version used to perform the event. Example: '3.5'. */
     model_version?: string;
-    /**
-     * Number of tokens in the request.
-     */
+    /** Number of tokens in the request. */
     request_token_count?: number;
-    /**
-     * Number of tokens in the response.
-     */
+    /** Number of tokens in the response. */
     response_token_count?: number;
-    /**
-     * IP address of user or app or agent.
-     */
+    /** IP address of user or app or agent. */
     source_ip?: string;
-    /**
-     * Location of user or app or agent.
-     */
+    /** Location of user or app or agent. */
     source_location?: string;
-    /**
-     * For gateway-like integrations with multi-tenant support.
-     */
+    /** For gateway-like integrations with multi-tenant support. */
     tenant_id?: string;
-    /**
-     * (AIDR) sensor mode.
-     */
-    sensor_mode?: string;
-    /**
-     * (AIDR) Logging schema.
-     */
-    context?: { [key: string]: unknown };
+    /** (AIDR) sensor mode. */
+    sensor_mode?: "input" | "output";
+    /** (AIDR) sensor instance id. */
+    sensor_instance_id?: string;
+    /** (AIDR) Logging schema. */
+    extra_info?: {
+      /** Name of source application. */
+      app_name?: string;
+      /** The group of source application. */
+      app_group?: string;
+      /** Version of the source application. */
+      app_version?: string;
+      /** Name of subject actor. */
+      actor_name?: string;
+      /** The group of subject actor. */
+      actor_group?: string;
+      /** Geographic region or data center. */
+      source_region?: string;
+      /** Sensitivity level of data involved */
+      data_sensitivity?: string;
+      /** Tier of the user or organization */
+      customer_tier?: string;
+      /** Business-specific use case */
+      use_case?: string;
+      [key: string]: unknown | string | undefined;
+    };
+    /** Provide input and output token count. */
+    count_tokens?: boolean;
   };
 
   export type AuditDataActivityConfig = {
@@ -978,14 +981,56 @@ export namespace AIGuard {
     };
   }>;
 
-  export type RecipeConfig = {
+  /**
+   * Configuration for an individual access rule used in an AI Guard recipe.
+   * Each rule defines its matching logic and the action to apply when the logic
+   * evaluates to true.
+   */
+  export type AccessRuleSettings = {
+    /**
+     * Unique identifier for this rule. Should be user-readable and consistent
+     * across recipe updates.
+     */
+    rule_key: string;
+    /** Display label for the rule shown in user interfaces. */
     name: string;
+    /**
+     * Action to apply if the rule matches. Use 'block' to stop further
+     * processing or 'report' to simply log the match.
+     */
+    state: "block" | "report";
+    /** JSON Logic condition that determines whether this rule matches. */
+    logic: {
+      [key: string]: unknown;
+    };
+  };
+
+  export type RecipeConfig = {
+    /** Human-readable name of the recipe */
+    name: string;
+    /** Detailed description of the recipe's purpose or use case */
     description: string;
+    /** Optional version identifier for the recipe. Can be used to track changes. */
     version?: string;
-    /** Setting for Detectors */
+    /**
+     * Settings for [AI Guard Detectors](https://pangea.cloud/docs/ai-guard/recipes#detectors),
+     * including which detectors to enable and how they behave
+     */
     detectors?: DetectorSettings;
+    /** Configuration for access rules used in an AI Guard recipe. */
+    access_rules?: AccessRuleSettings[];
+    /**
+     * Connector-level Redact configuration. These settings allow you to define
+     * reusable redaction parameters, such as FPE tweak value.
+     */
     connector_settings?: {
+      /** Settings for Redact integration at the recipe level */
       redact?: {
+        /**
+         * ID of a Vault secret containing the tweak value used for
+         * Format-Preserving Encryption (FPE). Enables deterministic encryption,
+         * ensuring that identical inputs produce consistent encrypted outputs.
+         */
         fpe_tweak_vault_secret_id?: string;
       };
     };

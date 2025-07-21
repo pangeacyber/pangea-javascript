@@ -39,18 +39,27 @@ describe("AI Guard", () => {
 
   it("guard", async () => {
     const response = await client.guard({
-      messages: [
-        {
-          role: "user",
-          content: [
-            { type: "text", text: "what was pangea?" },
-            { type: "image", image_src: "https://example.com/image.png" },
-            { type: "image", image_src: "data:image/jpeg;base64,000000" },
-          ],
-        },
-      ],
+      input: {
+        messages: [
+          {
+            role: "user",
+            content: [
+              { type: "text", text: "what was pangea?" },
+              { type: "image", image_src: "https://example.com/image.png" },
+              { type: "image", image_src: "data:image/jpeg;base64,000000" },
+            ],
+          },
+        ],
+      },
       recipe: "my_recipe",
       debug: true,
+      app_id: "app_id",
+      llm_provider: "llm_provider",
+      model: "model",
+      sensor_mode: "input",
+      extra_info: {
+        tool_name: "tool_name",
+      },
     });
     expect(response.status).toStrictEqual("Success");
     expect(response.result).toBeDefined();

@@ -1986,11 +1986,6 @@
             "type": "string",
             "description": "A human-readable name for the rule."
           },
-          "logic": {
-            "type": "object",
-            "description": "The JSON logic expression evaluated for this rule.",
-            "additionalProperties": true
-          },
           "attributes": {
             "type": "object",
             "description": "The input attribute values that were available during rule evaluation.",
@@ -2568,14 +2563,9 @@
             "type": "string",
             "enum": ["block", "report"],
             "description": "Action to apply if the rule matches. Use 'block' to stop further processing or 'report' to simply log the match."
-          },
-          "logic": {
-            "type": "object",
-            "description": "JSON Logic condition that determines whether this rule matches.",
-            "additionalProperties": true
           }
         },
-        "required": ["rule_key", "name", "state", "logic"],
+        "required": ["rule_key", "name", "state"],
         "additionalProperties": false,
         "examples": [
           {
