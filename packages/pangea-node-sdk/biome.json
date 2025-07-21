@@ -21,6 +21,9 @@
         "noShadow": "off",
         "useNumericSeparators": "off"
       },
+      "performance": {
+        "noNamespaceImport": "off"
+      },
       "style": {
         "noEnum": "off",
         "noInferrableTypes": "off",

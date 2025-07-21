@@ -67,7 +67,7 @@ export class ManagementService {
   ): Promise<PangeaResponse<Management.Organization>> {
     return await this.console.request.post("v1beta/platform/org/update", {
       id: orgId,
-      name: name,
+      name,
     } as object);
   }
 

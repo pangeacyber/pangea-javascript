@@ -118,7 +118,7 @@ class PangeaRequest {
     data: Request,
     options: PostOptions = {}
   ): Promise<PangeaResponse<R> | R> {
-    options = Object.assign({ pangeaResponse: true }, options);
+    options = { pangeaResponse: true, ...options };
 
     const url = this.getUrl(endpoint);
     this.checkConfigID(data);
@@ -512,10 +512,7 @@ class PangeaRequest {
       pangeaResponse?: boolean;
     }
   ): Promise<PangeaResponse<T> | T> {
-    options = Object.assign(
-      { checkResponse: true, pangeaResponse: true },
-      options
-    );
+    options = { checkResponse: true, pangeaResponse: true, ...options };
 
     const url = this.getUrl(endpoint);
     const response = await this.httpRequest(url, {
