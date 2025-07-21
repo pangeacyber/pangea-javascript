@@ -82,7 +82,7 @@ export class SanitizeService extends BaseService {
 
     const postOptions: PostOptions = {
       pollResultSync: options.pollResultSync,
-      files: files,
+      files,
     };
 
     if (

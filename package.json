@@ -7,8 +7,8 @@
   "license": "MIT",
   "devDependencies": {
     "husky": "^9.1.7",
-    "lint-staged": "^16.1.0",
-    "prettier": "3.5.3"
+    "lint-staged": "^16.1.2",
+    "prettier": "3.6.2"
   },
   "scripts": {
     "lint": "npx prettier --check .",

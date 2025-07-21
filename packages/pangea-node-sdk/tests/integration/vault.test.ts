@@ -65,7 +65,7 @@ it("Secret life cycle", async () => {
   const store1Resp = await vault.secretStore({
     type: Vault.ItemType.SECRET,
     secret: secretV1,
-    name: name,
+    name,
   });
   const id = store1Resp.result.id;
   expect(id).toBeDefined();
@@ -74,7 +74,7 @@ it("Secret life cycle", async () => {
   // Rotate
   const secretV2 = "newsecret";
   const rotateResp = await vault.secretRotate({
-    id: id,
+    id,
     secret: secretV2,
     rotation_state: Vault.ItemVersionState.SUSPENDED,
   });
@@ -82,7 +82,7 @@ it("Secret life cycle", async () => {
 
   // Get
   let getResp = await vault.getItem({
-    id: id,
+    id,
   });
   expect(getResp.result.item_versions.length).toBe(1);
   expect(getResp.result.item_versions[0]?.secret).toBe(secretV2);
@@ -91,7 +91,7 @@ it("Secret life cycle", async () => {
 
   // Deactivate
   const stateChangeResp = await vault.stateChange({
-    id: id,
+    id,
     state: Vault.ItemVersionState.DEACTIVATED,
     version: 1,
   });
@@ -99,7 +99,7 @@ it("Secret life cycle", async () => {
 
   // Get after deactivate
   getResp = await vault.getItem({
-    id: id,
+    id,
   });
   expect(getResp.result.item_versions.length).toBe(1);
   expect(getResp.result.item_versions[0]?.secret).toBe(secretV2);
@@ -118,7 +118,7 @@ async function asymSigningCycle(id: string) {
 
   // Rotate
   const rotateResp = await vault.keyRotate({
-    id: id,
+    id,
     rotation_state: Vault.ItemVersionState.SUSPENDED,
   });
   expect(rotateResp.result.item_versions[0]?.version).toBe(2);
@@ -132,7 +132,7 @@ async function asymSigningCycle(id: string) {
 
   // Verify 2
   const verify2Resp = await vault.verify({
-    id: id,
+    id,
     message: data,
     signature: sign2Resp.result.signature,
     version: 2,
@@ -160,7 +160,7 @@ async function asymSigningCycle(id: string) {
   // # Verify wrong signature
   f = async () => {
     await vault.verify({
-      id: id,
+      id,
       message: data,
       signature: "thisisnotasignature",
     });
@@ -169,7 +169,7 @@ async function asymSigningCycle(id: string) {
 
   // verify wrong signature
   const verifyBad1Resp = await vault.verify({
-    id: id,
+    id,
     message: data,
     signature: sign1Resp.result.signature,
   });
@@ -177,7 +177,7 @@ async function asymSigningCycle(id: string) {
 
   // verify wrong data
   const verifyBad2Resp = await vault.verify({
-    id: id,
+    id,
     message: "thisisnottheoriginaldata",
     signature: sign2Resp.result.signature,
   });
@@ -185,7 +185,7 @@ async function asymSigningCycle(id: string) {
 
   // Deactivate key
   const stateChangeResp = await vault.stateChange({
-    id: id,
+    id,
     state: Vault.ItemVersionState.DEACTIVATED,
     version: 1,
   });
@@ -193,7 +193,7 @@ async function asymSigningCycle(id: string) {
 
   // Verify after deactivated
   const verify1Resp = await vault.verify({
-    id: id,
+    id,
     message: data,
     signature: sign1Resp.result.signature,
     version: 1,
@@ -216,7 +216,7 @@ async function jwtAsymSigningCycle(id: string) {
 
     // Rotate
     const rotateResp = await vault.keyRotate({
-      id: id,
+      id,
       rotation_state: Vault.ItemVersionState.SUSPENDED,
     });
     expect(rotateResp.result.item_versions[0]?.version).toBe(2);
@@ -248,7 +248,7 @@ async function jwtAsymSigningCycle(id: string) {
 
     // Deactivate key
     const stateChangeResp = await vault.stateChange({
-      id: id,
+      id,
       state: Vault.ItemVersionState.DEACTIVATED,
       version: 1,
     });
@@ -932,7 +932,7 @@ afterAll(
         filter: {
           name__contains: ACTOR,
         },
-        last: last,
+        last,
         size: 10,
       });
 

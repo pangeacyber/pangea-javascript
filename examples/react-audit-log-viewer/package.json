@@ -16,10 +16,10 @@
   },
   "dependencies": {
     "@emotion/react": "11.14.0",
-    "@emotion/styled": "11.14.0",
+    "@emotion/styled": "11.14.1",
     "@mui/icons-material": "^6.1.6",
     "@mui/material": "^6.1.6",
-    "@pangeacyber/react-mui-audit-log-viewer": "2.0.2",
+    "@pangeacyber/react-mui-audit-log-viewer": "2.0.3",
     "@pangeacyber/react-mui-branding": "1.0.0",
     "react": "18.3.1",
     "react-dom": "18.3.1"
@@ -27,15 +27,15 @@
   "devDependencies": {
     "@testing-library/jest-dom": "6.6.3",
     "@testing-library/react": "15.0.7",
-    "@tsconfig/cypress": "1.0.2",
+    "@tsconfig/cypress": "1.0.3",
     "@tsconfig/vite-react": "3.4.0",
     "@types/react-dom": "18.3.7",
-    "@vitejs/plugin-react": "4.5.1",
-    "cypress": "14.4.1",
-    "happy-dom": "17.6.3",
+    "@vitejs/plugin-react": "4.6.0",
+    "cypress": "14.5.1",
+    "happy-dom": "18.0.1",
     "start-server-and-test": "2.0.12",
     "typescript": "5.8.3",
-    "vite": "6.3.5",
-    "vitest": "3.2.2"
+    "vite": "7.0.0",
+    "vitest": "3.2.4"
   }
 }

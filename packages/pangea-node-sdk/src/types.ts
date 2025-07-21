@@ -763,10 +763,15 @@ export namespace AIGuard {
     prompt_messages?: { [key: string]: unknown };
 
     /** Whether or not the prompt triggered a block detection. */
-    blocked: boolean;
+    blocked?: boolean;
+
+    /** Whether or not the original input was transformed. */
+    transformed?: boolean;
 
     /** The Recipe that was used. */
-    recipe: string;
+    recipe?: string;
+
+    access_rules?: { [key: string]: unknown };
 
     /**
      * If an FPE redaction method returned results, this will be the context
@@ -2366,7 +2371,6 @@ export namespace Vault {
     /** Whether the key is exportable or not. */
     exportable?: boolean;
 
-    /** */
     client_id?: string;
 
     /** For settings that inherit a value from a parent folder, the full path of the folder where the value is set */

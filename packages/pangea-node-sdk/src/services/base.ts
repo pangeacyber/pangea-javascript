@@ -63,7 +63,7 @@ class BaseService {
     }
     this.configID = configID;
 
-    this.config = new PangeaConfig({ ...config }) || new PangeaConfig();
+    this.config = new PangeaConfig({ ...config });
   }
 
   async get(endpoint: string): Promise<PangeaResponse<any>> {

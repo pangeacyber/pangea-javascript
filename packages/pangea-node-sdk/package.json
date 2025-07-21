@@ -37,23 +37,23 @@
     "proper-url-join": "^2.1.2"
   },
   "devDependencies": {
-    "@arethetypeswrong/cli": "0.18.1",
-    "@biomejs/biome": "1.9.4",
+    "@arethetypeswrong/cli": "0.18.2",
+    "@biomejs/biome": "2.1.1",
     "@stoplight/prism-cli": "5.14.2",
-    "@tsconfig/node20": "20.1.5",
+    "@tsconfig/node20": "20.1.6",
     "@types/crypto-js": "^4.2.2",
-    "@types/node": "20.19.0",
+    "@types/node": "20.19.8",
     "@types/promise-retry": "1.1.6",
     "@types/proper-url-join": "2.1.5",
     "cross-env": "^7.0.3",
     "publint": "0.3.12",
     "start-server-and-test": "2.0.12",
-    "tsdown": "0.12.7",
-    "typedoc": "^0.28.5",
+    "tsdown": "0.12.9",
+    "typedoc": "^0.28.7",
     "typescript": "5.8.3",
-    "ultracite": "4.2.8",
+    "ultracite": "5.0.36",
     "vite-tsconfig-paths": "5.1.4",
-    "vitest": "3.2.2"
+    "vitest": "3.2.4"
   },
   "scripts": {
     "test": "cross-env NODE_OPTIONS=--openssl-legacy-provider vitest run",

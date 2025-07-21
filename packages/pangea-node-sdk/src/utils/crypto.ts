@@ -162,7 +162,7 @@ export async function kemDecryptExportResult(
   return await kemDecrypt({
     privateKey,
     cipher,
-    iv: iv,
+    iv,
     password,
     encryptedSalt,
     symmetricAlgorithm: result.symmetric_algorithm!,

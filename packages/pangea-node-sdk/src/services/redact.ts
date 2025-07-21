@@ -59,9 +59,7 @@ class RedactService extends BaseService {
     text: string,
     options: Redact.TextOptions = {}
   ): Promise<PangeaResponse<Redact.TextResult>> {
-    const input: Redact.TextParams = {
-      text: text,
-    };
+    const input: Redact.TextParams = { text };
 
     Object.assign(input, options);
     return this.post("v1/redact", input);
@@ -94,9 +92,7 @@ class RedactService extends BaseService {
     data: object,
     options: Redact.StructuredOptions = {}
   ): Promise<PangeaResponse<Redact.StructuredResult>> {
-    const input: Redact.StructuredParams = {
-      data: data,
-    };
+    const input: Redact.StructuredParams = { data };
 
     Object.assign(input, options);
     return this.post("v1/redact_structured", input);

@@ -26,9 +26,7 @@ export default class ClientToken extends BaseService {
   check(
     token: string
   ): Promise<PangeaResponse<AuthN.Client.Token.CheckResult>> {
-    const data: AuthN.Client.Token.CheckRequest = {
-      token: token,
-    };
+    const data: AuthN.Client.Token.CheckRequest = { token };
     return this.post("v2/client/token/check", data);
   }
 }

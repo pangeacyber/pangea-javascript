@@ -125,7 +125,7 @@ export class FileIntelService extends BaseService {
     options?: Intel.File.ReputationOptions
   ): Promise<PangeaResponse<Intel.File.ReputationBulkResult>> {
     const data: Intel.File.ReputationRequest = {
-      hashes: hashes,
+      hashes,
       hash_type: hashType,
     };
 
@@ -286,9 +286,7 @@ export class DomainIntelService extends BaseService {
     domain: string,
     options?: Intel.Domain.ReputationOptions
   ): Promise<PangeaResponse<Intel.Domain.ReputationResult>> {
-    const data: Intel.Domain.ReputationRequest = {
-      domain: domain,
-    };
+    const data: Intel.Domain.ReputationRequest = { domain };
 
     if (options?.provider) {
       data.provider = options.provider;
@@ -325,9 +323,7 @@ export class DomainIntelService extends BaseService {
     domains: string[],
     options?: Intel.Domain.ReputationOptions
   ): Promise<PangeaResponse<Intel.Domain.ReputationBulkResult>> {
-    const data: Intel.Domain.ReputationRequest = {
-      domains: domains,
-    };
+    const data: Intel.Domain.ReputationRequest = { domains };
 
     if (options?.provider) {
       data.provider = options.provider;
@@ -918,9 +914,7 @@ export class URLIntelService extends BaseService {
     url: string,
     options?: Intel.URL.ReputationOptions
   ): Promise<PangeaResponse<Intel.URL.ReputationResult>> {
-    const data: Intel.URL.ReputationRequest = {
-      url: url,
-    };
+    const data: Intel.URL.ReputationRequest = { url };
 
     if (options?.provider) {
       data.provider = options.provider;
@@ -960,9 +954,7 @@ export class URLIntelService extends BaseService {
     urls: string[],
     options?: Intel.URL.ReputationOptions
   ): Promise<PangeaResponse<Intel.URL.ReputationBulkResult>> {
-    const data: Intel.URL.ReputationRequest = {
-      urls: urls,
-    };
+    const data: Intel.URL.ReputationRequest = { urls };
 
     if (options?.provider) {
       data.provider = options.provider;

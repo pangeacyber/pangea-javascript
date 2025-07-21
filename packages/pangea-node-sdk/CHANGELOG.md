@@ -7,19 +7,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## Unreleased
 
-## 5.2.0-beta.3 - 2025-06-12
+## 5.2.0 - 2025-07-21
 
 ### Added
 
-- AI Guard: multimodal guard.
 - AuthN: missing `group` service.
-
-## 5.2.0-beta.2 - 2025-05-22
-
-### Added
-
-- AI Guard: config APIs.
-- Prompt Guard: config APIs.
 
 ### Changed
 
@@ -27,6 +19,20 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   `{ role: string; content: string }[]`.
 - AI Guard: renamed topic detector.
 - File Intel: improved `hash_type` typing.
+
+## 5.2.0-beta.3 - 2025-06-12
+
+### Added
+
+- AI Guard: multimodal guard.
+- AI Guard: `transformed` field.
+
+## 5.2.0-beta.2 - 2025-05-22
+
+### Added
+
+- AI Guard: config APIs.
+- Prompt Guard: config APIs.
 
 ## 5.2.0-beta.1 - 2025-04-28
 

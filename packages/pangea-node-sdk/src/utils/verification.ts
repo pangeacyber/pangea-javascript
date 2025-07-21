@@ -9,7 +9,7 @@ import { PublishedRoots } from "./arweave.js";
 import { Verifier } from "./signer.js";
 import { canonicalizeEvent, canonicalizeEnvelope } from "./utils.js";
 
-// @ts-ignore
+// @ts-expect-error
 const merkleTools = new MerkleTools();
 
 export function verifyLogHash(
@@ -69,7 +69,8 @@ const constructProof = (data: string): (LeftProof | RightProof)[] => {
     return [];
   }
 
-  // @ts-ignore
+  // @ts-expect-error
+  // biome-ignore lint/nursery/useIterableCallbackReturn: TODO
   const proofs: (LeftProof | RightProof)[] = data.split(",").map((item) => {
     const parts = item.split(":");
     if (parts.length >= 2) {
@@ -108,7 +109,6 @@ const verifyLogProof = (
   proofs: ProofItem[]
 ): boolean => {
   let nodeHash = initialNodeHash;
-  // biome-ignore lint/style/useForOf: TODO
   for (let idx = 0; idx < proofs.length; idx++) {
     const proofHash = proofs[idx]?.nodeHash || "";
 
@@ -139,7 +139,7 @@ export const verifyLogMembershipProof = ({
 
   const proofs = constructProof(log.membership_proof);
   return merkleTools.validateProof(
-    // @ts-ignore
+    // @ts-expect-error
     proofs,
     log.hash,
     newUnpublishedRootHash
@@ -165,7 +165,7 @@ export const verifyRecordMembershipProof = ({
 
   const proofs = constructProof(record.membership_proof);
   return merkleTools.validateProof(
-    // @ts-ignore
+    // @ts-expect-error
     proofs,
     record.hash,
     root.root_hash
@@ -229,7 +229,6 @@ const verifyConsistencyProof = ({
     return false;
   }
 
-  // biome-ignore lint/style/useForOf: TODO
   for (let idx = 0; idx < proofs.length; idx++) {
     const rootProof = proofs[idx];
 
@@ -293,7 +292,6 @@ export const verifySignature = (
   let pubKey = envelope.public_key;
   try {
     // Try to parse json for new public_key struct
-    // @ts-ignore
     const obj = JSON.parse(pubKey);
     pubKey = obj.key;
     if (pubKey === undefined) {

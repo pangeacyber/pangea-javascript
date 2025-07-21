@@ -86,6 +86,9 @@ export interface AuditLogViewerProps<Event = Audit.DefaultEvent> {
   /** Partial definitions for the visibility of the grid columns. The keys of the object correspond to properties of the Event type, and the values are boolean values indicating the visibility of the column */
   visibilityModel?: Partial<Record<keyof Event, boolean>>;
 
+  /** Set the position of the column customization popover. Defaults to being displayed with the header, but can be set to appear as a column header. */
+  columnCustomizationPosition?: "inline";
+
   /** Callback function triggered on visibilityModel change */
   onVisibilityModelChange?: (
     visibilityModel: Record<keyof Event, boolean>

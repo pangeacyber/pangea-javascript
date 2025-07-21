@@ -66,9 +66,7 @@ class VaultService extends BaseService {
    * ```
    */
   async delete(id: string): Promise<PangeaResponse<Vault.DeleteResult>> {
-    const data: Vault.DeleteRequest = {
-      id: id,
-    };
+    const data: Vault.DeleteRequest = { id };
 
     return await this.post("v2/delete", data);
   }
@@ -566,8 +564,8 @@ class VaultService extends BaseService {
     message: string
   ): Promise<PangeaResponse<Vault.Asymmetric.SignResult>> {
     const data: Vault.Asymmetric.SignRequest = {
-      id: id,
-      message: message,
+      id,
+      message,
     };
     return await this.post("v2/sign", data);
   }
@@ -638,10 +636,7 @@ class VaultService extends BaseService {
     id: string,
     payload: string
   ): Promise<PangeaResponse<Vault.JWT.SignResult>> {
-    const data: Vault.JWT.SignRequest = {
-      id: id,
-      payload: payload,
-    };
+    const data: Vault.JWT.SignRequest = { id, payload };
     return await this.post("v2/jwt/sign", data);
   }
 
@@ -661,9 +656,7 @@ class VaultService extends BaseService {
   async jwtVerify(
     jws: string
   ): Promise<PangeaResponse<Vault.JWT.VerifyResult>> {
-    const data: Vault.JWT.VerifyRequest = {
-      jws: jws,
-    };
+    const data: Vault.JWT.VerifyRequest = { jws };
     return await this.post("v2/jwt/verify", data);
   }
 

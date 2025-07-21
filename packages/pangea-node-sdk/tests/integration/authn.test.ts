@@ -35,10 +35,10 @@ async function flowHandlePasswordPhase(
   password: string
 ): Promise<AuthN.Flow.UpdateResult> {
   const response = await authn.flow.update({
-    flow_id: flow_id,
+    flow_id,
     choice: AuthN.Flow.Choice.PASSWORD,
     data: {
-      password: password,
+      password,
     },
   });
   return response.result;
@@ -81,7 +81,7 @@ async function flowHandleAgreementsPhase(
     flow_id,
     choice: AuthN.Flow.Choice.AGREEMENTS,
     data: {
-      agreed: agreed,
+      agreed,
     },
   });
 
@@ -101,7 +101,7 @@ async function login(
   password: string
 ): Promise<AuthN.Flow.CompleteResult> {
   const startResp = await authn.flow.start({
-    email: email,
+    email,
     cb_uri: CB_URI,
     flow_types: [AuthN.FlowType.SIGNIN],
   });
@@ -110,7 +110,7 @@ async function login(
     flow_id: startResp.result.flow_id,
     choice: AuthN.Flow.Choice.PASSWORD,
     data: {
-      password: password,
+      password,
     },
   });
 
@@ -123,7 +123,7 @@ async function createAndLogin(
   password: string
 ): Promise<AuthN.Flow.CompleteResult> {
   const startResp = await authn.flow.start({
-    email: email,
+    email,
     flow_types: [AuthN.FlowType.SIGNUP, AuthN.FlowType.SIGNIN],
     cb_uri: CB_URI,
   });
@@ -334,10 +334,10 @@ async function agreement_cycle(type: AuthN.Agreements.AgreementType) {
 
   // Create agreement
   const createResp = await authn.agreements.create({
-    type: type,
-    name: name,
-    text: text,
-    active: active,
+    type,
+    name,
+    text,
+    active,
   });
 
   expect(createResp.result.type).toBe(type.toString());
@@ -351,8 +351,8 @@ async function agreement_cycle(type: AuthN.Agreements.AgreementType) {
   const newName = `${name}_v2`;
   const newText = `${text} v2`;
   const updateResp = await authn.agreements.update({
-    type: type,
-    id: id,
+    type,
+    id,
     name: newName,
     text: newText,
   });
@@ -370,8 +370,8 @@ async function agreement_cycle(type: AuthN.Agreements.AgreementType) {
 
   // Delete
   await authn.agreements.delete({
-    type: type,
-    id: id,
+    type,
+    id,
   });
 
   // List again

@@ -75,6 +75,31 @@ const audit = new AuditService(token, config);
 const response = await audit.log({ message: "Hello, World!" });
 ```
 
+## Configuration
+
+The SDK supports the following configuration options via `PangeaConfig`:
+
+- `baseUrlTemplate` — Template for constructing the base URL for API requests.
+  The placeholder `{SERVICE_NAME}` will be replaced with the service name slug.
+  This is a more powerful version of `domain` that allows for setting more than
+  just the host of the API server.
+  Defaults to `https://{SERVICE_NAME}.aws.us.pangea.cloud`.
+- `domain` — Base domain for API requests. This is a weaker version of
+  `baseUrlTemplate` that only allows for setting the host of the API server. Use
+  `baseUrlTemplate` for more control over the URL, such as setting
+  service-specific paths. Defaults to `aws.us.pangea.cloud`.
+- `requestRetries` — How many times a request should be retried on failure.
+  Defaults to `3`.
+- `requestTimeout` — Maximum allowed time (in milliseconds) for a request to
+  complete. Defaults to `5000`.
+- `queuedRetryEnabled` — Whether or not queued request retries are enabled.
+  Defaults to `true`.
+- `queuedRetries` — How many queued request retries there should be on failure.
+  Defaults to `4`.
+- `pollResultTimeoutMs` — Timeout for polling results after a HTTP/202
+  (in milliseconds). Defaults to `120 * 1000`.
+- `customUserAgent` — User-Agent string to append to the default one.
+
 [Documentation]: https://pangea.cloud/docs/sdk/js/
 [GA Examples]: https://github.com/pangeacyber/pangea-javascript/tree/main/examples
 [Beta Examples]: https://github.com/pangeacyber/pangea-javascript/tree/beta/examples

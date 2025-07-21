@@ -68,7 +68,7 @@ export class FileScanService extends BaseService {
     if (typeof file === "string") {
       postFile = {
         name: "file",
-        file: file,
+        file,
       };
     } else {
       postFile = file;
@@ -82,7 +82,7 @@ export class FileScanService extends BaseService {
 
     const postOptions: PostOptions = {
       pollResultSync: options.pollResultSync,
-      files: files,
+      files,
     };
 
     if (
