@@ -325,18 +325,27 @@ export namespace AIGuard {
      */
     debug?: boolean;
 
+    /**
+     * Overrides flags. Note: This parameter has no effect when the request is
+     * made by AIDR
+     */
     overrides?: {
       /** Bypass existing Recipe content and create an on-the-fly Recipe. */
       ignore_recipe?: boolean;
 
-      code_detection?: { disabled?: boolean; action?: "report" | "block" };
-      competitors?: { disabled?: boolean; action?: PromptInjectionAction };
+      code_detection?: {
+        disabled?: boolean;
+        action?: "report" | "block";
+        threshold?: number;
+      };
+      competitors?: { disabled?: boolean; action?: "report" | "block" };
       gibberish?: { disabled?: boolean; action?: PromptInjectionAction };
-      language_detection?:
-        | { disabled: boolean }
-        | { allow: string[] }
-        | { block: string[] }
-        | { report: string[] };
+      language_detection?: {
+        disabled?: boolean;
+        action?: "" | "report" | "allow" | "block";
+        languages?: string[];
+        threshold?: number;
+      };
       malicious_entity?: {
         disabled?: boolean;
         ip_address?: MaliciousEntityAction;
@@ -473,10 +482,15 @@ export namespace AIGuard {
     prompt_messages?: { [key: string]: unknown };
 
     /** Whether or not the prompt triggered a block detection. */
-    blocked: boolean;
+    blocked?: boolean;
+
+    /** Whether or not the original input was transformed. */
+    transformed?: boolean;
 
     /** The Recipe that was used. */
-    recipe: string;
+    recipe?: string;
+
+    access_rules?: { [key: string]: unknown };
 
     /**
      * If an FPE redaction method returned results, this will be the context
