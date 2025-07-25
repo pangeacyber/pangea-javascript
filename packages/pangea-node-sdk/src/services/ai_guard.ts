@@ -86,7 +86,7 @@ export class AIGuardService extends BaseService {
    */
   async guard(
     request: Simplify<AIGuard.MultimodalGuardRequest>
-  ): Promise<PangeaResponse<AIGuard.TextGuardResult>> {
+  ): Promise<PangeaResponse<AIGuard.MultimodalGuardResult>> {
     return await this.post("v1beta/guard", request);
   }
 
