@@ -56,7 +56,7 @@ describe("AI Guard", () => {
       app_id: "app_id",
       llm_provider: "llm_provider",
       model: "model",
-      sensor_mode: "input",
+      event_type: "input",
       extra_info: {
         tool_name: "tool_name",
       },

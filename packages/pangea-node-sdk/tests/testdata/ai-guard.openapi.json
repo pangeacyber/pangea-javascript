@@ -707,7 +707,7 @@
                               "type": "object",
                               "description": "Result of the recipe analyzing and input prompt.",
                               "properties": {
-                                "prompt_injection": {
+                                "malicious_prompt": {
                                   "type": "object",
                                   "properties": {
                                     "detected": {
@@ -721,49 +721,7 @@
                                     }
                                   }
                                 },
-                                "gibberish": {
-                                  "type": "object",
-                                  "properties": {
-                                    "detected": {
-                                      "type": "boolean",
-                                      "description": "Whether or not the Gibberish was detected."
-                                    },
-                                    "data": {
-                                      "type": "object",
-                                      "description": "Details about the analyzers.",
-                                      "$ref": "#/components/schemas/classification-result"
-                                    }
-                                  }
-                                },
-                                "sentiment": {
-                                  "type": "object",
-                                  "properties": {
-                                    "detected": {
-                                      "type": "boolean",
-                                      "description": "Whether or not the Negative Sentiment was detected."
-                                    },
-                                    "data": {
-                                      "type": "object",
-                                      "description": "Details about the analyzers.",
-                                      "$ref": "#/components/schemas/classification-result"
-                                    }
-                                  }
-                                },
-                                "selfharm": {
-                                  "type": "object",
-                                  "properties": {
-                                    "detected": {
-                                      "type": "boolean",
-                                      "description": "Whether or not the Self-harm was detected."
-                                    },
-                                    "data": {
-                                      "type": "object",
-                                      "description": "Details about the analyzers.",
-                                      "$ref": "#/components/schemas/classification-result"
-                                    }
-                                  }
-                                },
-                                "pii_entity": {
+                                "confidential_and_pii_entity": {
                                   "type": "object",
                                   "properties": {
                                     "detected": {
@@ -805,7 +763,7 @@
                                     }
                                   }
                                 },
-                                "secrets_detection": {
+                                "secret_and_key_entity": {
                                   "type": "object",
                                   "properties": {
                                     "detected": {
@@ -833,21 +791,7 @@
                                     }
                                   }
                                 },
-                                "profanity_and_toxicity": {
-                                  "type": "object",
-                                  "properties": {
-                                    "detected": {
-                                      "type": "boolean",
-                                      "description": "Whether or not the Profanity and Toxic were detected."
-                                    },
-                                    "data": {
-                                      "type": "object",
-                                      "description": "Details about the detected entities.",
-                                      "$ref": "#/components/schemas/classification-result"
-                                    }
-                                  }
-                                },
-                                "hardening": {
+                                "prompt_hardening": {
                                   "type": "object",
                                   "properties": {
                                     "data": {
@@ -857,7 +801,7 @@
                                     }
                                   }
                                 },
-                                "language_detection": {
+                                "language": {
                                   "type": "object",
                                   "properties": {
                                     "detected": {
@@ -885,7 +829,7 @@
                                     }
                                   }
                                 },
-                                "code_detection": {
+                                "code": {
                                   "type": "object",
                                   "properties": {
                                     "detected": {
@@ -1377,13 +1321,12 @@
               {
                 "messages": [
                   {
+                    "role": "system",
+                    "content": "You are a helpful assistant. Here are the tools: Tool1(calc), Tool2(site), Tool3(reverse)"
+                  },
+                  {
                     "role": "user",
-                    "content": [
-                      {
-                        "type": "image_url",
-                        "image_url": "https://pangea.cloud/home/home-callout-technologies.png"
-                      }
-                    ]
+                    "content": "What is the sum of resopnse time abc.com and cde.com?"
                   }
                 ]
               }
@@ -1400,11 +1343,7 @@
             "default": false
           },
           "overrides": {
-            "$ref": "#/components/schemas/guard-overrides"
-          },
-          "app_name": {
-            "type": "string",
-            "description": "Name of source application."
+            "$ref": "#/components/schemas/guard-overrides-2"
           },
           "app_id": {
             "type": "string",
@@ -1446,9 +1385,9 @@
             "type": "string",
             "description": "For gateway-like integrations with multi-tenant support."
           },
-          "sensor_mode": {
+          "event_type": {
             "type": "string",
-            "description": "(AIDR) sensor mode.",
+            "description": "(AIDR) Event Type.",
             "enum": ["input", "output"],
             "default": "input"
           },
@@ -1813,6 +1752,261 @@
         },
         "additionalProperties": false
       },
+      "guard-overrides-2": {
+        "type": "object",
+        "description": "Overrides flags. Note: This parameter has no effect when the request is made by AIDR",
+        "properties": {
+          "ignore_recipe": {
+            "type": "boolean",
+            "description": "Bypass existing Recipe content and create an on-the-fly Recipe.",
+            "default": false
+          },
+          "code": {
+            "type": "object",
+            "properties": {
+              "disabled": {
+                "type": "boolean"
+              },
+              "action": {
+                "$ref": "#/components/schemas/code-detection-action"
+              },
+              "threshold": {
+                "$ref": "#/components/schemas/classify-threshold"
+              }
+            },
+            "additionalProperties": false
+          },
+          "language": {
+            "$ref": "#/components/schemas/language-detection-items"
+          },
+          "topic": {
+            "$ref": "#/components/schemas/topic-detection-items"
+          },
+          "malicious_prompt": {
+            "type": "object",
+            "properties": {
+              "disabled": {
+                "type": "boolean"
+              },
+              "action": {
+                "$ref": "#/components/schemas/prompt-injection-action"
+              }
+            },
+            "additionalProperties": false
+          },
+          "malicious_entity": {
+            "type": "object",
+            "properties": {
+              "disabled": {
+                "type": "boolean"
+              },
+              "ip_address": {
+                "$ref": "#/components/schemas/malicious-entity-action"
+              },
+              "url": {
+                "$ref": "#/components/schemas/malicious-entity-action"
+              },
+              "domain": {
+                "$ref": "#/components/schemas/malicious-entity-action"
+              }
+            },
+            "additionalProperties": false
+          },
+          "competitors": {
+            "type": "object",
+            "properties": {
+              "disabled": {
+                "type": "boolean"
+              },
+              "action": {
+                "$ref": "#/components/schemas/competitors-action"
+              }
+            },
+            "additionalProperties": false
+          },
+          "confidential_and_pii_entity": {
+            "type": "object",
+            "properties": {
+              "disabled": {
+                "type": "boolean"
+              },
+              "email_address": {
+                "$ref": "#/components/schemas/pii-entity-action"
+              },
+              "nrp": {
+                "$ref": "#/components/schemas/pii-entity-action"
+              },
+              "location": {
+                "$ref": "#/components/schemas/pii-entity-action"
+              },
+              "person": {
+                "$ref": "#/components/schemas/pii-entity-action"
+              },
+              "phone_number": {
+                "$ref": "#/components/schemas/pii-entity-action"
+              },
+              "date_time": {
+                "$ref": "#/components/schemas/pii-entity-action"
+              },
+              "ip_address": {
+                "$ref": "#/components/schemas/pii-entity-action"
+              },
+              "url": {
+                "$ref": "#/components/schemas/pii-entity-action"
+              },
+              "money": {
+                "$ref": "#/components/schemas/pii-entity-action"
+              },
+              "credit_card": {
+                "$ref": "#/components/schemas/pii-entity-action"
+              },
+              "crypto": {
+                "$ref": "#/components/schemas/pii-entity-action"
+              },
+              "iban_code": {
+                "$ref": "#/components/schemas/pii-entity-action"
+              },
+              "us_bank_number": {
+                "$ref": "#/components/schemas/pii-entity-action"
+              },
+              "nif": {
+                "$ref": "#/components/schemas/pii-entity-action"
+              },
+              "fin/nric": {
+                "$ref": "#/components/schemas/pii-entity-action"
+              },
+              "au_abn": {
+                "$ref": "#/components/schemas/pii-entity-action"
+              },
+              "au_acn": {
+                "$ref": "#/components/schemas/pii-entity-action"
+              },
+              "au_tfn": {
+                "$ref": "#/components/schemas/pii-entity-action"
+              },
+              "medical_license": {
+                "$ref": "#/components/schemas/pii-entity-action"
+              },
+              "uk_nhs": {
+                "$ref": "#/components/schemas/pii-entity-action"
+              },
+              "au_medicare": {
+                "$ref": "#/components/schemas/pii-entity-action"
+              },
+              "us_drivers_license": {
+                "$ref": "#/components/schemas/pii-entity-action"
+              },
+              "us_itin": {
+                "$ref": "#/components/schemas/pii-entity-action"
+              },
+              "us_passport": {
+                "$ref": "#/components/schemas/pii-entity-action"
+              },
+              "us_ssn": {
+                "$ref": "#/components/schemas/pii-entity-action"
+              }
+            },
+            "additionalProperties": false
+          },
+          "secret_and_key_entity": {
+            "type": "object",
+            "properties": {
+              "disabled": {
+                "type": "boolean"
+              },
+              "slack_token": {
+                "$ref": "#/components/schemas/pii-entity-action"
+              },
+              "rsa_private_key": {
+                "$ref": "#/components/schemas/pii-entity-action"
+              },
+              "ssh_dsa_private_key": {
+                "$ref": "#/components/schemas/pii-entity-action"
+              },
+              "ssh_ec_private_key": {
+                "$ref": "#/components/schemas/pii-entity-action"
+              },
+              "pgp_private_key_block": {
+                "$ref": "#/components/schemas/pii-entity-action"
+              },
+              "amazon_aws_access_key_id": {
+                "$ref": "#/components/schemas/pii-entity-action"
+              },
+              "amazon_aws_secret_access_key": {
+                "$ref": "#/components/schemas/pii-entity-action"
+              },
+              "amazon_mws_auth_token": {
+                "$ref": "#/components/schemas/pii-entity-action"
+              },
+              "facebook_access_token": {
+                "$ref": "#/components/schemas/pii-entity-action"
+              },
+              "github_access_token": {
+                "$ref": "#/components/schemas/pii-entity-action"
+              },
+              "jwt_token": {
+                "$ref": "#/components/schemas/pii-entity-action"
+              },
+              "google_api_key": {
+                "$ref": "#/components/schemas/pii-entity-action"
+              },
+              "google_cloud_platform_api_key": {
+                "$ref": "#/components/schemas/pii-entity-action"
+              },
+              "google_drive_api_key": {
+                "$ref": "#/components/schemas/pii-entity-action"
+              },
+              "google_cloud_platform_service_account": {
+                "$ref": "#/components/schemas/pii-entity-action"
+              },
+              "google_gmail_api_key": {
+                "$ref": "#/components/schemas/pii-entity-action"
+              },
+              "youtube_api_key": {
+                "$ref": "#/components/schemas/pii-entity-action"
+              },
+              "mailchimp_api_key": {
+                "$ref": "#/components/schemas/pii-entity-action"
+              },
+              "mailgun_api_key": {
+                "$ref": "#/components/schemas/pii-entity-action"
+              },
+              "basic_auth": {
+                "$ref": "#/components/schemas/pii-entity-action"
+              },
+              "picatic_api_key": {
+                "$ref": "#/components/schemas/pii-entity-action"
+              },
+              "slack_webhook": {
+                "$ref": "#/components/schemas/pii-entity-action"
+              },
+              "stripe_api_key": {
+                "$ref": "#/components/schemas/pii-entity-action"
+              },
+              "stripe_restricted_api_key": {
+                "$ref": "#/components/schemas/pii-entity-action"
+              },
+              "square_access_token": {
+                "$ref": "#/components/schemas/pii-entity-action"
+              },
+              "square_oauth_secret": {
+                "$ref": "#/components/schemas/pii-entity-action"
+              },
+              "twilio_api_key": {
+                "$ref": "#/components/schemas/pii-entity-action"
+              },
+              "pangea_token": {
+                "$ref": "#/components/schemas/pii-entity-action"
+              }
+            },
+            "additionalProperties": false
+          },
+          "image": {
+            "$ref": "#/components/schemas/image-detection-items"
+          }
+        },
+        "additionalProperties": false
+      },
       "language-result": {
         "type": "object",
         "properties": {
@@ -1882,6 +2076,12 @@
         "enum": ["report", "block"]
       },
       "topic-threshold": {
+        "type": "number",
+        "multipleOf": 0.01,
+        "minimum": 0,
+        "maximum": 1
+      },
+      "image-threshold": {
         "type": "number",
         "multipleOf": 0.01,
         "minimum": 0,
@@ -1961,6 +2161,25 @@
           "type": "string"
         },
         "default": []
+      },
+      "image-detection-items": {
+        "type": "object",
+        "properties": {
+          "disabled": {
+            "type": "boolean"
+          },
+          "action": {
+            "type": "string",
+            "enum": ["", "report", "block"],
+            "default": ""
+          },
+          "topics": {
+            "$ref": "#/components/schemas/topics"
+          },
+          "threshold": {
+            "$ref": "#/components/schemas/image-threshold"
+          }
+        }
       },
       "code-detection-action": {
         "type": "string",

@@ -517,6 +517,49 @@ export namespace Audit {
 }
 
 export namespace AIGuard {
+  export type SingleEntityResult = {
+    /** The action taken by this Detector */
+    action?: string;
+    /** Detected entities. */
+    entities?: string[];
+  };
+
+  export type LanguageResult = {
+    /** The action taken by this Detector */
+    action?: string;
+    language?: string;
+  };
+
+  export type TopicResult = {
+    /** The action taken by this Detector */
+    action?: string;
+    /** List of topics detected */
+    topics?: { topic: string; confidence: number }[];
+  };
+
+  export type HardeningResult = {
+    /** The action taken by this Detector */
+    action?: string;
+    /** Descriptive information about the hardening detector execution */
+    message?: string;
+    /** Number of tokens counted in the last user prompt */
+    token_count?: number;
+  };
+
+  export type PromptInjectionResult = {
+    /** The action taken by this Detector */
+    action?: string;
+    /** Triggered prompt injection analyzers. */
+    analyzer_responses?: { analyzer: string; confidence: number }[];
+  };
+
+  export type ClassificationResult = {
+    /** The action taken by this Detector */
+    action?: string;
+    /** Triggered classifications. */
+    classifications?: { category: string; confidence: number }[];
+  };
+
   export interface RedactEntityResult {
     /** Detected redaction rules. */
     entities: {
@@ -528,6 +571,17 @@ export namespace AIGuard {
       value: string;
     }[];
   }
+
+  export type MaliciousEntityResult = {
+    /** Detected harmful items. */
+    entities?: {
+      type: string;
+      value: string;
+      redacted?: boolean;
+      start_pos?: number;
+      raw?: { [key: string]: unknown };
+    }[];
+  };
 
   /** Additional fields to include in activity log */
   export interface LogFields {
@@ -696,6 +750,111 @@ export namespace AIGuard {
     };
   };
 
+  /**
+   * Overrides flags. Note: This parameter has no effect when the request is
+   * made by AIDR
+   */
+  export type GuardOverrides2 = {
+    /** Bypass existing Recipe content and create an on-the-fly Recipe. */
+    ignore_recipe?: boolean;
+    code?: {
+      disabled?: boolean;
+      action?: "report" | "block";
+      threshold?: number;
+    };
+    language?: {
+      disabled?: boolean;
+      action?: "" | "report" | "allow" | "block";
+      languages?: string[];
+      threshold?: number;
+    };
+    topic?: {
+      disabled?: boolean;
+      action?: "" | "report" | "block";
+      topics?: string[];
+      threshold?: number;
+    };
+    malicious_prompt?: {
+      disabled?: boolean;
+      action?: PromptInjectionAction;
+    };
+    malicious_entity?: {
+      disabled?: boolean;
+      ip_address?: MaliciousEntityAction;
+      url?: MaliciousEntityAction;
+      domain?: MaliciousEntityAction;
+    };
+    competitors?: {
+      disabled?: boolean;
+      action?: "report" | "block";
+    };
+    confidential_and_pii_entity?: {
+      disabled?: boolean;
+      email_address?: PiiEntityAction;
+      nrp?: PiiEntityAction;
+      location?: PiiEntityAction;
+      person?: PiiEntityAction;
+      phone_number?: PiiEntityAction;
+      date_time?: PiiEntityAction;
+      ip_address?: PiiEntityAction;
+      url?: PiiEntityAction;
+      money?: PiiEntityAction;
+      credit_card?: PiiEntityAction;
+      crypto?: PiiEntityAction;
+      iban_code?: PiiEntityAction;
+      us_bank_number?: PiiEntityAction;
+      nif?: PiiEntityAction;
+      "fin/nric"?: PiiEntityAction;
+      au_abn?: PiiEntityAction;
+      au_acn?: PiiEntityAction;
+      au_tfn?: PiiEntityAction;
+      medical_license?: PiiEntityAction;
+      uk_nhs?: PiiEntityAction;
+      au_medicare?: PiiEntityAction;
+      us_drivers_license?: PiiEntityAction;
+      us_itin?: PiiEntityAction;
+      us_passport?: PiiEntityAction;
+      us_ssn?: PiiEntityAction;
+    };
+    secret_and_key_entity?: {
+      disabled?: boolean;
+      slack_token?: PiiEntityAction;
+      rsa_private_key?: PiiEntityAction;
+      ssh_dsa_private_key?: PiiEntityAction;
+      ssh_ec_private_key?: PiiEntityAction;
+      pgp_private_key_block?: PiiEntityAction;
+      amazon_aws_access_key_id?: PiiEntityAction;
+      amazon_aws_secret_access_key?: PiiEntityAction;
+      amazon_mws_auth_token?: PiiEntityAction;
+      facebook_access_token?: PiiEntityAction;
+      github_access_token?: PiiEntityAction;
+      jwt_token?: PiiEntityAction;
+      google_api_key?: PiiEntityAction;
+      google_cloud_platform_api_key?: PiiEntityAction;
+      google_drive_api_key?: PiiEntityAction;
+      google_cloud_platform_service_account?: PiiEntityAction;
+      google_gmail_api_key?: PiiEntityAction;
+      youtube_api_key?: PiiEntityAction;
+      mailchimp_api_key?: PiiEntityAction;
+      mailgun_api_key?: PiiEntityAction;
+      basic_auth?: PiiEntityAction;
+      picatic_api_key?: PiiEntityAction;
+      slack_webhook?: PiiEntityAction;
+      stripe_api_key?: PiiEntityAction;
+      stripe_restricted_api_key?: PiiEntityAction;
+      square_access_token?: PiiEntityAction;
+      square_oauth_secret?: PiiEntityAction;
+      twilio_api_key?: PiiEntityAction;
+      pangea_token?: PiiEntityAction;
+    };
+    image?: {
+      disabled?: boolean;
+      action?: "" | "report" | "block";
+      topics?: string[];
+      threshold?: number;
+    };
+  };
+
   export interface TextGuardRequest {
     /**
      * Recipe key of a configuration of data types and settings defined in the
@@ -719,41 +878,24 @@ export namespace AIGuard {
   export interface TextGuardResult {
     /** Result of the recipe analyzing and input prompt. */
     detectors: {
-      prompt_injection: Detector<{
-        /** The action taken by this Detector */
-        action: string;
-
-        /** Triggered prompt injection analyzers. */
-        analyzer_responses: { analyzer: string; confidence: number }[];
-      }>;
+      prompt_injection?: Detector<PromptInjectionResult>;
+      gibberish?: Detector<ClassificationResult>;
+      sentiment?: Detector<ClassificationResult>;
+      selfharm?: Detector<ClassificationResult>;
       pii_entity?: Detector<RedactEntityResult>;
-      malicious_entity?: Detector<{
-        /** Detected harmful items. */
-        entities: MaliciousEntity[];
-      }>;
+      malicious_entity?: Detector<MaliciousEntityResult>;
       custom_entity?: Detector<RedactEntityResult>;
       secrets_detection?: Detector<RedactEntityResult>;
-      profanity_and_toxicity?: Detector<RedactEntityResult>;
-      language_detection?: Detector<{
-        /** The action taken by this Detector */
-        action: string;
-        language: string;
-      }>;
-      topic_detection?: Detector<{
-        /** The action taken by this Detector */
-        action: string;
-      }>;
-      topic?: Detector<{
-        /** The action taken by this Detector */
-        action?: string;
-        /** List of topics detected */
-        topics?: { topic: string; confidence: number }[];
-      }>;
-      code_detection?: Detector<{
-        /** The action taken by this Detector */
-        action: string;
-        language: string;
-      }>;
+      competitors?: Detector<SingleEntityResult>;
+      profanity_and_toxicity?: Detector<ClassificationResult>;
+      // Prompt Hardening does not have `detected`.
+      hardening?: {
+        /** Details about the detected languages. */
+        data?: HardeningResult;
+      };
+      language_detection?: Detector<LanguageResult>;
+      topic?: Detector<TopicResult>;
+      code_detection?: Detector<LanguageResult>;
     };
 
     /** Updated prompt text, if applicable. */
@@ -802,9 +944,8 @@ export namespace AIGuard {
      * data.
      */
     debug?: boolean;
-    overrides?: GuardOverrides;
-    /** Name of source application. */
-    app_name?: string;
+    overrides?: GuardOverrides2;
+
     /** Id of source application. */
     app_id?: string;
     /** User/Service account id. */
@@ -825,8 +966,8 @@ export namespace AIGuard {
     source_location?: string;
     /** For gateway-like integrations with multi-tenant support. */
     tenant_id?: string;
-    /** (AIDR) sensor mode. */
-    sensor_mode?: "input" | "output";
+    /** (AIDR) Event Type. */
+    event_type?: "input" | "output";
     /** (AIDR) sensor instance id. */
     sensor_instance_id?: string;
     /** (AIDR) Logging schema. */
@@ -853,6 +994,46 @@ export namespace AIGuard {
     };
     /** Provide input and output token count. */
     count_tokens?: boolean;
+  };
+
+  export type MultimodalGuardResult = {
+    /** Updated structured prompt. */
+    output?: {
+      [key: string]: unknown;
+    };
+    /** Whether or not the prompt triggered a block detection. */
+    blocked?: boolean;
+    /** Whether or not the original input was transformed. */
+    transformed?: boolean;
+    /** The Recipe that was used. */
+    recipe?: string;
+    /** Result of the recipe analyzing and input prompt. */
+    detectors: {
+      malicious_prompt?: Detector<PromptInjectionResult>;
+      confidential_and_pii_entity?: Detector<RedactEntityResult>;
+      malicious_entity?: Detector<MaliciousEntityResult>;
+      custom_entity?: Detector<RedactEntityResult>;
+      secret_and_key_entity?: Detector<RedactEntityResult>;
+      competitors?: Detector<SingleEntityResult>;
+      // Prompt Hardening does not have `detected`.
+      prompt_hardening?: {
+        /** Details about the detected languages. */
+        data?: HardeningResult;
+      };
+      language?: Detector<LanguageResult>;
+      topic?: Detector<TopicResult>;
+      code?: Detector<LanguageResult>;
+    };
+    access_rules?: { [key: string]: unknown };
+    /**
+     * If an FPE redaction method returned results, this will be the context
+     * passed to unredact.
+     */
+    fpe_context?: string;
+    /** Number of tokens counted in the input */
+    input_token_count?: number;
+    /** Number of tokens counted in the output */
+    output_token_count?: number;
   };
 
   export type AuditDataActivityConfig = {
