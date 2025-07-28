@@ -1,4 +1,4 @@
-import { FC } from "react";
+import { FC, useMemo } from "react";
 import { Stack, Typography } from "@mui/material";
 import { useTheme } from "@mui/material/styles";
 import { VpnKeyRounded, WarningRounded } from "@mui/icons-material";
@@ -20,11 +20,16 @@ const PasskeyError: FC<Props> = ({
 }) => {
   const theme = useTheme();
 
+  const errorMsg = useMemo(() => {
+    return error ? error.substring(0, error.indexOf(".") + 1) : "";
+  }, [error]);
+
   return (
     <Stack>
       <Button
         variant="text"
         fullWidth
+        className="passkey-error-button"
         sx={{
           color: (theme.vars || theme).palette.error.main,
           cursor: "default",
@@ -41,6 +46,7 @@ const PasskeyError: FC<Props> = ({
           gap={1}
           alignItems="center"
           justifyContent="center"
+          className="passkey-error-text"
         >
           <WarningRounded
             sx={{
@@ -68,7 +74,7 @@ const PasskeyError: FC<Props> = ({
       {error && (
         <Stack direction="row" justifyContent="center" pt={1}>
           <Typography variant="body2" color="error">
-            {error}
+            {errorMsg}
           </Typography>
         </Stack>
       )}
