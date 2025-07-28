@@ -10,6 +10,7 @@ import {
 
 import find from "lodash/find";
 import { getFieldValueOptions } from "../../hooks/schema";
+import { Audit } from "../../types";
 
 export interface AuditFieldFilter {
   id: string;
@@ -22,6 +23,8 @@ interface Props {
   onValueChange: (value: AuditFieldFilter) => void;
 
   options: FilterOptions<any>;
+
+  knownLogs?: Audit.FlattenedAuditRecord<any>[];
 }
 
 const FilterField: FC<Props> = ({
@@ -29,6 +32,7 @@ const FilterField: FC<Props> = ({
   onValueChange,
 
   options,
+  knownLogs,
 }) => {
   const { schema } = useAuditContext();
 
@@ -95,7 +99,7 @@ const FilterField: FC<Props> = ({
       return option?.valueOptions;
     }
 
-    return getFieldValueOptions(field, undefined);
+    return getFieldValueOptions(field, undefined, knownLogs);
   }, [value.id, field, options]);
 
   return (

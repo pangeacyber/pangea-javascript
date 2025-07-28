@@ -1,4 +1,4 @@
-import { FC, useCallback, useEffect, useMemo, useRef } from "react";
+import { FC, useCallback, useEffect, useMemo, useRef, useState } from "react";
 import mapValues from "lodash/mapValues";
 
 import { Box } from "@mui/material";
@@ -11,7 +11,7 @@ import {
   usePagination,
   useAuditBody,
 } from "../../hooks/context";
-import { LinedPangeaDataGrid } from "@pangeacyber/react-mui-shared";
+import { LinedPangeaDataGrid, PopoutCard } from "@pangeacyber/react-mui-shared";
 import AuditPreviewRow from "../AuditPreviewRow";
 import { AuditSecureColumn } from "./secureColumn";
 import AuditTimeFilterButton from "./AuditTimeFilterButton";
@@ -106,7 +106,26 @@ const AuditLogViewerComponent: FC<ViewerProps> = ({
   const defaultVisibility = useDefaultVisibility(schema);
   const defaultOrder = useDefaultOrder(schema);
 
-  const schemaColumns = useAuditColumns(schema, fields, fieldTypes);
+  const headerRefMap = useRef<Record<string, HTMLDivElement | null>>({});
+  const [activeFilterColumn, setActiveFilterColumn] = useState<string | null>(
+    null
+  );
+
+  const handleGetFilterRef = (field: string) => (el: any) => {
+    headerRefMap.current[field] = el;
+  };
+
+  const handleOnFilterOpen = (field: string, event: any) => {
+    setActiveFilterColumn(field);
+  };
+
+  const schemaColumns = useAuditColumns(
+    schema,
+    fields,
+    fieldTypes,
+    handleOnFilterOpen,
+    handleGetFilterRef
+  );
   const columns = useAuditColumnsWithErrors(schemaColumns, logs);
   const filterFields = useAuditFilterFields(schema, filterOptions);
   const conditionalOptions = useAuditConditionalOptions(schema, filterOptions);
@@ -179,6 +198,17 @@ const AuditLogViewerComponent: FC<ViewerProps> = ({
         ".MuiDataGrid-root .MuiDataGrid-row.Mui-selected .MuiDataGrid-cell": {
           borderBottom: "none",
         },
+
+        ".AuditLogViewer-FilterButton": {
+          opacity: 0,
+        },
+
+        ".MuiDataGrid-columnHeader:hover": {
+          ".AuditLogViewer-FilterButton": {
+            opacity: 0.6,
+          },
+        },
+
         ...sx,
       }}
     >
@@ -272,6 +302,38 @@ const AuditLogViewerComponent: FC<ViewerProps> = ({
           },
         }}
       />
+      {activeFilterColumn && !!queryObj && (
+        <PopoutCard
+          anchorRef={{
+            current: activeFilterColumn
+              ? headerRefMap.current[activeFilterColumn]
+              : null,
+          }}
+          open={!!activeFilterColumn}
+          setOpen={(open) => {
+            if (!open) setActiveFilterColumn(null);
+          }}
+          flatTop
+        >
+          <div style={{ minWidth: "500px" }}>
+            <AuditLogViewerFiltersForm
+              initialField={activeFilterColumn}
+              knownLogs={logs}
+              // @ts-ignore
+              filters={queryObj}
+              options={filterFields}
+              onFilterChange={(values) => {
+                setQueryObj(
+                  mapValues(values, (v: any) =>
+                    typeof v === "string" ? v.trim() : v
+                  )
+                );
+                setActiveFilterColumn(null);
+              }}
+            />
+          </div>
+        </PopoutCard>
+      )}
     </Box>
   );
 };

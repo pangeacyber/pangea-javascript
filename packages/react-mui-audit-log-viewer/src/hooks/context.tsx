@@ -133,7 +133,10 @@ interface AuditContextProviderProps<Event = Audit.DefaultEvent> {
 
   // Search state
   initialQuery?: string;
+
   filters?: PublicAuditQuery;
+  onFiltersChange?: (filters: PublicAuditQuery) => void;
+
   filterOptions?: FilterOptions;
 }
 
@@ -164,6 +167,7 @@ const AuditContextProvider = <Event,>({
   // Search state
   initialQuery,
   filters,
+  onFiltersChange,
   filterOptions,
 }: AuditContextProviderProps<Event>): JSX.Element => {
   const [offset, setOffset] = useState<number>(0);
@@ -179,7 +183,7 @@ const AuditContextProvider = <Event,>({
 
   // Search state
   const [sort, setSort] = useState<Sort>();
-  const queryState = useAuditQueryState(initialQuery, filters);
+  const queryState = useAuditQueryState(initialQuery, filters, onFiltersChange);
 
   return (
     <AuditContext.Provider
