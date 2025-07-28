@@ -17,6 +17,7 @@ interface Props {
   fullWidth?: boolean;
   onClick?: () => void;
   type?: "button" | "reset" | "submit";
+  className?: string;
   sx?: SxProps;
   children: ReactNode;
 }
@@ -28,6 +29,7 @@ const Button: FC<Props> = ({
   fullWidth = false,
   onClick,
   type = "button",
+  className,
   sx,
   children,
 }) => {
@@ -42,6 +44,7 @@ const Button: FC<Props> = ({
       disableElevation={true}
       disableRipple={true}
       disableFocusRipple={true}
+      className={className}
       sx={{ textTransform: "none", ...sx }}
     >
       {children}

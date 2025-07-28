@@ -15,10 +15,17 @@ const { pluckThemeFromContext } = DecoratorHelpers;
 import "@fontsource/kanit/300.css";
 import "@fontsource/kanit/400.css";
 import "@fontsource/kanit/500.css";
+import "@fontsource/kanit/600.css";
 
 import "@fontsource/roboto/300.css";
 import "@fontsource/roboto/400.css";
 import "@fontsource/roboto/500.css";
+import "@fontsource/roboto/600.css";
+
+import "@fontsource/inter/300.css";
+import "@fontsource/inter/400.css";
+import "@fontsource/inter/500.css";
+import "@fontsource/inter/600.css";
 
 import "./common.css";
 
@@ -28,6 +35,7 @@ import {
   pangeaTheme,
   browserflixTheme,
   darkTheme,
+  aidrTheme,
 } from "../src/stories/themes";
 import { getBrandingData, getOptions } from "./utils";
 
@@ -81,6 +89,7 @@ export const decorators = [
       pangea: pangeaTheme,
       browserflix: browserflixTheme,
       dark: darkTheme,
+      aidr: aidrTheme,
     },
     defaultTheme: "generic",
     Provider: FlowThemeProvider,
@@ -91,7 +100,7 @@ export const decorators = [
 export const parameters = {
   actions: { argTypesRegex: "^on[A-Z].*" },
   controls: {
-    expanded: true, // Adds the description and default columns
+    expanded: false, // Adds the description and default columns
     matchers: {
       color: /(background|color)$/i,
       date: /Date$/i,

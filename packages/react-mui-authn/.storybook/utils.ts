@@ -2,6 +2,7 @@ import { AuthFlowViewOptions } from "../src/features/AuthFlow/types";
 import { PANGEA } from "../src/stories/themes/config/pangea";
 import { BROWSERFLIX } from "../src/stories/themes/config/browserflix";
 import { GENERIC } from "../src/stories/themes/config/generic";
+import { AIDR } from "../src/stories/themes/config/aidr";
 
 export const getBrandingData = (theme: string) => {
   if (theme === "browserflix") {
@@ -10,6 +11,10 @@ export const getBrandingData = (theme: string) => {
 
   if (theme === "pangea") {
     return PANGEA;
+  }
+
+  if (theme === "aidr") {
+    return AIDR;
   }
 
   return GENERIC;

@@ -3,6 +3,7 @@ import { GENERIC } from "./config/generic";
 import { PANGEA } from "./config/pangea";
 import { BROWSERFLIX } from "./config/browserflix";
 import { DARK } from "./config/dark";
+import { AIDR } from "./config/aidr";
 
 const getThemeFromConfig = (config: any) => {
   const theme = createTheme({
@@ -31,12 +32,26 @@ const getThemeFromConfig = (config: any) => {
           root: {
             height: config?.density === "comfortable" ? "50px" : "40px",
             borderRadius: config?.button_border_radius ?? "8px",
+            variants: [
+              {
+                props: { color: "primary" },
+                style: {
+                  border: config?.primary_button_border,
+                },
+              },
+              {
+                props: { color: "secondary" },
+                style: {
+                  border: config?.secondary_button_border,
+                },
+              },
+            ],
           },
         },
       },
       MuiInputLabel: {
         defaultProps: {
-          size: config?.density === "comfortable" ? "normal" : "small",
+          size: config?.density === "comfortable" ? "medium" : "small",
         },
         styleOverrides: {
           root: {
@@ -234,3 +249,4 @@ export const genericTheme = getThemeFromConfig(GENERIC);
 export const pangeaTheme = getThemeFromConfig(PANGEA);
 export const browserflixTheme = getThemeFromConfig(BROWSERFLIX);
 export const darkTheme = getThemeFromConfig(DARK);
+export const aidrTheme = getThemeFromConfig(AIDR);
