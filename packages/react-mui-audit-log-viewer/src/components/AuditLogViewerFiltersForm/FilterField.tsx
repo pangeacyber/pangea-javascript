@@ -134,6 +134,9 @@ const FilterField: FC<Props> = ({
             }
             FieldProps={{
               type: "singleSelect",
+              ValueTypographyProps: {
+                variant: "body2",
+              },
               options: {
                 valueOptions: fieldOptions,
               },
@@ -146,7 +149,7 @@ const FilterField: FC<Props> = ({
             }}
           />
         </Stack>
-        <Stack width="26%">
+        <Stack width="26%" sx={{ maxWidth: "125px" }}>
           <SelectField
             onValueChange={(operator) =>
               onValueChange({
@@ -157,6 +160,9 @@ const FilterField: FC<Props> = ({
             value={value.operator}
             FieldProps={{
               type: "singleSelect",
+              ValueTypographyProps: {
+                variant: "body2",
+              },
               options: {
                 valueOptions: operationOptions,
               },
@@ -172,7 +178,7 @@ const FilterField: FC<Props> = ({
             }}
           />
         </Stack>
-        <Stack width="37%">
+        <Stack width="37%" sx={{ width: "-webkit-fill-available" }}>
           <StringField
             value={value.value}
             onValueChange={(v) =>

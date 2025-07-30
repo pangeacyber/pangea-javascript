@@ -101,7 +101,10 @@ const AuditLogViewerComponent: FC<ViewerProps> = ({
 
     filterOptions,
   } = useAuditContext();
-  const { body, bodyWithoutQuery } = useAuditBody(limit, maxResults);
+  const { body, bodyWithoutQuery, tableSettingsQuery } = useAuditBody(
+    limit,
+    maxResults
+  );
   const pagination = usePagination();
   const defaultVisibility = useDefaultVisibility(schema);
   const defaultOrder = useDefaultOrder(schema);
@@ -139,6 +142,20 @@ const AuditLogViewerComponent: FC<ViewerProps> = ({
     if (!bodyRef.current) return;
     return onSearch(bodyRef.current);
   };
+
+  useEffect(() => {
+    if (
+      tableSettingsQuery &&
+      !searchOnChange &&
+      // Check mount ref, so multiple use effects are not triggering the handleSearch
+      hasMountedRef.current !== undefined
+    ) {
+      setTimeout(() => {
+        handleSearch();
+        // Add slight delay since since filters may update the query string
+      }, 100);
+    }
+  }, [tableSettingsQuery, searchOnChange]);
 
   useEffect(() => {
     const initialQuery_ = initialQuery ?? "";
@@ -315,7 +332,7 @@ const AuditLogViewerComponent: FC<ViewerProps> = ({
           }}
           flatTop
         >
-          <div style={{ minWidth: "500px" }}>
+          <div style={{ minWidth: "700px" }}>
             <AuditLogViewerFiltersForm
               initialField={activeFilterColumn}
               knownLogs={logs}

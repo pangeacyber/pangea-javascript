@@ -8,6 +8,7 @@ import React, {
   useEffect,
   useRef,
   useMemo,
+  useCallback,
 } from "react";
 import get from "lodash/get";
 import isEmpty from "lodash/isEmpty";
@@ -64,7 +65,8 @@ interface AuditContextShape<Event = Audit.DefaultEvent> {
 
   // Query state
   sort: Sort | undefined;
-  setSort: Dispatch<SetStateAction<Sort | undefined>>;
+  setSort: (sort: Sort | undefined) => void;
+
   query: string;
   setQuery: Dispatch<SetStateAction<string>>;
   queryObj: AuditQuery | null;
@@ -137,6 +139,9 @@ interface AuditContextProviderProps<Event = Audit.DefaultEvent> {
   filters?: PublicAuditQuery;
   onFiltersChange?: (filters: PublicAuditQuery) => void;
 
+  sort?: Sort;
+  onSortChange?: (sort: Sort | undefined) => void;
+
   filterOptions?: FilterOptions;
 }
 
@@ -168,6 +173,10 @@ const AuditContextProvider = <Event,>({
   initialQuery,
   filters,
   onFiltersChange,
+
+  sort: controlledSort,
+  onSortChange,
+
   filterOptions,
 }: AuditContextProviderProps<Event>): JSX.Element => {
   const [offset, setOffset] = useState<number>(0);
@@ -182,7 +191,22 @@ const AuditContextProvider = <Event,>({
   const consistencyRef = useRef({});
 
   // Search state
-  const [sort, setSort] = useState<Sort>();
+  const [sort, setSort_] = useState<Sort>();
+
+  const setSort = useCallback(
+    (sort: Sort | undefined) => {
+      if (onSortChange) onSortChange(sort);
+      return setSort_(sort);
+    },
+    [setSort_]
+  );
+
+  useEffect(() => {
+    if (controlledSort !== undefined) {
+      setSort_(controlledSort);
+    }
+  }, [controlledSort]);
+
   const queryState = useAuditQueryState(initialQuery, filters, onFiltersChange);
 
   return (
@@ -490,6 +514,7 @@ export const useVerification = (
 interface UseAuditQuery {
   body: Audit.SearchRequest | null;
   bodyWithoutQuery: Audit.SearchRequest | null;
+  tableSettingsQuery: Partial<Audit.SearchRequest>;
 }
 
 export const useAuditBody = (
@@ -509,26 +534,32 @@ export const useAuditBody = (
     return {
       query: "",
       ...getTimeFilterKwargs(queryObj),
-      ...(sort ?? {}),
+    };
+  }, [queryObj, maxResults]);
+
+  const tableSettingsQuery = useMemo<Partial<Audit.SearchRequest>>(() => {
+    return {
       limit,
+      ...(sort ?? {}),
       max_results: maxResults,
       verbose: true,
     };
-  }, [queryObj, sort, maxResults]);
+  }, [sort, limit, maxResults]);
 
   const body = useMemo<Audit.SearchRequest | null>(() => {
     return {
+      ...tableSettingsQuery,
       ...bodyWithoutQuery,
       query: query,
     };
-  }, [query, bodyWithoutQuery]);
+  }, [query, bodyWithoutQuery, tableSettingsQuery]);
 
   useEffect(() => {
     const queryString = constructQueryString(queryObj);
     if (queryString) setQuery(queryString);
   }, [queryObj]);
 
-  return { body, bodyWithoutQuery };
+  return { body, bodyWithoutQuery, tableSettingsQuery };
 };
 
 export default AuditContextProvider;
