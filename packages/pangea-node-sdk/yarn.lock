@@ -1275,6 +1275,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@trpc/server@npm:^11.1.1":
+  version: 11.4.4
+  resolution: "@trpc/server@npm:11.4.4"
+  peerDependencies:
+    typescript: ">=5.7.2"
+  checksum: 10c0/94fefaa3538a9c4fe9995dea2563b32d43e7af51014c55ce041282cf008fe3925aa46607c49a68ebe4899cc884a12e96a9f2650c4e744e8aad6d87d09d1ccbba
+  languageName: node
+  linkType: hard
+
 "@tsconfig/node20@npm:20.1.6":
   version: 20.1.6
   resolution: "@tsconfig/node20@npm:20.1.6"
@@ -1359,6 +1368,13 @@ __metadata:
   dependencies:
     undici-types: "npm:~6.21.0"
   checksum: 10c0/c6738131f1698258a5ac1e0185e4fc56977f7f566cd0ee11167f93f2339478470257bd82c5e1908a936a204e0ad7996d741356a1a07c04997a236161ea23a874
+  languageName: node
+  linkType: hard
+
+"@types/omelette@npm:^0.4.4":
+  version: 0.4.5
+  resolution: "@types/omelette@npm:0.4.5"
+  checksum: 10c0/691e00ebb73bfe698fc52477040666318ac7c582ac07ba439f0af05ec19d27abb22cd6699e1a3db7ca8907f9ff5cb9a9e92e844e32f83df20325e0b79377532f
   languageName: node
   linkType: hard
 
@@ -3791,7 +3807,7 @@ __metadata:
     tsdown: "npm:0.13.2"
     typedoc: "npm:^0.28.7"
     typescript: "npm:5.8.3"
-    ultracite: "npm:5.0.48"
+    ultracite: "npm:5.1.2"
     vite-tsconfig-paths: "npm:5.1.4"
     vitest: "npm:3.2.4"
   languageName: unknown
@@ -3893,7 +3909,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"picocolors@npm:^1.0.0, picocolors@npm:^1.1.1":
+"picocolors@npm:^1.0.0, picocolors@npm:^1.0.1, picocolors@npm:^1.1.1":
   version: 1.1.1
   resolution: "picocolors@npm:1.1.1"
   checksum: 10c0/e2e3e8170ab9d7c7421969adaa7e1b31434f789afb9b3f115f6b96d91945041ac3ceb02e9ec6fe6510ff036bcc0bf91e69a1772edc0b707e12b19c0f2d6bcf58
@@ -4780,6 +4796,30 @@ __metadata:
   languageName: node
   linkType: hard
 
+"trpc-cli@npm:^0.10.0":
+  version: 0.10.2
+  resolution: "trpc-cli@npm:0.10.2"
+  dependencies:
+    "@trpc/server": "npm:^11.1.1"
+    "@types/omelette": "npm:^0.4.4"
+    commander: "npm:^14.0.0"
+    picocolors: "npm:^1.0.1"
+    zod: "npm:^3.25.3"
+    zod-to-json-schema: "npm:^3.23.0"
+  peerDependencies:
+    "@inquirer/prompts": "*"
+    omelette: "*"
+  peerDependenciesMeta:
+    "@inquirer/prompts":
+      optional: true
+    omelette:
+      optional: true
+  bin:
+    trpc-cli: dist/bin.js
+  checksum: 10c0/467e90896c56873832cd4307524469801ffde53daff59bb184d90ceda110a1bf75cba81387f1d345b5aac2147421b8937a0e8c7e1be0ee79d00626e95682fbc1
+  languageName: node
+  linkType: hard
+
 "tsconfck@npm:^3.0.3":
   version: 3.1.6
   resolution: "tsconfck@npm:3.1.6"
@@ -4916,18 +4956,19 @@ __metadata:
   languageName: node
   linkType: hard
 
-"ultracite@npm:5.0.48":
-  version: 5.0.48
-  resolution: "ultracite@npm:5.0.48"
+"ultracite@npm:5.1.2":
+  version: 5.1.2
+  resolution: "ultracite@npm:5.1.2"
   dependencies:
     "@clack/prompts": "npm:^0.11.0"
-    commander: "npm:^14.0.0"
     deepmerge: "npm:^4.3.1"
     jsonc-parser: "npm:^3.3.1"
+    trpc-cli: "npm:^0.10.0"
     vitest: "npm:^3.2.4"
+    zod: "npm:^4.0.5"
   bin:
     ultracite: dist/index.js
-  checksum: 10c0/f821de0881698278a7658fe37e8756658f44b7822c3b646e3d2afb253fe408e8c4c314b6fd78d857fe756da9742668edfed5e03b74e524d8f0ce1993f808a575
+  checksum: 10c0/2ebad6566a2eaa2df873662fe2a8e7eeab5c53191a2c986203a8c2ff84eaeb8102b1f37748acbaa9a62cd024cd55c5a4e36f874e64f40fe875a56792b34eb688
   languageName: node
   linkType: hard
 
@@ -5359,5 +5400,28 @@ __metadata:
     y18n: "npm:^5.0.5"
     yargs-parser: "npm:^20.2.2"
   checksum: 10c0/b1dbfefa679848442454b60053a6c95d62f2d2e21dd28def92b647587f415969173c6e99a0f3bab4f1b67ee8283bf735ebe3544013f09491186ba9e8a9a2b651
+  languageName: node
+  linkType: hard
+
+"zod-to-json-schema@npm:^3.23.0":
+  version: 3.24.6
+  resolution: "zod-to-json-schema@npm:3.24.6"
+  peerDependencies:
+    zod: ^3.24.1
+  checksum: 10c0/b907ab6d057100bd25a37e5545bf5f0efa5902cd84d3c3ec05c2e51541431a47bd9bf1e5e151a244273409b45f5986d55b26e5d207f98abc5200702f733eb368
+  languageName: node
+  linkType: hard
+
+"zod@npm:^3.25.3":
+  version: 3.25.76
+  resolution: "zod@npm:3.25.76"
+  checksum: 10c0/5718ec35e3c40b600316c5b4c5e4976f7fee68151bc8f8d90ec18a469be9571f072e1bbaace10f1e85cf8892ea12d90821b200e980ab46916a6166a4260a983c
+  languageName: node
+  linkType: hard
+
+"zod@npm:^4.0.5":
+  version: 4.0.15
+  resolution: "zod@npm:4.0.15"
+  checksum: 10c0/c4d5b0c6668fe32fb6040d713d75dbf65e2e46cb68c77755b7b66426e8583d5dacf49a44f90beb6b12aa1aa2545cc0d3c186e368711021e11dd3c1f0addb9100
   languageName: node
   linkType: hard
