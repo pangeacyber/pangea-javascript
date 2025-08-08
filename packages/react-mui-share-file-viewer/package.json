@@ -57,7 +57,7 @@
     "storybook": "9.1.0",
     "typedoc": "0.28.9",
     "typedoc-plugin-rename-defaults": "0.7.3",
-    "typescript": "^5.8.3",
+    "typescript": "^5.9.2",
     "vite": "7.0.0"
   },
   "dependencies": {
