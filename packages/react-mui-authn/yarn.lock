@@ -1180,7 +1180,7 @@ __metadata:
     typescript: "npm:5.8.3"
     vite: "npm:7.0.0"
     vite-tsconfig-paths: "npm:5.1.4"
-    yup: "npm:1.5.0"
+    yup: "npm:1.7.0"
   peerDependencies:
     "@mui/icons-material": ^7.0.0
     "@mui/material": ^7.0.0
@@ -5305,14 +5305,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"yup@npm:1.5.0":
-  version: 1.5.0
-  resolution: "yup@npm:1.5.0"
+"yup@npm:1.7.0":
+  version: 1.7.0
+  resolution: "yup@npm:1.7.0"
   dependencies:
     property-expr: "npm:^2.0.5"
     tiny-case: "npm:^1.0.3"
     toposort: "npm:^2.0.2"
     type-fest: "npm:^2.19.0"
-  checksum: 10c0/bbbfe078b987e49b826c222b654512161860d3488409e76d29baa937d71e5be64e0933b572997894e31527b6a3b3a95aa997945c00885f68fda04f4ca5522206
+  checksum: 10c0/76760553b6813705092735ab1fe0049061545673b7cc9a8e554ef59c09db241888bdcca6c42b58bd0f8a707c1d9665ab1adb75a8e4cf380bfc89f17827f2b182
   languageName: node
   linkType: hard
