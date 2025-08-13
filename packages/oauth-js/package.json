@@ -24,7 +24,7 @@
     "@parcel/transformer-typescript-types": "2.15.4",
     "@types/typescript": "^2.0.0",
     "parcel": "^2.15.4",
-    "typescript": "^5.8.3"
+    "typescript": "^5.9.2"
   },
   "packageManager": "yarn@4.9.2",
   "dependencies": {

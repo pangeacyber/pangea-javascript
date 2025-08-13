@@ -128,7 +128,6 @@ class PangeaRequest {
         response.headers.get("Content-Disposition")
       ) ??
       this.getFilenameFromURL(url) ??
-      null ??
       "default_filename";
 
     const contentTypeHeader = response.headers.get("Content-Type") ?? "";
