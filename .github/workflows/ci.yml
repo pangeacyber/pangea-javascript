@@ -71,6 +71,9 @@ jobs:
       - name: Build
         run: yarn build
 
+      - name: Typecheck
+        run: yarn typecheck
+
       - name: Pack
         run: yarn pack
 

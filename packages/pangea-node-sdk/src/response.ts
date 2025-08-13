@@ -23,10 +23,10 @@ export class ResponseObject<M> {
 
 export class AttachedFile {
   filename: string;
-  file: ArrayBuffer;
+  file: ArrayBufferLike;
   contentType: string;
 
-  constructor(filename: string, file: ArrayBuffer, contentType: string) {
+  constructor(filename: string, file: ArrayBufferLike, contentType: string) {
     this.filename = filename;
     this.file = file;
     this.contentType = contentType;
@@ -66,7 +66,7 @@ export class PangeaResponse<M> extends ResponseObject<M> {
           jsonResp = JSON.parse(part.data.toString("utf-8"));
         } else {
           attachedFilesTemp.push(
-            new AttachedFile(part.filename, part.data, part.type)
+            new AttachedFile(part.filename, part.data.buffer, part.type)
           );
         }
       });
