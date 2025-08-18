@@ -3821,7 +3821,7 @@ __metadata:
     tsdown: "npm:0.14.1"
     typedoc: "npm:^0.28.10"
     typescript: "npm:5.9.2"
-    ultracite: "npm:5.1.2"
+    ultracite: "npm:5.1.5"
     vite-tsconfig-paths: "npm:5.1.4"
     vitest: "npm:3.2.4"
   languageName: unknown
@@ -4976,9 +4976,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"ultracite@npm:5.1.2":
-  version: 5.1.2
-  resolution: "ultracite@npm:5.1.2"
+"ultracite@npm:5.1.5":
+  version: 5.1.5
+  resolution: "ultracite@npm:5.1.5"
   dependencies:
     "@clack/prompts": "npm:^0.11.0"
     deepmerge: "npm:^4.3.1"
@@ -4988,7 +4988,7 @@ __metadata:
     zod: "npm:^4.0.5"
   bin:
     ultracite: dist/index.js
-  checksum: 10c0/2ebad6566a2eaa2df873662fe2a8e7eeab5c53191a2c986203a8c2ff84eaeb8102b1f37748acbaa9a62cd024cd55c5a4e36f874e64f40fe875a56792b34eb688
+  checksum: 10c0/842bff592997c385f248cee11760a796d34e04cc2b4b50b57bb3edb066c611a8de39ff02d617f439e49c495408eecd8860070dd1a3e083a4c70aa10482901a8a
   languageName: node
   linkType: hard
 
