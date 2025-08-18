@@ -38,7 +38,7 @@
     "@rollup/plugin-typescript": "^12.1.4",
     "@storybook/addon-links": "9.1.2",
     "@storybook/react-vite": "9.1.2",
-    "@testing-library/jest-dom": "6.6.4",
+    "@testing-library/jest-dom": "6.7.0",
     "@testing-library/react": "12.1.5",
     "@types/crypto-js": "^4.2.2",
     "@types/diff": "^7.0.2",
