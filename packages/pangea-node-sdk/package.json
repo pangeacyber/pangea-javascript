@@ -44,7 +44,7 @@
     "@types/node": "20.19.11",
     "@types/promise-retry": "1.1.6",
     "@types/proper-url-join": "2.1.5",
-    "cross-env": "^7.0.3",
+    "cross-env": "^10.0.0",
     "publint": "0.3.12",
     "start-server-and-test": "2.0.13",
     "tsdown": "0.14.1",
