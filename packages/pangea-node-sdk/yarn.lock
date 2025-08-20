@@ -1934,6 +1934,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"citty@npm:^0.1.6":
+  version: 0.1.6
+  resolution: "citty@npm:0.1.6"
+  dependencies:
+    consola: "npm:^3.2.3"
+  checksum: 10c0/d26ad82a9a4a8858c7e149d90b878a3eceecd4cfd3e2ed3cd5f9a06212e451fb4f8cbe0fa39a3acb1b3e8f18e22db8ee5def5829384bad50e823d4b301609b48
+  languageName: node
+  linkType: hard
+
 "cjs-module-lexer@npm:^1.2.3":
   version: 1.4.3
   resolution: "cjs-module-lexer@npm:1.4.3"
@@ -2056,6 +2065,20 @@ __metadata:
     validate.io-function: "npm:^1.0.2"
     validate.io-integer-array: "npm:^1.0.0"
   checksum: 10c0/3cb5dd4ae367aaf8926e0ac616303e5dac0bde7f6d737e8ff3c1081f99203315898a6112726556a61503ba9ddc25ea570b1dd6d1fe1f50dd86d35b450cef45f8
+  languageName: node
+  linkType: hard
+
+"confbox@npm:^0.2.2":
+  version: 0.2.2
+  resolution: "confbox@npm:0.2.2"
+  checksum: 10c0/7c246588d533d31e8cdf66cb4701dff6de60f9be77ab54c0d0338e7988750ac56863cc0aca1b3f2046f45ff223a765d3e5d4977a7674485afcd37b6edf3fd129
+  languageName: node
+  linkType: hard
+
+"consola@npm:^3.2.3, consola@npm:^3.4.2":
+  version: 3.4.2
+  resolution: "consola@npm:3.4.2"
+  checksum: 10c0/7cebe57ecf646ba74b300bcce23bff43034ed6fbec9f7e39c27cee1dc00df8a21cd336b466ad32e304ea70fba04ec9e890c200270de9a526ce021ba8a7e4c11a
   languageName: node
   linkType: hard
 
@@ -2478,6 +2501,13 @@ __metadata:
   version: 3.1.2
   resolution: "exponential-backoff@npm:3.1.2"
   checksum: 10c0/d9d3e1eafa21b78464297df91f1776f7fbaa3d5e3f7f0995648ca5b89c069d17055033817348d9f4a43d1c20b0eab84f75af6991751e839df53e4dfd6f22e844
+  languageName: node
+  linkType: hard
+
+"exsolve@npm:^1.0.7":
+  version: 1.0.7
+  resolution: "exsolve@npm:1.0.7"
+  checksum: 10c0/4479369d0bd84bb7e0b4f5d9bc18d26a89b6dbbbccd73f9d383d14892ef78ddbe159e01781055342f83dc00ebe90044036daf17ddf55cc21e2cac6609aa15631
   languageName: node
   linkType: hard
 
@@ -3723,6 +3753,21 @@ __metadata:
   languageName: node
   linkType: hard
 
+"nypm@npm:^0.6.1":
+  version: 0.6.1
+  resolution: "nypm@npm:0.6.1"
+  dependencies:
+    citty: "npm:^0.1.6"
+    consola: "npm:^3.4.2"
+    pathe: "npm:^2.0.3"
+    pkg-types: "npm:^2.2.0"
+    tinyexec: "npm:^1.0.1"
+  bin:
+    nypm: dist/cli.mjs
+  checksum: 10c0/61fc5ca665b998fa0229dd663799e8dbb6c757d01b00e90594731068e002f7d7e27b36de9dae807065cd44463ab0c0a6fc5a52560789377df007d1c56499f19f
+  languageName: node
+  linkType: hard
+
 "object-assign@npm:^4.0.1":
   version: 4.1.1
   resolution: "object-assign@npm:4.1.1"
@@ -3829,7 +3874,7 @@ __metadata:
     tsdown: "npm:0.14.1"
     typedoc: "npm:^0.28.10"
     typescript: "npm:5.9.2"
-    ultracite: "npm:5.1.2"
+    ultracite: "npm:5.2.4"
     vite-tsconfig-paths: "npm:5.1.4"
     vitest: "npm:3.2.4"
   languageName: unknown
@@ -3990,6 +4035,17 @@ __metadata:
     find-up: "npm:^2.0.0"
     load-json-file: "npm:^4.0.0"
   checksum: 10c0/e1474a4f7714ee78204b4a7f2316dec9e59887762bdc126ebd0eb701bbde7c6a6da65c4dc9c2a7c1eaeee49914009bf4a4368f5d9894c596ddf812ff982fdb05
+  languageName: node
+  linkType: hard
+
+"pkg-types@npm:^2.2.0":
+  version: 2.3.0
+  resolution: "pkg-types@npm:2.3.0"
+  dependencies:
+    confbox: "npm:^0.2.2"
+    exsolve: "npm:^1.0.7"
+    pathe: "npm:^2.0.3"
+  checksum: 10c0/d2bbddc5b81bd4741e1529c08ef4c5f1542bbdcf63498b73b8e1d84cff71806d1b8b1577800549bb569cb7aa20056257677b979bff48c97967cba7e64f72ae12
   languageName: node
   linkType: hard
 
@@ -4984,19 +5040,20 @@ __metadata:
   languageName: node
   linkType: hard
 
-"ultracite@npm:5.1.2":
-  version: 5.1.2
-  resolution: "ultracite@npm:5.1.2"
+"ultracite@npm:5.2.4":
+  version: 5.2.4
+  resolution: "ultracite@npm:5.2.4"
   dependencies:
     "@clack/prompts": "npm:^0.11.0"
     deepmerge: "npm:^4.3.1"
     jsonc-parser: "npm:^3.3.1"
+    nypm: "npm:^0.6.1"
     trpc-cli: "npm:^0.10.0"
     vitest: "npm:^3.2.4"
     zod: "npm:^4.0.5"
   bin:
     ultracite: dist/index.js
-  checksum: 10c0/2ebad6566a2eaa2df873662fe2a8e7eeab5c53191a2c986203a8c2ff84eaeb8102b1f37748acbaa9a62cd024cd55c5a4e36f874e64f40fe875a56792b34eb688
+  checksum: 10c0/fb9d0fb81592aadb9cd53a180944f0402d435d0c36174da3784505599e66eb5a267a4aaff4ab16f0bd38e7dbdc670ea62ad8436d9b380040a7fd3346a2f6bfe3
   languageName: node
   linkType: hard
 
