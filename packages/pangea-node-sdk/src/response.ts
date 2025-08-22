@@ -108,5 +108,3 @@ function parseJSONfields(key: string, value: any) {
     return value;
   }
 }
-
-export default PangeaResponse;

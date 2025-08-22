@@ -1,6 +1,6 @@
 import { default as _PangeaConfig } from "./config.js";
 import { default as _PangeaRequest } from "./request.js";
-import { default as _PangeaResponse } from "./response.js";
+export { PangeaResponse } from "./response.js";
 import services from "./services/index.js";
 
 // Export all types
@@ -27,7 +27,6 @@ export { FileUploader } from "./file_uploader.js";
 
 export const PangeaConfig = _PangeaConfig;
 export const PangeaRequest = _PangeaRequest;
-export const PangeaResponse = _PangeaResponse;
 
 export const AIGuardService = services.AIGuardService;
 export const AuditService = services.AuditService;

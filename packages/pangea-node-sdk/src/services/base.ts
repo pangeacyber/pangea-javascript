@@ -1,6 +1,6 @@
 import PangeaConfig from "@src/config.js";
 import PangeaRequest from "@src/request.js";
-import PangeaResponse, { AttachedFile } from "@src/response.js";
+import type { AttachedFile, PangeaResponse } from "@src/response.js";
 import { PostOptions, PangeaToken } from "@src/types.js";
 
 class BaseService {
