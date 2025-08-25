@@ -1160,7 +1160,7 @@ __metadata:
     "@storybook/react": "npm:9.1.3"
     "@storybook/react-vite": "npm:9.1.3"
     "@types/lodash": "npm:4.17.20"
-    "@types/react": "npm:17.0.87"
+    "@types/react": "npm:17.0.88"
     "@types/react-dom": "npm:17.0.26"
     awesome-phonenumber: "npm:^7.5.0"
     dayjs: "npm:^1.11.13"
@@ -1886,14 +1886,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/react@npm:17.0.87":
-  version: 17.0.87
-  resolution: "@types/react@npm:17.0.87"
+"@types/react@npm:17.0.88":
+  version: 17.0.88
+  resolution: "@types/react@npm:17.0.88"
   dependencies:
     "@types/prop-types": "npm:*"
     "@types/scheduler": "npm:^0.16"
     csstype: "npm:^3.0.2"
-  checksum: 10c0/42efa9d1fa7c6c5422ef1add693c23e35dab0df68265fd403a1c13193acdd972ed03cd5f1cea8e6b378503abb70f25da04ff24f4ef0468d2b8e25db6bd394363
+  checksum: 10c0/04fbe61d59dfa160e186e9e107f8d3343fc17970ffc498f0d9d9cfa2f3e942b06b4a63757eaa5ce9665c330b015d709e0b97fe3ea3cb9b37d3a27795f309eaa7
   languageName: node
   linkType: hard
 

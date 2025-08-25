@@ -179,7 +179,7 @@ __metadata:
     "@parcel/packager-ts": "npm:^2.15.4"
     "@parcel/transformer-typescript-types": "npm:2.15.4"
     "@tsconfig/strictest": "npm:^2.0.5"
-    "@types/react": "npm:^18.3.23"
+    "@types/react": "npm:^18.3.24"
     "@types/react-dom": "npm:^18.3.7"
     parcel: "npm:^2.15.4"
     parcel-optimizer-react-use-client: "npm:^1.0.0"
@@ -1345,7 +1345,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/react@npm:^18.3.23":
+"@types/react@npm:^18.3.24":
   version: 18.3.24
   resolution: "@types/react@npm:18.3.24"
   dependencies:
