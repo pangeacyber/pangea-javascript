@@ -70,7 +70,7 @@ const constructProof = (data: string): (LeftProof | RightProof)[] => {
   }
 
   // @ts-expect-error
-  // biome-ignore lint/nursery/useIterableCallbackReturn: TODO
+  // biome-ignore lint/suspicious/useIterableCallbackReturn: TODO
   const proofs: (LeftProof | RightProof)[] = data.split(",").map((item) => {
     const parts = item.split(":");
     if (parts.length >= 2) {
