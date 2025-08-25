@@ -1,13 +1,13 @@
 import type { PangeaResponse } from "@src/response.js";
-import BaseService from "./base.js";
-import PangeaConfig from "@src/config.js";
+import { BaseService } from "./base.js";
+import { PangeaConfig } from "@src/config.js";
 import { PangeaToken, Vault } from "@src/types.js";
 
 /**
  * VaultService class provides methods for interacting with the Vault Service
  * @extends BaseService
  */
-class VaultService extends BaseService {
+export class VaultService extends BaseService {
   /**
    * Creates a new `VaultService` with the given Pangea API token and
    * configuration.
@@ -792,5 +792,3 @@ class VaultService extends BaseService {
     return await this.post("v2/export", request);
   }
 }
-
-export default VaultService;

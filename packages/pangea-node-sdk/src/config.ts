@@ -1,7 +1,7 @@
 export const version = "5.4.0";
 
 /** Configuration for a Pangea service client. */
-class PangeaConfig {
+export class PangeaConfig {
   /**
    * Template for constructing the base URL for API requests. The placeholder
    * `{SERVICE_NAME}` will be replaced with the service name slug. This is a
@@ -56,5 +56,3 @@ class PangeaConfig {
     Object.assign(this, options);
   }
 }
-
-export default PangeaConfig;

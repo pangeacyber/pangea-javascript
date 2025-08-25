@@ -1,6 +1,6 @@
 import type { PangeaResponse } from "@src/response.js";
-import BaseService from "./base.js";
-import PangeaConfig from "@src/config.js";
+import { BaseService } from "./base.js";
+import { PangeaConfig } from "@src/config.js";
 import {
   FileData,
   FileScan,
@@ -11,7 +11,7 @@ import {
 } from "@src/types.js";
 import { getFileUploadParams } from "@src/utils/utils.js";
 import { PangeaErrors } from "@src/errors.js";
-import PangeaRequest from "@src/request.js";
+import { PangeaRequest } from "@src/request.js";
 
 export class FileScanService extends BaseService {
   /**

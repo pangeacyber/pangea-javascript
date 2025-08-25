@@ -1,7 +1,7 @@
 import { it, expect } from "vitest";
 
-import PangeaConfig from "@src/config.js";
-import PangeaRequest from "@src/request.js";
+import { PangeaConfig } from "@src/config.js";
+import { PangeaRequest } from "@src/request.js";
 
 const token = "faketoken";
 const serviceName = "serviceName";

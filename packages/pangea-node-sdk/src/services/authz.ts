@@ -1,13 +1,13 @@
 import type { PangeaResponse } from "@src/response.js";
-import BaseService from "./base.js";
-import PangeaConfig from "@src/config.js";
+import { BaseService } from "./base.js";
+import { PangeaConfig } from "@src/config.js";
 import { AuthZ, PangeaToken } from "@src/types.js";
 
 /**
  * AuthZService class provides methods for interacting with the AuthZ Service
  * @extends BaseService
  */
-class AuthZService extends BaseService {
+export class AuthZService extends BaseService {
   /**
    * Creates a new `AuthZService` with the given Pangea API token and
    * configuration.
@@ -184,5 +184,3 @@ class AuthZService extends BaseService {
     return this.post("v1/list-subjects", request);
   }
 }
-
-export default AuthZService;

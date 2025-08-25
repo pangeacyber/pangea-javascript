@@ -1,7 +1,6 @@
 import { describe, expect, it } from "vitest";
 
-import PangeaConfig from "../../src/config.js";
-import AIGuardService from "../../src/services/ai_guard.js";
+import { AIGuardService, PangeaConfig } from "../../src/index.js";
 
 const client = new AIGuardService(
   "my_api_token",

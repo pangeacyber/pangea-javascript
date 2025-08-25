@@ -1,14 +1,14 @@
 import { expect, it, afterAll, vi } from "vitest";
 
-import PangeaConfig from "../../src/config.js";
-import { PangeaErrors } from "../../src/errors.js";
-import VaultService from "../../src/services/vault.js";
-import { Vault } from "../../src/types.js";
 import {
+  PangeaConfig,
+  VaultService,
+  Vault,
+  PangeaErrors,
   asymmetricDecrypt,
   generateRsaKeyPair,
-  kemDecryptExportResult,
-} from "../../src/utils/crypto.js";
+} from "../../src/index.js";
+import { kemDecryptExportResult } from "../../src/utils/crypto.js";
 import {
   getTestDomain,
   getTestToken,

@@ -1,6 +1,6 @@
 import type { PangeaResponse } from "@src/response.js";
-import BaseService from "./base.js";
-import PangeaConfig from "@src/config.js";
+import { BaseService } from "./base.js";
+import { PangeaConfig } from "@src/config.js";
 import {
   Share,
   FileData,
@@ -15,7 +15,7 @@ import { getFileSize } from "@src/utils/utils.js";
  * ShareService class provides methods for interacting with the Share Service
  * @extends BaseService
  */
-class ShareService extends BaseService {
+export class ShareService extends BaseService {
   constructor(token: string, config: PangeaConfig) {
     super("share", token, config);
   }
@@ -377,5 +377,3 @@ class ShareService extends BaseService {
     return this.post("v1/share/link/send", request);
   }
 }
-
-export default ShareService;

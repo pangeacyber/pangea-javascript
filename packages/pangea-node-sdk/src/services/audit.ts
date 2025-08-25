@@ -1,6 +1,6 @@
 import type { PangeaResponse } from "@src/response.js";
-import BaseService from "./base.js";
-import PangeaConfig from "@src/config.js";
+import { BaseService } from "./base.js";
+import { PangeaConfig } from "@src/config.js";
 import { Audit, PangeaToken, PostOptions } from "@src/types.js";
 import {
   PublishedRoots,
@@ -24,7 +24,7 @@ import { PangeaErrors } from "@src/errors.js";
  * AuditService class provides methods for interacting with the Audit Service
  * @extends BaseService
  */
-class AuditService extends BaseService {
+export class AuditService extends BaseService {
   private publishedRoots: PublishedRoots;
   private prevUnpublishedRootHash: string | undefined;
   tenantID: string | undefined;
@@ -618,5 +618,3 @@ class AuditService extends BaseService {
     return response;
   }
 }
-
-export default AuditService;

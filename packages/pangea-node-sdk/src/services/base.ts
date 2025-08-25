@@ -1,9 +1,9 @@
-import PangeaConfig from "@src/config.js";
-import PangeaRequest from "@src/request.js";
+import { PangeaConfig } from "@src/config.js";
+import { PangeaRequest } from "@src/request.js";
 import type { AttachedFile, PangeaResponse } from "@src/response.js";
 import { PostOptions, PangeaToken } from "@src/types.js";
 
-class BaseService {
+export class BaseService {
   protected serviceName: string;
   protected token: string;
   protected config: PangeaConfig;
@@ -110,5 +110,3 @@ class BaseService {
     return this.request_;
   }
 }
-
-export default BaseService;
