@@ -1,7 +1,6 @@
 import { it, expect } from "vitest";
 
-import PangeaConfig from "@src/config.js";
-import AuthNService from "@src/services/authn/index.js";
+import { AuthNService, PangeaConfig } from "@src/index.js";
 
 it("is really a test", () => {
   const config = new PangeaConfig({});

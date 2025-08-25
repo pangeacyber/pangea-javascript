@@ -1,5 +1,5 @@
-import BaseService from "@src/services/base.js";
-import PangeaConfig from "@src/config.js";
+import { BaseService } from "@src/services/base.js";
+import { PangeaConfig } from "@src/config.js";
 import User from "./user/index.js";
 import Flow from "./flow/index.js";
 import Client from "./client/index.js";
@@ -12,7 +12,7 @@ import { Group } from "./group.js";
  * AuthnService class provides methods for interacting with the AuthN Service
  * @extends BaseService
  */
-class AuthNService extends BaseService {
+export class AuthNService extends BaseService {
   user: User;
   flow: Flow;
   client: Client;
@@ -46,5 +46,3 @@ class AuthNService extends BaseService {
     this.group = new Group(token, config);
   }
 }
-
-export default AuthNService;

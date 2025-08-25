@@ -1,7 +1,7 @@
-import PangeaConfig from "../config.js";
+import { PangeaConfig } from "../config.js";
 import type { PangeaResponse } from "../response.js";
 import { AIGuard } from "../types.js";
-import BaseService from "./base.js";
+import { BaseService } from "./base.js";
 
 interface MessageLike {
   role?: string;
@@ -174,5 +174,3 @@ export class AIGuardService extends BaseService {
     return this.post("v1/text/guard", request);
   }
 }
-
-export default AIGuardService;

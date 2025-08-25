@@ -1,6 +1,6 @@
 import type { PangeaResponse } from "@src/response.js";
-import BaseService from "./base.js";
-import PangeaConfig from "@src/config.js";
+import { BaseService } from "./base.js";
+import { PangeaConfig } from "@src/config.js";
 import { PangeaToken, Redact } from "@src/types.js";
 
 export interface RedactOptions {
@@ -11,7 +11,7 @@ export interface RedactOptions {
  * RedactService class provides methods for interacting with the Redact Service
  * @extends BaseService
  */
-class RedactService extends BaseService {
+export class RedactService extends BaseService {
   /**
    * Creates a new `RedactService` with the given Pangea API token and
    * configuration.
@@ -113,5 +113,3 @@ class RedactService extends BaseService {
     return this.post("v1/unredact", request);
   }
 }
-
-export default RedactService;

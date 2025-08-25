@@ -1,13 +1,13 @@
 import type { PangeaResponse } from "@src/response.js";
-import BaseService from "./base.js";
-import PangeaConfig from "@src/config.js";
+import { BaseService } from "./base.js";
+import { PangeaConfig } from "@src/config.js";
 import { Embargo, PangeaToken } from "@src/types.js";
 
 /**
  * EmbargoService class provides methods for interacting with the Embargo Service
  * @extends BaseService
  */
-class EmbargoService extends BaseService {
+export class EmbargoService extends BaseService {
   /**
    * Creates a new `EmbargoService` with the given Pangea API token and
    * configuration.
@@ -66,5 +66,3 @@ class EmbargoService extends BaseService {
     return this.post("v1/iso/check", data);
   }
 }
-
-export default EmbargoService;

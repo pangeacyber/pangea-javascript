@@ -1,6 +1,6 @@
-import PangeaRequest from "@src/request.js";
+import { PangeaRequest } from "@src/request.js";
 import { FileData, TransferMethod } from "@src/types.js";
-import PangeaConfig from "@src/config.js";
+import { PangeaConfig } from "@src/config.js";
 
 export class FileUploader {
   protected serviceName: string = "FileUploader";
