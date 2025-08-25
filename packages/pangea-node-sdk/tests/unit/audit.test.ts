@@ -1,6 +1,6 @@
 import { it, expect } from "vitest";
 
-import PangeaConfig from "@src/config.js";
+import { PangeaConfig } from "@src/config.js";
 import AuditService from "@src/services/audit.js";
 
 it("is really a test", () => {

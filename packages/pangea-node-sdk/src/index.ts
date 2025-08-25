@@ -1,15 +1,12 @@
-import { default as _PangeaConfig } from "./config.js";
-import { default as _PangeaRequest } from "./request.js";
-export { PangeaResponse } from "./response.js";
-import services from "./services/index.js";
+export * from "./errors";
+export * from "./services";
+export * from "./types";
 
-// Export all types
-export * from "./types.js";
+export { PangeaConfig } from "./config";
+export { PangeaRequest } from "./request";
+export { PangeaResponse } from "./response";
 
-// Export all errors
-export * from "./errors.js";
-
-export { asymmetricDecrypt, generateRsaKeyPair } from "./utils/crypto.js";
+export { asymmetricDecrypt, generateRsaKeyPair } from "./utils/crypto";
 
 export {
   hashSHA256,
@@ -20,28 +17,7 @@ export {
   b64toStr,
   strToB64,
   getFileUploadParams,
-} from "./utils/utils.js";
+} from "./utils/utils";
 
-export { FileScanUploader } from "./services/file_scan.js";
-export { FileUploader } from "./file_uploader.js";
-
-export const PangeaConfig = _PangeaConfig;
-export const PangeaRequest = _PangeaRequest;
-
-export const AIGuardService = services.AIGuardService;
-export const AuditService = services.AuditService;
-export const AuthNService = services.AuthNService;
-export const AuthZService = services.AuthZService;
-export const BaseService = services.BaseService;
-export const EmbargoService = services.EmbargoService;
-export const PromptGuardService = services.PromptGuardService;
-export const RedactService = services.RedactService;
-export const FileIntelService = services.FileIntelService;
-export const DomainIntelService = services.DomainIntelService;
-export const IPIntelService = services.IPIntelService;
-export const URLIntelService = services.URLIntelService;
-export const UserIntelService = services.UserIntelService;
-export const VaultService = services.VaultService;
-export const FileScanService = services.FileScanService;
-export const SanitizeService = services.SanitizeService;
-export const ShareService = services.ShareService;
+export { FileScanUploader } from "./services/file_scan";
+export { FileUploader } from "./file_uploader";

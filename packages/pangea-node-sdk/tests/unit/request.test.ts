@@ -3,7 +3,7 @@ import { afterAll, afterEach, beforeAll } from "vitest";
 import { setupServer } from "msw/node";
 import { http, HttpResponse, type HttpResponseResolver } from "msw";
 
-import PangeaConfig from "@src/config.js";
+import { PangeaConfig } from "@src/config.js";
 import EmbargoService from "@src/services/embargo.js";
 
 function withRetriedRequestIds(

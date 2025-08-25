@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 
-import PangeaConfig from "../../src/config.js";
+import { PangeaConfig } from "../../src/config.js";
 import AIGuardService from "../../src/services/ai_guard.js";
 import {
   TestEnvironment,

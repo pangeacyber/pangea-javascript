@@ -18,22 +18,22 @@ import SanitizeService from "./sanitize.js";
 import ShareService from "./share.js";
 import VaultService from "./vault.js";
 
-export default {
+export {
   AIGuardService,
   AuditService,
   AuthNService,
   AuthZService,
   BaseService,
+  DomainIntelService,
   EmbargoService,
+  FileIntelService,
+  FileScanService,
+  IPIntelService,
   PromptGuardService,
   RedactService,
-  FileIntelService,
-  DomainIntelService,
-  IPIntelService,
+  SanitizeService,
+  ShareService,
   URLIntelService,
   UserIntelService,
   VaultService,
-  FileScanService,
-  SanitizeService,
-  ShareService,
 };

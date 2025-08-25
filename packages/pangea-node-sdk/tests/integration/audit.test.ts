@@ -2,7 +2,7 @@ import { setTimeout } from "node:timers/promises";
 
 import { it, expect, vi } from "vitest";
 
-import PangeaConfig from "../../src/config.js";
+import { PangeaConfig } from "../../src/config.js";
 import AuditService from "../../src/services/audit.js";
 import { Audit } from "../../src/types.js";
 import { Signer } from "../../src/utils/signer.js";

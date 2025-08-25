@@ -1,6 +1,6 @@
 import { expect, it, afterAll, vi } from "vitest";
 
-import PangeaConfig from "../../src/config.js";
+import { PangeaConfig } from "../../src/config.js";
 import { PangeaErrors } from "../../src/errors.js";
 import VaultService from "../../src/services/vault.js";
 import { Vault } from "../../src/types.js";

@@ -1,4 +1,4 @@
-import PangeaConfig from "../config.js";
+import { PangeaConfig } from "../config.js";
 import type { PangeaResponse } from "../response.js";
 import { PromptGuard } from "../types.js";
 import BaseService from "./base.js";

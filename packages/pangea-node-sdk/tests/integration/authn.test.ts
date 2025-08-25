@@ -1,4 +1,4 @@
-import PangeaConfig from "../../src/config.js";
+import { PangeaConfig } from "../../src/config.js";
 import AuthNService from "../../src/services/authn/index.js";
 import { it, expect, vi } from "vitest";
 import { PangeaErrors } from "../../src/errors.js";

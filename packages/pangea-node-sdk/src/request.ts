@@ -7,7 +7,7 @@ import { File, FormData } from "formdata-node";
 import { fileFromPath } from "formdata-node/file-from-path";
 import urlJoin from "proper-url-join";
 
-import PangeaConfig, { version } from "./config.js";
+import { PangeaConfig, version } from "./config.js";
 import { PangeaErrors } from "./errors.js";
 import { AttachedFile, PangeaResponse } from "./response.js";
 import { FileData, FileItems, PostOptions, TransferMethod } from "./types.js";
@@ -40,7 +40,7 @@ interface Request extends Object {
   transfer_method?: TransferMethod;
 }
 
-class PangeaRequest {
+export class PangeaRequest {
   private serviceName: string;
   private token: string;
   private config: PangeaConfig;
@@ -671,5 +671,3 @@ class PangeaRequest {
     }
   }
 }
-
-export default PangeaRequest;
