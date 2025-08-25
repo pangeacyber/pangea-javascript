@@ -36,7 +36,8 @@
   },
   "devDependencies": {
     "@arethetypeswrong/cli": "0.18.2",
-    "@biomejs/biome": "2.1.4",
+    "@biomejs/biome": "2.2.2",
+    "@kenan/biome-config": "1.0.4",
     "@stoplight/prism-cli": "5.14.2",
     "@tsconfig/node20": "20.1.6",
     "@types/crypto-js": "^4.2.2",
@@ -50,7 +51,6 @@
     "tsdown": "0.14.1",
     "typedoc": "^0.28.10",
     "typescript": "5.9.2",
-    "ultracite": "5.1.2",
     "vite-tsconfig-paths": "5.1.4",
     "vitest": "3.2.4"
   },
