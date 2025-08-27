@@ -7,6 +7,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## Unreleased
 
+## Added
+
+- AI Guard: `onlyRelevantContent` parameter which allows for sending only
+  relevant messages to AI Guard.
+
 ## 5.3.0 - 2025-08-25
 
 ### Added
