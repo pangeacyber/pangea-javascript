@@ -15,7 +15,7 @@
   "publishConfig": {
     "access": "public"
   },
-  "packageManager": "yarn@4.9.3",
+  "packageManager": "yarn@4.9.4",
   "scripts": {
     "build": "parcel build",
     "lint-publint": "publint",
