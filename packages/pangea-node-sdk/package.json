@@ -36,7 +36,7 @@
   },
   "devDependencies": {
     "@arethetypeswrong/cli": "0.18.2",
-    "@biomejs/biome": "2.2.2",
+    "@biomejs/biome": "2.2.3",
     "@kenan/biome-config": "1.0.4",
     "@stoplight/prism-cli": "5.14.2",
     "@tsconfig/node20": "20.1.6",
