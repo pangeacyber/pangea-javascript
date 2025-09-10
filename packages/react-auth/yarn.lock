@@ -63,7 +63,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@babel/core@npm:^7.28.3":
+"@babel/core@npm:^7.28.4":
   version: 7.28.4
   resolution: "@babel/core@npm:7.28.4"
   dependencies:
@@ -470,7 +470,7 @@ __metadata:
   resolution: "@pangeacyber/react-auth@workspace:."
   dependencies:
     "@arethetypeswrong/cli": "npm:^0.18.2"
-    "@babel/core": "npm:^7.28.3"
+    "@babel/core": "npm:^7.28.4"
     "@futureportal/parcel-transformer-package-version": "npm:^1.0.0"
     "@pangeacyber/vanilla-js": "npm:0.1.14"
     "@parcel/config-default": "npm:^2.15.4"
