@@ -160,13 +160,13 @@ export class AIGuardService extends BaseService {
         }
       );
       if (response.success && response.result.prompt_messages) {
-        const transformedMessages = response.result
-          .prompt_messages as unknown as MessageLike[];
+        const transformedMessages = response.result.prompt_messages;
+        // @ts-expect-error Input `role` is optional, but on output it's required?
         response.result.prompt_messages = patchMessages(
           originalMessages,
           originalIndices,
           transformedMessages
-        ) as unknown as Record<string, unknown>;
+        );
       }
       return response;
     }
