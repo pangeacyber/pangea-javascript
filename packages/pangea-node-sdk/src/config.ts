@@ -1,4 +1,4 @@
-export const version = "5.3.0";
+export const version = "5.4.0";
 
 /** Configuration for a Pangea service client. */
 class PangeaConfig {
