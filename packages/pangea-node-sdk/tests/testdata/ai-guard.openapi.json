@@ -171,7 +171,7 @@
           "content": {
             "application/json": {
               "schema": {
-                "required": ["id", "name", "updated_at"],
+                "required": ["id", "name"],
                 "$ref": "#/components/schemas/ai-guard-v1beta-service-config"
               }
             }
@@ -1707,13 +1707,31 @@
               },
               "mcp_tools": {
                 "type": "array",
-                "title": "List of MCP tools",
-                "description": "Each item is <mcp_servername>:<tool_name>",
-                "uniqueItems": true,
+                "title": "MCP tools grouped by server",
+                "description": "Each item groups tools for a given MCP server.",
                 "items": {
-                  "type": "string",
-                  "description": "Formatted mcp service and tools name <mcp_servername>:<tool_name>"
-                }
+                  "type": "object",
+                  "additionalProperties": false,
+                  "required": ["server_name", "tools"],
+                  "properties": {
+                    "server_name": {
+                      "type": "string",
+                      "minLength": 1,
+                      "description": "MCP server name"
+                    },
+                    "tools": {
+                      "type": "array",
+                      "minItems": 1,
+                      "uniqueItems": true,
+                      "items": {
+                        "type": "string",
+                        "minLength": 1,
+                        "description": "Tool name"
+                      }
+                    }
+                  }
+                },
+                "uniqueItems": true
               }
             },
             "additionalProperties": true
@@ -3067,14 +3085,9 @@
             "type": "string",
             "enum": ["block", "report"],
             "description": "Action to apply if the rule matches. Use 'block' to stop further processing or 'report' to simply log the match."
-          },
-          "logic": {
-            "type": "object",
-            "description": "JSON Logic condition that determines whether this rule matches.",
-            "additionalProperties": true
           }
         },
-        "required": ["rule_key", "name", "state", "logic"],
+        "required": ["rule_key", "name", "state"],
         "additionalProperties": false,
         "examples": [
           {
