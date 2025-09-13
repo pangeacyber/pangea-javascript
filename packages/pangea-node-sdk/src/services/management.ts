@@ -1,6 +1,6 @@
 import { Management } from "@src/types.js";
 import PangeaConfig from "../config.js";
-import PangeaResponse from "../response.js";
+import { PangeaResponse } from "../response.js";
 import BaseService from "./base.js";
 
 class Authorization extends BaseService {

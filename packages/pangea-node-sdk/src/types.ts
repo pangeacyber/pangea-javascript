@@ -902,7 +902,7 @@ export namespace AIGuard {
     prompt_text?: string;
 
     /** Updated structured prompt, if applicable. */
-    prompt_messages?: { [key: string]: unknown };
+    prompt_messages?: { role: string; content: string }[];
 
     /** Whether or not the prompt triggered a block detection. */
     blocked?: boolean;

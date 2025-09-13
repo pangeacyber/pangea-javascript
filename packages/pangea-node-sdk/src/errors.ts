@@ -1,5 +1,5 @@
 import { AcceptedResult, Audit } from "@src/types.js";
-import { PangeaResponse } from "./response.js";
+import type { PangeaResponse } from "./response.js";
 
 export namespace PangeaErrors {
   export interface ErrorField {

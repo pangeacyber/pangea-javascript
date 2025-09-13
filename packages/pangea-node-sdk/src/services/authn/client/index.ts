@@ -1,6 +1,6 @@
 import BaseService from "@src/services/base.js";
 import PangeaConfig from "@src/config.js";
-import PangeaResponse from "@src/response.js";
+import type { PangeaResponse } from "@src/response.js";
 import { AuthN, PangeaToken } from "@src/types.js";
 
 import ClientSession from "./session.js";

@@ -15,16 +15,16 @@
   "publishConfig": {
     "access": "public"
   },
-  "packageManager": "yarn@4.9.2",
+  "packageManager": "yarn@4.9.4",
   "scripts": {
     "build": "parcel build",
     "lint-publint": "publint",
     "typecheck": "tsc --noEmit"
   },
   "devDependencies": {
-    "@babel/core": "^7.28.0",
-    "@babel/plugin-transform-runtime": "^7.28.0",
-    "@babel/preset-env": "^7.28.0",
+    "@babel/core": "^7.28.4",
+    "@babel/plugin-transform-runtime": "^7.28.3",
+    "@babel/preset-env": "^7.28.3",
     "@babel/preset-react": "^7.27.1",
     "@babel/preset-typescript": "^7.27.1",
     "@parcel/packager-ts": "2.15.4",
@@ -35,7 +35,7 @@
     "publint": "0.3.12",
     "style-loader": "^4.0.0",
     "ts-node": "^10.9.2",
-    "typescript": "^5.8.3"
+    "typescript": "^5.9.2"
   },
   "dependencies": {
     "@emotion/cache": "^11.14.0",
@@ -49,7 +49,7 @@
     "@pangeacyber/react-mui-branding": "^1.0.0",
     "@pangeacyber/react-mui-share-file-viewer": "^2.0.2",
     "@preact/compat": "^18.3.1",
-    "preact": "^10.26.9",
+    "preact": "^10.27.1",
     "styled-components": "^6.1.19"
   },
   "alias": {

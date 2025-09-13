@@ -5,7 +5,6 @@ import { URL } from "node:url";
 import { FormDataEncoder } from "form-data-encoder";
 import { File, FormData } from "formdata-node";
 import { fileFromPath } from "formdata-node/file-from-path";
-import promiseRetry from "promise-retry";
 import * as qs from "neoqs/legacy";
 import urlJoin from "proper-url-join";
 
@@ -15,10 +14,28 @@ import { AttachedFile, PangeaResponse } from "./response.js";
 import { FileData, FileItems, PostOptions, TransferMethod } from "./types.js";
 import { getHeaderField } from "./utils/multipart.js";
 
+const INITIAL_RETRY_DELAY = 0.5;
+const MAX_RETRY_DELAY = 8.0;
+const RETRYABLE_HTTP_CODES = new Set([500, 502, 503, 504]);
+
 const delay = async (ms: number) =>
-  new Promise((resolve) => {
-    setTimeout(resolve, ms);
-  });
+  new Promise<void>((resolve) => setTimeout(resolve, ms));
+
+type RequestOptions = {
+  body?: AsyncIterable<Uint8Array> | Buffer | FormData | string;
+  headers?: Record<string, string | null>;
+  method: "GET" | "POST" | "PUT" | "DELETE";
+  query?: Record<string, unknown>;
+  url: URL;
+
+  /**
+   * The maximum number of times that the client will retry a request in case of
+   * a temporary failure.
+   *
+   * @default 3
+   */
+  maxRetries?: number;
+};
 
 interface Request extends Object {
   config_id?: string;
@@ -29,7 +46,7 @@ class PangeaRequest {
   private serviceName: string;
   private token: string;
   private config: PangeaConfig;
-  private extraHeaders: Object;
+  private extraHeaders: Record<string, string>;
   private configID?: string;
   private userAgent: string = "";
 
@@ -68,9 +85,10 @@ class PangeaRequest {
    */
   public async delete(endpoint: string): Promise<Response> {
     const url = this.getUrl(endpoint);
-    return await this.httpRequest(url, {
+    return await this.httpRequest({
+      url,
       method: "DELETE",
-      headers: this.getHeaders(),
+      maxRetries: this.config.requestRetries,
     });
   }
 
@@ -135,12 +153,12 @@ class PangeaRequest {
       const responseType =
         data.transfer_method === TransferMethod.MULTIPART ? "buffer" : "json";
       const request = {
-        headers: this.getHeaders(),
         body: JSON.stringify(data),
-        retry: { limit: this.config.requestRetries },
+        maxRetries: this.config.requestRetries,
         responseType,
+        url,
       };
-      response = await this.httpPost(url, request);
+      response = await this.httpPost(request);
 
       if (responseType === "json" && !options.pangeaResponse) {
         return (await response.json()) as R;
@@ -169,9 +187,10 @@ class PangeaRequest {
   }
 
   public async downloadFile(url: URL): Promise<AttachedFile> {
-    const response = await this.httpRequest(url, {
+    const response = await this.httpRequest({
       method: "GET",
-      retry: { limit: this.config.requestRetries },
+      maxRetries: this.config.requestRetries,
+      url,
     });
 
     const filename =
@@ -179,7 +198,6 @@ class PangeaRequest {
         response.headers.get("Content-Disposition")
       ) ??
       this.getFilenameFromURL(url) ??
-      null ??
       "default_filename";
 
     const contentTypeHeader = response.headers.get("Content-Type") ?? "";
@@ -217,15 +235,13 @@ class PangeaRequest {
     const encoder = new FormDataEncoder(form);
 
     const request = {
-      headers: {
-        ...this.getHeaders(),
-        ...encoder.headers,
-      },
+      headers: encoder.headers,
       body: encoder.encode(),
-      retry: { limit: this.config.requestRetries },
+      maxRetries: this.config.requestRetries,
+      url,
     };
 
-    return await this.httpPost(url, request);
+    return await this.httpPost(request);
   }
 
   private async getFileToForm(
@@ -292,14 +308,19 @@ class PangeaRequest {
     // Right now, only accept the file with name "file"
     form.append("file", await this.getFileToForm(fileData.file), "file");
 
-    const response = await this.httpPost(url, {
+    const response = await this.httpPost({
       body: form,
-      retry: { limit: this.config.requestRetries },
+      headers: {
+        Authorization: null,
+        "Content-Type": null,
+      },
+      maxRetries: this.config.requestRetries,
+      url,
     });
     if (!response.ok) {
       throw new PangeaErrors.PresignedUploadError(
         `presigned POST failure: ${response.status}`,
-        JSON.stringify(await response.json())
+        await response.text()
       );
     }
   }
@@ -311,15 +332,20 @@ class PangeaRequest {
       );
     }
 
-    const response = await this.httpRequest(url, {
+    const response = await this.httpRequest({
       method: "PUT",
       body: this.getFileToBuffer(fileData.file),
-      retry: { limit: this.config.requestRetries },
+      headers: {
+        Authorization: null,
+        "Content-Type": "application/octet-stream",
+      },
+      maxRetries: this.config.requestRetries,
+      url,
     });
     if (!response.ok) {
       throw new PangeaErrors.PresignedUploadError(
         `presigned PUT failure: ${response.status}`,
-        JSON.stringify(await response.json())
+        await response.text()
       );
     }
 
@@ -399,17 +425,13 @@ class PangeaRequest {
 
   /** Wrapper around `fetch()` POST with got-like options. */
   private async httpPost(
-    url: URL,
-    options: {
-      body: AsyncIterable<Uint8Array> | FormData | string;
-      headers?: Record<string, string>;
-      retry?: { limit: number };
-    }
+    options: Omit<RequestOptions, "method">
   ): Promise<Response> {
-    const response = await this.httpRequest(url, {
+    const response = await this.httpRequest({
       method: "POST",
       body: options.body,
       headers: options.headers,
+      url: options.url,
     });
 
     if (response?.ok) {
@@ -426,18 +448,18 @@ class PangeaRequest {
   }
 
   private async httpRequest(
-    url: URL,
-    options: {
-      body?: AsyncIterable<Uint8Array> | Buffer | FormData | string;
-      headers?: Record<string, string>;
-      method: "DELETE" | "GET" | "POST" | "PUT";
-      query?: Record<string, unknown>;
-      retry?: { limit: number };
-    }
+    options: RequestOptions,
+    retriesRemaining: number | null = null,
+    retryOfRequestIds: Set<string> = new Set()
   ): Promise<Response> {
-    const parsedUrl = new URL(url);
+    const parsedUrl = new URL(options.url);
     if (options.query) {
       parsedUrl.search = qs.stringify(options.query);
+    }
+
+    const maxRetries = options.maxRetries ?? 3;
+    if (retriesRemaining === null) {
+      retriesRemaining = maxRetries;
     }
 
     const fetchOptions: RequestInit = {
@@ -446,24 +468,55 @@ class PangeaRequest {
       // @ts-expect-error difference in `FormData` types between undici-types
       // and formdata-node.
       body: options.body,
-      headers: options.headers,
+      headers: this.getHeaders({ options, retryOfRequestIds }),
     };
 
-    return await promiseRetry(
-      async (retry, _attempt) => {
-        const response = await fetch(parsedUrl, fetchOptions);
+    const response = await fetch(options.url, fetchOptions);
 
-        // Retry on GET HTTP/404 because the existing result-polling code
-        // depends on it. Note that the previous HTTP client, got, did not retry
-        // POST requests by default, hence we don't do that here as well.
-        if (fetchOptions.method === "GET" && response.status === 404) {
-          return retry(response);
+    if (!response.ok) {
+      // Include GET HTTP/404 for retries because the existing result-polling
+      // code depends on that.
+      const shouldRetry =
+        (fetchOptions.method === "GET" && response.status === 404) ||
+        (fetchOptions.method === "POST" &&
+          RETRYABLE_HTTP_CODES.has(response.status));
+      if (retriesRemaining && shouldRetry) {
+        const requestId = response.headers.get("x-request-id");
+        if (requestId) {
+          retryOfRequestIds.add(requestId);
         }
+        return this.retryRequest(options, retriesRemaining, retryOfRequestIds);
+      }
+    }
 
-        return response;
-      },
-      { retries: options.retry?.limit }
+    return response;
+  }
+
+  private async retryRequest(
+    options: RequestOptions,
+    retriesRemaining: number,
+    retryOfRequestIds: Set<string>
+  ) {
+    const maxRetries = options.maxRetries ?? 3;
+    const timeoutMs = this.calculateDefaultRetryTimeoutMs(
+      retriesRemaining,
+      maxRetries
     );
+    await delay(timeoutMs);
+    return this.httpRequest(options, retriesRemaining - 1, retryOfRequestIds);
+  }
+
+  private calculateDefaultRetryTimeoutMs(
+    retriesRemaining: number,
+    maxRetries: number
+  ): number {
+    const numRetries = maxRetries - retriesRemaining;
+    const sleepSeconds = Math.min(
+      INITIAL_RETRY_DELAY * 2 ** numRetries,
+      MAX_RETRY_DELAY
+    );
+    const jitter = 1 - Math.random() * 0.25;
+    return sleepSeconds * jitter * 1000;
   }
 
   private async handleHttpResponse<R>(
@@ -515,10 +568,10 @@ class PangeaRequest {
     options = { checkResponse: true, pangeaResponse: true, ...options };
 
     const url = this.getUrl(endpoint);
-    const response = await this.httpRequest(url, {
-      headers: this.getHeaders(),
+    const response = await this.httpRequest({
       method: "GET",
-      retry: { limit: this.config.requestRetries },
+      maxRetries: this.config.requestRetries,
+      url,
     });
 
     if (!options.pangeaResponse) {
@@ -582,7 +635,7 @@ class PangeaRequest {
     return pangeaResponse;
   }
 
-  public setExtraHeaders(headers: any): any {
+  public setExtraHeaders(headers: Record<string, string>): void {
     this.extraHeaders = { ...headers };
   }
 
@@ -603,20 +656,49 @@ class PangeaRequest {
     );
   }
 
-  private getHeaders(): Record<string, string> {
-    const headers = {};
-    const pangeaHeaders = {
-      "User-Agent": this.userAgent,
+  private getHeaders({
+    options,
+    retryOfRequestIds,
+  }: {
+    options: RequestOptions;
+    retryOfRequestIds: Set<string>;
+  }): Headers {
+    const headers = options.headers ?? {};
+
+    const pangeaHeaders: Record<string, string> = {
       Authorization: `Bearer ${this.token}`,
       "Content-Type": "application/json",
+      "User-Agent": this.userAgent,
+    };
+    if (retryOfRequestIds.size) {
+      pangeaHeaders["X-Pangea-Retried-Request-Ids"] =
+        Array.from(retryOfRequestIds).join(",");
+    }
+
+    const combinedHeaders = {
+      ...this.extraHeaders,
+      ...pangeaHeaders,
+      ...headers,
     };
 
-    if (Object.keys(this.extraHeaders).length > 0) {
-      Object.assign(headers, this.extraHeaders);
+    // Dedupe headers and remove any with null values.
+    const seenHeaders = new Set<string>();
+    const resultHeaders = new Headers();
+    for (const [name, value] of Object.entries(combinedHeaders)) {
+      const lowerName = name.toLowerCase();
+      if (!seenHeaders.has(lowerName)) {
+        seenHeaders.add(lowerName);
+        resultHeaders.delete(name);
+      }
+
+      if (value === null) {
+        resultHeaders.delete(name);
+      } else {
+        resultHeaders.append(name, value);
+      }
     }
-    // We want to overwrite extraHeaders if user set some of pangea headers values.
-    Object.assign(headers, pangeaHeaders);
-    return headers;
+
+    return resultHeaders;
   }
 
   private checkResponse<T>(response: PangeaResponse<T>): PangeaResponse<T> {

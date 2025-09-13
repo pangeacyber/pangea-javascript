@@ -48,4 +48,37 @@ describe("AI Guard", () => {
     expect(response.status).toStrictEqual("Success");
     expect(response.result.prompt_messages).toBeDefined();
   });
+
+  it("should support sending only relevant content", async () => {
+    const response = await client.guardText(
+      {
+        messages: [
+          {
+            role: "system",
+            content:
+              "You are a helpful assistant. Here are the tools: Tool1(calc), Tool2(site), Tool3(reverse)",
+          },
+          {
+            role: "user",
+            content:
+              "What is the sum of response times of example.com and example.org?",
+          },
+          {
+            role: "context",
+            content: "example.com and example.org are websites.",
+          },
+          { role: "assistant", content: "Call Tool2(example.org)." },
+          { role: "tool", content: "example.org 2ms" },
+          { role: "context", content: "some context about example.org" },
+        ],
+      },
+      { onlyRelevantContent: true }
+    );
+    expect(response.status).toStrictEqual("Success");
+    expect(response.result.prompt_messages).toBeDefined();
+    const prompt_messages = response.result
+      .prompt_messages as unknown as unknown[];
+    expect(Array.isArray(prompt_messages)).toBeTruthy();
+    expect(prompt_messages.length).toBe(6);
+  });
 });

@@ -10,7 +10,9 @@
     "moduleResolution": "node",
     "allowSyntheticDefaultImports": true,
     "esModuleInterop": true,
-    "forceConsistentCasingInFileNames": true
+    "forceConsistentCasingInFileNames": true,
+    "erasableSyntaxOnly": false,
+    "verbatimModuleSyntax": false
   },
   "exclude": ["src/stories", "**/*.stories.tsx", "vite.config.mts"]
 }

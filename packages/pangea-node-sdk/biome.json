@@ -1,6 +1,6 @@
 {
   "$schema": "./node_modules/@biomejs/biome/configuration_schema.json",
-  "extends": ["ultracite"],
+  "extends": ["@kenan/biome-config"],
   "assist": {
     "actions": {
       "source": {
@@ -16,15 +16,15 @@
         "noExcessiveCognitiveComplexity": "off",
         "useSimplifiedLogicExpression": "off"
       },
-      "nursery": {
-        "noAwaitInLoop": "off",
-        "noShadow": "off",
-        "useNumericSeparators": "off"
-      },
+      "nursery": "off",
       "performance": {
+        "noBarrelFile": "off",
         "noNamespaceImport": "off"
       },
       "style": {
+        "useReadonlyClassProperties": "off",
+        "useUnifiedTypeSignatures": "off",
+        "useNumericSeparators": "off",
         "noEnum": "off",
         "noInferrableTypes": "off",
         "noNamespace": "off",

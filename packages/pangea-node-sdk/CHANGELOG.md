@@ -7,6 +7,29 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## Unreleased
 
+## 5.4.0 - 2025-09-12
+
+## Added
+
+- AI Guard: `onlyRelevantContent` parameter which allows for sending only
+  relevant messages to AI Guard.
+
+## Changed
+
+- AI Guard: `prompt_messages` field is now more specific.
+
+## 5.3.0 - 2025-08-25
+
+### Added
+
+- AI Guard: `transformed` field.
+
+### Changed
+
+- Retries now include a request header `X-Pangea-Retried-Request-Ids` to track
+  the request IDs of the retries.
+- Simplified `PangeaResponse` export.
+
 ## 5.3.0-beta.2 - 2025-07-25
 
 ### Changed
