@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## Unreleased
 
+## 5.4.0-beta.1 - 2025-09-13
+
 ### Added
 
 - AI Guard: `mcp_tools` field.
