@@ -946,9 +946,9 @@ export namespace AIGuard {
     debug?: boolean;
     overrides?: GuardOverrides2;
 
-    /** Id of source application. */
+    /** Id of source application/agent */
     app_id?: string;
-    /** User/Service account id. */
+    /** User/Service account id/service account */
     actor_id?: string;
     /** Underlying LLM.  Example: 'OpenAI'. */
     llm_provider?: string;
@@ -967,30 +967,48 @@ export namespace AIGuard {
     /** For gateway-like integrations with multi-tenant support. */
     tenant_id?: string;
     /** (AIDR) Event Type. */
-    event_type?: "input" | "output";
-    /** (AIDR) sensor instance id. */
-    sensor_instance_id?: string;
+    event_type?:
+      | "input"
+      | "output"
+      | "tool_input"
+      | "tool_output"
+      | "tool_listing";
+    /** (AIDR) collector instance id. */
+    collector_instance_id?: string;
     /** (AIDR) Logging schema. */
     extra_info?: {
-      /** Name of source application. */
+      /** Name of source application/agent. */
       app_name?: string;
-      /** The group of source application. */
+      /** The group of source application/agent. */
       app_group?: string;
-      /** Version of the source application. */
+      /** Version of the source application/agent. */
       app_version?: string;
-      /** Name of subject actor. */
+      /** Name of subject actor/service account. */
       actor_name?: string;
       /** The group of subject actor. */
       actor_group?: string;
       /** Geographic region or data center. */
       source_region?: string;
-      /** Sensitivity level of data involved */
-      data_sensitivity?: string;
-      /** Tier of the user or organization */
-      customer_tier?: string;
-      /** Business-specific use case */
-      use_case?: string;
-      [key: string]: unknown | string | undefined;
+      /** Sub tenant of the user or organization */
+      sub_tenant?: string;
+      /**
+       * MCP tools grouped by server. Each item groups tools for a given MCP
+       * server.
+       */
+      mcp_tools?: {
+        /** MCP server name */
+        server_name: string;
+        tools: string[];
+      }[];
+      [key: string]:
+        | unknown
+        | string
+        | {
+            /** MCP server name */
+            server_name: string;
+            tools: string[];
+          }[]
+        | undefined;
     };
     /** Provide input and output token count. */
     count_tokens?: boolean;
