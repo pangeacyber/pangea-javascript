@@ -16,6 +16,7 @@
       when: on_success
 
 pangea-node-sdk-integration-tests:
+  needs: []
   stage: integration_tests
   retry: 2
   variables:
@@ -125,6 +126,7 @@ pangea-node-sdk-integration-tests:
 
 pangea-node-sdk-build:
   extends: .pangea-node-sdk-base
+  needs: []
   stage: build
   script:
     - yarn build
