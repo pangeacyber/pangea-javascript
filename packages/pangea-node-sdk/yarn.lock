@@ -1477,12 +1477,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/node@npm:20.19.13":
-  version: 20.19.13
-  resolution: "@types/node@npm:20.19.13"
+"@types/node@npm:20.19.14":
+  version: 20.19.14
+  resolution: "@types/node@npm:20.19.14"
   dependencies:
     undici-types: "npm:~6.21.0"
-  checksum: 10c0/25fba13d50c4f18ac56a50d4491502e7d095f09e44c17c0c6887aa5e4e6122e961e92fc3b682ed8c053ab87a05ce10f501345d23d96fdfba8002ecce6c8ced51
+  checksum: 10c0/cb6a1e3eda43056bf3135d46affbbe5883600adc1928f99247dd9b1a5254823174a91e2d7c6734c2c247a4eb889cb81b0113306e61bf8f4a709b55e86a325f79
   languageName: node
   linkType: hard
 
@@ -3983,7 +3983,7 @@ __metadata:
     "@stoplight/prism-cli": "npm:5.14.2"
     "@tsconfig/node20": "npm:20.1.6"
     "@types/crypto-js": "npm:^4.2.2"
-    "@types/node": "npm:20.19.13"
+    "@types/node": "npm:20.19.14"
     "@types/promise-retry": "npm:1.1.6"
     "@types/proper-url-join": "npm:2.1.5"
     cross-env: "npm:10.0.0"
