@@ -173,4 +173,17 @@ export class AIGuardService extends BaseService {
 
     return this.post("v1/text/guard", request);
   }
+
+  /**
+   * @summary Guard LLM input and output
+   * @description Analyze and redact content to avoid manipulation of the model,
+   *  addition of malicious content, and other undesirable data transfers.
+   * @operationId ai_guard_post_v1_guard
+   * @param request Request parameters.
+   */
+  async guard(
+    request: AIGuard.MultimodalGuardRequest
+  ): Promise<PangeaResponse<AIGuard.MultimodalGuardResult>> {
+    return await this.post("v1/guard", request);
+  }
 }
