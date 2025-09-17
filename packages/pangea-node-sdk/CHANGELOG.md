@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## Unreleased
 
+### Added
+
+- AI Guard: multimodal guard.
+
 ## 5.5.1 - 2025-09-15
 
 No changes.

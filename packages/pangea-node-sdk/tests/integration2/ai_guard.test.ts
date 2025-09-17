@@ -35,4 +35,21 @@ describe("AI Guard", () => {
     expect(response.status).toStrictEqual("Success");
     expect(response.result).toBeDefined();
   });
+
+  it("guard", async () => {
+    const response = await client.guard({
+      input: {
+        messages: [{ role: "user", content: "what was pangea?" }],
+        tools: [],
+      },
+      recipe: "my_recipe",
+      debug: true,
+      extra_info: {
+        app_name: "foobar",
+        other_stuff: "baz",
+      },
+    });
+    expect(response.status).toStrictEqual("Success");
+    expect(response.result).toBeDefined();
+  });
 });
