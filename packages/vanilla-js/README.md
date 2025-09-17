@@ -43,36 +43,34 @@ yarn add @pangeacyber/vanilla-js
 
 ### AuthNClient
 
-```
+```typescript
 import { AuthConfig, AuthNFlowClient } from "@pangeacyber/vanilla-js";
 
 const config: AuthConfig = {
   clientToken: PANGEA_CLIENT_TOKEN,
   domain: PANGEA_DOMAIN,
-  callbackUri: CALLBACK_URI
+  callbackUri: CALLBACK_URI,
 };
 
 const client = new AuthNClient(config);
 
-# check if a user token is valid
+// check if a user token is valid
 const resp = await client.validate(USER_TOKEN);
-
 ```
 
 ### AuthNFlowClient
 
-```
+```typescript
 import { AuthConfig, AuthNFlowClient } from "@pangeacyber/vanilla-js";
 
 const config: AuthConfig = {
   clientToken: PANGEA_CLIENT_TOKEN,
   domain: PANGEA_DOMAIN,
-  callbackUri: CALLBACK_URI
+  callbackUri: CALLBACK_URI,
 };
 
 const client = new AuthNFlowClient(config);
 
-# start a auth flow session
+// start a auth flow session
 const resp = await client.start();
-
 ```
