@@ -3997,7 +3997,7 @@ __metadata:
     publint: "npm:0.3.12"
     start-server-and-test: "npm:2.1.0"
     tsdown: "npm:0.15.1"
-    typedoc: "npm:^0.28.12"
+    typedoc: "npm:^0.28.13"
     typescript: "npm:5.9.2"
     vite-tsconfig-paths: "npm:5.1.4"
     vitest: "npm:3.2.4"
@@ -5119,7 +5119,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"typedoc@npm:^0.28.12":
+"typedoc@npm:^0.28.13":
   version: 0.28.13
   resolution: "typedoc@npm:0.28.13"
   dependencies:
