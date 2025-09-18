@@ -487,7 +487,7 @@ __metadata:
     parcel: "npm:^2.15.4"
     publint: "npm:0.3.12"
     react: "npm:19.1.1"
-    typedoc: "npm:^0.28.12"
+    typedoc: "npm:^0.28.13"
     typedoc-plugin-rename-defaults: "npm:^0.7.3"
     typescript: "npm:^5.9.2"
   peerDependencies:
@@ -3416,7 +3416,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"typedoc@npm:^0.28.12":
+"typedoc@npm:^0.28.13":
   version: 0.28.13
   resolution: "typedoc@npm:0.28.13"
   dependencies:
