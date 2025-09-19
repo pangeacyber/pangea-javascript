@@ -2218,7 +2218,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"debug@npm:4, debug@npm:^4.1.1, debug@npm:^4.3.4, debug@npm:^4.4.1":
+"debug@npm:4, debug@npm:^4.1.1, debug@npm:^4.3.4, debug@npm:^4.4.1, debug@npm:^4.4.3":
   version: 4.4.3
   resolution: "debug@npm:4.4.3"
   dependencies:
@@ -3996,7 +3996,7 @@ __metadata:
     proper-url-join: "npm:^2.1.2"
     publint: "npm:0.3.12"
     start-server-and-test: "npm:2.1.0"
-    tsdown: "npm:0.15.1"
+    tsdown: "npm:0.15.2"
     typedoc: "npm:^0.28.13"
     typescript: "npm:5.9.2"
     vite-tsconfig-paths: "npm:5.1.4"
@@ -5054,14 +5054,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"tsdown@npm:0.15.1":
-  version: 0.15.1
-  resolution: "tsdown@npm:0.15.1"
+"tsdown@npm:0.15.2":
+  version: 0.15.2
+  resolution: "tsdown@npm:0.15.2"
   dependencies:
     ansis: "npm:^4.1.0"
     cac: "npm:^6.7.14"
     chokidar: "npm:^4.0.3"
-    debug: "npm:^4.4.1"
+    debug: "npm:^4.4.3"
     diff: "npm:^8.0.2"
     empathic: "npm:^2.0.0"
     hookable: "npm:^5.5.3"
@@ -5091,7 +5091,7 @@ __metadata:
       optional: true
   bin:
     tsdown: dist/run.mjs
-  checksum: 10c0/10aadb974df6bebb28dd952c880c283e92bdf29192044c6995f96b1ccddd0d7d3a26b89d855351381c62a55d462fad79a68000659ce0de4d423efee23b6e13f2
+  checksum: 10c0/bce0343d24a2495003c2dc9849de95c8adbfcb6873ba9ec422bc7f408f6de7f1e6736fcca7044f41c87e588428c53d4d44ec2d7e350e85587b5786e4e1a7b0d1
   languageName: node
   linkType: hard
 
