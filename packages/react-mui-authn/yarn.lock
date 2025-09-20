@@ -522,24 +522,24 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@fontsource/inter@npm:^5.2.7":
-  version: 5.2.7
-  resolution: "@fontsource/inter@npm:5.2.7"
-  checksum: 10c0/e85d098c2955e847a1929bd80e936af490d97fc43e7896f88915fac62649d7803119532b88108304f66350477cc11dbdf9ab2a9b78f7f9aeb283d1762854079d
+"@fontsource/inter@npm:^5.2.8":
+  version: 5.2.8
+  resolution: "@fontsource/inter@npm:5.2.8"
+  checksum: 10c0/f737dd50005e4809887ba55ae0c9b7174216d6d14875d17a4fbb9a0ad75dec4265928b805a43fe16a23f14a878f1974a398bbfc84ad65c79fc4d4b9c3ea154e1
   languageName: node
   linkType: hard
 
-"@fontsource/kanit@npm:^5.2.7":
-  version: 5.2.7
-  resolution: "@fontsource/kanit@npm:5.2.7"
-  checksum: 10c0/b097018955b63f400687ea146cd9c60a503054a8dc8ad66e5ae1663789dfec39b72f1e49880cb35fac56176226915eed2ce1940e812cc63859733fabb2ad03c6
+"@fontsource/kanit@npm:^5.2.8":
+  version: 5.2.8
+  resolution: "@fontsource/kanit@npm:5.2.8"
+  checksum: 10c0/807f29f3d36f5bf2260cf8fc62f9aad79172d61cd50904aa2c45f350b9f006d631530f9caeb366940aebb31640107202633e4ed658d1a3a2a71b35683d002074
   languageName: node
   linkType: hard
 
-"@fontsource/roboto@npm:^5.2.7":
-  version: 5.2.7
-  resolution: "@fontsource/roboto@npm:5.2.7"
-  checksum: 10c0/59e3e2afbe7ed5816d47abfa2c9fe18f2d3372ab85ac22694cffa7984f146240eca1613a1912e0d04a79bbf1050bf135a82c22e8c01c616754953cc4ed45c153
+"@fontsource/roboto@npm:^5.2.8":
+  version: 5.2.8
+  resolution: "@fontsource/roboto@npm:5.2.8"
+  checksum: 10c0/b215a7e08d65063e9e1714e39c023f0a1f2d33f0d48f06edf4e0d09a8945f682dd39ca7089efb83a48ceffa20d92d65392297831198e9a694b5be8a96b1a40cd
   languageName: node
   linkType: hard
 
@@ -1139,9 +1139,9 @@ __metadata:
   dependencies:
     "@emotion/react": "npm:^11.14.0"
     "@emotion/styled": "npm:^11.14.1"
-    "@fontsource/inter": "npm:^5.2.7"
-    "@fontsource/kanit": "npm:^5.2.7"
-    "@fontsource/roboto": "npm:^5.2.7"
+    "@fontsource/inter": "npm:^5.2.8"
+    "@fontsource/kanit": "npm:^5.2.8"
+    "@fontsource/roboto": "npm:^5.2.8"
     "@lexical/react": "npm:^0.25.0"
     "@mui/icons-material": "npm:^7.1.0"
     "@mui/material": "npm:^7.1.0"
