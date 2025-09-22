@@ -321,7 +321,7 @@ __metadata:
     "@rollup/plugin-typescript": "npm:12.1.4"
     "@types/lodash": "npm:^4.17.20"
     lodash: "npm:^4.17.21"
-    publint: "npm:0.3.12"
+    publint: "npm:0.3.13"
     rimraf: "npm:6.0.1"
     rollup: "npm:^4.50.2"
     rollup-plugin-dts: "npm:6.2.3"
@@ -1537,7 +1537,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"package-manager-detector@npm:^1.1.0":
+"package-manager-detector@npm:^1.3.0":
   version: 1.3.0
   resolution: "package-manager-detector@npm:1.3.0"
   checksum: 10c0/b4b54a81a3230edd66564a59ff6a2233086961e36ba91a28a0f6d6932a8dec36618ace50e8efec9c4d8c6aa9828e98814557a39fb6b106c161434ccb44a80e1c
@@ -1609,17 +1609,17 @@ __metadata:
   languageName: node
   linkType: hard
 
-"publint@npm:0.3.12":
-  version: 0.3.12
-  resolution: "publint@npm:0.3.12"
+"publint@npm:0.3.13":
+  version: 0.3.13
+  resolution: "publint@npm:0.3.13"
   dependencies:
     "@publint/pack": "npm:^0.1.2"
-    package-manager-detector: "npm:^1.1.0"
+    package-manager-detector: "npm:^1.3.0"
     picocolors: "npm:^1.1.1"
     sade: "npm:^1.8.1"
   bin:
     publint: src/cli.js
-  checksum: 10c0/facd7d06236ef0ed5555ecbc671b46734847b3dde35611fbd143a175fc940d4f82d147f469bd806243e646c55c9dd06cd4a6de10d08404f6ff2b5942df70dd43
+  checksum: 10c0/3d41d6e3f7a73383b596dfae2c1b8d105ea3883b3fc601659003d0c65725dd91a3b22690298dfdc5f38a7953a0f42a4265ab99c77011e87834cb9553b39e547d
   languageName: node
   linkType: hard
 
