@@ -54,7 +54,7 @@
     "storybook": "9.1.7",
     "tsconfig-paths-webpack-plugin": "^4.2.0",
     "typescript": "5.9.2",
-    "vite": "7.1.6",
+    "vite": "7.1.7",
     "vite-tsconfig-paths": "5.1.4"
   },
   "peerDependencies": {
