@@ -10,6 +10,7 @@ import { parsePhoneNumber } from "awesome-phonenumber";
 
 export const STORAGE_DEVICE_ID_KEY = "remember-device-id";
 export const STORAGE_REMEMBER_USERNAME_KEY = "remember-username";
+export const STORAGE_REMEMBER_UNCHECKED_KEY = "remember-unchecked";
 
 export const getProviderIcon = (provider: string) => {
   switch (provider) {

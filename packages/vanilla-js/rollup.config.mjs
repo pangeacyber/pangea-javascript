@@ -7,7 +7,7 @@ import { dts } from "rollup-plugin-dts";
 import external from "rollup-plugin-peer-deps-external";
 import nodePolyfills from "rollup-plugin-polyfill-node";
 
-import pkg from "./package.json" assert { type: "json" };
+import pkg from "./package.json" with { type: "json" };
 
 export default [
   {

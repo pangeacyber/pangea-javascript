@@ -171,12 +171,12 @@ const AuthPassword: FC<AuthFlowComponentProps> = (props) => {
               {getSubmitLabel()}
             </Button>
             <PasskeyAuth {...props} />
-            {(options.rememberUser || showReset) && (
+            {(!!data.rememberUser || showReset) && (
               <Stack
                 direction="row"
                 justifyContent={showReset ? "space-between" : "flex-start"}
               >
-                {options.rememberUser &&
+                {!!data.rememberUser &&
                   !enrollment &&
                   data.phase !== "phase_one_time" && (
                     <RememberUser {...props} />
