@@ -1,7 +1,10 @@
 import { FC, useEffect, useState } from "react";
 import { Checkbox, Stack, Typography } from "@mui/material";
 
-import { STORAGE_REMEMBER_USERNAME_KEY } from "@src/features/AuthFlow/utils";
+import {
+  STORAGE_REMEMBER_USERNAME_KEY,
+  STORAGE_REMEMBER_UNCHECKED_KEY,
+} from "@src/features/AuthFlow/utils";
 import { AuthFlowComponentProps } from "@src/features/AuthFlow/types";
 
 const RememberUser: FC<AuthFlowComponentProps> = ({ data }) => {
@@ -9,7 +12,11 @@ const RememberUser: FC<AuthFlowComponentProps> = ({ data }) => {
 
   useEffect(() => {
     // if a device_id exists in localStorage, auto-check the checkbox
-    if (localStorage.getItem(STORAGE_REMEMBER_USERNAME_KEY)) {
+    if (
+      localStorage.getItem(STORAGE_REMEMBER_USERNAME_KEY) ||
+      (data.rememberUser === "check" &&
+        !localStorage.getItem(STORAGE_REMEMBER_UNCHECKED_KEY))
+    ) {
       setChecked(true);
     }
   }, []);
@@ -17,8 +24,10 @@ const RememberUser: FC<AuthFlowComponentProps> = ({ data }) => {
   useEffect(() => {
     if (checked) {
       localStorage.setItem(STORAGE_REMEMBER_USERNAME_KEY, data?.email || "");
+      localStorage.removeItem(STORAGE_REMEMBER_UNCHECKED_KEY);
     } else {
       localStorage.removeItem(STORAGE_REMEMBER_USERNAME_KEY);
+      localStorage.setItem(STORAGE_REMEMBER_UNCHECKED_KEY, "1");
     }
   }, [checked]);
 
@@ -40,7 +49,11 @@ const RememberUser: FC<AuthFlowComponentProps> = ({ data }) => {
       <Checkbox
         checked={checked}
         onChange={handleChange}
-        inputProps={{ "aria-label": "controlled" }}
+        slotProps={{
+          input: {
+            "aria-label": "controlled",
+          },
+        }}
         disableRipple
         sx={{
           marginLeft: "-12px",

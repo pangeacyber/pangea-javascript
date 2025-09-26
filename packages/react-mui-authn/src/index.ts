@@ -15,6 +15,7 @@ export {
 export {
   STORAGE_DEVICE_ID_KEY,
   STORAGE_REMEMBER_USERNAME_KEY,
+  STORAGE_REMEMBER_UNCHECKED_KEY,
 } from "@src/features/AuthFlow/utils";
 
 // Flow2 exports
