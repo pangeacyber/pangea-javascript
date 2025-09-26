@@ -513,6 +513,10 @@ export class AuthNFlowClient extends AuthNClient {
         this.state.conditionalMfa = result.conditional_mfa;
       }
 
+      if (result.remember_user) {
+        this.state.rememberUser = result.remember_user;
+      }
+
       // default to "email" username_format
       this.state.usernameFormat = !!result.username_format
         ? result.username_format

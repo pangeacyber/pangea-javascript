@@ -717,6 +717,7 @@ export namespace AuthFlow {
     phase?: string;
     email?: string;
     username?: string;
+    rememberUser?: string;
     phone?: string;
     invite?: boolean;
     complete?: boolean;
