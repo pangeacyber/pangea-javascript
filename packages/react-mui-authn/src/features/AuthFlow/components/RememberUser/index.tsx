@@ -24,10 +24,14 @@ const RememberUser: FC<AuthFlowComponentProps> = ({ data }) => {
   useEffect(() => {
     if (checked) {
       localStorage.setItem(STORAGE_REMEMBER_USERNAME_KEY, data?.email || "");
-      localStorage.removeItem(STORAGE_REMEMBER_UNCHECKED_KEY);
+      if (data.rememberUser === "check") {
+        localStorage.removeItem(STORAGE_REMEMBER_UNCHECKED_KEY);
+      }
     } else {
       localStorage.removeItem(STORAGE_REMEMBER_USERNAME_KEY);
-      localStorage.setItem(STORAGE_REMEMBER_UNCHECKED_KEY, "1");
+      if (data.rememberUser === "check") {
+        localStorage.setItem(STORAGE_REMEMBER_UNCHECKED_KEY, "1");
+      }
     }
   }, [checked]);
 

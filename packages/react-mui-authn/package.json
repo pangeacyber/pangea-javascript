@@ -60,13 +60,13 @@
   "peerDependencies": {
     "@mui/icons-material": "^7.0.0",
     "@mui/material": "^7.0.0",
-    "@pangeacyber/vanilla-js": "*",
     "react": "^17.0.2 || ^18.2.0",
     "react-dom": "^17.0.2 || ^18.2.0"
   },
   "dependencies": {
     "@lexical/react": "^0.25.0",
     "@mui/x-date-pickers": "^7.22.0",
+    "@pangeacyber/vanilla-js": "^0.1.15",
     "@simplewebauthn/browser": "11.0.0",
     "awesome-phonenumber": "^7.5.0",
     "dayjs": "^1.11.18",
