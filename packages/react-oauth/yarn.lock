@@ -178,7 +178,7 @@ __metadata:
     "@parcel/core": "npm:^2.16.0"
     "@parcel/packager-ts": "npm:^2.16.0"
     "@parcel/transformer-typescript-types": "npm:2.16.0"
-    "@tsconfig/strictest": "npm:^2.0.5"
+    "@tsconfig/strictest": "npm:^2.0.6"
     "@types/react": "npm:^18.3.24"
     "@types/react-dom": "npm:^18.3.7"
     parcel: "npm:^2.16.0"
@@ -1322,7 +1322,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@tsconfig/strictest@npm:^2.0.5":
+"@tsconfig/strictest@npm:^2.0.6":
   version: 2.0.6
   resolution: "@tsconfig/strictest@npm:2.0.6"
   checksum: 10c0/b8a0c89a8936e65d4b4ad1420a17abe51f9576eff68cea1755f003deb2f5436600708fe0f1e0d26f56aeec0584e91753007ff9a634c67e39cf915eef1b25fc7f
