@@ -479,7 +479,7 @@ __metadata:
     "@parcel/source-map": "npm:^2.1.1"
     "@parcel/transformer-typescript-types": "npm:^2.16.0"
     "@parcel/utils": "npm:^2.16.0"
-    "@tsconfig/strictest": "npm:^2.0.5"
+    "@tsconfig/strictest": "npm:^2.0.6"
     "@types/lodash": "npm:^4.17.20"
     "@types/react": "npm:19.1.13"
     jose: "npm:^6.1.0"
@@ -1696,7 +1696,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@tsconfig/strictest@npm:^2.0.5":
+"@tsconfig/strictest@npm:^2.0.6":
   version: 2.0.6
   resolution: "@tsconfig/strictest@npm:2.0.6"
   checksum: 10c0/b8a0c89a8936e65d4b4ad1420a17abe51f9576eff68cea1755f003deb2f5436600708fe0f1e0d26f56aeec0584e91753007ff9a634c67e39cf915eef1b25fc7f
