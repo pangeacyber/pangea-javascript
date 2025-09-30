@@ -472,7 +472,7 @@ __metadata:
     "@arethetypeswrong/cli": "npm:^0.18.2"
     "@babel/core": "npm:^7.28.4"
     "@futureportal/parcel-transformer-package-version": "npm:^1.0.0"
-    "@pangeacyber/vanilla-js": "npm:0.1.14"
+    "@pangeacyber/vanilla-js": "npm:0.1.15"
     "@parcel/config-default": "npm:^2.16.0"
     "@parcel/packager-ts": "npm:^2.16.0"
     "@parcel/plugin": "npm:^2.16.0"
@@ -496,12 +496,12 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@pangeacyber/vanilla-js@npm:0.1.14":
-  version: 0.1.14
-  resolution: "@pangeacyber/vanilla-js@npm:0.1.14"
+"@pangeacyber/vanilla-js@npm:0.1.15":
+  version: 0.1.15
+  resolution: "@pangeacyber/vanilla-js@npm:0.1.15"
   dependencies:
     lodash: "npm:^4.17.21"
-  checksum: 10c0/4915900d1cd3cf657c499f65228e696703b73a568c440809678e6fd287322d65fbea8360b40fe7e939439bc659d38f4f7e6c99a0283cdaa3e48331ef9372d37c
+  checksum: 10c0/0bf4538ea597941780097af6dd01109c4b599af08e60f0b0e6c1e67f70581c45688fea71fe09975227781885e46fd515c22320f2578ee386a950d4a13de1cc4f
   languageName: node
   linkType: hard
 
