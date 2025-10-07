@@ -37,7 +37,7 @@
     "@parcel/packager-ts": "^2.16.0",
     "@parcel/transformer-typescript-types": "2.16.0",
     "@tsconfig/strictest": "^2.0.6",
-    "@types/react": "^18.3.25",
+    "@types/react": "^18.3.26",
     "@types/react-dom": "^18.3.7",
     "parcel": "^2.16.0",
     "parcel-optimizer-react-use-client": "^1.0.0",
