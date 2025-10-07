@@ -61,7 +61,7 @@
     "ts-jest": "^29.4.4",
     "typedoc": "^0.28.13",
     "typedoc-plugin-rename-defaults": "^0.7.3",
-    "typescript": "^5.9.2",
+    "typescript": "^5.9.3",
     "vite": "7.1.7"
   },
   "dependencies": {
