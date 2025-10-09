@@ -485,7 +485,7 @@ __metadata:
     jose: "npm:^6.1.0"
     lodash: "npm:^4.17.21"
     parcel: "npm:^2.16.0"
-    publint: "npm:0.3.12"
+    publint: "npm:0.3.14"
     react: "npm:19.2.0"
     typedoc: "npm:^0.28.13"
     typedoc-plugin-rename-defaults: "npm:^0.7.3"
@@ -2982,10 +2982,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"package-manager-detector@npm:^1.1.0":
-  version: 1.3.0
-  resolution: "package-manager-detector@npm:1.3.0"
-  checksum: 10c0/b4b54a81a3230edd66564a59ff6a2233086961e36ba91a28a0f6d6932a8dec36618ace50e8efec9c4d8c6aa9828e98814557a39fb6b106c161434ccb44a80e1c
+"package-manager-detector@npm:^1.3.0":
+  version: 1.4.0
+  resolution: "package-manager-detector@npm:1.4.0"
+  checksum: 10c0/2f6df1619e6cddb25d30dcd1787bb154f838b93dc2c71af827f16ad722d422acc0c9928cf8b1f9038d50a0b1cacea78a4453b1719d46476785104334bdf004d5
   languageName: node
   linkType: hard
 
@@ -3099,17 +3099,17 @@ __metadata:
   languageName: node
   linkType: hard
 
-"publint@npm:0.3.12":
-  version: 0.3.12
-  resolution: "publint@npm:0.3.12"
+"publint@npm:0.3.14":
+  version: 0.3.14
+  resolution: "publint@npm:0.3.14"
   dependencies:
     "@publint/pack": "npm:^0.1.2"
-    package-manager-detector: "npm:^1.1.0"
+    package-manager-detector: "npm:^1.3.0"
     picocolors: "npm:^1.1.1"
     sade: "npm:^1.8.1"
   bin:
     publint: src/cli.js
-  checksum: 10c0/facd7d06236ef0ed5555ecbc671b46734847b3dde35611fbd143a175fc940d4f82d147f469bd806243e646c55c9dd06cd4a6de10d08404f6ff2b5942df70dd43
+  checksum: 10c0/d9fb5e0b28b4e76365e00b382c12b00af21c210c8d5c64e7b7846be031580961914aa169d5caf2844c8cdb89637d8fd5f71fe778adbc493273d4f8d986a033cc
   languageName: node
   linkType: hard
 
