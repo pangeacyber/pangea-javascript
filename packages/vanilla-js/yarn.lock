@@ -181,15 +181,15 @@ __metadata:
   linkType: hard
 
 "@gerrit0/mini-shiki@npm:^3.12.0":
-  version: 3.13.0
-  resolution: "@gerrit0/mini-shiki@npm:3.13.0"
+  version: 3.13.1
+  resolution: "@gerrit0/mini-shiki@npm:3.13.1"
   dependencies:
     "@shikijs/engine-oniguruma": "npm:^3.13.0"
     "@shikijs/langs": "npm:^3.13.0"
     "@shikijs/themes": "npm:^3.13.0"
     "@shikijs/types": "npm:^3.13.0"
     "@shikijs/vscode-textmate": "npm:^10.0.2"
-  checksum: 10c0/bc45e9f80c3583b32ede3aee870cdc37ce658618f7d1609416ac110ec0e764ff4114fa3690ced02d901980d8335b2b39d0b202c6f81ee863e09de28ce4caa323
+  checksum: 10c0/926babea969fb6788eb8c36fb69ff4c45273bbebde318297a89a45807aba42d266cab5654f13b4126b0bb9c4d074dbf2505d874d917daa9381d5281a5f66953c
   languageName: node
   linkType: hard
 
@@ -349,8 +349,8 @@ __metadata:
   linkType: hard
 
 "@rollup/plugin-babel@npm:^6.0.4":
-  version: 6.0.4
-  resolution: "@rollup/plugin-babel@npm:6.0.4"
+  version: 6.1.0
+  resolution: "@rollup/plugin-babel@npm:6.1.0"
   dependencies:
     "@babel/helper-module-imports": "npm:^7.18.6"
     "@rollup/pluginutils": "npm:^5.0.1"
@@ -363,7 +363,7 @@ __metadata:
       optional: true
     rollup:
       optional: true
-  checksum: 10c0/5a7c04fa6d608512b597835e749aef33e129ee9ed6cc9e33489b7d43937358fc8aba48b00819604d0bc9b7c20790a6c035e4136e8d9f70cf0d0f056ba547e700
+  checksum: 10c0/68bc1a3689552992c3443e43a95ac14ac4e271079a5a18e252d8113358236e9c91fe514dad7a42b84581214f8714ec1f46fd99a5d9cc5a6a1e7456367ee4d6d4
   languageName: node
   linkType: hard
 
@@ -789,12 +789,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"baseline-browser-mapping@npm:^2.8.3":
-  version: 2.8.9
-  resolution: "baseline-browser-mapping@npm:2.8.9"
+"baseline-browser-mapping@npm:^2.8.9":
+  version: 2.8.16
+  resolution: "baseline-browser-mapping@npm:2.8.16"
   bin:
     baseline-browser-mapping: dist/cli.js
-  checksum: 10c0/c54356eb90cf251f351708f151fa42d0331814c03baa7bdcc802767f721fd9fe069eea88ae42395984bfddcae0c2fba2e5ee25d7921ce7cdcefc2f47440673d4
+  checksum: 10c0/e38a861f44236cfc5ba8bf9d4a024d37682e73efc3df3377e170a8a44303f466c0fce7fdc641029df27e47adb270b2f7cf29550b9be7dcdbeec18bc62858c9e9
   languageName: node
   linkType: hard
 
@@ -808,17 +808,17 @@ __metadata:
   linkType: hard
 
 "browserslist@npm:^4.24.0":
-  version: 4.26.2
-  resolution: "browserslist@npm:4.26.2"
+  version: 4.26.3
+  resolution: "browserslist@npm:4.26.3"
   dependencies:
-    baseline-browser-mapping: "npm:^2.8.3"
-    caniuse-lite: "npm:^1.0.30001741"
-    electron-to-chromium: "npm:^1.5.218"
+    baseline-browser-mapping: "npm:^2.8.9"
+    caniuse-lite: "npm:^1.0.30001746"
+    electron-to-chromium: "npm:^1.5.227"
     node-releases: "npm:^2.0.21"
     update-browserslist-db: "npm:^1.1.3"
   bin:
     browserslist: cli.js
-  checksum: 10c0/1146339dad33fda77786b11ea07f1c40c48899edd897d73a9114ee0dbb1ee6475bb4abda263a678c104508bdca8e66760ff8e10be1947d3e20d34bae01d8b89b
+  checksum: 10c0/3899ee3b7fd205ece4ffe4392697c3f2b120b68f3741ef1789212b4971771aee3f66cf37c5c3accf86ce59c0605b5980c0f132711abbcc9e62c132e6e0ee45f3
   languageName: node
   linkType: hard
 
@@ -856,10 +856,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"caniuse-lite@npm:^1.0.30001741":
-  version: 1.0.30001745
-  resolution: "caniuse-lite@npm:1.0.30001745"
-  checksum: 10c0/646ca4b57baaa7a835cf7204c8a257490ee8e36364c04638212e3750c5e8ef45c39f352307e6205114487bcc179d42f5216f6dac146641b16a60b20b29d6f2a6
+"caniuse-lite@npm:^1.0.30001746":
+  version: 1.0.30001750
+  resolution: "caniuse-lite@npm:1.0.30001750"
+  checksum: 10c0/aa77ebf264ca8dcfe913fadaa19f06bf839d65dec24498fdb9c45739ab0828b8275ca30c698f4ee86829d38264eaa461edf4577e407753da8205ab1d285e105d
   languageName: node
   linkType: hard
 
@@ -944,10 +944,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"electron-to-chromium@npm:^1.5.218":
-  version: 1.5.227
-  resolution: "electron-to-chromium@npm:1.5.227"
-  checksum: 10c0/6b220ea024bcdd1560ffaca6b6b4c220d789b3e9c580c37509e8c176f369c93a4de8497a6e25cbfd9619ab9d129069368e4a4317dec0335d3a0cb61c2353e6f1
+"electron-to-chromium@npm:^1.5.227":
+  version: 1.5.234
+  resolution: "electron-to-chromium@npm:1.5.234"
+  checksum: 10c0/e27a46ff9af818adeb4b01fb9d346c5bd550049dfd18cfab222fe10ae7ce98ec18e4eb8630d4ca116b756b813ca14f2880f5ee9e76abcd85144c63060de636b2
   languageName: node
   linkType: hard
 
@@ -1010,9 +1010,9 @@ __metadata:
   linkType: hard
 
 "exponential-backoff@npm:^3.1.1":
-  version: 3.1.2
-  resolution: "exponential-backoff@npm:3.1.2"
-  checksum: 10c0/d9d3e1eafa21b78464297df91f1776f7fbaa3d5e3f7f0995648ca5b89c069d17055033817348d9f4a43d1c20b0eab84f75af6991751e839df53e4dfd6f22e844
+  version: 3.1.3
+  resolution: "exponential-backoff@npm:3.1.3"
+  checksum: 10c0/77e3ae682b7b1f4972f563c6dbcd2b0d54ac679e62d5d32f3e5085feba20483cf28bd505543f520e287a56d4d55a28d7874299941faf637e779a1aa5994d1267
   languageName: node
   linkType: hard
 
@@ -1504,9 +1504,9 @@ __metadata:
   linkType: hard
 
 "node-releases@npm:^2.0.21":
-  version: 2.0.21
-  resolution: "node-releases@npm:2.0.21"
-  checksum: 10c0/0eb94916eeebbda9d51da6a9ea47428a12b2bb0dd94930c949632b0c859356abf53b2e5a2792021f96c5fda4f791a8e195f2375b78ae7dba8d8bc3141baa1469
+  version: 2.0.23
+  resolution: "node-releases@npm:2.0.23"
+  checksum: 10c0/3fdcddb574a9d56c050469b027f3fd2b8830fd321edd12f34b862969b67d0a3d6713eb2af8916f91618d555354f6c7bd33ae39e3b37117b1e7ddf2e42bc3f4be
   languageName: node
   linkType: hard
 
@@ -1536,9 +1536,9 @@ __metadata:
   linkType: hard
 
 "package-manager-detector@npm:^1.1.0":
-  version: 1.3.0
-  resolution: "package-manager-detector@npm:1.3.0"
-  checksum: 10c0/b4b54a81a3230edd66564a59ff6a2233086961e36ba91a28a0f6d6932a8dec36618ace50e8efec9c4d8c6aa9828e98814557a39fb6b106c161434ccb44a80e1c
+  version: 1.4.0
+  resolution: "package-manager-detector@npm:1.4.0"
+  checksum: 10c0/2f6df1619e6cddb25d30dcd1787bb154f838b93dc2c71af827f16ad722d422acc0c9928cf8b1f9038d50a0b1cacea78a4453b1719d46476785104334bdf004d5
   languageName: node
   linkType: hard
 
@@ -1832,11 +1832,11 @@ __metadata:
   linkType: hard
 
 "semver@npm:^7.3.5":
-  version: 7.7.2
-  resolution: "semver@npm:7.7.2"
+  version: 7.7.3
+  resolution: "semver@npm:7.7.3"
   bin:
     semver: bin/semver.js
-  checksum: 10c0/aca305edfbf2383c22571cb7714f48cadc7ac95371b4b52362fb8eeffdfbc0de0669368b82b2b15978f8848f01d7114da65697e56cd8c37b0dab8c58e543f9ea
+  checksum: 10c0/4afe5c986567db82f44c8c6faef8fe9df2a9b1d98098fc1721f57c696c4c21cebd572f297fc21002f81889492345b8470473bc6f4aff5fb032a6ea59ea2bc45e
   languageName: node
   linkType: hard
 
@@ -2036,8 +2036,8 @@ __metadata:
   linkType: hard
 
 "typedoc@npm:^0.28.13":
-  version: 0.28.13
-  resolution: "typedoc@npm:0.28.13"
+  version: 0.28.14
+  resolution: "typedoc@npm:0.28.14"
   dependencies:
     "@gerrit0/mini-shiki": "npm:^3.12.0"
     lunr: "npm:^2.3.9"
@@ -2048,7 +2048,7 @@ __metadata:
     typescript: 5.0.x || 5.1.x || 5.2.x || 5.3.x || 5.4.x || 5.5.x || 5.6.x || 5.7.x || 5.8.x || 5.9.x
   bin:
     typedoc: bin/typedoc
-  checksum: 10c0/f4815cb21a62fadbfeb6f5ad6405d3c819b6bcb20bd1e125c5b1a1a7c7bfabbd9dd67d742f767ce95283e99814a361b86bcc632e9ffa595e51e057778def4d57
+  checksum: 10c0/a8727134991ba3f9a982e9f6ceecfbcf0fac531e4865e4865cdee68ea6fe1a594228b8654011d38ffa2332b7e84e4eaa3d0dac04a8bdf36a0686d1c3f327e80b
   languageName: node
   linkType: hard
 
