@@ -41,7 +41,7 @@
     "@stoplight/prism-cli": "5.14.2",
     "@tsconfig/node20": "20.1.6",
     "@types/crypto-js": "^4.2.2",
-    "@types/node": "20.19.19",
+    "@types/node": "20.19.21",
     "@types/promise-retry": "1.1.6",
     "@types/proper-url-join": "2.1.5",
     "cross-env": "10.1.0",
