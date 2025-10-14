@@ -63,7 +63,7 @@
     "parcel": "^2.16.0",
     "publint": "0.3.12",
     "react": "19.2.0",
-    "typedoc": "^0.28.13",
+    "typedoc": "^0.28.14",
     "typedoc-plugin-rename-defaults": "^0.7.3",
     "typescript": "^5.9.3"
   }
