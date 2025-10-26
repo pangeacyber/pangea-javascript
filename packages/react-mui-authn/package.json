@@ -34,7 +34,7 @@
     "@rollup/plugin-json": "6.1.0",
     "@rollup/plugin-node-resolve": "^15.3.1",
     "@rollup/plugin-terser": "^0.4.4",
-    "@rollup/plugin-typescript": "^12.1.4",
+    "@rollup/plugin-typescript": "^12.3.0",
     "@storybook/addon-links": "9.1.13",
     "@storybook/addon-themes": "9.1.13",
     "@storybook/builder-vite": "9.1.13",
