@@ -1152,7 +1152,7 @@ __metadata:
     "@rollup/plugin-json": "npm:6.1.0"
     "@rollup/plugin-node-resolve": "npm:^15.3.1"
     "@rollup/plugin-terser": "npm:^0.4.4"
-    "@rollup/plugin-typescript": "npm:^12.1.4"
+    "@rollup/plugin-typescript": "npm:^12.3.0"
     "@simplewebauthn/browser": "npm:11.0.0"
     "@storybook/addon-links": "npm:9.1.13"
     "@storybook/addon-themes": "npm:9.1.13"
@@ -1296,7 +1296,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@rollup/plugin-typescript@npm:^12.1.4":
+"@rollup/plugin-typescript@npm:^12.3.0":
   version: 12.3.0
   resolution: "@rollup/plugin-typescript@npm:12.3.0"
   dependencies:
