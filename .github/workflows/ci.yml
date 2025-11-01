@@ -288,7 +288,7 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v6.0.0
         with:
-          node-version: 22
+          node-version: 22.21.1
           cache: yarn
           cache-dependency-path: ./packages/react-mui-share-file-viewer/yarn.lock
 
@@ -571,7 +571,7 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v6.0.0
         with:
-          node-version: 22
+          node-version: 22.21.1
           cache: yarn
           cache-dependency-path: ./examples/react-audit-log-viewer/yarn.lock
 
