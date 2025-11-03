@@ -1,5 +1,5 @@
 .react_auth_base:
-  image: node:20.19.5@sha256:c11ae157cdd9f8b522d5a65e7f3f5f5c34cf45a8bd883c15e8f2028a2673dec7
+  image: node:24.11.0@sha256:34af25027ee1b8bffd482ba995ec1e577fbd398db87beb4c60b80c2c9c025127
   before_script:
     - apt-get -qq update
     - apt-get install -y jq
