@@ -57,7 +57,7 @@
     "@parcel/source-map": "^2.1.1",
     "@parcel/transformer-typescript-types": "^2.16.0",
     "@parcel/utils": "^2.16.0",
-    "@tsconfig/strictest": "^2.0.6",
+    "@tsconfig/strictest": "^2.0.7",
     "@types/lodash": "^4.17.20",
     "@types/react": "19.2.2",
     "parcel": "^2.16.0",
