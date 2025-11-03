@@ -664,12 +664,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@kenan/biome-config@npm:1.0.5":
-  version: 1.0.5
-  resolution: "@kenan/biome-config@npm:1.0.5"
+"@kenan/biome-config@npm:1.0.6":
+  version: 1.0.6
+  resolution: "@kenan/biome-config@npm:1.0.6"
   peerDependencies:
-    "@biomejs/biome": ^2.2.6
-  checksum: 10c0/23fa4cfd86829566a99dc4761e1a679e57ec716f6c68700a8b590b4f77681f809e6be25431e20c68483e0e5d947126732c10d56960e2434a6702731bc333d9bf
+    "@biomejs/biome": ^2.3.0
+  checksum: 10c0/c229bdae3b9a8735192dc4bb8c3f59acdba9bbe50b181426f4d651a2dc99b7c4a0f13ddbdef8e042e43424b280ca921dd70242e990f74e72ab182b4ba0df13ea
   languageName: node
   linkType: hard
 
@@ -3980,7 +3980,7 @@ __metadata:
     "@arethetypeswrong/cli": "npm:0.18.2"
     "@aws-crypto/crc32c": "npm:^5.2.0"
     "@biomejs/biome": "npm:2.2.6"
-    "@kenan/biome-config": "npm:1.0.5"
+    "@kenan/biome-config": "npm:1.0.6"
     "@stoplight/prism-cli": "npm:5.14.2"
     "@tsconfig/node20": "npm:20.1.6"
     "@types/crypto-js": "npm:^4.2.2"
