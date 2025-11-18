@@ -1164,7 +1164,7 @@ __metadata:
     "@types/react-dom": "npm:17.0.26"
     awesome-phonenumber: "npm:^7.5.0"
     dayjs: "npm:^1.11.19"
-    formik: "npm:^2.4.8"
+    formik: "npm:^2.4.9"
     lexical: "npm:^0.25.0"
     postcss: "npm:^8.5.6"
     react: "npm:17.0.2"
@@ -2866,7 +2866,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"formik@npm:^2.4.8":
+"formik@npm:^2.4.9":
   version: 2.4.9
   resolution: "formik@npm:2.4.9"
   dependencies:
