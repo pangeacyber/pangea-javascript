@@ -142,7 +142,7 @@ export interface AuthConfig {
   /**
    * Use path-based API routing, for private cloud only.
    */
-  usePathApi?: boolean;
+  apiPathPrefix?: string;
 }
 
 /**

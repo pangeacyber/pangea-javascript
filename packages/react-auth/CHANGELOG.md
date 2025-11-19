@@ -5,6 +5,16 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## 0.0.19 - 2025-11-19
+
+### Changed
+
+- Upgraded @pangeacyber/vanilla-js auth client version
+
+### Added
+
+- Switch usePathApi to apiPathPrefix path parameter to AuthConfig
+
 ## 0.0.18 - 2025-04-09
 
 ### Changed
