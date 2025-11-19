@@ -155,8 +155,8 @@ export class AuthNClient {
       version_ = `${version}${!!version ? "/" : ""}`;
     }
 
-    if (!!this.config.usePathApi) {
-      return `${window.location.origin}/api/authn/${version_}${endpoint}`;
+    if (!!this.config.apiPathPrefix) {
+      return `${window.location.origin}${this.config.apiPathPrefix}${version_}${endpoint}`;
     }
 
     return `${protocol}://authn.${this.config.domain}/${version_}${endpoint}`;
