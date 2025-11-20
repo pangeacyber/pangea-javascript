@@ -174,7 +174,7 @@ export const AuthProvider: FC<AuthProviderProps> = ({
       domain: config.domain,
       clientToken: config.clientToken,
       callbackUri: config.callbackUri,
-      usePathApi: config.usePathApi,
+      apiPathPrefix: config.apiPathPrefix,
     };
     return new AuthNClient(clientConfig);
   }, [config]);
