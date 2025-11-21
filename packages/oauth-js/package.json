@@ -28,6 +28,6 @@
   },
   "packageManager": "yarn@4.11.0",
   "dependencies": {
-    "jose": "^6.1.1"
+    "jose": "^6.1.2"
   }
 }
