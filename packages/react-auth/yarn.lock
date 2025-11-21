@@ -481,7 +481,7 @@ __metadata:
     "@parcel/utils": "npm:^2.16.1"
     "@tsconfig/strictest": "npm:^2.0.8"
     "@types/lodash": "npm:^4.17.20"
-    "@types/react": "npm:19.2.4"
+    "@types/react": "npm:19.2.5"
     jose: "npm:^6.1.1"
     lodash: "npm:^4.17.21"
     parcel: "npm:^2.16.1"
@@ -1940,12 +1940,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/react@npm:19.2.4":
-  version: 19.2.4
-  resolution: "@types/react@npm:19.2.4"
+"@types/react@npm:19.2.5":
+  version: 19.2.5
+  resolution: "@types/react@npm:19.2.5"
   dependencies:
     csstype: "npm:^3.0.2"
-  checksum: 10c0/c878262c4bce047e53a44ef644088fce359ebdfdca7060a4ac1717c8362563b9506a7ebae145977836e95d5948b8f8b426dcd516044c3a3c0563a6f1b60408ce
+  checksum: 10c0/1f9a92c73a5ea5b167f59cd0b5b9460fde65bd22b63b6d23bfaace8ad38537df127c97657418b4912a7a03a66e6451e82a41b84718d638ec1c8e4f0515d94793
   languageName: node
   linkType: hard
 
