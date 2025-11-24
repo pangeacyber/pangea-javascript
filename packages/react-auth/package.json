@@ -1,7 +1,7 @@
 {
   "name": "@pangeacyber/react-auth",
   "description": "Pangea auth provider React component",
-  "version": "0.0.20",
+  "version": "0.0.21",
   "type": "commonjs",
   "source": "src/index.ts",
   "main": "dist/index.cjs",
