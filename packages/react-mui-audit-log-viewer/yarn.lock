@@ -1517,7 +1517,7 @@ __metadata:
     "@types/diff": "npm:^7.0.2"
     "@types/jest": "npm:^30.0.0"
     "@types/lodash": "npm:^4.17.20"
-    "@types/react": "npm:17.0.89"
+    "@types/react": "npm:17.0.90"
     "@types/react-beautiful-dnd": "npm:^13.1.8"
     "@types/react-dom": "npm:17.0.26"
     "@vitejs/plugin-react": "npm:5.1.1"
@@ -2551,14 +2551,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/react@npm:17.0.89":
-  version: 17.0.89
-  resolution: "@types/react@npm:17.0.89"
+"@types/react@npm:17.0.90":
+  version: 17.0.90
+  resolution: "@types/react@npm:17.0.90"
   dependencies:
     "@types/prop-types": "npm:*"
     "@types/scheduler": "npm:^0.16"
-    csstype: "npm:^3.0.2"
-  checksum: 10c0/2e7447096b2e16e898237eddd4db24b59343d879a0a44320a98125de5feaefe00cf7c3bc7ab20b31213f2ac91fbc084d6c483bb238d079ff83f6bb749c21ae94
+    csstype: "npm:^3.2.2"
+  checksum: 10c0/ae2bb8c87fe94b1ce7bfd501586b6135ba36987ae52d5b97bfc8a85988b6fb69593bcd9854ff98b1a6e8ed7472b9be1ead02cd04385c22f9f1adccac69a411bd
   languageName: node
   linkType: hard
 
