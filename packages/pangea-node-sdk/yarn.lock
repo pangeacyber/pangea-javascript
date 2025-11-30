@@ -1954,7 +1954,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"axios@npm:^1.12.1":
+"axios@npm:^1.13.2":
   version: 1.13.2
   resolution: "axios@npm:1.13.2"
   dependencies:
@@ -4077,7 +4077,7 @@ __metadata:
     msw: "npm:2.12.2"
     proper-url-join: "npm:^2.1.2"
     publint: "npm:0.3.12"
-    start-server-and-test: "npm:2.1.2"
+    start-server-and-test: "npm:2.1.3"
     tsdown: "npm:0.16.6"
     typedoc: "npm:^0.28.14"
     typescript: "npm:5.9.3"
@@ -4874,9 +4874,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"start-server-and-test@npm:2.1.2":
-  version: 2.1.2
-  resolution: "start-server-and-test@npm:2.1.2"
+"start-server-and-test@npm:2.1.3":
+  version: 2.1.3
+  resolution: "start-server-and-test@npm:2.1.3"
   dependencies:
     arg: "npm:^5.0.2"
     bluebird: "npm:3.7.2"
@@ -4885,12 +4885,12 @@ __metadata:
     execa: "npm:5.1.1"
     lazy-ass: "npm:1.6.0"
     ps-tree: "npm:1.2.0"
-    wait-on: "npm:8.0.5"
+    wait-on: "npm:9.0.3"
   bin:
     server-test: src/bin/start.js
     start-server-and-test: src/bin/start.js
     start-test: src/bin/start.js
-  checksum: 10c0/c1ecf5e76f2850bc82a96fc5894b39bb8e2a35f3d3dd502ff2ab11259318459fd931813dcebd9e08c5a120df66c87ae09c8a6e1a7f3771ebe474ab401552eb84
+  checksum: 10c0/ed9c64f7c1bd75a1ec76953070158940e0d1526d66be1e9f5f8b6c0df2eee80b028b24addb71cae74412323792ece89ce8f9d3d5377f87855a185378929cf7e2
   languageName: node
   linkType: hard
 
@@ -5575,18 +5575,18 @@ __metadata:
   languageName: node
   linkType: hard
 
-"wait-on@npm:8.0.5":
-  version: 8.0.5
-  resolution: "wait-on@npm:8.0.5"
+"wait-on@npm:9.0.3":
+  version: 9.0.3
+  resolution: "wait-on@npm:9.0.3"
   dependencies:
-    axios: "npm:^1.12.1"
+    axios: "npm:^1.13.2"
     joi: "npm:^18.0.1"
     lodash: "npm:^4.17.21"
     minimist: "npm:^1.2.8"
     rxjs: "npm:^7.8.2"
   bin:
     wait-on: bin/wait-on
-  checksum: 10c0/714825226a8b726edb43e3428bfe4d7282510309a10cc5cc280546dc4d61a30a39faa4db80a91ba6a0454831fb6dd9ad3d5a32eebc3fa2a17d48f91912dd98ec
+  checksum: 10c0/f5f8cb57be2dbf89edacd104916d5ee0211064c86324ab466c1da0965af77638615258ff612aa4cb16207770b772524bf2d9e583e890d96dd80315dca5733591
   languageName: node
   linkType: hard
 
