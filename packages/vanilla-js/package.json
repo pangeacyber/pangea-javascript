@@ -31,7 +31,7 @@
     "@rollup/plugin-node-resolve": "^15.3.1",
     "@rollup/plugin-terser": "^0.4.4",
     "@rollup/plugin-typescript": "12.3.0",
-    "@types/lodash": "^4.17.20",
+    "@types/lodash": "^4.17.21",
     "publint": "0.3.12",
     "rimraf": "6.1.0",
     "rollup": "^4.53.2",
