@@ -39,7 +39,7 @@
     "@storybook/addon-links": "10.0.8",
     "@storybook/react-vite": "10.0.8",
     "@tsconfig/vite-react": "7.0.2",
-    "@types/lodash": "4.17.20",
+    "@types/lodash": "4.17.21",
     "@types/react": "^18.3.27",
     "@types/react-dom": "^18.3.7",
     "@vitejs/plugin-react": "5.1.1",
