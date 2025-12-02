@@ -39,7 +39,7 @@
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
-    "@pangeacyber/vanilla-js": "0.1.16",
+    "@pangeacyber/vanilla-js": "0.1.17",
     "jose": "^6.1.2",
     "lodash": "^4.17.21"
   },
