@@ -32,7 +32,7 @@
     "babel-loader": "^10.0.0",
     "css-loader": "^7.1.2",
     "parcel": "2.16.3",
-    "publint": "0.3.12",
+    "publint": "0.3.16",
     "style-loader": "^4.0.0",
     "ts-node": "^10.9.2",
     "typescript": "^5.9.3"
