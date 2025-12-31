@@ -4182,7 +4182,7 @@ rollup-pluginutils@^2.8.2:
   dependencies:
     estree-walker "^0.6.1"
 
-rollup@^4.43.0, rollup@^4.53.5:
+rollup@^4.43.0, rollup@^4.54.0:
   version "4.54.0"
   resolved "https://registry.yarnpkg.com/rollup/-/rollup-4.54.0.tgz#930f4dfc41ff94d720006f9f62503612a6c319b8"
   integrity sha512-3nk8Y3a9Ea8szgKhinMlGMhGMw89mqule3KWczxhIzqudyHdCIOHw8WJlj/r329fACjKLEh13ZSk7oE22kyeIw==
