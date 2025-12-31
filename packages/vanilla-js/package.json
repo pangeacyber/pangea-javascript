@@ -34,7 +34,7 @@
     "@types/lodash": "^4.17.21",
     "publint": "0.3.12",
     "rimraf": "6.1.2",
-    "rollup": "^4.53.5",
+    "rollup": "^4.54.0",
     "rollup-plugin-dts": "6.3.0",
     "rollup-plugin-peer-deps-external": "^2.2.4",
     "rollup-plugin-polyfill-node": "^0.13.0",
