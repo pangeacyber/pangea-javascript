@@ -1334,10 +1334,10 @@ asynckit@^0.4.0:
   resolved "https://registry.yarnpkg.com/asynckit/-/asynckit-0.4.0.tgz#c79ed97f7f34cb8f2ba1bc9790bcc366474b4b79"
   integrity sha512-Oei9OH4tRh0YqU3GxhX79dM/mwVgvbZJaSNaRk+bshkj0S5cfHcgYakreBjrHwatXKbz+IoIdYLxrKim2MjW0Q==
 
-awesome-phonenumber@^7.6.0:
-  version "7.6.0"
-  resolved "https://registry.yarnpkg.com/awesome-phonenumber/-/awesome-phonenumber-7.6.0.tgz#329d2e8975daaf3476c0fcbd027147ed2d987293"
-  integrity sha512-lThkL6OWN5d2P89Kgw4aR6/ShMATIOJcfeLurDW06vVAZ7V8icOpTSdtr3gfOj1Uk5pZKuBuSvVtJ70Y+8QT/Q==
+awesome-phonenumber@^7.7.0:
+  version "7.7.0"
+  resolved "https://registry.yarnpkg.com/awesome-phonenumber/-/awesome-phonenumber-7.7.0.tgz#a81cfde2b65b799c1e340c730bf79c071e142f01"
+  integrity sha512-7t2pFb24gscHXpecvM+ZGBDR2/30sRSyif2AENaN6IxApvazbd6WE4BiUX2ChGYX/OFdvQbdh5TZSPua4NBOyQ==
 
 axios@^1.13.4:
   version "1.13.4"

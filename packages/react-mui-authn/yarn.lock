@@ -1177,7 +1177,7 @@ __metadata:
     "@types/lodash": "npm:4.17.23"
     "@types/react": "npm:17.0.90"
     "@types/react-dom": "npm:17.0.26"
-    awesome-phonenumber: "npm:^7.6.0"
+    awesome-phonenumber: "npm:^7.7.0"
     dayjs: "npm:^1.11.19"
     formik: "npm:^2.4.9"
     lexical: "npm:^0.25.0"
@@ -2159,10 +2159,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"awesome-phonenumber@npm:^7.6.0":
-  version: 7.6.0
-  resolution: "awesome-phonenumber@npm:7.6.0"
-  checksum: 10c0/449d957deb1ad008e5caca09437b649b93913bf58e069b0468a34aa0a395dd5c2ec11297d419972fb9bd7a9611351950f15209d87bffa3617a6182507f4107f9
+"awesome-phonenumber@npm:^7.7.0":
+  version: 7.7.0
+  resolution: "awesome-phonenumber@npm:7.7.0"
+  checksum: 10c0/417190ed7993a0a2f0341c3602bdb39a4d299c3d11a22c80c4df5caa0f0c99cde91990ff047b4ee070e1d0c153fc42a1ee74b84be01df33782ab35f65f9f4e00
   languageName: node
   linkType: hard
 
