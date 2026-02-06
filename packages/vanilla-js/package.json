@@ -32,7 +32,7 @@
     "@rollup/plugin-terser": "^0.4.4",
     "@rollup/plugin-typescript": "12.3.0",
     "@types/lodash": "^4.17.21",
-    "publint": "0.3.12",
+    "publint": "0.3.17",
     "rimraf": "6.1.2",
     "rollup": "^4.57.1",
     "rollup-plugin-dts": "6.3.0",
