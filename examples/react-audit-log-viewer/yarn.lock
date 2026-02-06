@@ -223,7 +223,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@cypress/request@npm:^3.0.9":
+"@cypress/request@npm:^3.0.10":
   version: 3.0.10
   resolution: "@cypress/request@npm:3.0.10"
   dependencies:
@@ -2190,11 +2190,11 @@ __metadata:
   languageName: node
   linkType: hard
 
-"cypress@npm:15.8.1":
-  version: 15.8.1
-  resolution: "cypress@npm:15.8.1"
+"cypress@npm:15.9.0":
+  version: 15.9.0
+  resolution: "cypress@npm:15.9.0"
   dependencies:
-    "@cypress/request": "npm:^3.0.9"
+    "@cypress/request": "npm:^3.0.10"
     "@cypress/xvfb": "npm:^1.2.4"
     "@types/sinonjs__fake-timers": "npm:8.1.1"
     "@types/sizzle": "npm:^2.3.2"
@@ -2238,7 +2238,7 @@ __metadata:
     yauzl: "npm:^2.10.0"
   bin:
     cypress: bin/cypress
-  checksum: 10c0/6c5a5dba566b7bd939c3aa0fec23814ee16ca40a28f3a1b3a64ab18fc5e9c31725c9a128a45fcca9d2e1d9be3cbca7fbfbcc95a4be00157942b440a987b2e9a8
+  checksum: 10c0/3626f778d32741262dfe34b810b3ac91ba7c4f66202154512f72bab4cce8c59dc184b76bb627ee3027c4ef6e81439c23b2459f902f05a704050e04329720101c
   languageName: node
   linkType: hard
 
@@ -4065,7 +4065,7 @@ __metadata:
     "@types/node": "npm:24.10.1"
     "@types/react-dom": "npm:18.3.7"
     "@vitejs/plugin-react": "npm:5.1.2"
-    cypress: "npm:15.8.1"
+    cypress: "npm:15.9.0"
     happy-dom: "npm:20.0.11"
     react: "npm:18.3.1"
     react-dom: "npm:18.3.1"
