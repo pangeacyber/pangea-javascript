@@ -7,7 +7,7 @@
   "license": "MIT",
   "packageManager": "yarn@1.22.22",
   "dependencies": {
-    "citty": "^0.1.6",
+    "citty": "^0.2.0",
     "pangea-node-sdk": "file:../../packages/pangea-node-sdk"
   }
 }
