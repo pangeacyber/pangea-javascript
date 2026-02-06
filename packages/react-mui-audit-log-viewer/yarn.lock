@@ -786,18 +786,18 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@happy-dom/jest-environment@npm:20.0.11":
-  version: 20.0.11
-  resolution: "@happy-dom/jest-environment@npm:20.0.11"
+"@happy-dom/jest-environment@npm:20.4.0":
+  version: 20.4.0
+  resolution: "@happy-dom/jest-environment@npm:20.4.0"
   dependencies:
-    happy-dom: "npm:^20.0.11"
+    happy-dom: "npm:^20.4.0"
   peerDependencies:
     "@jest/environment": ">=25.0.0"
     "@jest/fake-timers": ">=25.0.0"
     "@jest/types": ">=25.0.0"
     jest-mock: ">=25.0.0"
     jest-util: ">=25.0.0"
-  checksum: 10c0/a7a2340e98f85119a4e88290da829fdfbe79b1d578075ade6e51dfcf9a35434744fc798be21ef8e082dc6e6e454a0be6e6b2253aa805a8b41e508cba05fbefb1
+  checksum: 10c0/977c137c05120d02a426f30aad0eaec576a5334180f14a4d5fe969a18f00efea34f8c7e6370bd1cb7a5ef489419fc1f5a0d73207f276492a77e1e9ce6c8ff2fc
   languageName: node
   linkType: hard
 
@@ -1496,7 +1496,7 @@ __metadata:
   dependencies:
     "@emotion/react": "npm:^11.14.0"
     "@emotion/styled": "npm:^11.14.1"
-    "@happy-dom/jest-environment": "npm:20.0.11"
+    "@happy-dom/jest-environment": "npm:20.4.0"
     "@mui/icons-material": "npm:^7.1.0"
     "@mui/material": "npm:^7.1.0"
     "@mui/types": "npm:^7.4.2"
@@ -2523,12 +2523,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/node@npm:^20.0.0":
-  version: 20.19.27
-  resolution: "@types/node@npm:20.19.27"
+"@types/node@npm:>=20.0.0":
+  version: 25.2.1
+  resolution: "@types/node@npm:25.2.1"
   dependencies:
-    undici-types: "npm:~6.21.0"
-  checksum: 10c0/7599c24d80465c1aa6e29b53581fc20ad8862ff33e6eef31d05c1c706868476ee57319c89b802ea972dd4d64ce86d18020aa5344f851fb59b730ea509a63300f
+    undici-types: "npm:~7.16.0"
+  checksum: 10c0/ce42fa07495093c55b6398e3c4346d644a61b8c4f59d2e0c0ed152ea0e4327c60a41d5fdfa3e0fc4f4776eb925e2b783b6b942501fc044328a44980bc2de4dc6
   languageName: node
   linkType: hard
 
@@ -3973,7 +3973,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"entities@npm:^4.4.0":
+"entities@npm:^4.4.0, entities@npm:^4.5.0":
   version: 4.5.0
   resolution: "entities@npm:4.5.0"
   checksum: 10c0/5b039739f7621f5d1ad996715e53d964035f75ad3b9a4d38c6b3804bb226e282ffeae2443624d8fdd9c47d8e926ae9ac009c54671243f0c3294c26af7cc85250
@@ -4592,16 +4592,17 @@ __metadata:
   languageName: node
   linkType: hard
 
-"happy-dom@npm:^20.0.11":
-  version: 20.1.0
-  resolution: "happy-dom@npm:20.1.0"
+"happy-dom@npm:^20.4.0":
+  version: 20.5.0
+  resolution: "happy-dom@npm:20.5.0"
   dependencies:
-    "@types/node": "npm:^20.0.0"
+    "@types/node": "npm:>=20.0.0"
     "@types/whatwg-mimetype": "npm:^3.0.2"
     "@types/ws": "npm:^8.18.1"
+    entities: "npm:^4.5.0"
     whatwg-mimetype: "npm:^3.0.0"
     ws: "npm:^8.18.3"
-  checksum: 10c0/a55b5fe6de845124644bc51184c8e761e75936de50ba5f4093ff844802d2b13f700c71a5e8236cb78c2b23c1368125b98f38e3c99e472b6d6becec7ddb720c58
+  checksum: 10c0/0b9674021508cbd1f53b855950aff9fa9dce458e6fea19160c87888f4f63e0cb4e4b3bc21de02b4425fe7e1e05f6b6758a35f11b6e5964f240c4abd722d084f5
   languageName: node
   linkType: hard
 
@@ -8339,13 +8340,6 @@ __metadata:
   bin:
     uglifyjs: bin/uglifyjs
   checksum: 10c0/83b0a90eca35f778e07cad9622b80c448b6aad457c9ff8e568afed978212b42930a95f9e1be943a1ffa4258a3340fbb899f41461131c05bb1d0a9c303aed8479
-  languageName: node
-  linkType: hard
-
-"undici-types@npm:~6.21.0":
-  version: 6.21.0
-  resolution: "undici-types@npm:6.21.0"
-  checksum: 10c0/c01ed51829b10aa72fc3ce64b747f8e74ae9b60eafa19a7b46ef624403508a54c526ffab06a14a26b3120d055e1104d7abe7c9017e83ced038ea5cf52f8d5e04
   languageName: node
   linkType: hard
 
