@@ -61,7 +61,7 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@6044e13b5dc448c55e2357c09f80417699197238 # v6.2.0
         with:
-          node-version: 20.19.6
+          node-version: 20.20.0
           cache: yarn
           cache-dependency-path: ./packages/pangea-node-sdk/yarn.lock
 
@@ -104,7 +104,7 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@6044e13b5dc448c55e2357c09f80417699197238 # v6.2.0
         with:
-          node-version: 20.19.6
+          node-version: 20.20.0
           cache: yarn
           cache-dependency-path: ./packages/react-auth/yarn.lock
 
@@ -153,7 +153,7 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@6044e13b5dc448c55e2357c09f80417699197238 # v6.2.0
         with:
-          node-version: 20.19.6
+          node-version: 20.20.0
           cache: yarn
           cache-dependency-path: ./packages/react-mui-audit-log-viewer/yarn.lock
 
@@ -193,7 +193,7 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@6044e13b5dc448c55e2357c09f80417699197238 # v6.2.0
         with:
-          node-version: 20.19.6
+          node-version: 20.20.0
           cache: yarn
           cache-dependency-path: ./packages/react-mui-authn/yarn.lock
 
@@ -230,7 +230,7 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@6044e13b5dc448c55e2357c09f80417699197238 # v6.2.0
         with:
-          node-version: 20.19.6
+          node-version: 20.20.0
           cache: yarn
           cache-dependency-path: ./packages/react-mui-branding/yarn.lock
 
@@ -255,7 +255,7 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@6044e13b5dc448c55e2357c09f80417699197238 # v6.2.0
         with:
-          node-version: 20.19.6
+          node-version: 20.20.0
           cache: yarn
           cache-dependency-path: ./packages/react-mui-shared/yarn.lock
 
@@ -328,7 +328,7 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@6044e13b5dc448c55e2357c09f80417699197238 # v6.2.0
         with:
-          node-version: 20.19.6
+          node-version: 20.20.0
           cache: yarn
           cache-dependency-path: ./packages/vanilla-js/yarn.lock
 
@@ -356,7 +356,7 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@6044e13b5dc448c55e2357c09f80417699197238 # v6.2.0
         with:
-          node-version: 20.19.6
+          node-version: 20.20.0
           cache: yarn
           cache-dependency-path: ./packages/webcomponents/yarn.lock
 
@@ -384,7 +384,7 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@6044e13b5dc448c55e2357c09f80417699197238 # v6.2.0
         with:
-          node-version: 20.19.6
+          node-version: 20.20.0
           cache: yarn
           cache-dependency-path: ./yarn.lock
 
@@ -409,7 +409,7 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@6044e13b5dc448c55e2357c09f80417699197238 # v6.2.0
         with:
-          node-version: 20.19.6
+          node-version: 20.20.0
           cache: yarn
           cache-dependency-path: ./packages/pangea-node-sdk/yarn.lock
 
@@ -493,7 +493,7 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@6044e13b5dc448c55e2357c09f80417699197238 # v6.2.0
         with:
-          node-version: 20.19.6
+          node-version: 20.20.0
           cache: yarn
           cache-dependency-path: ./packages/pangea-node-sdk/yarn.lock
 
@@ -528,7 +528,7 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@6044e13b5dc448c55e2357c09f80417699197238 # v6.2.0
         with:
-          node-version: 20.19.6
+          node-version: 20.20.0
           cache: yarn
           cache-dependency-path: ./examples/${{ matrix.example }}/yarn.lock
 
