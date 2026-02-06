@@ -1513,7 +1513,7 @@ __metadata:
     "@testing-library/jest-dom": "npm:6.9.1"
     "@testing-library/react": "npm:12.1.5"
     "@types/crypto-js": "npm:^4.2.2"
-    "@types/diff": "npm:^7.0.2"
+    "@types/diff": "npm:^8.0.0"
     "@types/jest": "npm:^30.0.0"
     "@types/lodash": "npm:^4.17.23"
     "@types/react": "npm:17.0.90"
@@ -2431,10 +2431,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/diff@npm:^7.0.2":
-  version: 7.0.2
-  resolution: "@types/diff@npm:7.0.2"
-  checksum: 10c0/ac4de3f982242292e006ace98a9d41363ebc244145939466139828ffa6c476acc15eea2bad39bd7e0868003c497614f6d7e734d4999c4f09d95dfd173d24d723
+"@types/diff@npm:^8.0.0":
+  version: 8.0.0
+  resolution: "@types/diff@npm:8.0.0"
+  dependencies:
+    diff: "npm:*"
+  checksum: 10c0/c6e3376abeac8bc77b33252afc239a3cfc2729ecf59abcf00fa0f0eca8c505fd3a375a99a64afecdbb97fbec77b9a6aa8a8918f4d53fd5b45638d609343717cc
   languageName: node
   linkType: hard
 
@@ -3823,6 +3825,13 @@ __metadata:
   version: 3.1.0
   resolution: "detect-newline@npm:3.1.0"
   checksum: 10c0/c38cfc8eeb9fda09febb44bcd85e467c970d4e3bf526095394e5a4f18bc26dd0cf6b22c69c1fa9969261521c593836db335c2795218f6d781a512aea2fb8209d
+  languageName: node
+  linkType: hard
+
+"diff@npm:*":
+  version: 8.0.3
+  resolution: "diff@npm:8.0.3"
+  checksum: 10c0/d29321c70d3545fdcb56c5fdd76028c3f04c012462779e062303d4c3c531af80d2c360c26b871e6e2b9a971d2422d47e1779a859106c4cac4b5d2d143df70e20
   languageName: node
   linkType: hard
 
