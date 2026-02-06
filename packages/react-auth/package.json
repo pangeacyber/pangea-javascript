@@ -59,10 +59,10 @@
     "@parcel/utils": "^2.16.3",
     "@tsconfig/strictest": "^2.0.8",
     "@types/lodash": "^4.17.23",
-    "@types/react": "19.2.7",
+    "@types/react": "19.2.10",
     "parcel": "^2.16.3",
     "publint": "0.3.12",
-    "react": "19.2.3",
+    "react": "19.2.4",
     "typedoc": "^0.28.16",
     "typedoc-plugin-rename-defaults": "^0.7.3",
     "typescript": "^5.9.3"
