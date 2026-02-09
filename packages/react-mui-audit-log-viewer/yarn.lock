@@ -786,18 +786,18 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@happy-dom/jest-environment@npm:20.4.0":
-  version: 20.4.0
-  resolution: "@happy-dom/jest-environment@npm:20.4.0"
+"@happy-dom/jest-environment@npm:20.5.0":
+  version: 20.5.0
+  resolution: "@happy-dom/jest-environment@npm:20.5.0"
   dependencies:
-    happy-dom: "npm:^20.4.0"
+    happy-dom: "npm:^20.5.0"
   peerDependencies:
     "@jest/environment": ">=25.0.0"
     "@jest/fake-timers": ">=25.0.0"
     "@jest/types": ">=25.0.0"
     jest-mock: ">=25.0.0"
     jest-util: ">=25.0.0"
-  checksum: 10c0/977c137c05120d02a426f30aad0eaec576a5334180f14a4d5fe969a18f00efea34f8c7e6370bd1cb7a5ef489419fc1f5a0d73207f276492a77e1e9ce6c8ff2fc
+  checksum: 10c0/c8ae983ad076559925c6053ac0bced628f053ece2d41ca9232e014e98a21a6e779a6453190d50c06a66e943cbf8d1aecf9c0158a8a27d03d718be1d5a709a53e
   languageName: node
   linkType: hard
 
@@ -1496,7 +1496,7 @@ __metadata:
   dependencies:
     "@emotion/react": "npm:^11.14.0"
     "@emotion/styled": "npm:^11.14.1"
-    "@happy-dom/jest-environment": "npm:20.4.0"
+    "@happy-dom/jest-environment": "npm:20.5.0"
     "@mui/icons-material": "npm:^7.1.0"
     "@mui/material": "npm:^7.1.0"
     "@mui/types": "npm:^7.4.2"
@@ -3953,10 +3953,17 @@ __metadata:
   languageName: node
   linkType: hard
 
-"entities@npm:^4.4.0, entities@npm:^4.5.0":
+"entities@npm:^4.4.0":
   version: 4.5.0
   resolution: "entities@npm:4.5.0"
   checksum: 10c0/5b039739f7621f5d1ad996715e53d964035f75ad3b9a4d38c6b3804bb226e282ffeae2443624d8fdd9c47d8e926ae9ac009c54671243f0c3294c26af7cc85250
+  languageName: node
+  linkType: hard
+
+"entities@npm:^6.0.1":
+  version: 6.0.1
+  resolution: "entities@npm:6.0.1"
+  checksum: 10c0/ed836ddac5acb34341094eb495185d527bd70e8632b6c0d59548cbfa23defdbae70b96f9a405c82904efa421230b5b3fd2283752447d737beffd3f3e6ee74414
   languageName: node
   linkType: hard
 
@@ -4563,17 +4570,17 @@ __metadata:
   languageName: node
   linkType: hard
 
-"happy-dom@npm:^20.4.0":
-  version: 20.5.0
-  resolution: "happy-dom@npm:20.5.0"
+"happy-dom@npm:^20.5.0":
+  version: 20.5.3
+  resolution: "happy-dom@npm:20.5.3"
   dependencies:
     "@types/node": "npm:>=20.0.0"
     "@types/whatwg-mimetype": "npm:^3.0.2"
     "@types/ws": "npm:^8.18.1"
-    entities: "npm:^4.5.0"
+    entities: "npm:^6.0.1"
     whatwg-mimetype: "npm:^3.0.0"
     ws: "npm:^8.18.3"
-  checksum: 10c0/0b9674021508cbd1f53b855950aff9fa9dce458e6fea19160c87888f4f63e0cb4e4b3bc21de02b4425fe7e1e05f6b6758a35f11b6e5964f240c4abd722d084f5
+  checksum: 10c0/1d0d47bd438d397d0014a536e797488bf8d96c794e8f83196d3114512e91c48c694c11ae9c3f8259bfeb08f97616e280ebeac6bb038283f994f1c9ca135a6490
   languageName: node
   linkType: hard
 
