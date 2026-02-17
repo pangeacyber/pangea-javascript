@@ -1204,7 +1204,7 @@ awesome-phonenumber@^7.7.0:
   resolved "https://registry.yarnpkg.com/awesome-phonenumber/-/awesome-phonenumber-7.7.0.tgz#a81cfde2b65b799c1e340c730bf79c071e142f01"
   integrity sha512-7t2pFb24gscHXpecvM+ZGBDR2/30sRSyif2AENaN6IxApvazbd6WE4BiUX2ChGYX/OFdvQbdh5TZSPua4NBOyQ==
 
-axios@^1.13.4:
+axios@^1.13.5:
   version "1.13.5"
   resolved "https://registry.yarnpkg.com/axios/-/axios-1.13.5.tgz#5e464688fa127e11a660a2c49441c009f6567a43"
   integrity sha512-cz4ur7Vb0xS4/KUN0tPWe44eqxrIu31me+fbang3ijiNscE129POzipJJA6zniq2C/Z6sJCjMimjS8Lc/GAs8Q==
