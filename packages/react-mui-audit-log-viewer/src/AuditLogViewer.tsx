@@ -103,6 +103,9 @@ export interface AuditLogViewerProps<Event = Audit.DefaultEvent> {
   /** The public audit query to filter the audit log data */
   filters?: PublicAuditQuery;
 
+  /** Callback handler for everytime the filters are updated */
+  onFiltersChange?: (filters: PublicAuditQuery) => void;
+
   /** Authentication configuration. It is used to fetch your project's custom Audit schema, so the AuditLogViewer component can dynamically update when you update your configuration in the Pangea Console */
   config?: AuthConfig;
 
@@ -129,6 +132,7 @@ const AuditLogViewerWithProvider = <Event,>({
   schemaOptions,
   initialQuery,
   filters,
+  onFiltersChange,
   fpeOptions,
   filterOptions,
   ...props
@@ -295,6 +299,7 @@ const AuditLogViewerWithProvider = <Event,>({
       rowToLeafIndex={rowToLeafIndex}
       initialQuery={initialQuery}
       filters={filters}
+      onFiltersChange={onFiltersChange}
       filterOptions={filterOptions}
     >
       <AuditLogViewerComponent

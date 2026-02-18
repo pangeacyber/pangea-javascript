@@ -11,18 +11,26 @@ import FilterField, { AuditFieldFilter } from "./FilterField";
 import JoinChip from "./JoinChip";
 import { useAuditContext } from "../../hooks/context";
 import { getAppliedFiltersQuery } from "./utils";
+import { Audit } from "../../types";
 
 interface AuditQueryFilters {
   fields: AuditFieldFilter[];
 }
 
 interface Props<FiltersObj = AuditQueryFilters> {
+  initialField?: string;
+
+  knownLogs?: Audit.FlattenedAuditRecord[];
+
   filters: FiltersObj;
   options: FilterOptions<FiltersObj>;
   onFilterChange: (filter: FiltersObj) => void;
 }
 
 const AuditLogViewerFiltersForm: FC<Props> = ({
+  initialField,
+  knownLogs,
+
   filters,
   options,
   onFilterChange,
@@ -39,7 +47,7 @@ const AuditLogViewerFiltersForm: FC<Props> = ({
       const options_ = Object.keys(options);
       return [
         {
-          id: !!options_?.length ? options_[0] : "",
+          id: initialField ?? (!!options_?.length ? options_[0] : ""),
           operator: "=",
           value: "",
         },
@@ -47,7 +55,7 @@ const AuditLogViewerFiltersForm: FC<Props> = ({
     }
 
     return values.fields;
-  }, [values, options]);
+  }, [values, options, initialField]);
 
   const isValid = useMemo(() => {
     return !!fields.filter(
@@ -132,6 +140,7 @@ const AuditLogViewerFiltersForm: FC<Props> = ({
                     value={f}
                     onValueChange={(f) => handleUpdate(f, idx)}
                     options={options}
+                    knownLogs={knownLogs}
                   />
                   {idx !== 0 && (
                     <RemoveButton onClick={() => handleRemoveCondition(idx)} />
