@@ -1312,7 +1312,7 @@ asynckit@^0.4.0:
   resolved "https://registry.yarnpkg.com/asynckit/-/asynckit-0.4.0.tgz#c79ed97f7f34cb8f2ba1bc9790bcc366474b4b79"
   integrity sha512-Oei9OH4tRh0YqU3GxhX79dM/mwVgvbZJaSNaRk+bshkj0S5cfHcgYakreBjrHwatXKbz+IoIdYLxrKim2MjW0Q==
 
-awesome-phonenumber@^7.7.0:
+awesome-phonenumber@^7.8.0:
   version "7.8.0"
   resolved "https://registry.yarnpkg.com/awesome-phonenumber/-/awesome-phonenumber-7.8.0.tgz#efac4342c57bcd4bd60264a9ea71489edc9d457b"
   integrity sha512-zw23nvKt6gLGgCrKZ5Z7ZK0lm3k39/uZTw+cWp5tpiXVfEFSt9AEVFDzSycws76G64xOMrIVp2upYvJxwRgzvw==
