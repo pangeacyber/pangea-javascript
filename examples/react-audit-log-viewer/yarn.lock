@@ -2401,10 +2401,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"entities@npm:^6.0.1":
-  version: 6.0.1
-  resolution: "entities@npm:6.0.1"
-  checksum: 10c0/ed836ddac5acb34341094eb495185d527bd70e8632b6c0d59548cbfa23defdbae70b96f9a405c82904efa421230b5b3fd2283752447d737beffd3f3e6ee74414
+"entities@npm:^7.0.1":
+  version: 7.0.1
+  resolution: "entities@npm:7.0.1"
+  checksum: 10c0/b4fb9937bb47ecb00aaaceb9db9cdd1cc0b0fb649c0e843d05cf5dbbd2e9d2df8f98721d8b1b286445689c72af7b54a7242fc2d63ef7c9739037a8c73363e7ca
   languageName: node
   linkType: hard
 
@@ -2995,17 +2995,17 @@ __metadata:
   languageName: node
   linkType: hard
 
-"happy-dom@npm:20.6.1":
-  version: 20.6.1
-  resolution: "happy-dom@npm:20.6.1"
+"happy-dom@npm:20.6.2":
+  version: 20.6.2
+  resolution: "happy-dom@npm:20.6.2"
   dependencies:
     "@types/node": "npm:>=20.0.0"
     "@types/whatwg-mimetype": "npm:^3.0.2"
     "@types/ws": "npm:^8.18.1"
-    entities: "npm:^6.0.1"
+    entities: "npm:^7.0.1"
     whatwg-mimetype: "npm:^3.0.0"
     ws: "npm:^8.18.3"
-  checksum: 10c0/461c95d1497e221cee2ae71e5218236f83ded80b48ced51ca8a4195777045b56499611bff191ae7f3932b5023bf174241495fe087540c4036edc51abf8284f3f
+  checksum: 10c0/76fdf4d882a8afe52454a12b2d0bb9bcfdc2c2161fc234ea959907572dbcc5a5a8464b1753d8f8f1d946a32573cc452082d917e50dccb3c94b33de1e633d3c6e
   languageName: node
   linkType: hard
 
@@ -4076,7 +4076,7 @@ __metadata:
     "@types/react-dom": "npm:18.3.7"
     "@vitejs/plugin-react": "npm:5.1.4"
     cypress: "npm:15.10.0"
-    happy-dom: "npm:20.6.1"
+    happy-dom: "npm:20.6.2"
     react: "npm:18.3.1"
     react-dom: "npm:18.3.1"
     start-server-and-test: "npm:2.1.3"
