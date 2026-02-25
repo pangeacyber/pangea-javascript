@@ -2004,7 +2004,7 @@ __metadata:
     babel-loader: "npm:^10.0.0"
     css-loader: "npm:^7.1.4"
     parcel: "npm:2.16.4"
-    preact: "npm:^10.28.3"
+    preact: "npm:^10.28.4"
     publint: "npm:0.3.12"
     style-loader: "npm:^4.0.0"
     styled-components: "npm:^6.3.10"
@@ -5109,7 +5109,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"preact@npm:^10.28.3":
+"preact@npm:^10.28.4":
   version: 10.28.4
   resolution: "preact@npm:10.28.4"
   checksum: 10c0/712384e92d6c676c8f4c230eab81329a66acfecf700390aebfe5fc46168fa3686345d47f2292068dcc0a6d86425a3d9a3d743730e356e867a8402442afb989db
