@@ -786,18 +786,18 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@happy-dom/jest-environment@npm:20.6.3":
-  version: 20.6.3
-  resolution: "@happy-dom/jest-environment@npm:20.6.3"
+"@happy-dom/jest-environment@npm:20.7.0":
+  version: 20.7.0
+  resolution: "@happy-dom/jest-environment@npm:20.7.0"
   dependencies:
-    happy-dom: "npm:^20.6.3"
+    happy-dom: "npm:^20.7.0"
   peerDependencies:
     "@jest/environment": ">=25.0.0"
     "@jest/fake-timers": ">=25.0.0"
     "@jest/types": ">=25.0.0"
     jest-mock: ">=25.0.0"
     jest-util: ">=25.0.0"
-  checksum: 10c0/725f9bacaa6a781cf961cc2d03942ebe1e2637ac4a1bfa5f0f0b0a32f065d8b7a35258a3dfadf1f5e3e9525365bb83c0076c1a9de787c963ff772287badecf42
+  checksum: 10c0/e9b18b245e80df7ed5a35a613abf6f894f347e1843062ce7b3b6f8909a0b7b6908b06b39cd93ead728885b2fa61bf82727bd932cc7bae05339e058cc560d4dab
   languageName: node
   linkType: hard
 
@@ -1480,7 +1480,7 @@ __metadata:
   dependencies:
     "@emotion/react": "npm:^11.14.0"
     "@emotion/styled": "npm:^11.14.1"
-    "@happy-dom/jest-environment": "npm:20.6.3"
+    "@happy-dom/jest-environment": "npm:20.7.0"
     "@mui/icons-material": "npm:^7.1.0"
     "@mui/material": "npm:^7.1.0"
     "@mui/types": "npm:^7.4.2"
@@ -4361,7 +4361,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"happy-dom@npm:^20.6.3":
+"happy-dom@npm:^20.7.0":
   version: 20.7.0
   resolution: "happy-dom@npm:20.7.0"
   dependencies:
