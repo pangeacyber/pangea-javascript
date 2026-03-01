@@ -40,7 +40,7 @@
     "@storybook/builder-vite": "10.2.10",
     "@storybook/react": "10.2.10",
     "@storybook/react-vite": "10.2.10",
-    "@types/lodash": "4.17.23",
+    "@types/lodash": "4.17.24",
     "@types/react": "17.0.91",
     "@types/react-dom": "17.0.26",
     "postcss": "^8.5.6",
