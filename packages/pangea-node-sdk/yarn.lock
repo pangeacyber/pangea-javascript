@@ -1963,7 +1963,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"axios@npm:^1.13.2":
+"axios@npm:^1.13.5":
   version: 1.13.6
   resolution: "axios@npm:1.13.6"
   dependencies:
@@ -3272,7 +3272,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"joi@npm:^18.0.1":
+"joi@npm:^18.0.2":
   version: 18.0.2
   resolution: "joi@npm:18.0.2"
   dependencies:
@@ -3482,7 +3482,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"lodash@npm:^4.17.21, lodash@npm:^4.17.4":
+"lodash@npm:^4.17.21, lodash@npm:^4.17.23, lodash@npm:^4.17.4":
   version: 4.17.23
   resolution: "lodash@npm:4.17.23"
   checksum: 10c0/1264a90469f5bb95d4739c43eb6277d15b6d9e186df4ac68c3620443160fc669e2f14c11e7d8b2ccf078b81d06147c01a8ccced9aab9f9f63d50dcf8cace6bf6
@@ -4055,7 +4055,7 @@ __metadata:
     msw: "npm:2.12.10"
     proper-url-join: "npm:^2.1.2"
     publint: "npm:0.3.12"
-    start-server-and-test: "npm:2.1.3"
+    start-server-and-test: "npm:2.1.5"
     tsdown: "npm:0.20.3"
     typedoc: "npm:^0.28.17"
     typescript: "npm:5.9.3"
@@ -4838,9 +4838,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"start-server-and-test@npm:2.1.3":
-  version: 2.1.3
-  resolution: "start-server-and-test@npm:2.1.3"
+"start-server-and-test@npm:2.1.5":
+  version: 2.1.5
+  resolution: "start-server-and-test@npm:2.1.5"
   dependencies:
     arg: "npm:^5.0.2"
     bluebird: "npm:3.7.2"
@@ -4849,12 +4849,12 @@ __metadata:
     execa: "npm:5.1.1"
     lazy-ass: "npm:1.6.0"
     ps-tree: "npm:1.2.0"
-    wait-on: "npm:9.0.3"
+    wait-on: "npm:9.0.4"
   bin:
     server-test: src/bin/start.js
     start-server-and-test: src/bin/start.js
     start-test: src/bin/start.js
-  checksum: 10c0/ed9c64f7c1bd75a1ec76953070158940e0d1526d66be1e9f5f8b6c0df2eee80b028b24addb71cae74412323792ece89ce8f9d3d5377f87855a185378929cf7e2
+  checksum: 10c0/45b87415cd96cb0d5106e663459ea78e7acaf59ccdcb3633d0c3199994a96e6acf9238777af27abf68c89e332426eec8a2cccb74eb8286d9f47e79fe0756b3a4
   languageName: node
   linkType: hard
 
@@ -5518,18 +5518,18 @@ __metadata:
   languageName: node
   linkType: hard
 
-"wait-on@npm:9.0.3":
-  version: 9.0.3
-  resolution: "wait-on@npm:9.0.3"
+"wait-on@npm:9.0.4":
+  version: 9.0.4
+  resolution: "wait-on@npm:9.0.4"
   dependencies:
-    axios: "npm:^1.13.2"
-    joi: "npm:^18.0.1"
-    lodash: "npm:^4.17.21"
+    axios: "npm:^1.13.5"
+    joi: "npm:^18.0.2"
+    lodash: "npm:^4.17.23"
     minimist: "npm:^1.2.8"
     rxjs: "npm:^7.8.2"
   bin:
     wait-on: bin/wait-on
-  checksum: 10c0/f5f8cb57be2dbf89edacd104916d5ee0211064c86324ab466c1da0965af77638615258ff612aa4cb16207770b772524bf2d9e583e890d96dd80315dca5733591
+  checksum: 10c0/914d3a76eab98e1964e3de2286a6b911ec52e667dd0232cce7eadf63573a05a61ffb32db622d8707eec075a1d027d1b83583f2a506278a26f34f2e2103ad77d9
   languageName: node
   linkType: hard
 
