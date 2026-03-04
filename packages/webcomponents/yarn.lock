@@ -2009,7 +2009,7 @@ __metadata:
     "@pangeacyber/react-mui-share-file-viewer": "npm:^2.0.2"
     "@parcel/packager-ts": "npm:2.16.4"
     "@parcel/transformer-typescript-types": "npm:2.16.4"
-    "@preact/compat": "npm:^18.3.1"
+    "@preact/compat": "npm:^18.3.2"
     babel-loader: "npm:^10.0.0"
     css-loader: "npm:^7.1.4"
     parcel: "npm:2.16.4"
@@ -3013,7 +3013,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@preact/compat@npm:^18.3.1":
+"@preact/compat@npm:^18.3.2":
   version: 18.3.2
   resolution: "@preact/compat@npm:18.3.2"
   peerDependencies:
