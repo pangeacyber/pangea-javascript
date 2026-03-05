@@ -78,7 +78,7 @@ jobs:
         run: yarn pack
 
       - name: Upload
-        uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f # v6.0.0
+        uses: actions/upload-artifact@bbbca2ddaa5d8feaa63e36b76fdaad77386f024f # v7.0.0
         with:
           name: pangea-node-sdk-package
           path: ./packages/pangea-node-sdk/package.tgz
@@ -127,13 +127,13 @@ jobs:
         run: yarn pack
 
       - name: Upload
-        uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f # v6.0.0
+        uses: actions/upload-artifact@bbbca2ddaa5d8feaa63e36b76fdaad77386f024f # v7.0.0
         with:
           name: react-auth-package
           path: ./packages/react-auth/pangeacyber-react-auth-v*.tgz
 
       - name: Upload Docs
-        uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f # v6.0.0
+        uses: actions/upload-artifact@bbbca2ddaa5d8feaa63e36b76fdaad77386f024f # v7.0.0
         with:
           name: react-auth-docs
           path: ./packages/react-auth/docs/
@@ -167,7 +167,7 @@ jobs:
         run: yarn typecheck
 
       - name: Upload Docs
-        uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f # v6.0.0
+        uses: actions/upload-artifact@bbbca2ddaa5d8feaa63e36b76fdaad77386f024f # v7.0.0
         with:
           name: react-mui-audit-log-viewer-docs
           path: ./packages/react-mui-audit-log-viewer/docs/
@@ -210,7 +210,7 @@ jobs:
         run: yarn pack
 
       - name: Upload
-        uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f # v6.0.0
+        uses: actions/upload-artifact@bbbca2ddaa5d8feaa63e36b76fdaad77386f024f # v7.0.0
         with:
           name: react-mui-authn-package
           path: ./packages/react-mui-authn/package.tgz
@@ -308,7 +308,7 @@ jobs:
         run: yarn lint-publint
 
       - name: Upload docs
-        uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f # v6.0.0
+        uses: actions/upload-artifact@bbbca2ddaa5d8feaa63e36b76fdaad77386f024f # v7.0.0
         with:
           name: react-mui-share-file-viewer-docs
           path: ./packages/react-mui-share-file-viewer/docs/
@@ -504,7 +504,7 @@ jobs:
         run: yarn generate:docs
 
       - name: Upload
-        uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f # v6.0.0
+        uses: actions/upload-artifact@bbbca2ddaa5d8feaa63e36b76fdaad77386f024f # v7.0.0
         with:
           name: node_sdk.json
           path: ./packages/pangea-node-sdk/docs.json
@@ -536,7 +536,7 @@ jobs:
         run: yarn install
 
       - name: Download locally built pangea-node-sdk
-        uses: actions/download-artifact@37930b1c2abaa49bbe596cd826c3c89aef350131 # v7.0.0
+        uses: actions/download-artifact@70fc10c6e5e1ce46ad2ea6f2b72d43f7d47b13c3 # v8.0.0
         with:
           name: pangea-node-sdk-package
           path: ./packages/pangea-node-sdk
