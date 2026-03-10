@@ -21,9 +21,9 @@
     tslib "^2.6.2"
 
 "@aws-sdk/types@^3.222.0":
-  version "3.973.4"
-  resolved "https://registry.yarnpkg.com/@aws-sdk/types/-/types-3.973.4.tgz#7cb870b08fd83dcb83e4cae321a3108408aaa021"
-  integrity sha512-RW60aH26Bsc016Y9B98hC0Plx6fK5P2v/iQYwMzrSjiDh1qRMUCP6KrXHYEHe3uFvKiOC93Z9zk4BJsUi6Tj1Q==
+  version "3.973.5"
+  resolved "https://registry.yarnpkg.com/@aws-sdk/types/-/types-3.973.5.tgz#0fc00f066dbaaa40c09f2b7efdd86781807b5c70"
+  integrity sha512-hl7BGwDCWsjH8NkZfx+HgS7H2LyM2lTMAI7ba9c8O0KqdBLTdNJivsHpqjg9rNlAlPyREb6DeDRXUl0s8uFdmQ==
   dependencies:
     "@smithy/types" "^4.13.0"
     tslib "^2.6.2"
