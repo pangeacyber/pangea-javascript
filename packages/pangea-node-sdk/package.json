@@ -24,7 +24,7 @@
   "engines": {
     "node": "20 || >=22"
   },
-  "packageManager": "yarn@4.10.3",
+  "packageManager": "yarn@4.12.0",
   "dependencies": {
     "@aws-crypto/crc32c": "^5.2.0",
     "crypto-js": "^4.2.0",
@@ -36,23 +36,23 @@
   },
   "devDependencies": {
     "@arethetypeswrong/cli": "0.18.2",
-    "@biomejs/biome": "2.3.4",
+    "@biomejs/biome": "2.4.5",
     "@kenan/biome-config": "1.0.6",
     "@stoplight/prism-cli": "5.14.2",
-    "@tsconfig/node20": "20.1.6",
+    "@tsconfig/node20": "20.1.9",
     "@types/crypto-js": "^4.2.2",
-    "@types/node": "20.19.24",
+    "@types/node": "20.19.35",
     "@types/promise-retry": "1.1.6",
     "@types/proper-url-join": "2.1.5",
     "cross-env": "10.1.0",
-    "msw": "2.11.6",
+    "msw": "2.12.10",
     "publint": "0.3.12",
-    "start-server-and-test": "2.1.2",
-    "tsdown": "0.16.1",
-    "typedoc": "^0.28.14",
+    "start-server-and-test": "2.1.5",
+    "tsdown": "0.20.3",
+    "typedoc": "^0.28.17",
     "typescript": "5.9.3",
-    "vite-tsconfig-paths": "5.1.4",
-    "vitest": "4.0.6"
+    "vite-tsconfig-paths": "6.1.1",
+    "vitest": "4.0.18"
   },
   "scripts": {
     "test": "cross-env NODE_OPTIONS=--openssl-legacy-provider vitest run",
