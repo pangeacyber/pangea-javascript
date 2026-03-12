@@ -1142,7 +1142,7 @@ __metadata:
     "@mui/types": "npm:^7.4.2"
     "@mui/x-date-pickers": "npm:^7.22.0"
     "@pangeacyber/vanilla-js": "npm:^0.1.17"
-    "@rollup/plugin-commonjs": "npm:29.0.1"
+    "@rollup/plugin-commonjs": "npm:29.0.2"
     "@rollup/plugin-json": "npm:6.1.0"
     "@rollup/plugin-node-resolve": "npm:^15.3.1"
     "@rollup/plugin-terser": "npm:^1.0.0"
@@ -1199,9 +1199,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@rollup/plugin-commonjs@npm:29.0.1":
-  version: 29.0.1
-  resolution: "@rollup/plugin-commonjs@npm:29.0.1"
+"@rollup/plugin-commonjs@npm:29.0.2":
+  version: 29.0.2
+  resolution: "@rollup/plugin-commonjs@npm:29.0.2"
   dependencies:
     "@rollup/pluginutils": "npm:^5.0.1"
     commondir: "npm:^1.0.1"
@@ -1215,7 +1215,7 @@ __metadata:
   peerDependenciesMeta:
     rollup:
       optional: true
-  checksum: 10c0/4ef5c04fe85161a20a1b93211a26d4c1c7e685ce98232b5179a079162f9dd599c72b0487743883896381f870cfef692d8120709ff7965ed0356a61c46198dffd
+  checksum: 10c0/a2ef65014ed9b9b1daa51c9ae845ec2a935754539f6557c760b142855ce03a70fa67e2bd1bace3c947c9c14b4edd22020e51033a400d9291d30dfa46dc94f374
   languageName: node
   linkType: hard
 
