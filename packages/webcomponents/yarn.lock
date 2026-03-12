@@ -2010,7 +2010,7 @@ __metadata:
     "@parcel/packager-ts": "npm:2.16.4"
     "@parcel/transformer-typescript-types": "npm:2.16.4"
     "@preact/compat": "npm:^18.3.2"
-    babel-loader: "npm:^10.0.0"
+    babel-loader: "npm:^10.1.0"
     css-loader: "npm:^7.1.4"
     parcel: "npm:2.16.4"
     preact: "npm:^10.28.4"
@@ -3354,7 +3354,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"babel-loader@npm:^10.0.0":
+"babel-loader@npm:^10.1.0":
   version: 10.1.1
   resolution: "babel-loader@npm:10.1.1"
   dependencies:
