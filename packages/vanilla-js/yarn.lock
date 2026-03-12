@@ -293,7 +293,7 @@ __metadata:
   dependencies:
     "@babel/core": "npm:^7.29.0"
     "@rollup/plugin-babel": "npm:^7.0.0"
-    "@rollup/plugin-commonjs": "npm:^29.0.1"
+    "@rollup/plugin-commonjs": "npm:^29.0.2"
     "@rollup/plugin-json": "npm:^6.1.0"
     "@rollup/plugin-node-resolve": "npm:^15.3.1"
     "@rollup/plugin-terser": "npm:^1.0.0"
@@ -339,7 +339,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@rollup/plugin-commonjs@npm:^29.0.1":
+"@rollup/plugin-commonjs@npm:^29.0.2":
   version: 29.0.2
   resolution: "@rollup/plugin-commonjs@npm:29.0.2"
   dependencies:
