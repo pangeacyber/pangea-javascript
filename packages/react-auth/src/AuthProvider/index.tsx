@@ -82,6 +82,12 @@ export interface AuthProviderProps {
   redirectPathname?: string;
 
   /**
+   * When passed in, AuthProvider will call this function when needing to redirect
+   * @example "/docs/""
+   */
+  onRedirectCallback?: (url: string) => void;
+
+  /**
    * When set to true users will be redirected to the hosted page on logout.
    *
    * @defaultValue false
@@ -152,6 +158,7 @@ export const AuthProvider: FC<AuthProviderProps> = ({
   cookieOptions = { useCookie: false },
   redirectUri,
   redirectPathname,
+  onRedirectCallback,
   redirectOnLogout = false,
   useStrictStateCheck = true,
   passAuthMethod = false,
@@ -378,7 +385,11 @@ export const AuthProvider: FC<AuthProviderProps> = ({
     const redirectTo = loginURL;
     const url = queryParams ? `${redirectTo}?${queryParams}` : redirectTo;
 
-    window.location.replace(url);
+    if (onRedirectCallback) {
+      onRedirectCallback(url);
+    } else {
+      window.location.replace(url);
+    }
   };
 
   const logout = useCallback(async () => {
@@ -400,7 +411,11 @@ export const AuthProvider: FC<AuthProviderProps> = ({
       const url = `${logoutURL}?${toUrlEncoded(query)}`;
 
       setLoggedOut();
-      window.location.replace(url);
+      if (onRedirectCallback) {
+        onRedirectCallback(url);
+      } else {
+        window.location.replace(url);
+      }
     }
     // call the logout endpoint
     else {
