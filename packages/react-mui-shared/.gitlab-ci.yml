@@ -1,5 +1,5 @@
 .react_mui_shared_base:
-  image: node:20.20.1@sha256:bd3086f61c05f8925ed2026bee608a40ad9f8a5d28b6e593342237469ee5b621
+  image: node:20.20.1@sha256:e391c5561646193be929e3fe55d27234f40a01d867d72b30ae1341b673a3bf4b
   before_script:
     - cd packages/react-mui-shared
     - yarn install --frozen-lockfile
