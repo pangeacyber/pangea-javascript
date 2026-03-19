@@ -33,7 +33,7 @@
     "@types/node": "24.10.1",
     "@types/react-dom": "18.3.7",
     "@vitejs/plugin-react": "5.2.0",
-    "cypress": "15.11.0",
+    "cypress": "15.12.0",
     "happy-dom": "20.8.4",
     "start-server-and-test": "2.1.5",
     "typescript": "5.9.3",
