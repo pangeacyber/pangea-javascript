@@ -2021,7 +2021,7 @@ __metadata:
     preact: "npm:^10.29.0"
     publint: "npm:0.3.12"
     style-loader: "npm:^4.0.0"
-    styled-components: "npm:^6.3.11"
+    styled-components: "npm:^6.3.12"
     ts-node: "npm:^10.9.2"
     typescript: "npm:^5.9.3"
   languageName: unknown
@@ -5557,7 +5557,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"styled-components@npm:^6.3.11":
+"styled-components@npm:^6.3.12":
   version: 6.3.12
   resolution: "styled-components@npm:6.3.12"
   dependencies:
