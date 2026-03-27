@@ -4264,7 +4264,7 @@ rolldown@1.0.0-rc.11:
     "@rolldown/binding-win32-arm64-msvc" "1.0.0-rc.11"
     "@rolldown/binding-win32-x64-msvc" "1.0.0-rc.11"
 
-rollup-plugin-dts@^6.4.0:
+rollup-plugin-dts@^6.4.1:
   version "6.4.1"
   resolved "https://registry.yarnpkg.com/rollup-plugin-dts/-/rollup-plugin-dts-6.4.1.tgz#9bec10f1b796ed022f76ff799429123c33aa88b7"
   integrity sha512-l//F3Zf7ID5GoOfLfD8kroBjQKEKpy1qfhtAdnpibFZMffPaylrg1CoDC2vGkPeTeyxUe4bVFCln2EFuL7IGGg==
