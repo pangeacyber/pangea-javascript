@@ -2643,9 +2643,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"happy-dom@npm:20.8.8":
-  version: 20.8.8
-  resolution: "happy-dom@npm:20.8.8"
+"happy-dom@npm:20.8.9":
+  version: 20.8.9
+  resolution: "happy-dom@npm:20.8.9"
   dependencies:
     "@types/node": "npm:>=20.0.0"
     "@types/whatwg-mimetype": "npm:^3.0.2"
@@ -2653,7 +2653,7 @@ __metadata:
     entities: "npm:^7.0.1"
     whatwg-mimetype: "npm:^3.0.0"
     ws: "npm:^8.18.3"
-  checksum: 10c0/9b2c05f08bbb1cfdef66e1b53f3f7e7aa7ddd8ac19cefc02bf0777b6b444afa975193a26bc67ff9a1eba20724c08ffe663e6ed665177cb074d6dd6e82ea2ed03
+  checksum: 10c0/12fe9b85891b1289935b2a4f726e2839e7c92e3f55401bd20cb5500763dd994364645acaab20a754fd90d5e1b2ffdf734b39a32ea02704c3e3ee0c4d30cf958e
   languageName: node
   linkType: hard
 
@@ -3803,7 +3803,7 @@ __metadata:
     "@types/react-dom": "npm:18.3.7"
     "@vitejs/plugin-react": "npm:6.0.1"
     cypress: "npm:15.12.0"
-    happy-dom: "npm:20.8.8"
+    happy-dom: "npm:20.8.9"
     react: "npm:18.3.1"
     react-dom: "npm:18.3.1"
     start-server-and-test: "npm:2.1.5"
