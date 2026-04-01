@@ -36,7 +36,7 @@
     "cypress": "15.13.0",
     "happy-dom": "20.8.9",
     "start-server-and-test": "3.0.0",
-    "typescript": "5.9.3",
+    "typescript": "6.0.2",
     "vite": "8.0.3",
     "vitest": "4.1.1"
   }
