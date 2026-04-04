@@ -156,6 +156,10 @@ export class AuthNClient {
     }
 
     if (!!this.config.apiPathPrefix) {
+      if (this.config.apiPathPrefix.startsWith("http")) {
+        return `${this.config.apiPathPrefix}${version_}${endpoint}`;
+      }
+
       return `${window.location.origin}${this.config.apiPathPrefix}${version_}${endpoint}`;
     }
 
