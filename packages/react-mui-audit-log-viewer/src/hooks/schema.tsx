@@ -27,6 +27,9 @@ import {
 import { AuditErrorsColumn } from "../components/AuditLogViewerComponent/errorColumn";
 import DateTimeFilterCell from "../components/AuditLogViewerComponent/DateTimeFilterCell";
 import { StringCell } from "../components/AuditLogViewerComponent/StringCell";
+import { Box, IconButton, Typography } from "@mui/material";
+
+import FilterAltOutlinedIcon from "@mui/icons-material/FilterAltOutlined";
 
 export const DEFAULT_AUDIT_SCHEMA: Audit.Schema = {
   client_signable: true,
@@ -191,7 +194,10 @@ export const useAuditColumns = <Event,>(
   fields: Partial<Record<keyof Event, Partial<GridColDef>>> | undefined,
   fieldTypes:
     | Partial<Record<keyof typeof Audit.SchemaFieldType, Partial<GridColDef>>>
-    | undefined
+    | undefined,
+
+  onFilterOpen?: (field: string, event: React.MouseEvent) => void,
+  getFilterRef?: (field: string) => React.RefCallback<HTMLDivElement>
 ) => {
   const gridFields: PDG.GridSchemaFields<Event> = useMemo(() => {
     const schemaFields = cloneDeep(schema?.fields ?? []);
@@ -226,7 +232,35 @@ export const useAuditColumns = <Event,>(
           }`,
           // @ts-ignore
           type: get(COLUMN_TYPE_MAP, field.type, "string"),
+
           sortable: field.type !== "string-unindexed", // FIXME: What fields exactly should be sortable
+
+          ...(!!onFilterOpen &&
+            !!getFilterRef &&
+            field.type !== "string-unindexed" && {
+              renderHeader: (params: any) => (
+                <Box
+                  sx={{ display: "flex", alignItems: "center", gap: 0.5 }}
+                  ref={getFilterRef(field.id)}
+                >
+                  <Typography variant="body2" sx={{ flexGrow: 1 }}>
+                    {params.colDef.headerName ?? params.field}
+                  </Typography>
+                  <IconButton
+                    className="AuditLogViewer-FilterButton"
+                    onClick={(event) => {
+                      onFilterOpen(field.id, event);
+                      event.stopPropagation(); // prevent sort toggle
+                    }}
+                    size="small"
+                    sx={{}}
+                  >
+                    <FilterAltOutlinedIcon color="action" fontSize="small" />
+                  </IconButton>
+                </Box>
+              ),
+            }),
+
           width: 150,
           ...(field.type === "datetime" && {
             width: 194,
@@ -377,10 +411,10 @@ const getFieldsOperationOptions = (fields: Audit.SchemaField[]) => {
 
 export const getFieldValueOptions = (
   field: Audit.SchemaField,
-  options: FieldFilterOptions | undefined
-) => {
-  const valueOptions: AutocompleteValueOption[] = [];
+  options: FieldFilterOptions | undefined,
 
+  knownLogs: Audit.FlattenedAuditRecord<any>[] | undefined = undefined
+) => {
   if (options?.valueOptions) {
     return options.valueOptions;
   }
@@ -458,7 +492,19 @@ export const getFieldValueOptions = (
     ] as AutocompleteValueOption[];
   }
 
-  return valueOptions;
+  const seen = new Set<string>();
+  for (const log of knownLogs ?? []) {
+    // @ts-ignore
+    const val = log[field.id];
+    if (typeof val === "string" && val.length <= 64) {
+      seen.add(val);
+    }
+  }
+
+  return Array.from(seen).map((value) => ({
+    value: value.includes(" ") ? `"${value}"` : value,
+    label: value.includes(" ") ? `"${value}"` : value,
+  })) as AutocompleteValueOption[];
 };
 
 const getFieldsConditionalOptions = (

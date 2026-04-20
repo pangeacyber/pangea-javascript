@@ -10,6 +10,7 @@ import {
 
 import find from "lodash/find";
 import { getFieldValueOptions } from "../../hooks/schema";
+import { Audit } from "../../types";
 
 export interface AuditFieldFilter {
   id: string;
@@ -22,6 +23,8 @@ interface Props {
   onValueChange: (value: AuditFieldFilter) => void;
 
   options: FilterOptions<any>;
+
+  knownLogs?: Audit.FlattenedAuditRecord<any>[];
 }
 
 const FilterField: FC<Props> = ({
@@ -29,6 +32,7 @@ const FilterField: FC<Props> = ({
   onValueChange,
 
   options,
+  knownLogs,
 }) => {
   const { schema } = useAuditContext();
 
@@ -95,7 +99,7 @@ const FilterField: FC<Props> = ({
       return option?.valueOptions;
     }
 
-    return getFieldValueOptions(field, undefined);
+    return getFieldValueOptions(field, undefined, knownLogs);
   }, [value.id, field, options]);
 
   return (
@@ -130,6 +134,9 @@ const FilterField: FC<Props> = ({
             }
             FieldProps={{
               type: "singleSelect",
+              ValueTypographyProps: {
+                variant: "body2",
+              },
               options: {
                 valueOptions: fieldOptions,
               },
@@ -142,7 +149,7 @@ const FilterField: FC<Props> = ({
             }}
           />
         </Stack>
-        <Stack width="26%">
+        <Stack width="26%" sx={{ maxWidth: "125px" }}>
           <SelectField
             onValueChange={(operator) =>
               onValueChange({
@@ -153,6 +160,9 @@ const FilterField: FC<Props> = ({
             value={value.operator}
             FieldProps={{
               type: "singleSelect",
+              ValueTypographyProps: {
+                variant: "body2",
+              },
               options: {
                 valueOptions: operationOptions,
               },
@@ -168,7 +178,7 @@ const FilterField: FC<Props> = ({
             }}
           />
         </Stack>
-        <Stack width="37%">
+        <Stack width="37%" sx={{ width: "-webkit-fill-available" }}>
           <StringField
             value={value.value}
             onValueChange={(v) =>

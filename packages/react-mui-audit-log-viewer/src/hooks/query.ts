@@ -1,11 +1,13 @@
 import { useEffect, useMemo, useState } from "react";
 import isEmpty from "lodash/isEmpty";
-import { AuditQuery, PublicAuditQuery } from "../types/query";
+import { AuditQuery, AuditQueryRange, PublicAuditQuery } from "../types/query";
 import { parseLexTokenError } from "../utils/query";
 
 export const useAuditQueryState = (
   initialQuery: string | undefined,
-  publicQueryObj: PublicAuditQuery | undefined
+  publicQueryObj: PublicAuditQuery | undefined,
+
+  onFiltersChange: ((filters: PublicAuditQuery) => void) | undefined = undefined
 ) => {
   const [query, setQuery] = useState(initialQuery ?? "");
   const [queryObj, setQueryObj] = useState<AuditQuery | null>(
@@ -22,6 +24,51 @@ export const useAuditQueryState = (
       setQuery(initialQuery);
     }
   }, [initialQuery]);
+
+  useEffect(() => {
+    if (!onFiltersChange || !queryObj) return;
+
+    const { active, since, after, before, ...rest } = queryObj;
+
+    let range: AuditQueryRange | undefined;
+    switch (active) {
+      case "since":
+        if (since) {
+          range = { type: "relative", since };
+        }
+        break;
+
+      case "after":
+        if (after) {
+          range = { type: "after", after };
+        }
+        break;
+
+      case "before":
+        if (before) {
+          range = { type: "before", before };
+        }
+        break;
+
+      case "between":
+        if (after && before) {
+          range = { type: "between", after, before };
+        }
+        break;
+
+      default:
+        break;
+    }
+
+    const queryPart: PublicAuditQuery["query"] = query.trim()
+      ? { type: "string", value: query }
+      : { type: "object", ...rest };
+
+    onFiltersChange({
+      range,
+      query: queryPart,
+    });
+  }, [query, queryObj]);
 
   useEffect(() => {
     if (!publicQueryObj?.range && !publicQueryObj?.query) {

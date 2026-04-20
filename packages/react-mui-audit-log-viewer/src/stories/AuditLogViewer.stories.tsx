@@ -1,5 +1,6 @@
 import React from "react";
 import { ComponentStory, ComponentMeta } from "@storybook/react";
+
 import { Alert, Stack, Typography } from "@mui/material";
 
 import AuditLogViewer from "../AuditLogViewer";
@@ -53,9 +54,15 @@ export const StandardAuditLogViewerExample = Template.bind({});
 StandardAuditLogViewerExample.args = {
   onSearch: TEST_SERVER.onSearch,
   onPageChange: TEST_SERVER.onPageChange,
+
+  onFiltersChange: (filters) => {
+    console.log("ON CHANGE", filters);
+  },
+
   // Optional 'config' prop allows the component to retrieve a custom Audit schema
   ...getConfigProps(),
 
   // Disable automatic search on each keystroke
   searchOnChange: false,
+  searchOnFilterChange: false,
 };
